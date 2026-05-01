@@ -1,0 +1,29 @@
+﻿================================================================================
+GIT DIFF SUMMARY  --  Quick Reference
+================================================================================
+Generated   : 2026-04-13 11:24:50
+Repository  : C:\Users\e135408\IdeaProjects\MODERNIZATION\temp\107651-pgsaaselavon-pgs-acquirer-elavon-interface-service
+Branch      : feature/G1198_18577_TIMEOUT_FLOW_TESTS
+Commit      : c707403f2876df0bc28f1f7718625f273b5b547f
+Remote      : https://github.com/magh-395/107651-pgsaaselavon-pgs-acquirer-elavon-interface-service.git
+
+FILE STATUS:
+  Untracked : 10
+  Modified  : 8
+  Deleted   : 0
+  Renamed   : 0
+  Added     : 0
+  Total     : 18
+
+STASHES (1 found):
+  stash@{0}: On feature/G1198_18577_TIMEOUT_FLOW_TESTS: Working Void Auth & Verify Operations
+
+FULL LOG:
+  C:\Users\e135408\IdeaProjects\utility-scripts\powershell-scripts\git-diff\logs\git-diff-20260413_112442.log
+
+  To inspect the full patch open the log file above.
+  To apply a stash: git -C <repo> stash apply stash@{N}
+
+================================================================================
+END OF SUMMARY
+================================================================================

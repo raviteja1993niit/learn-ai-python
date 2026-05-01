@@ -1,0 +1,291 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: mcp-ai-assistant
+
+  # ── Jackson ─────────────────────────────────────────────────────────
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    default-property-inclusion: non_null
+
+  # ── Spring AI / GitHub Copilot (OpenAI-compatible endpoint) ─────────
+  ai:
+    openai:
+      base-url: ${GITHUB_COPILOT_BASE_URL:https://api.githubcopilot.com}
+      api-key: ${GITHUB_COPILOT_TOKEN:change-me}
+      chat:
+        options:
+          model: ${COPILOT_MODEL:gpt-4o}
+          temperature: 0.7
+          max-tokens: 4096
+
+    # ── MCP Client — spawns each STDIO Node.js MCP server as a child process ──
+    # Spring AI reads this block, spawns every listed server at startup,
+    # performs ListTools, and registers all discovered tools into the
+    # ChatClient tool registry via ToolCallbackProvider.
+    mcp:
+      client:
+        enabled: true
+        toolcallback:
+          enabled: true
+        stdio:
+          confluence:
+            command: "C:/Program Files/nodejs/node.exe"
+            args: ["C:/data/node-mcp-servers/build/confluence-server.js"]
+            env:
+              ENV_FILE: "C:/data/node-mcp-servers/.env"
+              NODE_TLS_REJECT_UNAUTHORIZED: "0"
+          jira:
+            command: "C:/Program Files/nodejs/node.exe"
+            args: ["C:/data/node-mcp-servers/build/jira-server.js"]
+            env:
+              ENV_FILE: "C:/data/node-mcp-servers/.env"
+              NODE_TLS_REJECT_UNAUTHORIZED: "0"
+          bitbucket:
+            command: "C:/Program Files/nodejs/node.exe"
+            args: ["C:/data/node-mcp-servers/build/bitbucket-server.js"]
+            env:
+              ENV_FILE: "C:/data/node-mcp-servers/.env"
+              NODE_TLS_REJECT_UNAUTHORIZED: "0"
+          github:
+            command: "C:/Program Files/nodejs/node.exe"
+            args: ["C:/data/node-mcp-servers/build/github-server.js"]
+            env:
+              ENV_FILE: "C:/data/node-mcp-servers/.env"
+          git-local:
+            command: "C:/Program Files/nodejs/node.exe"
+            args: ["C:/data/node-mcp-servers/build/git-local-server.js"]
+            env:
+              ENV_FILE: "C:/data/node-mcp-servers/.env"
+          sonar:
+            command: "C:/Program Files/nodejs/node.exe"
+            args: ["C:/data/node-mcp-servers/build/sonar-server.js"]
+            env:
+              ENV_FILE: "C:/data/node-mcp-servers/.env"
+              NODE_TLS_REJECT_UNAUTHORIZED: "0"
+          jenkins:
+            command: "C:/Program Files/nodejs/node.exe"
+            args: ["C:/data/node-mcp-servers/build/jenkins-server.js"]
+            env:
+              ENV_FILE: "C:/data/node-mcp-servers/.env"
+              NODE_TLS_REJECT_UNAUTHORIZED: "0"
+          slack:
+            command: "C:/Program Files/nodejs/node.exe"
+            args: ["C:/data/node-mcp-servers/build/slack-server.js"]
+            env:
+              ENV_FILE: "C:/data/node-mcp-servers/.env"
+          teams:
+            command: "C:/Program Files/nodejs/node.exe"
+            args: ["C:/data/node-mcp-servers/build/teams-server.js"]
+            env:
+              ENV_FILE: "C:/data/node-mcp-servers/.env"
+          artifactory:
+            command: "C:/Program Files/nodejs/node.exe"
+            args: ["C:/data/node-mcp-servers/build/artifactory-server.js"]
+            env:
+              ENV_FILE: "C:/data/node-mcp-servers/.env"
+              NODE_TLS_REJECT_UNAUTHORIZED: "0"
+          shell:
+            command: "C:/Program Files/nodejs/node.exe"
+            args: ["C:/data/node-mcp-servers/build/shell-server.js"]
+            env:
+              ENV_FILE: "C:/data/node-mcp-servers/.env"
+          docker:
+            command: "C:/Program Files/nodejs/node.exe"
+            args: ["C:/data/node-mcp-servers/build/docker-server.js"]
+            env:
+              ENV_FILE: "C:/data/node-mcp-servers/.env"
+          kubectl:
+            command: "C:/Program Files/nodejs/node.exe"
+            args: ["C:/data/node-mcp-servers/build/kubectl-server.js"]
+            env:
+              ENV_FILE: "C:/data/node-mcp-servers/.env"
+          build:
+            command: "C:/Program Files/nodejs/node.exe"
+            args: ["C:/data/node-mcp-servers/build/build-server.js"]
+            env:
+              ENV_FILE: "C:/data/node-mcp-servers/.env"
+          search:
+            command: "C:/Program Files/nodejs/node.exe"
+            args: ["C:/data/node-mcp-servers/build/search-server.js"]
+            env:
+              ENV_FILE: "C:/data/node-mcp-servers/.env"
+          devtools:
+            command: "C:/Program Files/nodejs/node.exe"
+            args: ["C:/data/node-mcp-servers/build/devtools-server.js"]
+            env:
+              ENV_FILE: "C:/data/node-mcp-servers/.env"
+          packages:
+            command: "C:/Program Files/nodejs/node.exe"
+            args: ["C:/data/node-mcp-servers/build/packages-server.js"]
+            env:
+              ENV_FILE: "C:/data/node-mcp-servers/.env"
+          security:
+            command: "C:/Program Files/nodejs/node.exe"
+            args: ["C:/data/node-mcp-servers/build/security-server.js"]
+            env:
+              ENV_FILE: "C:/data/node-mcp-servers/.env"
+          utils:
+            command: "C:/Program Files/nodejs/node.exe"
+            args: ["C:/data/node-mcp-servers/build/utils-server.js"]
+            env:
+              ENV_FILE: "C:/data/node-mcp-servers/.env"
+
+      # ── MCP Server — re-exposes all tools over SSE ──────────────────
+      server:
+        enabled: true
+        name: mcp-ai-assistant
+        version: 1.0.0
+        type: SYNC
+        resource-change-notification: true
+        tool-change-notification: true
+
+# ── MCP server registry config (for the process-manager panel) ──────
+mcp:
+  servers:
+    base-path: "C:/data/node-mcp-servers/build"
+    env-file: "C:/data/node-mcp-servers/.env"
+    node-executable: "C:/Program Files/nodejs/node.exe"
+    definitions:
+      - id: confluence
+        label: Confluence
+        script: confluence-server.js
+        category: ENTERPRISE
+        icon: confluence
+        ssl-ignore: true
+      - id: jira
+        label: Jira
+        script: jira-server.js
+        category: ENTERPRISE
+        icon: jira
+        ssl-ignore: true
+      - id: bitbucket
+        label: Bitbucket
+        script: bitbucket-server.js
+        category: ENTERPRISE
+        icon: bitbucket
+        ssl-ignore: true
+      - id: github
+        label: GitHub
+        script: github-server.js
+        category: ENTERPRISE
+        icon: github
+        ssl-ignore: false
+      - id: git-local
+        label: Git Local
+        script: git-local-server.js
+        category: DEVTOOLS
+        icon: git
+        ssl-ignore: false
+      - id: sonar
+        label: SonarQube
+        script: sonar-server.js
+        category: DEVTOOLS
+        icon: sonar
+        ssl-ignore: true
+      - id: jenkins
+        label: Jenkins
+        script: jenkins-server.js
+        category: DEVTOOLS
+        icon: jenkins
+        ssl-ignore: true
+      - id: slack
+        label: Slack
+        script: slack-server.js
+        category: MESSAGING
+        icon: slack
+        ssl-ignore: false
+      - id: teams
+        label: Microsoft Teams
+        script: teams-server.js
+        category: MESSAGING
+        icon: teams
+        ssl-ignore: false
+      - id: artifactory
+        label: Artifactory
+        script: artifactory-server.js
+        category: DEVTOOLS
+        icon: artifactory
+        ssl-ignore: true
+      - id: shell
+        label: Shell
+        script: shell-server.js
+        category: SYSTEM
+        icon: terminal
+        ssl-ignore: false
+      - id: docker
+        label: Docker
+        script: docker-server.js
+        category: SYSTEM
+        icon: docker
+        ssl-ignore: false
+      - id: kubectl
+        label: Kubernetes
+        script: kubectl-server.js
+        category: SYSTEM
+        icon: kubernetes
+        ssl-ignore: false
+      - id: build
+        label: Build Tools
+        script: build-server.js
+        category: DEVTOOLS
+        icon: build
+        ssl-ignore: false
+      - id: search
+        label: Web Search
+        script: search-server.js
+        category: UTILITIES
+        icon: search
+        ssl-ignore: false
+      - id: devtools
+        label: Dev Tools
+        script: devtools-server.js
+        category: DEVTOOLS
+        icon: devtools
+        ssl-ignore: false
+      - id: packages
+        label: Packages
+        script: packages-server.js
+        category: DEVTOOLS
+        icon: packages
+        ssl-ignore: false
+      - id: security
+        label: Security
+        script: security-server.js
+        category: DEVTOOLS
+        icon: security
+        ssl-ignore: false
+      - id: utils
+        label: Utilities
+        script: utils-server.js
+        category: UTILITIES
+        icon: utils
+        ssl-ignore: false
+
+# ── Conversation store ───────────────────────────────────────────────
+conversation:
+  store:
+    max-sessions: 100
+    memory-window-size: 20
+
+# ── Actuator ─────────────────────────────────────────────────────────
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
+# ── Logging ──────────────────────────────────────────────────────────
+logging:
+  level:
+    com.ai.assistant: DEBUG
+    org.springframework.ai: INFO
+    org.springframework.ai.mcp: DEBUG
+    org.springframework.web.socket: INFO
+    org.springframework.messaging: INFO

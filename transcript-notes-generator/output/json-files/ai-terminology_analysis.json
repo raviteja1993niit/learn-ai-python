@@ -1,0 +1,50 @@
+{
+  "meta": {
+    "topic_slug": "ai-terminology",
+    "transcript_path": "materials\\input\\ai-terminology.txt",
+    "total_chars": 39444,
+    "total_sentences": 515,
+    "generated_at": "2026-04-28T20:38:28Z"
+  },
+  "style_fingerprint": {
+    "vocabulary_register": "casual-practitioner",
+    "analogy_count": 8.0,
+    "caveat_count": 0.0,
+    "sample_analogies": [
+      "Words which are similar to each other are placed close to each other.",
+      "In the third case, if you predict a stop token like add to Brutus, that's it, then you will get it wrong.",
+      "It might seem like a small thing, but this architectural decision or this benefit of the large language model makes it really, really scalable.",
+      "You can think of it as a car.",
+      "The vector database is like a black box to you."
+    ],
+    "sample_caveats": [],
+    "structural_cues": [
+      "let's start",
+      "moving on",
+      "next",
+      "finally",
+      "the last",
+      "to summarize",
+      "in summary",
+      "at this point"
+    ]
+  },
+  "topic_map": {
+    "detected_topics": [
+      {
+        "topic": "Air India",
+        "mentions": 3
+      }
+    ],
+    "section_markers": [
+      "What do we mean by training?",
+      "What do we mean by neural network?",
+      "What is the smallest term that you can derive meaning from?",
+      "What do you think is being hidden right now?",
+      "What number is coming to your mind?",
+      "How does the server know which documents are related to which query?",
+      "What happened effectively is you took a user query.",
+      "What about models which can accept and create videos."
+    ]
+  }
+}

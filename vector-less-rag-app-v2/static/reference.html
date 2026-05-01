@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DocChat — Complete Reference Guide</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --bg-card: #161b22;
+      --bg-elevated: #21262d;
+      --border: #30363d;
+      --border-accent: #10a37f44;
+      --text: #e6edf3;
+      --text-muted: #8b949e;
+      --text-dim: #484f58;
+      --accent: #10a37f;
+      --accent-2: #58a6ff;
+      --accent-3: #f78166;
+      --accent-4: #d2a8ff;
+      --accent-5: #ffa657;
+      --accent-6: #79c0ff;
+      --danger: #f85149;
+      --success: #3fb950;
+      --warning: #d29922;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    /* ── LAYOUT ── */
+    .layout { display: flex; min-height: 100vh; }
+
+    /* ── SIDEBAR NAV ── */
+    .sidenav {
+      width: 260px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      background: var(--bg-card);
+      border-right: 1px solid var(--border);
+      padding: 24px 16px;
+    }
+    .sidenav::-webkit-scrollbar { width: 4px; }
+    .sidenav::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      padding-bottom: 20px; border-bottom: 1px solid var(--border); margin-bottom: 20px;
+    }
+    .nav-logo-icon {
+      width: 36px; height: 36px; border-radius: 8px;
+      background: var(--accent); display: flex; align-items: center;
+      justify-content: center; font-size: 1.1rem; flex-shrink: 0;
+    }
+    .nav-logo-title { font-weight: 700; font-size: 0.97rem; }
+    .nav-logo-sub { font-size: 0.72rem; color: var(--text-muted); }
+    .nav-section { font-size: 0.7rem; font-weight: 700; color: var(--text-dim); letter-spacing: .1em; text-transform: uppercase; margin: 16px 0 6px 8px; }
+    .nav-link {
+      display: flex; align-items: center; gap: 8px;
+      padding: 6px 10px; border-radius: 7px;
+      font-size: 0.84rem; color: var(--text-muted);
+      text-decoration: none; transition: all .15s; margin-bottom: 2px;
+    }
+    .nav-link:hover { background: var(--bg-elevated); color: var(--text); }
+    .nav-link.active { background: var(--bg-elevated); color: var(--accent); }
+    .nav-link .ni { font-size: 0.85rem; width: 18px; text-align: center; flex-shrink: 0; }
+
+    /* ── MAIN CONTENT ── */
+    .content { flex: 1; padding: 40px 48px; max-width: 960px; overflow-x: hidden; }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, #0d2818 0%, #0d1117 60%);
+      border: 1px solid var(--border-accent);
+      border-radius: 16px;
+      padding: 40px 48px;
+      margin-bottom: 48px;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: #10a37f22; border: 1px solid var(--accent);
+      border-radius: 20px; padding: 4px 14px;
+      font-size: 0.75rem; color: var(--accent); font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .hero h1 { font-size: 2.2rem; font-weight: 800; line-height: 1.2; margin-bottom: 12px; }
+    .hero h1 span { color: var(--accent); }
+    .hero-sub { font-size: 1.05rem; color: var(--text-muted); max-width: 600px; margin-bottom: 24px; }
+    .hero-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+    .pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--bg-elevated); border: 1px solid var(--border);
+      border-radius: 20px; padding: 5px 14px; font-size: 0.78rem; color: var(--text-muted);
+    }
+    .pill.green { border-color: var(--success); color: var(--success); background: #1a2e1a; }
+    .pill.blue  { border-color: var(--accent-2); color: var(--accent-2); background: #0d1e30; }
+    .pill.purple{ border-color: var(--accent-4); color: var(--accent-4); background: #1e1428; }
+    .pill.orange{ border-color: var(--accent-5); color: var(--accent-5); background: #2e1e0d; }
+
+    /* ── SECTION ── */
+    .section { margin-bottom: 56px; scroll-margin-top: 32px; }
+    .section-header {
+      display: flex; align-items: center; gap: 14px;
+      padding-bottom: 14px; border-bottom: 1px solid var(--border);
+      margin-bottom: 28px;
+    }
+    .section-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0;
+    }
+    .section-icon.green  { background: #1a3a2a; }
+    .section-icon.blue   { background: #0d1e30; }
+    .section-icon.purple { background: #1e1428; }
+    .section-icon.orange { background: #2e1e0d; }
+    .section-icon.red    { background: #2e1010; }
+    .section-icon.teal   { background: #0d2828; }
+    .section-title { font-size: 1.35rem; font-weight: 700; }
+    .section-sub { font-size: 0.87rem; color: var(--text-muted); margin-top: 2px; }
+
+    /* ── CARDS ── */
+    .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-bottom: 20px; }
+    .card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 20px; transition: border-color .2s;
+    }
+    .card:hover { border-color: #484f58; }
+    .card-icon { font-size: 1.5rem; margin-bottom: 10px; }
+    .card-title { font-size: 0.92rem; font-weight: 700; margin-bottom: 6px; }
+    .card-body { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; }
+
+    /* ── STEPS ── */
+    .steps { display: flex; flex-direction: column; gap: 0; }
+    .step { display: flex; gap: 20px; }
+    .step-left { display: flex; flex-direction: column; align-items: center; }
+    .step-num {
+      width: 36px; height: 36px; border-radius: 50%; background: var(--accent);
+      color: #fff; font-weight: 700; font-size: 0.9rem;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .step-line { flex: 1; width: 2px; background: var(--border); margin: 6px 0; min-height: 20px; }
+    .step:last-child .step-line { display: none; }
+    .step-content { flex: 1; padding-bottom: 28px; }
+    .step-title { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+    .step-body { font-size: 0.87rem; color: var(--text-muted); line-height: 1.7; }
+
+    /* ── CODE BLOCKS ── */
+    pre, code {
+      font-family: "Cascadia Code", "Fira Code", ui-monospace, monospace;
+      font-size: 0.83rem;
+    }
+    pre {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 10px; padding: 18px 20px; overflow-x: auto;
+      line-height: 1.6; margin: 12px 0; color: var(--text);
+    }
+    code {
+      background: var(--bg-elevated); border-radius: 4px;
+      padding: 2px 6px; font-size: 0.82em; color: #79c0ff;
+    }
+    pre code { background: none; padding: 0; font-size: inherit; color: inherit; }
+    .kw  { color: #ff7b72; }
+    .str { color: #a5d6ff; }
+    .cmt { color: #8b949e; font-style: italic; }
+    .fn  { color: #d2a8ff; }
+    .num { color: #79c0ff; }
+    .cls { color: #ffa657; }
+    .var { color: #e6edf3; }
+
+    /* ── TABLES ── */
+    .tbl-wrap { overflow-x: auto; margin: 16px 0; border-radius: 10px; border: 1px solid var(--border); }
+    table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
+    th { background: var(--bg-elevated); color: var(--text-muted); font-weight: 600; padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+    td { padding: 9px 14px; border-bottom: 1px solid var(--border); color: var(--text); vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #1c2128; }
+    .td-green { color: var(--success); font-weight: 600; }
+    .td-red   { color: var(--danger); }
+    .td-blue  { color: var(--accent-2); }
+    .td-orange{ color: var(--accent-5); }
+
+    /* ── CALLOUTS ── */
+    .callout {
+      display: flex; gap: 14px; padding: 14px 18px;
+      border-radius: 10px; margin: 16px 0; font-size: 0.87rem;
+    }
+    .callout-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+    .callout-body { flex: 1; line-height: 1.6; }
+    .callout-body strong { display: block; margin-bottom: 4px; }
+    .callout.info    { background: #0d1e30; border: 1px solid #1d4066; }
+    .callout.success { background: #0d2010; border: 1px solid #1a4a1a; }
+    .callout.warning { background: #2e2000; border: 1px solid #5a4000; }
+    .callout.danger  { background: #2e1010; border: 1px solid #5a2020; }
+
+    /* ── FLOW DIAGRAM ── */
+    .flow {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 28px; margin: 16px 0;
+      overflow-x: auto;
+    }
+    .flow-row { display: flex; align-items: center; gap: 0; flex-wrap: nowrap; }
+    .flow-node {
+      background: var(--bg-elevated); border: 1px solid var(--border);
+      border-radius: 10px; padding: 12px 18px; font-size: 0.82rem;
+      text-align: center; min-width: 110px; flex-shrink: 0;
+    }
+    .flow-node.accent { border-color: var(--accent); background: #0d2818; color: var(--accent); font-weight: 600; }
+    .flow-node.blue   { border-color: var(--accent-2); background: #0d1e30; color: var(--accent-2); }
+    .flow-node.orange { border-color: var(--accent-5); background: #2e1e0d; color: var(--accent-5); }
+    .flow-arrow { font-size: 1.2rem; color: var(--text-dim); padding: 0 8px; flex-shrink: 0; }
+    .flow-col { display: flex; flex-direction: column; gap: 12px; }
+    .flow-col .flow-row { justify-content: center; }
+
+    /* ── ARCH BOXES ── */
+    .arch { font-family: "Cascadia Code", monospace; font-size: 0.78rem; color: var(--text-muted); background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; overflow-x: auto; line-height: 1.6; }
+
+    /* ── API ENDPOINT ── */
+    .endpoint { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 16px; overflow: hidden; }
+    .endpoint-header { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: var(--bg-elevated); }
+    .method { font-size: 0.72rem; font-weight: 700; padding: 3px 10px; border-radius: 6px; }
+    .method.get  { background: #0d2818; color: var(--success); border: 1px solid var(--success); }
+    .method.post { background: #0d1e30; color: var(--accent-2); border: 1px solid var(--accent-2); }
+    .method.del  { background: #2e1010; color: var(--danger); border: 1px solid var(--danger); }
+    .endpoint-path { font-family: monospace; font-size: 0.87rem; font-weight: 600; }
+    .endpoint-desc { font-size: 0.8rem; color: var(--text-muted); margin-left: auto; }
+    .endpoint-body { padding: 14px 16px; font-size: 0.83rem; color: var(--text-muted); line-height: 1.7; }
+
+    /* ── BADGE ── */
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 0.72rem; font-weight: 700; margin: 0 2px; }
+    .badge.green  { background: #1a3a1a; color: var(--success); }
+    .badge.blue   { background: #0d1e30; color: var(--accent-2); }
+    .badge.orange { background: #2e1e0d; color: var(--accent-5); }
+    .badge.red    { background: #2e1010; color: var(--danger); }
+    .badge.purple { background: #1e1428; color: var(--accent-4); }
+
+    /* ── MINI COMPARISON ── */
+    .vs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+    .vs-col { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 18px; }
+    .vs-col.highlight { border-color: var(--accent); background: #0a1e14; }
+    .vs-title { font-size: 0.82rem; font-weight: 700; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+    .vs-row { display: flex; gap: 8px; align-items: flex-start; font-size: 0.82rem; color: var(--text-muted); margin-bottom: 6px; }
+    .vs-row .vi { flex-shrink: 0; }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .sidenav { display: none; }
+      .content { padding: 24px 20px; }
+      .hero { padding: 28px 24px; }
+      .vs-grid { grid-template-columns: 1fr; }
+      .flow-row { flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- ── SIDEBAR NAV ── -->
+  <nav class="sidenav">
+    <div class="nav-logo">
+      <div class="nav-logo-icon">🤖</div>
+      <div>
+        <div class="nav-logo-title">DocChat</div>
+        <div class="nav-logo-sub">Reference Guide v2</div>
+      </div>
+    </div>
+
+    <div class="nav-section">Overview</div>
+    <a class="nav-link" href="#intro"><span class="ni">🏠</span> Introduction</a>
+    <a class="nav-link" href="#architecture"><span class="ni">🏗️</span> Architecture</a>
+
+    <div class="nav-section">Prerequisites</div>
+    <a class="nav-link" href="#system-reqs"><span class="ni">💻</span> System Requirements</a>
+    <a class="nav-link" href="#github-auth"><span class="ni">🔑</span> GitHub Auth &amp; Token</a>
+    <a class="nav-link" href="#python-deps"><span class="ni">🐍</span> Python Dependencies</a>
+    <a class="nav-link" href="#corporate-proxy"><span class="ni">🔒</span> Corporate Proxy</a>
+
+    <div class="nav-section">Setup</div>
+    <a class="nav-link" href="#install"><span class="ni">📦</span> Installation</a>
+    <a class="nav-link" href="#start-server"><span class="ni">🚀</span> Starting the Server</a>
+    <a class="nav-link" href="#models"><span class="ni">🤖</span> Available Models</a>
+
+    <div class="nav-section">How It Works</div>
+    <a class="nav-link" href="#pageindex"><span class="ni">📑</span> PageIndex &amp; BM25</a>
+    <a class="nav-link" href="#retrieval"><span class="ni">🔍</span> Multi-Query Retrieval</a>
+    <a class="nav-link" href="#llm-backend"><span class="ni">⚡</span> LLM Backend</a>
+    <a class="nav-link" href="#multi-turn"><span class="ni">💬</span> Multi-Turn Chat</a>
+
+    <div class="nav-section">API Reference</div>
+    <a class="nav-link" href="#api"><span class="ni">🔌</span> REST Endpoints</a>
+    <a class="nav-link" href="#session"><span class="ni">🔐</span> Session Management</a>
+
+    <div class="nav-section">File Support</div>
+    <a class="nav-link" href="#file-types"><span class="ni">📄</span> Supported Formats</a>
+
+    <div class="nav-section">Optimization</div>
+    <a class="nav-link" href="#topk"><span class="ni">🎯</span> Top-K Tuning</a>
+    <a class="nav-link" href="#model-choice"><span class="ni">⚖️</span> Model Selection</a>
+    <a class="nav-link" href="#troubleshoot"><span class="ni">🔧</span> Troubleshooting</a>
+    <a class="nav-link" href="#limits"><span class="ni">📏</span> Limitations</a>
+  </nav>
+
+  <!-- ── MAIN ── -->
+  <main class="content">
+
+    <!-- HERO -->
+    <div class="hero" id="intro">
+      <div class="hero-badge">📖 Complete Reference Guide</div>
+      <h1>DocChat — <span>VectorLess RAG</span></h1>
+      <p class="hero-sub">
+        A document chatbot powered by PageIndex + BM25 retrieval and GitHub Copilot LLMs.
+        No VectorDB. No chunking. No GPU. No embeddings. Just upload and chat.
+      </p>
+      <div class="hero-pills">
+        <span class="pill green">✅ No VectorDB</span>
+        <span class="pill green">✅ No GPU Required</span>
+        <span class="pill green">✅ No Embeddings</span>
+        <span class="pill blue">🐍 Python 3.10+</span>
+        <span class="pill blue">⚡ FastAPI + Uvicorn</span>
+        <span class="pill purple">🤖 18 Copilot Models</span>
+        <span class="pill orange">📑 BM25 PageIndex</span>
+      </div>
+    </div>
+
+    <!-- ── ARCHITECTURE ── -->
+    <section class="section" id="architecture">
+      <div class="section-header">
+        <div class="section-icon green">🏗️</div>
+        <div>
+          <div class="section-title">Architecture Overview</div>
+          <div class="section-sub">End-to-end data flow from document upload to chat response</div>
+        </div>
+      </div>
+
+      <div class="flow">
+        <div class="flow-col">
+          <div class="flow-row">
+            <div class="flow-node orange">📂 Upload<br><small>PDF/DOCX/XLSX<br>CSV/TXT/MD</small></div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node">🔍 Parser<br><small>parser.py</small></div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node">📑 List[Page]<br><small>Natural Units</small></div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node blue">⚡ PageIndex<br><small>BM25Okapi</small></div>
+          </div>
+          <div style="text-align:center; color: var(--text-dim); font-size: 0.8rem; padding: 4px 0;">— document stored in-memory, ready for queries —</div>
+          <div class="flow-row">
+            <div class="flow-node orange">💬 User Question</div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node">🔎 Multi-Query<br><small>rag.py</small></div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node blue">📋 Top-K Pages<br><small>Full content</small></div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node accent">🤖 Copilot LLM<br><small>+ history</small></div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node orange">💡 Answer +<br>Citations</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="arch">
+vector-less-rag-app-v2/
+├── server.py              ← FastAPI app  (8 REST endpoints, session store)
+├── templates/
+│   └── index.html         ← Single-page app  (ChatGPT-style UI)
+├── static/
+│   ├── style.css          ← Dark theme  (CSS variables, flexbox layout)
+│   ├── app.js             ← Frontend logic  (fetch, tabs, toasts, markdown)
+│   └── reference.html     ← This document
+└── src/
+    ├── parser.py          ← Document → List[Page]  (7 file types)
+    ├── page_index.py      ← BM25Okapi index  (search, build_context, stats)
+    ├── rag.py             ← Pipeline  (multi-query search, chat history)
+    └── llm.py             ← GitHub Copilot API  (PowerShell WinHTTP backend)
+      </div>
+    </section>
+
+    <!-- ── SYSTEM REQUIREMENTS ── -->
+    <section class="section" id="system-reqs">
+      <div class="section-header">
+        <div class="section-icon blue">💻</div>
+        <div>
+          <div class="section-title">System Requirements</div>
+          <div class="section-sub">What you need before installation</div>
+        </div>
+      </div>
+
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-icon">🐍</div>
+          <div class="card-title">Python 3.10 or later</div>
+          <div class="card-body">Required for <code>match</code> syntax and modern type hints. Check with <code>python --version</code>. Download from python.org if needed.</div>
+        </div>
+        <div class="card">
+          <div class="card-icon">🖥️</div>
+          <div class="card-title">Windows 10/11 (recommended)</div>
+          <div class="card-body">PowerShell 7 (pwsh) is used as the HTTP client to handle corporate SSL proxy. Also works on Linux/Mac with direct httpx.</div>
+        </div>
+        <div class="card">
+          <div class="card-icon">⚡</div>
+          <div class="card-title">PowerShell 7 (pwsh)</div>
+          <div class="card-body">Required on Windows for UTF-8 emoji rendering. Install with: <code>winget install Microsoft.PowerShell</code></div>
+        </div>
+        <div class="card">
+          <div class="card-icon">🐙</div>
+          <div class="card-title">GitHub CLI (gh)</div>
+          <div class="card-body">Used for automatic token detection via <code>gh auth token</code>. Install: <code>winget install GitHub.cli</code> then <code>gh auth login</code></div>
+        </div>
+        <div class="card">
+          <div class="card-icon">🤖</div>
+          <div class="card-title">GitHub Copilot Subscription</div>
+          <div class="card-body">Individual, Business, or Enterprise plan required. The OAuth token from <code>gh auth login</code> is all you need — no extra PAT.</div>
+        </div>
+        <div class="card">
+          <div class="card-icon">🌐</div>
+          <div class="card-title">Internet Access</div>
+          <div class="card-body">Needs outbound HTTPS to <code>api.githubcopilot.com</code>. Works behind corporate SSL proxy (handled via WinHTTP/system cert store).</div>
+        </div>
+      </div>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Component</th><th>Minimum</th><th>Recommended</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td>Python</td><td>3.10</td><td class="td-green">3.12</td><td>Newer = better async performance</td></tr>
+            <tr><td>RAM</td><td>512 MB</td><td class="td-green">2 GB</td><td>Large PDFs (500+ pages) use more RAM</td></tr>
+            <tr><td>CPU</td><td>Any</td><td class="td-green">Any</td><td>No GPU needed — BM25 is CPU-only</td></tr>
+            <tr><td>Disk</td><td>200 MB</td><td class="td-green">500 MB</td><td>Python packages + temp files</td></tr>
+            <tr><td>PowerShell</td><td>5.1</td><td class="td-green">7.4 (pwsh)</td><td>PS7 required for emoji/UTF-8</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── GITHUB AUTH ── -->
+    <section class="section" id="github-auth">
+      <div class="section-header">
+        <div class="section-icon orange">🔑</div>
+        <div>
+          <div class="section-title">GitHub Auth &amp; Token Setup</div>
+          <div class="section-sub">How to authenticate and why no special PAT is needed</div>
+        </div>
+      </div>
+
+      <div class="callout info">
+        <div class="callout-icon">ℹ️</div>
+        <div class="callout-body">
+          <strong>No Copilot-specific PAT required</strong>
+          The standard OAuth token from <code>gh auth login</code> (a <code>gho_*</code> token) works with <code>api.githubcopilot.com</code> as long as your account has an active Copilot subscription.
+        </div>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
+          <div class="step-content">
+            <div class="step-title">Install GitHub CLI</div>
+            <div class="step-body">
+<pre><span class="cmt"># Windows (winget)</span>
+winget install GitHub.cli
+
+<span class="cmt"># macOS (brew)</span>
+brew install gh
+
+<span class="cmt"># Linux (apt)</span>
+sudo apt install gh</pre>
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div>
+          <div class="step-content">
+            <div class="step-title">Authenticate with GitHub</div>
+            <div class="step-body">
+<pre>gh auth login
+<span class="cmt"># Choose: GitHub.com → HTTPS → Authenticate with browser</span>
+<span class="cmt"># This creates a gho_* OAuth token stored locally</span></pre>
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-left"><div class="step-num">3</div><div class="step-line"></div></div>
+          <div class="step-content">
+            <div class="step-title">Verify token works</div>
+            <div class="step-body">
+<pre><span class="cmt"># Check token exists</span>
+gh auth token
+
+<span class="cmt"># Test Copilot API directly</span>
+$token = gh auth token
+Invoke-RestMethod -Uri "https://api.githubcopilot.com/models" `
+  -Headers @{ Authorization = "Bearer $token" }</pre>
+The app auto-detects this token via <code>get_gh_cli_token()</code> in <code>src/llm.py</code> — you don't need to paste it manually.
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-left"><div class="step-num">4</div><div class="step-line"></div></div>
+          <div class="step-content">
+            <div class="step-title">Enable Copilot Models in Admin Panel</div>
+            <div class="step-body">
+              Go to <strong>github.com → Settings → Copilot → Policies</strong> and enable the models you want (Claude, GPT-5, Grok, etc.). Enabled models become available instantly via the API.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Token Type</th><th>Format</th><th>Works?</th><th>How to Get</th></tr></thead>
+          <tbody>
+            <tr><td>gh CLI OAuth token</td><td><code>gho_*</code></td><td class="td-green">✅ Yes (recommended)</td><td><code>gh auth login</code></td></tr>
+            <tr><td>Fine-grained PAT</td><td><code>github_pat_*</code></td><td class="td-green">✅ Yes</td><td>Settings → Developer settings → PATs</td></tr>
+            <tr><td>Classic PAT</td><td><code>ghp_*</code></td><td class="td-orange">⚠️ Sometimes</td><td>Needs <code>copilot</code> scope</td></tr>
+            <tr><td>GitHub Actions token</td><td><code>ghs_*</code></td><td class="td-red">❌ No</td><td>Not a user token</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── PYTHON DEPS ── -->
+    <section class="section" id="python-deps">
+      <div class="section-header">
+        <div class="section-icon blue">🐍</div>
+        <div>
+          <div class="section-title">Python Dependencies</div>
+          <div class="section-sub">All packages used and why each is needed</div>
+        </div>
+      </div>
+<pre><span class="cmt"># requirements.txt</span>
+fastapi              <span class="cmt"># Web framework — REST API + static file serving</span>
+uvicorn[standard]    <span class="cmt"># ASGI server — runs FastAPI</span>
+python-multipart     <span class="cmt"># File upload support (multipart/form-data)</span>
+jinja2               <span class="cmt"># HTML template rendering for index.html</span>
+httpx                <span class="cmt"># HTTP client fallback (non-Windows)</span>
+pdfplumber           <span class="cmt"># PDF text extraction (primary, preserves tables)</span>
+PyPDF2               <span class="cmt"># PDF fallback when pdfplumber fails</span>
+python-docx          <span class="cmt"># Word document parsing (.docx)</span>
+openpyxl             <span class="cmt"># Excel parsing (.xlsx, .xls)</span>
+rank-bm25            <span class="cmt"># BM25Okapi — the core retrieval algorithm</span>
+pandas               <span class="cmt"># CSV parsing and DataFrame operations</span></pre>
+
+<pre><span class="cmt"># Install all dependencies</span>
+pip install fastapi uvicorn[standard] python-multipart jinja2 httpx \
+    pdfplumber PyPDF2 python-docx openpyxl rank-bm25 pandas</pre>
+
+      <div class="callout success">
+        <div class="callout-icon">✅</div>
+        <div class="callout-body">
+          <strong>No heavy ML dependencies</strong>
+          No PyTorch, TensorFlow, sentence-transformers, or FAISS needed. Total install is ~80 MB vs ~4 GB for vector-based RAG setups.
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CORPORATE PROXY ── -->
+    <section class="section" id="corporate-proxy">
+      <div class="section-header">
+        <div class="section-icon red">🔒</div>
+        <div>
+          <div class="section-title">Corporate SSL Proxy — Root Cause &amp; Fix</div>
+          <div class="section-sub">Why Python httpx fails and PowerShell works</div>
+        </div>
+      </div>
+
+      <div class="callout warning">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <strong>Corporate SSL Inspection (MITM Proxy)</strong>
+          Many corporate networks use a transparent HTTPS proxy that re-signs TLS certificates with a corporate CA. Python's <code>httpx</code> uses the <code>certifi</code> bundle which doesn't include the corporate CA → intermittent 403/SSL errors.
+        </div>
+      </div>
+
+      <div class="vs-grid">
+        <div class="vs-col">
+          <div class="vs-title" style="color:var(--danger)">❌ Python httpx — Fails</div>
+          <div class="vs-row"><span class="vi">🔴</span> Uses <code>certifi</code> CA bundle</div>
+          <div class="vs-row"><span class="vi">🔴</span> Doesn't trust corporate CA</div>
+          <div class="vs-row"><span class="vi">🔴</span> SSL handshake rejected by proxy</div>
+          <div class="vs-row"><span class="vi">🔴</span> ~40% failure even with <code>verify=False</code></div>
+          <div class="vs-row"><span class="vi">🔴</span> Rapid calls trigger rate-limiting</div>
+        </div>
+        <div class="vs-col highlight">
+          <div class="vs-title" style="color:var(--success)">✅ PowerShell WinHTTP — Works</div>
+          <div class="vs-row"><span class="vi">🟢</span> Uses Windows system certificate store</div>
+          <div class="vs-row"><span class="vi">🟢</span> Corporate CA already trusted by Windows</div>
+          <div class="vs-row"><span class="vi">🟢</span> No SSL rejections from proxy</div>
+          <div class="vs-row"><span class="vi">🟢</span> <code>Invoke-RestMethod</code> fully reliable</div>
+          <div class="vs-row"><span class="vi">🟢</span> Exponential backoff handles rate limits</div>
+        </div>
+      </div>
+
+      <h3 style="font-size:0.95rem; margin: 20px 0 10px; color: var(--text-muted);">How it works in code</h3>
+<pre><span class="cmt"># src/llm.py — detect pwsh vs powershell.exe</span>
+_PS_CMD = <span class="str">"pwsh"</span> <span class="kw">if</span> shutil.which(<span class="str">"pwsh"</span>) <span class="kw">else</span> <span class="str">"powershell"</span>
+<span class="cmt"># pwsh = PowerShell 7 (UTF-8 native)
+# powershell = PowerShell 5.1 (CP1252 — emojis break!)</span>
+
+<span class="cmt"># Body written to temp file (avoids apostrophe escaping bugs)</span>
+tmp = tempfile.NamedTemporaryFile(mode=<span class="str">"w"</span>, suffix=<span class="str">".json"</span>, encoding=<span class="str">"utf-8"</span>)
+tmp.write(json_body)
+
+<span class="cmt"># PowerShell reads from temp file — no string injection issues</span>
+$body = Get-Content -Path <span class="str">"C:\temp\body.json"</span> -Raw -Encoding UTF8
+$r = Invoke-RestMethod -Uri <span class="str">"https://api.githubcopilot.com/chat/completions"</span> \
+     -Method POST -Headers $headers -Body $body</pre>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Issue</th><th>Root Cause</th><th>Fix Applied</th></tr></thead>
+          <tbody>
+            <tr><td>403 Forbidden</td><td>Corporate CA not in certifi bundle</td><td class="td-green">PowerShell WinHTTP (system cert store)</td></tr>
+            <tr><td>Garbled emoji (d???)</td><td>powershell.exe (PS5) uses CP1252</td><td class="td-green">Use pwsh (PS7) with UTF-8</td></tr>
+            <tr><td>Apostrophe crashes PS</td><td>Single-quoted string breaks on <code>'</code></td><td class="td-green">Write body to temp file, use Get-Content</td></tr>
+            <tr><td>Rate limiting</td><td>Rapid consecutive API calls</td><td class="td-green">Exponential backoff + jitter (5 retries)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── INSTALLATION ── -->
+    <section class="section" id="install">
+      <div class="section-header">
+        <div class="section-icon green">📦</div>
+        <div>
+          <div class="section-title">Installation — Step by Step</div>
+          <div class="section-sub">From zero to running in 5 minutes</div>
+        </div>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
+          <div class="step-content">
+            <div class="step-title">Clone or navigate to the project</div>
+<pre>cd C:\Users\your-name\Downloads\personal-work\learn-ai
+<span class="cmt"># Project already exists at:</span>
+cd vector-less-rag-app-v2</pre>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div>
+          <div class="step-content">
+            <div class="step-title">Install Python dependencies</div>
+<pre>pip install fastapi uvicorn[standard] python-multipart jinja2 httpx \
+    pdfplumber PyPDF2 python-docx openpyxl rank-bm25 pandas</pre>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-left"><div class="step-num">3</div><div class="step-line"></div></div>
+          <div class="step-content">
+            <div class="step-title">Authenticate with GitHub Copilot</div>
+<pre>gh auth login    <span class="cmt"># Follow prompts → GitHub.com → HTTPS → Browser</span>
+gh auth token    <span class="cmt"># Should print: gho_xxxxxxxxxxxx</span></pre>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-left"><div class="step-num">4</div><div class="step-line"></div></div>
+          <div class="step-content">
+            <div class="step-title">Start the server</div>
+<pre>python server.py
+<span class="cmt"># Output:</span>
+<span class="str">INFO:     Started server process [8708]
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000</span></pre>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-left"><div class="step-num">5</div><div class="step-line"></div></div>
+          <div class="step-content">
+            <div class="step-title">Open in browser</div>
+<pre>http://localhost:8000</pre>
+            You'll see the DocChat welcome screen. Upload a document and start chatting.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── STARTING THE SERVER ── -->
+    <section class="section" id="start-server">
+      <div class="section-header">
+        <div class="section-icon green">🚀</div>
+        <div>
+          <div class="section-title">Starting &amp; Managing the Server</div>
+          <div class="section-sub">Different run modes and how to manage the process</div>
+        </div>
+      </div>
+<pre><span class="cmt"># Standard (foreground, auto-reload on code changes)</span>
+uvicorn server:app --reload --port 8000
+
+<span class="cmt"># Direct (uses uvicorn.run() inside server.py)</span>
+python server.py
+
+<span class="cmt"># Background (Windows PowerShell — detached process)</span>
+Start-Process -NoNewWindow -FilePath "python" -ArgumentList "server.py"
+
+<span class="cmt"># Check if running</span>
+Get-NetTCPConnection -LocalPort 8000
+
+<span class="cmt"># Stop by PID</span>
+Stop-Process -Id &lt;PID&gt; -Force</pre>
+
+      <div class="callout info">
+        <div class="callout-icon">ℹ️</div>
+        <div class="callout-body">
+          <strong>Ports used</strong>
+          FastAPI RAG app: <code>http://localhost:8000</code> (this app) &nbsp;|&nbsp; Reference guide: <code>http://localhost:8000/static/reference.html</code>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── MODELS ── -->
+    <section class="section" id="models">
+      <div class="section-header">
+        <div class="section-icon purple">🤖</div>
+        <div>
+          <div class="section-title">Available Models</div>
+          <div class="section-sub">18 GitHub Copilot models accessible via the same API</div>
+        </div>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Model ID</th><th>Provider</th><th>Best For</th><th>Speed</th><th>Context</th></tr></thead>
+          <tbody>
+            <tr><td><code>claude-haiku-4.5</code></td><td>Anthropic</td><td>Fast Q&amp;A, tech specs</td><td class="td-green">⚡ Fastest</td><td>200K</td></tr>
+            <tr><td><code>claude-sonnet-4.6</code></td><td>Anthropic</td><td>Balanced — recommended</td><td class="td-green">Fast</td><td>200K</td></tr>
+            <tr><td><code>claude-opus-4.7</code></td><td>Anthropic</td><td>Complex multi-step reasoning</td><td class="td-orange">Slower</td><td>200K</td></tr>
+            <tr><td><code>gpt-5-mini</code></td><td>OpenAI</td><td>Cost-efficient, fast</td><td class="td-green">Fast</td><td>128K</td></tr>
+            <tr><td><code>gpt-5.4</code></td><td>OpenAI</td><td>Strong general reasoning</td><td>Medium</td><td>128K</td></tr>
+            <tr><td><code>gpt-5.5</code></td><td>OpenAI</td><td>Best overall quality</td><td class="td-orange">Slower</td><td>128K</td></tr>
+            <tr><td><code>gpt-5.3-codex</code></td><td>OpenAI</td><td>Code-heavy documents</td><td>Medium</td><td>128K</td></tr>
+            <tr><td><code>grok-code-fast-1</code></td><td>xAI</td><td>Technical/code docs</td><td class="td-green">Fast</td><td>128K</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout warning">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <strong>Gemini models not available via API</strong>
+          Google Gemini 2.5 Pro / 3.x are enabled in the Copilot admin panel but not exposed via <code>api.githubcopilot.com/models</code> — they're VS Code UI only.
+        </div>
+      </div>
+    </section>
+
+    <!-- ── PAGEINDEX ── -->
+    <section class="section" id="pageindex">
+      <div class="section-header">
+        <div class="section-icon teal">📑</div>
+        <div>
+          <div class="section-title">PageIndex &amp; BM25 — How It Works</div>
+          <div class="section-sub">The core retrieval mechanism — no vectors, no GPU</div>
+        </div>
+      </div>
+
+      <div class="vs-grid">
+        <div class="vs-col">
+          <div class="vs-title">Traditional RAG (Chunking)</div>
+          <div class="vs-row"><span class="vi">🔴</span> Split every page into 512-char chunks</div>
+          <div class="vs-row"><span class="vi">🔴</span> Tables split across chunk boundaries</div>
+          <div class="vs-row"><span class="vi">🔴</span> Embed each chunk (GPU or API cost)</div>
+          <div class="vs-row"><span class="vi">🔴</span> Store in VectorDB (FAISS, Chroma, Pinecone)</div>
+          <div class="vs-row"><span class="vi">🔴</span> Semantic search (approximate)</div>
+          <div class="vs-row"><span class="vi">🔴</span> Tune chunk_size, overlap, threshold</div>
+        </div>
+        <div class="vs-col highlight">
+          <div class="vs-title">PageIndex (This App)</div>
+          <div class="vs-row"><span class="vi">🟢</span> Each document unit = one Page (natural)</div>
+          <div class="vs-row"><span class="vi">🟢</span> Tables preserved intact on their page</div>
+          <div class="vs-row"><span class="vi">🟢</span> No embeddings — BM25 is instant</div>
+          <div class="vs-row"><span class="vi">🟢</span> In-memory Python dict — no external DB</div>
+          <div class="vs-row"><span class="vi">🟢</span> Exact keyword search (deterministic)</div>
+          <div class="vs-row"><span class="vi">🟢</span> Only tune Top-K</div>
+        </div>
+      </div>
+
+      <h3 style="font-size:0.95rem; margin: 20px 0 10px; color:var(--text-muted)">BM25 Scoring Formula</h3>
+      <div class="callout info">
+        <div class="callout-icon">📐</div>
+        <div class="callout-body">
+          <strong>BM25(D, Q) = Σ IDF(qᵢ) × [ f(qᵢ,D) × (k₁+1) ] / [ f(qᵢ,D) + k₁ × (1 - b + b × |D|/avgdl) ]</strong><br>
+          Where <code>f(qᵢ,D)</code> = term frequency in doc, <code>|D|</code> = doc length, <code>avgdl</code> = avg doc length, <code>k₁=1.5, b=0.75</code>. 
+          A page with query term appearing in the right density wins — not just raw frequency.
+        </div>
+      </div>
+
+<pre><span class="cmt"># src/page_index.py — core search</span>
+<span class="kw">def</span> <span class="fn">search</span>(self, query: str, top_k: int = <span class="num">5</span>):
+    tokens = _tokenize(query)          <span class="cmt"># lowercase alphanumeric</span>
+    scores = self._bm25.get_scores(tokens)  <span class="cmt"># BM25Okapi over all pages</span>
+    ranked = sorted(zip(self.pages, scores), key=<span class="kw">lambda</span> x: x[<span class="num">1</span>], reverse=<span class="kw">True</span>)
+    results = [(p, float(s)) <span class="kw">for</span> p, s <span class="kw">in</span> ranked[:top_k] <span class="kw">if</span> s > <span class="num">0</span>]
+    <span class="kw">if not</span> results:  <span class="cmt"># fallback: query terms not in corpus</span>
+        results = [(p, <span class="num">0.0</span>) <span class="kw">for</span> p <span class="kw">in</span> self.pages[:top_k]]
+    <span class="kw">return</span> results</pre>
+    </section>
+
+    <!-- ── MULTI-QUERY RETRIEVAL ── -->
+    <section class="section" id="retrieval">
+      <div class="section-header">
+        <div class="section-icon orange">🔍</div>
+        <div>
+          <div class="section-title">Multi-Query Retrieval</div>
+          <div class="section-sub">Why single BM25 misses acronyms and the fix</div>
+        </div>
+      </div>
+
+      <div class="callout warning">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <strong>The TVR Problem</strong>
+          Searching "TVR" with a single BM25 query ranks pages where TVR appears many times (changelog, cross-references) higher than the actual definition page — which might have TVR only once in a table row. Multi-query retrieval fixes this.
+        </div>
+      </div>
+
+<pre><span class="cmt"># src/rag.py — multi-query strategy</span>
+<span class="kw">def</span> <span class="fn">_multi_query_search</span>(self, question: str):
+    combined = {}
+
+    <span class="cmt"># 1. Full question search (2× top_k to cast wide net)</span>
+    <span class="kw">for</span> page, score <span class="kw">in</span> self.index.search(question, top_k=self.top_k * <span class="num">2</span>):
+        combined[page.page_num] = (page, score)
+
+    <span class="cmt"># 2. Per-token search (especially good for short acronyms: TVR, EMV, ICC)</span>
+    STOP = {<span class="str">"the"</span>, <span class="str">"and"</span>, <span class="str">"for"</span>, <span class="str">"get"</span>, ...}
+    tokens = [t <span class="kw">for</span> t <span class="kw">in</span> re.findall(<span class="str">r"[A-Za-z0-9]+"</span>, question)
+              <span class="kw">if</span> len(t) >= <span class="num">2</span> <span class="kw">and</span> t.lower() <span class="kw">not in</span> STOP]
+
+    <span class="kw">for</span> token <span class="kw">in</span> tokens:
+        <span class="kw">for</span> page, score <span class="kw">in</span> self.index.search(token, top_k=self.top_k):
+            <span class="cmt"># Keep highest score per page</span>
+            <span class="kw">if</span> page.page_num <span class="kw">not in</span> combined <span class="kw">or</span> score > combined[page.page_num][<span class="num">1</span>]:
+                combined[page.page_num] = (page, score)
+
+    <span class="cmt"># 3. Merge, re-rank by score, return top_k</span>
+    <span class="kw">return</span> sorted(combined.values(), key=<span class="kw">lambda</span> x: x[<span class="num">1</span>], reverse=<span class="kw">True</span>)[:self.top_k]</pre>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Query Strategy</th><th>Searches Run</th><th>Pages Considered</th><th>Result Quality</th></tr></thead>
+          <tbody>
+            <tr><td>Single BM25</td><td>1</td><td>top_k</td><td class="td-orange">Misses acronym definitions</td></tr>
+            <tr><td>Multi-query (this app)</td><td>1 + N tokens</td><td>top_k × (2 + N tokens)</td><td class="td-green">Finds definition pages</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── LLM BACKEND ── -->
+    <section class="section" id="llm-backend">
+      <div class="section-header">
+        <div class="section-icon purple">⚡</div>
+        <div>
+          <div class="section-title">LLM Backend — GitHub Copilot API</div>
+          <div class="section-sub">How answers are generated via PowerShell + WinHTTP</div>
+        </div>
+      </div>
+
+<pre><span class="cmt"># API endpoint used</span>
+POST https://api.githubcopilot.com/chat/completions
+
+<span class="cmt"># Headers</span>
+Authorization: Bearer &lt;gho_token&gt;
+Content-Type: application/json; charset=utf-8
+
+<span class="cmt"># Request body (OpenAI-compatible format)</span>
+{
+  <span class="str">"model"</span>: <span class="str">"claude-haiku-4.5"</span>,
+  <span class="str">"temperature"</span>: <span class="num">0.2</span>,
+  <span class="str">"messages"</span>: [
+    { <span class="str">"role"</span>: <span class="str">"system"</span>,    <span class="str">"content"</span>: <span class="str">"You are a helpful document assistant..."</span> },
+    { <span class="str">"role"</span>: <span class="str">"user"</span>,      <span class="str">"content"</span>: <span class="str">"[prior turn]"</span> },   <span class="cmt">← chat history</span>
+    { <span class="str">"role"</span>: <span class="str">"assistant"</span>, <span class="str">"content"</span>: <span class="str">"[prior answer]"</span> },
+    { <span class="str">"role"</span>: <span class="str">"user"</span>,      <span class="str">"content"</span>: <span class="str">"Current question + retrieved pages context"</span> }
+  ]
+}</pre>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Retry</th><th>Wait Before Attempt</th><th>Reason</th></tr></thead>
+          <tbody>
+            <tr><td>Attempt 1</td><td>0s</td><td>Immediate</td></tr>
+            <tr><td>Attempt 2</td><td>2s + jitter</td><td>Proxy rate-limit</td></tr>
+            <tr><td>Attempt 3</td><td>4s + jitter</td><td>Exponential backoff</td></tr>
+            <tr><td>Attempt 4</td><td>8s + jitter</td><td>Exponential backoff</td></tr>
+            <tr><td>Attempt 5</td><td>16s + jitter</td><td>Final attempt</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── MULTI-TURN ── -->
+    <section class="section" id="multi-turn">
+      <div class="section-header">
+        <div class="section-icon teal">💬</div>
+        <div>
+          <div class="section-title">Multi-Turn Chat History</div>
+          <div class="section-sub">How follow-up questions retain context</div>
+        </div>
+      </div>
+
+<pre><span class="cmt"># Each session stores a growing list of turns:</span>
+chat_history = [
+    {<span class="str">"role"</span>: <span class="str">"user"</span>,      <span class="str">"content"</span>: <span class="str">"What is TVR?"</span>},
+    {<span class="str">"role"</span>: <span class="str">"assistant"</span>, <span class="str">"content"</span>: <span class="str">"TVR (Terminal Verification Results) is..."</span>},
+    {<span class="str">"role"</span>: <span class="str">"user"</span>,      <span class="str">"content"</span>: <span class="str">"What is the field length?"</span>},  <span class="cmt">← follow-up</span>
+    ...
+]
+
+<span class="cmt"># Each new question includes the last 6 turns of history (3 exchanges)</span>
+<span class="cmt"># System prompt + history + new context + new question → LLM</span></pre>
+
+      <div class="callout success">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <strong>Follow-up questions work even without document keywords</strong>
+          "What is the field length?" refers back to "TVR" from the prior turn because the full history is sent to the LLM on every request.
+        </div>
+      </div>
+    </section>
+
+    <!-- ── API REFERENCE ── -->
+    <section class="section" id="api">
+      <div class="section-header">
+        <div class="section-icon blue">🔌</div>
+        <div>
+          <div class="section-title">REST API Reference</div>
+          <div class="section-sub">All FastAPI endpoints exposed by server.py</div>
+        </div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header">
+          <span class="method get">GET</span>
+          <span class="endpoint-path">/</span>
+          <span class="endpoint-desc">Serves the main SPA (index.html)</span>
+        </div>
+        <div class="endpoint-body">Returns the full ChatGPT-style chat UI. No parameters.</div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header">
+          <span class="method get">GET</span>
+          <span class="endpoint-path">/api/models</span>
+          <span class="endpoint-desc">List all available models by provider</span>
+        </div>
+        <div class="endpoint-body">
+          Returns: <code>{"models": {"GitHub Copilot": [...], "GitHub Models": [...]}}</code>
+        </div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header">
+          <span class="method get">GET</span>
+          <span class="endpoint-path">/api/token</span>
+          <span class="endpoint-desc">Auto-detect GitHub token from gh CLI</span>
+        </div>
+        <div class="endpoint-body">Returns: <code>{"token": "gho_xxxx"}</code> or <code>{"token": ""}</code> if not found.</div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header">
+          <span class="method post">POST</span>
+          <span class="endpoint-path">/api/upload</span>
+          <span class="endpoint-desc">Upload and index a document</span>
+        </div>
+        <div class="endpoint-body">
+          Form fields: <code>session_id</code>, <code>file</code> (binary), <code>model</code>, <code>provider</code>, <code>github_token</code>, <code>top_k</code><br>
+          Returns: <code>{"ok": true, "filename": "...", "stats": {"total_pages": N, "total_words": N, ...}}</code>
+        </div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header">
+          <span class="method post">POST</span>
+          <span class="endpoint-path">/api/chat</span>
+          <span class="endpoint-desc">Ask a question about the loaded document</span>
+        </div>
+        <div class="endpoint-body">
+          Body: <code>{"session_id": "uuid", "question": "What is TVR?"}</code><br>
+          Returns: <code>{"answer": "...", "sources": [{"page_num": N, "title": "...", "score": 0.95, ...}]}</code>
+        </div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header">
+          <span class="method get">GET</span>
+          <span class="endpoint-path">/api/pages?session_id=&amp;search=</span>
+          <span class="endpoint-desc">Browse all pages or search by relevance</span>
+        </div>
+        <div class="endpoint-body">
+          Returns: <code>{"pages": [{page_num, title, word_count, source_type, content, score}], "stats": {...}}</code>
+        </div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header">
+          <span class="method post">POST</span>
+          <span class="endpoint-path">/api/reset</span>
+          <span class="endpoint-desc">Clear session (New Chat)</span>
+        </div>
+        <div class="endpoint-body">Body: <code>{"session_id": "uuid"}</code>. Removes pipeline and chat history from server memory.</div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header">
+          <span class="method post">POST</span>
+          <span class="endpoint-path">/api/clear_chat</span>
+          <span class="endpoint-desc">Clear chat history only (keep document indexed)</span>
+        </div>
+        <div class="endpoint-body">Body: <code>{"session_id": "uuid"}</code>. Clears conversation but keeps PageIndex in memory.</div>
+      </div>
+    </section>
+
+    <!-- ── SESSION MANAGEMENT ── -->
+    <section class="section" id="session">
+      <div class="section-header">
+        <div class="section-icon orange">🔐</div>
+        <div>
+          <div class="section-title">Session Management</div>
+          <div class="section-sub">How state is maintained per browser tab</div>
+        </div>
+      </div>
+<pre><span class="cmt"># Frontend: session ID auto-generated and stored in localStorage</span>
+<span class="kw">let</span> SESSION_ID = localStorage.getItem(<span class="str">'docchat_session'</span>)
+              || crypto.randomUUID();
+localStorage.setItem(<span class="str">'docchat_session'</span>, SESSION_ID);
+<span class="cmt"># Sent with every API request in the body or query string</span>
+
+<span class="cmt"># Backend: in-memory dict keyed by UUID</span>
+sessions: dict = {}
+sessions[session_id] = {
+    <span class="str">"pipeline"</span>: RAGPipeline(...),
+    <span class="str">"chat_history"</span>: [...]
+}</pre>
+      <div class="callout warning">
+        <div class="callout-icon">⚠️</div>
+        <div class="callout-body">
+          <strong>In-memory only — state is lost on server restart</strong>
+          Sessions are stored in a Python dict. Re-uploading the document after a restart takes only a few seconds.
+        </div>
+      </div>
+    </section>
+
+    <!-- ── FILE TYPES ── -->
+    <section class="section" id="file-types">
+      <div class="section-header">
+        <div class="section-icon green">📄</div>
+        <div>
+          <div class="section-title">Supported File Formats</div>
+          <div class="section-sub">How each format is parsed into Pages</div>
+        </div>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Format</th><th>Extension</th><th>Page = 1 Unit</th><th>Parser Used</th><th>Table Support</th></tr></thead>
+          <tbody>
+            <tr><td>PDF</td><td><code>.pdf</code></td><td>1 PDF page</td><td>pdfplumber → PyPDF2 fallback</td><td class="td-green">✅ Preserved per page</td></tr>
+            <tr><td>Word</td><td><code>.docx</code></td><td>Heading section</td><td>python-docx</td><td class="td-green">✅ Inline tables</td></tr>
+            <tr><td>Excel</td><td><code>.xlsx/.xls</code></td><td>1 worksheet</td><td>openpyxl + pandas</td><td class="td-green">✅ Full sheet as table</td></tr>
+            <tr><td>CSV</td><td><code>.csv</code></td><td>50-row batch</td><td>pandas</td><td class="td-green">✅ Markdown table per batch</td></tr>
+            <tr><td>Text</td><td><code>.txt</code></td><td>Heading/paragraph group</td><td>Built-in + regex</td><td class="td-orange">⚠️ Plain text only</td></tr>
+            <tr><td>Markdown</td><td><code>.md</code></td><td>H2/H3 section</td><td>Built-in + regex</td><td class="td-green">✅ Markdown tables</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── TOP-K TUNING ── -->
+    <section class="section" id="topk">
+      <div class="section-header">
+        <div class="section-icon orange">🎯</div>
+        <div>
+          <div class="section-title">Top-K Tuning Guide</div>
+          <div class="section-sub">The single most important parameter — how to set it</div>
+        </div>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Document Type</th><th>Recommended Top-K</th><th>Why</th></tr></thead>
+          <tbody>
+            <tr><td>Short reports (1–20 pages)</td><td class="td-green">3–4</td><td>Few pages, high precision better</td></tr>
+            <tr><td>Business docs, manuals (20–100 pages)</td><td class="td-green">6–8</td><td>Good balance of coverage and context</td></tr>
+            <tr><td>Technical specs (100–500 pages)</td><td class="td-orange">8–12</td><td>Many cross-references, definitions scattered</td></tr>
+            <tr><td>Large PDFs (500+ pages)</td><td class="td-orange">10–15</td><td>Cast wide net; LLM context is 24K chars</td></tr>
+            <tr><td>Acronym / field lookup</td><td class="td-orange">10+</td><td>Definition page may rank lower in BM25</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout info">
+        <div class="callout-icon">💡</div>
+        <div class="callout-body">
+          <strong>Context budget is 24,000 characters</strong>
+          Each page averages ~1,500 chars. At Top-K=10, you get ~10 full pages in context before truncation. The LLM sees: system prompt + chat history (last 6 turns) + retrieved pages + current question.
+        </div>
+      </div>
+    </section>
+
+    <!-- ── MODEL CHOICE ── -->
+    <section class="section" id="model-choice">
+      <div class="section-header">
+        <div class="section-icon purple">⚖️</div>
+        <div>
+          <div class="section-title">Model Selection Guide</div>
+          <div class="section-sub">Which model to use for each scenario</div>
+        </div>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Scenario</th><th>Recommended Model</th><th>Why</th></tr></thead>
+          <tbody>
+            <tr><td>Quick lookup in a spec PDF</td><td><code class="td-green">claude-haiku-4.5</code></td><td>Fastest, excellent at field extraction</td></tr>
+            <tr><td>General document Q&amp;A</td><td><code class="td-green">claude-sonnet-4.6</code></td><td>Balanced speed/quality</td></tr>
+            <tr><td>Complex multi-part questions</td><td><code class="td-orange">claude-opus-4.7</code></td><td>Best reasoning, handles ambiguity</td></tr>
+            <tr><td>Code/API documentation</td><td><code class="td-blue">gpt-5.3-codex</code></td><td>Code-focused training</td></tr>
+            <tr><td>Summarization of long docs</td><td><code class="td-blue">gpt-5.5</code></td><td>Strong summarization</td></tr>
+            <tr><td>Technical spec tables</td><td><code class="td-green">claude-haiku-4.5</code></td><td>Reliable table reading</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── TROUBLESHOOTING ── -->
+    <section class="section" id="troubleshoot">
+      <div class="section-header">
+        <div class="section-icon red">🔧</div>
+        <div>
+          <div class="section-title">Troubleshooting</div>
+          <div class="section-sub">Common issues and their fixes</div>
+        </div>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Error / Symptom</th><th>Root Cause</th><th>Fix</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><code>Access to this endpoint is forbidden</code></td>
+              <td>Token expired or no Copilot subscription</td>
+              <td>Run <code>gh auth login</code> again; check subscription at github.com/settings/copilot</td>
+            </tr>
+            <tr>
+              <td>Answer not found for term in document</td>
+              <td>BM25 retrieves wrong pages</td>
+              <td>Increase Top-K slider to 10–12; try rephrasing query</td>
+            </tr>
+            <tr>
+              <td>Garbled emoji (d??? or â€™)</td>
+              <td>Using PowerShell 5 (CP1252 encoding)</td>
+              <td>Install PowerShell 7: <code>winget install Microsoft.PowerShell</code></td>
+            </tr>
+            <tr>
+              <td>Upload fails with "Cannot process document"</td>
+              <td>PDF is scanned image (no text layer)</td>
+              <td>Use OCR tool (Adobe, Tesseract) to extract text first</td>
+            </tr>
+            <tr>
+              <td>Server not starting on port 8000</td>
+              <td>Port already in use</td>
+              <td>Kill existing: <code>Get-NetTCPConnection -LocalPort 8000 | % { Stop-Process $_.OwningProcess -Force }</code></td>
+            </tr>
+            <tr>
+              <td>Session lost after question</td>
+              <td>Server restarted; in-memory state gone</td>
+              <td>Re-upload document — takes ~3 seconds</td>
+            </tr>
+            <tr>
+              <td><code>ModuleNotFoundError</code></td>
+              <td>Missing dependency</td>
+              <td><code>pip install -r requirements.txt</code></td>
+            </tr>
+            <tr>
+              <td>API failed after 5 attempts</td>
+              <td>Corporate proxy rate-limiting</td>
+              <td>Wait 30s and retry; or use a different model</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── LIMITATIONS ── -->
+    <section class="section" id="limits">
+      <div class="section-header">
+        <div class="section-icon red">📏</div>
+        <div>
+          <div class="section-title">Known Limitations</div>
+          <div class="section-sub">What the app does not do (and how to work around each)</div>
+        </div>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>Limitation</th><th>Impact</th><th>Workaround</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>BM25 is lexical only (no semantic)</td>
+              <td class="td-orange">Medium</td>
+              <td>Rephrase query using exact terms from the document; increase Top-K</td>
+            </tr>
+            <tr>
+              <td>Scanned PDFs (image-only)</td>
+              <td class="td-red">High</td>
+              <td>Run OCR first; Adobe Acrobat or Tesseract-OCR</td>
+            </tr>
+            <tr>
+              <td>Single document per session</td>
+              <td class="td-orange">Medium</td>
+              <td>Open multiple browser tabs for multiple docs</td>
+            </tr>
+            <tr>
+              <td>Session lost on server restart</td>
+              <td class="td-green">Low</td>
+              <td>Re-upload takes ~3s</td>
+            </tr>
+            <tr>
+              <td>No streaming (answer appears all at once)</td>
+              <td class="td-green">Low</td>
+              <td>Typing indicator shows while waiting</td>
+            </tr>
+            <tr>
+              <td>DOCX without heading styles → 1 large page</td>
+              <td class="td-orange">Medium</td>
+              <td>Add Heading 1/2 styles in Word, or use paragraph fallback (auto)</td>
+            </tr>
+            <tr>
+              <td>No persistent storage</td>
+              <td class="td-green">Low</td>
+              <td>Export chat via ⬇️ button; use database backend for production</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="margin-top: 32px; padding: 20px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;">
+        <div style="font-size: 0.78rem; color: var(--text-dim); text-align: center; line-height: 1.8;">
+          DocChat — VectorLess RAG &nbsp;|&nbsp; FastAPI + BM25 + GitHub Copilot &nbsp;|&nbsp;
+          <a href="http://localhost:8000" style="color: var(--accent); text-decoration: none;">Open App ↗</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+  // Highlight active nav link on scroll
+  const sections = document.querySelectorAll('.section');
+  const navLinks = document.querySelectorAll('.nav-link');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector(`.nav-link[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { threshold: 0.3 });
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

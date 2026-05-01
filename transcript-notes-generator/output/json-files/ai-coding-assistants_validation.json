@@ -1,0 +1,24 @@
+{
+  "meta": {
+    "topic_slug": "ai-coding-assistants",
+    "guide_path": "materials\\output\\ai-coding-assistants-guide.md",
+    "validated_at": "2026-04-28T20:28:09Z",
+    "overall": "PASS"
+  },
+  "completeness": {
+    "passed": true,
+    "missing_sections": [],
+    "placeholders_found": []
+  },
+  "voice": {
+    "passed": true,
+    "quote_count": 10
+  },
+  "formatting": {
+    "passed": true,
+    "h1": 1,
+    "h2": 9,
+    "h3": 13,
+    "issues": []
+  }
+}

@@ -1,0 +1,139 @@
+# YAML Spec Agent Configuration
+# Version: 1.0.0
+
+agent:
+  name: "YAML Spec Agent"
+  handle: "yaml-spec-agent"
+  version: "1.0.0"
+  type: context
+  domain: "OpenAPI 3.0.3, Card Payment Connectivity, Acquirer Connectivity"
+  created: "2026-02-25"
+  updated: "2026-02-25"
+
+mode:
+  autonomy: "high"
+  confirmation_required: false
+  explain_actions: true
+
+# Dynamic Paths — no hardcoded values
+paths:
+  workspace: "${WORKSPACE_ROOT}"
+  agent_root: "${paths.workspace}/.github/instructions/yaml-spec-agent"
+  knowledge_base: "${paths.agent_root}/knowledge-base"
+  resources: "${paths.workspace}/src/main/resources"
+  primary_spec: "${paths.resources}/card-payment-connectivity-api.yaml"
+  acquirer_spec: "${paths.resources}/acquirer-card-payment-connectivity-api.yaml"
+  config_spec: "${paths.resources}/acquirer_connectivity_config_api.yaml"
+
+standards:
+  language: yaml
+  openapi_version: "3.0.3"
+  rules:
+    - "Always use 2-space indentation"
+    - "required: array must precede properties: at same level"
+    - "Use $ref to existing schemas — never redefine primitives inline"
+    - "Follow existing title naming: [ParentSchema][NestedObjectName]"
+    - "Enum values: UPPER_SNAKE_CASE"
+    - "Schema names: PascalCase"
+    - "Keep required list free of duplicates"
+    - "Validate $ref targets exist before referencing"
+  forbidden:
+    - "Tab indentation"
+    - "Inventing $ref targets that don't exist"
+    - "Removing required fields without explicit instruction"
+    - "Renaming existing operationIds or paths"
+    - "Adding transactionAmount to VerificationSubmission"
+
+pdca:
+  plan:
+    - "Identify target file and schema"
+    - "Check existing solutions in KB"
+    - "Locate exact position in file"
+    - "Identify cross-file impacts"
+  do:
+    - "Apply minimal precise edit"
+    - "Respect indentation and style conventions"
+    - "Update related schemas if needed"
+  check:
+    - "Verify YAML syntax valid"
+    - "Verify no duplicate required entries"
+    - "Verify all $ref targets exist"
+    - "Verify enum values are valid"
+  act:
+    - "Confirm changes"
+    - "Update changelog.md"
+    - "Store patterns in solutions.md if reusable"
+    - "Update learning-log.md with new insights"
+
+maintenance:
+  folder_organization:
+    enabled: true
+    archive_after_days: 90
+    max_changelog_entries: 100
+  auto_cleanup:
+    enabled: true
+    remove_empty_folders: true
+
+tracking:
+  learning_log: "${paths.knowledge_base}/learning-log.md"
+  changelog: "${paths.knowledge_base}/changelog.md"
+  solutions: "${paths.knowledge_base}/solutions.md"
+  version_format: "{YYYY-MM-DD}-{NNN}"
+
+decisions:
+  default_strategy: "conservative"
+  require_confidence: 0.85
+  escalate_to_user:
+    - "removing_existing_required_fields"
+    - "renaming_schemas"
+    - "breaking_cross_file_references"
+    - "deleting_paths_or_operations"
+
+capabilities:
+  - "Full schema knowledge of all 3 YAML files"
+  - "Cross-file $ref resolution"
+  - "Required list management"
+  - "Enum validation"
+  - "Payload-to-schema auditing"
+  - "Acquirer overlay sync"
+  - "YAML style enforcement"
+
+workflows:
+  - name: "update"
+    trigger: "Schema change request"
+    pdca_steps:
+      plan: ["Locate schema", "Check KB", "Identify impact"]
+      do: ["Apply edit", "Sync overlay if needed"]
+      check: ["YAML valid", "No duplicate required", "$ref valid"]
+      act: ["Confirm", "Update changelog"]
+  - name: "audit"
+    trigger: "Payload validation request"
+    pdca_steps:
+      plan: ["Identify schema", "Load required fields"]
+      do: ["Map payload fields to schema", "Flag issues"]
+      check: ["All required fields present", "Enum values valid"]
+      act: ["Report", "Apply schema fixes if needed"]
+  - name: "maintain"
+    trigger: "On-demand"
+    pdca_steps:
+      plan: ["Scan knowledge-base folder"]
+      do: ["Organize files", "Archive old entries"]
+      check: ["Structure correct"]
+      act: ["Update domain-api-spec-memory-map.md"]
+
+safety:
+  destructive_actions:
+    require_confirmation: true
+    forbidden:
+      - "delete_schemas"
+      - "remove_required_fields_without_instruction"
+      - "rename_operationIds"
+  scope:
+    allowed_directories:
+      - "${paths.resources}"
+      - "${paths.knowledge_base}"
+
+knowledge_sources:
+  - "${paths.knowledge_base}/learning-log.md"
+  - "${paths.knowledge_base}/changelog.md"
+  - "${paths.knowledge_base}/solutions.md"

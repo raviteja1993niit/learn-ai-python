@@ -1,0 +1,9 @@
+TRANSCRIPT CHUNKER LOG
+======================
+Date           : 2026-04-28
+Topic          : building-agentic-ai
+Transcript     : materials\transcripts\transcript.txt
+Chunk size     : 5 sentences
+Total sentences: 579
+Total chunks   : 116
+Output file    : C:\Users\e135408\Downloads\personal-work\interview-preparation\Notes\materials\output\chunks\building-agentic-ai_chunks.json

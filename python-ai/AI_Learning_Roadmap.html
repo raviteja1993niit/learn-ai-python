@@ -1,0 +1,1554 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Complete AI Learning Roadmap – Python to AI Expert</title>
+<style>
+:root{--bg:#0d1117;--card:#161b22;--border:#30363d;--text:#e6edf3;--muted:#8b949e;--tag:#21262d;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;line-height:1.6;}
+.hero{background:linear-gradient(135deg,#0d1117 0%,#161b44 50%,#0d1117 100%);border-bottom:1px solid var(--border);padding:56px 20px 44px;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(88,166,255,.13) 0%,transparent 70%);}
+.hero h1{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;background:linear-gradient(90deg,#58a6ff,#d2a8ff,#ffa657);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;position:relative;}
+.hero p{color:var(--muted);max-width:680px;margin:14px auto 0;font-size:1rem;position:relative;}
+.hero .badges{margin-top:22px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;position:relative;}
+.badge{background:var(--tag);border:1px solid var(--border);border-radius:20px;padding:5px 14px;font-size:.8rem;color:var(--muted);}
+.container{max-width:1280px;margin:0 auto;padding:36px 20px 80px;}
+/* progress */
+.prog{display:flex;align-items:flex-start;gap:0;margin-bottom:44px;overflow-x:auto;padding:14px 0;}
+.pstep{display:flex;flex-direction:column;align-items:center;flex:1;min-width:72px;position:relative;}
+.pstep::after{content:'';position:absolute;top:17px;left:50%;width:100%;height:2px;background:var(--border);z-index:0;}
+.pstep:last-child::after{display:none;}
+.pdot{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;position:relative;z-index:1;border:2px solid;flex-shrink:0;}
+.plbl{font-size:.65rem;color:var(--muted);text-align:center;margin-top:5px;max-width:72px;line-height:1.3;}
+/* phase */
+.phase{background:var(--card);border:1px solid var(--border);border-radius:14px;margin-bottom:28px;overflow:hidden;}
+.phase:hover{box-shadow:0 0 0 1px #58a6ff22;}
+.ph{display:flex;align-items:center;gap:14px;padding:22px 26px;cursor:pointer;user-select:none;border-bottom:1px solid transparent;transition:border-color .2s;}
+.ph.open{border-color:var(--border);}
+.picon{width:50px;height:50px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;}
+.pmeta{flex:1;}
+.pnum{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
+.ptitle{font-size:1.18rem;font-weight:700;margin-top:2px;}
+.pdesc{font-size:.84rem;color:var(--muted);margin-top:3px;}
+.pchev{font-size:1.1rem;color:var(--muted);transition:transform .3s;}
+.pchev.open{transform:rotate(180deg);}
+.pbody{display:none;padding:22px 26px;}
+.pbody.open{display:block;}
+.dur{background:var(--tag);border:1px solid var(--border);border-radius:6px;padding:3px 10px;font-size:.73rem;color:var(--muted);white-space:nowrap;}
+/* grid */
+.tgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px;margin-bottom:22px;}
+.tc{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:15px;}
+.tc h4{font-size:.88rem;font-weight:600;margin-bottom:10px;display:flex;align-items:center;gap:7px;}
+.tc ul{list-style:none;}
+.tc li{font-size:.8rem;color:var(--muted);padding:3px 0;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:6px;}
+.tc li:last-child{border:none;}
+.tc li::before{content:'▸';color:#3fb950;font-size:.68rem;margin-top:3px;flex-shrink:0;}
+/* projects */
+.psec{margin-top:20px;}
+.psec-title{font-size:.77rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;}
+.pcard{background:var(--bg);border:1px solid var(--border);border-radius:9px;padding:13px;}
+.pcard-name{font-size:.83rem;font-weight:600;color:#58a6ff;margin-bottom:8px;display:flex;align-items:center;gap:6px;word-break:break-word;}
+.pcard-files{display:flex;flex-direction:column;gap:3px;}
+.pfile{font-size:.75rem;color:var(--muted);display:flex;align-items:center;gap:5px;}
+.pfile::before{content:'📄';font-size:.65rem;}
+.pfile.py::before{content:'🐍';}
+.pfile.ipynb::before{content:'📓';}
+.pfile.csv::before{content:'📊';}
+.pfile.md::before{content:'📋';}
+/* tips */
+.tips{background:var(--bg);border-left:3px solid;border-radius:0 8px 8px 0;padding:13px 16px;margin-top:18px;font-size:.83rem;}
+.tips strong{display:block;margin-bottom:6px;}
+.tips ul{padding-left:18px;color:var(--muted);}
+.tips li{margin-bottom:4px;}
+/* scroll */
+#st{position:fixed;bottom:26px;right:26px;background:#58a6ff;color:#000;border:none;border-radius:50%;width:42px;height:42px;font-size:1.1rem;cursor:pointer;display:none;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(88,166,255,.4);z-index:999;}
+#st.show{display:flex;}
+footer{text-align:center;color:var(--muted);font-size:.78rem;padding:28px 20px;border-top:1px solid var(--border);}
+footer span{color:#58a6ff;}
+@media(max-width:600px){.ph,.pbody{padding:16px;}.pgrid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="hero">
+<h1>🤖 Complete AI Learning Roadmap</h1>
+<p>Step-by-step journey from Python basics to Agentic AI — every phase linked to your actual project files, notebooks and scripts.</p>
+<div class="badges">
+<span class="badge">📁 15 Topic Folders</span>
+<span class="badge">🗂️ 160+ Extracted Projects</span>
+<span class="badge">📓 500+ Notebooks &amp; Scripts</span>
+<span class="badge">🐍 Python → ML → DL → GenAI → Agents</span>
+<span class="badge">☁️ Deployment &amp; MLOps</span>
+</div>
+</div>
+
+<div class="container">
+<!-- PROGRESS -->
+<div class="prog">
+<div class="pstep"><div class="pdot" style="background:#1c2d1c;border-color:#3fb950;color:#3fb950">1</div><div class="plbl">Python Basics</div></div>
+<div class="pstep"><div class="pdot" style="background:#1c2535;border-color:#58a6ff;color:#58a6ff">2</div><div class="plbl">Data Science</div></div>
+<div class="pstep"><div class="pdot" style="background:#2a1f1a;border-color:#ffa657;color:#ffa657">3</div><div class="plbl">Databases</div></div>
+<div class="pstep"><div class="pdot" style="background:#1e1c35;border-color:#d2a8ff;color:#d2a8ff">4</div><div class="plbl">Machine Learning</div></div>
+<div class="pstep"><div class="pdot" style="background:#1c2535;border-color:#79c0ff;color:#79c0ff">5</div><div class="plbl">ML Projects</div></div>
+<div class="pstep"><div class="pdot" style="background:#2a1c1c;border-color:#f78166;color:#f78166">6</div><div class="plbl">Deep Learning</div></div>
+<div class="pstep"><div class="pdot" style="background:#1c2d1c;border-color:#56d364;color:#56d364">7</div><div class="plbl">NLP &amp; CV</div></div>
+<div class="pstep"><div class="pdot" style="background:#2a2a1a;border-color:#e3b341;color:#e3b341">8</div><div class="plbl">Generative AI</div></div>
+<div class="pstep"><div class="pdot" style="background:#1c1c2d;border-color:#bc8cff;color:#bc8cff">9</div><div class="plbl">Agentic AI</div></div>
+<div class="pstep"><div class="pdot" style="background:#1e2728;border-color:#39d353;color:#39d353">10</div><div class="plbl">Deploy &amp; Scale</div></div>
+</div>
+
+<!-- ══════════════════════════════════════════
+  PHASE 1 – PYTHON BASICS
+══════════════════════════════════════════ -->
+<div class="phase" id="p1">
+<div class="ph open" onclick="tog('p1')">
+  <div class="picon" style="background:#1c2d1c">🐍</div>
+  <div class="pmeta">
+    <div class="pnum">Phase 1 · Beginner</div>
+    <div class="ptitle" style="color:#3fb950">Python Fundamentals</div>
+    <div class="pdesc">Syntax · OOP · File I/O · Multithreading · Git &amp; GitHub · Problem Solving</div>
+  </div>
+  <span class="dur">4–6 weeks</span>
+  <span class="pchev open" id="p1c">▾</span>
+</div>
+<div class="pbody open" id="p1b">
+  <div class="tgrid">
+    <div class="tc"><h4>🔤 Core Syntax</h4><ul>
+      <li>Variables, data types, operators</li>
+      <li>Conditionals (if/elif/else)</li>
+      <li>Loops: for, while, list/dict comprehensions</li>
+      <li>Functions, *args, **kwargs, lambdas</li>
+      <li>Exception handling (try/except/finally)</li>
+      <li>File I/O — read, write, append</li>
+      <li>Modules &amp; packages (import, pip)</li>
+    </ul></div>
+    <div class="tc"><h4>🏗️ Object-Oriented Python</h4><ul>
+      <li>Classes, objects, __init__, self</li>
+      <li>Constructors &amp; destructors</li>
+      <li>Inheritance &amp; polymorphism</li>
+      <li>Dunder/magic methods</li>
+      <li>Dataclasses (@dataclass)</li>
+      <li>Abstract classes (ABC)</li>
+    </ul></div>
+    <div class="tc"><h4>⚡ Advanced Python</h4><ul>
+      <li>Iterators &amp; generators (yield)</li>
+      <li>Decorators &amp; closures</li>
+      <li>Context managers (with statement)</li>
+      <li>Multi-threading vs multi-processing</li>
+      <li>CPU core parallelism for model training</li>
+      <li>Regular expressions (re module)</li>
+      <li>PDF automation (PyPDF2)</li>
+    </ul></div>
+    <div class="tc"><h4>🔧 Git &amp; Dev Tools</h4><ul>
+      <li>Git init, add, commit, push, pull</li>
+      <li>Branching, merging, conflict resolution</li>
+      <li>GitHub — repos, issues, PRs</li>
+      <li>VS Code &amp; Jupyter Notebook setup</li>
+      <li>Virtual environments (venv, conda)</li>
+      <li>Competitive problem-solving (time complexity)</li>
+    </ul></div>
+  </div>
+  <div class="psec">
+    <div class="psec-title">📁 python-basics/ — Your Projects &amp; Key Files</div>
+    <div class="pgrid">
+      <div class="pcard"><div class="pcard-name">📦 Complete-Python-Bootcamp-main <span style="color:var(--muted);font-size:.72rem">(74 files)</span></div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">1.0-basic.ipynb</div>
+          <div class="pfile ipynb">1.1-Variables.ipynb</div>
+          <div class="pfile ipynb">1.2-Datatypes.ipynb</div>
+          <div class="pfile ipynb">1.3-operators.ipynb</div>
+          <div class="pfile md">README.md</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🇮🇳 Tutorials-Python-In-Hindi-main <span style="color:var(--muted);font-size:.72rem">(24 files)</span></div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">6-Python List,Dictionary,Sets etc.ipynb</div>
+          <div class="pfile ipynb">Tutorial 11- Pandas Working With Json.ipynb</div>
+          <div class="pfile py">constructors.py</div>
+          <div class="pfile ipynb">dataclass.ipynb</div>
+          <div class="pfile py">functions.py · inheritance.py</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🏆 Competitive-Programming-master</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">Problem 1- Generating Binary strings.ipynb</div>
+          <div class="pfile ipynb">Problem 2-Time Complexity.ipynb</div>
+          <div class="pfile ipynb">Problem 8- Anagram Problem.ipynb</div>
+          <div class="pfile py">Problem1.py</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">⚙️ CPU-Multi-Cores-main</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">Model Training Using Cores.ipynb</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🔒 Pdf-Encryption-main</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">Pdf Password Protection Using Python.ipynb</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🐙 github + practisegit-main</div>
+        <div class="pcard-files">
+          <div class="pfile md">copilot-instructions.md</div>
+          <div class="pfile md">git.agent.md · mcp-connection.agent.md</div>
+          <div class="pfile py">app.py · main.py</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="tips" style="border-color:#3fb950">
+    <strong>✅ Study Order &amp; Tips</strong>
+    <ul>
+      <li>Start: <b>Complete-Python-Bootcamp</b> notebooks (1.0 → advanced) — structured week by week</li>
+      <li>Hindi learners: follow <b>Tutorials-Python-In-Hindi</b> in parallel</li>
+      <li>Practice daily with <b>Competitive-Programming</b> problems — builds algorithmic thinking</li>
+      <li>Use <b>CPU-Multi-Cores</b> once comfortable with functions — critical for ML training speed</li>
+      <li>Setup Git early using <b>practisegit</b> — push every project from Day 1</li>
+      <li>Goal: Write a clean OOP Python script confidently before Phase 2</li>
+    </ul>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════
+  PHASE 2 – DATA SCIENCE
+══════════════════════════════════════════ -->
+<div class="phase" id="p2">
+<div class="ph" onclick="tog('p2')">
+  <div class="picon" style="background:#1c2535">📊</div>
+  <div class="pmeta">
+    <div class="pnum">Phase 2 · Beginner → Intermediate</div>
+    <div class="ptitle" style="color:#58a6ff">Data Science &amp; EDA</div>
+    <div class="pdesc">NumPy · Pandas · Matplotlib · Seaborn · Folium · Profiling · Web Scraping · ETL · PowerBI</div>
+  </div>
+  <span class="dur">4–6 weeks</span>
+  <span class="pchev" id="p2c">▾</span>
+</div>
+<div class="pbody" id="p2b">
+  <div class="tgrid">
+    <div class="tc"><h4>🔢 NumPy &amp; Pandas</h4><ul>
+      <li>Arrays, indexing, broadcasting, vectorization</li>
+      <li>DataFrame: create, read CSV/JSON, merge, join</li>
+      <li>groupby, pivot_table, resample</li>
+      <li>Missing values: fillna, dropna, interpolate</li>
+      <li>apply(), map(), lambda transformations</li>
+    </ul></div>
+    <div class="tc"><h4>📈 Visualization</h4><ul>
+      <li>Matplotlib: line, bar, scatter, subplots</li>
+      <li>Seaborn: heatmap, pairplot, boxplot, violin</li>
+      <li>Plotly Express — interactive charts</li>
+      <li>Folium — interactive geospatial maps</li>
+      <li>PowerBI — business dashboards</li>
+    </ul></div>
+    <div class="tc"><h4>🔬 EDA &amp; Profiling Tools</h4><ul>
+      <li>Pandas Profiling — one-click HTML reports</li>
+      <li>Autoviz — auto visualization library</li>
+      <li>D-Tale — interactive web-based explorer</li>
+      <li>Tensordash — deep learning experiment tracking</li>
+      <li>Interview-ready EDA practice (Day 1–5 notebooks)</li>
+    </ul></div>
+    <div class="tc"><h4>🕷️ Scraping, ETL &amp; Graph Data</h4><ul>
+      <li>Requests + BeautifulSoup basics</li>
+      <li>AutoScrapper — automated scraping (Amazon)</li>
+      <li>Web-Scrapping Wikipedia (webscrapper.py)</li>
+      <li>ETL pipeline with Apache Airflow (DAGs)</li>
+      <li>Graph datasets: movies, users, ratings, posts</li>
+    </ul></div>
+  </div>
+  <div class="psec">
+    <div class="psec-title">📁 data-science/ — Your Projects &amp; Key Files</div>
+    <div class="pgrid">
+      <div class="pcard"><div class="pcard-name">📚 Complete-Data-Science-With-ML-And-NLP-2024 <span style="color:var(--muted);font-size:.72rem">(67 key files)</span></div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">Decision Tree Classifier Practical Implementation.ipynb</div>
+          <div class="pfile ipynb">Diabetes Prediction Using Decision Tree Regressor.ipynb</div>
+          <div class="pfile ipynb">Random Forest Classification Implementation.ipynb</div>
+          <div class="pfile csv">Travel.csv</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">📋 Pandas-Profiling-EDA-master</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">Untitled.ipynb — one-line EDA report</div>
+          <div class="pfile csv">train.csv</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🤖 Autoviz-main</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">Autoviz.ipynb — auto visualization demo</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🔬 Dtale-master</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">DTale.ipynb — interactive data explorer</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🌦️ ETLWeather-main</div>
+        <div class="pcard-files">
+          <div class="pfile py">etlweather.py — extract weather API data</div>
+          <div class="pfile py">exampledag.py — Apache Airflow DAG</div>
+          <div class="pfile py">test_dag_example.py</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🕷️ Autoscrapper-main</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">Automating Web Scraping.ipynb</div>
+          <div class="pfile ipynb">Automating Webscraping Amazon ecommerce.ipynb</div>
+          <div class="pfile py">amazon_search.py · flask_search.py</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🌐 Web-Scrapping-Wikipedia-master</div>
+        <div class="pcard-files">
+          <div class="pfile py">webscrapper.py</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">📈 graph-dataset-main</div>
+        <div class="pcard-files">
+          <div class="pfile csv">movies.csv · ratings.csv · users_social.csv</div>
+          <div class="pfile csv">posts.csv · relationships.csv</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">📱 playstore-Dataset-main</div>
+        <div class="pcard-files">
+          <div class="pfile csv">googleplaystore.csv — practice full EDA</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">📡 Tensorddash-main</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">GIMANN-Copy1.ipynb</div>
+          <div class="pfile csv">Churn_Modelling.csv</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🗺️ folium-master <span style="color:var(--muted);font-size:.72rem">(123 files)</span></div>
+        <div class="pcard-files">
+          <div class="pfile py">setup.py — interactive map visualizations</div>
+          <div class="pfile md">CHANGES.txt · requirements.txt</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🎯 Interview-Prepartion-Data-Science-master</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">Day 1 — Python basics review.ipynb</div>
+          <div class="pfile ipynb">Day 2 — Linear Regression.ipynb</div>
+          <div class="pfile ipynb">Day 3 — SVM.ipynb</div>
+          <div class="pfile ipynb">Day 4 — Decision Trees.ipynb</div>
+          <div class="pfile ipynb">Day 5 — Logistic Regression.ipynb</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">📊 PowerBI-master + The-Grand-Complete-Data-Science-Materials <span style="color:var(--muted);font-size:.72rem">(4910 files)</span></div>
+        <div class="pcard-files">
+          <div class="pfile md">Complete Deep Learning / NLP / MySQL / Stats</div>
+          <div class="pfile md">Machine Learning · ML Projects · Python</div>
+          <div class="pfile ipynb">Loss function.ipynb · Optimizers.ipynb</div>
+          <div class="pfile ipynb">Activation Functions.ipynb</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="tips" style="border-color:#58a6ff">
+    <strong>✅ Study Order &amp; Tips</strong>
+    <ul>
+      <li>Start: <b>Machine-Learning-in-90-days</b> Numpy (3-) → Pandas (4-) → Matplotlib (4.5-) → Seaborn (5-)</li>
+      <li>Run <b>Pandas-Profiling</b> &amp; <b>Autoviz</b> on <b>playstore-Dataset</b> for instant EDA experience</li>
+      <li>Use <b>Dtale</b> for interactive data exploration — no code needed</li>
+      <li>Build the <b>ETLWeather</b> pipeline to understand Airflow DAGs — real industry skill</li>
+      <li>Practice scraping with <b>Autoscrapper</b> Amazon notebooks</li>
+      <li>Use <b>The-Grand-Complete-Data-Science-Materials</b> as your reference encyclopedia</li>
+      <li>Review <b>Interview-Prep Day 1–5</b> notebooks before any job application</li>
+    </ul>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════
+  PHASE 3 – DATABASES
+══════════════════════════════════════════ -->
+<div class="phase" id="p3">
+<div class="ph" onclick="tog('p3')">
+  <div class="picon" style="background:#2a1f1a">🗄️</div>
+  <div class="pmeta">
+    <div class="pnum">Phase 3 · Intermediate</div>
+    <div class="ptitle" style="color:#ffa657">Databases with Python</div>
+    <div class="pdesc">MySQL — full SQL mastery · MongoDB — NoSQL for AI data · PyMongo · SQLAlchemy</div>
+  </div>
+  <span class="dur">2–3 weeks</span>
+  <span class="pchev" id="p3c">▾</span>
+</div>
+<div class="pbody" id="p3b">
+  <div class="tgrid">
+    <div class="tc"><h4>🐬 MySQL</h4><ul>
+      <li>CREATE, INSERT, UPDATE, DELETE, SELECT</li>
+      <li>JOINs (inner, left, right, full)</li>
+      <li>Subqueries, views, indexes</li>
+      <li>Stored procedures &amp; triggers</li>
+      <li>mysql-connector-python, SQLAlchemy ORM</li>
+      <li>Advanced interview queries</li>
+    </ul></div>
+    <div class="tc"><h4>🍃 MongoDB</h4><ul>
+      <li>Documents, collections, BSON format</li>
+      <li>CRUD with PyMongo</li>
+      <li>Aggregation pipeline ($group, $avg, $sum)</li>
+      <li>Querying &amp; updating documents</li>
+      <li>When NoSQL &gt; SQL (AI output storage)</li>
+    </ul></div>
+  </div>
+  <div class="psec">
+    <div class="psec-title">📁 databases/ — Your Projects &amp; Key Files</div>
+    <div class="pgrid">
+      <div class="pcard"><div class="pcard-name">🐬 MySQL-With-Python-master</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">Tutorial 2.ipynb</div>
+          <div class="pfile ipynb">Tutorial 3- Creating Tables And Inserting Records.ipynb</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">📚 Mysql-Complete-Playlist-main</div>
+        <div class="pcard-files">
+          <div class="pfile md">README.md — full SQL playlist reference</div>
+          <div class="pfile md">Complete MySQL Interview Materials (Grand folder)</div>
+          <div class="pfile md">Amazing MySQL Interview Preparation.md</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🍃 MongoDb-with-Python-master</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">Mongodb Aggregate And Group ($avg,$sum).ipynb</div>
+          <div class="pfile ipynb">QueryMongo.ipynb</div>
+          <div class="pfile ipynb">updateMongo.ipynb</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="tips" style="border-color:#ffa657">
+    <strong>✅ Study Order &amp; Tips</strong>
+    <ul>
+      <li>Follow <b>MySQL-With-Python</b> Tutorials 2 &amp; 3 to connect Python ↔ MySQL</li>
+      <li>Study <b>Mysql-Complete-Playlist</b> + Grand folder's <b>Advanced MySQL Interview</b> notes</li>
+      <li>Practice MongoDB: <b>QueryMongo</b> → <b>updateMongo</b> → <b>Aggregation</b></li>
+      <li>Build a small ML result storage pipeline using both databases</li>
+    </ul>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════
+  PHASE 4 – MACHINE LEARNING
+══════════════════════════════════════════ -->
+<div class="phase" id="p4">
+<div class="ph" onclick="tog('p4')">
+  <div class="picon" style="background:#1e1c35">🤖</div>
+  <div class="pmeta">
+    <div class="pnum">Phase 4 · Intermediate</div>
+    <div class="ptitle" style="color:#d2a8ff">Machine Learning</div>
+    <div class="pdesc">Regression · Classification · Clustering · Feature Eng · Pipelines · AutoML · Model Explainability</div>
+  </div>
+  <span class="dur">8–10 weeks</span>
+  <span class="pchev" id="p4c">▾</span>
+</div>
+<div class="pbody" id="p4b">
+  <div class="tgrid">
+    <div class="tc"><h4>📐 Regression Algorithms</h4><ul>
+      <li>Simple Linear Regression (Salary_Data.csv)</li>
+      <li>Multiple Linear Regression + visualization</li>
+      <li>Lasso, Ridge, ElasticNet regularization</li>
+      <li>Polynomial regression</li>
+      <li>Evaluation: MSE, RMSE, R²</li>
+    </ul></div>
+    <div class="tc"><h4>🔲 Classification Algorithms</h4><ul>
+      <li>Logistic Regression — practical implementation</li>
+      <li>Decision Trees (pre/post pruning, regression)</li>
+      <li>Random Forest — bagging ensemble</li>
+      <li>K-Nearest Neighbours (KNN)</li>
+      <li>SVM — all kernels (RBF, Poly, Linear, Sigmoid)</li>
+      <li>Custom ensemble stacking</li>
+    </ul></div>
+    <div class="tc"><h4>⚙️ Feature Engineering</h4><ul>
+      <li>Mean/Median imputation (Day 1)</li>
+      <li>Missing values handling (Day 2 &amp; 3)</li>
+      <li>Categorical encoding (Day 3 &amp; 4)</li>
+      <li>Normalization &amp; standardization (Day 5)</li>
+      <li>All types of feature transformation</li>
+      <li>Outlier detection &amp; treatment</li>
+      <li>Feature selection: constant, correlation, chi-square, mutual info</li>
+    </ul></div>
+    <div class="tc"><h4>🔬 Evaluation, AutoML &amp; Explainability</h4><ul>
+      <li>All types of cross-validation (k-fold, stratified, LOO)</li>
+      <li>Hyperparameter tuning in pipelines</li>
+      <li>Sklearn Pipelines — end-to-end workflow</li>
+      <li>Incremental/online learning (Creme library)</li>
+      <li>Model retraining approaches</li>
+      <li>EVALML — AutoML for ML &amp; NLP</li>
+      <li>LIME — local model interpretation</li>
+      <li>Shapash — explainability dashboard</li>
+    </ul></div>
+  </div>
+  <div class="psec">
+    <div class="psec-title">📁 machine-learning/ — Your Projects &amp; Key Files</div>
+    <div class="pgrid">
+      <div class="pcard"><div class="pcard-name">🗓️ Machine-Learning-in-90-days-master <span style="color:var(--muted);font-size:.72rem">(28 files)</span></div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">2-Python List,Dictionary,Sets etc.ipynb</div>
+          <div class="pfile ipynb">3-Numpy Tutorial.ipynb</div>
+          <div class="pfile ipynb">4-Pandas tutorial.ipynb</div>
+          <div class="pfile ipynb">4.5-Matplotlib.ipynb · 5-Seaborn.ipynb</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">📚 Machine-Learning-Algorithms-Materials-main</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">Decision Tree Practical Implementation.ipynb</div>
+          <div class="pfile ipynb">Decision Tree Preprunning Practical Implementation.ipynb</div>
+          <div class="pfile ipynb">Decision Tree Regression And Cross Validation.ipynb</div>
+          <div class="pfile ipynb">Logistic Regression Practical Implementation.ipynb</div>
+          <div class="pfile ipynb">Linear Regression Practical Implementation-Hindi.ipynb</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">📏 simple-Linear-Regression-master</div>
+        <div class="pcard-files">
+          <div class="pfile py">simple_linear_regression.py</div>
+          <div class="pfile csv">Salary_Data.csv</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">📈 RegressionandLasso-master</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">Lassoand Regression.ipynb</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">📊 Visualize-Multiple-Linear-Regression-master</div>
+        <div class="pcard-files">
+          <div class="pfile py">multiplelinear.py</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">👥 K-Nearest-Neighour-master</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">K Nearest Neighbors with Python.ipynb</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🔲 SVM-Kernels-main</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">SVM Kernelss Implementation.ipynb</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🏗️ Feature-Engineering-Live-sessions-master <span style="color:var(--muted);font-size:.72rem">(14 notebooks)</span></div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">MeanMedianDay 1.ipynb</div>
+          <div class="pfile ipynb">Missing Values Day 2.ipynb · Day 3.ipynb</div>
+          <div class="pfile ipynb">Handling Categorical Feature Day 3 &amp; 4.ipynb</div>
+          <div class="pfile ipynb">Normalization And Standardization Day 5.ipynb</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🎛️ Complete-Feature-Selection-master <span style="color:var(--muted);font-size:.72rem">(6 notebooks)</span></div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">1. Dropping Constant Features.ipynb</div>
+          <div class="pfile ipynb">2. Correlation.ipynb</div>
+          <div class="pfile ipynb">3. Information gain (Classification).ipynb</div>
+          <div class="pfile ipynb">4. Information gain (Regression).ipynb</div>
+          <div class="pfile ipynb">5. Chi Square For Feature Selection.ipynb</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🔀 Types-Of-Trnasformation-main &amp; Types-Of-Cross-Validation-main</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">All types Of Feature Transformation.ipynb</div>
+          <div class="pfile ipynb">All Types Of Cross Validation.ipynb</div>
+          <div class="pfile csv">cancer_dataset.csv</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🔍 Finding-an-Outlier-master</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">Finding an outlier in a Dataset.ipynb</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🔗 Pipeline-MAchine-Learning-main</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">Pipelines In Machine Learning.ipynb</div>
+          <div class="pfile ipynb">Hyperparameter Tuning In Pipelining.ipynb</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🎭 Cutom-Ensemble-ML-main</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">Custom Ensemble Machine Learning Algorithms.ipynb</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🤖 EVALML-main</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">EVALML With Machine Learning.ipynb</div>
+          <div class="pfile ipynb">EVALML Automating NLP.ipynb</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">💡 Lime-Model-Interpretation-main</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">Untitled.ipynb — LIME explanation demo</div>
+          <div class="pfile csv">Churn_Modelling.csv</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">✨ Shapash--main</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">Shapash Model Overview.ipynb</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🔄 Machine-Learning-Retraining-Approaches-main</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">Creme For Beginners.ipynb — online learning</div>
+          <div class="pfile ipynb">Incremental Learning With NLP.ipynb</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">📁 Complete-Machine-Learning-2023-main &amp; mlproject-main</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">Model Training.ipynb</div>
+          <div class="pfile ipynb">Multiple Linear Regression- Economics Dataset.ipynb</div>
+          <div class="pfile py">app.py · setup.py</div>
+          <div class="pfile csv">data.csv · test.csv</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="tips" style="border-color:#d2a8ff">
+    <strong>✅ Study Order &amp; Tips</strong>
+    <ul>
+      <li>Start: <b>Machine-Learning-in-90-days</b> — structured from Numpy → full ML</li>
+      <li>Algorithm order: Linear Regression → Logistic → Decision Tree → KNN → SVM → Random Forest → Ensemble</li>
+      <li>After each algorithm, do Feature Engineering notebooks (Day 1→5)</li>
+      <li>Use <b>Complete-Feature-Selection</b> (all 5 notebooks) to master selection techniques</li>
+      <li>Always build pipelines with <b>Pipeline-MachineLearning</b> notebooks</li>
+      <li>Explain every model with <b>LIME</b> &amp; <b>Shapash</b> — interview differentiator</li>
+      <li>Use <b>EVALML</b> for AutoML experiments and benchmarking</li>
+    </ul>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════
+  PHASE 5 – ML PROJECTS
+══════════════════════════════════════════ -->
+<div class="phase" id="p5">
+<div class="ph" onclick="tog('p5')">
+  <div class="picon" style="background:#1c2535">🏗️</div>
+  <div class="pmeta">
+    <div class="pnum">Phase 5 · Intermediate</div>
+    <div class="ptitle" style="color:#79c0ff">End-to-End ML Projects</div>
+    <div class="pdesc">Regression · Classification · Fraud Detection · Recommenders · Time Series · COVID Analysis</div>
+  </div>
+  <span class="dur">4–6 weeks</span>
+  <span class="pchev" id="p5c">▾</span>
+</div>
+<div class="pbody" id="p5b">
+  <div class="tgrid">
+    <div class="tc"><h4>💰 Price Prediction (Regression)</h4><ul>
+      <li>House: EDA → Feature Eng → Selection → Model</li>
+      <li>Car Price: Flask web app deployment</li>
+      <li>Diamond: full pipeline (raw→train→test split)</li>
+      <li>Flight Price: member collaboration project</li>
+    </ul></div>
+    <div class="tc"><h4>🛡️ Fraud &amp; Classification</h4><ul>
+      <li>Credit Card: anomaly detection approach</li>
+      <li>Insurance Fraud: end-to-end ML pipeline</li>
+      <li>COVID Tracker: real-time data analysis</li>
+    </ul></div>
+    <div class="tc"><h4>🎬 Recommenders &amp; Forecasting</h4><ul>
+      <li>Movie Recommender: collaborative filtering</li>
+      <li>Time Series: univariate forecasting</li>
+      <li>Julia + ML: cross-language ML intro</li>
+    </ul></div>
+  </div>
+  <div class="psec">
+    <div class="psec-title">📁 ml-projects/ — Your Projects &amp; Key Files</div>
+    <div class="pgrid">
+      <div class="pcard"><div class="pcard-name">🏠 Advanced-House-Price-Prediction--master</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">Exploratory Data Analysis Part 1.ipynb</div>
+          <div class="pfile ipynb">Feature Engineering.ipynb</div>
+          <div class="pfile ipynb">Feature Selection.ipynb</div>
+          <div class="pfile csv">train.csv · test.csv</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🚗 Car-Price-Prediction-master &amp; Car-PricePrediction-main</div>
+        <div class="pcard-files">
+          <div class="pfile py">app.py · main.py (Flask web app)</div>
+          <div class="pfile ipynb">Untitled.ipynb · Car_Price.ipynb</div>
+          <div class="pfile csv">car data.csv</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">💎 DiamondPricePrediction1-main</div>
+        <div class="pcard-files">
+          <div class="pfile py">setup.py</div>
+          <div class="pfile csv">raw.csv · train.csv · test.csv</div>
+          <div class="pfile md">requirements.txt</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">✈️ Flight-Price-Prediction-master</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">FlightPredMembers.ipynb</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">💳 Credit-Card-Fraudlent-master</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">Anamoly Detection.ipynb</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🎬 Movie-Recommender-in-python-master</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">Recommender Systems with Python.ipynb</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">📈 Time-Series-Forecasting-master</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">UnivariateTimeSeries.ipynb</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🦠 Live-Covid-Tracker &amp; Corona-Analysis</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">Untitled1.ipynb — real-time COVID analysis</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🔬 Julia-Programming-With-MAchine-Learning-main</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">Basic Operation Of Julia.ipynb</div>
+          <div class="pfile ipynb">String in Julia Along With Inbuilt Functions.ipynb</div>
+          <div class="pfile ipynb">Basics of Python.ipynb</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="tips" style="border-color:#79c0ff">
+    <strong>✅ Study Order &amp; Tips</strong>
+    <ul>
+      <li>Build each project end-to-end: EDA → Feature Eng → Model → Evaluate → Save → Deploy</li>
+      <li>Start with <b>House Price</b> (has all 3 structured notebooks) — best learning flow</li>
+      <li>Deploy <b>Car Price</b> as a Flask app — links Phase 5 to Phase 10</li>
+      <li><b>Time Series</b> is a separate paradigm — essential for finance &amp; IoT roles</li>
+      <li><b>Movie Recommender</b> teaches collaborative filtering — core recommendation skill</li>
+      <li>Push every project to GitHub with a proper README</li>
+    </ul>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════
+  PHASE 6 – DEEP LEARNING
+══════════════════════════════════════════ -->
+<div class="phase" id="p6">
+<div class="ph" onclick="tog('p6')">
+  <div class="picon" style="background:#2a1c1c">🧠</div>
+  <div class="pmeta">
+    <div class="pnum">Phase 6 · Advanced</div>
+    <div class="ptitle" style="color:#f78166">Deep Learning</div>
+    <div class="pdesc">ANN · PyTorch · Keras-Tuner · Transfer Learning · RL · BERT · HuggingFace · LLM Finetuning</div>
+  </div>
+  <span class="dur">8–12 weeks</span>
+  <span class="pchev" id="p6c">▾</span>
+</div>
+<div class="pbody" id="p6b">
+  <div class="tgrid">
+    <div class="tc"><h4>🔌 ANN Fundamentals</h4><ul>
+      <li>Perceptron, activation functions (ReLU, Sigmoid, Tanh)</li>
+      <li>Backpropagation &amp; gradient descent</li>
+      <li>How to select hidden layers &amp; neurons</li>
+      <li>Hyperparameter tuning (Keras Tuner)</li>
+      <li>Imbalanced data in neural networks</li>
+      <li>Cost-sensitive neural networks</li>
+    </ul></div>
+    <div class="tc"><h4>🔥 PyTorch Deep Dive</h4><ul>
+      <li>Tutorial 2: Understanding Tensors</li>
+      <li>Tutorial 3: Backpropagation using autograd</li>
+      <li>Tutorial 4: ANN on Pima Diabetes dataset</li>
+      <li>Custom datasets &amp; DataLoaders</li>
+      <li>nn.Module — building custom architectures</li>
+    </ul></div>
+    <div class="tc"><h4>🔄 Transfer Learning</h4><ul>
+      <li>AlexNet, VGG16 — feature extraction</li>
+      <li>ResNet50, InceptionV3 — fine-tuning</li>
+      <li>Face recognition via transfer learning</li>
+      <li>Pre-trained model weights &amp; layer freezing</li>
+    </ul></div>
+    <div class="tc"><h4>🤗 Transformers &amp; LLM Finetuning</h4><ul>
+      <li>BERT — Question Answering application</li>
+      <li>HuggingFace: Custom Sentiment Analysis</li>
+      <li>Fine-tune Llama 2 (Fine_tune_Llama_2.ipynb)</li>
+      <li>Fine-tuning with Mistral + QLoRA + PEFT</li>
+      <li>LoRA tuning (lora_tuning.ipynb)</li>
+      <li>Reinforcement Learning basics (Q-learning)</li>
+    </ul></div>
+  </div>
+  <div class="psec">
+    <div class="psec-title">📁 deep-learning/ — Your Projects &amp; Key Files</div>
+    <div class="pgrid">
+      <div class="pcard"><div class="pcard-name">📚 Complete-Deep-Learning-master</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">Image Classification Using SVM.ipynb</div>
+          <div class="pfile py">ann.py</div>
+          <div class="pfile csv">Churn_Modelling.csv</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🧠 Hidden-Layers-Neurons-master</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">How to Select how many hidden layer and neurons.ipynb</div>
+          <div class="pfile py">Hyperparameter.py</div>
+          <div class="pfile csv">Churn_Modelling.csv</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🧬 Ineuron-ANN-main</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">GIMANN.ipynb — full ANN project</div>
+          <div class="pfile ipynb">kerastuner.ipynb</div>
+          <div class="pfile csv">Churn_Modelling.csv</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">⚖️ ImbalancedNeural-Network-main</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">Cost-Sensitive Neural Network.ipynb</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🔥 Pytorch-Tutorial-master</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">Tutorial 2- Understanding Tensors In Pytorch.ipynb</div>
+          <div class="pfile ipynb">Tutorial 3- Back Propogation.ipynb</div>
+          <div class="pfile ipynb">Tutorial 4- Creating ANN with Pytorch On Pima Diabetes.ipynb</div>
+          <div class="pfile csv">diabetes.csv · houseprice.csv</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🎛️ Keras-Tuner-main</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">Hidden Layers And Hidden Neurons.ipynb</div>
+          <div class="pfile csv">Real_Combine.csv</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🔄 Transfer-Learning-master</div>
+        <div class="pcard-files">
+          <div class="pfile py">face_Recognition.py</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🤗 Trnasformer-Bert-main</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">Question_Answer_Application.ipynb</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🤗 Huggingfacetransformer-main</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">Custom_Sentiment_Analysis.ipynb</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🔧 Finetuning-LLM-main</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">Fine_tune_Llama_2.ipynb</div>
+          <div class="pfile ipynb">Fine_Tuning_LLm_Models.ipynb</div>
+          <div class="pfile ipynb">Fine_Tuning_with_Mistral_QLora_PEFt.ipynb</div>
+          <div class="pfile ipynb">lora_tuning.ipynb</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">♟️ Reinforcement-Learning-main</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">Tutorial 2- Simple Reinforcement Learning Code.ipynb</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="tips" style="border-color:#f78166">
+    <strong>✅ Study Order &amp; Tips</strong>
+    <ul>
+      <li>Read the 3 PDF books in deep-learning/ first (Why DL, DL2-6, transformers.pdf)</li>
+      <li>ANN order: <b>Complete-Deep-Learning</b> → <b>Hidden-Layers-Neurons</b> → <b>Ineuron-ANN</b> → <b>Keras-Tuner</b></li>
+      <li>PyTorch: follow Tutorial 2 → 3 → 4 sequentially</li>
+      <li>Transfer Learning: AlexNet/VGG16 first → then ResNet/InceptionV3</li>
+      <li>Transformers: <b>BERT QA app</b> → <b>HuggingFace Sentiment</b> → <b>Finetuning Llama2/Mistral</b></li>
+      <li><b>LoRA &amp; QLoRA + PEFT</b> finetuning is the industry standard for custom LLMs</li>
+    </ul>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════
+  PHASE 7 – NLP & COMPUTER VISION
+══════════════════════════════════════════ -->
+<div class="phase" id="p7">
+<div class="ph" onclick="tog('p7')">
+  <div class="picon" style="background:#1c2d1c">👁️</div>
+  <div class="pmeta">
+    <div class="pnum">Phase 7 · Advanced</div>
+    <div class="ptitle" style="color:#56d364">NLP &amp; Computer Vision</div>
+    <div class="pdesc">Tokenization · Word2Vec · Spam · Sentiment · CNN · YOLO · Face Recognition · MediaPipe · AR</div>
+  </div>
+  <span class="dur">6–8 weeks</span>
+  <span class="pchev" id="p7c">▾</span>
+</div>
+<div class="pbody" id="p7b">
+  <div class="tgrid">
+    <div class="tc"><h4>📝 NLP Foundations</h4><ul>
+      <li>Tokenization (Toeknization.py)</li>
+      <li>Stemming (Stemming.py) &amp; Lemmatization</li>
+      <li>Bag of Words (BagofWords.py)</li>
+      <li>TF-IDF (TFIDF.py)</li>
+      <li>AvgWord2Vec implementation</li>
+      <li>TextHero — fast NLP preprocessing library</li>
+    </ul></div>
+    <div class="tc"><h4>📄 NLP Projects</h4><ul>
+      <li>Spam Classifier (Spamclassifier.py)</li>
+      <li>Stock Sentiment Analysis</li>
+      <li>Text Summarization (full web app)</li>
+      <li>NLP in Hindi (Stemming vs Lemmatization)</li>
+      <li>NLP Model Deployment (Heroku)</li>
+    </ul></div>
+    <div class="tc"><h4>🖼️ Computer Vision</h4><ul>
+      <li>Reading/writing/displaying images (Lecture 1)</li>
+      <li>Face &amp; eye detection (Lecture 2)</li>
+      <li>Face detection from video (Lecture 3)</li>
+      <li>Car &amp; pedestrian detection (Lecture 4)</li>
+      <li>Image classification (cats vs dogs)</li>
+      <li>Advanced CNN: AlexNet, VGG16, InceptionV3, ResNet50</li>
+    </ul></div>
+    <div class="tc"><h4>🎯 Advanced CV</h4><ul>
+      <li>TFOD — TensorFlow Object Detection from camera</li>
+      <li>Custom Object Detection training</li>
+      <li>Image Segmentation with Pixellib</li>
+      <li>Face Recognition (face_Recognition.py)</li>
+      <li>Attendance system with face recognition</li>
+      <li>MediaPipe — hand/body/face landmarks</li>
+      <li>Augmented Reality overlays</li>
+      <li>Audio Classification (EDA + model)</li>
+    </ul></div>
+  </div>
+  <div class="psec">
+    <div class="psec-title">📁 nlp/ &amp; computer-vision/ — Your Projects &amp; Key Files</div>
+    <div class="pgrid">
+      <div class="pcard"><div class="pcard-name">📝 Natural-Language-Processing-master</div>
+        <div class="pcard-files">
+          <div class="pfile py">Toeknization.py</div>
+          <div class="pfile py">Stemming.py · Lemmatization.py</div>
+          <div class="pfile py">BagofWords.py · TFIDF.py</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🇮🇳 NLP-In-Hindi-main</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">Stemming Vs Lemmatization.ipynb</div>
+          <div class="pfile ipynb">Tokenization.ipynb</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🔤 Avgword2vec-Implementation-main</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">AvgWord2vec.ipynb</div>
+          <div class="pfile ipynb">28 And 29 - Spam Ham Projects Using Word2vec</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🦸 texthero-main</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">TextHero NLP.ipynb</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">📧 SpamClassifier-master</div>
+        <div class="pcard-files">
+          <div class="pfile py">Spamclassifier.py</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">📈 Stock-Sentiment-Analysis-master</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">Stock Sentiment Analysis.ipynb</div>
+          <div class="pfile csv">Data.csv</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">📄 Text-Summarization-NLP-Project-main <span style="color:var(--muted);font-size:.72rem">(28 files)</span></div>
+        <div class="pcard-files">
+          <div class="pfile py">app.py · main.py · template.py</div>
+          <div class="pfile py">setup.py</div>
+          <div class="pfile md">requirements.txt</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🚀 NLP-Deployment-Heroku-master &amp; NLP-Model-Deployment-master</div>
+        <div class="pcard-files">
+          <div class="pfile py">app.py (Flask NLP API)</div>
+          <div class="pfile csv">spam.csv</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">👁️ Computer-Vision-Tutorial-master</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">Lecture 1- Reading, writing and displaying images.ipynb</div>
+          <div class="pfile ipynb">Lecture 2- Face &amp; Eye Detection.ipynb</div>
+          <div class="pfile ipynb">Lecture 3- Face and Eye Detection From Videos.ipynb</div>
+          <div class="pfile ipynb">Lecture 4- Car &amp; Pedestrian Detection.ipynb</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🧠 Advanced-CNN-Architectures-master</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">Transfer Learning Alexnet.ipynb</div>
+          <div class="pfile ipynb">Transfer Learning VGG16.ipynb</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🐱 cats-dogs-main + cottoninception-main</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">Image Classification.ipynb</div>
+          <div class="pfile ipynb">Transfer Learning Inception V3.ipynb</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🍅 Tomato-Leaf + SStain-classification + Resnet</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">Transfer Learning Inception V3.ipynb</div>
+          <div class="pfile ipynb">Transfer Learning Resnet 50.ipynb</div>
+          <div class="pfile py">app.py (Flask deployment)</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🎯 TFOD-main + Custom-object-Detection-main</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">object_detection_camera.ipynb</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">✂️ Image-Segmentation-Using-Pixellib-main</div>
+        <div class="pcard-files">
+          <div class="pfile py">app.py</div>
+          <div class="pfile md">requirements.txt</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">👤 Face-Recognition-Attendance-Projects-main</div>
+        <div class="pcard-files">
+          <div class="pfile py">main.py — full attendance system</div>
+          <div class="pfile csv">Attendance.csv</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">✋ MediaPipe-main + Augmented-Reality-main</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">MediaPipe- Live ML Anywhere.ipynb</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🔊 Audio-Classification-main</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">Audio Classification EDA.ipynb</div>
+          <div class="pfile ipynb">Part 2- Data Preprocessing And Model Creation.ipynb</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="tips" style="border-color:#56d364">
+    <strong>✅ Study Order &amp; Tips</strong>
+    <ul>
+      <li>NLP order: Tokenization → Stemming → Bag of Words → TF-IDF → Word2Vec → TextHero</li>
+      <li>Build <b>SpamClassifier</b> → <b>Stock-Sentiment</b> → <b>Text-Summarization</b> (full app) as NLP portfolio</li>
+      <li>CV order: Computer-Vision-Tutorial (Lectures 1–4) → cats-dogs → CNN architectures → TFOD</li>
+      <li><b>Face-Recognition-Attendance</b> is the best capstone CV project — combines detection + tracking</li>
+      <li><b>Audio-Classification</b> (EDA → model) extends CV skills to the audio domain</li>
+    </ul>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════
+  PHASE 8 – GENERATIVE AI
+══════════════════════════════════════════ -->
+<div class="phase" id="p8">
+<div class="ph" onclick="tog('p8')">
+  <div class="picon" style="background:#2a2a1a">✨</div>
+  <div class="pmeta">
+    <div class="pnum">Phase 8 · Advanced</div>
+    <div class="ptitle" style="color:#e3b341">Generative AI &amp; LLMs</div>
+    <div class="pdesc">OpenAI API · Gemini · DeepSeek-R1 · RAG · Multimodal · Cloud GenAI · End-to-End LLM Apps</div>
+  </div>
+  <span class="dur">6–8 weeks</span>
+  <span class="pchev" id="p8c">▾</span>
+</div>
+<div class="pbody" id="p8b">
+  <div class="tgrid">
+    <div class="tc"><h4>🔑 LLM APIs</h4><ul>
+      <li>OpenAI API — GPT, embeddings, vision (testopenai.ipynb)</li>
+      <li>Google Gemini — chat, QA, vision (vision.py)</li>
+      <li>DeepSeek-R1 — RAG + reasoning (rag_deep.py)</li>
+      <li>AWS Bedrock — Claude, Llama2, Stable Diffusion</li>
+      <li>Falcon 40B on Cloud (notebook)</li>
+    </ul></div>
+    <div class="tc"><h4>🏗️ LLM App Patterns</h4><ul>
+      <li>Chat apps (chat.py, qachat.py)</li>
+      <li>Vision/multimodal (vision.py)</li>
+      <li>Document Q&amp;A (Invoice Extractor)</li>
+      <li>AI-powered search engine</li>
+      <li>Code assistant chatbot (app.py)</li>
+      <li>Sales chatbot with Rasa (actions.py, nlu.md, stories.md)</li>
+    </ul></div>
+    <div class="tc"><h4>☁️ GenAI on Cloud</h4><ul>
+      <li>AWS Bedrock: claude.py, llama2.py, stablediffusion.py</li>
+      <li>GCP Vertex AI (Falcon 40B notebook)</li>
+      <li>Azure OpenAI Service</li>
+      <li>Cost management &amp; rate limiting</li>
+    </ul></div>
+  </div>
+  <div class="psec">
+    <div class="psec-title">📁 generative-ai/ — Your Projects &amp; Key Files</div>
+    <div class="pgrid">
+      <div class="pcard"><div class="pcard-name">🔑 OPENAI-API-Tutorials-main</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">testopenai.ipynb</div>
+          <div class="pfile ipynb">Tutorial 2-testopenai.ipynb</div>
+          <div class="pfile md">requirements.txt</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">💎 Google-Gemini-Crash-Course-main</div>
+        <div class="pcard-files">
+          <div class="pfile py">app.py · chat.py · qachat.py · vision.py</div>
+          <div class="pfile md">requirements.txt</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">💎 End-To-End-Gemini-Project-main</div>
+        <div class="pcard-files">
+          <div class="pfile py">app.py · chat.py · qachat.py · vision.py</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🤖 Gen-AI-With-Deep-Seek-R1-main</div>
+        <div class="pcard-files">
+          <div class="pfile py">app.py</div>
+          <div class="pfile py">rag_deep.py — DeepSeek RAG pipeline</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🟠 AWS-Bedrock-main</div>
+        <div class="pcard-files">
+          <div class="pfile py">app.py · claude.py · llama2.py</div>
+          <div class="pfile py">stablediffusion.py — image generation</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">☁️ Generative-AI-With-Cloud-main</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">falcon40B-instruct-notebook-full.ipynb</div>
+          <div class="pfile ipynb">Untitled (2).ipynb</div>
+          <div class="pfile py">test.py · app.py</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">📄 Invoice-Extractor-LLM-APP-main</div>
+        <div class="pcard-files">
+          <div class="pfile py">vision.py — multimodal invoice extraction</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🔍 Search-Engine-LLM-main</div>
+        <div class="pcard-files">
+          <div class="pfile py">app.py — LLM-powered search</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">💻 Code-Assistant-Code-Assistant-main</div>
+        <div class="pcard-files">
+          <div class="pfile py">app.py — AI code assistant</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🤝 Sales-Chatbot-master</div>
+        <div class="pcard-files">
+          <div class="pfile py">actions.py</div>
+          <div class="pfile md">nlu.md · stories.md · responses.md · test_stories.md</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="tips" style="border-color:#e3b341">
+    <strong>✅ Study Order &amp; Tips</strong>
+    <ul>
+      <li>Start: <b>OPENAI-API-Tutorials</b> (testopenai notebooks) → understand completions, embeddings, vision</li>
+      <li>Then: <b>Google-Gemini-Crash-Course</b> → build chat + QA + vision apps</li>
+      <li>Multimodal: <b>Invoice-Extractor</b> — combine text + image in one LLM call</li>
+      <li>Cloud GenAI: <b>AWS-Bedrock</b> (claude/llama2/stablediffusion) → <b>Generative-AI-With-Cloud</b></li>
+      <li><b>DeepSeek RAG</b> (rag_deep.py) bridges GenAI → Phase 9 Agentic AI</li>
+      <li>Study <b>Roadmap-To-Learn-Generative-AI-In-2025</b> to stay current with the field</li>
+    </ul>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════
+  PHASE 9 – AGENTIC AI
+══════════════════════════════════════════ -->
+<div class="phase" id="p9">
+<div class="ph" onclick="tog('p9')">
+  <div class="picon" style="background:#1c1c2d">🕵️</div>
+  <div class="pmeta">
+    <div class="pnum">Phase 9 · Expert</div>
+    <div class="ptitle" style="color:#bc8cff">Agentic AI &amp; Orchestration</div>
+    <div class="pdesc">LangChain · LangGraph · LangSmith · RAG · LlamaIndex · CrewAI · MCP Servers · Multi-Agent Systems</div>
+  </div>
+  <span class="dur">6–10 weeks</span>
+  <span class="pchev" id="p9c">▾</span>
+</div>
+<div class="pbody" id="p9b">
+  <div class="tgrid">
+    <div class="tc"><h4>⛓️ LangChain Core</h4><ul>
+      <li>Basics: chains, prompts, memory (langchainbasics.ipynb)</li>
+      <li>Model integration (2-modelintegration.ipynb)</li>
+      <li>Tools &amp; tool-calling (3-tools.ipynb)</li>
+      <li>Messages &amp; history (4-messages.ipynb)</li>
+      <li>SQL &amp; SQLite chains (sql.py, sqlite.py)</li>
+      <li>Chat PDF pipeline (chatpdf1.py)</li>
+      <li>QA Chatbot (qachatbot.py)</li>
+      <li>Retrievers (retriever.ipynb)</li>
+    </ul></div>
+    <div class="tc"><h4>🕸️ LangGraph Agents</h4><ul>
+      <li>Basic Chatbot with graph state (chatbot.ipynb)</li>
+      <li>Human-in-the-loop workflows (humanintheloop.ipynb)</li>
+      <li>Multi-step agent graphs (agent.py)</li>
+      <li>Debugging agent flows (3-Debugging/)</li>
+      <li>Multimodal agents (4-Multimodal/)</li>
+      <li>AI news agent (ai_news_node.py)</li>
+      <li>Graph builder (graph_builder.py)</li>
+    </ul></div>
+    <div class="tc"><h4>📚 RAG Systems</h4><ul>
+      <li>RAG evaluation (1-rag_evaluation.ipynb)</li>
+      <li>PageIndex Vectorless RAG (crash course)</li>
+      <li>Agentic RAG (agenticrag/)</li>
+      <li>Typesense vector search (typesense.ipynb)</li>
+      <li>RAG with DeepSeek-R1 (from GenAI phase)</li>
+      <li>LlamaIndex: Llama2 with LlamaIndex.ipynb</li>
+    </ul></div>
+    <div class="tc"><h4>👥 CrewAI, MCP &amp; Multi-Agent</h4><ul>
+      <li>CrewAI: agents.py, crew.py, tasks.py, tools.py</li>
+      <li>Role-based agent collaboration</li>
+      <li>MCP Server: server.py, client-sse.py, client-stdio.py</li>
+      <li>MCP + LangChain: mathserver.py, weather.py</li>
+      <li>Financial agent (financial_agent.py)</li>
+      <li>Multi-agent system (multiagents.py)</li>
+      <li>Agent memory (agent_memory.py)</li>
+      <li>LangSmith: tracing &amp; evaluation (app.py)</li>
+    </ul></div>
+  </div>
+  <div class="psec">
+    <div class="psec-title">📁 agentic-ai/ — Your Projects &amp; Key Files</div>
+    <div class="pgrid">
+      <div class="pcard"><div class="pcard-name">⛓️ Complete-Langchain-Tutorials-main</div>
+        <div class="pcard-files">
+          <div class="pfile py">sql.py · sqlite.py — SQL chains</div>
+          <div class="pfile py">chatpdf1.py — PDF Q&amp;A</div>
+          <div class="pfile py">app.py</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">📚 Langchain-V1-Crash-Course-main</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">1-langchainintro.ipynb</div>
+          <div class="pfile ipynb">2-modelintegration.ipynb</div>
+          <div class="pfile ipynb">3-tools.ipynb</div>
+          <div class="pfile ipynb">4-messages.ipynb</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🇮🇳 Langchain-Hindi-main</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">langchainbasics.ipynb</div>
+          <div class="pfile py">qachatbot.py</div>
+          <div class="pfile ipynb">tools.ipynb</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🔄 Updated-Langchain-main</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">agents.ipynb</div>
+          <div class="pfile ipynb">retriever.ipynb</div>
+          <div class="pfile py">app.py · client.py</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🎯 Prompt-Engineering-LangChain-main</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">PromptEngineering.ipynb — zero/few-shot, CoT</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">📊 Langsmith-main</div>
+        <div class="pcard-files">
+          <div class="pfile py">app.py — tracing every agent call</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🕸️ Agentic-LanggraphCrash-course (both versions)</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">chatbot.ipynb — basic graph chatbot</div>
+          <div class="pfile ipynb">humanintheloop.ipynb</div>
+          <div class="pfile py">agent.py</div>
+          <div class="pfile py">main.py</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🤖 Agentic-AI-Application-main</div>
+        <div class="pcard-files">
+          <div class="pfile py">simpleagent.py</div>
+          <div class="pfile py">multiagents.py</div>
+          <div class="pfile py">financial_agent.py</div>
+          <div class="pfile py">agent_memory.py</div>
+          <div class="pfile py">playground.py</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🤖 Agentic-Ai-Project-main</div>
+        <div class="pcard-files">
+          <div class="pfile py">graph_builder.py</div>
+          <div class="pfile py">groqllm.py</div>
+          <div class="pfile py">ai_news_node.py</div>
+          <div class="pfile py">app.py · main.py</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">📚 RAG-Tutorials (agenticrag + notebooks)</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">1-rag_evaluation.ipynb</div>
+          <div class="pfile ipynb">PageIndex_Vectorless_RAG_CrashCourse.ipynb</div>
+          <div class="pfile ipynb">typesense.ipynb</div>
+          <div class="pfile py">app.py</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🦙 Llamindex-Projects-main</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">Llama2_with_llamaindex.ipynb</div>
+          <div class="pfile ipynb">test.ipynb</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">👥 Crew-AI-Crash-course-main</div>
+        <div class="pcard-files">
+          <div class="pfile py">agents.py — define agent roles</div>
+          <div class="pfile py">crew.py — assemble the crew</div>
+          <div class="pfile py">tasks.py — assign tasks</div>
+          <div class="pfile py">tools.py — custom tools</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🔌 MCP-CRASH-Course-main</div>
+        <div class="pcard-files">
+          <div class="pfile py">server.py — MCP server</div>
+          <div class="pfile py">client-sse.py · client-stdio.py</div>
+          <div class="pfile py">main.py</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🔌 MCPSERVERLangchain-main</div>
+        <div class="pcard-files">
+          <div class="pfile py">mathserver.py · weather.py</div>
+          <div class="pfile py">client.py · main.py</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🔍 Search-Engine-With-LLm-and-Agents-main</div>
+        <div class="pcard-files">
+          <div class="pfile py">app.py — agent-powered search</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="tips" style="border-color:#bc8cff">
+    <strong>✅ Study Order &amp; Tips</strong>
+    <ul>
+      <li>Start: <b>Langchain-V1-Crash-Course</b> notebooks (1→2→3→4) — clean structured intro</li>
+      <li>Then: <b>Complete-Langchain-Tutorials</b> (sql, sqlite, chatpdf) — real use cases</li>
+      <li>Always instrument with <b>Langsmith</b> — trace every chain &amp; agent from the start</li>
+      <li><b>Prompt-Engineering</b> notebook: master zero-shot → few-shot → chain-of-thought</li>
+      <li>LangGraph: <b>chatbot.ipynb</b> → <b>humanintheloop.ipynb</b> → full <b>Agentic-AI-Application</b></li>
+      <li>RAG: <b>RAG-Tutorials</b> (evaluation + vectorless + agenticrag) → <b>LlamaIndex</b></li>
+      <li>Multi-agent: <b>CrewAI</b> (agents→crew→tasks→tools) — deploy as background AI worker</li>
+      <li><b>MCP servers</b> are the future of AI tool integration — study both MCP repos</li>
+    </ul>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════
+  PHASE 10 – DEPLOYMENT & SCALING
+══════════════════════════════════════════ -->
+<div class="phase" id="p10">
+<div class="ph" onclick="tog('p10')">
+  <div class="picon" style="background:#1e2728">🚀</div>
+  <div class="pmeta">
+    <div class="pnum">Phase 10 · Expert</div>
+    <div class="ptitle" style="color:#39d353">Deployment, MLOps &amp; Big Data</div>
+    <div class="pdesc">Flask · FastAPI · AWS · GCP · Azure · Docker · Kubernetes · MLflow · Spark · Blockchain</div>
+  </div>
+  <span class="dur">6–8 weeks</span>
+  <span class="pchev" id="p10c">▾</span>
+</div>
+<div class="pbody" id="p10b">
+  <div class="tgrid">
+    <div class="tc"><h4>🌐 Web Frameworks</h4><ul>
+      <li>Flask: routing, templates, Jinja2, Blueprints</li>
+      <li>Flask + ML model (hiring.csv → model.py → app.py)</li>
+      <li>FastAPI: async, Pydantic, OpenAPI docs (BankNote auth)</li>
+      <li>Gradio: instant ML demo UIs</li>
+      <li>PyWebIO: web apps entirely in Python</li>
+      <li>Flask Live + testflask (Algerian Forest EDA + model)</li>
+    </ul></div>
+    <div class="tc"><h4>☁️ Cloud Deployment</h4><ul>
+      <li>Heroku: Procfile, gunicorn, git push heroku</li>
+      <li>AWS EC2 + S3 (boto3 read S3.ipynb)</li>
+      <li>AWS Elastic Beanstalk (application.py, app_logger.py)</li>
+      <li>AWS SageMaker — managed ML training</li>
+      <li>Google Cloud Platform (main.py + requirements.txt)</li>
+      <li>Azure ML deployment (app.py + data.csv)</li>
+    </ul></div>
+    <div class="tc"><h4>🐳 MLOps &amp; Containers</h4><ul>
+      <li>Docker: containerize Flask/FastAPI apps</li>
+      <li>Kubernetes: orchestrate containers (config.py)</li>
+      <li>MLflow: experiment tracking (train.py, wine_quality.csv)</li>
+      <li>MLflow model registry &amp; versioning</li>
+      <li>CI/CD with GitHub Actions (main.yml)</li>
+      <li>AQI end-to-end deployment demo</li>
+    </ul></div>
+    <div class="tc"><h4>⚡ Big Data &amp; Blockchain</h4><ul>
+      <li>PySpark: intro, DataFrames, RDDs</li>
+      <li>PySpark Regressions (Ecommerce_Customers)</li>
+      <li>VAEX: out-of-core large dataframes</li>
+      <li>Polars GPU engine demo (polars_gpu_engine_demo.ipynb)</li>
+      <li>SHA Cryptography blockchain (SHA Cryptography.ipynb)</li>
+      <li>Blockchain nodes: krishcoin_node_5001/5002/5003.py</li>
+    </ul></div>
+  </div>
+  <div class="psec">
+    <div class="psec-title">📁 python-flask/ + cloud-deployment/ + big-data/ + blockchain/ — Key Files</div>
+    <div class="pgrid">
+      <div class="pcard"><div class="pcard-name">🌐 Flask-Web-Framework-main (x2)</div>
+        <div class="pcard-files">
+          <div class="pfile py">app.py · main.py</div>
+          <div class="pfile md">requirements.txt</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">⚡ FastAPI-main</div>
+        <div class="pcard-files">
+          <div class="pfile py">app.py · main.py · BankNotes.py</div>
+          <div class="pfile ipynb">ModelTraining.ipynb</div>
+          <div class="pfile csv">BankNote_Authentication.csv</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🎨 Gradio-main + PyWebIO-main</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">Gradio Examples.ipynb</div>
+          <div class="pfile py">operation.py</div>
+          <div class="pfile ipynb">PyWebIO.ipynb</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🧪 testflask-main (Algerian Forest E2E)</div>
+        <div class="pcard-files">
+          <div class="pfile py">application.py</div>
+          <div class="pfile ipynb">2.0-EDA And FE Algerian Forest Fires.ipynb</div>
+          <div class="pfile ipynb">3.0-Model Training.ipynb</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">☁️ Deployment-flask-master + Deployment-Heroku-master</div>
+        <div class="pcard-files">
+          <div class="pfile py">app.py · model.py · request.py</div>
+          <div class="pfile csv">hiring.csv</div>
+          <div class="pfile md">Procfile.txt</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🟠 AWS-main + AWS-SageMaker-master</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">boto3 read S3.ipynb</div>
+          <div class="pfile ipynb">Untitled2.ipynb — SageMaker training</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🌱 beanstalk-main (Algerian Forest → Beanstalk)</div>
+        <div class="pcard-files">
+          <div class="pfile py">application.py · app_logger.py</div>
+          <div class="pfile csv">Algerian_forest_fires_dataset_CLEANED.csv</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🔵 Google-Cloud-Platform-Deployment-master</div>
+        <div class="pcard-files">
+          <div class="pfile py">main.py</div>
+          <div class="pfile md">requirements.txt</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🔵 ML-Project-Azure-master <span style="color:var(--muted);font-size:.72rem">(18 files)</span></div>
+        <div class="pcard-files">
+          <div class="pfile py">app.py · setup.py</div>
+          <div class="pfile csv">data.csv · test.csv</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🐳 Kubernet-Dockers-master</div>
+        <div class="pcard-files">
+          <div class="pfile py">app.py · config.py</div>
+          <div class="pfile md">requirements.txt</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">⚙️ mlops-main</div>
+        <div class="pcard-files">
+          <div class="pfile py">train.py — MLflow training run</div>
+          <div class="pfile csv">wine_quality.csv</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">📊 testmlflow-main</div>
+        <div class="pcard-files">
+          <div class="pfile py">app.py — MLflow tracking server</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🌡️ AQI-Deployment-master</div>
+        <div class="pcard-files">
+          <div class="pfile py">app.py</div>
+          <div class="pfile csv">real_2018.csv · Real_Combine.csv</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">⚡ Pyspark-With-Python-main</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">pyspark basic introduction.ipynb</div>
+          <div class="pfile csv">test1.csv · test2.csv · test3.csv · tips.csv</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">⚡ PysparkRegressions-master (x2)</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">Pyspark Linear Regression.ipynb</div>
+          <div class="pfile csv">Ecommerce_Customers.csv</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🚀 Polars-GPU-Engine-Demo-main</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">polars_gpu_engine_demo.ipynb</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🔐 SHA-Algorithms-Blockchain-main</div>
+        <div class="pcard-files">
+          <div class="pfile ipynb">SHA Cryptography.ipynb</div>
+        </div>
+      </div>
+      <div class="pcard"><div class="pcard-name">🔗 GIMBlockchainDemo-main</div>
+        <div class="pcard-files">
+          <div class="pfile py">blockchain.py</div>
+          <div class="pfile py">krishcoin_node_5001.py</div>
+          <div class="pfile py">krishcoin_node_5002.py · krishcoin_node_5003.py</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="tips" style="border-color:#39d353">
+    <strong>✅ Study Order &amp; Tips</strong>
+    <ul>
+      <li>Flask path: <b>Flask-Web-Framework</b> → <b>Deployment-flask</b> → <b>Flask-Heroku</b> → <b>testflask</b> (full E2E)</li>
+      <li>FastAPI path: <b>FastAPI-main</b> (BankNote auth: ModelTraining → BankNotes.py → app.py)</li>
+      <li>Cloud path: Heroku (simple) → Beanstalk (AWS) → GCP → Azure → SageMaker</li>
+      <li>MLOps: <b>mlops-main</b> (train.py + MLflow) → <b>testmlflow</b> → Docker → Kubernetes</li>
+      <li>Big Data: <b>PySpark intro</b> → <b>PySpark Regressions</b> → <b>VAEX</b> → <b>Polars GPU</b></li>
+      <li><b>Gradio</b> is the fastest way to demo any ML/AI model — use it for every project</li>
+    </ul>
+  </div>
+</div>
+</div>
+
+<!-- BONUS -->
+<div class="phase" id="pb">
+<div class="ph" onclick="tog('pb')">
+  <div class="picon" style="background:#221c1c">🗺️</div>
+  <div class="pmeta">
+    <div class="pnum">Bonus · Reference</div>
+    <div class="ptitle" style="color:#ff7b72">Roadmaps &amp; Resources</div>
+    <div class="pdesc">Official roadmaps · Progress trackers · Self-assessment tests</div>
+  </div>
+  <span class="dur">Ongoing</span>
+  <span class="pchev" id="pbc">▾</span>
+</div>
+<div class="pbody" id="pbb">
+  <div class="psec">
+    <div class="psec-title">📁 roadmaps-resources/ — All Reference Material</div>
+    <div class="pgrid">
+      <div class="pcard"><div class="pcard-name">📅 3-Months-RoadMap-For-Data-Science-main</div><div class="pcard-files"><div class="pfile md">README.md — 3-month sprint plan</div></div></div>
+      <div class="pcard"><div class="pcard-name">📅 6-Months-Data-Science-Roadmap--main</div><div class="pcard-files"><div class="pfile md">README.md — extended 6-month plan</div></div></div>
+      <div class="pcard"><div class="pcard-name">🤖 AI-Engineer-Roadmap-2024-main</div><div class="pcard-files"><div class="pfile md">README.md — 2024 AI engineer skills map</div></div></div>
+      <div class="pcard"><div class="pcard-name">🗺️ Complete-RoadMap-To-Learn-AI-main</div><div class="pcard-files"><div class="pfile md">README.md — comprehensive AI learning path</div></div></div>
+      <div class="pcard"><div class="pcard-name">📊 Data-Analyst-Roadmap-main + 2024 version</div><div class="pcard-files"><div class="pfile md">README.md — data analyst career path</div></div></div>
+      <div class="pcard"><div class="pcard-name">📈 Perfect-Roadmap-To-Learn-Data-Science-In-2025</div><div class="pcard-files"><div class="pfile md">README.md — 2025 updated DS path</div></div></div>
+      <div class="pcard"><div class="pcard-name">📋 Trackersheet-For-Leaning-Data-Science-main</div><div class="pcard-files"><div class="pfile md">README.md — daily progress tracker</div></div></div>
+      <div class="pcard"><div class="pcard-name">🧪 Ineuron-Test-main</div><div class="pcard-files">
+        <div class="pfile ipynb">FirstClassIneuron.ipynb — take this first!</div>
+        <div class="pfile ipynb">Python Basics.ipynb — self-assessment</div>
+      </div></div>
+    </div>
+  </div>
+  <div class="tips" style="border-color:#ff7b72">
+    <strong>✅ How to Use These</strong>
+    <ul>
+      <li>Take <b>Ineuron-Test → Python Basics.ipynb</b> before starting to benchmark yourself</li>
+      <li>Track daily progress with <b>Trackersheet</b></li>
+      <li>Check <b>AI-Engineer-Roadmap-2024</b> every 3 months to align with industry</li>
+      <li>Follow the <b>3-Month sprint</b> for fast-track learning, <b>6-Month</b> for thorough mastery</li>
+    </ul>
+  </div>
+</div>
+</div>
+
+</div><!-- /container -->
+<footer>
+  Built from <span>160+ extracted projects</span> across <span>15 topic folders</span> · Python Beginner → AI Expert
+</footer>
+<button id="st" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+<script>
+function tog(id){
+  var b=document.getElementById(id+'b'),c=document.getElementById(id+'c'),h=b.previousElementSibling;
+  var o=b.classList.contains('open');
+  b.classList.toggle('open',!o);c.classList.toggle('open',!o);h.classList.toggle('open',!o);
+}
+window.addEventListener('scroll',function(){document.getElementById('st').classList.toggle('show',window.scrollY>400);});
+</script>
+</body>
+</html>

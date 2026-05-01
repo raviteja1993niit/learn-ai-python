@@ -1,0 +1,114 @@
+# Test Comparison Workflow Configuration
+# Version: 1.0.0
+
+# Report Paths
+paths:
+  atf_report: "C:\\Users\\e135408\\IdeaProjects\\MODERNIZATION\\acqelavons2aservice\\elavon-integration-tests\\target\\atf\\latest"
+  flow_report: "C:\\Users\\e135408\\IdeaProjects\\MODERNIZATION\\107651-pgsaaselavon-pgs-acquirer-elavon-interface-service\\lib-elavon-interface-integration-tests\\target\\mctf\\latest"
+  output_dir: "C:\\Users\\e135408\\IdeaProjects\\MODERNIZATION\\107651-pgsaaselavon-pgs-acquirer-elavon-interface-service\\.github\\workflows\\test-comparison\\reports"
+
+# Parser Configuration
+parser:
+  # Auto-detect message format or specify manually
+  auto_detect: true
+  # Fallback format if detection fails
+  fallback_format: "ISO8583"
+  # Supported formats
+  supported_formats:
+    - ISO8583
+    - JSON
+    - XML
+    - HTTP
+
+# ATF Report Settings
+atf:
+  index_file: "index.html"
+  detail_folder: "txn"
+  # JSON extraction pattern
+  json_pattern: "detail\\s*=\\s*[\\r\\n\\t]*//\\s*DATA\\s+START[\\s\\S]*?//\\s*DATA\\s+END"
+  # Transmission filters for acquirer messages
+  acquirer_request:
+    transmitter: "ACQUIRER_SERVICE"
+    receiver: "ACQUIRER"
+    type: "Request"
+  acquirer_response:
+    transmitter: "ACQUIRER"
+    receiver: "ACQUIRER_SERVICE"
+    type: "Response"
+  # Prefer expected over actual
+  prefer_expected: true
+
+# Flow Report Settings
+flow:
+  index_file: "index.html"
+  detail_folder: "detail"
+  # JSON extraction pattern
+  json_pattern: "data\\s*=\\s*//\\s*START_JSON_DATA[\\s\\S]*?//\\s*END_JSON_DATA"
+  # Navigation path to acquirer layer
+  acquirer_path: "root.children[0].children[0]"
+  # Use asserted or full
+  prefer_asserted: true
+
+# Matching Configuration
+matching:
+  # Name normalization rules
+  normalize:
+    - pattern: "\\bMOTO\\b"
+      replacement: "MAIL_ORDER"
+    - pattern: "\\bTELEPHONE_ORDER\\b"
+      replacement: "MAIL_ORDER"
+    - pattern: "\\s+"
+      replacement: " "
+  # Case sensitivity
+  case_sensitive: false
+  # Fuzzy matching threshold (0-100)
+  fuzzy_threshold: 90
+
+# Comparison Configuration
+comparison:
+  # Fields to mark as dynamic (not compared)
+  dynamic_fields:
+    - "{idx: 11} systemTrace"
+    - "{idx: 12} localDateTime"
+    - "{idx: 28} reconciliationDate"
+    - "{idx: 37} referenceNumber"
+    - "{idx: 63} reservedPrivateData3.{tag: 16} cardSchemeData"
+    - "systemTraceAuditNumber"
+    - "submissionTimestamp"
+    - "localSubmissionTimestamp"
+
+  # Fields to ignore completely
+  ignore_fields:
+    - "Hex"
+    - "bytes"
+    - "expectBytes"
+    - "actualBytes"
+
+  # High priority fields (breaking changes)
+  high_priority_fields:
+    - "{idx: 2} pan"
+    - "{idx: 4} amount"
+    - "{idx: 49} currencyCode"
+    - "{idx: 39} actionCode"
+    - "transactionAmount"
+    - "transactionCurrency"
+
+# Output Configuration
+output:
+  # Generate these report types
+  formats:
+    - markdown
+    - json
+    - csv
+  # Report file names
+  files:
+    markdown: "comparison-report.md"
+    json: "comparison-data.json"
+    csv: "test-cases.csv"
+    recommendations: "fix-recommendations.md"
+    summary: "summary.txt"
+
+# Logging
+logging:
+  level: "INFO"  # DEBUG, INFO, WARN, ERROR
+  file: "workflow.log"

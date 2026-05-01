@@ -1,0 +1,872 @@
+{
+  "meta": {
+    "topic_slug": "ai-coding-assistants",
+    "transcript_path": "materials\\input\\ai-coding-assistants-transcript.txt",
+    "chunk_size": 5,
+    "total_sentences": 430,
+    "total_chunks": 86.0,
+    "generated_at": "2026-04-28T20:15:42Z"
+  },
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "sentence_start": 0,
+      "sentence_end": 4,
+      "sentence_count": 5,
+      "content": "Intro [music] AI and coding assistants are everywhere right now. From chat bots in the browser to code assistants in the code editor, but what about the terminal? This is where platform engineers actually spend most of their time. Today, we're taking a look at the GitHub copilot CLI from a DevOps S and platform engineering perspective. We'll cover what the CLI is and how to get it up and running.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 2,
+      "sentence_start": 5,
+      "sentence_end": 9,
+      "sentence_count": 5,
+      "content": "In the last episode, we covered the Gemini CLI. So, you'll see some of the similarities. In this AI command line series, I want to cover many of the AI concepts in general using the terminal. Things like context engineering, agents, skills, planning mode, and MCP. These are the practical skills that engineers need right now.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 3,
+      "sentence_start": 10,
+      "sentence_end": 14,
+      "sentence_count": 5,
+      "content": "But first of all, most of you are not subscribed. So, if you like the video, you find it useful, hit the like button, subscribe, and without further ado, let's go. [music] [music] Copilot is basically just an AI product by GitHub that runs everywhere including Installation your IDE such as VS Code. It actually runs within GitHub in the platform as well. But more importantly for this video, it also runs in your terminal.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 4,
+      "sentence_start": 15,
+      "sentence_end": 19,
+      "sentence_count": 5,
+      "content": "Now to install Copilot in the terminal, it's really straightforward and simple. You can install the GitHub copilot CLI with these single commands. You can install the copilot CLI using something like npm for all platforms, windget for Windows, home brerew for Mac and Linux, or you can just use the script. The CLI releases are on GitHub as well. So you can find these on the release page and you can download Copilot as a static binary.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 5,
+      "sentence_start": 20,
+      "sentence_end": 24,
+      "sentence_count": 5,
+      "content": "That means if you're crazy like me, you can just build a Docker file, use something like curl, and then just use curl to download the tar file directly from the GitHub releases page, extract it to use a local bin, give it chod execution permission, and run it in a Docker container. So, what I do like about the CLI, and this is true for most of these AI CLIs, is that they're quite portable. And with that portability means I can run it in something like WSL or any environment. simply say docker run and then I have access to copilot in the terminal. So there are many ways you can run it but importantly for us Pricing engineers it's important to understand the pricing when you're comparing different AI solutions looking at Gemini claude open code it's good to understand the pricing commitments.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 6,
+      "sentence_start": 25,
+      "sentence_end": 29,
+      "sentence_count": 5,
+      "content": "This is not just for running AI in your terminal, but when you start using AI in your platform and you start building chat bots and agents and MCP servers, all of these solutions will require token usage, which will contribute to the pricing and the cost involved. Another important thing about pricing is as an engineer, you want to be tool agnostic, which means you also want to be able to learn. You want to be able to use a free account and learn everything there is to learn about AI skills, agents, MCP, and so forth. So, very important for us to take a look at the free tier here. You can have 50 agent mode or chat requests per month or 2,000 completions per month.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 7,
+      "sentence_start": 30,
+      "sentence_end": 34,
+      "sentence_count": 5,
+      "content": "The main restriction for us would be the 50 chat requests per month. And you do get some basic model access. The cool thing here though is that you can use your current personal GitHub account and you don't need a credit card. This for engineers is very important because this allows you to learn 50 chat requests is not going to be enough for you to do a startup or run a business or a team, but it's enough for you to learn about the concepts and follow along in this video. You can learn about the AI concepts, the CLI, and we'll become tool agnostic.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 8,
+      "sentence_start": 35,
+      "sentence_end": 39,
+      "sentence_count": 5,
+      "content": "Everything we learned in our Gemini video will apply to this one. So today we'll be swapping out our Gemini CLI for Copilot and take it for a spin. And you'll see that this whole setup is highly portable. With the CLI now up and Basic Usage running, I want to take a moment and go through some of the first impressions and commands. And you'll quickly see why it's better to run AI in the command line.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 9,
+      "sentence_start": 40,
+      "sentence_end": 44,
+      "sentence_count": 5,
+      "content": "It has direct access to your files in your workspace. But not only that, it has access to executables running on your machine as well. You can have it have access to things like scripts, local Kubernetes clusters, your Docker engine, and you can spin up multiple terminal instances and give them work to do. Now, as with all CLIs, I generally like to start with the help flag. So, let's say C-Pilot-help.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 10,
+      "sentence_start": 45,
+      "sentence_end": 49,
+      "sentence_count": 5,
+      "content": "help command We can see Copilot takes a bunch of options and commands. Here are all the options. When we start up Copilot for the first time, it's going to ask if it can access our local working directory. Here you can see we can pass here you can see we can use the add a directory flag if we wanted to add more directories. We can also tell copilot to use a custom agent.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 11,
+      "sentence_start": 50,
+      "sentence_end": 54,
+      "sentence_count": 5,
+      "content": "We can give copilot permission to allow all tool access. We'll take a look at tools in a bit. We can tell copilot to start and use a specific model. We'll take a look at models in a bit. We can run copilot in headless mode by passing a prompt.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 12,
+      "sentence_start": 55,
+      "sentence_end": 59,
+      "sentence_count": 5,
+      "content": "We'll take a look at that in a bit. Then we have the initialization instructions, logging in and out, managing plugins with some examples. Now let's start running Copilot in interactive mode. Most of these AI CLIs run in interactive Interactive Mode mode. You can see when you start it up, it's going to ask you to confirm the folder to trust.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 13,
+      "sentence_start": 60,
+      "sentence_end": 64,
+      "sentence_count": 5,
+      "content": "I'm going to say yes. And then here we can immediately start chatting to it. We also have access to the help command inside here. This will show us how to navigate the CLI in terms of hotkeys, how to mention files and include contents into context. We'll take a look at this in a bit.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 14,
+      "sentence_start": 65,
+      "sentence_end": 69,
+      "sentence_count": 5,
+      "content": "And all of the different commands we can run and we'll take a look at all the important ones. It's important if you've typed a command and you just want to back out. Just press the escape key to go back. The first thing all of these CLIs ask you to do to start is to log in. In Login\\Logout Gemini, we sign in with a Google account.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 15,
+      "sentence_start": 70,
+      "sentence_end": 74,
+      "sentence_count": 5,
+      "content": "Here we can sign in with a GitHub account. To do that, we just say slash and login. And you can log out with the /logout command. Then you can just say which account you want to log into and you can just follow the prompts and then you'll be successfully signed in. The next thing that's quite important is to check what model you have access to with the model or models Models command.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 16,
+      "sentence_start": 75,
+      "sentence_end": 79,
+      "sentence_count": 5,
+      "content": "When you press that, you can go ahead and search for models and use the arrow keys to select one. You can see it's defaulted to Claude Haiku and it's showing the token usage on the right hand side for these models. It's important to know what model you're using as that's directly going to impact your cost and your usage and also the tier that you're on. If you're on the free tier, you have access to these models. And the Pro and Pro Plus plans has access to more upto-date models.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 17,
+      "sentence_start": 80,
+      "sentence_end": 84,
+      "sentence_count": 5,
+      "content": "Now, the CLI also has capabilities if Conversation History you're used to using something like Cad GBT in the browser where you can see all your past conversations. If I had to exit this terminal and start again someday, I can just say forward slash and I can say resume with a session ID. If I don't know the session ID, I can press enter and there's all of these sessions I can go ahead and resume. This allows me to continue conversations I had before. Now, one of the coolest features I found is if I go /help, you Referencing Files can see that they talk about the at symbol to mention files and include content into context.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 18,
+      "sentence_start": 85,
+      "sentence_end": 89,
+      "sentence_count": 5,
+      "content": "This means I can reference files on my local machine for copilot to use. So I can say something like a simple yes or no. Is this Kubernetes manifest valid? And I can point to a manifest. But as I'm using the at symbol and I start typing, I'll get this sort of autocomplete at the bottom.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 19,
+      "sentence_start": 90,
+      "sentence_end": 94,
+      "sentence_count": 5,
+      "content": "And this allows me to use the arrow keys to select relevant files. So I can go ahead and run that. And we can see copilot's gone ahead and read the file and says it's valid syntax. If you've paid attention in our Gemini Tools video, all the CLIs perform these tool commands such as reading files or reading directories. This is a tool execution where the CLI read a file.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 20,
+      "sentence_start": 95,
+      "sentence_end": 99,
+      "sentence_count": 5,
+      "content": "Tools allow CLIs to perform basic functions like reading directories or files. We can also run these CLIs in headless mode. So if I go back to the Headless Mode terminal and I just exit for a second running it without interactive mode, I can pass a prompt with minus P and I can pass the same prompt as before. Notice that this will run the CLI without interactive mode. Basically this is just called headless mode and you can see the CLI has gone ahead and done its job, executed the read tool and gave us the output.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 21,
+      "sentence_start": 100,
+      "sentence_end": 104,
+      "sentence_count": 5,
+      "content": "Headless mode is useful if you want to run the CLI applications in automated pipelines or automation workflows like CI/CD pipelines. In my AI Context Windows terminology video, we've discussed how important context and the context window is. The CLI generally allows you to see the context window from a usage standpoint. We can do this by typing / context and this tells us the model we use, what our token usage looks like, and we can kind of see what's in context. Generally when AI starts up it loads a bunch of system context system prompts the tools like the tools we saw earlier for reading files then any kind of messages it shows us the free space and buffer and it gives us this little visual as well.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 22,
+      "sentence_start": 105,
+      "sentence_end": 109,
+      "sentence_count": 5,
+      "content": "This gives us insights into our context window usage when we start building things like agents and skills. The copilot CLI has a way for us Configure the CLI to configure it as well. The documentation talks about prerequisites, installation, setting trust directories as we saw earlier, setting allowed tools, but more importantly, the config settings can be set under the user directory under a copilot folder. This is the folder I have mounted into my copilot container. There is a config.json where all the settings and configuration can be persisted.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 23,
+      "sentence_start": 110,
+      "sentence_end": 114,
+      "sentence_count": 5,
+      "content": "what models you'd like to default to, agents you may want to default to and use, or what theme you'd like to use. You can also change your theme with the /the command. If you press that, you can go ahead and choose Theme a new theme. As you can see, when we're working with the CLI, it's pretty much an interactive mode. If we wanted to Shell Mode execute a shell command, we'd have to basically exit out and then come back in.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 24,
+      "sentence_start": 115,
+      "sentence_end": 119,
+      "sentence_count": 5,
+      "content": "This is why the CLI have this thing called shell mode. But if you press exclamation mark, you can simply go ahead and run a shell command. So I can run a command like Alice, Grep, cat or any command I'd like to run. I don't have to exit copilot. So here I can type any kind of Linux command.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 25,
+      "sentence_start": 120,
+      "sentence_end": 124,
+      "sentence_count": 5,
+      "content": "I can go ahead and look at my copilot settings and we can take a look at our copilot configuration file. I can even run more complex commands like appget update and I can install tools. So both basic and advanced commands. Now, plugins are Copilot Plugins simply packages and they follow a specific directory structure. So, you can basically create the structure with a folder as your plug-in name, the plug-in JSON.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 26,
+      "sentence_start": 125,
+      "sentence_end": 129,
+      "sentence_count": 5,
+      "content": "This is the manifest. Then you can basically compile a bunch of agents in here, bunch of skills, hooks, and MCP servers. Package this all up under a folder with a plug-in JSON. And then you have basically what's called a plug-in. The plugin is governed by this plug-in JSON.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 27,
+      "sentence_start": 130,
+      "sentence_end": 134,
+      "sentence_count": 5,
+      "content": "And you can see here's an example of what the manifest looks like. This gives us a name and description and version, who the author is, the license, what agents and skills, hooks, and MCP servers are active for this plug-in. Just a useful way to package up a bunch of agents, skills, and MCP servers that you've pre-built that you want other people to be able to use. Now, all these commands that we've taken a look at helps us interface with the agent. It's Init Mode important to know that the CLI program is just an agent.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 28,
+      "sentence_start": 135,
+      "sentence_end": 139,
+      "sentence_count": 5,
+      "content": "An agent is a program that takes our prompts and passes it to the model. It manages our discussion and context window. Now, when we start with a codebase and an AI agent, instead of having the agent look at our codebase and then us prompting it back and forth and having a long discussion, we don't want to just fill up the context window. That is why all AI agents have this concept of initialization. So, if I start copilot in our Docker development YouTube series GitHub repo as the working directory, I can use this command called innit.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 29,
+      "sentence_start": 140,
+      "sentence_end": 144,
+      "sentence_count": 5,
+      "content": "And this allows us to initialize copilot instructions for a given repository. So if I go ahead and run this, I can leave it to cook for a bit. And this will summarize the entire repository. Here you can see the key steps. It's exploring the repo structure.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 30,
+      "sentence_start": 145,
+      "sentence_end": 149,
+      "sentence_count": 5,
+      "content": "It's looking for readme files, identifying conventions and architecture, and it's going to provide us with a summary. And as you can see, it's executing some tools. So first one is listing a directory, finding markdown files. It wants to use the find command. It's checking for other AI assistant config files.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 31,
+      "sentence_start": 150,
+      "sentence_end": 154,
+      "sentence_count": 5,
+      "content": "And in my case, it already found an instruction file. But as it's executing tools, it's going to ask me if I want to run the command. I can just say yes to let it continue. But in a nutshell, what this innit does is it generates an instruction file or a system prompt. This will help guide any AI assistant when dealing with our codebase.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 32,
+      "sentence_start": 155,
+      "sentence_end": 159,
+      "sentence_count": 5,
+      "content": "This means we don't have to manually prompt back and forth explaining what the codebase is about. So we can optimize the context window. While that's cooking, let's take a look Context Window Explained at some of the important concepts here. In our terminology video, we spoke about what prompts are. Prompts is just our questions that go to the model and the responses come back from the model.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 33,
+      "sentence_start": 160,
+      "sentence_end": 164,
+      "sentence_count": 5,
+      "content": "All of this forms what we call the discussion, and that fills up the short-term memory, also known as the context window. It's important to know that the oldest prompts leave this context window first when the context window becomes full. That is why it's important to always narrow the focus and not fill up the context window as much as you can. So the longer you talk and the bigger the discussion, the more info actually gets lost. At the same time, the bigger the context window, the less accurate the model can be.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 34,
+      "sentence_start": 165,
+      "sentence_end": 169,
+      "sentence_count": 5,
+      "content": "So context engineering is quite a topic to get into. This is why we can optimize the context window a little bit. Instead of having back and forth prompts, we can create the system prompt which guides the model. It gives the model some focus, guidance about any standards and conventions, tells the model what the repo is about without us having to go back and forth. So this gives the model more focus and more guidance.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 35,
+      "sentence_start": 170,
+      "sentence_end": 174,
+      "sentence_count": 5,
+      "content": "The idea here also is that if somebody else opens up our repo and fires up copilot that we can get some consistency. It's gone ahead and it's generated this co-pilot instruction file. It's asking us for permission to be able to create it. It's gone ahead and created the project overview repository structure. Talks about the structure docker compose kubernetes examples technologies file and directory organization conventions.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 36,
+      "sentence_start": 175,
+      "sentence_end": 179,
+      "sentence_count": 5,
+      "content": "It then asks me if I want to go ahead and edit this file. If it doesn't exist, it'll ask to create it. Notice that it creates it in agitub folder. So I go ahead and press enter and it will go ahead and create this file. So it's generated it under my repository under agitub folder and there's the file right there.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 37,
+      "sentence_start": 180,
+      "sentence_end": 184,
+      "sentence_count": 5,
+      "content": "These are the copilot instructions project overview repository structure. It's got the full directory structure and explanation on architecture core concepts and everything that my repo is about. This helps any AI agent looking at this repo and gives it guidance. It's important to know that these instruction files, if we take a look at the context, will go inside of the context window. Now, GitHub will always load the copilot instructions MD file by default.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 38,
+      "sentence_start": 185,
+      "sentence_end": 189,
+      "sentence_count": 5,
+      "content": "AI agents may also automatically pick up agents.m MD. Agents.m MD is more of a Agents.md open standard rather than every CLI have its own MD file. So, if I fire up Gemini, we had Gemini MD. Copilot has copilot instructions MD. Claude has Claude MD.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 39,
+      "sentence_start": 190,
+      "sentence_end": 194,
+      "sentence_count": 5,
+      "content": "The idea behind agents.m MD is that you have a simple open format, a readme file for agents. So we can have all our instructions in this file. This means we can become tool agnostic and any AI tool can load the system prompt. So context engineering is all about optimizing the context to give our agent more focus and accuracy and consistency. Agents and Subagents As I mentioned before, the CLI is just an agent.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 40,
+      "sentence_start": 195,
+      "sentence_end": 199,
+      "sentence_count": 5,
+      "content": "I like to call it the main agent. This is because whether you're using Clawude, Gemini, Copilot, they all have a way to build out your own agents. Some of the CLI call these sub agents. And you'll see why agents are so important because it allows us to optimize the context even further. So, what we've been basically doing up to now by using C-Pilot is interacted with the Copilot main agent.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 41,
+      "sentence_start": 200,
+      "sentence_end": 204,
+      "sentence_count": 5,
+      "content": "This agent manages our entire discussion. It loads up the system prompts, manages the context window, and all the commands we've taken a look at. And it basically passes these and acts as a proxy to our model. Now, we can actually take it one step further and have what's called sub agents. So, if the CLI is the main agent, which is what you see on the left hand side here, we can define extra agents.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 42,
+      "sentence_start": 205,
+      "sentence_end": 209,
+      "sentence_count": 5,
+      "content": "Let's say we want a Kubernetes agent which is an agent that specializes in Kubernetes and it can update our Kubernetes cluster and specializes in Kubernetes syntax and then we can have a DevOps agent or a Terraform agent which specializes perhaps in DevOps processes. The important key takeaway here that you can see is each agent can have its own system prompts which means it can be guided and focused. So if we ask our CLI agent here for a question about Kubernetes, it can direct and guide that prompt to a Kubernetes agent. That means the Kubernetes agent doesn't have to get the full readme or copilot instruction for our repo and everything else. It just gets a tailored instruction and gives it more focus.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 43,
+      "sentence_start": 210,
+      "sentence_end": 214,
+      "sentence_count": 5,
+      "content": "That's the first benefit. The second benefit is each of these agents have their own context windows and they can have their own system prompts. So the Kubernetes agent can have its own system prompt or its own copilot instruction that guides it more to be focused towards Kubernetes tasks and it has its own context window. So we don't fill up the Kubernetes agents context window unnecessarily. So having these agents is actually more of a context engineering thing and optimizes the accuracy and also at the end of the day it's going to give us better costs because we'll waste less tokens.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 44,
+      "sentence_start": 215,
+      "sentence_end": 219,
+      "sentence_count": 5,
+      "content": "So, Copilot now supports creating custom agents through the Copilot CLI. We can define these custom agents undergub/ aagents. It can be defined in a repository if you want to use it on the GitHub platform or in your users directory under copilot/ aents. And this gives us access to a new command we'll take a look at called / aagent where we can invoke an agent interactively. And basically in this agent directory is where we can add the markdown instruction with the system prompt for each agent to give them more direct focus.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 45,
+      "sentence_start": 220,
+      "sentence_end": 224,
+      "sentence_count": 5,
+      "content": "And they'll each have their own context window. We can generally invoke custom agents in two ways. We can either explicitly choose one saying / agent and choose the agent we want to invoke or we can just give a prompt and call it out directly and say use the agent to do the following. If you're running in headless mode, you can also say d- agent followed by the agent name and then say minus p or d-prompt with your actual prompt. So in my git repo, I have agitub folder and then here I have an agents folder.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 46,
+      "sentence_start": 225,
+      "sentence_end": 229,
+      "sentence_count": 5,
+      "content": "This is the official place to create agents for GitHub. And here I have a technical writer agent. This technical writer agent is basically just an assistant that helps me write technical guides and then transform those guides into production scripts with camera angles, timestamps, screen plays, and the scripts to direct a video shoot. To create an agent, it has to be in this folder structure as I mentioned before. And then the name of the agent is basically the name of the file.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 47,
+      "sentence_start": 230,
+      "sentence_end": 234,
+      "sentence_count": 5,
+      "content": "And inside this file, you have to start the file with the YAML indicators. So three dashes followed by the metadata and the first important metadata is name. So you can see name is technical writer. This is the name of the agent which we can call out and then the description. The description is very important because if we don't explicitly call out our agent we want copilot to automatically delegate work to the agent.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 48,
+      "sentence_start": 235,
+      "sentence_end": 239,
+      "sentence_count": 5,
+      "content": "So the description has to be clear about what the purpose of the agent is. So if I ask copilot here to please write me a YouTube production script, it will based on this description be able to delegate this task automatically to the technical writer agent. So descriptions are important. The content after the dashes, anything below is the system prompt or the co-pilot instructions we saw earlier. Now you can see I don't have much instructions here.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 49,
+      "sentence_start": 240,
+      "sentence_end": 244,
+      "sentence_count": 5,
+      "content": "I'm actually telling copilot to go and look at the agents folder. This is because I prefer all of these CLIs, whether I'm using Claude or Gemini, to load my agent from a central place. So I'm telling Copilot or any CLI that uses this to go and find the instructions in agents under the name of the agent in this path. That means it'll go and look at the aagents and it'll find my technical writer agent file right here. Here we can see I have the name, the description and here I have a lot more details about this agent and what it can do.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 50,
+      "sentence_start": 245,
+      "sentence_end": 249,
+      "sentence_count": 5,
+      "content": "Now my technical writer is basically a video technical writer specialist. It has two responsibilities. One is to create video content guides based on a creative document or notes and then it can transform this guide into a video production script. But you can see I've kept my context window to a minimum here. I haven't given all the details about how to actually write a video guide or how to write a video production script.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 51,
+      "sentence_start": 250,
+      "sentence_end": 254,
+      "sentence_count": 5,
+      "content": "The obvious place you would put all of these instructions is in the system prompt or in these MD files which basically is the system prompt. And that is how most people would build agents. problem is that all of this data would become fairly large because as my agent has capability to do more things I keep having to add it to the single file and this will grow and grow and grow. As you can see here in my core responsibilities I tell it what its responsibilities are like writing a video production script and video content guides using an available skill. So I actually tell the agent, so when performing a task, you must check whether there are any available skills in the agent skills folder and consider using them.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 52,
+      "sentence_start": 255,
+      "sentence_end": 259,
+      "sentence_count": 5,
+      "content": "Agent skills is another simple open format for Agent Skills giving agents new capabilities and expertise. And this is not a feature of GitHub Copilot. It's actually a standard that all AI agents are starting to follow. What are skills? Basically, skills are just folders of instructions.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 53,
+      "sentence_start": 260,
+      "sentence_end": 264,
+      "sentence_count": 5,
+      "content": "So instead of jamming every single capability of my agent into one giant MD file and loading all of it into the context, I can divide it up and having a skill as a file. So I could have one skill for creating a video production guide, one other skill for creating a video production script and I can add a skill to spin up a Kubernetes cluster. And skills are not only MD files. They can actually be scripts and resources that agents can discover and this allows us to do things more accurately and efficiently. The cool thing about skills is that they don't all get loaded into context.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 54,
+      "sentence_start": 265,
+      "sentence_end": 269,
+      "sentence_count": 5,
+      "content": "So instead of adding all of these instructions into markdown or one markdown file or even multiple markdown files, one for each agent, we basically add them to skills instead. So, I have a skill that helps me generate video guides. And then I have another skill that helps my technical writer create production scripts for video shoots. And then I can also have another skill that gives my agent the capability to spin up a local Kubernetes cluster. But the cool thing is instead of loading all of these instructions into context, a skill is only loaded when it's needed.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 55,
+      "sentence_start": 270,
+      "sentence_end": 274,
+      "sentence_count": 5,
+      "content": "So, if I'm using my agent to purely work on a guide, I don't need to add all of the instructions on spinning up a Kubernetes cluster or a video production script. And that helps me save the context window and save token usage. So, how do we create skills using copilot? It is How to Create a Skill very easy to create a skill. All we need to do is create a file called skill.md.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 56,
+      "sentence_start": 275,
+      "sentence_end": 279,
+      "sentence_count": 5,
+      "content": "And it has to be all uppercase with no s. It's not skills, it's skill. And they can be projectwide. So you can have GitHub skills folder. Claude skills agent skills.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 57,
+      "sentence_start": 280,
+      "sentence_end": 284,
+      "sentence_count": 5,
+      "content": "You can have them in a personal folder. So under your users directory. Important to know that the skill must be named skill.md. And they have to start with a YAML formatter. The same way when we created an agent, they have to have a name and a description.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 58,
+      "sentence_start": 285,
+      "sentence_end": 289,
+      "sentence_count": 5,
+      "content": "So this is what an example skill MD looks like. You give the skill a name and then you give it a description. And this description is very important because this guides the agent when to activate the skill. I see a lot of people putting their activation instructions below here, which doesn't make any sense. Nothing below the YAML formatter.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 59,
+      "sentence_start": 290,
+      "sentence_end": 294,
+      "sentence_count": 5,
+      "content": "So all of this content will not get loaded unless the skill gets loaded. So you have to clear indication in the description to give the AI agent clear guidance on when to activate the skill. You can see here the instructions says explicitly to use this when asked to debug failing GitHub action workflows. The cool thing about skills is when they get loaded, only this metadata part of the skill gets loaded into context. So you only use this bit of information when it comes to token usage in the context window.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 60,
+      "sentence_start": 295,
+      "sentence_end": 299,
+      "sentence_count": 5,
+      "content": "Once the skill gets activated, then the rest of the details get loaded into context. So for my technical writer specialist, I've told it to look for skills in the agent skills folder. So I have that folder right here. And here you can see I have three skills and they all have a skill MD file inside of these folders. So here I have a video script writer skill.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 61,
+      "sentence_start": 300,
+      "sentence_end": 304,
+      "sentence_count": 5,
+      "content": "This allows our technical writer to write video production scripts. And you can see this instruction file is fairly large. Then I have a video guide creator. This is a skill that takes a creative flow or a prototype and creates a technical guide out of it. And you can see this one is also fairly long.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 62,
+      "sentence_start": 305,
+      "sentence_end": 309,
+      "sentence_count": 5,
+      "content": "And then I have another skill which tells my agent how to provision a local Kubernetes cluster. And this is the one we're going to take a look at as an example. Use this skill to provision a local Kubernetes cluster. And I give it a meaningful name as well. So this clearly tells the agent when to use and activate the skill.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 63,
+      "sentence_start": 310,
+      "sentence_end": 314,
+      "sentence_count": 5,
+      "content": "Once it loads, it will load all of this data below. And this is fairly short and simple. This skill allows the agent to provision a local Kubernetes cluster. In order to provision a cluster, you need a few tools. We're going to need curl kind, cubectl, and the docker CLI.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 64,
+      "sentence_start": 315,
+      "sentence_end": 319,
+      "sentence_count": 5,
+      "content": "If any of these tools are not installed, use the provided scripts from the skill to install these. So, this is where skills are really cool. They come with the ability to add resources, scripts, and templates. And I've taken advantage of the scripts folder inside of my skill to do exactly that. I have each dependency scripted up.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 65,
+      "sentence_start": 320,
+      "sentence_end": 324,
+      "sentence_count": 5,
+      "content": "How to install cubectl, how to install kind, docker cli, curl, and how to create a cluster. This is a big benefit of skills because the LLM does not have to guess what operating system I'm running. Maybe it gets an outdated command. Maybe it gives me an outdated version of Docker, an outdated version of cubectl. Whereas these scripts are fixed and they've been tested.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 66,
+      "sentence_start": 325,
+      "sentence_end": 329,
+      "sentence_count": 5,
+      "content": "This means my agent will behave in a predictable precise way and give me a fixed outcome every time I ask for a Kubernetes cluster. To see our skills, we can just say /kills and we can say list and you can see our skills have been loaded. So, it's got three skills and here they are right here. You can also force it to pick up your scripts if you've just created new ones by using the reload command. You can also use the add command to use the CLI to create a new skill.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 67,
+      "sentence_start": 330,
+      "sentence_end": 334,
+      "sentence_count": 5,
+      "content": "I can fire up my agent using the agent command. Go ahead and select my technical rider agent. And I can say, hey technical rider, create a local Kubernetes cluster for us. You can see here that it's automatically picked up our skill. It's checking the scripts it has access to.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 68,
+      "sentence_start": 335,
+      "sentence_end": 339,
+      "sentence_count": 5,
+      "content": "And immediately it's going to go ahead and check the versions of kind, cubectl, and docker because I don't have these running in the container. So it's smart enough to work out. It needs to check the versions. It's asking to run the commands. It's going to go ahead and do that and it'll quickly find out that these things are not installed.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 69,
+      "sentence_start": 340,
+      "sentence_end": 344,
+      "sentence_count": 5,
+      "content": "So, it will ask us to install it by running our script. See, it's picked up our Docker install. So, it's going to go ahead and run this. It's picked up our cubectl install. It wants to run that as well as the kind install.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 70,
+      "sentence_start": 345,
+      "sentence_end": 349,
+      "sentence_count": 5,
+      "content": "And there we go. So, it's going ahead to install the missing tools by running our scripts. And now that our scripts have been executed, the dependency are installed. It asks us to create the cluster by again running our create cluster script. So the LLM is really smart to navigate what scripts we have, work out what it needs to run, and then runs them.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 71,
+      "sentence_start": 350,
+      "sentence_end": 354,
+      "sentence_count": 5,
+      "content": "The cool thing to note here is that these scripts are not loaded into context. So that's the other cool thing. Rather than bloating all of the instructions into my markdown files and that going into context and then being misinterpreted, the model can clearly just ask us to execute the scripts instead. And the agent will do that. And then finally, it works out that it has to run the create cluster script.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 72,
+      "sentence_start": 355,
+      "sentence_end": 359,
+      "sentence_count": 5,
+      "content": "It uses the shell tool to go ahead and run the script. And then finally, it wants to verify that the cluster is running and we can see our local Kubernetes cluster is now up and running. To confirm this, I can hit shell mode and say cubectl get nodes. And there we go. Our cluster is ready to go.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 73,
+      "sentence_start": 360,
+      "sentence_end": 364,
+      "sentence_count": 5,
+      "content": "Now, generally when you start prompting and interacting with AI, it's going to be quick to try to implement a Plan Mode solution. It's going to make assumptions. It's going to try to find a solution and come up with an implementation and start recommending things immediately. The problem with this is solutions are always more complicated and generally requires you to go back and forth with the agent before you find the right solution with the right tech stack and all the best practices that you want to be followed. Getting to this point means you've got to waste a lot of tokens and fill up the context window unnecessarily.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 74,
+      "sentence_start": 365,
+      "sentence_end": 369,
+      "sentence_count": 5,
+      "content": "This increases cost. This is why Copilot and many of these AI CLIs have a plan mode which allows you to plan before you build and steer as you go. This is built into the CLI. We call it plan mode. This gives you a collaborative planning experience before Copilot starts implementing.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 75,
+      "sentence_start": 370,
+      "sentence_end": 374,
+      "sentence_count": 5,
+      "content": "Now you can enter plan mode by saying/ plan and then give a prompt something like I want to build a guide about Reddus. And normally what Copilot would do is just start writing the guide. But when you're in plan mode, it helps you catch any misunderstandings early before the code is written. It also helps you make informed decisions about the implementation approach and stay in control of complex multi-step tasks. The cool thing I like about planning is that you can actually use a different model for planning because some models are better at reasoning versus coding or implementation.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 76,
+      "sentence_start": 375,
+      "sentence_end": 379,
+      "sentence_count": 5,
+      "content": "So it allows you to switch models between planning and implementation. You can also use a more expensive model during planning and perhaps a cheaper one during implementation. It allows you to play around a bit. It also allows you to steer the conversation. So at any point during planning, you can change direction.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 77,
+      "sentence_start": 380,
+      "sentence_end": 384,
+      "sentence_count": 5,
+      "content": "And what plan mode will do is spit out a markdown file when the plan is completed and then you can ask the agent to go ahead and implement. So you can then exit plan mode and start building. Now MCP or model context protocol allows us to interface with system using natural language. So think MCP of rather than saying cubectl get pods or select star from database and writing syntax in the command line, we can just use natural English to say show me all the pods in the default namespace. So instead of us asking the agent to run a command or an action against our cluster and the agent having to come up and use the LLM to come up with cubectl syntax.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 78,
+      "sentence_start": 385,
+      "sentence_end": 389,
+      "sentence_count": 5,
+      "content": "The agent will simply ask the model. The model will look at the MCP servers available. It'll then check MCP if there's a tool that it can execute and it'll go ahead and execute it. So we can offload the complexity of querying and talking to a system. We can offload it from the agent and the model and offload it to what's called an MCP server.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 79,
+      "sentence_start": 390,
+      "sentence_end": 394,
+      "sentence_count": 5,
+      "content": "There are thousands of MCP servers available online for all different types of platforms and cloud environments. Now with node installed in my container, I can go ahead and install an MCP server for Kubernetes by saying npm install and installing the MCP server. From a DevOps S or platform engineering perspective, it's good to know that an MCP server is just a library. It's an executable. You can host an MCP inside behind a web server.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 80,
+      "sentence_start": 395,
+      "sentence_end": 399,
+      "sentence_count": 5,
+      "content": "So it essentially acts as an API and then that means you can deploy it to a Kubernetes cluster. You can have it run in the cloud somewhere. You can have it run behind an ingress or a gateway API. It's just a web server and AI agents can interact with it. So you need to think about web security when hosting these.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 81,
+      "sentence_start": 400,
+      "sentence_end": 404,
+      "sentence_count": 5,
+      "content": "So I've installed this MCP server locally. I can go back and fire up the Copilot CLI. And then what I can do is say slashmcp and you can see we have some default GitHub MCP servers loaded. But what I can do is say /mcp and I can say add. I can then give the MCP server a unique name.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 82,
+      "sentence_start": 405,
+      "sentence_end": 409,
+      "sentence_count": 5,
+      "content": "I can specify the command to go ahead and start the MCP server and press Ctrl S to save. It'll save the MCP configuration which you can find in the copilot folder. There's a JSON file right there. The MCP has been saved and reloaded successfully. Here you can see it's been connected and it's ready to be used.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 83,
+      "sentence_start": 410,
+      "sentence_end": 414,
+      "sentence_count": 5,
+      "content": "I can press escape just to back out of all of that. And let's take a look at the configuration by hitting shell mode and checking out that file. Here you can see this is how you configure an MCP server manually if you ever needed to do so. You just pop this JSON in here. It's a section in the config called MCP servers where you can add multiple of them.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 84,
+      "sentence_start": 415,
+      "sentence_end": 419,
+      "sentence_count": 5,
+      "content": "The type, the command. You can see this is a local MCP server. So it's just a bunch of assemblies that runs locally, but they can be HTTP as well. So your MCP server can live remotely behind a gateway API and a Kubernetes cluster for example. And this is the MCP server we want to load.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 85,
+      "sentence_start": 420,
+      "sentence_end": 424,
+      "sentence_count": 5,
+      "content": "I can then say, show me all the name spaces in my Kubernetes cluster. The AI agent will then execute the MCP [music] server and use the cubectl get tool of the MCP and it's returned the name spaces successfully. So hopefully this video helped you get started with Copilot in your terminal. Let me know down in the comments below Outtro what AI terminal do you use. So far we've covered Gemini and Copilot.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 86,
+      "sentence_start": 425,
+      "sentence_end": 429,
+      "sentence_count": 5,
+      "content": "And there's a few more to cover. So stay tuned for that. If you like the video, be sure to like, subscribe, hit the bell, and be sure to follow along with the Ultimate DevOps road map in the Instagram [music] link down below to follow the progress on the Ultimate DevOps course. And if you want to support the channel even further, hit the join button down below to become a YouTube member. And as always, thanks for watching and until next time, peace.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    }
+  ]
+}

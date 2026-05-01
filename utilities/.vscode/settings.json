@@ -1,0 +1,20 @@
+{
+  "github.copilot.chat.codeGeneration.instructions": [
+    { "file": ".vscode/instructions/coding-standards.instructions.md" },
+    { "file": ".vscode/instructions/api-conventions.instructions.md" },
+    { "file": ".vscode/instructions/security-rules.instructions.md" },
+    { "file": ".vscode/instructions/git-conventions.instructions.md" }
+  ],
+  "github.copilot.chat.testGeneration.instructions": [
+    { "file": ".vscode/instructions/testing-standards.instructions.md" },
+    { "file": ".vscode/instructions/coding-standards.instructions.md" }
+  ],
+  "github.copilot.chat.reviewSelection.instructions": [
+    { "file": ".vscode/instructions/security-rules.instructions.md" },
+    { "file": ".vscode/instructions/coding-standards.instructions.md" },
+    { "file": ".vscode/instructions/api-conventions.instructions.md" }
+  ],
+  "github.copilot.chat.commitMessageGeneration.instructions": [
+    { "file": ".vscode/instructions/git-conventions.instructions.md" }
+  ]
+}

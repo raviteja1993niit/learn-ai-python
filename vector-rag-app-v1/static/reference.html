@@ -1,0 +1,1775 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VectorRAG App — Reference Guide</title>
+
+  <!-- ─── THEME VARIABLES ──────────────────────────────────────── -->
+  <style>
+  /* ── DARK (default) ──────────────────────────────────────── */
+  :root,
+  [data-theme="dark"] {
+    --bg0:          #0d0d1a;
+    --bg1:          #1a1a2e;
+    --bg2:          #16213e;
+    --bg3:          #0f3460;
+    --card:         rgba(255,255,255,0.045);
+    --card-hover:   rgba(255,255,255,0.07);
+    --border:       rgba(255,255,255,0.09);
+    --border-strong:rgba(255,255,255,0.18);
+    --text1:        #e8edf5;
+    --text2:        #94a3b8;
+    --text3:        #475569;
+    --accent:       #00b4d8;
+    --accent2:      #1a6cf6;
+    --nav-bg:       rgba(13,13,26,0.95);
+    --hero-from:    #0f0c29;
+    --hero-mid:     #1a1050;
+    --hero-to:      #0d1a2e;
+    --code-bg:      #090f17;
+    --scrollbar:    #1a6cf6;
+    --shadow:       0 8px 40px rgba(0,0,0,0.5);
+    --diagram-bg:   #0d1520;
+    --table-head:   rgba(255,255,255,0.06);
+    --table-row:    rgba(255,255,255,0.02);
+    --transition:   background .3s ease, color .3s ease, border-color .3s ease;
+  }
+
+  /* ── LIGHT ───────────────────────────────────────────────── */
+  [data-theme="light"] {
+    --bg0:          #f0f4f8;
+    --bg1:          #ffffff;
+    --bg2:          #f8fafc;
+    --bg3:          #e2e8f0;
+    --card:         #ffffff;
+    --card-hover:   #f8fafc;
+    --border:       #e2e8f0;
+    --border-strong:#cbd5e1;
+    --text1:        #1e293b;
+    --text2:        #475569;
+    --text3:        #94a3b8;
+    --accent:       #0284c7;
+    --accent2:      #1d4ed8;
+    --nav-bg:       rgba(255,255,255,0.97);
+    --hero-from:    #1e3a5f;
+    --hero-mid:     #1d4ed8;
+    --hero-to:      #0284c7;
+    --code-bg:      #f1f5f9;
+    --scrollbar:    #0284c7;
+    --shadow:       0 4px 24px rgba(0,0,0,0.12);
+    --diagram-bg:   #f8fafc;
+    --table-head:   #f1f5f9;
+    --table-row:    #fafafa;
+  }
+
+  /* ── MIDNIGHT ────────────────────────────────────────────── */
+  [data-theme="midnight"] {
+    --bg0:          #050508;
+    --bg1:          #0b0b14;
+    --bg2:          #0f0f1e;
+    --bg3:          #1a0a2e;
+    --card:         rgba(139,92,246,0.05);
+    --card-hover:   rgba(139,92,246,0.09);
+    --border:       rgba(139,92,246,0.15);
+    --border-strong:rgba(139,92,246,0.3);
+    --text1:        #ede9fe;
+    --text2:        #a78bfa;
+    --text3:        #6d28d9;
+    --accent:       #a78bfa;
+    --accent2:      #7c3aed;
+    --nav-bg:       rgba(5,5,8,0.97);
+    --hero-from:    #050508;
+    --hero-mid:     #180830;
+    --hero-to:      #0d0522;
+    --code-bg:      #070710;
+    --scrollbar:    #7c3aed;
+    --shadow:       0 8px 48px rgba(139,92,246,0.2);
+    --diagram-bg:   #080812;
+    --table-head:   rgba(139,92,246,0.08);
+    --table-row:    rgba(139,92,246,0.03);
+  }
+
+  /* ── OCEAN ───────────────────────────────────────────────── */
+  [data-theme="ocean"] {
+    --bg0:          #020c18;
+    --bg1:          #041422;
+    --bg2:          #061c30;
+    --bg3:          #082540;
+    --card:         rgba(0,180,216,0.05);
+    --card-hover:   rgba(0,180,216,0.09);
+    --border:       rgba(0,180,216,0.12);
+    --border-strong:rgba(0,180,216,0.28);
+    --text1:        #cffafe;
+    --text2:        #67e8f9;
+    --text3:        #155e75;
+    --accent:       #06b6d4;
+    --accent2:      #0891b2;
+    --nav-bg:       rgba(2,12,24,0.97);
+    --hero-from:    #020c18;
+    --hero-mid:     #042838;
+    --hero-to:      #041c2c;
+    --code-bg:      #010a12;
+    --scrollbar:    #06b6d4;
+    --shadow:       0 8px 48px rgba(0,180,216,0.18);
+    --diagram-bg:   #030f1c;
+    --table-head:   rgba(0,180,216,0.08);
+    --table-row:    rgba(0,180,216,0.025);
+  }
+  </style>
+
+  <!-- ─── MAIN STYLES ──────────────────────────────────────────── -->
+  <style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; font-size: 15px; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg0);
+    color: var(--text1);
+    line-height: 1.75;
+    transition: var(--transition);
+  }
+
+  ::-webkit-scrollbar         { width: 7px; height: 7px; }
+  ::-webkit-scrollbar-track   { background: var(--bg0); }
+  ::-webkit-scrollbar-thumb   { background: var(--scrollbar); border-radius: 4px; }
+
+  /* ── NAV ──────────────────────────────────────────────────── */
+  nav {
+    position: sticky; top: 0; z-index: 200;
+    background: var(--nav-bg);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 0;
+    padding: 0 28px; height: 58px;
+    overflow-x: auto; overflow-y: visible;
+    transition: var(--transition);
+  }
+  .nav-logo {
+    font-size: 15px; font-weight: 800; white-space: nowrap;
+    background: linear-gradient(135deg, #00d2ff, #0ea5e9);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    margin-right: 20px; flex-shrink: 0;
+  }
+  nav a {
+    color: var(--text2); text-decoration: none; font-size: 13px;
+    font-weight: 500; white-space: nowrap; padding: 0 13px;
+    height: 58px; display: flex; align-items: center;
+    border-bottom: 2px solid transparent;
+    transition: color .2s, border-color .2s;
+  }
+  nav a:hover, nav a.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .nav-spacer { flex: 1; }
+
+  /* ── THEME SWITCHER ───────────────────────────────────────── */
+  .theme-switcher {
+    display: flex; align-items: center; gap: 6px;
+    padding: 0 4px; flex-shrink: 0;
+  }
+  .theme-switcher label {
+    font-size: 11px; font-weight: 600; color: var(--text3);
+    text-transform: uppercase; letter-spacing: .08em;
+    margin-right: 4px; white-space: nowrap;
+  }
+  .theme-btn {
+    width: 30px; height: 30px; border-radius: 8px; border: 1.5px solid var(--border);
+    background: var(--card); cursor: pointer; font-size: 15px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all .18s; position: relative;
+  }
+  .theme-btn:hover { border-color: var(--accent); transform: scale(1.12); }
+  .theme-btn.active {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(0,180,216,0.2);
+    background: var(--bg3);
+  }
+  .theme-btn[title]::after {
+    content: attr(title); position: absolute; top: 38px; left: 50%;
+    transform: translateX(-50%); background: var(--bg0);
+    border: 1px solid var(--border); color: var(--text1);
+    font-size: 11px; padding: 3px 8px; border-radius: 4px; white-space: nowrap;
+    opacity: 0; pointer-events: none; transition: opacity .15s;
+  }
+  .theme-btn:hover[title]::after { opacity: 1; }
+
+  /* ── HERO ─────────────────────────────────────────────────── */
+  .hero {
+    position: relative; overflow: hidden; text-align: center;
+    background: linear-gradient(140deg, var(--hero-from) 0%, var(--hero-mid) 55%, var(--hero-to) 100%);
+    padding: 80px 32px 64px;
+    transition: var(--transition);
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background:
+      radial-gradient(ellipse 55% 45% at 15% 55%, rgba(0,210,255,.18) 0%, transparent 65%),
+      radial-gradient(ellipse 55% 45% at 85% 45%, rgba(14,165,233,.13) 0%, transparent 65%);
+  }
+  .hero-badge {
+    display: inline-block; margin-bottom: 18px;
+    background: rgba(0,210,255,.14); border: 1px solid rgba(0,210,255,.38);
+    color: #67e8f9; border-radius: 100px; font-size: 11.5px; font-weight: 700;
+    padding: 4px 18px; letter-spacing: .07em; text-transform: uppercase;
+    position: relative;
+  }
+  .hero h1 {
+    font-size: clamp(28px, 5.5vw, 56px); font-weight: 900; line-height: 1.12;
+    margin-bottom: 20px; position: relative;
+    background: linear-gradient(130deg, #fff 25%, var(--accent));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .hero p {
+    font-size: 17px; color: rgba(255,255,255,.6); max-width: 700px;
+    margin: 0 auto 38px; position: relative;
+  }
+  .hero-stats {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;
+    position: relative;
+  }
+  .hero-stat {
+    background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12);
+    border-radius: 12px; padding: 14px 26px; backdrop-filter: blur(8px);
+  }
+  .hero-stat .num {
+    font-size: 26px; font-weight: 800;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .hero-stat .lbl {
+    font-size: 11px; text-transform: uppercase; letter-spacing: .08em;
+    color: rgba(255,255,255,.45);
+  }
+
+  /* ── LAYOUT ───────────────────────────────────────────────── */
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 28px; }
+  section { padding: 68px 0; }
+  section + section { border-top: 1px solid var(--border); }
+
+  /* ── SECTION HEADINGS ─────────────────────────────────────── */
+  .section-label {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .12em; color: var(--accent); margin-bottom: 8px;
+  }
+  h2 {
+    font-size: 32px; font-weight: 800; margin-bottom: 14px;
+    background: linear-gradient(130deg, var(--text1) 55%, var(--accent));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .section-intro {
+    color: var(--text2); font-size: 16px; max-width: 760px; margin-bottom: 40px;
+  }
+
+  /* ── CARDS ────────────────────────────────────────────────── */
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px,1fr)); gap: 18px; }
+  .card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 14px; padding: 26px 22px;
+    transition: transform .2s, box-shadow .2s, border-color .2s, background .2s;
+  }
+  .card:hover {
+    transform: translateY(-3px); box-shadow: var(--shadow);
+    border-color: var(--border-strong); background: var(--card-hover);
+  }
+  .card-icon { font-size: 30px; margin-bottom: 12px; }
+  .card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; color: var(--text1); }
+  .card p  { font-size: 13.5px; color: var(--text2); }
+
+  /* ── WORKFLOW CARDS ───────────────────────────────────────── */
+  .workflow-list { display: flex; flex-direction: column; gap: 36px; }
+
+  .workflow-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 16px; overflow: hidden;
+    transition: border-color .25s, box-shadow .25s;
+  }
+  .workflow-card:hover { border-color: var(--border-strong); box-shadow: var(--shadow); }
+
+  .workflow-header {
+    display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+    padding: 22px 28px; border-bottom: 1px solid var(--border);
+  }
+  .wf-badge {
+    flex-shrink: 0; width: 46px; height: 46px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; font-weight: 900; letter-spacing: -.5px;
+  }
+  .workflow-header h3 { font-size: 20px; font-weight: 800; color: var(--text1); flex: 1; }
+  .workflow-header .sub { font-size: 13px; color: var(--text2); margin-top: 2px; }
+  .trigger-chip {
+    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em;
+    padding: 4px 12px; border-radius: 100px; white-space: nowrap; flex-shrink: 0;
+    background: var(--bg3); color: var(--accent); border: 1px solid var(--border);
+  }
+
+  .workflow-meta {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+    padding: 24px 28px 0;
+  }
+  @media (max-width: 680px) { .workflow-meta { grid-template-columns: 1fr; } }
+  .workflow-meta h4 {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .08em; color: var(--accent); margin-bottom: 10px;
+  }
+  .workflow-meta p { font-size: 14px; color: var(--text2); }
+
+  .cmd-list { list-style: none; display: flex; flex-direction: column; gap: 7px; margin-top: 4px; }
+  .cmd-list li { display: flex; align-items: center; }
+  .cmd-tag {
+    font-family: 'Cascadia Code','Fira Code','Courier New',monospace;
+    background: rgba(0,180,216,.1); border: 1px solid rgba(0,180,216,.25);
+    color: var(--accent); padding: 3px 11px; border-radius: 5px;
+    font-size: 12px; transition: background .15s;
+  }
+  [data-theme="light"] .cmd-tag {
+    background: rgba(2,132,199,.08); border-color: rgba(2,132,199,.3);
+    color: #0369a1;
+  }
+  [data-theme="midnight"] .cmd-tag {
+    background: rgba(139,92,246,.1); border-color: rgba(139,92,246,.3);
+    color: #a78bfa;
+  }
+
+  /* ── DIAGRAM SECTION ──────────────────────────────────────── */
+  .diagram-section {
+    padding: 24px 28px 28px;
+  }
+  .diagram-section h4 {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .08em; color: var(--accent); margin-bottom: 14px;
+  }
+  .diagram-wrap {
+    background: var(--diagram-bg); border: 1px solid var(--border);
+    border-radius: 12px; padding: 0;
+    height: 380px;
+    display: flex; align-items: flex-start; justify-content: flex-start;
+    overflow: hidden; transition: background .3s, border-color .2s;
+    position: relative; cursor: pointer;
+  }
+  .diagram-wrap::after {
+    content: '🔍 Click to zoom';
+    position: absolute; bottom: 6px; right: 8px;
+    font-size: 10px; color: var(--text3);
+    background: var(--diagram-bg); padding: 2px 6px; border-radius: 4px;
+    opacity: 0; transition: opacity .2s; pointer-events: none;
+  }
+  .diagram-wrap:hover::after { opacity: 1; }
+  .diagram-wrap:hover { border-color: var(--border-strong); }
+  .diagram-wrap .mermaid {
+    transform-origin: top left;
+    flex-shrink: 0;
+  }
+  .diagram-loading {
+    position: absolute; inset: 0; display: flex; align-items: center;
+    justify-content: center; color: var(--text3); font-size: 13px;
+    pointer-events: none;
+  }
+  .mermaid {
+    width: 100%;
+    max-width: 100%;
+  }
+  .mermaid svg {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+  /* ── INFO / WARN BOXES ────────────────────────────────────── */
+  .info-box {
+    background: rgba(0,180,216,.08); border: 1px solid rgba(0,180,216,.25);
+    border-left: 4px solid var(--accent); border-radius: 6px;
+    padding: 12px 16px; font-size: 13.5px; color: #a5f3fc; margin-top: 14px;
+  }
+  .warn-box {
+    background: rgba(251,191,36,.07); border: 1px solid rgba(251,191,36,.25);
+    border-left: 4px solid #fbbf24; border-radius: 6px;
+    padding: 12px 16px; font-size: 13.5px; color: #fde68a; margin-top: 14px;
+  }
+  [data-theme="light"] .info-box { color: #0369a1; background: rgba(2,132,199,.07); }
+  [data-theme="light"] .warn-box { color: #92400e; background: rgba(251,191,36,.08); }
+
+  /* ── PILL COLORS ──────────────────────────────────────────── */
+  .pill { display: inline-block; padding: 3px 11px; border-radius: 100px; font-size: 12px; font-weight: 600; }
+  .bg-blue   { background:rgba(26,108,246,.18); color:#93c5fd; }
+  .bg-teal   { background:rgba(0,180,216,.18);  color:#67e8f9; }
+  .bg-green  { background:rgba(6,214,160,.18);  color:#6ee7b7; }
+  .bg-yellow { background:rgba(253,186,66,.18); color:#fde68a; }
+  .bg-purple { background:rgba(139,92,246,.18); color:#c4b5fd; }
+  .bg-orange { background:rgba(249,115,22,.18); color:#fdba74; }
+  .bg-pink   { background:rgba(236,72,153,.18); color:#f9a8d4; }
+  .bg-red    { background:rgba(239,68,68,.18);  color:#fca5a5; }
+  .bg-gray   { background:rgba(148,163,184,.12);color:#94a3b8; }
+  [data-theme="light"] .bg-blue   { background:rgba(26,108,246,.1);  color:#1d4ed8; }
+  [data-theme="light"] .bg-teal   { background:rgba(2,132,199,.1);   color:#0284c7; }
+  [data-theme="light"] .bg-green  { background:rgba(5,150,105,.1);   color:#059669; }
+  [data-theme="light"] .bg-yellow { background:rgba(217,119,6,.1);   color:#b45309; }
+  [data-theme="light"] .bg-purple { background:rgba(109,40,217,.1);  color:#7c3aed; }
+  [data-theme="light"] .bg-orange { background:rgba(234,88,12,.1);   color:#c2410c; }
+  [data-theme="light"] .bg-pink   { background:rgba(219,39,119,.1);  color:#db2777; }
+  [data-theme="light"] .bg-red    { background:rgba(220,38,38,.1);   color:#dc2626; }
+  [data-theme="light"] .bg-gray   { background:rgba(100,116,139,.1); color:#475569; }
+
+  /* ── TABLE ────────────────────────────────────────────────── */
+  .styled-table-wrap {
+    overflow-x: auto; border-radius: 12px; border: 1px solid var(--border);
+    transition: var(--transition);
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th {
+    background: var(--table-head); padding: 13px 16px;
+    text-align: left; font-weight: 700; font-size: 11.5px;
+    text-transform: uppercase; letter-spacing: .08em; color: var(--text2);
+    border-bottom: 1px solid var(--border);
+  }
+  td { padding: 13px 16px; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--text1); }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--table-row); }
+
+  /* ── CODE BLOCK ───────────────────────────────────────────── */
+  .code-block {
+    background: var(--code-bg); border: 1px solid var(--border);
+    border-radius: 12px; padding: 22px 26px;
+    font-family: 'Cascadia Code','Fira Code','Courier New',monospace;
+    font-size: 13px; color: #a5d6ff; line-height: 1.9;
+    overflow-x: auto; white-space: pre; transition: var(--transition);
+  }
+  [data-theme="light"] .code-block { color: #1e3a5f; background: #f1f5f9; }
+  .code-block .comment { color: #6e7681; }
+  [data-theme="light"] .code-block .comment { color: #94a3b8; }
+  .code-block .cmd    { color: #79c0ff; }
+  [data-theme="light"] .code-block .cmd { color: #0369a1; }
+
+  /* ── TIMELINE ─────────────────────────────────────────────── */
+  .timeline { display: flex; flex-direction: column; gap: 0; position: relative; padding-left: 32px; }
+  .timeline::before {
+    content: ''; position: absolute; left: 9px; top: 0; bottom: 0; width: 2px;
+    background: linear-gradient(to bottom, var(--accent2), var(--accent));
+    border-radius: 2px;
+  }
+  .tl-item { position: relative; padding: 0 0 26px 20px; }
+  .tl-item::before {
+    content: ''; position: absolute; left: -23px; top: 5px;
+    width: 12px; height: 12px; border-radius: 50%;
+    background: var(--accent); border: 2px solid var(--bg0);
+    box-shadow: 0 0 0 3px rgba(0,180,216,.3);
+  }
+  .tl-item h4 { font-size: 15px; font-weight: 700; color: var(--text1); margin-bottom: 3px; }
+  .tl-item p  { font-size: 13px; color: var(--text2); margin-bottom: 5px; }
+  .tl-cmd { font-family: monospace; font-size: 12px; color: var(--accent); }
+
+  /* ── STEP LIST ────────────────────────────────────────────── */
+  .step-list { list-style:none; counter-reset:steps; display:flex; flex-direction:column; gap:10px; }
+  .step-list li {
+    counter-increment:steps; display:flex; align-items:flex-start; gap:12px;
+    font-size:14px; color: var(--text2);
+  }
+  .step-list li::before {
+    content:counter(steps); flex-shrink:0; width:24px; height:24px; border-radius:50%;
+    background:linear-gradient(135deg, var(--accent2), var(--accent));
+    color:#fff; font-size:11px; font-weight:800;
+    display:flex; align-items:center; justify-content:center; margin-top:2px;
+  }
+
+  /* ── OUTPUT CARDS ─────────────────────────────────────────── */
+  .output-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px,1fr)); gap: 16px; }
+  .output-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 20px; display: flex; gap: 14px; align-items: flex-start;
+    transition: border-color .2s, background .2s;
+  }
+  .output-card:hover { border-color: var(--border-strong); background: var(--card-hover); }
+  .output-card .ficon { flex-shrink:0; width:40px; height:40px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:18px; }
+  .output-card h4 { font-size: 12.5px; font-weight: 700; color: var(--accent); margin-bottom: 4px; font-family: monospace; }
+  .output-card p  { font-size: 13px; color: var(--text2); }
+  .output-card .path { font-size:11px; color: var(--text3); margin-top:5px; font-family: monospace; }
+
+  /* ── CMD REFERENCE GRID ───────────────────────────────────── */
+  .cmd-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px,1fr)); gap: 16px; }
+  .cmd-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 18px 20px;
+    transition: border-color .2s, background .2s;
+  }
+  .cmd-card:hover { border-color: var(--border-strong); background: var(--card-hover); }
+  .wf-chip {
+    font-size: 10.5px; font-weight: 700; padding: 2px 9px; border-radius: 4px;
+    text-transform: uppercase; letter-spacing: .05em;
+  }
+  .cmd-card h4  { font-size: 14px; font-weight: 700; color: var(--text1); margin: 10px 0 5px; }
+  .cmd-card .slash { font-family: monospace; font-size: 12px; color: var(--accent); }
+  .cmd-card p   { font-size: 13px; color: var(--text2); margin-top: 7px; }
+
+  /* ── FOOTER ───────────────────────────────────────────────── */
+  footer {
+    background: var(--bg0); border-top: 1px solid var(--border);
+    padding: 44px 28px; text-align: center; transition: var(--transition);
+  }
+  footer strong { color: var(--text1); }
+  .footer-disclaimer {
+    max-width: 720px; margin: 14px auto 0; font-size: 12px;
+    color: var(--text3); line-height: 1.65;
+  }
+
+  /* ── DIAGRAM TOOLBAR ──────────────────────────────────────── */
+  .diagram-toolbar {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 12px; flex-wrap: wrap; gap: 8px;
+  }
+  .expand-btn {
+    font-size: 11px; font-weight: 600; color: var(--accent);
+    background: var(--card); border: 1px solid var(--accent);
+    border-radius: 6px; padding: 4px 14px; cursor: pointer;
+    transition: color .15s, border-color .15s, background .15s;
+    display: flex; align-items: center; gap: 5px;
+  }
+  .expand-btn:hover { background: var(--bg3); }
+
+  /* ── MODAL (full-screen diagram) ──────────────────────────── */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0; z-index: 999;
+    background: rgba(0,0,0,.85); backdrop-filter: blur(6px);
+    align-items: center; justify-content: center; padding: 32px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal-inner {
+    background: var(--bg1); border: 1px solid var(--border-strong);
+    border-radius: 16px; width: 100%; max-width: 1100px; max-height: 90vh;
+    overflow: auto; padding: 32px; position: relative;
+  }
+  .modal-close {
+    position: absolute; top: 16px; right: 16px;
+    width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--border);
+    background: var(--bg2); color: var(--text1); cursor: pointer;
+    font-size: 16px; display: flex; align-items: center; justify-content: center;
+    transition: background .15s;
+  }
+  .modal-close:hover { background: var(--bg3); }
+  .modal-title { font-size: 18px; font-weight: 700; color: var(--text1); margin-bottom: 20px; }
+  #modal-diagram .mermaid svg { width: 100% !important; height: auto !important; }
+
+  /* ── PIPELINE CARDS GRID ──────────────────────────────────── */
+  .pipeline-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap: 18px; }
+  .pipeline-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 14px; padding: 24px 20px;
+    transition: transform .2s, box-shadow .2s, border-color .2s;
+  }
+  .pipeline-card:hover {
+    transform: translateY(-3px); box-shadow: var(--shadow);
+    border-color: var(--border-strong); background: var(--card-hover);
+  }
+  .pipeline-card .pc-letter {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 36px; height: 36px; border-radius: 8px; font-size: 14px;
+    font-weight: 900; margin-bottom: 14px;
+  }
+  .pipeline-card h3 { font-size: 15px; font-weight: 700; color: var(--text1); margin-bottom: 10px; }
+  .pipeline-card ul {
+    list-style: none; display: flex; flex-direction: column; gap: 5px;
+  }
+  .pipeline-card ul li {
+    font-size: 12.5px; color: var(--text2);
+    display: flex; align-items: flex-start; gap: 6px;
+  }
+  .pipeline-card ul li::before { content: '▸'; color: var(--accent); flex-shrink: 0; }
+
+  /* ── TROUBLESHOOT CARDS ───────────────────────────────────── */
+  .trouble-grid { display: flex; flex-direction: column; gap: 16px; }
+  .trouble-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 14px; padding: 22px 24px;
+    transition: border-color .2s;
+  }
+  .trouble-card:hover { border-color: var(--border-strong); }
+  .trouble-card .trouble-title {
+    font-size: 15px; font-weight: 700; color: var(--text1);
+    margin-bottom: 8px; display: flex; align-items: center; gap: 10px;
+  }
+  .trouble-card p { font-size: 13.5px; color: var(--text2); }
+  .trouble-card .solution {
+    margin-top: 10px; font-size: 13px; color: #a5f3fc;
+    background: rgba(0,180,216,.07); border-left: 3px solid var(--accent);
+    padding: 8px 12px; border-radius: 4px;
+  }
+  [data-theme="light"] .trouble-card .solution { color: #0369a1; }
+
+  /* ── RESPONSIVE ───────────────────────────────────────────── */
+  @media (max-width: 600px) {
+    .hero { padding: 48px 18px 40px; }
+    section { padding: 48px 0; }
+    h2 { font-size: 24px; }
+    nav { padding: 0 14px; }
+    .workflow-header { padding: 18px 18px; }
+    .workflow-meta, .diagram-section { padding-left: 18px; padding-right: 18px; }
+  }
+  </style>
+</head>
+<body>
+
+<!-- ══ MODAL ═══════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="diagramModal" onclick="closeModal(event)">
+  <div class="modal-inner">
+    <button class="modal-close" onclick="closeModalBtn()">✕</button>
+    <div class="modal-title" id="modal-title"></div>
+    <div id="modal-diagram"></div>
+  </div>
+</div>
+
+<!-- ══ NAV ══════════════════════════════════════════════════════ -->
+<nav>
+  <span class="nav-logo">🔬 VectorRAG</span>
+  <a href="#overview">Overview</a>
+  <a href="#architecture">Architecture</a>
+  <a href="#quickstart">Getting Started</a>
+  <a href="#api">API Reference</a>
+  <a href="#vectorindex">VectorIndex</a>
+  <a href="#filetypes">File Types</a>
+  <a href="#browser">Doc Browser</a>
+  <a href="#troubleshooting">Help</a>
+  <div class="nav-spacer"></div>
+  <div class="theme-switcher">
+    <label>Theme</label>
+    <button class="theme-btn active" data-theme-target="dark"     title="Dark"     onclick="setTheme('dark')">🌙</button>
+    <button class="theme-btn"        data-theme-target="light"    title="Light"    onclick="setTheme('light')">☀️</button>
+    <button class="theme-btn"        data-theme-target="midnight" title="Midnight" onclick="setTheme('midnight')">🌌</button>
+    <button class="theme-btn"        data-theme-target="ocean"    title="Ocean"    onclick="setTheme('ocean')">🌊</button>
+  </div>
+</nav>
+
+<!-- ══ HERO ═════════════════════════════════════════════════════ -->
+<div class="hero">
+  <div class="hero-badge">Local AI · No Cloud · No VectorDB API</div>
+  <h1>VectorRAG —<br/>Semantic Document Chat</h1>
+  <p>Upload any document and chat with it using semantic vector search. Powered by TF-IDF + LSA embeddings, FastAPI, and GitHub Copilot — all running locally, no internet required at runtime.</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="num">6</div><div class="lbl">File Types</div></div>
+    <div class="hero-stat"><div class="num">TF-IDF + LSA</div><div class="lbl">Retrieval Engine</div></div>
+    <div class="hero-stat"><div class="num">128</div><div class="lbl">Dimensions</div></div>
+    <div class="hero-stat"><div class="num">15k</div><div class="lbl">Features</div></div>
+    <div class="hero-stat"><div class="num">18+</div><div class="lbl">LLM Models</div></div>
+    <div class="hero-stat"><div class="num">Zero</div><div class="lbl">Cloud Deps</div></div>
+  </div>
+</div>
+
+<!-- ══ OVERVIEW ═════════════════════════════════════════════════ -->
+<section id="overview">
+  <div class="container">
+    <div class="section-label">What it does</div>
+    <h2>Overview &amp; Capabilities</h2>
+    <p class="section-intro">VectorRAG turns any local document into a conversational knowledge base. Upload once, chat naturally — the semantic engine finds the most relevant pages even when your question uses different words than the document.</p>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">🧠</div>
+        <h3>Semantic Search</h3>
+        <p>Uses TF-IDF with bigrams + TruncatedSVD (LSA) to create 128-dimensional dense vectors. Finds semantically similar pages even when exact keywords don't match.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📂</div>
+        <h3>6 File Types</h3>
+        <p>Supports PDF (pdfplumber), DOCX (python-docx), XLSX/XLS (openpyxl), CSV, TXT, and Markdown. Each parsed into natural page units — no arbitrary chunking.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">⚡</div>
+        <h3>Fully Local</h3>
+        <p>No HuggingFace downloads, no cloud vector DB, no GPU. sklearn + numpy only. Works on air-gapped corporate networks.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">💬</div>
+        <h3>Multi-turn Chat</h3>
+        <p>Maintains conversation history per session. Follow-up questions reference previous answers naturally.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🤖</div>
+        <h3>18+ LLM Models</h3>
+        <p>Switch between GitHub Copilot models (GPT-5, Claude Opus/Sonnet/Haiku, Grok) at any time from the sidebar.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📖</div>
+        <h3>Document Browser</h3>
+        <p>Browse all indexed pages with search, stats, and full-content preview. Semantic search ranks pages by cosine similarity.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ ARCHITECTURE ═════════════════════════════════════════════ -->
+<section id="architecture">
+  <div class="container">
+    <div class="section-label">System Design</div>
+    <h2>Architecture</h2>
+    <p class="section-intro">VectorRAG implements a full semantic RAG pipeline: parse → vectorize → index → retrieve → generate. Every component runs in-process with no external services required at runtime.</p>
+
+    <div class="workflow-card" style="margin-bottom:40px;">
+      <div class="workflow-header">
+        <div class="wf-badge bg-teal">🔀</div>
+        <div style="flex:1">
+          <h3 style="margin:0">Full Pipeline: Upload → Index → Chat</h3>
+          <div class="sub">Document parsing · TF-IDF vectorization · LSA dimensionality reduction · Cosine similarity retrieval · LLM generation</div>
+        </div>
+        <div class="trigger-chip">End-to-end</div>
+      </div>
+      <div class="diagram-section">
+        <div class="diagram-toolbar">
+          <h4 style="margin:0">Architecture Flowchart</h4>
+          <button class="expand-btn" onclick="expandDiagram('VectorRAG — Full Pipeline', 'arch-main')">🔍 Zoom</button>
+        </div>
+        <div class="diagram-wrap">
+          <div class="mermaid" id="arch-main">
+flowchart TD
+    A[📂 Upload Document] --> B[Document Parser]
+    B --> |PDF pages| C[PageIndex]
+    B --> |DOCX sections| C
+    B --> |XLSX sheets| C
+    B --> |CSV batches| C
+    B --> |TXT/MD sections| C
+    C --> D[TF-IDF Vectorizer\nmax_features=15000\nbigrams · sublinear_tf]
+    D --> E[TruncatedSVD\nLSA · 128 dims]
+    E --> F[L2 Normalize\nEmbeddings Matrix\nshape: n_pages x 128]
+    G[💬 User Query] --> H[Transform Query\nTF-IDF → SVD → L2]
+    H --> I[Cosine Similarity\ndot product on\nnormalized vectors]
+    F --> I
+    I --> J[Top-K Pages\nRanked by similarity]
+    J --> K[Build Context\nmax 24k chars]
+    K --> L[GitHub Copilot LLM\nSystem + History + Context]
+    L --> M[✅ Grounded Answer]
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="font-size:20px;font-weight:800;color:var(--text1);margin-bottom:18px;">VectorRAG vs BM25 Approach</h3>
+    <div class="styled-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Aspect</th>
+            <th>BM25 (vector-less-rag-app-v2)</th>
+            <th>VectorRAG (this app)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Search type</strong></td>
+            <td>Keyword / lexical</td>
+            <td><span class="pill bg-teal">Semantic / conceptual</span></td>
+          </tr>
+          <tr>
+            <td><strong>Retrieval</strong></td>
+            <td>rank-bm25</td>
+            <td>TF-IDF + LSA (sklearn)</td>
+          </tr>
+          <tr>
+            <td><strong>Internet needed</strong></td>
+            <td><span class="pill bg-green">No</span></td>
+            <td><span class="pill bg-green">No</span></td>
+          </tr>
+          <tr>
+            <td><strong>GPU needed</strong></td>
+            <td><span class="pill bg-green">No</span></td>
+            <td><span class="pill bg-green">No</span></td>
+          </tr>
+          <tr>
+            <td><strong>Score range</strong></td>
+            <td>BM25 score (unbounded)</td>
+            <td>Cosine similarity (0 – 1)</td>
+          </tr>
+          <tr>
+            <td><strong>Handles synonyms</strong></td>
+            <td>Partial</td>
+            <td><span class="pill bg-teal">Yes</span></td>
+          </tr>
+          <tr>
+            <td><strong>Short queries</strong></td>
+            <td><span class="pill bg-green">Excellent</span></td>
+            <td><span class="pill bg-yellow">Good</span></td>
+          </tr>
+          <tr>
+            <td><strong>Long concept queries</strong></td>
+            <td><span class="pill bg-yellow">Good</span></td>
+            <td><span class="pill bg-green">Excellent</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ══ GETTING STARTED ═══════════════════════════════════════════ -->
+<section id="quickstart">
+  <div class="container">
+    <div class="section-label">Setup</div>
+    <h2>Getting Started</h2>
+    <p class="section-intro">Get VectorRAG running in three steps. No API keys to register, no model downloads — just pip install and start the server.</p>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <h4>Step 1 — Install Dependencies</h4>
+        <p>Install all Python packages from the requirements file.</p>
+        <div class="code-block">cd vector-rag-app-v1
+pip install -r requirements.txt</div>
+      </div>
+      <div class="tl-item">
+        <h4>Step 2 — Start the Server</h4>
+        <p>Launch the FastAPI server. It starts on port 8000 by default.</p>
+        <div class="code-block">python server.py</div>
+        <div class="info-box" style="margin-top:10px;">
+          ✅ Server starts at <strong>http://localhost:8000</strong> — open this in your browser.
+        </div>
+      </div>
+      <div class="tl-item">
+        <h4>Step 3 — Upload a Document &amp; Chat!</h4>
+        <p>Open the app in your browser, upload any supported document, and start asking questions.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:40px;">
+      <h3 style="font-size:18px;font-weight:800;color:var(--text1);margin-bottom:18px;">Upload &amp; Chat Flow</h3>
+      <ol class="step-list">
+        <li><span>Enter your GitHub token — or let it auto-detect from <code>gh auth token</code>.</span></li>
+        <li><span>Select <strong>Provider</strong> (GitHub Models or GitHub Copilot) and <strong>Model</strong> from the sidebar.</span></li>
+        <li><span>Set <strong>Top-K</strong> — number of pages to retrieve per query (default: 4).</span></li>
+        <li><span>Drop or choose a file: PDF, DOCX, XLSX, CSV, TXT, or MD.</span></li>
+        <li><span>Wait for indexing — TF-IDF vocabulary build + LSA vectorization (typically &lt;2s for most documents).</span></li>
+        <li><span>The <strong>Chat</strong> tab opens automatically — ask anything about your document!</span></li>
+      </ol>
+    </div>
+
+    <div style="margin-top:32px;">
+      <h3 style="font-size:18px;font-weight:800;color:var(--text1);margin-bottom:14px;">Available LLM Providers &amp; Models</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;">
+        <div class="cmd-card">
+          <span class="wf-chip bg-blue">GitHub Copilot</span>
+          <h4>OpenAI &amp; Anthropic &amp; xAI Models</h4>
+          <ul class="cmd-list" style="margin-top:8px;">
+            <li><span class="cmd-tag">gpt-4o-mini · gpt-4.1 · gpt-5-mini</span></li>
+            <li><span class="cmd-tag">gpt-5.2 · gpt-5.4-mini · gpt-5.4 · gpt-5.5</span></li>
+            <li><span class="cmd-tag">claude-haiku-4.5 · claude-sonnet-4 → 4.6</span></li>
+            <li><span class="cmd-tag">claude-opus-4.5 · 4.6 · 4.6-1m · 4.7</span></li>
+            <li><span class="cmd-tag">grok-code-fast-1</span></li>
+          </ul>
+        </div>
+        <div class="cmd-card">
+          <span class="wf-chip bg-teal">GitHub Models</span>
+          <h4>Free Tier Models</h4>
+          <ul class="cmd-list" style="margin-top:8px;">
+            <li><span class="cmd-tag">gpt-4o · gpt-4o-mini</span></li>
+            <li><span class="cmd-tag">Meta-Llama-3.1-70B-Instruct</span></li>
+            <li><span class="cmd-tag">Phi-3.5-mini · Phi-3-medium</span></li>
+            <li><span class="cmd-tag">mistral-large · mistral-small</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ API REFERENCE ═════════════════════════════════════════════ -->
+<section id="api">
+  <div class="container">
+    <div class="section-label">REST Endpoints</div>
+    <h2>API Reference</h2>
+    <p class="section-intro">VectorRAG exposes a clean REST API. All endpoints are served from <code>http://localhost:8000</code>. The frontend communicates via JSON (chat/reset/clear) and multipart form (upload).</p>
+
+    <div class="styled-table-wrap" style="margin-bottom:40px;">
+      <table>
+        <thead>
+          <tr><th>Method</th><th>Path</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="pill bg-blue">GET</span></td>
+            <td><code>/</code></td>
+            <td>Serve main UI (index.html)</td>
+          </tr>
+          <tr>
+            <td><span class="pill bg-blue">GET</span></td>
+            <td><code>/api/models</code></td>
+            <td>List all providers and their available models</td>
+          </tr>
+          <tr>
+            <td><span class="pill bg-blue">GET</span></td>
+            <td><code>/api/token</code></td>
+            <td>Auto-detect GitHub token from <code>gh auth token</code> CLI</td>
+          </tr>
+          <tr>
+            <td><span class="pill bg-green">POST</span></td>
+            <td><code>/api/upload</code></td>
+            <td>Upload document, build VectorIndex, create session</td>
+          </tr>
+          <tr>
+            <td><span class="pill bg-green">POST</span></td>
+            <td><code>/api/chat</code></td>
+            <td>Ask a question — returns answer + ranked source pages</td>
+          </tr>
+          <tr>
+            <td><span class="pill bg-blue">GET</span></td>
+            <td><code>/api/pages</code></td>
+            <td>List all indexed pages (with optional semantic search query)</td>
+          </tr>
+          <tr>
+            <td><span class="pill bg-blue">GET</span></td>
+            <td><code>/api/scores</code></td>
+            <td>Get similarity scores for all pages against a query</td>
+          </tr>
+          <tr>
+            <td><span class="pill bg-green">POST</span></td>
+            <td><code>/api/reset</code></td>
+            <td>Delete session and free in-memory index</td>
+          </tr>
+          <tr>
+            <td><span class="pill bg-green">POST</span></td>
+            <td><code>/api/clear_chat</code></td>
+            <td>Clear conversation history for session (keep index)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- POST /api/upload -->
+    <div class="workflow-card" style="margin-bottom:24px;">
+      <div class="workflow-header">
+        <div class="wf-badge bg-green" style="font-size:12px;">POST</div>
+        <div style="flex:1">
+          <h3 style="margin:0">/api/upload</h3>
+          <div class="sub">Upload document · build TF-IDF index · create session</div>
+        </div>
+        <div class="trigger-chip">multipart/form-data</div>
+      </div>
+      <div class="workflow-meta">
+        <div>
+          <h4>Request Fields</h4>
+          <div class="code-block">session_id   string    UUID for this chat session
+file         file      Document (PDF/DOCX/XLSX/CSV/TXT/MD)
+model        string    e.g. "claude-haiku-4.5"
+provider     string    e.g. "GitHub Copilot"
+github_token string    GitHub personal access token
+top_k        int       Pages to retrieve per query (default: 4)</div>
+        </div>
+        <div>
+          <h4>Response</h4>
+          <div class="code-block">{
+  "ok": true,
+  "filename": "document.pdf",
+  "stats": {
+    "total_pages": 42,
+    "total_words": 18500,
+    "avg_words_per_page": 440,
+    "source_types": ["pdf_page"],
+    "longest_page": "Chapter 3: Results"
+  }
+}</div>
+        </div>
+      </div>
+      <div style="padding:0 28px 20px;">
+        <div class="info-box">
+          ℹ️ On success, the server parses the document, builds the TF-IDF vocabulary, runs TruncatedSVD, and stores the normalized embeddings matrix in memory under <code>session_id</code>. All subsequent chat requests must include the same <code>session_id</code>.
+        </div>
+      </div>
+    </div>
+
+    <!-- POST /api/chat -->
+    <div class="workflow-card" style="margin-bottom:24px;">
+      <div class="workflow-header">
+        <div class="wf-badge bg-green" style="font-size:12px;">POST</div>
+        <div style="flex:1">
+          <h3 style="margin:0">/api/chat</h3>
+          <div class="sub">Ask a question · semantic retrieval · LLM answer generation</div>
+        </div>
+        <div class="trigger-chip">application/json</div>
+      </div>
+      <div class="workflow-meta">
+        <div>
+          <h4>Request</h4>
+          <div class="code-block">{
+  "session_id": "550e8400-e29b-41d4-a716",
+  "question": "What is the main finding?"
+}</div>
+        </div>
+        <div>
+          <h4>Response</h4>
+          <div class="code-block">{
+  "answer": "The main finding is...",
+  "sources": [
+    {
+      "page_num": 7,
+      "title": "Chapter 3: Results",
+      "score": 0.847,
+      "word_count": 512,
+      "source_type": "pdf_page",
+      "content_preview": "First 300 chars..."
+    }
+  ]
+}</div>
+        </div>
+      </div>
+      <div style="padding:0 28px 20px;">
+        <div class="info-box">
+          ℹ️ The <code>score</code> field is the cosine similarity (0.0 – 1.0). Sources are returned in descending score order. The LLM receives the top-K pages as context plus the last 6 turns of conversation history.
+        </div>
+      </div>
+    </div>
+
+    <!-- GET /api/pages -->
+    <div class="workflow-card" style="margin-bottom:24px;">
+      <div class="workflow-header">
+        <div class="wf-badge bg-blue" style="font-size:12px;">GET</div>
+        <div style="flex:1">
+          <h3 style="margin:0">/api/pages</h3>
+          <div class="sub">List all indexed pages — optionally ranked by semantic search query</div>
+        </div>
+        <div class="trigger-chip">query params</div>
+      </div>
+      <div class="workflow-meta">
+        <div>
+          <h4>Query Parameters</h4>
+          <div class="code-block">session_id  string   Required — session UUID
+search      string   Optional — semantic search query</div>
+          <div class="info-box" style="margin-top:10px;">
+            When <code>search</code> is provided, pages are ranked by cosine similarity score (highest first). Without search, pages are returned in document order with <code>score: 0.0</code>.
+          </div>
+        </div>
+        <div>
+          <h4>Response</h4>
+          <div class="code-block">{
+  "pages": [
+    {
+      "page_num": 1,
+      "title": "Introduction",
+      "word_count": 320,
+      "source_type": "pdf_page",
+      "content": "Full page text...",
+      "score": 0.72
+    }
+  ],
+  "stats": {
+    "total_pages": 42,
+    "total_words": 18500,
+    "avg_words_per_page": 440,
+    "source_types": ["pdf_page"]
+  }
+}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- POST /api/reset & /api/clear_chat -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;flex-wrap:wrap;">
+      <div class="cmd-card">
+        <span class="wf-chip bg-red">POST</span>
+        <h4>/api/reset</h4>
+        <p>Deletes the session and frees all in-memory data (index, embeddings, chat history). Send <code>&#123;"session_id": "..."&#125;</code>.</p>
+        <div class="code-block" style="margin-top:10px;font-size:12px;">{ "session_id": "uuid" }
+→ { "ok": true }</div>
+      </div>
+      <div class="cmd-card">
+        <span class="wf-chip bg-yellow">POST</span>
+        <h4>/api/clear_chat</h4>
+        <p>Clears conversation history for the session but keeps the document index loaded. Send <code>&#123;"session_id": "..."&#125;</code>.</p>
+        <div class="code-block" style="margin-top:10px;font-size:12px;">{ "session_id": "uuid" }
+→ { "ok": true }</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ VECTOR INDEX DEEP DIVE ════════════════════════════════════ -->
+<section id="vectorindex">
+  <div class="container">
+    <div class="section-label">Under the Hood</div>
+    <h2>VectorIndex Deep Dive</h2>
+    <p class="section-intro">The <code>VectorIndex</code> class (<code>src/vector_index.py</code>) is the heart of VectorRAG. It implements a four-stage pipeline: TF-IDF sparse vectorization → LSA dense reduction → L2 normalization → cosine similarity search.</p>
+
+    <div class="pipeline-grid" style="margin-bottom:36px;">
+      <div class="pipeline-card">
+        <div class="pc-letter bg-blue">A</div>
+        <h3>TF-IDF Vectorization</h3>
+        <ul>
+          <li><code>max_features=15000</code> — vocabulary cap</li>
+          <li><code>stop_words="english"</code> — removes common words</li>
+          <li><code>sublinear_tf=True</code> — log normalization of term freq</li>
+          <li><code>ngram_range=(1,2)</code> — unigrams + bigrams</li>
+          <li>Output: sparse matrix <code>(n_pages, 15000)</code></li>
+        </ul>
+      </div>
+      <div class="pipeline-card">
+        <div class="pc-letter bg-teal">B</div>
+        <h3>LSA via TruncatedSVD</h3>
+        <ul>
+          <li><code>n_components=128</code> — latent dimensions</li>
+          <li><code>random_state=42</code> — reproducible runs</li>
+          <li>Captures latent semantic structure</li>
+          <li>Handles synonyms &amp; related terms</li>
+          <li>Output: dense matrix <code>(n_pages, 128)</code></li>
+        </ul>
+      </div>
+      <div class="pipeline-card">
+        <div class="pc-letter bg-purple">C</div>
+        <h3>L2 Normalization</h3>
+        <ul>
+          <li><code>normalize()</code> from sklearn.preprocessing</li>
+          <li>Makes each row unit-length vector</li>
+          <li>Dot product of normalized vectors = cosine similarity</li>
+          <li>Eliminates document length bias</li>
+          <li>Output: embeddings matrix <code>(n_pages, 128)</code></li>
+        </ul>
+      </div>
+      <div class="pipeline-card">
+        <div class="pc-letter bg-green">D</div>
+        <h3>Query Search</h3>
+        <ul>
+          <li>Transform: TF-IDF → SVD → normalize (same pipeline)</li>
+          <li><code>scores = embeddings @ query_vec.T</code></li>
+          <li>Returns top-K by <code>argsort</code> descending</li>
+          <li>Score range: 0.0 to 1.0 (cosine similarity)</li>
+          <li>Sub-millisecond for most documents</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="font-size:18px;font-weight:800;color:var(--text1);margin-bottom:14px;">Search Method Source</h3>
+    <div class="code-block"><span class="comment"># src/vector_index.py — VectorIndex.search()</span>
+
+def search(self, query: str, top_k: int = 4) -> List[Tuple[Page, float]]:
+    <span class="comment"># Transform query through same TF-IDF → SVD → normalize pipeline</span>
+    q_tfidf = self.vectorizer.transform([query])          <span class="comment"># sparse (1, 15000)</span>
+    q_vec   = normalize(self.svd.transform(q_tfidf))     <span class="comment"># dense  (1, 128)</span>
+
+    <span class="comment"># Cosine similarity = dot product of L2-normalized vectors</span>
+    scores  = (self.embeddings @ q_vec.T).flatten()       <span class="comment"># (n_pages,)</span>
+
+    <span class="comment"># Return top-K pages sorted by similarity score descending</span>
+    top_idx = np.argsort(scores)[::-1][:min(top_k, len(self.pages))]
+    return [(self.pages[i], float(scores[i])) for i in top_idx]</div>
+
+    <div class="info-box">
+      💡 <strong>Why LSA?</strong> Unlike raw TF-IDF, LSA captures latent semantic relationships between terms. If a document discusses "myocardial infarction" and a user asks about "heart attack", LSA can still find the relevant page because the terms co-occur in similar semantic contexts across the corpus.
+    </div>
+
+    <h3 style="font-size:18px;font-weight:800;color:var(--text1);margin:32px 0 14px;">Index Construction</h3>
+    <div class="code-block"><span class="comment"># src/vector_index.py — VectorIndex.__init__()</span>
+
+<span class="comment"># Stage 1: Build TF-IDF sparse matrix</span>
+self.vectorizer = TfidfVectorizer(
+    max_features=15000,
+    stop_words="english",
+    sublinear_tf=True,
+    ngram_range=(1, 2),
+)
+tfidf = self.vectorizer.fit_transform(texts)   <span class="comment"># shape: (n_pages, 15000)</span>
+
+<span class="comment"># Stage 2: LSA — reduce to dense semantic vectors</span>
+n = min(n_components, len(texts) - 1, tfidf.shape[1] - 1)
+self.svd = TruncatedSVD(n_components=max(n, 1), random_state=42)
+dense = self.svd.fit_transform(tfidf)          <span class="comment"># shape: (n_pages, 128)</span>
+
+<span class="comment"># Stage 3: L2-normalise so dot product == cosine similarity</span>
+self.embeddings = normalize(dense)             <span class="comment"># shape: (n_pages, 128)</span></div>
+
+    <div class="warn-box">
+      ⚠️ <strong>Minimum corpus size:</strong> TruncatedSVD requires at least 2 documents (pages) and the number of components is clamped to <code>min(128, n_pages-1, vocab_size-1)</code>. Very small documents (&lt;3 pages) will use fewer latent dimensions, which may reduce semantic quality.
+    </div>
+  </div>
+</section>
+
+<!-- ══ FILE TYPES ════════════════════════════════════════════════ -->
+<section id="filetypes">
+  <div class="container">
+    <div class="section-label">Document Support</div>
+    <h2>Supported File Types</h2>
+    <p class="section-intro">VectorRAG supports six document formats, each parsed by a dedicated strategy that produces natural semantic units — no arbitrary character/token chunking.</p>
+
+    <div class="styled-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Extension</th>
+            <th>Source Type</th>
+            <th>Parse Strategy</th>
+            <th>Page Unit</th>
+            <th>Library</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="pill bg-red">.pdf</span></td>
+            <td><code>pdf_page</code></td>
+            <td>Text + table extraction; first non-empty line as title</td>
+            <td>One page per PDF page</td>
+            <td>pdfplumber (PyPDF2 fallback)</td>
+          </tr>
+          <tr>
+            <td><span class="pill bg-blue">.docx</span></td>
+            <td><code>docx_section</code></td>
+            <td>Heading-based section split (Heading 1/2/3, Title style)</td>
+            <td>One section per heading</td>
+            <td>python-docx</td>
+          </tr>
+          <tr>
+            <td><span class="pill bg-green">.xlsx / .xls</span></td>
+            <td><code>xlsx_sheet</code></td>
+            <td>Each sheet → markdown table with header row</td>
+            <td>One page per sheet</td>
+            <td>openpyxl</td>
+          </tr>
+          <tr>
+            <td><span class="pill bg-yellow">.csv</span></td>
+            <td><code>csv_batch</code></td>
+            <td>Rows batched 50 per page into markdown tables</td>
+            <td>50 rows per page</td>
+            <td>Python csv module</td>
+          </tr>
+          <tr>
+            <td><span class="pill bg-teal">.txt</span></td>
+            <td><code>text_section</code></td>
+            <td>Regex heading split; fallback: 800-word paragraph batches</td>
+            <td>One section per heading or 800 words</td>
+            <td>Built-in (re)</td>
+          </tr>
+          <tr>
+            <td><span class="pill bg-purple">.md</span></td>
+            <td><code>md_section</code></td>
+            <td>Markdown heading split on ## / ###</td>
+            <td>One section per heading</td>
+            <td>Built-in (re)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="info-box">
+      📄 <strong>Natural units, not chunks:</strong> Each page is indexed as a complete natural unit. Tables, code blocks, and paragraphs are never split mid-way. This means an XLSX sheet with a 200-row table stays as one coherent page, and a PDF chapter with rich formatting is preserved in full.
+    </div>
+
+    <div style="margin-top:32px;">
+      <h3 style="font-size:18px;font-weight:800;color:var(--text1);margin-bottom:14px;">Parser Architecture</h3>
+      <div class="code-block"><span class="comment"># src/parser.py — parse_file() dispatcher</span>
+
+dispatch = {
+    ".pdf":  _parse_pdf,       <span class="comment"># pdfplumber → page text + tables</span>
+    ".docx": _parse_docx,      <span class="comment"># python-docx → heading-based sections</span>
+    ".xlsx": _parse_xlsx,      <span class="comment"># openpyxl → one Page per sheet</span>
+    ".xls":  _parse_xlsx,      <span class="comment"># same as xlsx</span>
+    ".csv":  _parse_csv,       <span class="comment"># csv module → 50-row batches</span>
+    ".txt":  lambda b: _split_text_sections(b.decode(), "text_section"),
+    ".md":   lambda b: _split_text_sections(b.decode(), "md_section"),
+}
+
+<span class="comment"># Each Page dataclass carries:</span>
+@dataclass
+class Page:
+    page_num:    int    <span class="comment"># 1-based index</span>
+    title:       str    <span class="comment"># heading or "Page N"</span>
+    content:     str    <span class="comment"># full text of this unit</span>
+    word_count:  int    <span class="comment"># auto-computed if 0</span>
+    source_type: str    <span class="comment"># "pdf_page" | "docx_section" | etc.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ DOCUMENT BROWSER ══════════════════════════════════════════ -->
+<section id="browser">
+  <div class="container">
+    <div class="section-label">UI Feature</div>
+    <h2>Document Browser</h2>
+    <p class="section-intro">The <strong>Browse</strong> tab gives you full visibility into every indexed page — search semantically, inspect metadata, and expand to read the full content of any page.</p>
+
+    <div class="card-grid" style="margin-bottom:32px;">
+      <div class="card">
+        <div class="card-icon">📊</div>
+        <h3>Stats Row</h3>
+        <p>At the top of the browser: total pages, total words, average words per page, and the detected source type(s) — all computed from the in-memory index.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔍</div>
+        <h3>Semantic Search Box</h3>
+        <p>Type any query — results are re-ranked by cosine similarity score via <code>GET /api/pages?search=...</code>. A 400ms debounce prevents excessive requests while typing.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🃏</div>
+        <h3>Page Cards</h3>
+        <p>Each card shows: page number, title, word count, source type badge, and similarity score (when searching). Click any card to expand it.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📋</div>
+        <h3>Full Content Preview</h3>
+        <p>Expanded cards display the complete page content. Markdown/XLSX/CSV pages render as HTML tables; PDF/DOCX/TXT shown in monospace pre-block.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🏷️</div>
+        <h3>Metadata Chips</h3>
+        <p>Each expanded page shows metadata chips: source type, word count, page number, and cosine similarity score (displayed as a percentage when searching).</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">⚡</div>
+        <h3>Instant Re-rank</h3>
+        <p>Clearing the search box instantly restores document-order view. All re-ranking is done server-side with the already-built index — no re-vectorization needed.</p>
+      </div>
+    </div>
+
+    <div class="info-box">
+      💡 <strong>Use the browser to validate retrieval quality:</strong> Enter your chat question in the browser search box to see exactly which pages would be retrieved and their similarity scores. If the wrong pages rank highly, try rephrasing your question with more specific terms.
+    </div>
+  </div>
+</section>
+
+<!-- ══ TROUBLESHOOTING ═══════════════════════════════════════════ -->
+<section id="troubleshooting">
+  <div class="container">
+    <div class="section-label">Common Issues</div>
+    <h2>Troubleshooting</h2>
+    <p class="section-intro">Most issues with VectorRAG fall into one of these categories. Check server logs (<code>server.log</code>) for detailed error traces.</p>
+
+    <div class="trouble-grid">
+
+      <div class="trouble-card">
+        <div class="trouble-title"><span>✅</span> SSL/TLS Errors When Downloading a Model</div>
+        <p>Some RAG apps require downloading sentence-transformer models which can fail behind corporate SSL-inspection proxies.</p>
+        <div class="solution">
+          <strong>Already solved.</strong> VectorRAG uses sklearn/numpy only — no HuggingFace model downloads are ever required. The only outbound connection is the LLM API call, which uses Windows PowerShell's WinHTTP (native Windows certificate store) for maximum corporate proxy compatibility.
+        </div>
+      </div>
+
+      <div class="trouble-card">
+        <div class="trouble-title"><span>❌</span> "Session not found" Error</div>
+        <p>You receive a 404 with <code>"Session not found. Please upload a document first."</code> when chatting or browsing pages.</p>
+        <div class="solution">
+          Your session expired — the server was restarted and all in-memory sessions were cleared. <strong>Re-upload your document</strong>. Sessions are stored in memory only; persistence across restarts is not implemented. Keep the server running while using the app.
+        </div>
+      </div>
+
+      <div class="trouble-card">
+        <div class="trouble-title"><span>❌</span> Upload Fails with 500 Error</div>
+        <p>The upload endpoint returns HTTP 500 and the document is not indexed.</p>
+        <div class="solution">
+          <strong>Check these:</strong><br/>
+          1. Verify the file extension is one of: <code>.pdf .docx .xlsx .xls .csv .txt .md</code><br/>
+          2. Ensure the file is not password-protected or corrupted<br/>
+          3. Run <code>gh auth status</code> to verify your token is valid for auto-detection<br/>
+          4. Check <code>server.log</code> / <code>server_err.log</code> for the full Python traceback
+        </div>
+      </div>
+
+      <div class="trouble-card">
+        <div class="trouble-title"><span>⚠️</span> Poor Search Results / Irrelevant Pages Retrieved</div>
+        <p>The retrieved source pages don't match what you're looking for, even though the information is in the document.</p>
+        <div class="solution">
+          <strong>Try these in order:</strong><br/>
+          1. Increase <strong>Top-K</strong> in the sidebar (e.g., from 4 to 8) to retrieve more candidate pages<br/>
+          2. Rephrase with more descriptive words — LSA excels at longer concept queries<br/>
+          3. Use the Document Browser to directly search and verify which pages contain the answer<br/>
+          4. Very short documents (&lt;5 pages) may have limited LSA quality — the SVD has less data to work with
+        </div>
+      </div>
+
+      <div class="trouble-card">
+        <div class="trouble-title"><span>❌</span> Browser Tab Shows "Failed to load pages"</div>
+        <p>The Document Browser tab cannot fetch page data.</p>
+        <div class="solution">
+          The session may have expired or the server restarted. Re-upload your document to recreate the session. Also verify the server is running at <code>http://localhost:8000</code>.
+        </div>
+      </div>
+
+      <div class="trouble-card">
+        <div class="trouble-title"><span>⚠️</span> First Upload Is Slow</div>
+        <p>The first upload takes several seconds before indexing completes.</p>
+        <div class="solution">
+          <strong>This is expected behavior.</strong> sklearn builds the TF-IDF vocabulary across all pages and then runs TruncatedSVD (LSA). For large documents (100+ pages), this typically takes 2–5 seconds. Subsequent chat queries are instant — the embeddings matrix is pre-computed and stored in memory.
+        </div>
+      </div>
+
+      <div class="trouble-card">
+        <div class="trouble-title"><span>❌</span> GitHub Token Not Detected</div>
+        <p>The app cannot auto-detect your token and shows an empty token field.</p>
+        <div class="solution">
+          Run <code>gh auth login</code> in your terminal to authenticate the GitHub CLI. The app calls <code>gh auth token</code> at startup. Alternatively, paste your token manually in the sidebar. The token needs the <code>models:read</code> scope for GitHub Models and a Copilot subscription for GitHub Copilot endpoint.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ DEPENDENCIES ══════════════════════════════════════════════ -->
+<section id="dependencies">
+  <div class="container">
+    <div class="section-label">Requirements</div>
+    <h2>Dependencies &amp; Requirements</h2>
+    <p class="section-intro">All dependencies are pure-Python packages installable via pip. No CUDA, no C extensions requiring compilation, no system-level dependencies beyond Python 3.10+.</p>
+
+    <div class="styled-table-wrap">
+      <table>
+        <thead>
+          <tr><th>Package</th><th>Version</th><th>Purpose</th><th>Used By</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>fastapi</strong></td>
+            <td><span class="pill bg-teal">latest</span></td>
+            <td>Web framework + REST API routing</td>
+            <td><code>server.py</code></td>
+          </tr>
+          <tr>
+            <td><strong>uvicorn[standard]</strong></td>
+            <td><span class="pill bg-teal">latest</span></td>
+            <td>ASGI server — serves the FastAPI app</td>
+            <td><code>server.py</code></td>
+          </tr>
+          <tr>
+            <td><strong>python-multipart</strong></td>
+            <td><span class="pill bg-teal">latest</span></td>
+            <td>Multipart form parsing for file upload</td>
+            <td><code>/api/upload</code></td>
+          </tr>
+          <tr>
+            <td><strong>pdfplumber</strong></td>
+            <td><span class="pill bg-teal">latest</span></td>
+            <td>PDF text + table extraction (primary)</td>
+            <td><code>src/parser.py</code></td>
+          </tr>
+          <tr>
+            <td><strong>python-docx</strong></td>
+            <td><span class="pill bg-teal">latest</span></td>
+            <td>DOCX paragraph + table parsing</td>
+            <td><code>src/parser.py</code></td>
+          </tr>
+          <tr>
+            <td><strong>openpyxl</strong></td>
+            <td><span class="pill bg-teal">latest</span></td>
+            <td>XLSX/XLS sheet parsing</td>
+            <td><code>src/parser.py</code></td>
+          </tr>
+          <tr>
+            <td><strong>scikit-learn</strong></td>
+            <td><span class="pill bg-blue">latest</span></td>
+            <td>TfidfVectorizer + TruncatedSVD + normalize — the entire retrieval engine</td>
+            <td><code>src/vector_index.py</code></td>
+          </tr>
+          <tr>
+            <td><strong>numpy</strong></td>
+            <td><span class="pill bg-blue">latest</span></td>
+            <td>Matrix operations for cosine similarity (<code>@</code> operator, argsort)</td>
+            <td><code>src/vector_index.py</code></td>
+          </tr>
+          <tr>
+            <td><strong>httpx</strong></td>
+            <td><span class="pill bg-teal">latest</span></td>
+            <td>HTTP client for LLM API calls (non-Windows path)</td>
+            <td><code>src/llm.py</code></td>
+          </tr>
+          <tr>
+            <td><strong>jinja2</strong></td>
+            <td><span class="pill bg-teal">latest</span></td>
+            <td>HTML template rendering for the index page</td>
+            <td><code>server.py</code></td>
+          </tr>
+          <tr>
+            <td><strong>rank-bm25</strong></td>
+            <td><span class="pill bg-gray">legacy</span></td>
+            <td>Available but not used — legacy from BM25 variant</td>
+            <td>—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="warn-box" style="margin-top:20px;">
+      ⚠️ <strong>Windows note:</strong> On Windows, LLM API calls use PowerShell's <code>Invoke-RestMethod</code> (WinHTTP) rather than Python httpx. This ensures compatibility with Windows corporate SSL-inspection proxies that don't trust Python's bundled certificate store.
+    </div>
+
+    <div class="info-box" style="margin-top:14px;">
+      ℹ️ <strong>No GPU required.</strong> TfidfVectorizer and TruncatedSVD run entirely on CPU using numpy sparse matrix operations. Even for a 500-page PDF, indexing completes in under 10 seconds on a standard laptop.
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ═════════════════════════════════════════════════════ -->
+<footer>
+  <div><strong>VectorRAG App — Semantic Document Chat</strong></div>
+  <div style="margin-top:6px;color:var(--text3);font-size:13px;">
+    Built with FastAPI &nbsp;·&nbsp; scikit-learn &nbsp;·&nbsp; GitHub Copilot &nbsp;·&nbsp; Runs fully locally — no cloud, no GPU, no HuggingFace
+  </div>
+  <p class="footer-disclaimer">
+    📖 This guide documents the VectorRAG app architecture, API, and internals. The app runs entirely on your local machine — your documents and queries never leave your system except for the LLM API call to GitHub Copilot/Models.
+  </p>
+  <div style="margin-top:14px;font-size:11px;color:var(--text3);">
+    vector-rag-app-v1 &nbsp;·&nbsp; FastAPI + sklearn + numpy &nbsp;·&nbsp; Python 3.10+
+  </div>
+</footer>
+
+<!-- ══ SCRIPTS ════════════════════════════════════════════════════ -->
+<script type="module">
+import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+window.mermaid = mermaid;
+
+/* ── Theme configuration ───────────────────────────────────────── */
+const THEMES = {
+  dark: {
+    mermaid: 'dark',
+    vars: {
+      background:           '#0d1520',
+      primaryColor:         '#1e3a5f',
+      primaryTextColor:     '#e8edf5',
+      primaryBorderColor:   '#1a6cf6',
+      lineColor:            '#00b4d8',
+      secondaryColor:       '#16213e',
+      tertiaryColor:        '#0f3460',
+      noteBkgColor:         '#1a2540',
+      noteTextColor:        '#94a3b8',
+      actorBkg:             '#1e3a5f',
+      actorBorder:          '#1a6cf6',
+      actorTextColor:       '#e8edf5',
+      activationBkgColor:   '#0f3460',
+      activationBorderColor:'#00b4d8',
+      labelBoxBkgColor:     '#16213e',
+      labelBoxBorderColor:  '#1a6cf6',
+      labelTextColor:       '#e8edf5',
+      loopTextColor:        '#94a3b8',
+      signalColor:          '#00b4d8',
+      signalTextColor:      '#e8edf5',
+    }
+  },
+  light: {
+    mermaid: 'default',
+    vars: {
+      background:           '#ffffff',
+      primaryColor:         '#dbeafe',
+      primaryTextColor:     '#1e3a5f',
+      primaryBorderColor:   '#1d4ed8',
+      lineColor:            '#0284c7',
+      secondaryColor:       '#f0f9ff',
+      tertiaryColor:        '#e0f2fe',
+      noteBkgColor:         '#fef9c3',
+      noteTextColor:        '#713f12',
+      actorBkg:             '#dbeafe',
+      actorBorder:          '#1d4ed8',
+      actorTextColor:       '#1e3a5f',
+      activationBkgColor:   '#bfdbfe',
+      activationBorderColor:'#0284c7',
+      labelBoxBkgColor:     '#f0f9ff',
+      labelBoxBorderColor:  '#0284c7',
+      labelTextColor:       '#1e3a5f',
+      loopTextColor:        '#475569',
+      signalColor:          '#0284c7',
+      signalTextColor:      '#1e3a5f',
+    }
+  },
+  midnight: {
+    mermaid: 'dark',
+    vars: {
+      background:           '#080812',
+      primaryColor:         '#1a0a2e',
+      primaryTextColor:     '#ede9fe',
+      primaryBorderColor:   '#7c3aed',
+      lineColor:            '#a78bfa',
+      secondaryColor:       '#0f0f1e',
+      tertiaryColor:        '#1a0a2e',
+      noteBkgColor:         '#130a24',
+      noteTextColor:        '#a78bfa',
+      actorBkg:             '#1a0a2e',
+      actorBorder:          '#7c3aed',
+      actorTextColor:       '#ede9fe',
+      activationBkgColor:   '#2e1065',
+      activationBorderColor:'#a78bfa',
+      labelBoxBkgColor:     '#0f0f1e',
+      labelBoxBorderColor:  '#7c3aed',
+      labelTextColor:       '#ede9fe',
+      loopTextColor:        '#a78bfa',
+      signalColor:          '#a78bfa',
+      signalTextColor:      '#ede9fe',
+    }
+  },
+  ocean: {
+    mermaid: 'dark',
+    vars: {
+      background:           '#030f1c',
+      primaryColor:         '#083040',
+      primaryTextColor:     '#cffafe',
+      primaryBorderColor:   '#0891b2',
+      lineColor:            '#06b6d4',
+      secondaryColor:       '#061c30',
+      tertiaryColor:        '#082540',
+      noteBkgColor:         '#042030',
+      noteTextColor:        '#67e8f9',
+      actorBkg:             '#083040',
+      actorBorder:          '#0891b2',
+      actorTextColor:       '#cffafe',
+      activationBkgColor:   '#0e4860',
+      activationBorderColor:'#06b6d4',
+      labelBoxBkgColor:     '#061c30',
+      labelBoxBorderColor:  '#0891b2',
+      labelTextColor:       '#cffafe',
+      loopTextColor:        '#67e8f9',
+      signalColor:          '#06b6d4',
+      signalTextColor:      '#cffafe',
+    }
+  }
+};
+
+/* ── Store original diagram source before mermaid touches the DOM ── */
+let diagramSources = {};
+
+function saveSources() {
+  document.querySelectorAll('.mermaid[id]').forEach(el => {
+    diagramSources[el.id] = el.textContent.trim();
+  });
+}
+
+/* ── Render diagrams with current theme ────────────────────────── */
+async function renderDiagrams(themeName) {
+  const t = THEMES[themeName];
+  mermaid.initialize({
+    startOnLoad: false,
+    theme:       t.mermaid,
+    themeVariables: t.vars,
+    flowchart: {
+      diagramPadding: 8,
+      useMaxWidth: false,
+      htmlLabels: true,
+    },
+    securityLevel: 'loose',
+  });
+
+  // Reset all mermaid elements
+  document.querySelectorAll('.mermaid[id]').forEach(el => {
+    el.innerHTML = diagramSources[el.id] || el.textContent.trim();
+    el.removeAttribute('data-processed');
+  });
+
+  await mermaid.run({ querySelector: '.mermaid:not(#modal-mermaid)' });
+  scaleDownDiagrams();
+}
+
+/* ── Auto-scale inline diagrams to fit the fixed box ─────────── */
+function scaleDownDiagrams() {
+  document.querySelectorAll('.diagram-section .diagram-wrap').forEach(wrap => {
+    const mEl = wrap.querySelector('.mermaid');
+    const svg = wrap.querySelector('svg');
+    if (!svg || !mEl) return;
+    mEl.style.transform = '';
+    mEl.style.width     = '';
+    const availW = wrap.clientWidth  - 8;
+    const availH = wrap.clientHeight - 8;
+    const svgW   = svg.scrollWidth  || svg.getBoundingClientRect().width;
+    const svgH   = svg.scrollHeight || svg.getBoundingClientRect().height;
+    if (!svgW || !svgH) return;
+    const scale = Math.min(availW / svgW, availH / svgH, 1);
+    mEl.style.transform       = `scale(${scale})`;
+    mEl.style.transformOrigin = 'top left';
+    mEl.style.display         = 'block';
+    mEl.style.margin = '4px 0 0 4px';
+  });
+}
+
+/* ── Switch theme ──────────────────────────────────────────────── */
+async function setTheme(name) {
+  document.documentElement.setAttribute('data-theme', name);
+  document.querySelectorAll('.theme-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.themeTarget === name);
+  });
+  try { localStorage.setItem('vrag-theme', name); } catch(e) {}
+  await renderDiagrams(name);
+  const modalOpen = document.getElementById('diagramModal').classList.contains('open');
+  if (modalOpen && window._currentModalId) {
+    openModalDiagram(window._currentModalTitle, window._currentModalId);
+  }
+}
+window.setTheme = setTheme;
+
+/* ── Expand diagram into modal ─────────────────────────────────── */
+async function expandDiagram(title, sourceId) {
+  window._currentModalTitle = title;
+  window._currentModalId    = sourceId;
+  openModalDiagram(title, sourceId);
+}
+window.expandDiagram = expandDiagram;
+
+async function openModalDiagram(title, sourceId) {
+  const src = diagramSources[sourceId];
+  if (!src) return;
+
+  const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+  const t = THEMES[currentTheme];
+
+  document.getElementById('modal-title').textContent = title;
+  const container = document.getElementById('modal-diagram');
+  container.innerHTML = `<div class="mermaid" id="modal-mermaid">${src}</div>`;
+
+  document.getElementById('diagramModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  mermaid.initialize({
+    startOnLoad:    false,
+    theme:          t.mermaid,
+    themeVariables: t.vars,
+    flowchart: {
+      diagramPadding: 20,
+      useMaxWidth:    true,
+      htmlLabels:     true,
+    },
+    securityLevel: 'loose',
+  });
+
+  await mermaid.run({ querySelector: '#modal-mermaid' });
+}
+
+function closeModalBtn() {
+  document.getElementById('diagramModal').classList.remove('open');
+  document.body.style.overflow = '';
+  window._currentModalId = null;
+}
+window.closeModalBtn = closeModalBtn;
+
+function closeModal(e) {
+  if (e.target === document.getElementById('diagramModal')) closeModalBtn();
+}
+window.closeModal = closeModal;
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModalBtn();
+});
+
+/* ── Active nav link on scroll ─────────────────────────────────── */
+const sections = document.querySelectorAll('section[id]');
+const navLinks  = document.querySelectorAll('nav a[href^="#"]');
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(l => {
+        const active = l.getAttribute('href') === '#' + e.target.id;
+        l.classList.toggle('active', active);
+      });
+    }
+  });
+}, { threshold: 0.25 });
+sections.forEach(s => io.observe(s));
+
+/* ── Bootstrap ─────────────────────────────────────────────────── */
+(async function init() {
+  saveSources();
+
+  let saved = 'dark';
+  try { saved = localStorage.getItem('vrag-theme') || 'dark'; } catch(e) {}
+  if (!THEMES[saved]) saved = 'dark';
+
+  document.documentElement.setAttribute('data-theme', saved);
+  document.querySelectorAll('.theme-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.themeTarget === saved);
+  });
+
+  // Make diagram-wrap divs clickable to expand
+  document.querySelectorAll('.diagram-section').forEach(section => {
+    const wrap = section.querySelector('.diagram-wrap');
+    const btn  = section.querySelector('.expand-btn');
+    if (wrap && btn) {
+      wrap.addEventListener('click', () => btn.click());
+    }
+  });
+
+  await renderDiagrams(saved);
+
+  window.addEventListener('resize', scaleDownDiagrams);
+})();
+</script>
+</body>
+</html>

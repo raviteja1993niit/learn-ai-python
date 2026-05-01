@@ -1,0 +1,15 @@
+﻿Test Comparison Workflow Summary
+================================
+Generated: 2026-01-22 20:08:03
+
+Input Paths:
+- ATF Report: C:\Users\e135408\IdeaProjects\MODERNIZATION\acqelavons2aservice\elavon-integration-tests\target\atf\latest
+- Flow Report: C:\Users\e135408\IdeaProjects\MODERNIZATION\107651-pgsaaselavon-pgs-acquirer-elavon-interface-service\lib-elavon-interface-integration-tests\target\mctf\latest
+
+Output Files:
+- comparison-report.md (115854 bytes)
+- atf_testcases.csv (4507 bytes)
+- flow_testcases.csv (2748 bytes)
+- test-comparison-gaps.json (162751 bytes)
+
+Workflow completed successfully.

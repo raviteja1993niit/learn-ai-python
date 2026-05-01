@@ -1,0 +1,88 @@
+================================================================================
+SCRATCHPAD - SAVEPOINT
+Date: April 21, 2026
+================================================================================
+
+WORKSPACE STATE
+---------------
+Active Projects:
+  - MPGS/SourceCode/cardpaymentengine
+  - MPGS/SourceCode/directapi
+  - MPGS/SourceCode/externalacquirerservice
+  - MPGS/SourceCode/orchestrator
+  - MODERNIZATION/card-payment-connectivity
+  - MODERNIZATION/107651-pgsaaselavon-pgs-acquirer-elavon-interface-service
+  - MODERNIZATION/107652-pgsaaschtech-pgs-acq-chase-paymentech-interface-service
+
+CURRENT MODE
+------------
+Mode: code-analyzer
+Role: Code Analysis & Refactoring Architect
+
+SESSION CONTEXT
+---------------
+- Reviewed: C:\Users\e135408\Downloads\mcp-servers\logs\service.log (395 lines)
+- MCP servers workspace active
+
+NOTES / TODO
+------------
+[x] Fix billing address field paths in ElavonAvsTransactions.java
+    - Changed "billing.address.street" → "payer.billingAddress.line1"
+    - Changed "billing.address.postcodeZip" → "payer.billingAddress.postalCode"
+[x] Add whitelist static block in ElavonAvsTransactions.java (same pattern as ElavonAuthTransactions.java)
+    - Iterates AvsScenarios.values() and whitelists card numbers via system property
+[x] Fix IsoEncodingException in Token Auth Mastercard [auth, scheme-token]
+    - See: ISSUE #1 below
+[ ] Verify Visa scheme-token assertion failure is separately resolved
+
+ISSUE #1 — IsoEncodingException: The length 3 exceeds the maximum length 1
+---------------------------------------------------------------------------
+File:    ElavonSchemeTokenizationTransactions.java
+Method:  acqSchemeTokenRs()
+Error:   com.mastercard.mpgs.acquiring.iso8583.error.IsoEncodingException:
+         The length 3 exceeds the maximum length 1
+
+Root Cause Analysis:
+  - During TEST REPORT GENERATION (NOT during actual HTTP call), the test framework
+    serializes the expected ACQUIRER response message to ISO8583 for the report.
+  - The old acqSchemeTokenRs() set:
+        SIXTY_THREE_FIFTY_FIVE, isMC ? SECURITY_LEVEL_INDICATOR : DELETE
+  - SIXTY_THREE_FIFTY_FIVE maps to ReservedPrivateData3.scaStatusIndicator (field idx=44, tag=0x44)
+    which has @LengthOptions(maximumLength = 1, countMode = DIGITS)
+  - SECURITY_LEVEL_INDICATOR constant is a 3-character value (e.g. "ECA" / "ESF" / "200")
+  - Writing a 3-char string into a max-1-char BCD length field triggers BCDLengthIndicator to throw
+  - The actual acquirer transaction SUCCEEDED (HTTP 201 CREATED, APPROVED) — only report fails
+
+Fix Applied (ElavonSchemeTokenizationTransactions.java — acqSchemeTokenRs()):
+  BEFORE:  SIXTY_THREE_FIFTY_FIVE, isMC ? SECURITY_LEVEL_INDICATOR : DELETE
+  AFTER:   SIXTY_THREE_FIFTY_FIVE, DELETE
+  Reason:  The real acquirer response does NOT include field 63.55 for either Mastercard or Visa.
+           Field 63.55 (securityLevelIndicator) is request-only (sent as empty string in request).
+           Setting it in the expected response was incorrect and caused the encoding error.
+
+Also noted:
+  - acqSchemeTokenRq() still sets: ACQ_FIELD_SCA_STATUS, isMC ? SECURITY_LEVEL_INDICATOR : DELETE
+  - ACQ_FIELD_SCA_STATUS maps to scaStatusIndicator (field idx=44, max=1) in ReservedPrivateData3
+  - If SECURITY_LEVEL_INDICATOR is 3 chars, the same exception will occur on REQUEST serialization
+  - This must also be verified / fixed if still present
+
+Field Reference (ReservedPrivateData3.java — DO NOT MODIFY):
+  idx=44, tag=0x44, @LengthOptions(maximumLength = 1) → scaStatusIndicator
+  idx=55, tag=0x55, @LengthOptions(maximumLength = 3) → securityLevelIndicator  ← OK for 3 chars
+
+OPEN QUESTIONS
+--------------
+- What is the exact value of SECURITY_LEVEL_INDICATOR in TestConstants.java?
+- Does ACQ_FIELD_SCA_STATUS in acqSchemeTokenRq() also need to be DELETE or a 1-char value?
+- Visa scheme-token test: AssertionFailedError — separate investigation needed
+
+DECISIONS MADE
+--------------
+- Must NOT modify ReservedPrivateData3.java field definitions
+- Fix must stay in test data layer (ElavonSchemeTokenizationTransactions.java)
+- SIXTY_THREE_FIFTY_FIVE in acqSchemeTokenRs() changed to DELETE (always)
+
+================================================================================
+END SAVEPOINT
+================================================================================
+

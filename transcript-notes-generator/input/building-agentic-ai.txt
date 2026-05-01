@@ -1,0 +1,2796 @@
+Introduction And Agenda
+0:00
+Hello guys. So welcome to this amazing crash course on building agentic AI application with the help of Langraph.
+0:07
+This entire crash course has been divided into three important parts and each and every part will be somewhere
+0:13
+around 2 to three hours of videos. Right. And here you can basically see what in which way we are going to cover
+0:19
+all the topics and uh where we are going to aim once we reach to the part three.
+0:25
+Okay. So in the part one you'll be able to see that we will be covering various fundamental techniques which are really
+0:31
+really important in order to build agentic AI application. some of the important topics like how to build a
+0:37
+chatbot, how to integrate tools, how to integrate multiple tools in a chatbot,
+0:42
+you know, how to add memory, how to add human in the loop like human feedbacks when you're executing the entire graph
+0:48
+state, how to use different streaming technique, how to probably go ahead and use MCP, how to build MCP completely
+0:56
+from scratch, right? So this part also we'll be discussing about along with this u there will be various topics like
+1:04
+states what are graphs nodes edges how do you go ahead and use this with the help of graph API you know so all these
+1:12
+things will be covered in part one so part one will be approximately around 2
+1:18
+hour 50 minutes maybe okay but I'm just making an approximate suggestion along
+1:24
+with that once we complete this then we go to the part two in the part two cover advanced langraph concept. Now here we
+1:31
+are going to focus on various kind of workflows and agents. Here is the topic
+1:37
+where we will be developing applications where agents will be communicating with
+1:43
+other agents. Right? And why they will be communicating to solve a complex
+1:48
+workflow. Okay. Solve a complex workflow. Right? Along with this, we will try to see how
+1:55
+we'll be handling the multistate management even in multi- aents. Then we'll also introduce you to how to
+2:01
+directly use functional API instead of just directly going through graph APIs itself. And then I will also be showing
+2:08
+you how you can debug and monitor them in the langraph studio. Okay, langraph
+2:13
+studio and for this we will also be using lang. So this all fundamentals is put up in
+2:20
+the advanced part because uh this will be like one step towards developing some
+2:26
+amazing production grade application and finally this part two will also be somewhere around 2 hours of video and
+2:33
+then we have in part three where we'll focus on building completely end to end projects we'll focus on LMOS pipeline
+2:39
+we'll focus on deployment techniques and recently I have also explored all the
+2:44
+evaluation techniques metrics specifically in LLM and how you can use along with langraph uh and some open-
+2:52
+source tools right like MLflow how you can use AWS to track all that kind of
+2:57
+metrics along with that how you can use graphana to probably display all those particular reports that is where we will
+3:04
+be moving in the part three right we'll also be using hugging face spaces to do the deployment so this is just a
+3:10
+tentative plan in order to cover lang graph crash course and these all are like long recorded videos so I
+3:17
+definitely definitely require your entire support. Yes, now part one is ready. You can go ahead and watch this entire video and make sure that you also
+3:24
+download the material from the description and keep on practicing and definitely do share it in various
+3:29
+platforms like LinkedIn and all. I definitely want to see how your learning is. Definitely do tag me in LinkedIn,
+3:35
+Twitter, wherever you can. Right? So yes, let's go ahead and enjoy this particular session. So guys, now let's
+Langgraph Projects Structure
+3:41
+go ahead and build a basic chatbot using Langraph. So this is my entire empty folder. So this will be my project
+3:48
+workspace. Uh from this I will go ahead and open my command prompt. So let's go ahead and open my command prompt. Um as
+3:55
+I said that this is my uh working directory uh with respect to my project workspace. I will just go ahead and open
+4:01
+my VS code cuz I'm going to use VS code for my coding purpose. Uh once I open my
+4:06
+VS code uh this is how my VS code looks like. Um you know whenever we go ahead and start any kind of projects or you
+4:13
+build any applications right it is necessary that you start creating an environment. Um most of my videos I've
+4:19
+actually shown how to create environments with the help of but in this particular video we are going to
+4:26
+use something called as UV package manager. Okay. Yes, you can also use cond. Uh but if you don't know about UV
+4:34
+package manager, it is a really fast, extremely fast Python package and project manager and it is completely
+4:40
+written in Rust. Since it is written in Rust, it is very very fast. So you can probably compare over here from UV to
+4:46
+poetry to pdm and pipsync. This has the least time. Uh that means that whenever
+4:52
+you're trying to create an environment or do any kind of installation of the packages, that happens really really fast. Okay, some of the highlights that
+4:59
+you can see over here. It is 10 to 100 times faster than pip. Uh it is a single
+5:04
+tool to replace pip, pip tools, pipex, poetry, pyenv, twine, virtually envir.
+5:10
+Uh it provides comprehensive project management and universal lock file. It installs and manages different kind of
+5:16
+python versions also. You can do it in the same project itself. Right? And uh to start with the installation, if you
+5:22
+are in Mac OS or Linux from the terminal, you just need to go ahead and copy this particular command and execute
+5:27
+it. If you are on Windows, go and open your PowerShell, copy this particular command and uh paste it over there. And
+5:34
+if you're using pi, uh just go ahead and write pip install uv. Okay. Uh once that
+5:39
+is done, your uh you know the entire project repository will be initialized. Okay. So first of all, what I'm actually
+5:46
+going to do is that I'll just go ahead and open my terminal. Now inside this terminal I will open my command prompt.
+5:51
+I've already done the installation of UV package manager. So I will just go ahead
+5:56
+and quickly initialize my uh project workspace. In order to initialize all I
+6:02
+have to do is that I have to write uv init. Okay. As soon as I write u init will happen in the project workspace.
+6:08
+Okay. So here you can see in the project workspace there are some files that has got created like get ignore python
+6:14
+version main.py pipro.2ml 2 mm uh and and if you probably go ahead and see in
+6:19
+Python version which Python version you have actually created it is nothing but 3.13 then you also have this main py so
+6:26
+that you can start the program execution directly from here then you have this pi project toml wherein you have the
+6:32
+project brief information uh you can change the version you can add your own description and all um here you can see
+6:38
+that it is requiring a python of minimum 3.13 okay this dependency is right now empty because we have not installed any
+6:45
+kind of packages is now what I'm actually going to do is that I'm going to go ahead and create my requirement.txt.
+6:51
+Now inside my requirement.txt I will go ahead and install some of the libraries. Let's say lang graph lang chain. Then
+6:59
+along with this I will also go ahead and use my lang. Okay. Uh all our libraries
+7:04
+that will be specifically useful. Uh and I'll tell you as we go ahead lang and lang chain we're going to use various
+7:11
+functionalities in order to build generative AI applications. chat bots along with that agent AI applications
+7:17
+also uh lang is basically used for uh tracking and evaluation of your applica applications you know directly in the
+7:23
+langraph cloud so these are the basic libraries that we're going to use now
+7:29
+since I have already initialized this working space now the next thing is that I need to go ahead and create my virtual
+7:34
+environment so quickly I will go ahead and write uv venv um with the help of this command you'll be able to create a
+7:41
+virtual environment this venv is nothing but your uh virtual environment name.
+7:46
+Okay. So once I go ahead and write uvnv here you can see that it has got created with the help of this particular version
+7:52
+that is 3.13.2. The virtual environment is at this location.v over here. Now in order to
+7:59
+activate the environment I'll just go ahead and copy this quickly. I will paste it over here. Okay. So once I
+8:05
+activate this here you can clearly see that hey uh my my uh environment has got
+8:12
+activated. Okay. So here agentic lang graph has got activated. Now this is perfect till here everything looks good.
+8:19
+Now the next step is that we'll go ahead and do the installation of all the libraries. So in order to do it u like
+8:25
+if you're using pip it is like pip install minus r requirement.xt. But here we are going to write uv minus r
+8:32
+requirement.xt. Okay. So once you do this installation here you can quickly see that the installation has been
+8:38
+completed. And now if you go ahead and open this particular file. All the libraries that has got installed will be
+8:44
+visible over here. Okay. Now as I said uh this is my first tutorial. I'll go
+8:50
+ahead and just write one folder name one and I'll say hey uh basic chatbot. Okay.
+8:57
+And we'll we'll just learn some of the basic stuffs over here. Okay. Now with respect to this particular basic chatbot
+9:03
+uh here we are going to go ahead and create our um you know applications. So
+9:08
+we'll go ahead and create our basic chatbot itself. Um we'll just go ahead and open my one file. Let's say I'll go
+9:15
+ahead and write basic chatbot ipynb. Okay. So as soon as I open this basic
+9:20
+chatbot ipynb, it will tell me to select a kernel. I will go ahead and select a kernel. And since I'm using Jupyter
+9:27
+notebook for the initial stages, um I also have to go ahead and add one more library UV add ipi kernel. Okay. So
+9:35
+follow the steps step by step like you have to just follow this steps as we go ahead because IPI kernel will be
+9:40
+required in order to run anything in the Jupyter notebook. Okay. Now once this is done I will start writing my code over
+9:46
+here. Okay. U now with respect to the code let's check whether this is working or not. Okay. It should give an error
+9:54
+because oneplus exclamation is something happening over here. Here you can see it is connecting to the kernel agentic.
+10:00
+Okay. So yeah invalid syntax. Now if I go ahead and write 1 + 1, it is working fine. Perfect. Now here as I said um let
+10:08
+me just quickly go ahead and write here we are going to build a basic
+10:14
+basic chatbot. Okay. Now building a basic chatbot uh um you know this this
+10:21
+chatbot is like a basic chatbot that basically means uh and here whenever I'm talking with respect to lang graph okay
+10:28
+with lang graph I'll go ahead and write that here we are going to use the graph API functionality okay there is one more
+10:36
+API which is called as functional API as we go ahead we'll also try to learn about it but what I felt is that the
+10:42
+most efficient way of learning lang graph is specifically using this graph API Okay. Okay. Um, so let's start with
+10:50
+this and uh let me go ahead and write some information you know how you should actually go ahead and start and all the
+10:56
+things you know and what we are basically going to develop. Okay. So guys, now let's go ahead and build a basic chatbot with the help of Langraph.
+11:02
+Now before we go ahead, we need to understand some of the important components of Langraph so that you will
+11:08
+be able to understand how to build a basic chatbot. So let's go ahead and talk about the components of Langraph.
+Building Blocks Of LAnggraph
+11:17
+There are three important components of lang graph. Number one edge,
+11:23
+number two nodes and number three which is called as
+11:29
+state right now what are these right? What are these components? So in order
+11:34
+to explain you I would like to probably take a use case. Okay let's say that and
+11:40
+I have I had this use case a long time and I solved it. You know as you all know that I also upload a lot of YouTube
+11:47
+videos right YouTube videos. Now what I wanted was that I as soon as I upload a
+11:53
+YouTube video I should be able to convert or create a blog out of it. Okay. So this is a kind of task that I
+12:00
+really wanted to do. Now in considering this particular task if we consider this workflow
+12:06
+how this workflow needs to be executed. You know let's understand this. If I want to solve this task, the first thing
+12:13
+is that from my YouTube videos, I have to take out my transcript. Okay,
+12:22
+transcript, right? So from this YouTube videos, I want to first of all take out the transcript. Then I will use this
+12:30
+transcript. Transcript. And with the help of this
+12:35
+particular transcript since I need to start writing my blog I will go ahead and create the title of the blog. Okay.
+12:43
+And in third step I want to take both title
+12:48
+and transcript and we will go ahead and create the
+12:55
+content of the blog. Right? So if I want to
+13:00
+solve this use case, you know, this will be my workflow to solve this use case. You know, first of all, I need to go ahead and take out the transcript from
+13:07
+the YouTube video. Then I need to go ahead and based on the transcript, we need to go ahead and generate a title.
+13:12
+And then based on the title and transcript, we need to generate a content. Right now I am alone uploading
+13:19
+the videos and it is not possible that I also go ahead and create the blog out of it because it will take more of time.
+13:25
+But since when like LLMs right now is the buzz word, right? We definitely have
+13:31
+LLMs. Now with respect to LLMs, you know that these are really really good at content
+13:37
+generation. It is very very good at content generation. Right? Now whenever we talk
+13:43
+about content generation that basically means LLM it can take an input. Let's say if I say hey what is machine
+13:49
+learning? It'll be able to generate what is exactly machine learning. Right? Now can we use LLM in order to solve this
+13:57
+particular workflow with the help of langraph. Now in order to solve this problem what I will be doing is that I
+14:03
+will follow some kind of graph structure. Okay. And yes in langraph if
+14:09
+you want to solve this kind of workflows. There are two ways. Okay.
+14:15
+One is directly using graph API. graph API
+14:21
+and second one is directly by using functional API functional API but according to my
+14:30
+experience I feel graph API is the most easiest and most best way yes if you
+14:37
+have lot of expertise with respect to the graph API you can directly go ahead and use the functional API the
+14:42
+difference between them we will get to know as we go ahead okay so first of all what we'll do in order to solve this
+14:48
+complex workflow I will go ahead and create some kind of graphs. Okay. And this graph will show that how my flow of
+14:55
+execution will happen. Okay. So let's say that I have this node
+15:00
+I have one more node. Okay. So these are my two nodes. As I said the components of langraph are edges, nodes and state.
+15:09
+Okay. So initially let's say we are
+15:14
+going to go ahead and start over here. Okay. So here I will be having my start
+15:19
+node. Okay. In this start node we give our
+15:24
+input right. Let's say in this particular case in my use case obviously I need to give
+15:31
+some kind of input. Now what input I will give? I will give my YouTube URL.
+15:36
+Okay let's say this is my input YouTube URL. Then it goes to this phase from
+15:43
+start it goes to this node. This node should be responsible in taking out the
+15:48
+transcript from my YouTube video. So here I can go ahead and write, hey, this is my
+15:55
+transcript. Okay, this is my transcript generator.
+16:01
+Now, how do I go ahead and generate the transcript in Langchain? In Langchain, we have some third party
+16:08
+libraries. No, I think there is something like YT loader or what it does
+16:14
+is that we give our input videos of the YouTube and output we will be able to get the transcript. So here output of
+16:22
+this particular node should be that we should be able to get a transcript.
+16:28
+Okay. Now understand one thing over here. So what is this? This is nothing but this is my node.
+16:35
+What is this? This is nothing but this is my edge. Right? So this is nothing but edge.
+16:41
+Edge main fundamental is that the flow of information should go from here to
+16:47
+here or node to node. Right? So this is also my edge.
+16:52
+Right? Now whenever we talk about nodes, right? As soon as you create a node, we
+16:58
+also have to create a node implementation, right? Some functionality with respect
+17:04
+to this particular node. Like what does this node actually do? Now in this particular case this node functionality
+17:10
+should be that it should take a YouTube URL and it should generate a transcript.
+17:15
+Okay. And the output of this node should be this transcript. Okay. Now in my
+17:21
+workflow I have completed this YT video to transcript by that node. Now based on
+17:27
+this transcript I should be generating the title. So what this node will be doing this is nothing but this will be
+17:34
+title generator. And here the input will be transcript
+17:39
+right. The input will be transcript. And this will be my next node. And this node
+17:44
+functionality should be that it should take this transcript and it should generate the title.
+17:56
+Right? This is what is my functionality. Very simple functionality. Right? Now
+18:01
+after this the output that we're going to give right
+18:08
+should be my title. Along with the title I also
+18:14
+want to give my transcript and we go to the next step. What is the
+18:20
+next step over here which is nothing but content generation. So my third node
+18:25
+that you'll be able to see over here is nothing but it is
+18:31
+content generator content generator right. So this will
+18:38
+again be my edge and this node will have a functionality
+18:45
+which will take this information title and transcript and it will generate
+18:51
+content right and finally you go to the next step which is end in the end you get the
+18:59
+output right now see now you may be thinking
+19:05
+how do we generate transcript to title. Now if you have a fundamental idea of LLM. So here in my title generator I
+19:13
+will have an LLM along with one prompt and then when we give this input of
+19:20
+transcript
+19:25
+it should be able to generate the output. Right? Similarly for this content generator which is the node. If
+19:31
+I give the title and transcript here again I will be having some kind of LLM
+19:37
+plus some prompt which will be able to generate the content. Here we give the input as transcript and we get the
+19:44
+output over here. Right? And finally all this output is combined and we get
+19:51
+display it over here. Right? So this is an example of a workflow and this is
+19:56
+entirely with the help of graph API. We will be able to see the graph uh we'll be able to see the execution. We'll be
+20:03
+able to see the output. Okay. Now coming to this right I have told you already
+20:09
+about edges and nodes right now where does state come into existence. Okay.
+20:15
+Now see based on this particular use case state we can define something right. So
+20:22
+here this state will have some values or some variables we can define some
+20:28
+variables and that variables will like that variables can be accessed
+20:34
+by any of this node in this particular graph. Okay. So let's say for this particular use case you know that I
+20:41
+require transcript. So I will go ahead and create a transcript variable. As soon as this node is executed the
+20:48
+output will be saved in this variable. Okay. So let me just go ahead and write it down over here. So state means what
+20:55
+right? Whenever we define any kind of state our main aim is that whatever variables
+21:02
+we define over here right. So let's say one of the variable I want to define is transcript because as soon as I execute
+21:11
+this node my transcript will get generated right and this transcript will also be required in my third node. So
+21:17
+what I can do when I create this state right this state will have one variable which will have the information about
+21:23
+the transcript maintained. Okay. Similarly title is my third second
+21:29
+output that I really want because here in this node I want to go ahead and save the title right. So here title
+21:35
+information will be saved and then here you have content. So let's say that if I go ahead and create this three variables
+21:41
+as soon as we generate those we can save in this right and the advantages of saving that values inside this state
+21:48
+will be that inside this entire graph every node or any of these node will be
+21:53
+able to access this variable. Okay. So that is the importance of state. Okay.
+22:00
+And this entire graph we basically say it as state graph. So that is the reason
+22:06
+we say it as state graph because it is able to maintain the context of the state at every node. Yes, don't get
+22:14
+confused with external memory or memory. Right? So memory can also be used over
+22:20
+here and that part we'll discuss in the later stages. But here we want to focus more on the state graph. State it is
+22:28
+able to maintain the state within the specific nodes. Now I hope you got a clear idea about the components of lang
+22:34
+graph. Now what we'll do? We will build a basic chatbot. In this basic chatbot what we'll do I will be having a start.
+22:42
+From this start I will create one node. Let's say this particular node is
+22:48
+nothing but chatbot. And from this we will go ahead and end it. Now this
+22:53
+chatbot will be integrated with some kind of LLM press prompt
+23:00
+and the work is take the input and give the output. Right? So this is the basic
+23:06
+chatbot what we are going to build and as we go ahead you know we will go ahead and add tools external tools. We will go
+23:13
+ahead and see that how we can integrate this external tools along with the chatbot. Then as we go ahead we'll again
+23:20
+discuss about react agent. Okay. So react agent is something more amazing with respect to the tools. I know there
+23:27
+are so many topics that we have discussed but let's now focus on understanding how to build this basic
+23:33
+chatbot. So for this I will again go back to my code and now you have
+23:38
+understood what is state graph. You have understood what exactly is nodes and what exactly is edges. Okay. Now step by
+23:45
+step we will go ahead and do this. As usual, what we are going to do is that first of all, before starting building a
+Building a Basic Chatbot
+23:52
+chatbot using uh uh state graph or graph APIs, you know, first of all, we will go
+23:59
+ahead and import some important libraries. Okay. So, one important library is something called as from
+24:05
+typing import annotated. I'll talk about annotated. What exactly annotated is? It is just to
+24:12
+add context specific metadata to a type. Okay. uh it is better that I show you an
+24:18
+example in order to make you understand one more important library that I'm going to use is typing extension import
+24:24
+type okay now along with this since you know that every graph starts with a
+24:30
+start node and ends with the end node okay so for this I will go ahead and write from lang graph dot graph
+24:38
+import state graph since we need to go ahead and also create a state graph state
+24:44
+graph will be the entire graph right entire graph that you have seen over here. If I want to represent this entire
+24:50
+graph, we can represent it with the help of state graph. Okay? And then comma start and then we will also have end.
+24:58
+Okay. Start and end are just like my start node and end node. Along with this we will also go ahead and add from
+25:05
+langraph dotgraph dot message import
+25:11
+add messages. Okay then let's go ahead and execute
+25:20
+this. Okay now we have imported all the libraries. Now you may be thinking kish what exactly this add messages is. These
+25:27
+are called as reducers. Okay. Now what is the importance of reducers? Okay, I
+25:33
+will talk about it. Let's say that if I want to create this chatbot, right? If I
+25:40
+want to create this chatbot, you know that we also have a state, right? Now in
+25:45
+this state, what is the kind of variable that I really need to create so that any
+25:51
+output that is generated by the chatbot will be saved it in one variable itself.
+25:57
+So let's say that if I go ahead and create a variable called as messages inside this messages can I make this as
+26:03
+a list type and inside this list as soon as I keep on asking any input
+26:10
+automatically it should keep on getting appended. So again let me repeat it what I'm trying to say over here. Let's say
+26:16
+if I'm creating this basic chatbot as soon as I give an input this should be able to generate an output. But again in
+26:23
+that session if I give another input it this graph will again get executed and it'll give me the output right. So we
+26:29
+can execute this graph as many number of times. Right? So when we are creating
+26:34
+this state graph okay state graph so
+26:40
+every conversation can I save that inside my state right which will be
+26:45
+available to this particular node at any point of time yes. So for that what we'll do we'll we'll create one
+26:51
+variable. We'll make it as a list type and inside this list we should keep on
+26:57
+adding this messages. When I say adding it should be appending this messages. It should not replace the previous message.
+27:04
+Okay. When I say replacing the previous message let's say in the first instance I had one message. I said hi how are
+27:10
+you? Then the chatbot replied I am good. Then my next question is hey uh tell me
+27:17
+what is your name? Then the chatbot replies hey I do not have any name I'm just a basic chatbot so this message
+27:23
+should not get replaced instead it should get appended you know as every conversation goes ahead so that we will
+27:29
+be able to maintain this information and that is the reason we say it as state graph okay so in order to probably
+27:36
+append it we can use something called as reducers okay one of the example of the reducers
+27:44
+there are different types of reducers that we can specifically use one of The red reducer is nothing but add messages.
+27:50
+Now this add messages what it is going to do is that its work is only to add
+27:56
+the messages instead of replacing in any kind of variable that we define. Okay.
+28:02
+So now let me just go ahead and execute this. And now I will go ahead and start creating my state. So here I will write
+28:09
+class state is equal to and here we are going to use this type dictionary. That basically means the state class is going
+28:15
+to return type of a dictionary right. So here let me just go ahead and provide
+28:20
+you some basic dock string so that you should be able to understand it as we go
+28:26
+ahead. So here you can see messages have the type list. The add message function
+28:32
+in the annotation defines how the state key should be updated. In this case it appends messages to the list rather than
+28:39
+overwriting them. I hope everybody has understood why we are inheriting type deck because this state is going to
+28:45
+return right this class is basically going to return of this type that is nothing but dictionary type right so if
+28:51
+you see what is type dick it is a simple type name space at runtime it is equivalent to a plain dictionary right
+28:57
+if I'm going and writing class point 2D type dick right so x is int y is int
+29:03
+label is str so what we can do we can provide values in the form of dictionaries right key value pairs It's
+29:09
+like x is equal to 1, y is equal to two, label is equal to good, right? Something like this. Now in the next step, what we
+29:16
+are going to do is that we create one variable. Let's say messages. Inside this messages, we will go ahead and use
+29:21
+annotated. Now annotated is just like a kind of label. Okay, this annotated
+29:27
+class that we have inherited or we are basically writing it is nothing but it is it indicates the hypothetical runtime
+29:34
+check model. This type is an unsigned integer. every other consumer of this type can ignore this metadata and treat
+29:40
+this type as integer. So if you see some of the examples over here, you should definitely be able to understand these
+29:46
+are something like in Python what exactly this basically means right now inside this I will say hey you have to
+29:54
+go ahead and add the messages inside a list type with the help of add message.
+29:59
+So this add message is called as a reducer. Please remember this information. When we say reducer, that
+30:07
+basically means it is not going to replace this list with respect to every
+30:12
+conversation we have. Instead, it is going to append. Append right. So here you can see that how this state key
+30:19
+should be updated. In this case, it appends messages to the list rather than overwriting them. So this is the basic
+30:26
+information. But I will show you how this looks like as we go ahead because we will go ahead and just display this
+30:33
+with respect to the state. Now I will go ahead and build my graph. So in order to build my graph I'll say graph builder.
+30:39
+I'll use the state graph and I'll give this class right. I'll give this class.
+30:44
+That basically means when I give this specific class over here, this state graph uh when we are creating the entire
+30:51
+graph uh at any point of time we can provide this specific information to our
+30:56
+different different nodes. Okay, so this basically becomes my graph builder. Here I'm just going to go ahead and give show
+31:02
+me my graph builder. It is nothing but it is of a type state graph. Okay, so my
+31:07
+state information has got completed. Okay. Now in the next step what we are going to do is that we are going to
+31:13
+build our entire graph itself. Right. We going to go ahead and build our entire graph. Okay. Now for this first of all
+31:20
+what we are basically going to do is that I will go ahead and put one more libraries. So for this I
+31:27
+will use python.env since we are going to go ahead and use uh you know uh grock
+31:34
+models. You can use openAI models. You can use any kind of model. So here what I'm actually going to do I'll go ahead and write uv add uh minus r requirement
+31:44
+txt. So once I go ahead and install this the installation has been done. Now once I go over here right so here you can see
+31:51
+that um now we can go ahead and quickly import all the libraries that we want. So I will go ahead and write import OS
+31:59
+then I will go ahead and write from lo from env
+32:05
+import load env right and then we're going to go ahead and initialize this
+32:10
+load env right so the reason why we are doing this is that whatever keys we
+32:15
+specifically write in our enenv it should be able to load it so here I'm going to go ahead and create my env file
+32:22
+right now with respect to the env um the Next step uh that we are going to
+32:27
+specifically do is that whatever keys that we specifically want with respect to the gro API, we'll paste it over
+32:33
+here. So this is my env. I hope everybody knows how to create a gro API key. In order to do that, just go to
+32:39
+console.grock. Okay. So here you go to
+32:44
+console.grock.com, right? And here you just go ahead and
+32:49
+create your API keys. You can go ahead and create your API key, write the API key name and start using it. Okay? So
+32:55
+this API key we'll be using it and we can use different different um you know models LLM models in order
+33:02
+to develop your generative AI applications. Okay. So once this is done I will quickly go ahead and again execute this since my env.
+33:20
+So first of all I will show you one very easy way. So I will go ahead and write from langchain
+33:27
+or sorry from langchain
+33:32
+grock. Okay. So for this we need to install this library. It's called a lang grock. So I will go ahead and write
+33:40
+lang chain gro. Okay. I will open my terminal
+33:48
+requirement.txt. Now here you can see langchen gro has got installed and I will go ahead and minimize this. So from
+33:54
+langun grock I will be importing chat gro. Okay. So this is one way you can
+34:00
+directly initialize the gro model. The other way is more common and generic way. So where you can just give the
+34:05
+model name and automatically it should be able to do it. So for that you will be using from langchain
+34:11
+langchain um dot
+34:16
+chat models import init chat model right so here if you
+34:24
+want to directly go ahead and use your lm with the chat gro you can just go ahead and write like this and with
+34:29
+respect to this you can just provide your uh model name okay so models it is
+34:34
+up to you whatever models you specifically uh want to use or you want to go ahead with it, you know, you can
+34:40
+definitely go ahead and just use that. Okay. See, at the end of the day, it's all about how you are using some
+34:46
+specific models and which model you really want to use. Okay. So here, let's say that I want to go ahead with some
+34:52
+other model, right? Uh for this, I will again open my let's see my playground is
+34:57
+over here. So let's say I will be using some models like llama 3 8 billion8192.
+35:04
+So here all you have to do is that you have to go ahead and give your model is equal to uh lama 3
+35:11
+lama 3 is the names correct 8b
+35:16
+8b 8192 right so you can basically give this particular model and if you execute it this is nothing but this becomes your
+35:23
+llm right this becomes your llm right you can either initialize in this way or you can also directly go ahead and write
+35:30
+something like this so here I'll be using llama llm Initiate chat model. Here we are going
+35:36
+to give the model name. The model name will start with something like this. Grock colon you know llama 3
+35:43
+8 billion 9 sorry 8192. Okay. So here also you can use this and it'll also
+35:49
+give you the same llm right. So these are both ways how you can initialize this. Uh and again if you are using
+35:56
+OpenAI then you can use uh Langchain OpenAI and here you can just mention
+36:02
+OpenAI colon whatever OpenAI model name you are specifically going to use. Okay now this is my LLM. So here if I go back
+36:09
+to my graph right we have created our LLM. Our LLM is ready. Now we will go
+36:14
+ahead and create this chatbot. The chatbot is nothing but it is just like a node right now with for every node you
+36:19
+need to create a node definition. Right? So in order to create a node definition, I will go ahead and write definition
+36:25
+chatbot. Let's say this is my node. And here uh here I'm going to go ahead and
+36:31
+define my state colon state. Okay. And here what I'm actually going to do is
+36:38
+that I'll go ahead and write return messages
+36:43
+colon. Now see this since this why I'm returning in this
+36:49
+particular variable because whenever I define this chatbot right it should be
+36:55
+inheriting this state because at the end of the day I need to keep on appending inside this particular variable right
+37:02
+and you know the state return type is type dictionary so that is the reason we are inheriting over here state colon
+37:07
+state and when we write return message colon here we are going to invoke it with our llm. So here I'm going to go
+37:13
+ahead and write llm.invoke and with respect to the invoke here we're going to use the state of
+37:21
+messages. Okay, state of messages. So we are going to basically go ahead and return this uh
+37:27
+to give you a very brief understanding. This is what is my node functionality is
+37:33
+okay this is what is my node functionality. Here we have defined a node called as chatbot. This llm.invoke
+37:40
+Invoke is basically giving right based on this input message. See the state of messages is what it will be my input
+37:47
+message right as soon as we get an input message we are giving to our chatbot node and that chatbot node is going to
+37:54
+provide the response from this from my llm and it will append inside this messages variable. This messages
+38:00
+variable is nothing but it is the same variable that we defined in the class state. Okay. Now this is done. Now in my
+38:06
+next step what we are basically going to do is that we are going to go ahead and quickly start building our graph. So for
+38:12
+this we will be using our graph builder. If you remember uh what is graph builder? So graph builder is nothing but
+38:18
+it's my state graph. So I will just remove this quickly over here and I'll just paste it over here itself. Okay. So
+38:24
+this is my graph builder and uh with respect to the graph builder how we need to build it. Right. In my graph builder
+38:31
+I have to have one chatbot node, one start and one end. Right? And there should be edges connected to both of
+38:37
+them. And as I told you that we are going to use the graph API. Right? So uh
+38:43
+for this what I'm actually going to do is that I'm quickly going to write graph builder dot add node. Okay. So this will
+38:51
+basically be my first node. My first node name will be chatbot. You can mention anything. Let's say I will go
+38:57
+ahead and write llm chatbot. Okay. But the second parameter that I'm going to
+39:02
+write is about my node definition. So which is nothing but chatbot. Right? So this every node will have some node
+39:09
+implementation. That node implementation you should be specifying it over here. Okay. Then uh coming to the next uh
+39:16
+option is that in my graph right I definitely have only one node right this
+39:22
+is the node that is there. But along with this I will go ahead and create start and end as my starting and end
+39:28
+point right. So in order to create that we need to go ahead and create edges right. So first of all uh what we
+39:35
+basically going to do is that I'll go ahead and write graph builder dot add edge. So this was my adding node.
+39:44
+Adding nodes this is my adding edges.
+39:52
+Add edges. Now with respect to add edges and add node here is my start. So from
+39:57
+the start I have to go to my LLM chatbot right. So from my start I'm going to the
+40:04
+LLM chatbot and from the LLM chatbot I should basically go where to the end
+40:10
+right? So I will go ahead and add one more edge and this edge is going from
+40:15
+llm chatbot llm chatbot and remember here you need to specify the node name instead of a
+40:23
+node functionality right and this will basically go to my end node. Okay,
+40:28
+perfect. Now see that is what it is matching right from start I have created an edge to chatbot then again it is
+40:34
+going to the end. So this is my entire graph right. Finally what we do is that
+40:40
+we compile the graph. So these are some of the steps when we define the graph. The compilation is necessary so that we
+40:47
+can execute the graph. Right? Unless and until the graph is not compiled you will not be able to execute it. Right? So for
+40:53
+this I will go ahead and use graph builder dot compile. And here we are
+40:59
+basically going to just go ahead and execute it. Okay. Now the question rises
+41:04
+can we go ahead and see how this graph looks like? Okay. Yes. Obviously you can see it. So for this we will be using
+41:11
+some visualization graph. So I will just go ahead and write visualize the graph. Okay. So from visualization graph I will
+41:18
+go ahead and write from I python dot
+41:23
+display okay import image comma display okay so
+41:29
+we are going to use this and uh again we're going to go ahead and use try catch block where we're going to use
+41:34
+this display method which is responsible in displaying the graph with respect to
+41:40
+any image object that you give and if I go ahead and write graph get graph I should be able to get the graph itself
+41:47
+and this we will try to draw it in some mermaid png. Okay, these are some of the
+41:53
+functionalities that were provided over there in the documentation. So I'll go ahead and write except exception. Okay,
+42:01
+and here I can just go ahead and write pass. So here you can see this is how my chatbot looks like. So here I have
+42:07
+start, this is my LLM chatbot and this is my end, right? So when I give my
+42:12
+input from here, my llm my start will be sending this and I should be able to get
+42:17
+this. Okay. Now the time is that how do we run this? You know we we really need to run this right at any point of time
+42:24
+and if you are running it how does it basically looks like you know so for this I can directly use this graph dot
+42:31
+invoke. Okay. And I will say hey u hi. So let's say this is the message that
+42:37
+I'm giving. So what will happen? Hi will go from here. it'll go to the LLM chatbot. It'll give you the output and
+42:43
+it'll end. That's it. Right? So when I say hi uh
+42:48
+got hi. Okay. So one problem over here that you'll be able to see that uh when
+42:54
+it is trying to retrieve the details there we are facing some kind of problems. Okay. Now what is the exact
+43:00
+problem that we are facing? I will just try to uh resolve this uh as we go ahead you know. So let's go ahead and do this.
+43:06
+So here one very important thing is that in the state you remember that what is the variable that we created right
+43:12
+messages. So what I will do I will go ahead and create a dictionary called as messages. And now inside this I will
+43:19
+give my message saying as hi before I had not given this. So it is not able to
+43:24
+pick it up right because here if you see inside my functionality of LLM chatbot
+43:30
+it is invoking from this particular variable right from state of messages where it is basically saved right so
+43:36
+here now let's go ahead and execute this now it should execute it let's see
+43:42
+invalid API key during the task okay so my env
+43:50
+is ready okay no worries see the problem over here is that we need to restart the
+43:55
+kernel because my API key I added it in the later stages right so that is the reason so quickly I will execute all
+44:02
+these things sorry graph builder is not required over here
+44:07
+now it should execute it because I just needed to reload this you know by restarting my kernel then only it'll get
+44:13
+reloaded okay no worries now it should work
+44:19
+so my visualization graph is there and now I'm invoking the messages of high. Now here you can see that I have got
+44:26
+graph.invoke messages of high human message. Now you see this high that is going right. It is being treated as a
+44:32
+human message. And now your response is with respect to the AI message. Hi, it's nice to meet you. So let's go ahead and
+44:39
+save this as my response. Okay. Now in order to check the response, right? What
+44:44
+was the final response here? You can see that I can go ahead and read inside my messages variable. Now this is what is
+44:51
+really important. See inside my class state right I told you that we are going to create a variable right over here
+44:58
+this is my messages variable annotated was there list was there and add message
+45:03
+was there this add messages is acting as a reducer
+45:09
+reducer work is to append inside this list see initially human gave high then
+45:14
+AI message gave high right and this has got added inside this list understand
+45:19
+one very very important thing And this is in the messages variable. Right? Now
+45:25
+you may be thinking what is this annotated? Annotated basically means what? As soon as I gave hi. See over
+45:31
+here automatically this messages got converted to human message. Right? Human
+45:37
+message is just like one kind of annotation. We uh the the the the the graph is making sure that it is
+45:43
+annotating and it is appending in this specific list. And the reason it is getting appended because here you can
+45:49
+see that directly that my messages are getting appended with the help of those reducers itself add messages itself.
+45:56
+Right? Now I hope you are able to understand it right why we have specifically defined it. Now the
+46:02
+question rises how do I go ahead and retrieve the last message? It is nothing but response of message minus one. Okay.
+46:08
+So here you can see that I have got this and if you just go ahead and write dot content you should be able to get hi
+46:13
+it's nice to meet you. Is there something I can help you with? Okay, so this is the most easiest way of probably
+46:20
+uh reading all the stuffs. Okay, now there are two more way of streaming it,
+46:26
+right? Streaming your specific data or or running your entire graph and uh you
+46:31
+know displaying the information, right? So that is what we will discuss now and
+46:37
+understand one thing guys if you are able to understand this right trust me as you go ahead any kind of graph any
+46:44
+kind of complex workflow that you have in your mind you should be able to execute it okay now what I will do I
+46:49
+will go ahead and write for event in graph dot stream okay so this time
+46:58
+instead of directly using graph.invoke invoke I am using something called as graph stream we will understand about
+47:04
+this as we go ahead but I just want to give you some kind of information how things work in this so now here I will
+47:10
+give you messages okay and colon let's say here I go ahead and give hi
+47:17
+how are you okay so this is what is my message let's see whether everything looks fine uh yeah this is my for loop
+47:25
+yeah now what I'm actually going to do I will just go ahead and write print
+47:30
+event. Okay. Now let's execute this. So here you can see that inside this I have
+47:36
+got an output which looks something like this AI messages messages AI message all these information and I'm getting this
+47:43
+right now when I am doing graph stream with this particular input right so here
+47:50
+I'm getting with llm chart lm chart is nothing but my uh node which you are able to see this okay now let's say that
+47:56
+I will go ahead and write one more for loop I'll write for event or so for value
+48:03
+in event dot values event dot
+48:09
+values now what will happen if I just go ahead and print this okay see I will print my value
+48:17
+now if I execute this here you can see that I'm getting this AI message right so that basically means now whenever we
+48:24
+try to stream from this graph stream and whenever we try to see the event values only AI messages will be getting
+48:30
+displayed Right now in order to display this what I can basically do is that I can also go ahead and write value of
+48:36
+messages uh which will be my last message minus one and here I'll just use dot content
+48:44
+and this will basically display the same thing like what it was displayed over here right hi I'm just language model so
+48:50
+I don't have feelings or like human do and all this is just one specific example I've told about streaming but
+48:56
+don't worry because this streaming we will discuss more about it there are multiple types of streaming. With
+49:02
+respect to streamings, you can also provide different different parameters what exactly it means, you know. So, we
+Building Chatbot With Tools
+49:07
+will discuss about it as we go ahead. But here this was just an example of how you can go ahead and build a basic
+49:14
+chatbot. Okay. Now, it's time that we start thinking crush can we go ahead and
+49:19
+integrate some kind of external tools. Okay. So, for this let me go ahead and talk about a use case. Let's say I have
+49:27
+a chatbot. Okay. Now this chatbot I have a question I can basically go ahead and
+49:33
+ask a question for this chatbot saying that hey let's say this this chatbot I
+49:38
+have and this chatbot you know what does it have it basically has a llm
+49:45
+with some kind of prompt and it is taking an input from the start
+49:52
+and it is basically ending it right so here start end now if I ask a question
+50:01
+provide me the
+50:07
+recent AI news. Do you think the chatbot with the help of this LLM will be able
+50:13
+to provide the output? The answer is simple. No, it is not able to provide
+50:19
+it. Why? Because LLM will not have any information related to live, right? Any
+50:25
+live information it will not have. It may have not trained with the recent data right. So here the dependency on
+50:32
+external tool comes right external tools comes right. So what we can basically do
+50:37
+is that for this chatbot as soon as we give an input this chatbot should understand hey we are not able to answer
+50:44
+it. So I definitely have to make a tool call. I definitely have to make a tool call.
+50:51
+And when I'm making this specific tool call this tool call let's say this can be any third party API it can be uh
+50:58
+Google search engine it can be let's say one of the search engine that we going to use is tavi tavi is nothing but it is
+51:04
+a web search it provides a web search API okay and with respect to this tavi
+51:10
+we will be able to get some kind of response over here okay so as soon as we make a tool call or in order to define
+51:18
+it like this I will I will just make this graph a little bit longer now. Okay. So what what happens as soon as I
+51:24
+get an input the next thing is that the chatbot is understanding it is a tool call. So it goes and makes a tool call
+51:31
+and here we will define another node which will be called as tool node. Okay.
+51:36
+And then based on this tool call I should be able to get the response in
+51:41
+the end. Okay. So instead of chatbot
+51:47
+not able to give you the output let's say if I give any input provide me the recent AI news this request will go to
+51:53
+the chatbot chatbot will understand hey we do not we do not have that information so definitely I have to make
+51:59
+a tool call so here what it will do it will make a tool call and then from here
+52:04
+it'll go to end okay it'll go to end right and here in
+52:11
+this tool node I may have multiple tools I may have tools like tabuli. I may also
+52:17
+go ahead and define some custom tools. Let's say add, subtract
+52:23
+or some custom implementation also you can go ahead and write. Right now the
+52:29
+question arises how does this chatbot knows about the tool node? See there is
+52:34
+something called as LLM. Okay, inside this chatbot we use LLM, right? LLM is
+52:39
+actually the brain behind taking this decision. Why this LLM can be binded
+52:45
+with this tools. When LLM is binding with this tools,
+52:52
+what does this basically mean here? It means that let's say I go ahead and create one custom function. This custom
+52:58
+function is called as addition. Let's say this is my addition. This can be
+53:03
+added as a tool to the LLM. It can be binded with LLM itself. Then the LLM
+53:11
+here whenever you define any custom tool you also need to provide the dock string.
+53:18
+You need to provide the dock string. Now with the help of this dock string the
+53:23
+LLM will know what are the inputs and what are the arguments that is
+53:29
+required over here. So if this inputs and arguments matches
+53:34
+with the input that we are giving in this chatbot then automatically this is going to make
+53:41
+that particular tool call right so this same thing I will try to
+53:47
+show you it in the practical way we will go ahead and create some some tools
+53:52
+we'll also go ahead and create some of the custom tools and once we do that what we are basically going to do is
+53:57
+that we also going to go ahead and create tool node and There is one more additional condition which is called as tool
+54:04
+condition. So we will discuss about all these things with respect to this particular implementation. But our main
+54:11
+point over here is that the chatbots can also be integrated with a separate tool node. And here it can also make a tool
+54:19
+call based on a specific input that we get. Okay. How that can be implemented?
+54:25
+by binding tools with the LLM and also defining your custom functions if it is
+54:30
+required and this LLM will be able to understand whether it has any tool or
+54:36
+not through this dock strings. Okay. So now let's go ahead and implement those functionality.
+54:42
+So guys, now let's go ahead and start building a chatbot with tools with the help of langraph. Now first of all, I'll
+54:48
+just show you like what we are trying to build over here. Okay. So here is one graph uh you know uh which we will try
+54:54
+to create. Now just observe this graph. Okay. This graph is quite amazing because here uh we have a separate set
+55:02
+of tools. Okay. Here we have a tool calling LLM. Okay. So from here uh we
+55:07
+are definitely going to give our input. Now from this input as you know these are my edges.
+55:13
+This tool calling LLM is my first node and this node has LLM.
+55:22
+LLM with binding tools. Okay, when I say binding tools, what
+55:29
+does this basically mean? So this means that I have LLMs and tools integrated
+55:34
+with themselves. We will use couple of tools. One of the most famous tool that
+55:39
+we will try to use let's say we will use Tavly API. or tably search. This is just like an
+55:45
+internet search. Along with this, we'll also create some of our custom functions.
+55:51
+Okay, we will uh create some of the custom functions or custom tools. Okay,
+55:58
+tools. And remember here when I can also combine multiple tools in one tool node.
+56:05
+Okay, so here what we doing is that we're going to combine this in one tool
+56:10
+node. Okay. So this is nothing but this is a tool node and here you can observe
+56:16
+one more very amazing thing right. So from this particular tool from this particular node here we have two paths
+56:22
+either we can go there here or either we can go over here. So let's say if my question is hey what is the recent AI
+56:29
+news? So the input will go over here. Then this tool calling LLM will decide
+56:36
+whether it can give the answer or whether it is dependent on some tools.
+56:41
+Since we have binded this tools and remember how LLM will be able to understand from the dock string, right?
+56:48
+So in every tool there is some kind of dock string. Dock string is nothing but some brief information about what that
+56:55
+tool actually does. Okay, I will also define one custom and show it to you. Then this tool calling LLM you know
+57:01
+since it has those tool information it will take a decision whether it has to make a tool call or whether it can just
+57:07
+answer it and go to end. Let's say if it makes a tool call the tool will then provide some kind of output message and
+57:13
+it will end. If it is not a tool call it is just going to go and give you the output and go to the end state. Okay.
+57:21
+So this is uh fundamentally a simple problem things that we are going to solve right now. Okay. And we'll solve
+57:28
+it step by step. Okay. how how do we go ahead and solve it? Uh that I will discuss as we go ahead. Okay. So now let
+57:34
+me go back to my code. So first of all in my requirement txt I will go ahead
+57:40
+and import one library which is called as langchain_tavly.
+57:45
+Okay. Now langchen tavly is nothing but uh if you see in my envi
+57:53
+api we need a tavly api. Okay. And in my requirement.txt we need to first of all install this. So quickly let's go ahead
+57:59
+and open my terminal and here I will go ahead and write uv add minus r
+58:04
+requirement txt. Okay so once we do the installation the installation will be
+58:10
+completed and uh we are good. We have this lang tabi. Uh the next step will be
+58:15
+that I will just go ahead and open this website called as tabi. Okay. So here you can just go ahead and search for
+58:21
+tabi.com. It empowers your AI application with real-time accurate search results
+58:27
+tailored for LLM and RAG. It's just like an internet search. Okay. So, I will just go ahead and log in.
+58:34
+Once I log in here, you can see that it'll give you one key. I will copy this key and it is free for free. Uh you can
+58:41
+probably hit many number of requests with the help of this. So, I think you don't have to be dependent on my API
+58:47
+key. Right. So, I will go ahead and write tab API key and I'll paste it over here. Right now the next thing is that
+58:55
+uh since I'm working over here with with the help of this you know I will just go ahead and restart my kernel. Okay you
+59:02
+have to restart your kernel otherwise things will not work you know the reason is very simple because we need to import
+59:09
+this again. So I will first of all go ahead and execute this. This will basically be my lm. Okay this or this
+59:14
+can be your lm no worries. Okay now I'll go back over here. Now let me go ahead and import some of
+59:21
+the libraries. Right. So for tabi first of all I will go ahead and import this tool. So I'll write from langchain
+59:28
+tavly. Okay. Uh I'm going to go ahead and import tavly search.
+59:35
+Okay. I will go ahead and create this tool wherein I initialize the tavly search and here my max results is equal
+59:43
+to two. Okay. And then I will define my tools. Let's say this will be my list of
+59:49
+tools. Okay. I can still define many number of tools I like. Okay. But I'll
+59:54
+use this tool. Let's say I will go ahead and just invoke with one message. Let's
+59:59
+say I will write what is no or what is lang graph. Okay. So this will basically
+1:00:05
+be my question. Now once I execute this here you should be able to see some kind of response. So here you can see what is
+1:00:12
+lang graph results. You are able to see all these values title from different
+1:00:17
+different source and URL you are able to see this right langraph is a Python library and all this information is
+1:00:22
+specifically coming up. So once uh we have created this sav tavly search tool now our next step will be that uh we
+1:00:29
+will just go ahead and try to create uh our custom method okay custom function
+1:00:35
+so that gives you an idea like how you can also integrate a custom function and how lm is able to understand because I
+1:00:42
+spoke about something called as dock string right so how do we write this dock string everything we'll discuss
+1:00:48
+right so let's let's take a basic function so here uh I will define one custom function
+1:00:54
+And this custom function here we're going to just go ahead and write definition multiply and let's say here I
+1:00:59
+will go ahead and write a int b col int and let's say this is going to
+1:01:04
+return type of int right so u now the question rises how do we go ahead and
+1:01:10
+write our document string so this basically gives you a document string example okay here in the summary let's
+1:01:17
+say I will go ahead and write multiply a and b okay and And then here uh let's
+1:01:24
+say a will be my first int b will be my
+1:01:30
+second int and it returns an
+1:01:37
+output int. Right? So it is something like this. I've just written some information. Now this is what is called
+1:01:45
+as dock string. Okay. Now this dock string will be very important because once we bind any functions right with
+1:01:52
+our LLM or this functions can also be converted as a tools and bind it right and then LLM will be able to understand
+1:01:59
+what this tool will be able to do it now what I will do I will go ahead and create my variable tools here I'm going
+1:02:06
+to use first tool multiply and let me just go ahead and execute it right now
+1:02:12
+as I told you that I need to bind this entire tools this list of tools with my LLM So I will go ahead and write llm dot
+1:02:19
+bind tools and here we're going to basically go ahead and write tools and
+1:02:24
+this will be nothing but llm with tools. So once I go ahead and write so here now
+1:02:31
+if you go ahead and see this is nothing but llm with tool right. So this is nothing but it is a run runnable binding
+1:02:38
+chad grock. It has all the information over here and uh what all functions it is basically connected to like it is
+1:02:45
+connected to tavly search it is connected to multiply you can find out all those specific information over here
+1:02:50
+itself right and this is how uh things work in this. Now once we have defined
+1:02:56
+this llm with tool this tool we are going to use inside our chatbot node.
+1:03:02
+Okay. So now let's go ahead and create the entire state graph right remember
+1:03:08
+the structure of the state graph how it will be I have start I have tool calling lm this is connected to tools and this
+1:03:15
+is end okay now our question is that how do we basically create this tool nodes
+1:03:20
+also and for this also we have some predefined uh packages uh available in
+1:03:25
+langraph okay so I will quickly go ahead and write from langraph
+1:03:31
+from langraph graph dot graph as usual. I'm going to go ahead and import state
+1:03:37
+graph. See again I'm importing all these things so that you get to know like I know in the top already we have imported
+1:03:43
+it but you should know what all things are there. So from langraph dotp pre-built I'm going to go ahead and
+1:03:49
+import tool node right see we have anyhow binded this llm with all the
+1:03:57
+specific tools right so binding will play a very important role see there are two important things one is binding
+1:04:06
+when we are binding llm with tools
+1:04:12
+this actually helps the llm to understand which all tools it has which
+1:04:18
+all tools it has right so whenever an
+1:04:24
+input comes it's just like just imagine LLM has some kind of weapons to solve
+1:04:30
+your input right if I ask hey provide me the recent AI news obviously LLM will
+1:04:35
+not be able to do it it will do an internet search and it will try to provide you the response right when we
+1:04:41
+do this binding it is just trying to give you an information that LLM has all the specific tools but further when an
+1:04:48
+LLM makes a tool call it has to make a call to this tool that
+1:04:54
+is what we really need to understand how that tool call will be happening okay so I'll go back over here
+1:05:01
+we have imported something called as tool node now all the tools that we have created these all tools it has some kind
+1:05:09
+of functionalities right these needs to get converted into a tool node Okay,
+1:05:15
+because each tool node will be having some kind of implementation. Along with this, we will also go ahead and import
+1:05:21
+one more library from langraph.prebbuilt. import
+1:05:27
+tools condition. Okay. Now, first of all, we will go ahead and start with the
+1:05:33
+node definition. Okay. Here we are going to create a uh definition. Okay. And
+1:05:39
+before creating a node definition also first let's start creating the graph. Okay. So you know first of all we going
+1:05:46
+to use a builder. This will be of type state graph. State graph. And inside the state graph
+1:05:53
+we will be using something called as state. Okay. This will be our class specifically state class. Then in the
+1:06:01
+next step is that we going to go ahead and create our builder. Add node. So two
+1:06:07
+one node uh two nodes we definitely require if you see in this graph one is a tool calling llm and one is the tools
+1:06:13
+right. So first we will go ahead and create this node. Inside this node we will give the name as tool calling llm.
+1:06:23
+Okay, and then I have something called as tool
+1:06:29
+or I have to define the functionality of this node. Right? So this in the later stages will define still I'm not defined
+1:06:36
+because I will be defining it over here. The other edge that we really need to create or other node that we need to
+1:06:42
+create is nothing but add node is nothing but tools and remember this
+1:06:48
+tools will be nothing but it will be of node type of tool and here we are going
+1:06:53
+to give all our tools itself. So this node is nothing but it is this specific
+1:06:59
+nodes and inside this node if I want to go ahead and write a definition it will be of tool nodes. If you go ahead and
+1:07:05
+see the definition of this tool nodes, it is how all the list of tools that we specify, it will be implemented as a
+1:07:12
+tool node itself. Okay. So this is my node name and this is the definition. This is my node name and this is the
+1:07:18
+definition. Now let's go ahead and create the definition. So for creating the definition, I'll go ahead and write tool_calling
+1:07:26
+lm. And here we are going to define state colon state. And here we are going
+1:07:33
+to go ahead and write return messages
+1:07:38
+colon. Again what we are going to go ahead and write here we are not directly going to call lm but instead we are
+1:07:44
+going to call lmit tool right. So here llm tool dot invoke and where do we get
+1:07:53
+the input from? from state of messages. Right? So here we are going to
+1:07:59
+go ahead and define state of messages. Perfect. So here you can see very clear.
+1:08:05
+Now in the next step we are going to go ahead and add the edges. Now adding the edges is really important. If you
+1:08:11
+understand this any kind of complex use cases you'll be able to understand it. Okay. So the first edge is from start to
+1:08:17
+tool calling LLM. Okay. So first of all let's create that. In order to create it uh we will just go ahead and write
+1:08:24
+something like this. See builder.addage start to tool calling llm. Now from tool
+1:08:29
+calling llm there are two nodes that are going on right sorry two edges. One edge
+1:08:35
+is going to the end and one edge is going to the tools. Right. Now this kind of edges are called as conditional
+1:08:41
+edges. Okay. So in order to add a conditional edges it will be like builder dot add conditional edges. And
+1:08:49
+inside this we are going to call our tool calling LLM. From two calling LLM
+1:08:56
+this will happen right from this specific node it is going to happen. So tool calling LLM and in the next this is
+1:09:02
+really important. Okay in the next we are going to import something called as tools condition. Now the question rises
+1:09:10
+Kish what is this tool condition? Tool condition applies two different kind of conditions. One is let me go ahead and
+1:09:17
+write it over here. If the latest message right in the input
+1:09:23
+message when we giving from the assistant from the if the latest message from the assistant is a tool call then
+1:09:30
+tool condition routes to tool node. So tool node is basically created over here. Right? If you create with this
+1:09:36
+other name this will not happen then. Okay. So that is the reason we have created this tools node. Okay. If the
+1:09:42
+assistant is saying it is not a tool call then it will go to the end. that basically means this will serve and it'll go to the end. So this tool
+1:09:50
+condition basically applies two different condition. If the latest message from assistant is a tool call, tool condition routes to tool. If the
+1:09:57
+latest u message from the assistant is not a tool call, tool condition routes to end. And that is where you are
+1:10:02
+actually doing this with help of tool condition. Okay, very simple. Here if
+1:10:09
+this tool calling LLM is making a tool call, it will go to the tool node otherwise it will go to the end node.
+1:10:15
+That is what tool condition does. Okay. And uh that is a kind of see whenever there are two edges coming from a node
+1:10:22
+it has to go inside this additional conditional edges. Add conditional edges. Okay. Now finally I will go ahead
+1:10:28
+and add the final edge builder dot add edge. Then you know where this add edge
+1:10:34
+should go right the final edge will be nothing but it'll be from tools
+1:10:40
+to end right the other part
+1:10:46
+sorry this is a keyword so other part is that by default if it is not a tool
+1:10:52
+called it is anyhow going to go to the end okay so this is actually managing the other condition now finally we will
+1:10:59
+go ahead and compile the graph compile compile the graph. After compiling it,
+1:11:04
+uh let's go ahead and write it out. Graph is equal to builder dot compile, right? And then we going to go ahead and
+1:11:12
+view the graph. Okay, so for give viewing the graph, it will be nothing but use that same function called as display.
+1:11:18
+And here we go. Uh state is not defined. Okay, state is not defined. Let me go
+1:11:24
+ahead and again I think I restarted the kernel, right? So that is the reason we got that issue. So I will just go ahead
+1:11:30
+and execute this. Okay, this two thing I'll execute it. Perfect. Now this
+1:11:36
+should definitely work. So here you can see that I'm getting one error node already present. The thing is that I did
+1:11:43
+not define the node definition over here. Okay. So let's go ahead and define this and execute it. Okay. Uh image is
+1:11:50
+not defined uh because I need to import the image library. It's okay. No
+1:11:55
+worries. I will do that. Okay. Now here you can see I've got the same image start tool calling LLM tools and end.
+1:12:02
+Okay, now it's time we see that how we can probably call this okay quickly. So
+1:12:08
+I'll go ahead and write messages is equal to or I'll just go ahead and use the same graph graph
+1:12:14
+invoke. So we know there is an invoke method and here we will go ahead and give our messages parameter and I will
+1:12:21
+give my message. Hey uh I'll say hey what is uh what is the recent AI news
+1:12:29
+right now with respect to this you know if I'm executing this right it
+1:12:36
+definitely needs to make a tool call to my um you know to the uh to the third
+1:12:43
+party API with respect to tavi now here you can see this is lovely see clearly you are able to see what is the recent
+1:12:49
+AI news so here is the human message that has got appended in the AI message. It did not respond anything. The content
+1:12:56
+is empty. But it is saying that the LLM has made a tool call, right? Tool call. The ID is
+1:13:04
+this. The function name is this. And this is the query, right? With this particular topic news, right? And here
+1:13:11
+you are able to see this. And finally, the tool message that you are getting recent AI news, follow-up questions, all
+1:13:17
+this information that you're able to see. Okay? Now we need to see what information is able to see right. So now
+1:13:25
+I will just quickly save this in some kind of response. Okay, response.
+1:13:31
+I'll execute this. Let's go ahead and write this response.
+1:13:38
+So this response is basically coming like this. I will go ahead and see my messages.
+1:13:43
+Messages. I will take the last message. It should definitely be a tool call. So
+1:13:49
+tool message and if I just go ahead and write dot content I should be able to do this recent AI news was the query
+1:13:56
+follow-up question is null and this is all the information Nvidia self-driving software platform all this news
+1:14:02
+information is specifically coming if you want to display it in a much more better way I can also go ahead and write
+1:14:08
+something like this for m let's say whatever response I'm
+1:14:13
+getting response of messages okay response of messages from on this
+1:14:21
+I'm just going to go ahead and write m dot pretty print okay
+1:14:27
+pretty print I know so here you can see what is the
+1:14:33
+recent AI news it made a tool call of tably search and here is my query with respect to all the response that I'm
+1:14:39
+able to get right now the question rises kish uh did we go ahead and test some
+1:14:44
+other things so let's test one more thing one more tool we added right what is 2 * 3 or the multiply function. What
+1:14:51
+is 2 * 3, right? And we will try to
+1:14:56
+display the same response over here. This time it will make another tool call. Okay? And that tool call will be
+1:15:04
+nothing but it will be a multiply tool call. See multiply tool call. Now how it is able to do it? Because LLM has that
+1:15:11
+binding information already, right? And it is able to make this specific tool
+1:15:16
+call in a much more easy way. But still there is one very important thing. See tool message is coming up something but
+1:15:22
+the operation is not happening. Right? Why why it is not happening? See over here you can see that what is 2
+1:15:29
+multiplied by 3 or I'll just go ahead and ask what is 5 *
+1:15:34
+2. If I'm executing this okay so here you will be able to see that 5 multiplied by two it is not probably
+1:15:41
+producing the right kind of output. So one interesting thing you could see guys over here when I'm multiplying here the
+1:15:46
+output is null right then I got to see that there was some mistakes that we did
+1:15:52
+we did not go ahead and write the definition so return a multiplied by b okay so now I'll execute this this will
+1:15:59
+be basically be my tools tool lm binding tools so this will be my llm tool now uh
+1:16:06
+let's see I think now it should get executed so five multiplied by two okay still I have to go ahead and recompile
+1:16:13
+my graph. Okay, so I'll go ahead and recompile my graph. Now if I just go ahead and execute it. Let's see it'll
+1:16:19
+come. So now you can see uh tool call has made 5,2 argument it is able to find
+1:16:24
+out and tool message is nothing but name multiply and answer is 10. So this kind of issues smaller issues may come but
+1:16:31
+you need to go ahead and fix it. Okay. But now one more important thing is that
+1:16:36
+what if I just go ahead and write something like this. Okay, see this. Okay, what is 5 * 2 and then add 10.
+1:16:46
+Okay, or let's say I'll go ahead and say then multiply 10. Okay, if I go ahead
+1:16:52
+and execute this here, you'll be able to see some kind of messages. Let's see. So
+1:16:58
+here you can see first what is 2 multiply by two and then multiply by 10. So multiply 52
+1:17:04
+10 2. Okay, it is able to capture the argument. It is able to find out this
+1:17:10
+multiply and here also we are able to get it right. So what is 5 m* 2 and then
+1:17:16
+multiply by 10? It is able to find it out. Okay. Now see I will again change this. This is also working. give me the
+1:17:26
+the recent AI news and then multiply
+1:17:35
+multiply 5 by 10.
+1:17:40
+Now if I execute this with this kind of query now just think over it you know
+1:17:46
+what is going to happen. So here one very important thing happened right? Give me the recent AI news. In this
+1:17:53
+particular sentence, there are two two important sentence itself. One is the give me the recent AI news and then
+1:17:59
+multiply 5 by 10. With respect to the give me the recent AI news and then multiply here you can see tavly search
+1:18:05
+is done but after that it gave the output and it came out. But what about
+1:18:10
+this particular query right now what has actually happened? See if this is my
+1:18:16
+LLM. Okay, this is my LLM or this is my chatbot. Let's say
+1:18:24
+here I asked question, what is the recent AI news?
+1:18:30
+What is the recent AI news? And I asked multiply 5 by 2. Let's say I asked this two question. So in a sentence there are
+ReACT Agent Architecture
+1:18:38
+two questions, right? LLM as soon as it got the input,
+1:18:43
+it made a tool call. The tool call was in a tool node. Why it make a tool call?
+1:18:50
+Because here you can see that it is asking for the recent AI news and it knows that in the tool call it has Tavly
+1:18:56
+API. Okay, Tavly and then from here it went
+1:19:02
+to the end node right this was start this was end.
+1:19:10
+But what about this particular question multiplied 5 by two right and this is
+1:19:16
+how was my entire graph don't you think if we made some kind of changes then
+1:19:23
+this answer will also be able to come and what was the changes here
+1:19:29
+instead of once the tool node gives you the output can't we give that output
+1:19:35
+back to an LLM instead of sending this output to the
+1:19:41
+end state. Now once we make this response back to the LLM then the LLM will be the main
+1:19:50
+decision maker and this decision maker will help them
+1:19:56
+to probably take up the next query multiply 5x2 and then it can again make
+1:20:02
+a tool call because here I have my multiply function also and then once it
+1:20:08
+gets the response it'll give it back to the LLM and it'll to combine both the
+1:20:13
+output and give it till the end of the output. Give it at the end of the output.
+1:20:19
+So this way of interaction of LLM with tools, right? It specifically uses a a
+1:20:27
+very important kind of um you know there
+1:20:32
+is a there is a very good communication that happens between LLM and tools and we use a kind of agent which is called
+1:20:39
+as react agent. Okay. And this react agents plays a very
+1:20:47
+important role altogether. Right? Now, first of all, what exactly is this react
+1:20:52
+agent? You need to understand. Okay? Let me just go ahead and explain this in
+1:20:58
+a better simpler example. Here I definitely have an LLM. Okay. Let's say
+1:21:03
+this is my LLM. I ask a question. Okay. And you know that this LLM is nothing but it is the
+1:21:11
+brain right. So here it is the brain right when I say brain this will be
+1:21:17
+responsible in making the decision which tools to call and in the LLM I have some
+1:21:22
+kind of binding tools. So here we go ahead and start.
+1:21:30
+Here we go ahead and end right and here is my tools node.
+1:21:40
+This is my another node. Okay. So let's say here I give my
+1:21:46
+natural input. The natural input is that provide me the recent AI news. And along with this
+1:21:53
+sentence I say hey multiply 5 by 5. Now LLM when it takes this specific input it
+1:22:00
+breaks this into two sentences. So first it will try to serve this AI news. As I said this is the brain right? So what it
+1:22:08
+does it knows it has to make a call to the tool node. Now with respect to the tool node it will get an output and
+1:22:14
+instead of giving to the end what it will do it will come give the response to the LLM. Now the LLM will still have
+1:22:21
+the second sentence context. Then what it will do? It will again make a tool call node. Why? Because this is five
+1:22:28
+multiply by five. Right? So multiply is again there. It'll again go ahead and hit this particular tool node and again
+1:22:34
+get the response. Then it will go ahead and see hey is there anything left in this particular sentence? Nothing is
+1:22:40
+there. So what it is going to do? It is going to summarize and give you the output at the end. So this way of
+1:22:46
+communication right this agent architecture is basically called as
+1:22:51
+react agent architecture. In react there are three main key terms.
+1:22:57
+One is act, second one is observe
+1:23:02
+and third one is something called as reason. Act basically means whenever a input
+1:23:09
+comes the LLM will be able to make a tool call. Right? Then when the output
+1:23:14
+of the tool comes the LLM will observe okay the LLM will observe do I again
+1:23:21
+need to make the tool call or should I directly go to the end let's say if this is a question again coming after that
+1:23:26
+then again it makes a tool call okay and then again it is going to get the output
+1:23:31
+reason basically means after it gets the output what the LLM should do that LLM
+1:23:38
+is making the decision right and this is where your agent architecture comes into
+1:23:44
+existence. That is where your agent behavior comes into existence. And this was the rise because of this now agentic
+1:23:52
+AI has become very much popular. Okay, that is the reason why it has become really really popular. So in order to
+1:23:58
+just implement this see I will I will just give you an example. So here if I want to go ahead and just use this
+1:24:06
+react react agent architecture.
+1:24:12
+Okay. how we are basically going to do this. Okay, I will just go ahead and use the same thing. See, I will use the same
+1:24:20
+state graph this agent. Now you should tell me where
+1:24:27
+the changes should happen. Okay, I will copy this over here from the tools. Instead of going back to
+1:24:34
+the end, it should go back to tool calling
+1:24:41
+LLM. Yes or no? Just think instead of going from tools to the end, it is now
+1:24:47
+going to the tool calling LLM. Now how my diagram will look like? This is how it looks like from start tool calling
+1:24:53
+LLM goes to the tool and again goes back to the tool calling LLM. And this can keep on repeating unless and until the
+1:24:59
+answer is completely satisfied and the LLM is basically making the decision. Now if I go ahead and ask this question.
+1:25:06
+Now see the magic. Okay, see the magic how good the output will
+1:25:11
+come. Okay. So here if I make if I go ahead and probably just show you the output. Give me the recent AI news and
+1:25:17
+then multiply 5 by 10. Now see LLM how it is going to behave. So give me the
+1:25:23
+recent AI news multiply by this query tably search is happening perfect here's the recent AI news after this what has
+1:25:30
+happened the response has gone back to the lm and then now multiply 5 by 10 which is nothing but 5 * 10 which is 50
+1:25:38
+and this is how your entire react agent works right and I hope you're able to
+1:25:45
+understand this with this beautiful example that I have considered over here right and this is with respect to the
+1:25:51
+react agent. So I hope you are able to understand this. Now you can keep on adding any number of tools. The LLM will
+1:25:58
+be the deciding factor which tool to specifically call. So guys now we are going to go ahead and implement about
+1:26:04
+adding memory in the agentic graph. Uh so whenever you create a graph you know
+1:26:09
+uh langraph has a feature wherein you can go ahead and add memory and this memory actually solves a major problem
+1:26:17
+you know that is nothing but persistent checkpointing. Now why do we specifically use this
+Adding Memory In Langgraph
+1:26:22
+memory? Okay, so let me just give you some examples. So already if you know that uh we were able to invoke it from
+1:26:29
+the previous uh graph that we have actually created. Now let's say that I will go ahead and ask a question. Hello
+1:26:36
+uh my name is Kush. Okay. So let's say this is what I'm communicating with my
+1:26:41
+chatbot. So my chatbot should be able to give me a good answer, right? It is going through this entire graph. uh over
+1:26:49
+here the tool call is not required so directly it is going to the end after giving the answer right so let's say
+1:26:54
+that here I've just asked hello my name is kish and it is able to probably provide a nice response saying that nice
+1:27:00
+to meet you how are you today now what I will do I will again go ahead and ask a question what is my name okay what is my
+1:27:09
+name what is my name so now what it is basically going to happen is that you
+1:27:15
+see like what kind of response uh we will be able to get it over here. Now, what is my name? It is making this tool
+1:27:22
+call. I apologize for the mistake earlier since the tool ID yielded. I will assume you're asking about your
+1:27:27
+name again. Unfortunately, I don't have any information about your name and it's not provided in the conversation. Can
+1:27:32
+you provide more context or clarity what you mean by name and all? So, see, I
+1:27:37
+just now told my name and it also told me that hey, nice to meet you. How are
+1:27:42
+you today? And now when I'm asking the same question, what is my name? It does not know. So it is not persisting that
+1:27:48
+entire information uh with respect to the previous conversation or previous interaction that we had. Now lang graph
+1:27:56
+has a very special property in order to overcome this advantage which is called as memory. Now for memory what we will
+1:28:02
+do is that we will let's say that I'm going to use the same graph. Okay. So I will copy this and uh let's say I go
+1:28:09
+ahead and paste it over here. Okay. Now once I paste it over here, langraph
+1:28:15
+has a feature wherein you can create a memory saver checkpoint. Okay. Now how
+1:28:20
+do I go ahead and create it? So here what I will do, I will just go ahead and write from langchain uh sorry lang graph
+1:28:28
+dot checkpointer dot memory. Okay. And here uh we are
+1:28:34
+langraph checkpointer memory. We going to go ahead and import. So let's see
+1:28:40
+whether the spelling is correct. checkpointter domemory. So let me just go ahead and use this. And here you can
+1:28:47
+see from langraph do checkpointer checkpoint dotmemory import memory saver and we go ahead and initialize this
+1:28:53
+memory saver. Now what this exactly memory saver is it is nothing but it is an inmemory checkpoint saver. This
+1:29:00
+checkpoint save stores checkpoints in memory using a default dictionary. Okay. So here if you go ahead and see that
+1:29:06
+what it is going to do is that with respect to every node that it executes you know it is just going to go ahead
+1:29:11
+and save all the information so that you can recall this particular memory again and again whenever it is required based
+1:29:17
+on the previous interaction. Okay. Now where do we add the specific memory? This is really important. So here we
+1:29:22
+have created a memory object. Where do we add it? While we are compiling there is a parameter which is called as checkpoint. We have to add this memory
+1:29:30
+over here. Right? So once I go ahead and execute this now, now you can see that I have this exact uh right thing. Now what
+1:29:36
+I'll do, I will just go ahead and u give some input. Okay. Now see if I want to
+1:29:43
+use this specific memory, right, for a previous interaction or probably I want the context of the previous interaction.
+1:29:49
+First of all, we need to go ahead and create a thread ID. This thread ID will be important because it will be related
+1:29:56
+to one specific session. So we will go ahead and create a variable. Let's say I will just go ahead and create a web
+1:30:02
+list. So this is memory obviously. Okay. And now I will just go ahead and create one config. Okay. Inside this config we
+1:30:10
+will be using a key which will be called as configurable. And inside this configurable we are going to create one
+1:30:16
+thread. And this thread any ID or any number that I'm giving it should be
+1:30:21
+unique. Let's say I'm going to probably a user has joined a session. So I will go ahead and make a thread for that
+1:30:28
+particular user. Okay. And this here is the configuration that we need to give right configurable key and there should
+1:30:33
+be a thread with this particular key value pair. And this should be unique. So once I have provided my unique thread
+1:30:40
+id now what I'm actually going to do is that I'm going to use this graph and I'm going to call the invoke method. Okay.
+1:30:46
+Now once I call the invoke method here uh I'm going to basically give it in the form of keys right dictionary pairs. So
+1:30:54
+here I'm going to basically go ahead and write messages. And now if I give the message saying
+1:30:59
+that hi my name is crush. Now see what will be
+1:31:05
+the magic that will happen. Okay. So here huh apart from this right the
+1:31:11
+messages that we are giving we also have to make sure that for which thread ID I am providing the configuration. So here
+1:31:17
+there will be one more additional parameter which is called as config and we will provide this particular config.
+1:31:22
+Right. So once we get the response response
+1:31:27
+I will just go ahead and print this response. So this will be graph uh let's
+1:31:33
+go ahead and print it. Okay response. Perfect.
+1:31:39
+Now I should be able to get my uh output. So here you can see that output is nothing but this all information is
+1:31:45
+there. Hi my name is Kish and it says nice to meet you. All this information is there. Right now what I will do I
+1:31:51
+will quickly go ahead and write response or let me do one thing because I think
+1:31:56
+it got appended two times. Okay, I'll execute this once again and let's just execute it for one time. Okay, so with
+1:32:02
+this particular thread ID, we will just execute it for one time. Um and now here you can see that I'm getting one human
+1:32:07
+message, one AI message. Nice to meet you. Now if I just go ahead and see the last messages, so it'll be messages of
+1:32:16
+minus one. So here you can see that if I go ahead and see this particular content, I should be able to see the output. Okay. Hi, nice to meet you
+1:32:23
+crush. Is there something I can help you with? Okay. Now let's go ahead and again use the same config and let me now ask
+1:32:31
+hey what is my name? Okay. Now let's see whether it'll be able to remember or not
+1:32:36
+because we have already used memory saver and it is uh putting everything in that uh memory saver itself. Right? So
+1:32:42
+the previous interaction context it'll be able to remember it. Hey, what is my
+1:32:47
+name? Okay, so I'm just going to go ahead and do this and we are going to print this particular output. Okay, so
+1:32:54
+we are going to print this output and remember we giving the same config. Okay, see when you create a end toend
+1:33:01
+application this dynamic uh uh you know ID thread id will be maintained in the
+1:33:06
+session itself. So that way we'll be able to maintain this entirely in the memory saver. Right? So here now it is
+1:33:12
+able to understand that hey your name is crash. Okay. Uh, so this is really nice,
+1:33:17
+right? Now it is able to remember. Do you know what is my name? Uh, hey, do
+1:33:22
+you remember me? I'll just go ahead and write like this. Remember me? Right.
+1:33:28
+This is the beginning of so I don't have previous memory of you. I have my large language model and all. Okay. Do you
+1:33:33
+remember my name? Let's let's go ahead and ask this question. Do you remember my name? So it will be able to remember
+1:33:39
+me. My name at least. Yes, your name is Kush, right? So it is able to answer that right. So guys now we are going to
+1:33:46
+discuss about streaming and lang graph. See most of the time whenever we want to
+1:33:52
+probably invoke or chat with our chatbot we were basically using this graph.invoke method right and somewhere
+1:33:59
+we also use stream right now let's go ahead and try to see like what are the different streaming techniques to
+1:34:05
+probably get the response uh from the chatbot itself when we executing a graph. So first of all what I'm actually
+1:34:11
+going to do is that I will go ahead and uh implement some of the things like let's say I will go ahead and initialize
+1:34:17
+my memory saver. Okay. Now inside this memory saver we are basically just creating a memory object. I will go
+1:34:24
+ahead and create one node definition and this node is nothing but the name is superbot and here we are going to use
+1:34:31
+llm with tool.invoke. Okay or I can just go ahead and use llm right? I'll just
+1:34:36
+create a simple graph to probably show you what are the different types of streaming that is available over here.
+1:34:42
+Right now let's go ahead and execute this now. Here is my entire chatbot node
+1:34:49
+that is available over here. Right now I will just go ahead and create my entire graph. So let's say this is a very
+1:34:56
+simple graph wherein I am trying to create a node called a superbot. The functionality is nothing but superbot
+Streaming In Langgraph
+1:35:03
+here from start to superbot superbot to end and then we are compiling it with a checkpointer memory right and this is
+1:35:09
+how my graph looks like very simple graph I think uh we are learning a lot right out over here uh from that much
+1:35:15
+time like in this entire session we have understood how to create different different types of graph now what I will
+1:35:21
+do I will go ahead and create a thread let's say the thread is one I'll say hey my name is Krish and I like cricket and
+1:35:27
+I will give this particular config and I'm just going to go ahead and invoke it. Okay. Now when we are invoking it,
+1:35:33
+you can see there are some information that you are seeing, right? One is human message, one is the AI message. AI
+1:35:40
+message is basically the response. Now with respect to this, we are going to
+1:35:45
+learn about three some streaming techniques. Okay. And this will be very very handful when you try to develop
+1:35:53
+some kind of chatbot. Okay. So inside the streaming you have dot stream method and a stream method. The methods are
+1:35:59
+sync and a sync method for string being back results. And inside the stream and all stream method, you have this two
+1:36:06
+parameters. One is value. Okay. And one
+1:36:11
+is nothing but updates. Now the question rises what exactly is the difference
+1:36:16
+between values and updates? So in order to make you understand, let me go back over here. Okay, let's say I have a and
+1:36:25
+this is related to streaming, right? to in order to make you understand what is the differences between value and
+1:36:32
+updates that is what we are going to discuss okay so let's say this is my streaming right streaming topic so first
+1:36:39
+of all let's say I have this graph inside this graph I have various nodes let's say I have node one
+1:36:47
+I have node one I have node two that gets executed and
+1:36:53
+then finally I have node three and the flow of execution is in this direction
+1:36:58
+right and we are discussing about stream and earth stream methods there is a stream
+1:37:05
+method then there is an earth stream method in order to understand the difference between stream and earth
+1:37:12
+stream this is like specifically used for a sync okay now if you know Python I
+1:37:17
+think you should get an idea about what is sync and a sync basically means right but the main important point that I'm
+1:37:23
+really interested in is understanding about modes So inside this method you have two
+1:37:29
+modes. One is update mode and one is value mode.
+1:37:35
+Okay. Where is value mode. Okay. Now what is the difference between update mode and value mode? And we will play
+1:37:42
+with this parameter. Okay. This is an additional parameter we give. Let's say over here in node one as soon as the
+1:37:48
+node one gets executed here my messages variable will be equal to let's say hi.
+1:37:56
+Let's say my LLM gives a high message when node one is executed. When node two
+1:38:02
+is executed, the messages will probably
+1:38:07
+have another information like my name is okay. So this will be my another information and when node 3 executes
+1:38:15
+my current message that is being getting updated okay is
+1:38:20
+nothing but crush. So this is a very simple thing. When node one gets executed, my uh current
+1:38:28
+output response is high. Then node two gets executed, my current response is my name is. And when node 3 is getting
+1:38:34
+executed, it is nothing but kish. Okay. Now if I use mode is equal to update,
+1:38:40
+only the message that is currently getting updated only that message will get displayed as an output. Okay. Let's
+1:38:48
+say if node one is getting executed if I just go ahead and print or do the streaming with respect to mode is equal to update only this message will get
+1:38:54
+updated right let's say after executing all these three nodes this is the message that is getting executed again I
+1:39:00
+go ahead and give my another input then this message will get generated then this message will get generated whereas
+1:39:06
+in the case of values you know in the first case I will get a message as hi
+1:39:11
+okay but when again I give the message this message is equal to high will also
+1:39:17
+get appended ended and it will come as my name is in the form of list right so
+1:39:23
+this is basically getting appended over here right when I try to stream with the
+1:39:29
+help of mode is equal to value similarly when I go to my again I give an input and execute all the specific nodes then
+1:39:36
+here you'll be able to see that I'll get another message which will say hi my name is Kish right so this is how it
+1:39:44
+gets executed right here in a specific execution what is one of the message
+1:39:50
+that gets appended or that gets uh displayed that only I will be able to see it okay so that is a basic
+1:39:56
+difference between mode is equal to update and value but if you still have confusion we'll try to understand this
+1:40:02
+uh with an example over here okay so now what I'm actually going to uh specifically do is that uh now uh you
+1:40:10
+can see over here that I have this okay my name is this and all okay now what I will do I will use the stream or stream
+1:40:16
+method whichever method you specifically want we can use this okay so let's say that I go ahead and create a thread and
+1:40:21
+this particular thread has for chunk and graph builder dotstream and I'm giving this message my name is Krishna I like
+1:40:27
+cricket I've given this particular config that is nothing but with thread and this time I've used stream mode is
+1:40:32
+equal to updates okay so there are two stream mode one is updates and one is values now with respect to updates if I
+1:40:38
+just go ahead and print it okay now see what will be the output that I'll get okay so it shows that what is the
+1:40:45
+current execution AI message that is what I'm actually getting. I did not get the human message. See, focus in this.
+1:40:51
+Whichever was the last message which came from the AI only that is getting displayed. But if I just go ahead and
+1:40:57
+execute the same thing, instead of writing mode is equal to updates, I will go ahead and write mode is equal to
+1:41:02
+values. If I execute it here, you can see human message. Here also you can see two time human message has got appended.
+1:41:08
+And if you for go forward, your AI message will also get appended over here. See AI message, right? So all the
+1:41:16
+conversation is basically getting updated right when you whether you give an input whatever output you get here
+1:41:21
+specifically output you're getting okay here specifically output you're actually getting right again again let me repeat
+1:41:27
+this over here you'll be able to see that whatever output you get after any node and if you try to stream it only
+1:41:33
+that is basically getting displayed this is the AI message over here whereas in the case of mode is equal to value
+1:41:39
+everything is getting displayed your human message your AI message everything is getting displayed so that is the basic difference between this modes and
+1:41:47
+values. Okay. So now I hope you get this clear understanding. Okay. And let's say
+1:41:52
+that I go ahead and add one more message. Okay. I'll say hey um see I executed this two times, right? This is
+1:41:59
+the first time. This is my human message and here also I got the AI message and everything is basically getting updated.
+1:42:06
+Let's say I go ahead and add one more method or or or I just go ahead and create one new key. Okay. Okay. So let's
+1:42:13
+let's create this. Okay. And uh you'll be able to understand this very clearly. So here I will just go ahead and use
+1:42:19
+thread is equal to 4. Okay. I'll say hi. Hi my name is Krish. I like cricket. Okay. Let's start from fresh. So here
+1:42:26
+now mode is equal to update is update. Now I will be getting the AI message over here. Obviously since I've used
+1:42:32
+this. So I've got the AI message. Now again I will go ahead and use another message over here and I'll say I also
+1:42:39
+like I also like football. Okay. Now see what
+1:42:46
+will happen if I make this updates to values. Okay. Now see if I go ahead and
+1:42:52
+print the churn I'm getting the human message. My name is Kish. I like cricket. So this is saved in the memory.
+1:42:58
+My next prompt will be something related to I also like football. You can see this. Okay. So let this get printed.
+1:43:06
+It is still executing. So right now I got this human message. In the next sentence the previous
+1:43:11
+conversation has also got attached. Right? Previous conversation has also got attached. And then probably after
+1:43:18
+some time when this gets executed you'll be able to see that one more message will get appended and that is related to
+1:43:24
+human message. See my name is Kish. I like cricket. The previous one along with that uh hi Kish nice to meet you.
+1:43:32
+So you also like cricket which team do you support? He's asked the question and if you go forward here you can see AI
+1:43:38
+message a sport fan with diverse effect. Now see here somewhere human message I also like football has got added and
+1:43:44
+here you got the response. So values what it is doing is that it is keep on adding all the conversation inside this
+1:43:52
+and you're able to stream through that entire information. Sometime this becomes uh very good in use cases where
+1:43:58
+you are focused on understanding about things and all right and uh if you want
+1:44:04
+some more detailed information and all now there is one more uh method which is called as a stream methods okay and for
+1:44:11
+this you just need to probably go ahead and use like this see I'm using another thread id let's say thread id will be
+1:44:17
+five here we are using graph builduerstream events and uh here you
+1:44:22
+can use the config version each and information. If you just print this particular event, no more detailed
+1:44:27
+information on different different things, different different events. So there are multiple events that are
+1:44:32
+present over there. Right? So if you want much more detailed information just to do the debugging and all with respect
+1:44:39
+to every sentences, you can specifically use this streaming technique. Right?
+1:44:46
+So now guys, we are going to discuss about a new topic in langraph which is called as human in the loop. Now human
+1:44:52
+enabler loop can also be called as human feedback. In order to explain you, let's make sure to take an example. Okay. So
+Human Feedback In the loop
+1:45:00
+let's say that uh I have a specific example. Let's say I will just go ahead and draw one of the you know the same
+1:45:07
+thing that what we are specifically doing right let's let's consider that here I have this start node then I have
+1:45:14
+one more node. Let's say this is my lm zip tool. This is my tool node. And
+1:45:20
+finally this is my end node. Okay. Now here we know that let's say that
+1:45:26
+here we have this start. Okay. So this is start
+1:45:33
+start. Let's say this is my chatbot. This chatbot has been binded with
+1:45:39
+multiple tools. This is my tool node. Uh when I am creating various tools and
+1:45:46
+we we've created one one tools such as Tavi, right? we use tavi let's say along
+1:45:51
+with tavi we will go ahead and create one more custom tool and this is tool is related to human assistance
+1:45:59
+human assistance that basically means whenever I try to give an input let's
+1:46:05
+say this is my input when it goes to this chatbot which is binded with lms uh sorry with multiple
+1:46:11
+tools where we have llm binded with multiple tools so here we have llm with
+1:46:17
+tools so based on this input if this makes a specific tool call and in this tool call
+1:46:24
+instead of making a call to the table if it makes a call to the human assistance.
+1:46:29
+Okay. Now in response the human assistance should provide some kind of
+1:46:35
+feedback some kind of feedback and then the chatbot should continue the execution.
+1:46:42
+Okay. So this is what we will try to execute it you know and this feedback can be very much necessary you know uh
+1:46:50
+we can we will take a very good example let's say if there is some complex workflow and in that particular workflow
+1:46:57
+unless and until a human do not approve that workflow should not be completed right um let's say there are two nodes
+1:47:05
+one node is executing here we can interrupt we can interrupt with a human
+1:47:10
+feedback if the human gives a good feed feedback saying that yes or continue it
+1:47:16
+should go ahead with the execution. Okay. So let's take this example and show it to you so that you get a clear
+1:47:22
+understanding. So first of all I've created a new file. Okay. So here you can see that this is very simple. We are
+1:47:28
+just loading the model uh which we have already discussed. Here you can see we are using tavly search tool type deck
+1:47:34
+memory saver state graph start add messages is all about your reducers tool
+1:47:40
+condition tool node. This is the two new libraries that we are going to specifically use. Okay, one is command
+1:47:47
+and one is interrupt. Interrupt basically means we are interrupting a workflow. It is forcefully interrupting
+1:47:54
+so that a human can provide a feedback. Okay. So here is my state. Here I have
+1:48:00
+used annotated with list and add messages. We have initialized the state graph. Here we also imported one tool
+1:48:08
+library. This tool library is useful because here we will define a function
+1:48:13
+and that function gets converted to a tool and this tool can be binded with the LLM. So here we are defining a tool
+1:48:20
+uh which is called as human assistance. It takes a string and returns a string. Here you can see dock string is given
+1:48:26
+request assistance from a human. Human response interrupt query with this. So
+1:48:31
+here we are interrupting with query. Query is equal to query. So whatever query we pass over here that query it
+1:48:37
+will get interrupted and then we are returning human response of data. So human response of data here we are
+1:48:44
+returning that information. Then this is my another tool. So we are combining those tools in the list. We are binding
+1:48:51
+them right and here is my entire chatbot. So this chatbot is nothing but it is llm with tools.invoke and it is
+1:48:57
+returning that messages and we are creating this chatbot. We are adding additional condition along with the tool conditions and all. Right? So if I just
+1:49:04
+go ahead and execute it and here we are applying the memory saver and finally this is the graph it looks like right.
+1:49:10
+So start chatbot inside the tools there are two tools one is the tavly and one is the human assistance okay interrupt
+1:49:16
+one right so interrupt one you can also see over here uh u if you see right this this uh this
+1:49:24
+interrupt will happen in the tool node right in the tool node because the tools is having that human assistance now
+1:49:30
+let's go ahead with the first question so first question over here is that user input says it is giving an input I need
+1:49:36
+some expert guidance for building AI agents could you request assistance for me. Now this assistance will play a very
+1:49:44
+important role, right? Because here we are providing a message and this message
+1:49:50
+is matching to this particular dock string. So when LLM gets that message, it is going to call this specific tool
+1:49:55
+instead of calling Tavly. Okay. So now let's go ahead and see here we are creating a thread ID. We are giving a
+1:50:01
+user input which stream mode is equal to values each and everything and we are executing this. Okay. So here you can
+1:50:06
+see a tool call is made. Initially it went to Tavly search. Okay, but it is not able to provide you the answer.
+1:50:12
+Tavly search says that expert guidance for building AI agent. Now based on the result of the tool, I can see that it provides two relevant results, a blog
+1:50:19
+post and a YouTube post. So what it has done is that uh for the first time when
+1:50:24
+we call this particular function, it is calling the tably search API. So let's let's call this again. Okay, I need some
+1:50:31
+expert uh guidance and assistance. I will change the message now. See what
+1:50:36
+will happen for building AI agents. Could you please uh provide assistance to me? Okay. So now we are again
+1:50:43
+executing. I need some expert guidance and assistance. You can see the tool call of human assistance has actually
+1:50:49
+made. So this time when I just change the meth me message over here in the user input, I need some expert guidance
+1:50:57
+assistance for building AI agent. You can see that a tool call is basically made. Okay. Now with respect to the
+1:51:03
+human because now it has stopped over there. Now it is expecting human should provide some kind of input back right.
+1:51:10
+So with respect to this you can see over here now human response we have provided this we the experts are here to help you
+1:51:16
+out. We recommend you checking out langraph to build your agent. It's much more reliable and extensible than simple
+1:51:23
+autonomous agent. So this is the message the human is basically giving. Now how
+1:51:28
+do we go ahead and execute this message? We basically use this command. You remember in the top we we use this
+1:51:34
+command and we are going to put this rumé is equal to data of human response. So whatever human response we are
+1:51:40
+creating we are putting in this particular value and we are telling resume the flow of the execution and now
+1:51:45
+when we go ahead and resume it here in graph.stream we give this particular human command and automatically you'll
+1:51:52
+be able to see that the execution will happen. Now human we the experts we getting and then here you got the AI
+1:51:58
+message. Thank you for recommendation. Langraph seems like a great tool for building AI agents. I'll make sure to
+1:52:05
+keep that in mind to further assist. I'd like to ask a follow-up question. What specific these things and all. Now what
+1:52:10
+you can do again now it has again interrupted right uh in sorry it is not interrupted now it is basically giving
+1:52:16
+you as an AI message please let me know and I'll do my best to provide your tailored guidance assistance. Now what
+1:52:22
+you can do is that again you can go ahead and put an interruption and again you can go ahead and provide a response.
+1:52:27
+So when you are probably creating an end toend chatbot any number of time you can provide this kind of human feedback in
+1:52:32
+the low right. So I hope you have understood this topic very much clearly.
+1:52:38
+Hello guys. So in this video we are going to discuss about how you can build your own MCP servers. Along with that
+MCP Server Scratch Implementation
+1:52:46
+you'll also be seeing that how you can integrate any kind of MCB servers that you build along with your app. So here
+1:52:53
+is one basic diagram. Here you can see there are three main components. One is MCP servers, MCP client and app.
+1:53:01
+Whenever I talk about MCP servers here you can have multiple tools. Just imagine that there is a other company
+1:53:08
+third party companies which are developing this kind of services. It can be simple mathematical
+1:53:15
+uh you know calculations. It can be third party APIs, integrations, anything. It can be specifically written
+1:53:20
+over here. uh here uh with respect to this MCP server it provides you context
+1:53:26
+tools and prompts to the client and similarly you have something called as MCP client here the client maintains
+1:53:32
+onetoone connection with the server inside the host app and finally you also have a app it can be a cloudy desktop or
+1:53:39
+it can be any kind of app that you are specifically developing. So uh in this
+1:53:45
+video what I am actually going to show you is that how we can go ahead and develop this entirely and how we can
+1:53:51
+also build MCP server from basics or from scratch. Okay. So first of all what we are basically going to do is that we
+1:53:58
+will be having this uh this application. Let's say that this is the application that I'm currently building. Okay.
+1:54:05
+Inside this application we are going to use lang chain or lang graph. Okay.
+1:54:11
+Application uh we will be having some kind of chatbot application in short. Okay. Now this chatbot application may
+1:54:19
+have different different LLM integrated in this. So whenever a user provides any
+1:54:25
+input okay so let's say a user provides any input. So based on this particular
+1:54:31
+input, the LLM should be able to make a decision whether it has to make any kind
+1:54:38
+of call from an MCP server. Okay. And let's say that this MCP server has some
+1:54:45
+of the important tools. Let's say we have tools like addition,
+1:54:51
+multiplication. I'm just showing this as an example. And let's say that we also go ahead and create one more tool here.
+1:54:59
+um which is just like a weather call API. Okay, weather call API.
+1:55:06
+Now here you'll be able to see that this is my MCP server itself and this MCP
+1:55:13
+server is connected to this tools which are like add multiplication weather call
+1:55:19
+APIs anything as such. So let's say if I go ahead and ask a question hey what is the weather of New York or Bangalore you
+1:55:26
+know so the LLM obviously will not be able to answer because obviously LLM do not have live information so what this
+1:55:32
+will do is that it will make a tool call and this time the tool call will be with
+1:55:38
+the help of MCP protocol here internally there will be a client that will be developed which is called
+1:55:44
+as MCP client okay and then once this communication is made then that specific
+1:55:52
+uh you know API or tools whichever based on the input will be called and you
+1:55:57
+finally get a response. Okay. So if I talk about like how this entire communication basically happens uh first
+1:56:04
+of all when we get the input right direct the call will go to the MCP server. The MCP server will give you all
+1:56:10
+the necessary tools along with uh what all information it has regarding that particular tool. Then the LLM will make
+1:56:16
+a decision. uh then the LLM takes this particular input and passes it to the MCP server to get the response. So this
+1:56:23
+is a basic kind of communication that actually happens and I have already covered in depth uh already in my MCP uh
+1:56:31
+module itself right um uh in my previous videos. So this is how the basic
+1:56:37
+communication basically happens right now here what we are going to focus on is that I will show you how you can go
+1:56:43
+ahead and create your MCP server from scratch. Okay, here we are going to use
+1:56:49
+one of the most popular library which is called as langchain and in langchain there is a library which is called as
+1:56:55
+langchain adapters. Okay, so that we'll be going to use. Second, I will show you how you can go ahead and create your MCP
+1:57:01
+client and whenever we talk about MCP protocol or whenever we talk about communication with the MCP servers,
+1:57:08
+there are different different transport protocol that we use. Okay, transport protocol that we use. Now some of the
+1:57:15
+transport protocol um like um there are some kind of arguments which actually
+1:57:20
+helps uh you to communicate with any kind of tools itself. So one of the tool that we are going to use is something
+1:57:26
+called as HTD IO and the other tool that we are basically going to use is uh related to HTTP protocol. Okay. So we'll
+1:57:34
+try to understand what are the differences between them and uh we'll try to also use them. Uh again from
+1:57:40
+coding point of view I'll show you how this also works. Okay, we will be developing our MCP server. We'll also be
+1:57:46
+developing our MCP client in this MCP server. Uh when I talk with respect to the tools this tool, one of the tool we
+1:57:54
+will try to run it with the help of transport protocol that is HTDIO and the
+1:57:59
+other one we will try to use HTTP. Okay. And we'll also talk about the differences what exactly this both this
+1:58:05
+transport mechanism uh how does it vi you know. So um now let me quickly go
+1:58:10
+ahead and let me open and this we are going to completely start from scratch. So first of all I am inside my drive.
+1:58:17
+Okay. So this is the MCP demo lang chin. So here you can see uh I will open my cursor ID. I hope everybody has the
+1:58:25
+cursor ID now. Okay. Now from this cursor ID what I am actually going to do is that I'm going to go ahead and open
+1:58:31
+this particular folder location as my project. Okay. So here I will go ahead and give this particular path and I will
+1:58:38
+select the folder. Okay. Now the first step uh when you are specifically using cursor or whenever you work in any kind
+1:58:45
+of projects it is good that you try to uh create a environment. Right now
+1:58:50
+before creating an environment uh I need to initialize this particular workspace as a UV u uh with the help of the UV
+1:58:58
+package. Okay. So if you know about UV uh it is quite faster. uh you'll be able to probably do the development very very
+1:59:06
+much fast with respect to the package management of the entire project itself right uh any Python project so uh let's
+1:59:12
+say that I'm going to go ahead and initialize this workspace with the help of UV package so I'll write uv in it so
+1:59:17
+this is the first step now here you can see based on this there are some files that has been already created okay and
+1:59:24
+uh if I talk with respect to all the specific files that we have created uh over here one very important thing is
+1:59:31
+that U you have to go ahead and see which Python version this entire u you
+1:59:36
+know the basic package is basically created with. So here you can see Python version is 3.13 here you have this pi
+1:59:43
+project.2ml. So right now the dependency is empty because we have not installed any kind of dependencies right now right
+1:59:49
+but we will go ahead and install it right and this is the basic project information now to start with any
+1:59:56
+project I will go ahead and create my virtual environment. In order to create the virtual environment with the help of UV, it is very simple. So I'll go ahead
+2:00:02
+and write uv VNV. Okay. Now here it
+2:00:08
+shows that okay my VNV environment has got created. Now any packages that I install I have to install inside this.
+2:00:13
+So first of all I will go ahead and activate my environment. In order to activate I will just go ahead and copy this command and paste it over here.
+2:00:20
+Okay. So now we have activated my environment itself. Okay. Now this is
+2:00:26
+done. Now the next step is that we go ahead and install some of the packages. Okay. Now we will see how to install the
+2:00:33
+packages. But before that I will just go ahead and create my requirement.txt. requirement.txt.
+2:00:40
+Okay. Now with respect to requirement.txt uh I will just go ahead and write what all libraries I will be
+2:00:46
+requiring. Okay. So two libraries that I specifically want to use. one is
+2:00:52
+langchain grock and then you also have something like lang chain adapters right
+2:00:59
+so as I said uh we going to go ahead and use um some of the libraries that are
+2:01:04
+available with respect to this that is langchen adapters and with the help of langin adapters you will definitely be
+2:01:11
+able to use this MCP properties even in langchen okay so here you can see I'll
+2:01:16
+write lang mcp adapters sorry it is mcp adapters along Along with this uh I'm
+2:01:22
+also going to use one library which is called as fast MCP.
+2:01:27
+Fast MCP. Okay. So here with respect to fast MCP you can actually see this what
+2:01:35
+exactly this is. Okay. So let me just go ahead and search for fast MCP again. So
+2:01:41
+if I talk about fast MCP here you can see it is the fast Pythonic. It is
+2:01:47
+written something like Pythonic way to build MCP server and client. Okay. So we going to specifically use this. This is
+2:01:53
+a very very easy way of creating MCP tools and all. So definitely I will show you step by step how you can basically
+2:02:00
+use this fast MCP library and develop your entire MCP servers from scratch.
+2:02:06
+Okay. Step by step we will go ahead and implement it. Now quickly uh here we are
+2:02:12
+going to create three more important files. Okay. Now what all files needs to
+2:02:17
+be created based on this uh that is what I'm going to discuss and understand based on the use cases right uh I have
+2:02:25
+to I've already told you that I'm going to use one MCP server which has this add
+2:02:30
+multiplication and we'll use the transport as studio and we'll create another MCP server which will be
+2:02:37
+communicating to this tool that is called as weather call API and it will use this HTTP tool right uh transport
+2:02:43
+mechanism okay transport mechanical mechanism basically means the communication between the client and the
+2:02:49
+MCP server how it is basically going to happen. Okay. And uh so what we are basically going to do is that over here
+2:02:55
+I will just go ahead and uh write all my packages that is specifically required.
+2:03:01
+Okay. And uh along with this I will also go ahead and import MCP. Okay. So this
+2:03:06
+MCP will actually help us to use the package fast MCP itself. Okay. Now here
+2:03:12
+is my requirement.txt. The next step is that how do I go ahead and install all these particular libraries. It is very
+2:03:18
+simple. I will go ahead and write uv add minus r requirement.txt like how we used
+2:03:24
+to write pip install requirement.txt. Similarly we'll go ahead and do this. Okay. So now I'm going to go ahead and
+2:03:31
+clear the screen and just to confirm whether all the installation has happened or not. So here you can basically go ahead and check out all the
+2:03:37
+installation with respect to this. Okay. Uh till here everything looks good. uh our installation has happened perfectly
+2:03:44
+and uh we have already uh you know installed all the packages that is required. Okay. Now uh let me just go
+2:03:52
+ahead and create some important tools right with respect to the MCP server. So
+2:03:58
+first tool that I'm actually going to create it's nothing but math server. Okay. So math server. py. So this is
+2:04:05
+just like my MCP server. And here we are going to define some of the tools that we are basically going to use. Okay. So
+2:04:11
+quickly in order to use this as I said I'm going to use fast MCP. So I'll write from MCP dots server dot fast MCP. I'm
+2:04:22
+going to go ahead and import fast MCP. Okay. And once we do this uh the next
+2:04:29
+step is that we need to initialize this MCP right. So I'll go ahead and write MCP is equal to fast MCP and I will give
+2:04:35
+my tool name which is nothing but math. Okay. So I'll give my tool name which is nothing but math. Okay. Now uh inside
+2:04:42
+this tool uh sorry inside the server uh this is just a server name okay not tool name uh because math is just a basic
+2:04:49
+server name over here. Then the next step is that I will just go ahead and write add the rate MCP.
+2:04:55
+And this is how we go ahead and create our first tool which is present inside this MCP server. So I'll create a
+2:05:01
+definition. I'll write add. I'm just starting with a basic example so that see the limit as we say right? you want
+2:05:09
+to go ahead and write create any kind of tool but it is un important that you understand from basic stuffs right so
+2:05:14
+then my second parameter will be is equal to int and this I'm going to give return it in the form of integer here uh
+2:05:22
+I'm going to probably provide some dock string and based on this dock string the llm will be able to understand which
+2:05:29
+tool to specifically call so here I will write add two numbers
+2:05:34
+okay and then we're going to go ahead and return a + b. Okay. Then the next tool is
+2:05:41
+nothing but mcp. tool. And here we going to go ahead and define multiply
+2:05:48
+a colon int, comm, b col, int. Again, you can go
+2:05:54
+ahead and define any number of tools as you want. So this will return a int type. And here I'll just go ahead and
+2:06:00
+write multiply multiply two numbers. Okay.
+2:06:08
+some information that I'm specifically giving and I'll go and write return a return a multiplied by b. Okay. Now the
+2:06:17
+thing is that see I am planning to create this mcp server with respect to
+2:06:23
+this addition multiplication or any kind of tool on the transport hddio. Now we need to understand what this htdiod
+2:06:30
+transport basically means. Okay. And uh what you will be able to do from it uh
+2:06:36
+and it is important that we get a clear understanding about that because uh many
+2:06:42
+people have seen that they try to write this particular code but they fail to explain this. Okay. Um what does mcp.tr
+2:06:50
+run you know so let's say that I want to run this particular file. How do I go ahead and run this? First of all I'll go
+2:06:55
+ahead and write the code. So quickly I will write mcp.run. So here what I'm
+2:07:00
+actually going to do I'll just say if_ name double equal to
+2:07:07
+main and here I will just go ahead and write mcp.trun
+2:07:13
+and we're going to run this entire application of mcp using the transport
+2:07:22
+transport double equal to stddio IO. Okay. Now here we have used a transport
+2:07:28
+called as H std IO. Now we need to understand what this transport is and
+2:07:33
+for this I will just go ahead and put some basic information so that you
+2:07:39
+should be able to read it within the material itself. Okay. So here I will write two important comments.
+2:07:47
+The transport is equal to H stdio. And here one more sentence. Okay, it
+2:07:52
+tells the server to use standard input output to receive and respond to the tool functional calls. Now see what this
+2:07:59
+is right when we say input output right the standard input output. Now standard
+2:08:05
+input output is like let's say if this is a server if it is running this will specifically run in some kind of command
+2:08:13
+prompt. Let's say in in in in one of the scenario what we can do is that if I have a client and I want that client to
+2:08:19
+interact with this particular server then what we'll do if we have written this transport is equal to stdio we will
+2:08:26
+run this particular file directly in the command prompt and get the input and output there itself like let's say if I
+2:08:31
+want to probably get give an input that input should go with respect to the command line itself hit any function and
+2:08:38
+get the response out there and the client should be able to read the information out directly from the uh HDI
+2:08:45
+out that basically means from the command prompt itself. Right? So this kind of thing is very helpful if you
+2:08:52
+really want to test out things locally. You have uh your server executed in the
+2:08:57
+locally itself and you really want to go ahead and test it with the client. Right? So at that point of time you can use HTDIO. Okay. So this is the basic
+2:09:04
+functionality with respect to this. So this is one of the server that we have basically created. The another server
+2:09:10
+that I am really interested in creating is about uh let's say there may be a
+2:09:15
+third party API call you know that API call can be with respect to weather it can be anything as such but just to show
+2:09:21
+it to you I will quickly go ahead and create one weather py file okay now
+2:09:27
+weatherp file see now at the end of the day I'll also talk about like how do you
+2:09:34
+probably take it to the production and what exactly goes into the production also So I'll not show you directly by
+2:09:40
+executing this in the cloud but I'll give you a brief idea how things works over here. Right? So here I will go
+2:09:45
+ahead and write from MCP.Server dotfast MCP import
+2:09:51
+fast MCP. Okay. And then I'm going to go ahead and write MCP is equal to fast
+2:09:56
+MCP. And this time this particular server name will be my weather. Okay. Now here I'm going to go ahead and
+2:10:02
+create my MCP tool. Okay. Now in a real world scenario if I talk about
+2:10:09
+that this is my MCP server and I want to probably take an input and give the weather of a specific location. That is
+2:10:15
+the code that I'm going to write it over here. Okay. But for right now I'll just going and defining something. So I'll go
+2:10:21
+ahead and write hey this is my get weather functionality and let's say this is my location. Okay this is my
+2:10:28
+location. This is my str and this will basically return a str. Okay. And then what I will do, I will go
+2:10:35
+ahead and write my dock string. Get the get the
+2:10:41
+get the weather location. Okay, weather
+2:10:47
+location. Now, this can be any code. This can be a code which will be interacting with some kind of third
+2:10:52
+party API and getting the weather. Right? For right now, I'll just return some constant value. So let's say here
+2:10:57
+I'll write it's it's always rainy.
+2:11:04
+It's always raining in California. Let's say I'll just go ahead and write this
+2:11:10
+message. Okay, it may not be a true weather but I just want to give you an
+2:11:15
+idea. Let's say that this is the output of my API that I'm getting here. You can write any code with respect to
+2:11:21
+interacting with some kind of APIs. And then I will go ahead and write if underscore name
+2:11:28
+main right. So here my program execution will basically start this should be double
+2:11:34
+equal to okay now what I will do I will quickly write mcbp.tr run and this time
+2:11:39
+I'm going to use another transport. See whenever I want something see the before
+2:11:45
+the one one transport mechanism that we have specifically used is nothing but HDIO right HDIO I've told you the
+2:11:52
+importance of it in this we are going to use streamable HTTP right HTTP now you need to
+2:12:00
+understand what this exactly means okay so guys now let's understand what this transport streamable HTTP will do okay
+2:12:08
+now here uh in order to make you understand what exactly the function that is right. So I'll just go ahead and
+2:12:13
+open my terminal. Now inside my terminal, what I will do? I will just go ahead and run this. See python weather.
+2:12:19
+py. Let's run this. Okay. Now here you can see that this entire application,
+2:12:24
+this entire server is running in this particular URL. Okay. When we use
+2:12:30
+streamable HTTP transport, what it is going to do is that it is going to run
+2:12:35
+as an API service itself. Okay. Similarly, if I go ahead and run this math server right in HDDIO, it will not
+2:12:42
+run like that. See here, it will not run like that. Instead, it will try to get it'll it it will not run in any kind of
+2:12:49
+HTTP protocol, but instead it uses standard input and output. Okay. So, if I just go ahead and execute this Python
+2:12:56
+math server. py here, you can see that nothing is happening, right? So, that basically means internally as in the
+2:13:03
+command prompt it is getting executed. Okay? But if I see in this particular use case when we are using weather. py
+2:13:10
+with the help of transport is equal to streamable http. Here you can see that it is working it is running as in the
+2:13:16
+form of an API with this particular URL. So here after this transport you can also go ahead and set up your URL and
+2:13:22
+all. And with respect to that you can also set up the port. Okay. But right now we are not running this. We are
+2:13:27
+running this as an HTTP. Right. So by default you'll be able to see it is taking my local host and the default port is 8,000. Now the question rises
+2:13:34
+Chris fine you you told me the differences between streamable HTTP and obviously HTD uh uh where my transport
+2:13:42
+was HTT out right so here I have used HTIO right so you you have told the
+2:13:47
+differences between this but how do we go ahead and integrate it from the client so here what I will do I'll go
+2:13:52
+ahead and write client py so see I have created two servers one is the math server and one is the weather server now
+2:13:59
+it's time that we go ahead and go go ahead and write our client py file so let this things get running. Now I'm
+2:14:05
+going to go ahead and focus on understanding that how do you go ahead and write the client py. At the end of
+2:14:10
+the day this client py should be able to interact with maths server py and weather. py. So for this I'll be using
+2:14:16
+from langchin_mcp adapters doclient. So we have to first
+2:14:22
+of all go ahead and create a client and this client should be according to the documentation that is given from the
+2:14:28
+langraph it should be a multi-server MCP client. Okay, that basically means
+2:14:33
+supports multiserver itself. Then in lang graph whenever I want to probably call any of
+2:14:40
+this particular client, we need to create an agent. That agent will be responsible in integrating all these
+2:14:45
+particular models, llm models or tools. Tools basically means all these MCP tools and all right. So for this we will
+2:14:51
+be using pre-built. So from lang graph dot pre-built. So first of all I will
+2:14:57
+just go ahead and quickly add lang graph also because I require lang
+2:15:03
+graph. Okay. So here I'll open my command prompt another command prompt
+2:15:08
+and I'll write hey uv add minus r requirement.txt.
+2:15:15
+Okay. So this is perfect. And then you'll be able to see that if I just go back to my client. py now I will be able
+2:15:22
+to import it. So from langu dot pre-built create react agent. So for
+2:15:28
+creating an agent uh so that based on the input the agent the LLM will be able to act an agent itself. And uh you know
+2:15:35
+in my previous videos I have all discussed about this uh if you're following the series of videos that we have developed right then from langchain
+2:15:44
+grock import chat. So I'm going to go ahead and use chat gro also. And then
+2:15:50
+from langchain open aai openai we will not going to
+2:15:57
+use. So from langchain core I'm also going to go ahead and use
+2:16:04
+or let's say for right now I will just go ahead and use like this from env
+2:16:09
+import load_.env and then I'll go ahead and initialize this load_.env env and
+2:16:16
+then I will also import a sync io right now the next thing is that I definitely
+2:16:22
+require my env file so quickly let me go ahead and create myv file this is just for my llm model right so I'll write gro
+2:16:29
+api key since I'm going to use grock API key now I hope everybody if you're following all the tutorials that I have
+2:16:36
+created till now you should know how to create a gro API key right so here is my gro API key I'll go back to my client
+2:16:43
+and inside this particular client I'll start uh going and writing my content right uh my code sorry now what I'm
+2:16:50
+going to do I'll go ahead and write a sync definition main okay and here we are basically going to go ahead and
+2:16:56
+create our client this client that we are going to create will be my multi-server HTTP client sorry MCP
+2:17:03
+client and here I will give the client key value pairs right so the first client that I want to create so first
+2:17:10
+server that I want to create right so this client will be able to interact act with this MCP server. So it will be my
+2:17:16
+math server. In the math server, let's say the command that I want to use in
+2:17:22
+order to execute my math server will be nothing but Python because you can use Python or UV. It is up to you. Okay,
+2:17:29
+Python. And then the next parameter that we give is argument. Okay, let's see
+2:17:38
+some there are a lot of suggestion that comes in this right. So arguments. So inside
+2:17:44
+the arguments I will give my another parameter and that parameter will be nothing but it
+2:17:50
+will be my file name. So here I'm going to go ahead and write maths server. py. Please make sure to give the right
+2:17:56
+location. So here since this is my current working directory I'm directly giving the name of the file. If it is
+2:18:01
+inside any folder I have to give the entire relative path. Okay. So once this is done sorry not relative path absolute
+2:18:07
+path. So here I'll go ahead and write the comment ensure correct absolute
+2:18:12
+path. Okay. Then my next parameter over here is nothing but my transport
+2:18:19
+protocol. Sorry my transport uh metrics that we really want to give. So here
+2:18:24
+based on the transport that we have used what transport we will be using it is nothing but stdio. Okay. So here I will
+2:18:32
+go ahead and write stdio. Okay. So this actually does completes
+2:18:39
+all our parameter with respect to maths. Now similarly I will go ahead and add my another tool. So this is my maths tool
+2:18:45
+over here. Okay, I'll go ahead and write it like this. Now coming to the next tool, it is nothing but my weather tool.
+2:18:52
+So if you see my weather tool, it'll be something like this. Weather localhost 8000/MCP ensure server is running here.
+2:18:59
+So if you see over here my server, it is running where it is running in this local host. And when I do /m MCP that
+2:19:07
+basically means it will be able to get all the MCP servers that it is running uh all all sorry this particular weather
+2:19:14
+where it is specifically running in this particular URL right so here obviously my local host is there but if you see
+2:19:20
+/mcp this is where we will be able to find the entire MCP running okay so this will be my URL over here right so now
+2:19:27
+till here it is really really good easy itself here we have just created our multiserver client u now remember this
+2:19:33
+clown client is what will be interacting with this particular servers. Right? So now I will go ahead and quickly write
+2:19:39
+import OS and then I will go ahead and set up my environment. So OS environment
+2:19:45
+it'll be nothing but grock API_key and here I will just write os.get env
+2:19:52
+with my gro apiore key. Okay then I'll
+2:19:59
+go ahead and write my tools. it will be await um first of all in order to get the
+2:20:04
+tools I can use client dot get tools okay now see this client is nothing but
+2:20:10
+this client right and when I write dot get tools I will be getting the information of both these tools like math and weather right then I will go
+2:20:17
+ahead and initialize my model my model is equal to chat gro and I'm going to go ahead and use a model name which is
+2:20:23
+nothing but quen qw 32 billion parameter Okay, then uh I
+2:20:31
+will go ahead and create my agent and this agent will be create react agent and here I'm going to go ahead and write
+2:20:38
+model, tools, right? So this is the two important parameter that we need to give
+2:20:44
+in order to make the agent. Now I can use this agent and directly call uh
+2:20:50
+invoke with respect to any messages that we specifically give. So let's say if I just go ahead and execute this
+2:20:57
+math response. So here you can see I'm just executing this.
+2:21:04
+Just a second. So import OS. This is done.
+2:21:10
+Uh okay. Now math response await
+2:21:16
+agent.invoke. I'm giving the messages equal to ro with user content. I've just written what is 3 * 5 * 2 okay 3 + 5 * 2
+2:21:25
+and here I should be able to print my response print my response so here in
+2:21:31
+order to print my response I will write hey maths response colon okay math response is equal to
+2:21:42
+I'll just go ahead and give this and then I'll write math response I will take the messages key I will take the
+2:21:49
+last message that is available out there and I will go ahead and read the content. Okay, dot content will give the
+2:21:55
+output of the maths response. Okay, now since this main function is a sync so in
+2:22:01
+order to run this we are basically going to use a sync io rain. Okay. And here we
+2:22:09
+are going to call the main function. Okay. So whenever we use async io uh
+2:22:15
+whenever we define any method that is async, we have to go ahead and run this with this particular uh library which we
+2:22:20
+have imported it over here. Okay. So here we are just trying to get the math response. Okay. Now let's go ahead and
+2:22:26
+execute this. I will go ahead and open my command prompt. Now understand very important thing. When I'm calling this
+2:22:32
+agent, right, it is invoking which tool? Based on this particular message, it
+2:22:37
+will invoke this tool. And you know in this tool the transport is H stdiodio that basically means this tool is going
+2:22:43
+to run in the normal standard IO device standard input output device that is nothing but command line. So that the
+2:22:49
+input will directly go over there and get the output from there. Okay. So here in order to execute this if I go ahead
+2:22:55
+and write python client.py okay now you should be able to see I'll cancel this.
+2:23:01
+You should be able to see what will be the output for this. What's 3 + 5 * 12.
+2:23:06
+Okay. So this is my input. Now you should be able to see what will be the house. Here's a step-by-step breakdown.
+2:23:12
+Addition 3 + 5 is equal to 8 multiplication 8 * 2 is equal to 19.
+2:23:17
+Math response is nothing but the result of 3 + 5 * 2 is 96. So 8 * 12 it is
+2:23:23
+nothing but 96. This is absolutely perfectly fine. Okay. So here you can quickly see that how we are able to call
+2:23:30
+our MCP uh server and that is nothing but our math server which is running in
+2:23:35
+this HTDO right now the other thing is that if I also want to check the weather
+2:23:41
+weather server right so for the weather server again I will go ahead and write like something like this see I'll give a
+2:23:47
+question quickly and it will be the same thing see weather response await
+2:23:53
+agent.invoke invoke content what is the weather in NYC or California right
+2:23:59
+California now this it'll take this particular message but right now I have hardcoded the output it it always rain
+2:24:06
+it always uh rains in it is always raining in California right we have
+2:24:12
+written like this so my weather response should probably come the same thing what we are getting directly from the weather
+2:24:18
+py okay so I will go ahead and run this once Okay. And before running this, I
+2:24:25
+will also go ahead and print the output. Okay. So this is my weather response. Yeah, it is printed. So now if I just go
+2:24:31
+ahead and execute this again, pythonclient.py. First of all, I should be getting my math response. And the
+2:24:37
+second thing is that I should be getting my weather response. Okay. So quickly let's see this. And this is how you are
+2:24:44
+basically communicating from one client to multiple servers itself. Right? So it is taking some amount of time. Okay. See
+2:24:52
+at sometimes you know sometimes this kind of errors will come. You just need to go ahead and restart it. Okay. But
+2:24:57
+now it'll not it will not uh this kind of error will not come. Okay. So now you'll be able to see that
+2:25:05
+uh it'll do the execution. So here you can see the result of 3 + 5 weather response. The tool indicated it is
+2:25:11
+always raining in California but in reality California has a diverse climate. So LLM is also able to add some
+2:25:17
+information which is good. But here now the tool is basically returning this. Okay. So that is the reason uh again it
+2:25:24
+depends on what kind of API functionality you're implementing it. The best part is that this is running in a streamable HTTP. So like it's running
+2:25:31
+in the form of a in in some URL. You can just see that and we integrating that in client.py right and this is the URL that
+2:25:38
+we getting it with /mcb right and all these things with the help of langchen adapter. Right? So I hope uh you are
+2:25:45
+able to understand this particular example. Uh now what you can do is that you can close all the thing all the all
+2:25:52
+the all the servers where what you're running but these are some some servers that are independently running and
+2:25:57
+you're integrating them in a single client. Okay. So these were two ways of calling one is HDIO transport and
+2:26:03
+streamable HTTP transport. So here we have created a client. So in short what all things we did? So we created a
+2:26:10
+client and this client were able to communicate with two MCP servers. Okay.
+2:26:16
+So this communication was basically happening this MCP server.
+2:26:21
+This MCP server it is basically communicating with your transport equal
+2:26:27
+to HTD IO and this MCP server you are able to communicate with HTTP protocol
+2:26:34
+transport protocol and here see this entire thing is basically set up with
+2:26:39
+MCP protocol itself. So we had that MCP server client right in this you had some
+2:26:45
+tools like math addition subtraction whatever tool you want to create and this was like an weather API right
+2:26:54
+the main thing is that when you're running this tool you are basically communicating with respect to the response from the HTD IO itself that
+2:27:01
+basically means from the command prompt here we were using some kind of URL right so that is the reason we use HTTP
+2:27:07
+so I hope uh you understood this particular video. I hope you understood the coding mechanism that we uh
+2:27:14
+specifically did, how we implemented each and every step. Uh this was it from my side. I hope you like this particular
+2:27:20
+video. I'll see you on the next video. Thank you. Thicker.
+
+

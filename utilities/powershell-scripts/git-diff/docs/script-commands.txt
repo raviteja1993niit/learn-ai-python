@@ -1,0 +1,155 @@
+================================================================================
+SCRIPT COMMANDS REFERENCE
+Generate-GitDiff.ps1  --  Example commands from session (2026-04-13)
+================================================================================
+
+------------------------------------------------------------------------
+1. BASIC USAGE — Generate full diff log for any repo
+------------------------------------------------------------------------
+
+  .\Generate-GitDiff.ps1 -RepoPath "C:\path\to\your\repo"
+
+  Output:
+    logs\git-diff-<yyyyMMdd_HHmmss>.log   (full diff content, streamed)
+    diff-summary.txt                       (quick reference summary)
+
+
+------------------------------------------------------------------------
+2. SOURCE REPO — Command run in this session
+   Repo: C:\Users\e135408\IdeaProjects\MODERNIZATION\temp\
+         107651-pgsaaselavon-pgs-acquirer-elavon-interface-service
+------------------------------------------------------------------------
+
+  # Run from the script directory:
+  cd C:\Users\e135408\IdeaProjects\utility-scripts\powershell-scripts\git-diff
+
+  .\Generate-GitDiff.ps1 `
+      -RepoPath "C:\Users\e135408\IdeaProjects\MODERNIZATION\temp\107651-pgsaaselavon-pgs-acquirer-elavon-interface-service"
+
+  # With verbose console output:
+  .\Generate-GitDiff.ps1 `
+      -RepoPath "C:\Users\e135408\IdeaProjects\MODERNIZATION\temp\107651-pgsaaselavon-pgs-acquirer-elavon-interface-service" `
+      -VerboseOutput
+
+  # With branch comparison against develop:
+  .\Generate-GitDiff.ps1 `
+      -RepoPath "C:\Users\e135408\IdeaProjects\MODERNIZATION\temp\107651-pgsaaselavon-pgs-acquirer-elavon-interface-service" `
+      -BranchCompare "origin/develop"
+
+
+------------------------------------------------------------------------
+3. TARGET REPO — Test repository
+   Repo: C:\Users\e135408\IdeaProjects\MODERNIZATION\
+         107651-pgsaaselavon-pgs-acquirer-elavon-interface-service-test
+------------------------------------------------------------------------
+
+  .\Generate-GitDiff.ps1 `
+      -RepoPath "C:\Users\e135408\IdeaProjects\MODERNIZATION\107651-pgsaaselavon-pgs-acquirer-elavon-interface-service-test"
+
+
+------------------------------------------------------------------------
+4. CUSTOM LOGS DIRECTORY
+------------------------------------------------------------------------
+
+  .\Generate-GitDiff.ps1 `
+      -RepoPath "C:\path\to\repo" `
+      -LogsDir  "C:\my-reports\logs"
+
+
+------------------------------------------------------------------------
+5. DEEPER HISTORY (50 commits instead of default 20)
+------------------------------------------------------------------------
+
+  .\Generate-GitDiff.ps1 `
+      -RepoPath "C:\path\to\repo" `
+      -HistoryDepth 50
+
+
+------------------------------------------------------------------------
+6. SKIP STASH CONTENT (faster for repos with large stashes)
+------------------------------------------------------------------------
+
+  .\Generate-GitDiff.ps1 `
+      -RepoPath "C:\path\to\repo" `
+      -IncludeStashed:$false
+
+
+------------------------------------------------------------------------
+7. SKIP COMMIT HISTORY (stash-only report)
+------------------------------------------------------------------------
+
+  .\Generate-GitDiff.ps1 `
+      -RepoPath "C:\path\to\repo" `
+      -IncludeHistory:$false
+
+
+------------------------------------------------------------------------
+8. RAW GIT COMMANDS used for source repo inspection (this session)
+------------------------------------------------------------------------
+
+  # List stashes
+  git -C "C:\Users\e135408\IdeaProjects\MODERNIZATION\temp\107651-pgsaaselavon-pgs-acquirer-elavon-interface-service" stash list
+
+  # Show stash stat (file summary)
+  git -C "C:\Users\e135408\IdeaProjects\MODERNIZATION\temp\107651-pgsaaselavon-pgs-acquirer-elavon-interface-service" stash show --stat --no-color "stash@{0}"
+
+  # Show full stash patch
+  git -C "C:\Users\e135408\IdeaProjects\MODERNIZATION\temp\107651-pgsaaselavon-pgs-acquirer-elavon-interface-service" stash show -p --no-color "stash@{0}"
+
+  # Show uncommitted working directory changes
+  git -C "C:\Users\e135408\IdeaProjects\MODERNIZATION\temp\107651-pgsaaselavon-pgs-acquirer-elavon-interface-service" diff --no-color
+
+  # Show staged changes
+  git -C "C:\Users\e135408\IdeaProjects\MODERNIZATION\temp\107651-pgsaaselavon-pgs-acquirer-elavon-interface-service" diff --cached --no-color
+
+  # Current branch
+  git -C "C:\Users\e135408\IdeaProjects\MODERNIZATION\temp\107651-pgsaaselavon-pgs-acquirer-elavon-interface-service" rev-parse --abbrev-ref HEAD
+
+  # Current commit SHA
+  git -C "C:\Users\e135408\IdeaProjects\MODERNIZATION\temp\107651-pgsaaselavon-pgs-acquirer-elavon-interface-service" rev-parse HEAD
+
+  # Show recent log with graph
+  git -C "C:\Users\e135408\IdeaProjects\MODERNIZATION\temp\107651-pgsaaselavon-pgs-acquirer-elavon-interface-service" log -n 20 --oneline --graph --decorate --all
+
+
+------------------------------------------------------------------------
+9. APPLY A STASH TO WORKING DIRECTORY (restore stash content)
+------------------------------------------------------------------------
+
+  # Preview which files the stash touches:
+  git -C "C:\path\to\repo" stash show --stat "stash@{0}"
+
+  # Apply stash (keeps stash in list):
+  git -C "C:\path\to\repo" stash apply "stash@{0}"
+
+  # Pop stash (applies and removes from list):
+  git -C "C:\path\to\repo" stash pop "stash@{0}"
+
+
+------------------------------------------------------------------------
+10. EXECUTION POLICY — if script is blocked by PowerShell
+------------------------------------------------------------------------
+
+  # Run once for current session only (safe, no permanent change):
+  Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+
+  # Then run the script normally:
+  .\Generate-GitDiff.ps1 -RepoPath "C:\path\to\repo"
+
+
+------------------------------------------------------------------------
+OUTPUT FILES PRODUCED BY Generate-GitDiff.ps1
+------------------------------------------------------------------------
+
+  logs\git-diff-20260413_112811.log        <-- Full diff (timestamped, never overwritten)
+  diff-summary-20260413_112811.txt         <-- Quick stats + stash list (timestamped, never overwritten)
+
+  Both files share the same timestamp so each run produces a matched pair:
+    logs\git-diff-<yyyyMMdd_HHmmss>.log
+    diff-summary-<yyyyMMdd_HHmmss>.txt
+
+
+================================================================================
+END OF COMMAND REFERENCE
+================================================================================
+

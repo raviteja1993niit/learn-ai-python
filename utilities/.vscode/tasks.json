@@ -1,0 +1,67 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "coding-style: pre-commit check",
+      "detail": "Equivalent of on-pre-commit-coding-style hook. Evaluates all staged *.java files against Mastercard PGS coding-style rules (copyright, Java style, Javadoc, SonarQube-clean structure, naming, backward-compat, SOLID). BLOCKER/HIGH findings must be resolved before committing.",
+      "type": "shell",
+      "command": "mvn checkstyle:check -q",
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "coding-style: phase-start sweep (Phase 4 / Phase 5)",
+      "detail": "Equivalent of on-phase-start-coding-style hook. Runs a full Checkstyle sweep across all *.java files in the current module before Code Development (Phase 4) or Code Review (Phase 5) begins. Non-blocking — surfaces pre-existing style debt as baseline.",
+      "type": "shell",
+      "command": "mvn checkstyle:check",
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "build: compile (fast)",
+      "detail": "Run mvn clean compile -q. Should pass before every commit.",
+      "type": "shell",
+      "command": "mvn clean compile -q",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "build: test",
+      "detail": "Run mvn test -q. Must pass zero failures before raising a PR.",
+      "type": "shell",
+      "command": "mvn test -q",
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true
+      },
+      "problemMatcher": []
+    }
+  ]
+}

@@ -1,0 +1,161 @@
+# Field Mappings Configuration
+# Maps fields between different message formats (ISO8583 <-> JSON)
+# Version: 1.0.0
+
+# ISO8583 to JSON field mappings
+iso8583_to_json:
+  # Message Type
+  messageTypeId:
+    json_path: "transactionType"
+    transform: "message_type_to_transaction_type"
+
+  # Primary Account Number
+  "{idx: 2} pan":
+    json_path: "paymentInstrument.card.number"
+    transform: null
+
+  # Processing Code
+  "{idx: 3} processingCode":
+    json_path: null  # Not directly mapped
+    transform: null
+
+  # Transaction Amount
+  "{idx: 4} amount":
+    json_path: "transactionAmount"
+    transform: "iso_amount_to_decimal"
+
+  # System Trace
+  "{idx: 11} systemTrace":
+    json_path: "systemTraceAuditNumber"
+    transform: null
+
+  # Local DateTime
+  "{idx: 12} localDateTime":
+    json_path: "localSubmissionTimestamp"
+    transform: "iso_datetime_to_timestamp"
+
+  # Expiry
+  "{idx: 14} expiry":
+    json_path: "paymentInstrument.card.expiryMonth,paymentInstrument.card.expiryYear"
+    transform: "iso_expiry_to_month_year"
+
+  # POS Data Code
+  "{idx: 22} posDataCode":
+    json_path: "pointOfService"
+    transform: "pos_data_code_mapping"
+
+  # Reconciliation Date
+  "{idx: 28} reconciliationDate":
+    json_path: null
+    transform: null
+
+  # Reconciliation Number
+  "{idx: 29} reconciliationNumber":
+    json_path: null
+    transform: null
+
+  # Acquiring Institution ID
+  "{idx: 32} acquiringInstitutionIdCode":
+    json_path: "acquirerConfigurations[id=externalAcquirerId].value"
+    transform: null
+
+  # Reference Number
+  "{idx: 37} referenceNumber":
+    json_path: "transactionReferences.retrievalReferenceNumber"
+    transform: null
+
+  # Approval Code
+  "{idx: 38} approvalCode":
+    json_path: "serviceProviderTransactionProcessing.authorizationCode"
+    transform: null
+
+  # Action Code
+  "{idx: 39} actionCode":
+    json_path: "serviceProviderTransactionProcessing.responseCode"
+    transform: null
+
+  # Terminal ID
+  "{idx: 41} terminalId":
+    json_path: "pointOfService.terminalId"
+    transform: null
+
+  # Merchant ID
+  "{idx: 42} merchantId":
+    json_path: "merchant.acquirerMerchantId"
+    transform: null
+
+  # Card Acceptor
+  "{idx: 43} cardAcceptor":
+    json_path: "merchant.name,merchant.address.city"
+    transform: "card_acceptor_mapping"
+
+  # Currency Code
+  "{idx: 49} currencyCode":
+    json_path: "transactionCurrency"
+    transform: "numeric_to_alpha_currency"
+
+  # Reserved Private Data
+  "{idx: 60} reservedPrivateData":
+    json_path: null
+    transform: null
+
+  # Reserved Private Data 3
+  "{idx: 63} reservedPrivateData3":
+    json_path: null
+    transform: null
+
+# Value Transformations
+transformations:
+  # Amount conversion: 12-digit to decimal
+  iso_amount_to_decimal:
+    type: "divide"
+    divisor: 100
+    format: "%.2f"
+
+  # Currency code conversion
+  numeric_to_alpha_currency:
+    type: "lookup"
+    mapping:
+      "036": "AUD"
+      "124": "CAD"
+      "978": "EUR"
+      "826": "GBP"
+      "484": "MXN"
+      "554": "NZD"
+      "702": "SGD"
+      "840": "USD"
+
+  # Expiry conversion: YYMM to month/year
+  iso_expiry_to_month_year:
+    type: "split"
+    pattern: "(\\d{2})(\\d{2})"
+    outputs:
+      - name: "expiryYear"
+        group: 1
+      - name: "expiryMonth"
+        group: 2
+
+  # Message type to transaction type
+  message_type_to_transaction_type:
+    type: "lookup"
+    mapping:
+      "1200": "AUTHORIZATION"
+      "1210": "AUTHORIZATION_RESPONSE"
+      "1220": "CAPTURE"
+      "1230": "CAPTURE_RESPONSE"
+      "1420": "REVERSAL"
+      "1430": "REVERSAL_RESPONSE"
+
+# Cardholder Present Mapping
+cardholder_present_mapping:
+  "0": "CARDHOLDER_PRESENT"
+  "1": "CARDHOLDER_NOT_PRESENT_UNSPECIFIED"
+  "2": "CARDHOLDER_NOT_PRESENT_MAIL_ORDER"
+  "3": "CARDHOLDER_NOT_PRESENT_PHONE_ORDER"
+  "5": "CARDHOLDER_NOT_PRESENT_ELECTRONIC_ORDER"
+
+# MOTO Field Mapping
+moto_mapping:
+  "1": "MAIL_ORDER"
+  "2": "TELEPHONE_ORDER"
+  "7": "SECURE_ELECTRONIC_COMMERCE"

@@ -1,0 +1,1184 @@
+0:00
+Hello all, my name is Krishna and
+0:02
+welcome to my YouTube channel. So guys,
+0:05
+uh recently one of the trending topics
+0:07
+that you will be finding in the internet
+0:10
+is all about AI agents and agentic AI
+0:12
+applications.
+0:14
+It may be developing an independent AI
+0:16
+agent which is doing multiple task or it
+0:19
+can be an agentic rag. It can be
+0:21
+different kind of applications. And for
+0:24
+anyone who is probably starting, you
+0:26
+know, many many people know a very easy
+0:28
+way to probably develop an AI agent.
+0:31
+They use LLMs, they use some kind of
+0:33
+frameworks and they just go ahead and
+0:35
+build it. But do you think that is more
+0:39
+than sufficient to probably uh you know
+0:42
+work in any companies and uh you know
+0:45
+build an AI agent in such a way that
+0:47
+that you are production ready, right? So
+0:49
+in this specific video you know I will
+0:52
+be talking about how you should learn
+0:54
+agentic AI in seven steps okay and if
+0:58
+you are following the seven steps u
+1:01
+whether you are a beginner whether you
+1:03
+are a senior you know you will be able
+1:06
+to ship easily any agentic AI product
+1:09
+because here we are just not talking
+1:11
+about foundation in this particular
+1:12
+seven steps we are talking about from
+1:15
+foundation to taking it into production
+1:18
+right how you should probably plan and
+1:20
+learn what are the steps that you should
+1:23
+definitely follow and any new things
+1:25
+that comes up in the future you will be
+1:28
+able to adjust them within this specific
+1:30
+seven steps okay and as I probably talk
+1:34
+about this learning steps you know I'll
+1:36
+also be making sure that I provide you a
+1:39
+very good road map with all the free
+1:40
+materials links notes everything that
+1:43
+you specifically want so please make
+1:46
+sure that you watch this video till the
+1:47
+end Because what I feel still AI agents
+1:51
+is definitely the future you know and if
+1:54
+you know how to do it trust me in your
+1:58
+companies you'll have a very amazing
+2:00
+value. Okay so let me quickly share my
+2:03
+screen. So here I have written learn
+2:07
+agentic AI in seven steps. Okay. Now
+2:10
+what are the seven steps that you really
+2:12
+need to focus on? The first step I've
+2:16
+divided it over here easily in this
+2:18
+specific diagram and I will probably go
+2:20
+ahead and explain you in depth. Okay. So
+2:23
+the first step is about foundation.
+2:25
+Okay. Foundation. Now foundation what
+2:28
+exactly happens? I will talk about it.
+2:31
+Then the second step is about core
+2:32
+components. The third step is about
+2:35
+orchestration. A very important step in
+2:39
+a development environment. when you
+2:41
+develop specifically as a coder
+2:43
+orchestration is one of the very
+2:45
+important uh step itself and then you
+2:49
+have rag and retrieval okay this is also
+2:52
+one of the component that is definitely
+2:54
+required and probably when you're
+2:55
+learning agentic AI this or any kind of
+2:58
+use cases rag and retrieval can be one
+3:01
+of the use case that you may want to
+3:02
+implement it then it comes design
+3:05
+patterns okay design patterns then you
+3:08
+have safety and evaluation techniques
+3:11
+and finally you have production and
+3:14
+ecosystem. Now let me just go ahead and
+3:16
+start. Let's say you are starting
+3:18
+agentic AI application considering that
+3:20
+you have some of the prerequisites like
+3:22
+Python programming language because many
+3:24
+many frameworks do support Python
+3:27
+programming language and I feel right
+3:29
+now in 2026 everybody should know how to
+3:32
+code in Python. Okay, it's a very easy
+3:34
+programming language. If you devote
+3:36
+every day couple of hours I think within
+3:38
+couple of months you should be really
+3:41
+really good at Python programming
+3:42
+language. Okay. So first we basically
+3:45
+start with foundation. Now in the
+3:46
+foundation first of all we understand
+3:50
+about LLM fundamentals. Now when I talk
+3:53
+about LLM fundamentals it's a very easy
+3:56
+process wherein you just try to probably
+4:00
+go ahead. I'll just draw a specific
+4:02
+diagram over here. When I talk about
+4:04
+foundation, let's say if this is your
+4:06
+LLM, okay, you should know how to
+4:10
+probably request this LLM. So let's say
+4:13
+if you are having an input and how
+4:15
+you're getting the output from the LLM.
+4:18
+Okay. Now with respect to this, you have
+4:20
+various types of LLMs like you may also
+4:23
+have a reasoning model, you may have a
+4:24
+simplistic model, you may have a tool
+4:26
+calling model and all right. So when in
+4:28
+in in case of foundation at least with
+4:31
+the help of programming language or with
+4:33
+the help of no code tool right no code
+4:37
+tool you are able to give an input and
+4:40
+you are able to get an output right this
+4:42
+basically comes in the foundation part
+4:44
+and this kind of application I
+4:46
+specifically say it as a generative AI
+4:48
+application then in the LLM fundamentals
+4:51
+you really need to understand some more
+4:54
+important things that is with respect to
+4:56
+prompts how to properly do the
+4:58
+prompting. Let's say in this particular
+5:00
+input when I'm giving to the LLM, I also
+5:02
+specify some kind of prompt. I'll say
+5:04
+that hey act like an chatbot assistant
+5:06
+try to provide so and so information in
+5:09
+this structure format and all and all
+5:10
+and all right. So with respect to this
+5:13
+particular prompt you are actually
+5:14
+making this LLM you know or you are
+5:17
+telling the LLM how it really needs to
+5:19
+behave right so this basically comes up
+5:21
+in the foundation. Then you have
+5:23
+something called as context you have
+5:24
+something called as sampling. We'll talk
+5:26
+more about context because uh there is a
+5:28
+term which is called as context
+5:29
+engineering. Right? That comes in the
+5:31
+second core component itself in the
+5:34
+second module. Right? So once you're
+5:36
+good at this once you are very good at
+5:38
+LLM fundamentals the next thing is that
+5:40
+you start working on different types of
+5:42
+patterns. Right? Now this pattern that
+5:45
+you see one of the very important
+5:47
+pattern is nothing but react pattern.
+5:49
+Now what happens in react pattern is
+5:51
+that whenever you give an input to the
+5:53
+LM right the LLM will not be connected
+5:56
+to let's say if it it if it wants to get
+5:59
+connected to some other tools right
+6:01
+because as you all know LLM is basically
+6:05
+trained on some amount of data and it
+6:07
+definitely has a cutoff date right so if
+6:11
+it wants the recent context right recent
+6:14
+information let's say if I go ahead and
+6:16
+ask the question who won today's IPL
+6:19
+match match okay between so and so team
+6:22
+obviously LLM is basically trained on
+6:24
+previous data it will not have current
+6:25
+information so what we can basically do
+6:27
+is that we can connect this LLM to some
+6:31
+third party tools now this third party
+6:33
+tools can be a internet search API it
+6:36
+can be it can be any kind of company's
+6:38
+third party API it can be a rag database
+6:41
+it can be a vector database it can be
+6:42
+any kind of things and once we connect
+6:45
+this so when we give an input to the LLM
+6:48
+the LLM understands right it does not
+6:50
+has the current information so it'll go
+6:51
+ahead and check whether it has any tools
+6:53
+and based on that particular tools it
+6:55
+gets the context back once it gets the
+6:58
+context back the LLM will combine with
+7:00
+the prompt along with the context and
+7:02
+then it will finally generate the output
+7:03
+so this is a basic react react
+7:07
+architecture right and based on this
+7:10
+react architecture you know uh
+7:12
+independent AI agents have started been
+7:15
+created right independent AI agents with
+7:17
+the help of this you'll be able to
+7:19
+create easy AI agents and then if you're
+7:22
+using frameworks like lang graph where
+7:24
+you use nodes edges and all you'll be
+7:25
+also able to create multiAI agents okay
+7:28
+so the next step that you will be able
+7:29
+to see that in uh you start seeing about
+7:32
+different different patterns one of the
+7:34
+very basic pattern to get started is
+7:36
+with react there are also different
+7:38
+different patterns as you go ahead you
+7:40
+can actually learn okay then comes the
+7:43
+third important thing in the foundation
+7:45
+right and many people that I've actually
+7:47
+seen you know They after they just learn
+7:49
+the foundation they say that hey we know
+7:51
+agentic AI right agentic AI just imagine
+7:55
+uh in Krishnak academy right we run this
+7:58
+agentic AI course specifically for 6
+8:01
+months you know if you just wanted to
+8:03
+cover foundation it would have happened
+8:05
+in 1 month just imagine 6 months and we
+8:08
+try to cover everything that I have
+8:09
+actually mentioned in this specific
+8:11
+steps itself right so in the agent life
+8:14
+cycle you'll be able to see that we'll
+8:16
+understand how to plan how to execute
+8:18
+and how to reflect the entire agent
+8:20
+working process with respect to the
+8:22
+specific life cycle.
+8:24
+Now after you cover up foundation
+8:27
+specifically in the react pattern we
+8:28
+understand how to go ahead and use
+8:31
+different kind of tools how to probably
+8:33
+do a function calling how to use
+8:35
+different kind of third party APIs each
+8:37
+and everything right so once you go
+8:39
+ahead and learn in this pattern right
+8:41
+LLM fundamentals and react pattern then
+8:43
+agent life cycle the next thing is that
+8:44
+we try to upgrade the agentic AI
+8:47
+application with much more features that
+8:50
+makes it as an advanced agentic AI raga
+8:53
+advanced agentic AI applications or I
+8:55
+can also say that advanced AI agents
+8:58
+right which will be able to
+8:59
+independently do many many task right as
+9:01
+I said that AI agents can be connected
+9:03
+to any number of tools and based on the
+9:06
+tools it will be if you're integrating
+9:08
+with an LM it will be able to do
+9:09
+specific task okay so once you are very
+9:12
+good at tools and function calling and
+9:14
+integrating this into an AI agent the
+9:16
+next step next step is about memory
+9:19
+systems right so in memory systems you
+9:21
+really need to understand three
+9:23
+different types of memory memory. One is
+9:25
+inmemory, one is external, one is
+9:27
+long-term memory. Right? In memory
+9:28
+basically means like int context memory.
+9:31
+Uh external basically means you're
+9:32
+saving that memory into some third party
+9:35
+databases. There is one very important
+9:37
+uh company product which is called as
+9:40
+mem. Have you tried anytime mem just go
+9:43
+let me know in the comment section. It's
+9:44
+an amazing tool for handling external
+9:47
+and long-term memories uh whenever you
+9:49
+develop an AI agents and agent
+9:51
+application. So in this foundation and
+9:54
+core components right let's say in the
+9:56
+foundation I feel this is the most
+9:58
+important uh module in the core
+10:01
+components you'll be finding this is the
+10:03
+most important module right because at
+10:05
+the end of the day you really want to
+10:06
+create a kind of an assistant like the
+10:09
+AI agent needs to understand the
+10:11
+previous contest previous conversation
+10:13
+and it really needs to save all those
+10:15
+specific memory in an efficient way
+10:17
+right and if you see frameworks like
+10:19
+lang chain langraph all these frameworks
+10:22
+provide amazing memory systems
+10:24
+integrations right and this is one of
+10:26
+the very important uh uh you know with
+10:29
+respect to development of any AI agents
+10:32
+then after understanding the memory
+10:34
+system you understand about context
+10:36
+engineering now this is also very
+10:38
+important uh understand whenever we
+10:41
+create any kind of agentic AI
+10:43
+application or AI agents the very
+10:45
+important thing is that what context we
+10:47
+are actually feeding you know it is not
+10:49
+like you just dump in any information
+10:52
+that you have and you get the output.
+10:54
+Nothing like that. You dump in some
+10:56
+quality information, right? Quality
+10:59
+information and this quality information
+11:01
+is nothing but context. The more the
+11:04
+quality information, the more amazing
+11:06
+output this entire applications will be
+11:08
+able to generate. So for getting this
+11:11
+quality information either it is coming
+11:14
+from the tool either it is coming from
+11:15
+any kind of conversation that we have we
+11:18
+can definitely perform context
+11:20
+engineering and soon in my YouTube
+11:23
+channel I'm also going to create a very
+11:26
+good video a crash course on context
+11:28
+engineering. I've already created a lot
+11:30
+of materials on this and I'm exploring
+11:32
+some more things. See any videos that I
+11:34
+try to upload I'll try to make it longer
+11:36
+like uh two to three videos so that you
+11:39
+you get some values out of it and you
+11:40
+can directly implement it in any
+11:42
+companies right so the next thing is
+11:44
+that you talk about context engineering
+11:46
+you understand about state aware prompts
+11:48
+you understand about uh different types
+11:50
+of uh uh things context that you get
+11:53
+from it right now foundation components
+11:57
+one you are very once you're very good
+11:58
+at this then you and please make sure
+12:01
+that you continue watching because after
+12:03
+this I will also show you the road map
+12:05
+where you'll be able to find out all the
+12:06
+materials, videos and everything. Right?
+12:09
+Then comes the orchestration. Now in
+12:11
+orchestration you basically focus on
+12:14
+frameworks right frameworks because at
+12:17
+the end of the day any AI agents that
+12:19
+you create right the main thing is to
+12:22
+run the AI agents run the AI agents in a
+12:25
+way that it runs quickly right it should
+12:28
+not take more and more time and that is
+12:30
+where you get different kind of
+12:32
+frameworks like langraph here you create
+12:35
+stateful graphs here you have an option
+12:37
+of creating routing here you have
+12:39
+different kind this architecture of
+12:41
+agents AI agents you'll be able to
+12:42
+create different AI agents architecture
+12:44
+you'll be able to create right so uh
+12:47
+that is why I feel langraph is one of
+12:49
+the amazing framework uh that has been
+12:52
+created till right now and amazing
+12:55
+things you'll be able to develop out of
+12:56
+it okay so once you go ahead and
+12:58
+complete about langraph in langraph you
+13:00
+have all these features you have all
+13:02
+these features you have all these
+13:04
+features right so whatever foundation
+13:06
+and core components that you have
+13:07
+learned all these fe features is
+13:09
+available in this langraph and lang
+13:11
+chain. Okay. Then you go ahead one step
+13:14
+here you are able to build AI agents.
+13:16
+Now you go ahead one step wherein you
+13:18
+understand about different architecture
+13:19
+of AI agents which we also say it as
+13:21
+multi- aent systems. Some one of the
+13:23
+architecture is something called as
+13:24
+supervisor you have worker pattern
+13:26
+supervisor plus worker pattern like you
+13:29
+have one supervisor you can create
+13:30
+multiple AI agents and then you can
+13:32
+assign task and get that particular task
+13:34
+completed. Okay. So that also comes in
+13:37
+the form of orchestration. Then another
+13:40
+amazing important feature is something
+13:41
+called as human in the loop. So uh human
+13:44
+in the loop is one of the important
+13:46
+things uh you'll be able to see. It'll
+13:48
+always require approval gates. It'll
+13:51
+interrupt for confirmation from the
+13:53
+human you know. So every decision that
+13:56
+AI agents takes to should definitely be
+13:58
+under the approval of human. So through
+14:01
+that particular way you are going to
+14:03
+always interrupt whenever the execution
+14:05
+is going to happen. Right? So from this
+14:08
+three foundation, core components and
+14:10
+orchestration um many many people do
+14:13
+have knowledge but the next step is that
+14:15
+how do we take this into production
+14:17
+right and that is what we are going to
+14:19
+discuss as we go ahead. Now from all
+14:21
+these things you know how to create an
+14:23
+AI agents you know how to create a
+14:25
+multi-Assent you know how to integrate
+14:27
+human in the loop functionality within
+14:28
+the execution of the AI agents but one
+14:31
+of the very important
+14:34
+thing uh module is something called as
+14:36
+rag and retrieval. So with the help of
+14:38
+this particular model you basically
+14:40
+create rag application and the reason is
+14:43
+very simple uh because you cannot
+14:46
+fine-tune the LLM model based on the
+14:48
+company data right company definitely
+14:49
+has huge amount of data and they really
+14:52
+want to create some kind of chatbot AI
+14:54
+assistant for their work right and for
+14:57
+their work along with their data. So
+15:00
+that is where rag and retrieval
+15:01
+techniques basically comes up you know.
+15:04
+So here you basically have chunking
+15:06
+strategies you have advanced rag here
+15:08
+you specifically use something called as
+15:10
+vector DB right and and the phenomenon
+15:14
+is very simple that you have a company
+15:16
+data it may be in the form of PDF you do
+15:18
+chunking you convert that into vectors
+15:20
+you store it into a vector DB and then
+15:22
+you use a retrieval technique based on
+15:25
+any query you should be able to retrieve
+15:26
+the information. So uh here you also
+15:29
+have advanced rag where we focus on
+15:31
+techniques like reranking hide self rag
+15:33
+and different types of agentic rag that
+15:35
+is available like self-reflective rag
+15:37
+and all right u so agentic rag also
+15:40
+basically comes in this advanced rag and
+15:42
+these are specific techniques and
+15:44
+everything for all these things I've
+15:46
+created YouTube videos I've created
+15:47
+Udemy courses I've created uh we teach
+15:50
+in live boot camp you can definitely go
+15:52
+ahead and check it out okay but now uh
+15:55
+one more very amazing thing comes And as
+15:57
+I said right, if you are learning based
+15:59
+on this seven steps right any new thing
+16:02
+that comes so recently you know you also
+16:04
+have something called as vectorless rag
+16:07
+vectorless rag. So I have also uploaded
+16:10
+a video on this in my YouTube channel.
+16:12
+Now everybody is not using vector db rag
+16:15
+now uh new features have basically come
+16:17
+wherein they are going to use vectorless
+16:20
+rag. In the vectorless rag there is no
+16:22
+dependencies on vector db. So here
+16:25
+vector DB is not required right you can
+16:28
+understand right vector DB setup is
+16:30
+definitely required over there uh over
+16:33
+there we need to first of all push all
+16:34
+the data and all but in this particular
+16:36
+case right in the vector drag uh we just
+16:39
+go ahead and create an LLM tree right
+16:42
+now LM tree is nothing but you'll be
+16:44
+having nodes and nodes on bases on that
+16:46
+you'll be traversing you'll be having
+16:48
+the summarized information in the
+16:50
+specific node I've just created an
+16:52
+amazing crash course on this also you
+16:53
+can go ahead and check it out. Okay. So,
+16:56
+u as I said now I knew rag now just I
+17:00
+saw this about this vectorless slag. I
+17:02
+just saw the research paper easily I was
+17:04
+able to understand it. That's the reason
+17:06
+that you whenever you learn something
+17:07
+right you really need to understand
+17:10
+every steps properly. That is how you
+17:12
+upgrade yourself whenever you're working
+17:15
+in any kind of companies. Then you have
+17:17
+something called as a design patterns.
+17:19
+Uh in design patterns you basically
+17:21
+follow different different patterns.
+17:23
+some of the patterns that I have
+17:24
+mentioned like router agent reflection
+17:26
+agent plan and self-fill this is
+17:28
+basically also called as a reflection
+17:30
+reflection self-reflection agent itself
+17:32
+right so they they are definitely
+17:35
+amazing advanced features with respect
+17:37
+to design patterns then uh once you know
+17:40
+by all these specific models till five
+17:42
+you will be able to build the most
+17:44
+advanced AI agent right till here you'll
+17:47
+be able to build the most advanced AI
+17:51
+agent Okay, most advanced AI agent. But
+17:55
+when we go to the next step, this two
+17:58
+steps basically takes us to the
+18:00
+production because in the next two steps
+18:03
+we focus on safety and evaluation. For
+18:06
+this we use something called as
+18:08
+guardrails because we cannot directly
+18:09
+take an AI agent directly into the uh
+18:13
+production right we definitely need to
+18:15
+go ahead and implement about guardrails.
+18:17
+We should make sure that all the
+18:19
+securityities issues are basically fixed
+18:20
+from validation to injection to PII and
+18:24
+there's so many different things that
+18:25
+are available. Again, if you're using
+18:27
+Langraph, right, it also has a lot of
+18:29
+guardrail features and other than this,
+18:31
+you also have other libraries which will
+18:34
+be able to probably implement uh
+18:36
+guardrails itself. Then you have
+18:38
+something called as evaluation. For
+18:40
+evaluation, you can use different
+18:41
+different uh metrics. This is basically
+18:43
+just to understand how the AI agents are
+18:47
+performing. Right? If you know this, I
+18:50
+think a very good evaluation techniques
+18:53
+with respect to accuracy and all there
+18:55
+are multiple metrics which we
+18:56
+specifically follow like how we usually
+18:58
+follow in machine learning deep learning
+18:59
+models. Similarly for this also you have
+19:02
+that. Okay. And finally we take it into
+19:05
+production. We can take it in the form
+19:06
+of MCP protocol. Uh we need to
+19:08
+understand how the MCP protocol actually
+19:10
+works. The best part about MCP protocol
+19:12
+is that if you create it a if you host
+19:14
+this entirely in MCP server, right? You
+19:16
+can integrate with any IDE, you can
+19:18
+integrate with any kind of applications.
+19:20
+You also need to understand about
+19:22
+production ops with respect to latency,
+19:24
+cost and observability that how you're
+19:27
+making sure that when you scale this AI
+19:29
+agents, you also need to optimize them
+19:31
+with respect to the cost, right? And
+19:33
+then finally cloud platforms where you
+19:35
+use multiple cloud platforms like
+19:36
+bedrock vertex and cloud API like how
+19:39
+you're using them how you're making sure
+19:40
+that consumption is less u how you're
+19:43
+making sure you are able to optimize it.
+19:45
+So everything comes over here from
+19:47
+deployment to using the APIs everything
+19:51
+comes over here and again all the clouds
+19:53
+that is specifically being used is AWS
+19:55
+Azure right if you're using some kind of
+19:58
+APIs uh it can be an open API open API
+20:01
+cloud API and all so based on your
+20:04
+requirement you are specifically using
+20:05
+this now why I'm teaching you this see
+20:09
+anything that comes now it will be
+20:12
+within this seven important steps Right
+20:18
+let's say as I said right vectorless rag
+20:20
+has come now right now research is
+20:22
+basically going on so you can basically
+20:23
+include that them in rag and retrieval
+20:26
+before you used to use vector DB now you
+20:28
+use vectorless rag right here you try to
+20:30
+go ahead and create a llm tree in the
+20:32
+form of a JSON and you try to implement
+20:34
+it similarly new new design patterns
+20:36
+there are multiple design patterns other
+20:37
+than this I've just mentioned the best
+20:39
+design patterns let's say tomorrow one
+20:41
+more design pattern comes you can
+20:42
+basically go ahead and integrate it the
+20:44
+learning becomes very easy if you're
+20:46
+following this specific road map with
+20:48
+respect to things right first of all you
+20:50
+master foundation then you go to core
+20:51
+components with respect to orchestration
+20:53
+let's say right now I'm using lang
+20:55
+channel lang graph tomorrow any good
+20:56
+libraries come you can also go ahead and
+20:58
+use that right because every libraries
+21:00
+every frameworks that comes they will be
+21:02
+implementing all these particular
+21:03
+solutions if new things comes in the
+21:05
+multi agents like agent to agent
+21:07
+communication is also coming agent to
+21:09
+agent protocol so that also comes over
+21:11
+here you understand it if you know this
+21:13
+that becomes a foundation for for you
+21:14
+and you go to the next step. Right? So I
+21:17
+hope you were able to understand this. U
+21:20
+again uh many people definitely require
+21:23
+free resources materials to get started
+21:25
+it just go to krishnon.in/i
+21:28
+/ai road mapaps you can click on the AI
+21:30
+road maps here I've mentioned every road
+21:32
+map right from data science you can see
+21:34
+over here from data science to master uh
+21:37
+DL MLCV NLP add agentic AI learn agent
+21:41
+add generative AI learn agentic so I
+21:44
+usually follow this three road maps I
+21:45
+suggest everyone one is traditional one
+21:48
+is modern and one is advanced many
+21:49
+people would like to definitely go to
+21:51
+the modern route because they have some
+21:53
+Python coding knowledge under so I'll
+21:55
+just go ahead and click on add aentic So
+21:57
+once I load this, you'll be able to see
+21:59
+all the free videos, materials, step by
+22:01
+step, everything. Okay, you can go ahead
+22:04
+and check it out and if you're
+22:05
+interested to learn from us, you can
+22:07
+also go ahead and visit our live
+22:08
+courses. uh we make sure that we teach
+22:10
+in a way that once you cover the
+22:14
+syllabus from us anything that you come
+22:16
+comes up in the future you are able to
+22:19
+easily grasp it because your foundation
+22:20
+is very strong and we focus on
+22:22
+foundation from implementing from
+22:24
+starting from basics to implementing
+22:26
+amazing end to- end course so yes this
+22:28
+was it for my side I'll see you in the
+22:29
+next video have a great day thank you
+22:31
+and all take care bye-bye

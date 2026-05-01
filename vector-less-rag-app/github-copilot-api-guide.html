@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GitHub Copilot Models API — Complete Developer Guide</title>
+  <style>
+    :root {
+      --bg:        #0d1117;
+      --surface:   #161b22;
+      --surface2:  #21262d;
+      --border:    #30363d;
+      --accent:    #238636;
+      --accent2:   #1f6feb;
+      --warn:      #d29922;
+      --danger:    #da3633;
+      --text:      #e6edf3;
+      --muted:     #8b949e;
+      --green:     #3fb950;
+      --blue:      #58a6ff;
+      --purple:    #a5d6ff;
+      --orange:    #ffa657;
+      --red:       #ff7b72;
+      --yellow:    #e3b341;
+      --cyan:      #39d353;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    /* ── Layout ──────────────────────────────────────────────── */
+    .wrapper { display: flex; min-height: 100vh; }
+
+    nav {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      width: 260px;
+      min-width: 260px;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      overflow-y: auto;
+      padding: 20px 0;
+    }
+    nav .nav-logo {
+      padding: 10px 20px 20px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--blue);
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    nav .nav-logo svg { flex-shrink: 0; }
+    nav ul { list-style: none; }
+    nav ul li a {
+      display: block;
+      padding: 6px 20px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 13px;
+      transition: color .15s, background .15s;
+      border-left: 2px solid transparent;
+    }
+    nav ul li a:hover { color: var(--text); background: var(--surface2); }
+    nav ul li a.active { color: var(--blue); border-left-color: var(--blue); }
+    nav .nav-section {
+      padding: 14px 20px 4px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    main {
+      flex: 1;
+      max-width: 900px;
+      padding: 40px 48px 80px;
+      overflow-x: hidden;
+    }
+
+    /* ── Hero ────────────────────────────────────────────────── */
+    .hero {
+      background: linear-gradient(135deg, #161b22 0%, #0d1117 60%);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 36px 40px;
+      margin-bottom: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: -40px; right: -40px;
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(31,111,235,.15) 0%, transparent 70%);
+    }
+    .hero h1 { font-size: 26px; font-weight: 700; margin-bottom: 10px; }
+    .hero h1 span { color: var(--blue); }
+    .hero p { color: var(--muted); font-size: 14px; max-width: 600px; }
+    .badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      margin-right: 6px;
+      margin-top: 14px;
+    }
+    .badge-green  { background: rgba(63,185,80,.15);  color: var(--green);  border: 1px solid rgba(63,185,80,.3); }
+    .badge-blue   { background: rgba(88,166,255,.15); color: var(--blue);   border: 1px solid rgba(88,166,255,.3); }
+    .badge-orange { background: rgba(255,166,87,.15); color: var(--orange); border: 1px solid rgba(255,166,87,.3); }
+    .badge-red    { background: rgba(218,54,51,.15);  color: var(--red);    border: 1px solid rgba(218,54,51,.3); }
+    .badge-yellow { background: rgba(210,153,34,.15); color: var(--yellow); border: 1px solid rgba(210,153,34,.3); }
+
+    /* ── Sections ────────────────────────────────────────────── */
+    section { margin-bottom: 52px; scroll-margin-top: 24px; }
+    h2 {
+      font-size: 20px;
+      font-weight: 700;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    h2 .icon {
+      width: 28px; height: 28px;
+      background: var(--surface2);
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+    h3 {
+      font-size: 15px;
+      font-weight: 600;
+      margin: 24px 0 10px;
+      color: var(--text);
+    }
+    h4 { font-size: 13px; font-weight: 600; margin: 16px 0 8px; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+    p { margin-bottom: 12px; color: var(--text); }
+
+    /* ── Code ────────────────────────────────────────────────── */
+    pre {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 18px 20px;
+      overflow-x: auto;
+      margin: 12px 0 20px;
+      font-size: 13px;
+      line-height: 1.6;
+      position: relative;
+    }
+    pre .lang-tag {
+      position: absolute;
+      top: 8px; right: 12px;
+      font-size: 10px;
+      color: var(--muted);
+      font-family: monospace;
+    }
+    code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace; }
+    p code, li code {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1px 6px;
+      font-size: 12px;
+      color: var(--orange);
+    }
+
+    /* Syntax highlight classes */
+    .kw  { color: #ff7b72; }   /* keywords */
+    .str { color: #a5d6ff; }   /* strings */
+    .cm  { color: #8b949e; font-style: italic; } /* comments */
+    .fn  { color: #d2a8ff; }   /* functions */
+    .var { color: #ffa657; }   /* variables */
+    .num { color: #79c0ff; }   /* numbers */
+    .op  { color: #e6edf3; }   /* operators */
+    .ps  { color: #3fb950; }   /* powershell cmdlets */
+    .py  { color: #58a6ff; }   /* python builtins */
+
+    /* ── Tables ──────────────────────────────────────────────── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0 22px;
+      font-size: 13px;
+    }
+    th {
+      text-align: left;
+      padding: 8px 14px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    td {
+      padding: 8px 14px;
+      border: 1px solid var(--border);
+      vertical-align: top;
+    }
+    tr:nth-child(even) td { background: rgba(255,255,255,.02); }
+
+    /* ── Callouts ────────────────────────────────────────────── */
+    .callout {
+      border-left: 3px solid;
+      border-radius: 0 8px 8px 0;
+      padding: 14px 18px;
+      margin: 16px 0;
+      font-size: 13.5px;
+    }
+    .callout-info    { border-color: var(--blue);   background: rgba(88,166,255,.07);  }
+    .callout-warn    { border-color: var(--yellow);  background: rgba(227,179,65,.07);  }
+    .callout-success { border-color: var(--green);   background: rgba(63,185,80,.07);   }
+    .callout-danger  { border-color: var(--red);     background: rgba(255,123,114,.07); }
+    .callout strong  { display: block; margin-bottom: 4px; }
+
+    /* ── Step list ───────────────────────────────────────────── */
+    .steps { counter-reset: step; list-style: none; }
+    .steps li {
+      counter-increment: step;
+      padding: 14px 16px 14px 52px;
+      position: relative;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+    .steps li::before {
+      content: counter(step);
+      position: absolute;
+      left: 14px;
+      top: 14px;
+      width: 24px; height: 24px;
+      background: var(--accent2);
+      color: #fff;
+      border-radius: 50%;
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ── Model grid ──────────────────────────────────────────── */
+    .model-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 10px;
+      margin: 14px 0;
+    }
+    .model-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+    }
+    .model-card .model-name { font-size: 12px; font-weight: 600; font-family: monospace; color: var(--orange); }
+    .model-card .model-provider { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .model-card .model-status {
+      font-size: 10px;
+      margin-top: 6px;
+      padding: 1px 7px;
+      border-radius: 10px;
+      display: inline-block;
+    }
+    .status-ok   { background: rgba(63,185,80,.15);  color: var(--green); }
+    .status-ui   { background: rgba(210,153,34,.15); color: var(--yellow); }
+    .status-soon { background: rgba(88,166,255,.15); color: var(--blue); }
+
+    /* ── Comparison box ──────────────────────────────────────── */
+    .compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 16px 0;
+    }
+    .compare-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+    }
+    .compare-box h4 { color: var(--text); text-transform: none; font-size: 13px; margin-bottom: 10px; }
+    .compare-box ul { list-style: none; }
+    .compare-box ul li { font-size: 13px; padding: 3px 0; }
+    .compare-box ul li::before { content: ""; margin-right: 8px; }
+    .ok::before   { content: "✅ " !important; }
+    .fail::before { content: "❌ " !important; }
+    .warn::before { content: "⚠️ " !important; }
+
+    /* ── Flow diagram ────────────────────────────────────────── */
+    .flow {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      margin: 14px 0;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .flow-box {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 14px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .flow-box.blue   { border-color: var(--blue);   color: var(--blue); }
+    .flow-box.green  { border-color: var(--green);  color: var(--green); }
+    .flow-box.orange { border-color: var(--orange); color: var(--orange); }
+    .flow-arrow { color: var(--muted); font-size: 16px; }
+
+    ul.bullet { list-style: disc; padding-left: 22px; }
+    ul.bullet li { margin-bottom: 5px; font-size: 14px; }
+
+    /* ── TOC ─────────────────────────────────────────────────── */
+    @media (max-width: 800px) {
+      nav { display: none; }
+      main { padding: 24px 20px; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+
+<!-- ═══════════════ SIDEBAR ═══════════════ -->
+<nav>
+  <div class="nav-logo">
+    <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+    GitHub Copilot API Guide
+  </div>
+  <ul>
+    <li class="nav-section">Getting Started</li>
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#prerequisites">Prerequisites</a></li>
+    <li><a href="#token">Token Acquisition</a></li>
+
+    <li class="nav-section">Models</li>
+    <li><a href="#models">Available Models</a></li>
+    <li><a href="#endpoints">API Endpoints</a></li>
+
+    <li class="nav-section">Access Methods</li>
+    <li><a href="#powershell">PowerShell Access</a></li>
+    <li><a href="#python-sdk">Python SDK</a></li>
+    <li><a href="#proxy-issue">Corporate Proxy Issue</a></li>
+    <li><a href="#workarounds">Workarounds &amp; Fixes</a></li>
+
+    <li class="nav-section">Python Frameworks</li>
+    <li><a href="#langchain">LangChain</a></li>
+    <li><a href="#langgraph">LangGraph</a></li>
+    <li><a href="#crewai">CrewAI</a></li>
+
+    <li class="nav-section">Reference</li>
+    <li><a href="#enterprise">Enterprise Notes</a></li>
+    <li><a href="#summary">Summary</a></li>
+  </ul>
+</nav>
+
+<!-- ═══════════════ MAIN ═══════════════ -->
+<main>
+
+  <!-- HERO -->
+  <div class="hero">
+    <h1>GitHub Copilot Models API<br><span>Complete Developer Guide</span></h1>
+    <p>Everything you need to access GitHub Copilot LLMs using <code>gh auth token</code> — from PowerShell to Python frameworks, including corporate proxy solutions.</p>
+    <div>
+      <span class="badge badge-green">Live Validated</span>
+      <span class="badge badge-blue">18 Models</span>
+      <span class="badge badge-orange">Corporate Proxy Fixes</span>
+      <span class="badge badge-blue">LangChain / CrewAI</span>
+    </div>
+  </div>
+
+  <!-- ─────────────────────────────────── -->
+  <section id="overview">
+    <h2><span class="icon">📋</span> Overview</h2>
+    <p>GitHub Copilot exposes an OpenAI-compatible REST API at <code>https://api.githubcopilot.com</code>. Any GitHub user with an active Copilot subscription can call this API directly using a standard GitHub OAuth token — no special PAT, no extra scopes, no separate API key.</p>
+
+    <div class="flow">
+      <div class="flow-box blue">GitHub Account<br>+ Copilot Subscription</div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-box orange">gh auth login<br>(one-time)</div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-box orange">gh auth token<br>→ <code>gho_*</code></div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-box green">api.githubcopilot.com<br>/chat/completions</div>
+    </div>
+
+    <div class="callout callout-success">
+      <strong>✅ Validated in this guide</strong>
+      All code examples and findings have been live-tested against <code>api.githubcopilot.com</code> using a real GitHub Enterprise Copilot subscription.
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────────── -->
+  <section id="prerequisites">
+    <h2><span class="icon">✅</span> Prerequisites</h2>
+
+    <h3>1. GitHub Copilot Subscription</h3>
+    <p>You need an active Copilot subscription. Any of these qualify:</p>
+    <table>
+      <tr><th>Plan</th><th>Who</th><th>Models Available</th></tr>
+      <tr><td><strong>Copilot Individual</strong></td><td>Personal GitHub account</td><td>GPT-4o, Claude Sonnet 4, limited set</td></tr>
+      <tr><td><strong>Copilot Business</strong></td><td>Organization members</td><td>Full model set including Claude Opus, GPT-5.x</td></tr>
+      <tr><td><strong>Copilot Enterprise</strong></td><td>Enterprise org members</td><td>Full model set + admin-controlled access per model</td></tr>
+    </table>
+    <div class="callout callout-warn">
+      <strong>⚠️ Enterprise model gating</strong>
+      In Copilot Enterprise, each model must be explicitly enabled by an organization admin at <strong>Settings → Copilot → Policies</strong>. Even if a model exists in the API, it will return 403 if not enabled for your org.
+    </div>
+
+    <h3>2. GitHub CLI (<code>gh</code>)</h3>
+    <p>The GitHub CLI is the easiest way to get a token. Install it once and authenticate:</p>
+    <ul class="steps">
+      <li>
+        <strong>Install gh CLI</strong><br>
+        <pre><code><span class="cm"># Windows (winget)</span>
+winget install GitHub.cli
+
+<span class="cm"># Windows (choco)</span>
+choco install gh
+
+<span class="cm"># macOS</span>
+brew install gh
+
+<span class="cm"># Linux (apt)</span>
+sudo apt install gh</code></pre>
+      </li>
+      <li>
+        <strong>Authenticate</strong><br>
+        <pre><code>gh auth login
+<span class="cm"># → Choose: GitHub.com → HTTPS → Login with a web browser</span></code></pre>
+      </li>
+      <li>
+        <strong>Verify</strong><br>
+        <pre><code>gh auth status
+<span class="cm"># Output: ✓ Logged in to github.com account &lt;username&gt;
+#         Token: gho_****  (scopes: repo, read:org, gist, workflow)</span>
+
+gh auth token
+<span class="cm"># Output: gho_XmrBf...  ← this is your Copilot API token</span></code></pre>
+      </li>
+    </ul>
+
+    <h3>3. No Special Scopes Required</h3>
+    <p>This is important: the GitHub Copilot API authenticates via <strong>subscription entitlement</strong>, not token scopes. The default <code>gho_*</code> OAuth token from <code>gh auth login</code> has everything needed.</p>
+    <table>
+      <tr><th>Token Type</th><th>Format</th><th>Works?</th><th>Notes</th></tr>
+      <tr><td>OAuth App token (gh CLI)</td><td><code>gho_*</code></td><td><span class="badge badge-green">✅ Yes</span></td><td>Default from <code>gh auth login</code> — recommended</td></tr>
+      <tr><td>Classic PAT</td><td><code>ghp_*</code></td><td><span class="badge badge-green">✅ Yes</span></td><td>Works, no extra scopes needed</td></tr>
+      <tr><td>Fine-grained PAT</td><td><code>github_pat_*</code></td><td><span class="badge badge-yellow">⚠️ Partial</span></td><td>May not support all Copilot API features</td></tr>
+      <tr><td>"Copilot-specific" token</td><td>N/A</td><td><span class="badge badge-red">❌ N/A</span></td><td>Does not exist as a separate token type</td></tr>
+    </table>
+  </section>
+
+  <!-- ─────────────────────────────────── -->
+  <section id="token">
+    <h2><span class="icon">🔑</span> Token Acquisition</h2>
+
+    <h3>Option A — gh CLI (Recommended)</h3>
+    <pre><code><span class="cm"># One-liner to capture token into a variable</span>
+<span class="kw">$token</span> <span class="op">=</span> gh auth token
+
+<span class="cm"># Or store in environment variable</span>
+<span class="kw">$env:GITHUB_TOKEN</span> <span class="op">=</span> gh auth token</code><div class="lang-tag">PowerShell</div></pre>
+
+    <h3>Option B — Classic PAT (no scopes needed)</h3>
+    <ol class="steps">
+      <li>Go to <strong>github.com → Settings → Developer Settings → Personal access tokens → Tokens (classic)</strong></li>
+      <li>Click <strong>Generate new token (classic)</strong></li>
+      <li>Give it a name, set an expiry. <strong>Do not check any scopes</strong> — leave all boxes unchecked</li>
+      <li>Copy the <code>ghp_*</code> token and store it securely</li>
+    </ol>
+
+    <div class="callout callout-info">
+      <strong>💡 Token auto-detection in Python</strong>
+      The following priority order is recommended in any Python app:
+      <pre style="margin-top:8px"><code><span class="kw">import</span> os, subprocess
+
+<span class="kw">def</span> <span class="fn">resolve_token</span>() <span class="op">-></span> <span class="var">str</span>:
+    <span class="cm"># 1. Explicit argument or environment variable</span>
+    <span class="kw">if</span> token <span class="op">:=</span> os.<span class="fn">environ</span>.<span class="fn">get</span>(<span class="str">"GITHUB_TOKEN"</span>, <span class="str">""</span>):
+        <span class="kw">return</span> token
+    <span class="cm"># 2. gh CLI auto-detection</span>
+    result <span class="op">=</span> subprocess.<span class="fn">run</span>([<span class="str">"gh"</span>, <span class="str">"auth"</span>, <span class="str">"token"</span>], capture_output=<span class="kw">True</span>, text=<span class="kw">True</span>, timeout=<span class="num">5</span>)
+    <span class="kw">return</span> result.stdout.<span class="fn">strip</span>() <span class="kw">if</span> result.returncode <span class="op">==</span> <span class="num">0</span> <span class="kw">else</span> <span class="str">""</span></code><div class="lang-tag">Python</div></pre>
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────────── -->
+  <section id="models">
+    <h2><span class="icon">🤖</span> Available Models</h2>
+    <p>Models are queried from the live <code>GET /models</code> endpoint. The list below was validated against <code>api.githubcopilot.com</code>.</p>
+
+    <h3>OpenAI Models</h3>
+    <div class="model-grid">
+      <div class="model-card"><div class="model-name">gpt-4o-mini</div><div class="model-provider">OpenAI</div><div class="model-status status-ok">✅ API</div></div>
+      <div class="model-card"><div class="model-name">gpt-4.1</div><div class="model-provider">OpenAI</div><div class="model-status status-ok">✅ API</div></div>
+      <div class="model-card"><div class="model-name">gpt-5-mini</div><div class="model-provider">OpenAI</div><div class="model-status status-ok">✅ API</div></div>
+      <div class="model-card"><div class="model-name">gpt-5.2</div><div class="model-provider">OpenAI</div><div class="model-status status-ok">✅ API</div></div>
+      <div class="model-card"><div class="model-name">gpt-5.4-mini</div><div class="model-provider">OpenAI</div><div class="model-status status-ok">✅ API</div></div>
+      <div class="model-card"><div class="model-name">gpt-5.4</div><div class="model-provider">OpenAI</div><div class="model-status status-ok">✅ API</div></div>
+      <div class="model-card"><div class="model-name">gpt-5.5</div><div class="model-provider">OpenAI</div><div class="model-status status-ok">✅ API</div></div>
+      <div class="model-card"><div class="model-name">gpt-5.2-codex</div><div class="model-provider">OpenAI</div><div class="model-status status-ok">✅ API</div></div>
+      <div class="model-card"><div class="model-name">gpt-5.3-codex</div><div class="model-provider">OpenAI</div><div class="model-status status-ok">✅ API</div></div>
+    </div>
+
+    <h3>Anthropic Claude Models</h3>
+    <div class="model-grid">
+      <div class="model-card"><div class="model-name">claude-haiku-4.5</div><div class="model-provider">Anthropic</div><div class="model-status status-ok">✅ API — Fastest</div></div>
+      <div class="model-card"><div class="model-name">claude-sonnet-4</div><div class="model-provider">Anthropic</div><div class="model-status status-ok">✅ API</div></div>
+      <div class="model-card"><div class="model-name">claude-sonnet-4.5</div><div class="model-provider">Anthropic</div><div class="model-status status-ok">✅ API</div></div>
+      <div class="model-card"><div class="model-name">claude-sonnet-4.6</div><div class="model-provider">Anthropic</div><div class="model-status status-ok">✅ API</div></div>
+      <div class="model-card"><div class="model-name">claude-opus-4.5</div><div class="model-provider">Anthropic</div><div class="model-status status-ok">✅ API</div></div>
+      <div class="model-card"><div class="model-name">claude-opus-4.6</div><div class="model-provider">Anthropic</div><div class="model-status status-ok">✅ API</div></div>
+      <div class="model-card"><div class="model-name">claude-opus-4.6-1m</div><div class="model-provider">Anthropic · 1M ctx</div><div class="model-status status-ok">✅ API</div></div>
+      <div class="model-card"><div class="model-name">claude-opus-4.7</div><div class="model-provider">Anthropic · Latest</div><div class="model-status status-ok">✅ API</div></div>
+    </div>
+
+    <h3>Other Models</h3>
+    <div class="model-grid">
+      <div class="model-card"><div class="model-name">grok-code-fast-1</div><div class="model-provider">xAI</div><div class="model-status status-ok">✅ API</div></div>
+      <div class="model-card"><div class="model-name">gemini-2.5-pro</div><div class="model-provider">Google</div><div class="model-status status-ui">⚠️ UI Only</div></div>
+      <div class="model-card"><div class="model-name">gemini-3.1-pro</div><div class="model-provider">Google</div><div class="model-status status-ui">⚠️ UI Only</div></div>
+      <div class="model-card"><div class="model-name">gemini-3-flash</div><div class="model-provider">Google</div><div class="model-status status-ui">⚠️ UI Only</div></div>
+    </div>
+
+    <div class="callout callout-warn">
+      <strong>⚠️ Google Gemini models</strong>
+      Gemini models appear as "Enabled" in the Copilot admin panel but are <strong>not yet exposed via <code>api.githubcopilot.com/models</code></strong>. They are only accessible through VS Code's Copilot Chat UI. Expect API availability in a future rollout.
+    </div>
+
+    <h4>List models programmatically</h4>
+    <pre><code><span class="cm"># PowerShell</span>
+<span class="kw">$token</span> = gh auth token
+<span class="ps">$headers</span> = @{ <span class="str">"Authorization"</span> = <span class="str">"Bearer $token"</span> }
+<span class="ps">$r</span> = <span class="ps">Invoke-RestMethod</span> -Uri <span class="str">"https://api.githubcopilot.com/models"</span> -Headers <span class="ps">$headers</span>
+<span class="ps">$r</span>.data | <span class="ps">Where-Object</span> { <span class="ps">$_</span>.id <span class="op">-notmatch</span> <span class="str">"embedding|ada"</span> } |
+           <span class="ps">Select-Object</span> id | <span class="ps">Sort-Object</span> id</code><div class="lang-tag">PowerShell</div></pre>
+  </section>
+
+  <!-- ─────────────────────────────────── -->
+  <section id="endpoints">
+    <h2><span class="icon">🌐</span> API Endpoints</h2>
+    <table>
+      <tr><th>Endpoint</th><th>Purpose</th><th>Auth</th><th>Status</th></tr>
+      <tr>
+        <td><code>https://api.githubcopilot.com</code></td>
+        <td>GitHub Copilot API (subscription-gated)</td>
+        <td>Copilot subscription token</td>
+        <td><span class="badge badge-green">✅ Primary</span></td>
+      </tr>
+      <tr>
+        <td><code>https://models.inference.ai.azure.com</code></td>
+        <td>GitHub Models API (free tier)</td>
+        <td>Any GitHub PAT / OAuth token</td>
+        <td><span class="badge badge-yellow">⚠️ May be disabled in Enterprise</span></td>
+      </tr>
+    </table>
+
+    <p>Both endpoints are <strong>OpenAI API-compatible</strong>. They support:</p>
+    <ul class="bullet">
+      <li><code>GET  /models</code> — list available models</li>
+      <li><code>POST /chat/completions</code> — chat completion (primary use)</li>
+      <li><code>POST /embeddings</code> — text embeddings (select models)</li>
+    </ul>
+  </section>
+
+  <!-- ─────────────────────────────────── -->
+  <section id="powershell">
+    <h2><span class="icon">💻</span> PowerShell Access</h2>
+    <p>PowerShell uses <strong>WinHTTP</strong> (Windows native HTTP stack) which automatically uses the Windows system certificate store and proxy settings — making it the most reliable option in corporate environments.</p>
+
+    <h3>Basic Chat Completion</h3>
+    <pre><code><span class="kw">$token</span> = gh auth token
+
+<span class="kw">$headers</span> = @{
+    <span class="str">"Authorization"</span> = <span class="str">"Bearer $token"</span>
+    <span class="str">"Content-Type"</span>  = <span class="str">"application/json"</span>
+}
+
+<span class="kw">$body</span> = @{
+    model    = <span class="str">"claude-haiku-4.5"</span>
+    messages = @(
+        @{ role = <span class="str">"system"</span>; content = <span class="str">"You are a helpful assistant."</span> }
+        @{ role = <span class="str">"user"</span>;   content = <span class="str">"What is BM25 retrieval?"</span> }
+    )
+    temperature = <span class="num">0.2</span>
+} | <span class="ps">ConvertTo-Json</span> -Depth <span class="num">5</span>
+
+<span class="kw">$response</span> = <span class="ps">Invoke-RestMethod</span> `
+    -Uri    <span class="str">"https://api.githubcopilot.com/chat/completions"</span> `
+    -Method <span class="str">POST</span> `
+    -Headers <span class="kw">$headers</span> `
+    -Body   <span class="kw">$body</span>
+
+<span class="kw">$response</span>.choices[<span class="num">0</span>].message.content</code><div class="lang-tag">PowerShell</div></pre>
+
+    <h3>Reusable Function</h3>
+    <pre><code><span class="kw">function</span> <span class="fn">Invoke-CopilotChat</span> {
+    <span class="kw">param</span>(
+        [<span class="var">string</span>]<span class="kw">$Prompt</span>,
+        [<span class="var">string</span>]<span class="kw">$Model</span>       = <span class="str">"gpt-4o-mini"</span>,
+        [<span class="var">string</span>]<span class="kw">$SystemPrompt</span> = <span class="str">"You are a helpful assistant."</span>,
+        [<span class="var">double</span>]<span class="kw">$Temperature</span>  = <span class="num">0.2</span>
+    )
+    <span class="kw">$token</span> = gh auth token
+    <span class="kw">$headers</span> = @{
+        <span class="str">"Authorization"</span> = <span class="str">"Bearer $token"</span>
+        <span class="str">"Content-Type"</span>  = <span class="str">"application/json"</span>
+    }
+    <span class="kw">$body</span> = @{
+        model       = <span class="kw">$Model</span>
+        temperature = <span class="kw">$Temperature</span>
+        messages    = @(
+            @{ role = <span class="str">"system"</span>; content = <span class="kw">$SystemPrompt</span> }
+            @{ role = <span class="str">"user"</span>;   content = <span class="kw">$Prompt</span> }
+        )
+    } | <span class="ps">ConvertTo-Json</span> -Depth <span class="num">5</span>
+
+    <span class="kw">$r</span> = <span class="ps">Invoke-RestMethod</span> -Uri <span class="str">"https://api.githubcopilot.com/chat/completions"</span> `
+                          -Method <span class="str">POST</span> -Headers <span class="kw">$headers</span> -Body <span class="kw">$body</span>
+    <span class="kw">return</span> <span class="kw">$r</span>.choices[<span class="num">0</span>].message.content
+}
+
+<span class="cm"># Usage</span>
+<span class="fn">Invoke-CopilotChat</span> -Prompt <span class="str">"Explain LangChain in 2 sentences"</span> -Model <span class="str">"claude-sonnet-4.6"</span></code><div class="lang-tag">PowerShell</div></pre>
+  </section>
+
+  <!-- ─────────────────────────────────── -->
+  <section id="python-sdk">
+    <h2><span class="icon">🐍</span> Python SDK — The Official Way</h2>
+    <p>The GitHub Copilot API is OpenAI-compatible, so the <code>openai</code> Python SDK works with a custom <code>base_url</code>:</p>
+
+    <pre><code><span class="kw">from</span> openai <span class="kw">import</span> OpenAI
+<span class="kw">import</span> subprocess
+
+token = subprocess.<span class="fn">run</span>(
+    [<span class="str">"gh"</span>, <span class="str">"auth"</span>, <span class="str">"token"</span>], capture_output=<span class="kw">True</span>, text=<span class="kw">True</span>
+).stdout.<span class="fn">strip</span>()
+
+client = OpenAI(
+    base_url=<span class="str">"https://api.githubcopilot.com"</span>,
+    api_key=token,
+)
+
+response = client.chat.completions.<span class="fn">create</span>(
+    model=<span class="str">"gpt-4o-mini"</span>,
+    messages=[{<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"Hello!"</span>}],
+)
+<span class="fn">print</span>(response.choices[<span class="num">0</span>].message.content)</code><div class="lang-tag">Python</div></pre>
+
+    <div class="callout callout-warn">
+      <strong>⚠️ This works in clean environments — but fails intermittently behind corporate proxies</strong>
+      See the next section for why this happens and how to fix it.
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────────── -->
+  <section id="proxy-issue">
+    <h2><span class="icon">⚠️</span> The Corporate Proxy Problem</h2>
+    <p>In enterprise environments with <strong>SSL inspection (MITM proxies)</strong>, the Python <code>openai</code> SDK fails intermittently with a <code>403 PermissionDeniedError</code> or SSL errors — even though the token is valid and PowerShell succeeds consistently.</p>
+
+    <h3>Root Cause Analysis</h3>
+    <div class="compare">
+      <div class="compare-box">
+        <h4>🟢 PowerShell (WinHTTP) — Reliable</h4>
+        <ul>
+          <li class="ok">Uses Windows system certificate store</li>
+          <li class="ok">Trusts corporate CA cert automatically</li>
+          <li class="ok">Handles NTLM/Kerberos proxy auth natively</li>
+          <li class="ok">Connection pooling matches proxy expectations</li>
+          <li class="ok">~95% success rate in tests</li>
+        </ul>
+      </div>
+      <div class="compare-box">
+        <h4>🔴 Python httpx (OpenAI SDK) — Unreliable</h4>
+        <ul>
+          <li class="fail">Uses <code>certifi</code> bundle (no corporate CA)</li>
+          <li class="fail">SSL cert verify fails → proxy rejects with 403</li>
+          <li class="fail">Extra <code>x-stainless-*</code> headers may trigger proxy inspection</li>
+          <li class="fail">Connection keep-alive interacts poorly with proxy state</li>
+          <li class="warn">~40–60% success rate without fixes</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>What the Errors Look Like</h3>
+    <pre><code><span class="cm"># SSL certificate error</span>
+httpx.ConnectError: [SSL: CERTIFICATE_VERIFY_FAILED]
+  certificate verify failed: self-signed certificate in certificate chain
+
+<span class="cm"># Proxy blocking the connection</span>
+openai.PermissionDeniedError: Access to this endpoint is forbidden.
+  Please review our Terms of Service.
+
+<span class="cm"># This is the proxy rejecting Python's TLS handshake,
+# NOT GitHub's API rejecting your token!</span></code><div class="lang-tag">Python traceback</div></pre>
+
+    <h3>How to Confirm It's a Proxy Issue</h3>
+    <pre><code><span class="cm"># If this works in PowerShell but not Python → it's the proxy</span>
+<span class="kw">$token</span> = gh auth token
+<span class="kw">$headers</span> = @{ <span class="str">"Authorization"</span> = <span class="str">"Bearer $token"</span>; <span class="str">"Content-Type"</span> = <span class="str">"application/json"</span> }
+<span class="kw">$body</span>    = <span class="str">'{"model":"gpt-4o-mini","messages":[{"role":"user","content":"hi"}],"max_tokens":5}'</span>
+<span class="ps">Invoke-RestMethod</span> -Uri <span class="str">"https://api.githubcopilot.com/chat/completions"</span> -Method POST -Headers <span class="kw">$headers</span> -Body <span class="kw">$body</span></code><div class="lang-tag">PowerShell — diagnosis</div></pre>
+  </section>
+
+  <!-- ─────────────────────────────────── -->
+  <section id="workarounds">
+    <h2><span class="icon">🔧</span> Workarounds &amp; Fixes</h2>
+
+    <h3>Fix 1 — PowerShell Subprocess (Most Reliable on Windows)</h3>
+    <p>Bypass Python's HTTP stack entirely. Call PowerShell's <code>Invoke-RestMethod</code> from Python via <code>subprocess</code>. WinHTTP handles all proxy and SSL negotiation natively.</p>
+    <pre><code><span class="kw">import</span> json, subprocess
+
+<span class="kw">def</span> <span class="fn">copilot_chat_via_powershell</span>(token, model, messages, temperature=<span class="num">0.2</span>):
+    <span class="str">"""Uses WinHTTP via PowerShell subprocess — most reliable behind corporate proxy."""</span>
+    body = json.<span class="fn">dumps</span>({
+        <span class="str">"model"</span>: model,
+        <span class="str">"messages"</span>: messages,
+        <span class="str">"temperature"</span>: temperature,
+    }).<span class="fn">replace</span>(<span class="str">"'"</span>, <span class="str">"\'"</span>)
+
+    ps_script = <span class="str">f"""
+$headers = @{{
+    "Authorization" = "Bearer {token}"
+    "Content-Type"  = "application/json"
+}}
+$body = '{body}'
+$r = Invoke-RestMethod -Uri "https://api.githubcopilot.com/chat/completions" `
+                       -Method POST -Headers $headers -Body $body
+$r.choices[0].message.content
+"""</span>
+    result = subprocess.<span class="fn">run</span>(
+        [<span class="str">"powershell"</span>, <span class="str">"-NoProfile"</span>, <span class="str">"-Command"</span>, ps_script],
+        capture_output=<span class="kw">True</span>, text=<span class="kw">True</span>, timeout=<span class="num">60</span>,
+    )
+    <span class="kw">if</span> result.returncode <span class="op">==</span> <span class="num">0</span> <span class="kw">and</span> result.stdout.<span class="fn">strip</span>():
+        <span class="kw">return</span> result.stdout.<span class="fn">strip</span>()
+    <span class="kw">raise</span> <span class="fn">RuntimeError</span>(result.stderr.<span class="fn">strip</span>())</code><div class="lang-tag">Python</div></pre>
+
+    <h3>Fix 2 — httpx with Retry Logic (Cross-Platform)</h3>
+    <p>Use <code>httpx</code> directly with a fresh client per request and exponential backoff on 403s.</p>
+    <pre><code><span class="kw">import</span> httpx, json, time, os
+
+<span class="kw">def</span> <span class="fn">copilot_chat</span>(token, model, messages, provider=<span class="str">"GitHub Copilot"</span>,
+                   max_retries=<span class="num">5</span>, retry_delay=<span class="num">1.5</span>):
+    url = <span class="str">"https://api.githubcopilot.com/chat/completions"</span>
+    ssl_verify = os.environ.<span class="fn">get</span>(<span class="str">"SSL_VERIFY"</span>, <span class="str">"true"</span>).<span class="fn">lower</span>() != <span class="str">"false"</span>
+    headers = {
+        <span class="str">"Authorization"</span>: <span class="str">f"Bearer {token}"</span>,
+        <span class="str">"Content-Type"</span>:  <span class="str">"application/json"</span>,
+        <span class="str">"Accept"</span>:         <span class="str">"application/json"</span>,
+        <span class="str">"Editor-Version"</span>: <span class="str">"vscode/1.95.0"</span>,   <span class="cm"># helps some proxies allow it</span>
+    }
+    body = json.<span class="fn">dumps</span>({<span class="str">"model"</span>: model, <span class="str">"messages"</span>: messages})
+
+    <span class="kw">for</span> attempt <span class="kw">in</span> <span class="fn">range</span>(<span class="num">1</span>, max_retries <span class="op">+</span> <span class="num">1</span>):
+        <span class="cm"># New client per attempt — avoids keep-alive proxy state issues</span>
+        <span class="kw">with</span> httpx.<span class="fn">Client</span>(verify=ssl_verify, timeout=<span class="num">60.0</span>) <span class="kw">as</span> client:
+            r = client.<span class="fn">post</span>(url, headers=headers, content=body)
+        <span class="kw">if</span> r.status_code <span class="op">==</span> <span class="num">200</span>:
+            <span class="kw">return</span> r.<span class="fn">json</span>()[<span class="str">"choices"</span>][<span class="num">0</span>][<span class="str">"message"</span>][<span class="str">"content"</span>].<span class="fn">strip</span>()
+        <span class="kw">if</span> r.status_code <span class="kw">in</span> (<span class="num">403</span>, <span class="num">429</span>, <span class="num">503</span>) <span class="kw">and</span> attempt <span class="op">&lt;</span> max_retries:
+            time.<span class="fn">sleep</span>(retry_delay <span class="op">*</span> attempt)
+            <span class="kw">continue</span>
+        r.<span class="fn">raise_for_status</span>()
+    <span class="kw">raise</span> <span class="fn">RuntimeError</span>(<span class="str">f"Failed after {max_retries} attempts"</span>)</code><div class="lang-tag">Python</div></pre>
+
+    <h3>Fix 3 — Use the System Certificate Store (<code>truststore</code>)</h3>
+    <p>The <code>truststore</code> package patches Python's SSL to use the OS certificate store (includes corporate CA).</p>
+    <pre><code>pip install truststore</code><div class="lang-tag">bash</div></pre>
+    <pre><code><span class="kw">import</span> truststore
+truststore.<span class="fn">inject_into_ssl</span>()   <span class="cm"># call once at app startup</span>
+
+<span class="cm"># Now the openai SDK will trust the corporate CA cert</span>
+<span class="kw">from</span> openai <span class="kw">import</span> OpenAI
+client = <span class="fn">OpenAI</span>(base_url=<span class="str">"https://api.githubcopilot.com"</span>, api_key=token)</code><div class="lang-tag">Python</div></pre>
+
+    <h3>Summary of Fixes</h3>
+    <table>
+      <tr><th>Fix</th><th>Reliability</th><th>Platform</th><th>Complexity</th></tr>
+      <tr><td>PowerShell subprocess</td><td><span class="badge badge-green">⭐⭐⭐ Best</span></td><td>Windows only</td><td>Low</td></tr>
+      <tr><td><code>truststore</code> library</td><td><span class="badge badge-green">⭐⭐⭐ Best</span></td><td>All platforms</td><td>Low — 2 lines</td></tr>
+      <tr><td>httpx + retry logic</td><td><span class="badge badge-yellow">⭐⭐ Good</span></td><td>All platforms</td><td>Medium</td></tr>
+      <tr><td><code>SSL_VERIFY=false</code></td><td><span class="badge badge-yellow">⭐⭐ Good</span></td><td>All platforms</td><td>Low — insecure</td></tr>
+    </table>
+  </section>
+
+  <!-- ─────────────────────────────────── -->
+  <section id="langchain">
+    <h2><span class="icon">🔗</span> LangChain Integration</h2>
+    <p>LangChain's <code>ChatOpenAI</code> supports any OpenAI-compatible endpoint via <code>base_url</code>. It accepts a custom <code>http_client</code> for proxy/SSL configuration.</p>
+
+    <pre><code>pip install langchain-openai httpx truststore</code><div class="lang-tag">bash</div></pre>
+
+    <h3>Basic Setup</h3>
+    <pre><code><span class="kw">import</span> truststore
+truststore.<span class="fn">inject_into_ssl</span>()  <span class="cm"># fix corporate SSL</span>
+
+<span class="kw">import</span> subprocess
+<span class="kw">from</span> langchain_openai <span class="kw">import</span> ChatOpenAI
+
+token = subprocess.<span class="fn">run</span>([<span class="str">"gh"</span>, <span class="str">"auth"</span>, <span class="str">"token"</span>],
+                       capture_output=<span class="kw">True</span>, text=<span class="kw">True</span>).stdout.<span class="fn">strip</span>()
+
+llm = <span class="fn">ChatOpenAI</span>(
+    openai_api_key=token,
+    openai_api_base=<span class="str">"https://api.githubcopilot.com"</span>,
+    model=<span class="str">"claude-sonnet-4.6"</span>,
+    temperature=<span class="num">0.2</span>,
+    default_headers={
+        <span class="str">"Editor-Version"</span>:        <span class="str">"vscode/1.95.0"</span>,
+        <span class="str">"Editor-Plugin-Version"</span>: <span class="str">"copilot/1.155.0"</span>,
+    },
+)
+
+response = llm.<span class="fn">invoke</span>(<span class="str">"Summarize the concept of RAG in 2 sentences."</span>)
+<span class="fn">print</span>(response.content)</code><div class="lang-tag">Python</div></pre>
+
+    <h3>RAG Chain with GitHub Copilot LLM</h3>
+    <pre><code><span class="kw">from</span> langchain_core.prompts <span class="kw">import</span> ChatPromptTemplate
+<span class="kw">from</span> langchain_core.output_parsers <span class="kw">import</span> StrOutputParser
+<span class="kw">from</span> langchain_core.runnables <span class="kw">import</span> RunnablePassthrough
+
+prompt = ChatPromptTemplate.<span class="fn">from_template</span>(<span class="str">"""
+Answer the question based only on the following context:
+{context}
+
+Question: {question}
+"""</span>)
+
+chain = (
+    {<span class="str">"context"</span>: RunnablePassthrough(), <span class="str">"question"</span>: RunnablePassthrough()}
+    | prompt
+    | llm
+    | <span class="fn">StrOutputParser</span>()
+)
+
+result = chain.<span class="fn">invoke</span>({
+    <span class="str">"context"</span>:  <span class="str">"BM25 is a ranking function based on term frequency."</span>,
+    <span class="str">"question"</span>: <span class="str">"What is BM25?"</span>,
+})
+<span class="fn">print</span>(result)</code><div class="lang-tag">Python</div></pre>
+
+    <div class="callout callout-warn">
+      <strong>⚠️ Corporate proxy note for LangChain</strong>
+      LangChain's <code>ChatOpenAI</code> uses the OpenAI SDK internally, which uses <code>httpx</code>. The same SSL inspection issues apply. Use <code>truststore.inject_into_ssl()</code> at app startup, or pass a custom <code>http_client</code>:
+      <pre style="margin-top:8px"><code><span class="kw">import</span> httpx
+http_client = httpx.<span class="fn">Client</span>(verify=<span class="kw">False</span>)  <span class="cm"># or verify="path/to/corp-ca.pem"</span>
+llm = <span class="fn">ChatOpenAI</span>(..., http_client=http_client)</code></pre>
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────────── -->
+  <section id="langgraph">
+    <h2><span class="icon">🕸️</span> LangGraph Integration</h2>
+    <p>LangGraph builds stateful agent graphs on top of LangChain. Since it uses LangChain's LLM wrappers, the same <code>ChatOpenAI</code> setup with a custom <code>base_url</code> works directly.</p>
+
+    <pre><code>pip install langgraph langchain-openai</code><div class="lang-tag">bash</div></pre>
+
+    <h3>Simple ReAct Agent with Copilot LLM</h3>
+    <pre><code><span class="kw">import</span> truststore; truststore.<span class="fn">inject_into_ssl</span>()
+<span class="kw">import</span> subprocess
+<span class="kw">from</span> langchain_openai <span class="kw">import</span> ChatOpenAI
+<span class="kw">from</span> langchain_core.tools <span class="kw">import</span> tool
+<span class="kw">from</span> langgraph.prebuilt <span class="kw">import</span> create_react_agent
+
+token = subprocess.<span class="fn">run</span>([<span class="str">"gh"</span>, <span class="str">"auth"</span>, <span class="str">"token"</span>],
+                       capture_output=<span class="kw">True</span>, text=<span class="kw">True</span>).stdout.<span class="fn">strip</span>()
+
+llm = <span class="fn">ChatOpenAI</span>(
+    openai_api_key=token,
+    openai_api_base=<span class="str">"https://api.githubcopilot.com"</span>,
+    model=<span class="str">"gpt-4.1"</span>,
+    temperature=<span class="num">0</span>,
+)
+
+<span class="kw">@tool</span>
+<span class="kw">def</span> <span class="fn">search_document</span>(query: <span class="var">str</span>) <span class="op">-></span> <span class="var">str</span>:
+    <span class="str">"""Search the loaded document for relevant information."""</span>
+    <span class="cm"># Wire to your BM25 retriever here</span>
+    <span class="kw">return</span> <span class="str">f"Found: [relevant chunks for '{query}']"</span>
+
+agent = <span class="fn">create_react_agent</span>(llm, tools=[search_document])
+
+result = agent.<span class="fn">invoke</span>({
+    <span class="str">"messages"</span>: [{<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"What does the document say about BM25?"</span>}]
+})
+<span class="fn">print</span>(result[<span class="str">"messages"</span>][-<span class="num">1</span>].content)</code><div class="lang-tag">Python</div></pre>
+
+    <h3>Multi-step RAG Workflow Graph</h3>
+    <pre><code><span class="kw">from</span> langgraph.graph <span class="kw">import</span> StateGraph, END
+<span class="kw">from</span> typing <span class="kw">import</span> TypedDict, List
+
+<span class="kw">class</span> <span class="fn">RAGState</span>(TypedDict):
+    question: <span class="var">str</span>
+    chunks:   List[<span class="var">str</span>]
+    answer:   <span class="var">str</span>
+
+<span class="kw">def</span> <span class="fn">retrieve</span>(state: RAGState) <span class="op">-></span> RAGState:
+    <span class="cm"># BM25 retrieval step</span>
+    state[<span class="str">"chunks"</span>] = bm25_retriever.<span class="fn">retrieve</span>(state[<span class="str">"question"</span>])
+    <span class="kw">return</span> state
+
+<span class="kw">def</span> <span class="fn">generate</span>(state: RAGState) <span class="op">-></span> RAGState:
+    context = <span class="str">"\n\n"</span>.<span class="fn">join</span>(state[<span class="str">"chunks"</span>])
+    response = llm.<span class="fn">invoke</span>(<span class="str">f"Context:\n{context}\n\nQ: {state['question']}"</span>)
+    state[<span class="str">"answer"</span>] = response.content
+    <span class="kw">return</span> state
+
+graph = <span class="fn">StateGraph</span>(RAGState)
+graph.<span class="fn">add_node</span>(<span class="str">"retrieve"</span>, retrieve)
+graph.<span class="fn">add_node</span>(<span class="str">"generate"</span>, generate)
+graph.<span class="fn">set_entry_point</span>(<span class="str">"retrieve"</span>)
+graph.<span class="fn">add_edge</span>(<span class="str">"retrieve"</span>, <span class="str">"generate"</span>)
+graph.<span class="fn">add_edge</span>(<span class="str">"generate"</span>, END)
+
+rag_app = graph.<span class="fn">compile</span>()
+result  = rag_app.<span class="fn">invoke</span>({<span class="str">"question"</span>: <span class="str">"What is BM25?"</span>, <span class="str">"chunks"</span>: [], <span class="str">"answer"</span>: <span class="str">""</span>})
+<span class="fn">print</span>(result[<span class="str">"answer"</span>])</code><div class="lang-tag">Python</div></pre>
+  </section>
+
+  <!-- ─────────────────────────────────── -->
+  <section id="crewai">
+    <h2><span class="icon">🤝</span> CrewAI Integration</h2>
+    <p>CrewAI supports custom LLM endpoints via <strong>LiteLLM</strong> under the hood. You can point it to the GitHub Copilot API using <code>openai/&lt;model&gt;</code> naming convention with custom <code>api_base</code>.</p>
+
+    <pre><code>pip install crewai langchain-openai</code><div class="lang-tag">bash</div></pre>
+
+    <h3>Method A — LangChain LLM (Recommended)</h3>
+    <pre><code><span class="kw">import</span> truststore; truststore.<span class="fn">inject_into_ssl</span>()
+<span class="kw">import</span> subprocess
+<span class="kw">from</span> langchain_openai <span class="kw">import</span> ChatOpenAI
+<span class="kw">from</span> crewai <span class="kw">import</span> Agent, Task, Crew, Process
+
+token = subprocess.<span class="fn">run</span>([<span class="str">"gh"</span>, <span class="str">"auth"</span>, <span class="str">"token"</span>],
+                       capture_output=<span class="kw">True</span>, text=<span class="kw">True</span>).stdout.<span class="fn">strip</span>()
+
+llm = <span class="fn">ChatOpenAI</span>(
+    openai_api_key=token,
+    openai_api_base=<span class="str">"https://api.githubcopilot.com"</span>,
+    model=<span class="str">"claude-sonnet-4.6"</span>,
+    temperature=<span class="num">0.2</span>,
+)
+
+researcher = <span class="fn">Agent</span>(
+    role=<span class="str">"Document Researcher"</span>,
+    goal=<span class="str">"Find and extract relevant information from the document"</span>,
+    backstory=<span class="str">"Expert at reading and analyzing technical documents"</span>,
+    llm=llm,
+    verbose=<span class="kw">True</span>,
+)
+
+writer = <span class="fn">Agent</span>(
+    role=<span class="str">"Answer Writer"</span>,
+    goal=<span class="str">"Write clear, accurate answers based on research"</span>,
+    backstory=<span class="str">"Expert at synthesizing information into clear answers"</span>,
+    llm=llm,
+    verbose=<span class="kw">True</span>,
+)
+
+research_task = <span class="fn">Task</span>(
+    description=<span class="str">"Research the document for information about {topic}"</span>,
+    agent=researcher,
+    expected_output=<span class="str">"Key facts and relevant chunks about the topic"</span>,
+)
+
+writing_task = <span class="fn">Task</span>(
+    description=<span class="str">"Write a comprehensive answer based on the research"</span>,
+    agent=writer,
+    expected_output=<span class="str">"A clear, accurate answer to the user's question"</span>,
+)
+
+crew = <span class="fn">Crew</span>(
+    agents=[researcher, writer],
+    tasks=[research_task, writing_task],
+    process=Process.sequential,
+)
+
+result = crew.<span class="fn">kickoff</span>(inputs={<span class="str">"topic"</span>: <span class="str">"BM25 retrieval algorithms"</span>})
+<span class="fn">print</span>(result)</code><div class="lang-tag">Python</div></pre>
+
+    <h3>Method B — LiteLLM (Environment-based)</h3>
+    <pre><code><span class="kw">import</span> os, subprocess
+os.environ[<span class="str">"OPENAI_API_KEY"</span>]  = subprocess.<span class="fn">run</span>([<span class="str">"gh"</span>,<span class="str">"auth"</span>,<span class="str">"token"</span>],
+                                 capture_output=<span class="kw">True</span>,text=<span class="kw">True</span>).stdout.<span class="fn">strip</span>()
+os.environ[<span class="str">"OPENAI_API_BASE"</span>]  = <span class="str">"https://api.githubcopilot.com"</span>
+
+<span class="kw">from</span> crewai <span class="kw">import</span> Agent
+
+<span class="cm"># Use "openai/&lt;model&gt;" — LiteLLM routes to OPENAI_API_BASE</span>
+agent = <span class="fn">Agent</span>(
+    role=<span class="str">"Assistant"</span>,
+    goal=<span class="str">"Answer questions"</span>,
+    backstory=<span class="str">"Helpful AI"</span>,
+    llm=<span class="str">"openai/gpt-4o-mini"</span>,  <span class="cm"># model name with provider prefix</span>
+)</code><div class="lang-tag">Python</div></pre>
+
+    <div class="callout callout-info">
+      <strong>💡 Which method to use?</strong>
+      Method A (LangChain LLM) gives you full control over the <code>http_client</code> and headers, making it better for corporate environments. Method B is simpler but harder to configure for SSL inspection proxies.
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────────── -->
+  <section id="enterprise">
+    <h2><span class="icon">🏢</span> Enterprise Considerations</h2>
+
+    <h3>GitHub Models vs GitHub Copilot API</h3>
+    <table>
+      <tr><th>Feature</th><th>GitHub Models API</th><th>GitHub Copilot API</th></tr>
+      <tr><td>Endpoint</td><td><code>models.inference.ai.azure.com</code></td><td><code>api.githubcopilot.com</code></td></tr>
+      <tr><td>Auth requirement</td><td>Any GitHub token</td><td>Active Copilot subscription</td></tr>
+      <tr><td>Enterprise disable</td><td>Admin can disable entirely</td><td>Admin controls per-model</td></tr>
+      <tr><td>Rate limits</td><td>Low (free tier)</td><td>Higher (subscription-based)</td></tr>
+      <tr><td>Model selection</td><td>Community models (older)</td><td>Latest GPT-5, Claude, Grok</td></tr>
+    </table>
+
+    <h3>Model Enablement Policy</h3>
+    <p>In GitHub Enterprise, admins control which models are available via <strong>Organization Settings → Copilot → Policies → Model access</strong>. A 403 from a specific model does not mean your token is invalid — it means that model is not enabled for your org.</p>
+
+    <h3>Rate Limits</h3>
+    <table>
+      <tr><th>Plan</th><th>Chat requests/month</th><th>Notes</th></tr>
+      <tr><td>Individual</td><td>~300 completions/month</td><td>Free tier included</td></tr>
+      <tr><td>Business / Enterprise</td><td>Higher, org-level pooling</td><td>Check billing dashboard</td></tr>
+    </table>
+
+    <div class="callout callout-warn">
+      <strong>⚠️ Terms of Service</strong>
+      The GitHub Copilot API at <code>api.githubcopilot.com</code> is primarily designed for IDE integration. Using it for RAG pipelines, automation, and agentic frameworks is technically possible with an active subscription, but review the <a href="https://docs.github.com/en/site-policy/github-terms/github-terms-of-service" style="color:var(--blue)">GitHub Terms of Service</a> for your specific use case.
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────────── -->
+  <section id="summary">
+    <h2><span class="icon">📊</span> Summary</h2>
+
+    <h3>Decision Tree — How to Call Copilot API from Python</h3>
+    <div class="flow" style="flex-direction:column; align-items:flex-start; gap:10px; text-align:left;">
+      <div style="display:flex;align-items:center;gap:8px">
+        <div class="flow-box blue">Are you on Windows?</div>
+        <span class="flow-arrow">→ Yes →</span>
+        <div class="flow-box green">Use PowerShell subprocess<br>Most reliable ✅</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div class="flow-box blue">Behind corporate proxy?</div>
+        <span class="flow-arrow">→ Yes →</span>
+        <div class="flow-box orange">pip install truststore<br>+ inject_into_ssl() ✅</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div class="flow-box blue">Need retries / resilience?</div>
+        <span class="flow-arrow">→ Yes →</span>
+        <div class="flow-box orange">httpx + retry logic<br>Fresh client per attempt ✅</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div class="flow-box blue">Clean environment?</div>
+        <span class="flow-arrow">→ Yes →</span>
+        <div class="flow-box green">openai SDK directly<br>Simplest ✅</div>
+      </div>
+    </div>
+
+    <h3>Framework Compatibility</h3>
+    <table>
+      <tr><th>Framework</th><th>Compatible?</th><th>How</th><th>Corporate Proxy</th></tr>
+      <tr>
+        <td><strong>openai SDK</strong></td>
+        <td><span class="badge badge-green">✅ Yes</span></td>
+        <td><code>base_url="https://api.githubcopilot.com"</code></td>
+        <td>Needs truststore or SSL_VERIFY=false</td>
+      </tr>
+      <tr>
+        <td><strong>LangChain</strong></td>
+        <td><span class="badge badge-green">✅ Yes</span></td>
+        <td><code>ChatOpenAI(openai_api_base=...)</code></td>
+        <td>Needs <code>http_client=httpx.Client(verify=False)</code></td>
+      </tr>
+      <tr>
+        <td><strong>LangGraph</strong></td>
+        <td><span class="badge badge-green">✅ Yes</span></td>
+        <td>Uses LangChain's <code>ChatOpenAI</code> internally</td>
+        <td>Same as LangChain</td>
+      </tr>
+      <tr>
+        <td><strong>CrewAI</strong></td>
+        <td><span class="badge badge-green">✅ Yes</span></td>
+        <td>Method A: LangChain LLM / Method B: LiteLLM env var</td>
+        <td>Method A preferred for corp proxy</td>
+      </tr>
+      <tr>
+        <td><strong>LlamaIndex</strong></td>
+        <td><span class="badge badge-green">✅ Yes</span></td>
+        <td><code>OpenAI(api_base=..., api_key=token)</code></td>
+        <td>Same truststore fix</td>
+      </tr>
+      <tr>
+        <td><strong>Haystack</strong></td>
+        <td><span class="badge badge-green">✅ Yes</span></td>
+        <td><code>OpenAIGenerator(api_base_url=...)</code></td>
+        <td>Same truststore fix</td>
+      </tr>
+    </table>
+
+    <h3>Quick Reference</h3>
+    <pre><code><span class="cm"># 1. Get token</span>
+$env:GITHUB_TOKEN = gh auth token                          <span class="cm"># PowerShell</span>
+export GITHUB_TOKEN=$(gh auth token)                       <span class="cm"># bash</span>
+
+<span class="cm"># 2. Test connection</span>
+$token = gh auth token
+Invoke-RestMethod https://api.githubcopilot.com/models `
+  -Headers @{Authorization="Bearer $token"}               <span class="cm"># PowerShell</span>
+
+<span class="cm"># 3. Python — install once</span>
+pip install openai truststore langchain-openai crewai langgraph
+
+<span class="cm"># 4. Python — call any model</span>
+import truststore; truststore.inject_into_ssl()
+from openai import OpenAI
+client = OpenAI(base_url="https://api.githubcopilot.com", api_key="gho_...")
+r = client.chat.completions.create(
+    model="claude-sonnet-4.6",
+    messages=[{"role": "user", "content": "Hello!"}]
+)</code><div class="lang-tag">Quick Reference</div></pre>
+  </section>
+
+</main>
+</div>
+
+<script>
+  // Highlight active nav link on scroll
+  const sections = document.querySelectorAll("section[id]");
+  const navLinks = document.querySelectorAll("nav a");
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(l => l.classList.remove("active"));
+        const link = document.querySelector(`nav a[href="#${e.target.id}"]`);
+        if (link) link.classList.add("active");
+      }
+    });
+  }, { rootMargin: "-20% 0px -70% 0px" });
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

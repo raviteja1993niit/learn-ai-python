@@ -1,0 +1,54 @@
+{
+  "meta": {
+    "topic_slug": "agentic-ai-2026",
+    "transcript_path": "materials\\transcripts\\transcript.txt",
+    "total_chars": 60400,
+    "total_sentences": 579,
+    "generated_at": "2026-04-28T21:03:35Z"
+  },
+  "style_fingerprint": {
+    "vocabulary_register": "casual-practitioner",
+    "analogy_count": 21.0,
+    "caveat_count": 0.0,
+    "sample_analogies": [
+      "One of the ways that we can pass the data into the model is by adding them to the conversation history functions like a short-term memory where during the duration of the conversation, all of this context is kept in memory.",
+      "For example, if I asked you to memorize the pi digits 3.141592653589791 and asked you to recite it, some of you might have a hard time committing that many numbers all at once, which is similar to how LLM's context window works.",
+      "And now what seemed like a simple project becomes a massive undertaking.",
+      "For TechCorp's customer support scenario, imagine a customer asks, \"What's your company's policy on refunding my product that arrived damaged?\" An agent will self-determine how it should answer that request based autonomously instead of traditional software that requires conditional statement that determines how a program should execute.",
+      "The API key works like a password that identifies us and grants access, while the base URL defines the server location where requests are sent."
+    ],
+    "sample_caveats": [],
+    "structural_cues": [
+      "let's start",
+      "moving on",
+      "next",
+      "finally",
+      "the last",
+      "to summarize",
+      "in summary",
+      "at this point"
+    ]
+  },
+  "topic_map": {
+    "detected_topics": [
+      {
+        "topic": "Practice Labs",
+        "mentions": 6
+      },
+      {
+        "topic": "Tech Corp",
+        "mentions": 6
+      },
+      {
+        "topic": "Tech Corps",
+        "mentions": 2
+      }
+    ],
+    "section_markers": [
+      "How much context can it hold in a given time?",
+      "How many apples do they all have?",
+      "What's our remote work policy for international employees?",
+      "However, lang chain has limitations."
+    ]
+  }
+}

@@ -1,0 +1,63 @@
+analyse the nested fields and methods of TransactionRequest and TransactionResponse classes in the following files, once we extract the entries then we need to create a shell script to find the usages of these nested fields and methods in the acqelavons2aservice codebase, excluding test files. The files to analyze are:
+
+C:\Users\e135408\IdeaProjects\MPGS\SourceCode\libmpgs-megajson-model\target\generated-sources\sdkgen\com\mastercard\gateway\acquiring\megajson\TransactionResponse.java
+C:\Users\e135408\IdeaProjects\MPGS\SourceCode\libmpgs-megajson-model\target\generated-sources\sdkgen\com\mastercard\gateway\acquiring\megajson\TransactionRequest.java
+
+ below shell command to check both transaction(). and also their nested classes usages
+grep -r --include="*.java" "transaction()." /c/Users/e135408/IdeaProjects/MODERNIZATION/acqelavons2aservice/ | grep -v "/src/test/" | grep -E '\.transaction\(\)\.[a-zA-Z0-9_]+\(' > TransactionRequest_Transaction_Usages_SkipTests.txt
+grep -r --include="*.java" "merchantContext()." /c/Users/e135408/IdeaProjects/MODERNIZATION/acqelavons2aservice/ | grep -v "/src/test/" | grep -E '\.merchantContext\(\)\.[a-zA-Z0-9_]+\(' > TransactionRequest_MerchantContext_Usages_SkipTests.txt
+grep -r --include="*.java" "routingHeader()." /c/Users/e135408/IdeaProjects/MODERNIZATION/acqelavons2aservice/ | grep -v "/src/test/" | grep -E '\.routingHeader\(\)\.[a-zA-Z0-9_]+\(' > TransactionRequest_RoutingHeader_Usages_SkipTests.txt
+egrep -r --include="*.java" "(Transaction::|transaction\(\)\.|AgreementData::|agreementData\(\)\.|Airline::|airline\(\)\.|AssociatedTransaction::|associatedTransaction\(\)\.|BillingAddress::|billingAddress\(\)\.|CSC::|csc\(\)\.|Cruise::|cruise\(\)\.|EMVTrack2::|eMVTrack2\(\)\.|EmvRequest::|emvRequest\(\)\.|InvoiceData::|invoiceData\(\)\.|LineItems::|lineItems\(\)\.|MobileWallet::|mobileWallet\(\)\.|OrderCustomFields::|orderCustomFields\(\)\.|PAN::|pan\(\)\.|PlaceHolder::|placeHolder\(\)\.|PosTerminalAddress::|posTerminalAddress\(\)\.|RelatedTransaction::|relatedTransaction\(\)\.|ShippingAddress::|shippingAddress\(\)\.|Taxes::|taxes\(\)\.|TransactionsForThisOrder::|transactionsForThisOrder\(\)\.|Transit::|transit\(\)\.)" /c/Users/e135408/IdeaProjects/MODERNIZATION/acqelavons2aservice/ | grep -v "/src/test/" | cut -d: -f2- > TransactionRequest_AllInnerClass_Usages.txt
+egrep -r --include="*.java" "(MerchantContext::|merchantContext\(\)\.|MerchantAcquirerRelationship::|merchantAcquirerRelationship\(\)\.|MerchantAcquirerCustomFields::|merchantAcquirerCustomFields\(\)\.|Acquirer::|acquirer\(\)\.|AcquirerCustomFields::|acquirerCustomFields\(\)\.|Merchant::|merchant\(\)\.|SubMerchant::|subMerchant\(\)\.|SupportedEMV3DSSchemes|supportedEMV3DSSchemes\(\))" /c/Users/e135408/IdeaProjects/MODERNIZATION/acqelavons2aservice/ | grep -v "/src/test/" | cut -d: -f2- > TransactionRequest_MerchantContext_Usages_SkipTests.txt
+egrep -r --include="*.java" "(Transaction::|transaction\(\)\.|AgreementData::|agreementData\(\)\.|Airline::|airline\(\)\.|AssociatedTransaction::|associatedTransaction\(\)\.|BillingAddress::|billingAddress\(\)\.|CSC::|csc\(\)\.|Cruise::|cruise\(\)\.|EMVTrack2::|eMVTrack2\(\)\.|EmvRequest::|emvRequest\(\)\.|InvoiceData::|invoiceData\(\)\.|LineItems::|lineItems\(\)\.|MobileWallet::|mobileWallet\(\)\.|OrderCustomFields::|orderCustomFields\(\)\.|PAN::|pan\(\)\.|PlaceHolder::|placeHolder\(\)\.|PosTerminalAddress::|posTerminalAddress\(\)\.|RelatedTransaction::|relatedTransaction\(\)\.|ShippingAddress::|shippingAddress\(\)\.|Taxes::|taxes\(\)\.|TransactionsForThisOrder::|transactionsForThisOrder\(\)\.|Transit::|transit\(\)\.)" /c/Users/e135408/IdeaProjects/MODERNIZATION/acqelavons2aservice/ | grep -v "/src/test/" > TransactionRequest_AllInnerClass_Usages.txt
+egrep -r --include="*.java" "(MerchantContext::|merchantContext\(\)\.|MerchantAcquirerRelationship::|merchantAcquirerRelationship\(\)\.|MerchantAcquirerCustomFields::|merchantAcquirerCustomFields\(\)\.|Acquirer::|acquirer\(\)\.|AcquirerCustomFields::|acquirerCustomFields\(\)\.|Merchant::|merchant\(\)\.|SubMerchant::|subMerchant\(\)\.|SupportedEMV3DSSchemes|supportedEMV3DSSchemes\(\))" /c/Users/e135408/IdeaProjects/MODERNIZATION/acqelavons2aservice/ | grep -v "/src/test/" > TransactionRequest_MerchantContext_Usages_SkipTests.txt
+grep -r --include="*.java" "routingHeader()." /c/Users/e135408/IdeaProjects/MODERNIZATION/acqelavons2aservice/ | grep -v "/src/test/" | grep -E '\.routingHeader\(\)\.[a-zA-Z0-9_]+\(' > TransactionRequest_RoutingHeader_Usages_SkipTests.txt
+egrep -r --include="*.java" "(Transaction::|transaction\(\)\.|transaction\.|AgreementData::|agreementData\(\)\.|agreementData\.|Airline::|airline\(\)\.|airline\.|AssociatedTransaction::|associatedTransaction\(\)\.|associatedTransaction\.|BillingAddress::|billingAddress\(\)\.|billingAddress\.|CSC::|csc\(\)\.|csc\.|Cruise::|cruise\(\)\.|cruise\.|EMVTrack2::|eMVTrack2\(\)\.|eMVTrack2\.|EmvRequest::|emvRequest\(\)\.|emvRequest\.|InvoiceData::|invoiceData\(\)\.|invoiceData\.|LineItems::|lineItems\(\)\.|lineItems\.|MobileWallet::|mobileWallet\(\)\.|mobileWallet\.|OrderCustomFields::|orderCustomFields\(\)\.|orderCustomFields\.|PAN::|pan\(\)\.|pan\.|PlaceHolder::|placeHolder\(\)\.|placeHolder\.|PosTerminalAddress::|posTerminalAddress\(\)\.|posTerminalAddress\.|RelatedTransaction::|relatedTransaction\(\)\.|relatedTransaction\.|ShippingAddress::|shippingAddress\(\)\.|shippingAddress\.|Taxes::|taxes\(\)\.|taxes\.|TransactionsForThisOrder::|transactionsForThisOrder\(\)\.|transactionsForThisOrder\.|Transit::|transit\(\)\.|transit\.)" /c/Users/e135408/IdeaProjects/MODERNIZATION/acqelavons2aservice/ | grep -v "/src/test/" > TransactionRequest_AllInnerClass_Usages.txt
+egrep -r --include="*.java" "(MerchantContext::|merchantContext\(\)\.|merchantContext\.|MerchantAcquirerRelationship::|merchantAcquirerRelationship\(\)\.|merchantAcquirerRelationship\.|MerchantAcquirerCustomFields::|merchantAcquirerCustomFields\(\)\.|merchantAcquirerCustomFields\.|Acquirer::|acquirer\(\)\.|acquirer\.|AcquirerCustomFields::|acquirerCustomFields\(\)\.|acquirerCustomFields\.|Merchant::|merchant\(\)\.|merchant\.|SubMerchant::|subMerchant\(\)\.|subMerchant\.|SupportedEMV3DSSchemes|supportedEMV3DSSchemes\(\))" /c/Users/e135408/IdeaProjects/MODERNIZATION/acqelavons2aservice/ | grep -v "/src/test/" > TransactionRequest_MerchantContext_Usages_SkipTests.txt
+egrep -r --include="*.java" "(TransactionResponse::|transactionResponse\(\)\.|transactionResponse\.|AcquirerAdditionalResponseData::|acquirerAdditionalResponseData\(\)\.|acquirerAdditionalResponseData\.|AcquirerSpecificResponseFields::|acquirerSpecificResponseFields\(\)\.|acquirerSpecificResponseFields\.|EBTBalances::|eBTBalances\(\)\.|eBTBalances\.|EmvResponse::|emvResponse\(\)\.|emvResponse\.|OrderCustomFields::|orderCustomFields\(\)\.|orderCustomFields\.|PreMapped::|preMapped\(\)\.|preMapped\.)" /c/Users/e135408/IdeaProjects/MODERNIZATION/acqelavons2aservice/ | grep -v "/src/test/" > TransactionResponse_AllInnerClass_Usages.txt
+grep -r --include="*.java" "routingHeader()." /c/Users/e135408/IdeaProjects/MPGS/SourceCode/libmpgs-megajson-model/ | grep -v "/src/test/" | grep -E '\.routingHeader\(\)\.[a-zA-Z0-9_]+\(' > TransactionRequest_RoutingHeaderLib_Usages_SkipTests.txt
+egrep -r --include="*.java" "(Transaction::|transaction\(\)\.|transaction\.|AgreementData::|agreementData\(\)\.|agreementData\.|Airline::|airline\(\)\.|airline\.|AssociatedTransaction::|associatedTransaction\(\)\.|associatedTransaction\.|BillingAddress::|billingAddress\(\)\.|billingAddress\.|CSC::|csc\(\)\.|csc\.|Cruise::|cruise\(\)\.|cruise\.|EMVTrack2::|eMVTrack2\(\)\.|eMVTrack2\.|EmvRequest::|emvRequest\(\)\.|emvRequest\.|InvoiceData::|invoiceData\(\)\.|invoiceData\.|LineItems::|lineItems\(\)\.|lineItems\.|MobileWallet::|mobileWallet\(\)\.|mobileWallet\.|OrderCustomFields::|orderCustomFields\(\)\.|orderCustomFields\.|PAN::|pan\(\)\.|pan\.|PlaceHolder::|placeHolder\(\)\.|placeHolder\.|PosTerminalAddress::|posTerminalAddress\(\)\.|posTerminalAddress\.|RelatedTransaction::|relatedTransaction\(\)\.|relatedTransaction\.|ShippingAddress::|shippingAddress\(\)\.|shippingAddress\.|Taxes::|taxes\(\)\.|taxes\.|TransactionsForThisOrder::|transactionsForThisOrder\(\)\.|transactionsForThisOrder\.|Transit::|transit\(\)\.|transit\.)" /c/Users/e135408/IdeaProjects/MPGS/SourceCode/libmpgs-megajson-model/ | grep -v "/src/test/" > TransactionRequest_AllInnerClassLib_Usages.txt
+egrep -r --include="*.java" "(MerchantContext::|merchantContext\(\)\.|merchantContext\.|MerchantAcquirerRelationship::|merchantAcquirerRelationship\(\)\.|merchantAcquirerRelationship\.|MerchantAcquirerCustomFields::|merchantAcquirerCustomFields\(\)\.|merchantAcquirerCustomFields\.|Acquirer::|acquirer\(\)\.|acquirer\.|AcquirerCustomFields::|acquirerCustomFields\(\)\.|acquirerCustomFields\.|Merchant::|merchant\(\)\.|merchant\.|SubMerchant::|subMerchant\(\)\.|subMerchant\.|SupportedEMV3DSSchemes|supportedEMV3DSSchemes\(\))" /c/Users/e135408/IdeaProjects/MPGS/SourceCode/libmpgs-megajson-model/ | grep -v "/src/test/" > TransactionRequest_MerchantContextLib_Usages_SkipTests.txt
+egrep -r --include="*.java" "(TransactionResponse::|transactionResponse\(\)\.|transactionResponse\.|AcquirerAdditionalResponseData::|acquirerAdditionalResponseData\(\)\.|acquirerAdditionalResponseData\.|AcquirerSpecificResponseFields::|acquirerSpecificResponseFields\(\)\.|acquirerSpecificResponseFields\.|EBTBalances::|eBTBalances\(\)\.|eBTBalances\.|EmvResponse::|emvResponse\(\)\.|emvResponse\.|OrderCustomFields::|orderCustomFields\(\)\.|orderCustomFields\.|PreMapped::|preMapped\(\)\.|preMapped\.)" /c/Users/e135408/IdeaProjects/MPGS/SourceCode/libmpgs-megajson-model/ | grep -v "/src/test/" > TransactionResponse_AllInnerClassLib_Usages.txt
+
+dot notation for method calls and field accesses:
+TransactionResponse:: or transactionResponse(). or transactionResponse.
+AcquirerAdditionalResponseData:: or acquirerAdditionalResponseData(). or acquirerAdditionalResponseData.
+AcquirerSpecificResponseFields:: or acquirerSpecificResponseFields(). or acquirerSpecificResponseFields.
+EBTBalances:: or eBTBalances(). or eBTBalances.
+EmvResponse:: or emvResponse(). or emvResponse.
+OrderCustomFields:: or orderCustomFields(). or orderCustomFields.
+PreMapped:: or preMapped(). or preMapped.
+supportedEMV3DSSchemes(
+Transaction:: or transaction(). or transaction.
+AgreementData:: or agreementData(). or agreementData.
+Airline:: or airline(). or airline.
+AssociatedTransaction:: or associatedTransaction(). or associatedTransaction.
+BillingAddress:: or billingAddress(). or billingAddress.
+CSC:: or csc(). or csc.
+Cruise:: or cruise(). or cruise.
+EMVTrack2:: or eMVTrack2(). or eMVTrack2.
+EmvRequest:: or emvRequest(). or emvRequest.
+InvoiceData:: or invoiceData(). or invoiceData.
+LineItems:: or lineItems(). or lineItems.
+MobileWallet:: or mobileWallet(). or mobileWallet.
+OrderCustomFields:: or orderCustomFields(). or orderCustomFields.
+PAN:: or pan(). or pan.
+PlaceHolder:: or placeHolder(). or placeHolder.
+PosTerminalAddress:: or posTerminalAddress(). or posTerminalAddress.
+RelatedTransaction:: or relatedTransaction(). or relatedTransaction.
+ShippingAddress:: or shippingAddress(). or shippingAddress.
+Taxes:: or taxes(). or taxes.
+TransactionsForThisOrder:: or transactionsForThisOrder(). or transactionsForThisOrder.
+Transit:: or transit(). or transit.
+MerchantContext:: or merchantContext(). or merchantContext.
+MerchantAcquirerRelationship:: or merchantAcquirerRelationship(). or merchantAcquirerRelationship.
+MerchantAcquirerCustomFields:: or merchantAcquirerCustomFields(). or merchantAcquirerCustomFields.
+Acquirer:: or acquirer(). or acquirer.
+AcquirerCustomFields:: or acquirerCustomFields(). or acquirerCustomFields.
+Merchant:: or merchant(). or merchant.
+SubMerchant:: or subMerchant(). or subMerchant.
+
+once we analyse the usage we need to create a lookup csv file which will contain the Field name (full dot notation), classname, lineno. acquirer repo name. this script more generic which can run all various repo, so check and update the script to cover all possible field usages.
+
+and create the final script under C:\Users\e135408\Downloads\personal-work\learn-ai\utilities\usecases\tspi-fields-usage\scripts

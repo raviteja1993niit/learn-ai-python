@@ -1,0 +1,24 @@
+{
+  "meta": {
+    "topic_slug": "building-agentic-ai",
+    "guide_path": "materials\\output\\building-agentic-ai-guide.md",
+    "validated_at": "2026-04-28T20:54:00Z",
+    "overall": "PASS"
+  },
+  "completeness": {
+    "passed": true,
+    "missing_sections": [],
+    "placeholders_found": []
+  },
+  "voice": {
+    "passed": true,
+    "quote_count": 14
+  },
+  "formatting": {
+    "passed": true,
+    "h1": 1,
+    "h2": 9,
+    "h3": 20,
+    "issues": []
+  }
+}

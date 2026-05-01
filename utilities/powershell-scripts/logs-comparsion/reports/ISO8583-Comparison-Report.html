@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ISO 8583 Comparison — Target vs Modernization</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; margin: 0; padding: 0; color: #222; }
+  header { background: #003366; color: #fff; padding: 18px 32px; }
+  header h1 { margin: 0; font-size: 1.5rem; }
+  header p  { margin: 4px 0 0; font-size: .85rem; opacity: .8; }
+  nav { background: #004080; padding: 10px 32px; }
+  nav a { color: #a8d4ff; text-decoration: none; font-size: .9rem; margin-right: 12px; }
+  nav a:hover { color: #fff; }
+
+  .summary-bar { display: flex; gap: 16px; padding: 18px 32px; background: #fff; border-bottom: 1px solid #dde; flex-wrap: wrap; align-items: center; }
+  .summary-bar h3 { margin: 0 8px 0 0; font-size: 1rem; color: #555; }
+  .sum-chip { padding: 5px 14px; border-radius: 20px; font-weight: 600; font-size: .85rem; }
+  .sum-match   { background:#d4edda; color:#155724; }
+  .sum-diff    { background:#fff3cd; color:#856404; }
+  .sum-missing { background:#f8d7da; color:#721c24; }
+  .sum-extra   { background:#d1ecf1; color:#0c5460; }
+
+  main { padding: 24px 32px; }
+
+  section { background: #fff; border-radius: 8px; box-shadow: 0 1px 4px rgba(0,0,0,.1); margin-bottom: 32px; overflow: hidden; }
+  section h2 { margin: 0; padding: 16px 20px; background: #003366; color: #fff; font-size: 1.1rem; letter-spacing: .04em; }
+
+  .mti-bar { display: flex; align-items: center; gap: 12px; padding: 10px 20px; font-size: .9rem; flex-wrap: wrap; }
+  .mti-match  { background: #e8f5e9; border-left: 4px solid #4caf50; }
+  .mti-diff   { background: #fff3e0; border-left: 4px solid #ff9800; }
+  .mti-warn   { font-weight: 700; color: #e65100; margin-left: auto; }
+  .sep { color: #aaa; }
+
+  .stats { display: flex; gap: 0; border-bottom: 1px solid #eee; }
+  .stat { flex: 1; text-align: center; padding: 14px 8px; border-right: 1px solid #eee; }
+  .stat:last-child { border-right: none; }
+  .snum { font-size: 1.7rem; font-weight: 700; line-height: 1; }
+  .slbl { font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; color: #777; margin-top: 4px; }
+  .s-match   .snum { color: #28a745; }
+  .s-diff    .snum { color: #ffc107; }
+  .s-missing .snum { color: #dc3545; }
+  .s-extra   .snum { color: #17a2b8; }
+
+  table { width: 100%; border-collapse: collapse; font-size: .82rem; }
+  thead tr { background: #f8f9fa; }
+  th { padding: 10px 14px; text-align: left; font-weight: 600; border-bottom: 2px solid #dee2e6; white-space: nowrap; }
+  td { padding: 7px 14px; border-bottom: 1px solid #f0f0f0; vertical-align: top; word-break: break-all; }
+  tr:hover td { background: #fafafa; }
+  .fp { font-family: 'Consolas','Courier New',monospace; font-size: .8rem; color: #333; min-width: 260px; }
+  .tv, .mv { font-family: 'Consolas','Courier New',monospace; font-size: .8rem; min-width: 160px; }
+
+  .row-match   td { }
+  .row-diff    td { background: #fffde7; }
+  .row-missing td { background: #fff5f5; }
+  .row-extra   td { background: #f0faff; }
+
+  .badge { display: inline-block; padding: 2px 9px; border-radius: 12px; font-size: .72rem; font-weight: 700; white-space: nowrap; }
+  .match   { background:#d4edda; color:#155724; }
+  .diff    { background:#fff3cd; color:#856404; }
+  .missing { background:#f8d7da; color:#721c24; }
+  .extra   { background:#d1ecf1; color:#0c5460; }
+
+  footer { text-align: center; padding: 16px; font-size: .78rem; color: #999; }
+</style>
+</head>
+<body>
+<header>
+  <h1>ISO 8583 Request Comparison — Target vs Modernization</h1>
+  <p>Generated: 2026-04-16 13:24:13 &nbsp;|&nbsp; Source: target-modernization-logs.txt</p>
+</header>
+<nav><a href='#AUTHORIZATION'>AUTHORIZATION</a> | <a href='#VOID_AUTHORIZATION'>VOID_AUTHORIZATION</a> | <a href='#VERIFICATION'>VERIFICATION</a></nav>
+
+<div class="summary-bar">
+  <h3>Overall Totals:</h3>
+  <span class="sum-chip sum-match">&#10003; Match: 55</span>
+  <span class="sum-chip sum-diff">&#9432; Value Diff: 38</span>
+  <span class="sum-chip sum-missing">&#10007; Missing in Mod: 11</span>
+  <span class="sum-chip sum-extra">&#43; Extra in Mod: 6</span>
+</div>
+
+<main>
+<section id="AUTHORIZATION">
+  <h2>AUTHORIZATION</h2>
+  <div class="mti-bar mti-diff">
+    <span>Target MTI: <strong>1100</strong></span>
+    <span class="sep">|</span>
+    <span>Modernization MTI: <strong>1200</strong></span>
+    <span class="mti-warn">⚠ MTI MISMATCH</span>
+  </div>
+  <div class="stats">
+    <div class="stat s-match"><div class="snum">19</div><div class="slbl">Match</div></div>
+    <div class="stat s-diff"><div class="snum">15</div><div class="slbl">Value Diff</div></div>
+    <div class="stat s-missing"><div class="snum">4</div><div class="slbl">Missing in Mod</div></div>
+    <div class="stat s-extra"><div class="snum">4</div><div class="slbl">Extra in Mod</div></div>
+  </div>
+  <table>
+    <thead>
+      <tr><th>Field Path</th><th>Target Value</th><th>Modernization Value</th><th>Status</th></tr>
+    </thead>
+    <tbody>
+      <tr class='row-match'><td class='fp'>002(pan)</td><td class='tv'>################</td><td class='mv'>################</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-diff'><td class='fp'>003(procCode)</td><td class='tv'>900000</td><td class='mv'>000000</td><td><span class="badge diff">VALUE DIFF</span></td></tr>
+      <tr class='row-diff'><td class='fp'>004(amount)</td><td class='tv'>10000</td><td class='mv'>2112</td><td><span class="badge diff">VALUE DIFF</span></td></tr>
+      <tr class='row-diff'><td class='fp'>011(sysTraceNum)</td><td class='tv'>9</td><td class='mv'>12345</td><td><span class="badge diff">VALUE DIFF</span></td></tr>
+      <tr class='row-diff'><td class='fp'>012(localDatetime)</td><td class='tv'>260408084613</td><td class='mv'>250524160515</td><td><span class="badge diff">VALUE DIFF</span></td></tr>
+      <tr class='row-match'><td class='fp'>014(expiry)</td><td class='tv'>####</td><td class='mv'>####</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-match'><td class='fp'>022(posDataCode).1(inputCapability)</td><td class='tv'>1</td><td class='mv'>1</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-match'><td class='fp'>022(posDataCode).10(cardDataOutputCapability)</td><td class='tv'>1</td><td class='mv'>1</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-match'><td class='fp'>022(posDataCode).11(terminalOutputCapability)</td><td class='tv'>0</td><td class='mv'>0</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-match'><td class='fp'>022(posDataCode).12(pinCaptCapability)</td><td class='tv'>0</td><td class='mv'>0</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-match'><td class='fp'>022(posDataCode).2(authCapability)</td><td class='tv'>0</td><td class='mv'>0</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-match'><td class='fp'>022(posDataCode).3(captureCapability)</td><td class='tv'>0</td><td class='mv'>0</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-match'><td class='fp'>022(posDataCode).4(operatingEnvironment)</td><td class='tv'>0</td><td class='mv'>0</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-diff'><td class='fp'>022(posDataCode).5(cardholderPresent)</td><td class='tv'>5</td><td class='mv'>2</td><td><span class="badge diff">VALUE DIFF</span></td></tr>
+      <tr class='row-match'><td class='fp'>022(posDataCode).6(cardPresent)</td><td class='tv'>0</td><td class='mv'>0</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-match'><td class='fp'>022(posDataCode).7(inputMode)</td><td class='tv'>1</td><td class='mv'>1</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-match'><td class='fp'>022(posDataCode).8(authMethod)</td><td class='tv'>0</td><td class='mv'>0</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-match'><td class='fp'>022(posDataCode).9(authEntity)</td><td class='tv'>0</td><td class='mv'>0</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-diff'><td class='fp'>028(reconciliationDate)</td><td class='tv'>260408</td><td class='mv'>250524</td><td><span class="badge diff">VALUE DIFF</span></td></tr>
+      <tr class='row-match'><td class='fp'>029(reconciliationNumber)</td><td class='tv'>001</td><td class='mv'>001</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-match'><td class='fp'>032(acqInstCode)</td><td class='tv'>0100860099</td><td class='mv'>0100860099</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-diff'><td class='fp'>037(retrivRefNum)</td><td class='tv'>2364000009</td><td class='mv'>3448012345</td><td><span class="badge diff">VALUE DIFF</span></td></tr>
+      <tr class='row-diff'><td class='fp'>041(terminalId)</td><td class='tv'>11111</td><td class='mv'>123455</td><td><span class="badge diff">VALUE DIFF</span></td></tr>
+      <tr class='row-diff'><td class='fp'>042(merchantId)</td><td class='tv'>1234567890</td><td class='mv'>M12345</td><td><span class="badge diff">VALUE DIFF</span></td></tr>
+      <tr class='row-diff'><td class='fp'>043(cardAcceptorNameLoc)</td><td class='tv'>WTFSUMER              Brisbane</td><td class='mv'>Retail Computers pvt limitedNew York</td><td><span class="badge diff">VALUE DIFF</span></td></tr>
+      <tr class='row-match'><td class='fp'>048(addPrivateData).0001(itemNumber)</td><td class='tv'>001</td><td class='mv'>001</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-diff'><td class='fp'>049(currencyCode)</td><td class='tv'>818</td><td class='mv'>840</td><td><span class="badge diff">VALUE DIFF</span></td></tr>
+      <tr class='row-diff'><td class='fp'>060(reservedPrivateData).01(applicationId)</td><td class='tv'>3765WITT</td><td class='mv'>3765WMTT</td><td><span class="badge diff">VALUE DIFF</span></td></tr>
+      <tr class='row-missing'><td class='fp'>063(reservedPrivateDataIII).02(cvv2)</td><td class='tv'>###</td><td class='mv'></td><td><span class="badge missing">MISSING IN MOD</span></td></tr>
+      <tr class='row-diff'><td class='fp'>063(reservedPrivateDataIII).04(moto)</td><td class='tv'>7</td><td class='mv'>1</td><td><span class="badge diff">VALUE DIFF</span></td></tr>
+      <tr class='row-extra'><td class='fp'>063(reservedPrivateDataIII).08(partialApprovalIndicator)</td><td class='tv'></td><td class='mv'>Y</td><td><span class="badge extra">EXTRA IN MOD</span></td></tr>
+      <tr class='row-extra'><td class='fp'>063(reservedPrivateDataIII).13(universalCardholderAuthenticationField)</td><td class='tv'></td><td class='mv'>AmHtn+shanruty198hancvuJYHHN19w-</td><td><span class="badge extra">EXTRA IN MOD</span></td></tr>
+      <tr class='row-match'><td class='fp'>063(reservedPrivateDataIII).15(acceptanceIndicatorCardSchemeData)</td><td class='tv'>Y</td><td class='mv'>Y</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-missing'><td class='fp'>063(reservedPrivateDataIII).30(credentialOnFileIndicator)</td><td class='tv'>S</td><td class='mv'></td><td><span class="badge missing">MISSING IN MOD</span></td></tr>
+      <tr class='row-missing'><td class='fp'>063(reservedPrivateDataIII).31(industrySpecificTransactionIndicator)</td><td class='tv'>09</td><td class='mv'></td><td><span class="badge missing">MISSING IN MOD</span></td></tr>
+      <tr class='row-extra'><td class='fp'>063(reservedPrivateDataIII).39(threeDSVersionNumber)</td><td class='tv'></td><td class='mv'>2</td><td><span class="badge extra">EXTRA IN MOD</span></td></tr>
+      <tr class='row-extra'><td class='fp'>063(reservedPrivateDataIII).40(dsTransactionId)</td><td class='tv'></td><td class='mv'>abc12345defg20011</td><td><span class="badge extra">EXTRA IN MOD</span></td></tr>
+      <tr class='row-missing'><td class='fp'>063(reservedPrivateDataIII).44(scaStatusIndicator)</td><td class='tv'>2</td><td class='mv'></td><td><span class="badge missing">MISSING IN MOD</span></td></tr>
+      <tr class='row-match'><td class='fp'>063(reservedPrivateDataIII).50(threeDSecureCapabilityIndicator)</td><td class='tv'>2.2.0</td><td class='mv'>2.2.0</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-match'><td class='fp'>063(reservedPrivateDataIII).55(securityLevelIndicator)</td><td class='tv'></td><td class='mv'></td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-diff'><td class='fp'>063(reservedPrivateDataIII).65(mastercardMerchantPaymentGatewayID)</td><td class='tv'>00000237378</td><td class='mv'>00000123456</td><td><span class="badge diff">VALUE DIFF</span></td></tr>
+      <tr class='row-diff'><td class='fp'>Header.1(messageTypeId)</td><td class='tv'>1100</td><td class='mv'>1200</td><td><span class="badge diff">VALUE DIFF</span></td></tr>
+    </tbody>
+  </table>
+</section>
+<section id="VOID_AUTHORIZATION">
+  <h2>VOID_AUTHORIZATION</h2>
+  <div class="mti-bar mti-match">
+    <span>Target MTI: <strong>1420</strong></span>
+    <span class="sep">|</span>
+    <span>Modernization MTI: <strong>1420</strong></span>
+    
+  </div>
+  <div class="stats">
+    <div class="stat s-match"><div class="snum">9</div><div class="slbl">Match</div></div>
+    <div class="stat s-diff"><div class="snum">12</div><div class="slbl">Value Diff</div></div>
+    <div class="stat s-missing"><div class="snum">4</div><div class="slbl">Missing in Mod</div></div>
+    <div class="stat s-extra"><div class="snum">2</div><div class="slbl">Extra in Mod</div></div>
+  </div>
+  <table>
+    <thead>
+      <tr><th>Field Path</th><th>Target Value</th><th>Modernization Value</th><th>Status</th></tr>
+    </thead>
+    <tbody>
+      <tr class='row-match'><td class='fp'>002(pan)</td><td class='tv'>################</td><td class='mv'>################</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-diff'><td class='fp'>003(procCode)</td><td class='tv'>940000</td><td class='mv'>000000</td><td><span class="badge diff">VALUE DIFF</span></td></tr>
+      <tr class='row-diff'><td class='fp'>004(amount)</td><td class='tv'>10000</td><td class='mv'>2112</td><td><span class="badge diff">VALUE DIFF</span></td></tr>
+      <tr class='row-diff'><td class='fp'>011(sysTraceNum)</td><td class='tv'>10</td><td class='mv'>654321</td><td><span class="badge diff">VALUE DIFF</span></td></tr>
+      <tr class='row-diff'><td class='fp'>012(localDatetime)</td><td class='tv'>260408084648</td><td class='mv'>250524170515</td><td><span class="badge diff">VALUE DIFF</span></td></tr>
+      <tr class='row-match'><td class='fp'>014(expiry)</td><td class='tv'>####</td><td class='mv'>####</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-match'><td class='fp'>024(functionCode)</td><td class='tv'>400</td><td class='mv'>400</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-match'><td class='fp'>025(reasonCode)</td><td class='tv'>4000</td><td class='mv'>4000</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-diff'><td class='fp'>028(reconciliationDate)</td><td class='tv'>260408</td><td class='mv'>250524</td><td><span class="badge diff">VALUE DIFF</span></td></tr>
+      <tr class='row-match'><td class='fp'>029(reconciliationNumber)</td><td class='tv'>001</td><td class='mv'>001</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-match'><td class='fp'>032(acqInstCode)</td><td class='tv'>0100860099</td><td class='mv'>0100860099</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-diff'><td class='fp'>037(retrivRefNum)</td><td class='tv'>2364000010</td><td class='mv'>3448654321</td><td><span class="badge diff">VALUE DIFF</span></td></tr>
+      <tr class='row-missing'><td class='fp'>038(approvalCode)</td><td class='tv'>100000</td><td class='mv'></td><td><span class="badge missing">MISSING IN MOD</span></td></tr>
+      <tr class='row-diff'><td class='fp'>041(terminalId)</td><td class='tv'>11111</td><td class='mv'>123455</td><td><span class="badge diff">VALUE DIFF</span></td></tr>
+      <tr class='row-diff'><td class='fp'>042(merchantId)</td><td class='tv'>1234567890</td><td class='mv'>M12345</td><td><span class="badge diff">VALUE DIFF</span></td></tr>
+      <tr class='row-diff'><td class='fp'>043(cardAcceptorNameLoc)</td><td class='tv'>WTFSUMER              Brisbane</td><td class='mv'>Retail Computers pvt limitedBrisbane</td><td><span class="badge diff">VALUE DIFF</span></td></tr>
+      <tr class='row-match'><td class='fp'>048(addPrivateData).0001(itemNumber)</td><td class='tv'>001</td><td class='mv'>001</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-extra'><td class='fp'>048(addPrivateData).0002(elavonStan)</td><td class='tv'></td><td class='mv'>654321</td><td><span class="badge extra">EXTRA IN MOD</span></td></tr>
+      <tr class='row-extra'><td class='fp'>048(addPrivateData).0004(elavonRrn)</td><td class='tv'></td><td class='mv'>123456679012</td><td><span class="badge extra">EXTRA IN MOD</span></td></tr>
+      <tr class='row-diff'><td class='fp'>049(currencyCode)</td><td class='tv'>818</td><td class='mv'>840</td><td><span class="badge diff">VALUE DIFF</span></td></tr>
+      <tr class='row-diff'><td class='fp'>060(reservedPrivateData).01(applicationId)</td><td class='tv'>3765WITT</td><td class='mv'>3765WMTT</td><td><span class="badge diff">VALUE DIFF</span></td></tr>
+      <tr class='row-diff'><td class='fp'>063(reservedPrivateDataIII).04(moto)</td><td class='tv'>7</td><td class='mv'>1</td><td><span class="badge diff">VALUE DIFF</span></td></tr>
+      <tr class='row-match'><td class='fp'>063(reservedPrivateDataIII).15(acceptanceIndicatorCardSchemeData)</td><td class='tv'>Y</td><td class='mv'>Y</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-missing'><td class='fp'>063(reservedPrivateDataIII).16(cardSchemeData)</td><td class='tv'>M2604080846131111712  </td><td class='mv'></td><td><span class="badge missing">MISSING IN MOD</span></td></tr>
+      <tr class='row-missing'><td class='fp'>063(reservedPrivateDataIII).30(credentialOnFileIndicator)</td><td class='tv'>S</td><td class='mv'></td><td><span class="badge missing">MISSING IN MOD</span></td></tr>
+      <tr class='row-missing'><td class='fp'>063(reservedPrivateDataIII).44(scaStatusIndicator)</td><td class='tv'>2</td><td class='mv'></td><td><span class="badge missing">MISSING IN MOD</span></td></tr>
+      <tr class='row-match'><td class='fp'>Header.1(messageTypeId)</td><td class='tv'>1420</td><td class='mv'>1420</td><td><span class="badge match">MATCH</span></td></tr>
+    </tbody>
+  </table>
+</section>
+<section id="VERIFICATION">
+  <h2>VERIFICATION</h2>
+  <div class="mti-bar mti-match">
+    <span>Target MTI: <strong>1200</strong></span>
+    <span class="sep">|</span>
+    <span>Modernization MTI: <strong>1200</strong></span>
+    
+  </div>
+  <div class="stats">
+    <div class="stat s-match"><div class="snum">27</div><div class="slbl">Match</div></div>
+    <div class="stat s-diff"><div class="snum">11</div><div class="slbl">Value Diff</div></div>
+    <div class="stat s-missing"><div class="snum">3</div><div class="slbl">Missing in Mod</div></div>
+    <div class="stat s-extra"><div class="snum">0</div><div class="slbl">Extra in Mod</div></div>
+  </div>
+  <table>
+    <thead>
+      <tr><th>Field Path</th><th>Target Value</th><th>Modernization Value</th><th>Status</th></tr>
+    </thead>
+    <tbody>
+      <tr class='row-match'><td class='fp'>002(pan)</td><td class='tv'>################</td><td class='mv'>################</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-match'><td class='fp'>003(procCode)</td><td class='tv'>000000</td><td class='mv'>000000</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-match'><td class='fp'>004(amount)</td><td class='tv'>0</td><td class='mv'>0</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-diff'><td class='fp'>011(sysTraceNum)</td><td class='tv'>9</td><td class='mv'>335545</td><td><span class="badge diff">VALUE DIFF</span></td></tr>
+      <tr class='row-diff'><td class='fp'>012(localDatetime)</td><td class='tv'>260408083239</td><td class='mv'>230405064049</td><td><span class="badge diff">VALUE DIFF</span></td></tr>
+      <tr class='row-match'><td class='fp'>014(expiry)</td><td class='tv'>####</td><td class='mv'>####</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-match'><td class='fp'>022(posDataCode).1(inputCapability)</td><td class='tv'>1</td><td class='mv'>1</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-match'><td class='fp'>022(posDataCode).10(cardDataOutputCapability)</td><td class='tv'>1</td><td class='mv'>1</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-match'><td class='fp'>022(posDataCode).11(terminalOutputCapability)</td><td class='tv'>0</td><td class='mv'>0</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-match'><td class='fp'>022(posDataCode).12(pinCaptCapability)</td><td class='tv'>0</td><td class='mv'>0</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-match'><td class='fp'>022(posDataCode).2(authCapability)</td><td class='tv'>0</td><td class='mv'>0</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-match'><td class='fp'>022(posDataCode).3(captureCapability)</td><td class='tv'>0</td><td class='mv'>0</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-match'><td class='fp'>022(posDataCode).4(operatingEnvironment)</td><td class='tv'>0</td><td class='mv'>0</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-match'><td class='fp'>022(posDataCode).5(cardholderPresent)</td><td class='tv'>5</td><td class='mv'>5</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-match'><td class='fp'>022(posDataCode).6(cardPresent)</td><td class='tv'>0</td><td class='mv'>0</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-match'><td class='fp'>022(posDataCode).7(inputMode)</td><td class='tv'>1</td><td class='mv'>1</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-match'><td class='fp'>022(posDataCode).8(authMethod)</td><td class='tv'>0</td><td class='mv'>0</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-match'><td class='fp'>022(posDataCode).9(authEntity)</td><td class='tv'>0</td><td class='mv'>0</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-diff'><td class='fp'>028(reconciliationDate)</td><td class='tv'>260408</td><td class='mv'>230405</td><td><span class="badge diff">VALUE DIFF</span></td></tr>
+      <tr class='row-match'><td class='fp'>029(reconciliationNumber)</td><td class='tv'>001</td><td class='mv'>001</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-match'><td class='fp'>032(acqInstCode)</td><td class='tv'>0100860099</td><td class='mv'>0100860099</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-diff'><td class='fp'>037(retrivRefNum)</td><td class='tv'>2364000009</td><td class='mv'>2266335545</td><td><span class="badge diff">VALUE DIFF</span></td></tr>
+      <tr class='row-diff'><td class='fp'>041(terminalId)</td><td class='tv'>22222</td><td class='mv'>0013</td><td><span class="badge diff">VALUE DIFF</span></td></tr>
+      <tr class='row-diff'><td class='fp'>042(merchantId)</td><td class='tv'>1234567890</td><td class='mv'>M12345</td><td><span class="badge diff">VALUE DIFF</span></td></tr>
+      <tr class='row-diff'><td class='fp'>043(cardAcceptorNameLoc)</td><td class='tv'>WTFSUMER              Brisbane</td><td class='mv'>Retail Computers pvt limitedNew York</td><td><span class="badge diff">VALUE DIFF</span></td></tr>
+      <tr class='row-match'><td class='fp'>048(addPrivateData).0001(itemNumber)</td><td class='tv'>001</td><td class='mv'>001</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-diff'><td class='fp'>049(currencyCode)</td><td class='tv'>818</td><td class='mv'>826</td><td><span class="badge diff">VALUE DIFF</span></td></tr>
+      <tr class='row-match'><td class='fp'>060(reservedPrivateData).01(applicationId)</td><td class='tv'>3765WITT</td><td class='mv'>3765WITT</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-missing'><td class='fp'>063(reservedPrivateDataIII).02(cvv2)</td><td class='tv'>###</td><td class='mv'></td><td><span class="badge missing">MISSING IN MOD</span></td></tr>
+      <tr class='row-match'><td class='fp'>063(reservedPrivateDataIII).04(moto)</td><td class='tv'>5</td><td class='mv'>5</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-diff'><td class='fp'>063(reservedPrivateDataIII).13(universalCardholderAuthenticationField)</td><td class='tv'>mHyn+7YFi1EUAREAAAAvNUe6Hv8=</td><td class='mv'>AmHtn+shanruty198hancvuJYHHN19w-</td><td><span class="badge diff">VALUE DIFF</span></td></tr>
+      <tr class='row-match'><td class='fp'>063(reservedPrivateDataIII).15(acceptanceIndicatorCardSchemeData)</td><td class='tv'>Y</td><td class='mv'>Y</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-match'><td class='fp'>063(reservedPrivateDataIII).23(ucafCollectionIndicator)</td><td class='tv'>2</td><td class='mv'>2</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-match'><td class='fp'>063(reservedPrivateDataIII).30(credentialOnFileIndicator)</td><td class='tv'>S</td><td class='mv'>S</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-diff'><td class='fp'>063(reservedPrivateDataIII).31(industrySpecificTransactionIndicator)</td><td class='tv'>06</td><td class='mv'>09</td><td><span class="badge diff">VALUE DIFF</span></td></tr>
+      <tr class='row-match'><td class='fp'>063(reservedPrivateDataIII).39(threeDSVersionNumber)</td><td class='tv'>2</td><td class='mv'>2</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-diff'><td class='fp'>063(reservedPrivateDataIII).40(dsTransactionId)</td><td class='tv'>88928426-046a-4631-aebc-e52129485c8c</td><td class='mv'>abc12345defg20011</td><td><span class="badge diff">VALUE DIFF</span></td></tr>
+      <tr class='row-missing'><td class='fp'>063(reservedPrivateDataIII).44(scaStatusIndicator)</td><td class='tv'>2</td><td class='mv'></td><td><span class="badge missing">MISSING IN MOD</span></td></tr>
+      <tr class='row-match'><td class='fp'>063(reservedPrivateDataIII).50(threeDSecureCapabilityIndicator)</td><td class='tv'>2.2.0</td><td class='mv'>2.2.0</td><td><span class="badge match">MATCH</span></td></tr>
+      <tr class='row-missing'><td class='fp'>063(reservedPrivateDataIII).65(mastercardMerchantPaymentGatewayID)</td><td class='tv'>00000237378</td><td class='mv'></td><td><span class="badge missing">MISSING IN MOD</span></td></tr>
+      <tr class='row-match'><td class='fp'>Header.1(messageTypeId)</td><td class='tv'>1200</td><td class='mv'>1200</td><td><span class="badge match">MATCH</span></td></tr>
+    </tbody>
+  </table>
+</section>
+</main>
+<footer>ISO 8583 Comparison Tool &mdash; Elavon S2A Modernization Project</footer>
+</body>
+</html>

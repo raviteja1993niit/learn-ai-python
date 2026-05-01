@@ -1,0 +1,1042 @@
+{
+  "meta": {
+    "topic_slug": "ai-terminology",
+    "transcript_path": "materials\\input\\ai-terminology.txt",
+    "chunk_size": 5,
+    "total_sentences": 515,
+    "total_chunks": 103.0,
+    "generated_at": "2026-04-28T20:38:28Z"
+  },
+  "chunks": [
+    {
+      "chunk_id": 1,
+      "sentence_start": 0,
+      "sentence_end": 4,
+      "sentence_count": 5,
+      "content": "Agenda Hi everyone, this is GKCS. In today's video we will see some of the commonly used terms in the AI space. If you are an engineer who is building applications, then you will find these terms useful. When communicating with people within your team or outside. And I think if you know these terms, then it is also easier to learn the deeper subjects around AI.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 2,
+      "sentence_start": 5,
+      "sentence_end": 9,
+      "sentence_count": 5,
+      "content": "So by the end of this video, you'll have a list of terms whose definitions you understand quite well. And I'll also be linking some references in the description so that you can dig into them further. Large Language Model The first term that you should know about is large language model. Also known as LM. And the definition of this is a neural network.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 3,
+      "sentence_start": 10,
+      "sentence_end": 14,
+      "sentence_count": 5,
+      "content": "That is trained to predict the next term. Of an input sequence. For example, if I pass in the query all that glitters to a large language model, then it's going to come up with the response of is not going okay. At which point the complete response of all that glitters is not gold is returned to the user. What do we mean by training?",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 4,
+      "sentence_start": 15,
+      "sentence_end": 19,
+      "sentence_count": 5,
+      "content": "What do we mean by neural network? As we go through this video, you will be understanding these terms better one by one. The second term that we're looking at is tokenization. This has to do with processing the input of a large language model. Tokenization For example, if all that glitters is passed into a large language model, the first thing it's going to do is break this into discrete tokens.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 5,
+      "sentence_start": 20,
+      "sentence_end": 24,
+      "sentence_count": 5,
+      "content": "That is the process of tokenization. The first token will be all. Then there's a space character. You have then that after which you have glitched. And finally also you might think, well, why shouldn't you just break this into space characters and get the job done?",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 6,
+      "sentence_start": 25,
+      "sentence_end": 29,
+      "sentence_count": 5,
+      "content": "The humans do not talk like that. We are, after all, trying to process natural language. So ours is a common term. These are terms which have the suffix of ers which means that the action of glitched is being performed by that object. Another example of this is in.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 7,
+      "sentence_start": 30,
+      "sentence_end": 34,
+      "sentence_count": 5,
+      "content": "So eating, dancing, singing all have the suffix of ING, and a large language model can look at this token of ING and know that the previous action is being performed. As long as you have the suffix. Okay, remember, the core problem for the large language model is to truly understand human language so that it can speak it really well. Tokenization is an essential part of that. Whose end result is that the input text is broken into tokens.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 8,
+      "sentence_start": 35,
+      "sentence_end": 39,
+      "sentence_count": 5,
+      "content": "Vectorization Which brings us to our third term vectors. Tokens tell you what you should focus on. What is the smallest term that you can derive meaning from? But what meaning has to be derived is represented by vectors. If the large language model can map a two dimensional or a n dimensional space.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 9,
+      "sentence_start": 40,
+      "sentence_end": 44,
+      "sentence_count": 5,
+      "content": "Such that all the words which are close in meaning are placed close to each other, then the benefit will be that the meaning of these words will be turned into a coordinate. In this n dimensional space. This is called a vector. The mapping of a word in a n dimensional space such that. Similar meaning words are all clustered together and opposite meaning words are somewhere far away.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 10,
+      "sentence_start": 45,
+      "sentence_end": 49,
+      "sentence_count": 5,
+      "content": "Comes through the process of vectorization. The end result of this is that large language models know the inherent meaning of all the words that are in the English vocabulary, and they also know how to break it into small tokens. Any input text into tokens. Words which are similar to each other are placed close to each other. Once they know the meaning, they can construct sentences effectively.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 11,
+      "sentence_start": 50,
+      "sentence_end": 54,
+      "sentence_count": 5,
+      "content": "Attention Okay, so now you have large language models which can tokenize input text, convert them into vectors. But there is one major challenge which actually change the entire industry here, which made large language models very popular. And that is attention. We just said that all the input tokens for a large language model are converted into vectors. The vectors encapsulate the meaning of those words.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 12,
+      "sentence_start": 55,
+      "sentence_end": 59,
+      "sentence_count": 5,
+      "content": "But what about the word apple when you say it is a tasty apple, you mean the fruit, the edible apple? When you say apples revenue, you probably mean the company. And if you say the apple of my eye, you are probably talking about a young person who you have affection for. So Apple has different meanings, and the only way to understand the meaning is not by looking at the word itself, because that spelling is the exact same, but by looking at nearby words which add context to the meaning of apple. The moment I said tasty, you know that it's some sort of food that is going to talk about.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 13,
+      "sentence_start": 60,
+      "sentence_end": 64,
+      "sentence_count": 5,
+      "content": "That's how humans derive meaning, and large language models can derive meaning this way. Now, the way they do this is look at nearby words in a sentence. Generate those vectors so nearby contextual vectors are picked up. And for ambiguous terms you end up with ambiguous vectors. But you can derive the exact meaning by adding this nearby contextual vector to it.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 14,
+      "sentence_start": 65,
+      "sentence_end": 69,
+      "sentence_count": 5,
+      "content": "So take the vector of Apple. Take the vector of revenue when you add these two vectors. When you perform some sort of an operation, it's not a direct addition, but it's the attention operation. You effectively take the vector of Apple and you push it in the direction of the company Apple. So Google meta, Microsoft are all here.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 15,
+      "sentence_start": 70,
+      "sentence_end": 74,
+      "sentence_count": 5,
+      "content": "The first operation of vector revenue is going to send it there. If you instead add a vector of tasty, do this. If you perform the attention mechanism of these two vectors, then it's going to push the vector of apple to banana, chiku and guava. Okay, so you can tokenize input text. You can derive the inherent meaning of all of those tokens.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 16,
+      "sentence_start": 75,
+      "sentence_end": 79,
+      "sentence_count": 5,
+      "content": "And for ambiguous tokens, for tokens which are difficult to understand. You have a mechanism to add context by looking at nearby words. And this is another breakthrough that large language models have made. This was in 2017. The paper came out then, but in 2022 this became really, really famous which are gpt2 being released.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 17,
+      "sentence_start": 80,
+      "sentence_end": 84,
+      "sentence_count": 5,
+      "content": "The quality of responses of a large language model far exceed anything else that we have seen earlier. Okay, because it is able to derive contextual meaning, it's able to construct sentences in a way that humans speak. Self-Supervised Learning Okay, so now we know how LMS can process input. But how do you train them to predict the next token? Okay, here's where there was a major breakthrough in 2017.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 18,
+      "sentence_start": 85,
+      "sentence_end": 89,
+      "sentence_count": 5,
+      "content": "Basically the concept of self-supervised learning. Became very popular. Self-supervised learning means that instead of telling the model exactly what it needs to do, the structure of the input data is such that the model knows what it should do. For example, you're watching this video right now. I'm going to make a part of this video blank.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 19,
+      "sentence_start": 90,
+      "sentence_end": 94,
+      "sentence_count": 5,
+      "content": "What do you think is being hidden right now? What number is coming to your mind? Let's see if that is right. Yes, most of you guessed one because we went in the sequence five, four, three, two, one. But when it comes to a video, you can also do something else.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 20,
+      "sentence_start": 95,
+      "sentence_end": 99,
+      "sentence_count": 5,
+      "content": "Let me make another part of the video blank right now. Where do you think the other AI is looking? Most of you got it right. Both eyes are looking upwards. So what's happening is a section of the input can be predicted.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 21,
+      "sentence_start": 100,
+      "sentence_end": 104,
+      "sentence_count": 5,
+      "content": "Even if you make that section blank, which means that there is inherent structure. In your input which your mind is able to replace with the expected token or expected output. Now, the standard way to train such a model would be called supervised learning, where you would have a human being say that if the input text is all that glitters, then the model should predict is not gold. If the input text is at two, then the output should be Brutus instead. Self-supervised learning has made getting test data much cheaper here.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 22,
+      "sentence_start": 105,
+      "sentence_end": 109,
+      "sentence_count": 5,
+      "content": "If you have a two Brutus, then the model is going to be fed in this text and it's going to make three predictions. One, what comes after it? Two what comes after a two and three what comes after it? Two Brutus okay, no, humans are involved. You had some text in the world.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 23,
+      "sentence_start": 110,
+      "sentence_end": 114,
+      "sentence_count": 5,
+      "content": "Maybe you scraped this off the internet and now you're taking the model. Look, I have three questions for you. Tell me, what are the right answers? So the model looks at these three puzzles. They are all running in parallel, and they try to make predictions.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 24,
+      "sentence_start": 115,
+      "sentence_end": 119,
+      "sentence_count": 5,
+      "content": "So it the model might say now the model might say two. The model might say something, but you train the model that two is the expected response. So if it makes a mistake then you penalize the model that increases loss. And so the neural network weights are updated. In the second task you have at two, if the model makes the prediction of Brutus, then you tell the model that this is great.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 25,
+      "sentence_start": 120,
+      "sentence_end": 124,
+      "sentence_count": 5,
+      "content": "The weights don't need to be updated. But if it says Caesar, then the model has to be penalized. And so the internal weights are updated. In the third case, if you predict a stop token like add to Brutus, that's it, then you will get it wrong. If it is a comma, you're right.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 26,
+      "sentence_start": 125,
+      "sentence_end": 129,
+      "sentence_count": 5,
+      "content": "And if it's, then maybe you're also right. What you're doing is you are looking at text, which already exists in the world, and you're creating multiple challenges for yourself without human intervention. This is what makes the model self-supervised. It might seem like a small thing, but this architectural decision or this benefit of the large language model makes it really, really scalable. In fact, most AI models now are moving to self-supervised learning.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 27,
+      "sentence_start": 130,
+      "sentence_end": 134,
+      "sentence_count": 5,
+      "content": "Even image models like we discussed, are looking for removing some patches of the image and trying to predict those patches. The benefit of this is you understand the underlying structure and the inherent meaning of those patches. In the case of text, it's going to be terms. In the case of images, they are a bunch of pixels. And in the case of video you might understand how an object even moves.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 28,
+      "sentence_start": 135,
+      "sentence_end": 139,
+      "sentence_count": 5,
+      "content": "Transformer Okay. So that explains what self-supervised learning is. Next is the transformer okay. And most people confuse transformer with large language model, which is completely understandable actually. But that's not the case.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 29,
+      "sentence_start": 140,
+      "sentence_end": 144,
+      "sentence_count": 5,
+      "content": "A large language model is something which predicts the next token given an input sequence. A transformer does the exact same thing, but it's a specific algorithm or a specific method by which you predict the next token. A transformer basically is input tokens. Being run through an attention block, which is then forwarded to a neural network, a feedforward neural network, and then you have a bunch of outputs. Okay, you can think of these as output vectors.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 30,
+      "sentence_start": 145,
+      "sentence_end": 149,
+      "sentence_count": 5,
+      "content": "These vectors are then passed in to another layer of attention. The first layer of attention, like we said, disambiguate terms. The second layer might find more complex relationships. It might find sarcasm. It might find implications.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 31,
+      "sentence_start": 150,
+      "sentence_end": 154,
+      "sentence_count": 5,
+      "content": "For example, a crane was hunting a crab. So in the first case you understood it is not the metal plane, it's a bird train. But in the second one you might infer that the crab is fearful. You might understand the crane is hungry. So this is the second layer.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 32,
+      "sentence_start": 155,
+      "sentence_end": 159,
+      "sentence_count": 5,
+      "content": "And then you have another feedforward neural network and so on. Till finally you are confident enough to generate an output. So you have these stacked. Sometimes they're stacked to 12 layers, sometimes more. I think recent GPT architectures are in hundreds.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 33,
+      "sentence_start": 160,
+      "sentence_end": 164,
+      "sentence_count": 5,
+      "content": "The main idea behind this is are getting all of the meaning from your input tokens and then manipulating them again and again to finally predict what the next word should be. This attention lock is order in square. You could replace this transformer in a large language model with something else to model. A new architecture could come in, in which case the transformer and the state space models are gotten rid of, which could be a diffusion model. That constructs essays or text.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 34,
+      "sentence_start": 165,
+      "sentence_end": 169,
+      "sentence_count": 5,
+      "content": "Okay, so the large language model is actually the product. You can think of it as a car. And this is the engine. A car, many people say is just the engine. But no, there are some other fancy things around it.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 35,
+      "sentence_start": 170,
+      "sentence_end": 174,
+      "sentence_count": 5,
+      "content": "The internal algorithm can be different. This term number seven, 7. Fine-tuning it's fine tuning. We said that a large language model is something that is trained to predict the next term. Of an input sequence.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 36,
+      "sentence_start": 175,
+      "sentence_end": 179,
+      "sentence_count": 5,
+      "content": "The question is what type of next token are we talking about? If you are talking about a medical large language model, something which helps doctors explain the diagnosis of a patient, then you're probably going to be thinking of medical terms. If you have a model which is trained on financial operations. Then the same model for the same query is going to think in terms of financial terms. So the next token that the model comes up with is not always going to be general.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 37,
+      "sentence_start": 180,
+      "sentence_end": 184,
+      "sentence_count": 5,
+      "content": "You're first going to train your base model. In a self-supervised fashion. Then you're going to take that model and make it go through a series of questions and answers. This process is called fine tuning. And goes something like who is the president of USA?",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 38,
+      "sentence_start": 185,
+      "sentence_end": 189,
+      "sentence_count": 5,
+      "content": "But the model could also say, I would like to know that too. Here's where things are going wrong okay. The model should not be responding like this. Give us a direct answer or confess that you do not know. Or you could say no.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 39,
+      "sentence_start": 190,
+      "sentence_end": 194,
+      "sentence_count": 5,
+      "content": "But then this is also very, very bad because the models are trained to be helpful. Okay, so what's happening is other plausible responses which are not wrong but are not desirable, are penalized in the fine tuning process. You have these questions and answers. The fine tuning process forces the model to take a question and give answers. So when it comes to a medical diagnosis, the model is going to train itself.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 40,
+      "sentence_start": 195,
+      "sentence_end": 199,
+      "sentence_count": 5,
+      "content": "The internal weights will be updated in such a way that it will learn to speak in medical jargon or medical terms. And so this step, where a base model is trained to answer in a specific way, is called fine tuning. The same base model can be run through different sets of questions answers to come up with multiple fine tuned models. So the base model of Lamarck can be fine tuned by a company to answer that customer's specific queries. Few-shot Prompting A few short prompting.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 41,
+      "sentence_start": 200,
+      "sentence_end": 204,
+      "sentence_count": 5,
+      "content": "So the main idea behind future prompting is before you send a query to a model, before you send a plain vanilla query to a large language model and ask it to come up with a response. You augment the query. You add more information by saying, look, if the query is where is my parcel? Then let me tell you that there are some examples that I want you to go through. This is happening during inference time during response time in production.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 42,
+      "sentence_start": 205,
+      "sentence_end": 209,
+      "sentence_count": 5,
+      "content": "Life, your system, your server sends the original query and sends examples to the model so that it takes this into context and then gives an appropriate response. The quality of the response goes up. This is called future prompting. It's basically example prompting example in prompt. Retrieval Augmented Generation It brings us to point number nine which is very interesting and is completely exploded, which is retrieval, augmented generation.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 43,
+      "sentence_start": 210,
+      "sentence_end": 214,
+      "sentence_count": 5,
+      "content": "In fact, the AI space is moving so quickly that people are saying rank or retrieval augmented generation is already dead. So the basic idea again, is that you have a large language model and you pass in the input from the server. So a customer connects to you here they hit your API. The server says, you know what this is the customer query that is forward that to the language model. Along with that let's give some examples.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 44,
+      "sentence_start": 215,
+      "sentence_end": 219,
+      "sentence_count": 5,
+      "content": "So that's for short prompting. And along with that, since there are some company policies that I want you to know of, last language model, I'll give you those documents. So in real time the server goes fetches the most relevant documents. Maybe your policy document, maybe your terms and conditions. When placing an order, and maybe many more things.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 45,
+      "sentence_start": 220,
+      "sentence_end": 224,
+      "sentence_count": 5,
+      "content": "You send these documents along with examples of how you should respond. This gives you a good idea of the format of the response. This gives you a good idea of the company specific context, and this is the direct user input query. Okay, with all of this, the large language model tends to give very high quality responses. Now the question is where are you getting these documents from?",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 46,
+      "sentence_start": 225,
+      "sentence_end": 229,
+      "sentence_count": 5,
+      "content": "How does the server know which documents are related to which query? There are many ways to do this. If you talk to Neo Forger, which is a graph database company, they will tell you you should store things in a graph. If you talk to neon, then they will tell you that you should store things in a vector DB and some people will say just keep everything in memory. Just keep everything in cache.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 47,
+      "sentence_start": 230,
+      "sentence_end": 234,
+      "sentence_count": 5,
+      "content": "This doesn't matter how you fetch the documents, doesn't matter so much. Usually it's a vector DB by the way, because. But I mean it is easier to find relevant documents because you just do a similarity search. Once you have the documents, you pass that to a large language model. The large package model converts it internally into vectors and then gives you a response.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 48,
+      "sentence_start": 235,
+      "sentence_end": 239,
+      "sentence_count": 5,
+      "content": "Okay, but at a high level you just want to add more and more context. You retrieve the context, augment the query, and then generate a response. The 10th term, which is vector database. Vector Database We just mentioned vector database is something which is used to find relevant documents for an incoming query. Let's see how that happens.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 49,
+      "sentence_start": 240,
+      "sentence_end": 244,
+      "sentence_count": 5,
+      "content": "You have the request. I am upset with your payment system. I expect a refund. This is a lot of terms in this query. A human being can read this and easily understand what the user is feeling.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 50,
+      "sentence_start": 245,
+      "sentence_end": 249,
+      "sentence_count": 5,
+      "content": "They are feeling upset. I mean they've already mentioned it, but they are looking for a refund if you give them a refund, maybe the upset feeling will go away. Which documents do you search for? You could search for all documents where the word upset exists, but maybe you do not have it in your company policy. Maybe nowhere is it mentioned that a user is upset, but you have a document which mentions if the user is giving you a low rating, or if a user drops off.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 51,
+      "sentence_start": 250,
+      "sentence_end": 254,
+      "sentence_count": 5,
+      "content": "How do you make that decision that upset as a word, is close to the low rating or drop off? We spoke about vectors. Vectors can encapsulate semantic meaning, which means documents which store similar words are going to be similar or close in distance. Remember, vectors are basically coordinates, right? So the distance between upset and documents having low rating are going to be low.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 52,
+      "sentence_start": 255,
+      "sentence_end": 259,
+      "sentence_count": 5,
+      "content": "You will fetch the documents which mention low rating or drop offs and use them to add context to your large language model. When you have an incoming query from the user. You're going to find which document is closest to the query and add that to the large language models context. So this document will be sent along with the original user query and maybe a system prompt. Where are you going to store these documents in a vector database, which helps you perform these similarity searches efficiently.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 53,
+      "sentence_start": 260,
+      "sentence_end": 264,
+      "sentence_count": 5,
+      "content": "Some of these algorithms are hierarchical, navigable, small world. We have spoken about this in detail in the interview. Right course at the end of the day. The vector database is like a black box to you. You can store documents and you can quickly retrieve them when you need them.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 54,
+      "sentence_start": 265,
+      "sentence_end": 269,
+      "sentence_count": 5,
+      "content": "Model Context Protocol Great. So you can store internal company documents and information in a vector database to get context for a large language model. But what if the context exists outside your system? So this challenge was met with model context protocol. As the name suggests, it's a protocol or a way to communicate the transfer context into a model.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 55,
+      "sentence_start": 270,
+      "sentence_end": 274,
+      "sentence_count": 5,
+      "content": "The basic idea here I made a detailed video on this. You can check it out, but the basic idea here is that you have a large language model which, before receiving an incoming query from a user. Has a client, an MCP client model, context protocol client which forwards the initial query user query. The LLM now makes a decision. It says that there may be external tools or databases that I want to connect to.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 56,
+      "sentence_start": 275,
+      "sentence_end": 279,
+      "sentence_count": 5,
+      "content": "The client gets to know of this and connects with external MCP servers. In one case, that might be Indigo. In another case that will be Air India, whose MCP server can give you details around Air India. So you can think of this as a wrapper for Air India's database. This as a wrapper for Indigo's database.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 57,
+      "sentence_start": 280,
+      "sentence_end": 284,
+      "sentence_count": 5,
+      "content": "As a response, you are going to get flight details. From each of these airlines. Once you have the details, you can forward it to the alum saying that hey, along with the user query and along with whatever system from the relevant context that I could get from my vector database, I'm also adding flight details, real time information from external servers, which you can now consume to come up with a decision. And the large language model at this point might say, okay, book flight number i.e. Indigo 1020, which then results in another API call to book on the MCP server of Indigo.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 58,
+      "sentence_start": 285,
+      "sentence_end": 289,
+      "sentence_count": 5,
+      "content": "The response final response is given to the MCP client. The client then forwards it back to the user. Result in customer satisfaction. You see that the user is no longer just able to get data up. They do not have to do things themselves after being given the recipe.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 59,
+      "sentence_start": 290,
+      "sentence_end": 294,
+      "sentence_count": 5,
+      "content": "The recipe can be completely executed by the MCP client. Okay, so this makes LMS a lot more powerful. MCP has picked up a lot of popularity now. Context Engineering Okay, so all of this put together is called context engineering. If you are an engineer, you have probably heard of this term.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 60,
+      "sentence_start": 295,
+      "sentence_end": 299,
+      "sentence_count": 5,
+      "content": "And basically this is an encapsulation of many of the things that we have already discussed. We discussed a few short prompting, which is giving examples. We discussed retrieval, augmented generation, which is getting relevant documents from a vector database. And using them to add context to a query and using model context protocol to hit external servers. And perform actions as needed.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 61,
+      "sentence_start": 300,
+      "sentence_end": 304,
+      "sentence_count": 5,
+      "content": "When it comes to context engineering. This two new challenges that we are facing as engineers. One is user preferences and the second is prompt summarization. You can call it context summarization. For example, you might use a sliding window.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 62,
+      "sentence_start": 305,
+      "sentence_end": 309,
+      "sentence_count": 5,
+      "content": "Where the last 100 chats are sent directly to the large language model, and all the previous chats are summarized into five sentences, just. This limits the max amount of chats that you are sending to the large language model. You could use other techniques also. For example, some people just focus on keywords. Some people focus just on the last chat.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 63,
+      "sentence_start": 310,
+      "sentence_end": 314,
+      "sentence_count": 5,
+      "content": "So one chat and the previous entire history summary together. The idea is to get context summarization this way when you get a document, you again summarize it first and then send it. So this can be done maybe using a cheap small language model or a distilled model. And once you have generated the context, you send that to the expensive large language model. You see, the main difference between context engineering and prompt engineering is prompt engineering is for one single prompt.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 64,
+      "sentence_start": 315,
+      "sentence_end": 319,
+      "sentence_count": 5,
+      "content": "It is stateless. Anytime you ask the large language model to behave in a particular way, the system prompt is going to be the same. But context engineering evolves as per the user's declared preferences and also the previous chat history similar to what it was earlier, but this is more long term. Which brings us to the most long term thing you can come up with 13. Agents in the air space right now.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 65,
+      "sentence_start": 320,
+      "sentence_end": 324,
+      "sentence_count": 5,
+      "content": "I've taken a detailed video on this, so do check that out. But at a high level, you have a long running process. Which is known as an agent. You can think of this is a server which is getting an API call. And this has many capabilities.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 66,
+      "sentence_start": 325,
+      "sentence_end": 329,
+      "sentence_count": 5,
+      "content": "It can go and query and LM. It can also query external systems. And other agents. To meet the user's requirements. Let's take an example here.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 67,
+      "sentence_start": 330,
+      "sentence_end": 334,
+      "sentence_count": 5,
+      "content": "Let's say your travel agent can look into booking flights, booking hotels and even manage your email when you're away. When it sees a window of opportunity. Maybe the flights then are cheap. It goes ahead and makes the booking according to your preferences. All of this stuff can be managed by an agent and the most hyped 14.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 68,
+      "sentence_start": 335,
+      "sentence_end": 339,
+      "sentence_count": 5,
+      "content": "Reinforcement Learning term here. Is reinforcement learning. It's a way in which you can train models to behave in a particular way. So, for example, if you give a query a user query to the model, the model can generate two responses response one and response two. You must have seen this in ChatGPT.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 69,
+      "sentence_start": 340,
+      "sentence_end": 344,
+      "sentence_count": 5,
+      "content": "Choose the one which is better. Okay, so the one which is chosen gets a plus one. The other one gets a minus one. What happened effectively is you took a user query. This entire thing can be mapped to a vector.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 70,
+      "sentence_start": 345,
+      "sentence_end": 349,
+      "sentence_count": 5,
+      "content": "And the vector is an n dimensional space. So you go to that coordinate and you tell the model that look after reaching here you generated further tokens for the vectors. So that's your path. You went from here to here to here. So this was the final point of response.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 71,
+      "sentence_start": 350,
+      "sentence_end": 354,
+      "sentence_count": 5,
+      "content": "And now you got a score of plus one. So this gets a score of plus one. This also gets the score of plus one plus one plus one plus one plus one. It's also discounting that you can do. But for now let's just keep things simple.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 72,
+      "sentence_start": 355,
+      "sentence_end": 359,
+      "sentence_count": 5,
+      "content": "This is a nice path. You always want to follow this path. Response two was bad there. You followed this point to this point. This point, and then you deviated.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 73,
+      "sentence_start": 360,
+      "sentence_end": 364,
+      "sentence_count": 5,
+      "content": "The next token that you generated after the first three tokens, let's say, is not going. And then you did a comma here and went, but it may be so token one, two, three for token one, two, three four. It got a score of minus one, which means this area gets a score of minus one. This also gets the score of minus one, minus one, minus one, minus one, plus one takes it to zero. Minus one plus one takes it to zero.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 74,
+      "sentence_start": 365,
+      "sentence_end": 369,
+      "sentence_count": 5,
+      "content": "Minus one plus one takes it to zero. So what you're doing is you have a space where you have negative scores, positive scores and neutral scores. If you do this enough, then you will end up with a space, a vector space where given an input query, given a starting point, you will have a space of negative where you do not want to go. You will have a space of positive where you definitely want to go. And the more positive it is, the more you want to go there.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 75,
+      "sentence_start": 370,
+      "sentence_end": 374,
+      "sentence_count": 5,
+      "content": "Okay, so maybe you go here. From here you have another very positive space which is over here. This is like hill climbing, right? You're basically trying to optimize on the path that you're taking as a large language model. The expectation is that the final result will make the end user happy.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 76,
+      "sentence_start": 375,
+      "sentence_end": 379,
+      "sentence_count": 5,
+      "content": "If the end user experience is good, then the model is trained to make users happy. That's what is reinforcement learning with human feedback. Human feedback is telling you whether it is a plus 1 or -1, and the feedback is helping you reinforce good outputs. This is an extremely powerful technique. In fact, it is seen in nature.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 77,
+      "sentence_start": 380,
+      "sentence_end": 384,
+      "sentence_count": 5,
+      "content": "If you know about Pavlov's dog, then there was this situation where Pablo would press a bell and give food to the dog when it would come after pressing the bell. Eventually he realized that if he just presses the bell without giving food, the dog already comes and starts salivating because it's expecting food. So its behaviors have been reinforced. Fortunately, this is not the only capability that human beings have. You cannot model human intelligence using just reinforcement learning.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 78,
+      "sentence_start": 385,
+      "sentence_end": 389,
+      "sentence_count": 5,
+      "content": "I'll take an example. Let's say you have a coin which is giving you heads. If you know that this is a fair coin. If you have a mental understanding of how the coin works, then what do you think is coming next? Okay, so I just looked at the camera and said, okay, okay.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 79,
+      "sentence_start": 390,
+      "sentence_end": 394,
+      "sentence_count": 5,
+      "content": "Something's going on. But as a human being, you should look at this and say if it is a fair coin, if it's an unbiased coin, then it can be heads or tails. You can't guarantee that it is going to be heads next. But reinforcement learning looks. It observes the real world and based on that makes a decision.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 80,
+      "sentence_start": 395,
+      "sentence_end": 399,
+      "sentence_count": 5,
+      "content": "So when it predicts heads it gets reinforced. When it predicts tails, it gets punished. But the reality is this is a fair coin. So there's a 5050 chance of either. If you ask a human being, you show them the coin.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 81,
+      "sentence_start": 400,
+      "sentence_end": 404,
+      "sentence_count": 5,
+      "content": "You tell them that this is a fair coin, and then you just keep flipping the coin. You get a lot of heads. They're just going to say 5050 because they have an internal representation of how the coin works. They have a mental model of the physics of the coin. While reinforcement learning cannot build mental models, they can just tell you based on outcomes what is more likely and what is maybe a more beneficial path.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 82,
+      "sentence_start": 405,
+      "sentence_end": 409,
+      "sentence_count": 5,
+      "content": "Okay, we are not crocodiles. We have a deeper understanding of how things work. Having said that, reinforcement learning is a powerful technique. It does make models get smarter. Quite smart right?",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 83,
+      "sentence_start": 410,
+      "sentence_end": 414,
+      "sentence_count": 5,
+      "content": "Chain of Thought Chain of thought. Pretty simple concept, but very powerful. When training the model, we clearly explain our thought process here. The expectation is that as the model trains to break a problem step by step, it's going to look at newer problems with different parameters and still be able to reason through them because it has been trained to reason step by step. This is called chain of thought, where the model goes through a series of deductions or inferences and comes up with the final response.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 84,
+      "sentence_start": 415,
+      "sentence_end": 419,
+      "sentence_count": 5,
+      "content": "The quality of this response is usually much higher than a direct response. As you can see, this is similar to a few short prompting. The quality of the response is higher. It has some examples to go through, but here the key difference is that there is a step by step breakdown, and new steps can be added by the model as it sees fit. Because it is trained on so much training data, it may be able to reason to add more steps as the problem gets more and more difficult.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 85,
+      "sentence_start": 420,
+      "sentence_end": 424,
+      "sentence_count": 5,
+      "content": "In fact, this is something that has been seen by deep seek. If you make the problem harder, it goes for more steps. If you make the problem easy, then it goes for fewer steps. Reasoning Models So this is called a reasoning model. They do not necessarily need to do chain of thought.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 86,
+      "sentence_start": 425,
+      "sentence_end": 429,
+      "sentence_count": 5,
+      "content": "They can also use other algorithms. For example there is tree of thought graph of thought also that you can go through. You can use tools also to come up with better reasoning, but a model that can reason, a model that can figure out, given a problem, how to solve that problem step by step is a reasoning model. This is also known as L or M's. Okay, examples of this deep seek and OpenAI.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 87,
+      "sentence_start": 430,
+      "sentence_end": 434,
+      "sentence_count": 5,
+      "content": "I mean the O one and O three another. All these models but they newer models 17. Multi-modal Models with new capabilities. Now multi model models. So the basic idea is that most large language models that we know of operate on text.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 88,
+      "sentence_start": 435,
+      "sentence_end": 439,
+      "sentence_count": 5,
+      "content": "But what about models which can accept and create images, generate images. What about models which can accept and create videos. So they can analyze images. They can tell you the number of apples in an image, let's say. Or they can modify an image to create a new image.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 89,
+      "sentence_start": 440,
+      "sentence_end": 444,
+      "sentence_count": 5,
+      "content": "Similarly for video, these have tremendous application similar to how large language models have changed the marketing space. To textual content. Now, social media is rife with large language model content. Images are going to get better and better, and video can be a really big deal. Because if you have celebrities.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 90,
+      "sentence_start": 445,
+      "sentence_end": 449,
+      "sentence_count": 5,
+      "content": "Who can create video? You can create ads through large language models. Then the cost expectation of creating video is going to go down okay. This is already happening to some extent, but the quality of the models are not very good. Multimodal in general means any kind of mode of input data.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 91,
+      "sentence_start": 450,
+      "sentence_end": 454,
+      "sentence_count": 5,
+      "content": "It turns out that their performance is better than models which are just trained on text. They have a deeper understanding of the meaning of objects. If you train a model on cat and feline and so on, and then if you show it, images of cats, then the performance of the model, the output quality is usually better. The training is better. Let's get to three major topics, 18.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 92,
+      "sentence_start": 455,
+      "sentence_end": 459,
+      "sentence_count": 5,
+      "content": "Small Language Models which is where the AI space is heading. People are looking for more company specific smaller models. Foundation models. The reason for this is companies want more control over what they generate. They also want to keep the data close to themselves.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 93,
+      "sentence_start": 460,
+      "sentence_end": 464,
+      "sentence_count": 5,
+      "content": "They don't want to expose it to any other third party company. So one of the things which is happening is we are looking at smaller models. Of small language models. As you can expect with the words have fewer parameters than large language models. For example, a small language model may have 3 million to 300 million parameters.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 94,
+      "sentence_start": 465,
+      "sentence_end": 469,
+      "sentence_count": 5,
+      "content": "Okay, the neural network internally has fewer connections, fewer weights. But if you look at large language models, contrast it. You have 3 to 300 billion parameters. So this is a very large neural network with a lot of weights in a LM. But the SLM is smaller.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 95,
+      "sentence_start": 470,
+      "sentence_end": 474,
+      "sentence_count": 5,
+      "content": "But they are useful because they are trained on lesser data, which can be company specific. Or task specific. For example, a bot which is trained on just customer queries, how to manage customer queries, how to make sales is likely to perform decently well. Okay, it's going to be an expert at sales, but it probably can't tell you a detailed weather analysis. For most companies, this doesn't matter.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 96,
+      "sentence_start": 475,
+      "sentence_end": 479,
+      "sentence_count": 5,
+      "content": "In the case of NASA. This is what you need. You are probably not selling anything openly, so maybe you are. But NASA would be more interested in building a foundation model which can predict the weather, but not bothered about the sales part. So in this way, smaller language models are being trained by companies on their specific data, on the proprietary data to come up with reasonably good responses for specific use cases.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 97,
+      "sentence_start": 480,
+      "sentence_end": 484,
+      "sentence_count": 5,
+      "content": "Distillation And the process of building small language models is usually distillation. The basic idea is you have a large language model, which is a teacher, and then you pass in some input. You look at the output of the large language model, and in parallel you also send it to a small language model. Okay, with fewer parameters. You and it also tries to predict the output.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 98,
+      "sentence_start": 485,
+      "sentence_end": 489,
+      "sentence_count": 5,
+      "content": "So the teacher produces an output and the student tries to mimic the teacher. If these two outputs match, then the small language model is doing well. No weights need to change, but if it is not doing well, then the internal weights of the small language model are changed. But there is a limited number of weights assigned to this model 3 to 300 million. What you are basically trying to do is condense this information, the the complex neural network, into the most reasonable representation that you can have such that your performance is okay, but the costs are significantly reduced.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 99,
+      "sentence_start": 490,
+      "sentence_end": 494,
+      "sentence_count": 5,
+      "content": "So during runtime, during production inference time when you get a query, this is going to be much faster at responding as compared to this large language model. It's also easier to host. Distilled models take us to the last term that you really should know 20. Quantization if you are the engineer, and that is quantization. Here the idea is that you have neural networks.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 100,
+      "sentence_start": 495,
+      "sentence_end": 499,
+      "sentence_count": 5,
+      "content": "Each of these weights is basically a number, let's say a 32 bit number. What if you could take these weights and condense that information into eight bits. Then 75% of your memory is expected to be saved. It doesn't directly map over here because the weights are usually just done on the feedforward neural network. You still have the attention mechanism, and also the training cost is the same because initially you come up with a really good model with zero quantization.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 101,
+      "sentence_start": 500,
+      "sentence_end": 504,
+      "sentence_count": 5,
+      "content": "Once the model is completely trained, that's when you apply quantization. So the training cost does not reduce. This is mainly to reduce inference cost or during production. The cost of running a model. So these are the most important 20 terms that I want to discuss in the engineering space.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 102,
+      "sentence_start": 505,
+      "sentence_end": 509,
+      "sentence_count": 5,
+      "content": "I think knowing these terms will help you effectively communicate with any other engineer or people in the team. I couldn't go into enough detail here because, I mean, when you're talking about the attention mechanism or quick action, you cannot do this in a 20 30 minute video. But the things you should know about are these terms. And also most of the things that are mentioned in the engineering course are going to be ready. If you know them, then you truly understand how these models work.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    },
+    {
+      "chunk_id": 103,
+      "sentence_start": 510,
+      "sentence_end": 514,
+      "sentence_count": 5,
+      "content": "And all of the hype and nonsense which is going on in this space, they become hype and nonsense to you, right? You are able to recognize it much better. Thank you for watching. I hope you enjoyed the video. I'll see you next time.",
+      "status": "pending",
+      "section_target": null,
+      "notes": null
+    }
+  ]
+}

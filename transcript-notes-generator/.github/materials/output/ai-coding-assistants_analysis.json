@@ -1,0 +1,38 @@
+{
+  "meta": {
+    "topic_slug": "ai-coding-assistants",
+    "transcript_path": "..\\materials\\input\\ai-coding-assistants-transcript.txt",
+    "total_chars": 38524,
+    "total_sentences": 430,
+    "generated_at": "2026-04-28T19:46:34Z"
+  },
+  "style_fingerprint": {
+    "vocabulary_register": "casual-practitioner",
+    "analogy_count": 6.0,
+    "caveat_count": 0.0,
+    "sample_analogies": [
+      "So, what I do like about the CLI, and this is true for most of these AI CLIs, is that they're quite portable.",
+      "So I can say something like a simple yes or no.",
+      "This gives us insights into our context window usage when we start building things like agents and skills.",
+      "So I can run a command like Alice, Grep, cat or any command I'd like to run.",
+      "I can even run more complex commands like appget update and I can install tools."
+    ],
+    "sample_caveats": [],
+    "structural_cues": [
+      "let's start",
+      "moving on",
+      "next",
+      "finally",
+      "the last",
+      "to summarize",
+      "in summary",
+      "at this point"
+    ]
+  },
+  "topic_map": {
+    "detected_topics": [],
+    "section_markers": [
+      "What are skills?"
+    ]
+  }
+}

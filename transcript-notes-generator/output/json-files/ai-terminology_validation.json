@@ -1,0 +1,24 @@
+{
+  "meta": {
+    "topic_slug": "ai-terminology",
+    "guide_path": "materials\\output\\ai-terminology-guide.md",
+    "validated_at": "2026-04-28T20:42:58Z",
+    "overall": "PASS"
+  },
+  "completeness": {
+    "passed": true,
+    "missing_sections": [],
+    "placeholders_found": []
+  },
+  "voice": {
+    "passed": true,
+    "quote_count": 22
+  },
+  "formatting": {
+    "passed": true,
+    "h1": 1,
+    "h2": 11,
+    "h3": 20,
+    "issues": []
+  }
+}

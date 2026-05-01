@@ -1,0 +1,9 @@
+TRANSCRIPT CHUNKER LOG
+======================
+Date           : 2026-04-28
+Topic          : agent-skills
+Transcript     : materials\input\agent-skills.txt
+Chunk size     : 5 sentences
+Total sentences: 424
+Total chunks   : 85
+Output file    : C:\Users\e135408\Downloads\personal-work\interview-preparation\Notes\materials\output\chunks\agent-skills_chunks.json

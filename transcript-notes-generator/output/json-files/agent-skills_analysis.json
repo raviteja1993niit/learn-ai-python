@@ -1,0 +1,48 @@
+{
+  "meta": {
+    "topic_slug": "agent-skills",
+    "transcript_path": "materials\\input\\agent-skills.txt",
+    "total_chars": 38875,
+    "total_sentences": 424,
+    "generated_at": "2026-04-28T20:30:25Z"
+  },
+  "style_fingerprint": {
+    "vocabulary_register": "casual-practitioner",
+    "analogy_count": 32.0,
+    "caveat_count": 0.0,
+    "sample_analogies": [
+      "Now, imagine I told you, Greg, every time we're about to shoot a podcast, Greg, you need a microphone.",
+      "So there is this disparity where a lot of people are putting a lot of onus on the harness and the context building and I'm low-key starting to strip things off like I'm going super super minimal because again not to sound like an anthropic or open AI shill unfortunately I have not been acquired none of them are paying me u but the models are really really good wait so 95% of the time I don't even need to bo bother with an agent MD file you don't like it unless this is some sort of propri proprietary information.",
+      "So let's say you have like a thousand line file claw.md and let's say that's like 7,000 tokens.",
+      "So imagine you have two sentences versus an agent.",
+      "MD that has like a thousand lines that get added into the context."
+    ],
+    "sample_caveats": [],
+    "structural_cues": [
+      "let's start",
+      "moving on",
+      "next",
+      "finally",
+      "the last",
+      "to summarize",
+      "in summary",
+      "at this point"
+    ]
+  },
+  "topic_map": {
+    "detected_topics": [
+      {
+        "topic": "Ross Mike",
+        "mentions": 2
+      }
+    ],
+    "section_markers": [
+      "What is the 5% of of time I should care about it?",
+      "Why didn't you see if they've raised money?",
+      "Why doesn't it work?",
+      "What I needed was again minimal context usage and skills.",
+      "How do I work with it?",
+      "What's the purpose of the sub aent?"
+    ]
+  }
+}

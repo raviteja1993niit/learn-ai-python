@@ -1,0 +1,1 @@
+Then make changes step by step: first, create a to-do list, plan all the necessary changes, and then apply the changes safely without breaking anything.

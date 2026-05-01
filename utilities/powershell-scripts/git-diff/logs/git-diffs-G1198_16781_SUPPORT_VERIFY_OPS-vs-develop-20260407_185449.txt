@@ -1,0 +1,226 @@
+﻿########################################
+# SECTION: REPORT_HEADER
+########################################
+REPORT_TYPE      : GIT_DIFF_ANALYSIS
+GENERATED_AT     : 2026-04-07 18:54:49
+SOURCE_BRANCH    : G1198_16781_SUPPORT_VERIFY_OPS
+TARGET_BRANCH    : develop
+COMPARISON       : develop..G1198_16781_SUPPORT_VERIFY_OPS  (changes in SOURCE not yet in TARGET)
+FILE_FILTER      : .yaml
+DIR_FILTER_INPUT : src/main/resources
+DIR_FILTER_NORM  : src/main/resources
+TOTAL_FILES      : 2
+
+########################################
+# SECTION: FILE_CHANGE_SUMMARY
+########################################
+FILE_CHANGE | STATUS=MODIFIED | PATH=src/main/resources/acquirer-card-payment-connectivity-api.yaml
+FILE_CHANGE | STATUS=MODIFIED | PATH=src/main/resources/card-payment-connectivity-api.yaml
+
+########################################
+# SECTION: DETAILED_DIFFS
+########################################
+
+--------------------------------------------------------------------------------
+## FILE_DIFF [1 / 2]
+   PATH   : src/main/resources/acquirer-card-payment-connectivity-api.yaml
+   STATUS : MODIFIED
+   LINES  : +4 added  /  -0 deleted
+--------------------------------------------------------------------------------
+
+```diff
+  diff --git a/src/main/resources/acquirer-card-payment-connectivity-api.yaml b/src/main/resources/acquirer-card-payment-connectivity-api.yaml
+  index 57572c0..cd1b40f 100644
+--- OLD_FILE   : a/src/main/resources/acquirer-card-payment-connectivity-api.yaml
++++ NEW_FILE   : b/src/main/resources/acquirer-card-payment-connectivity-api.yaml
+@@ HUNK       : -453,6 +453,10
+               $ref: './acquirer_connectivity_config_api.yaml#/components/schemas/AcquirerConfigurationData'
+           systemTraceAuditNumber:
+             $ref: './card-payment-connectivity-api.yaml#/components/schemas/Authorization/properties/transactionReferences/properties/systemTraceAuditNumber'
++         authorizationAmountIndicator:
++           $ref: './card-payment-connectivity-api.yaml#/components/schemas/AuthorizationAmountIndicator'
++         partialAmountSupport:
++           $ref: './card-payment-connectivity-api.yaml#/components/schemas/PartialAmountSupport'
+   
+       AcquirerCaptureSubmission:
+         type: object
+```
+
+--------------------------------------------------------------------------------
+## FILE_DIFF [2 / 2]
+   PATH   : src/main/resources/card-payment-connectivity-api.yaml
+   STATUS : MODIFIED
+   LINES  : +29 added  /  -0 deleted
+--------------------------------------------------------------------------------
+
+```diff
+  diff --git a/src/main/resources/card-payment-connectivity-api.yaml b/src/main/resources/card-payment-connectivity-api.yaml
+  index 4bc863e..8bd282d 100644
+--- OLD_FILE   : a/src/main/resources/card-payment-connectivity-api.yaml
++++ NEW_FILE   : b/src/main/resources/card-payment-connectivity-api.yaml
+@@ HUNK       : -2019,6 +2019,7
+               + RESUBMIT_LATER - Resubmit the same request later. Retrying the same transaction is allowed and may be successful.
+             example: DO_NOT_PROCEED
+           serviceProviderTransactionProcessing:
++           title: AuthorizationVoidServiceProviderTransactionProcessing
+             properties:
+               accountFundingMethod:
+                 $ref: '#/components/schemas/AccountFundingMethod'
+@@ HUNK       : -2036,6 +2037,8
+                 $ref: '#/components/schemas/AuthenticationTokenRequestorId'
+               authenticationTokenResponseInformation:
+                 $ref: '#/components/schemas/AuthenticationTokenResponseInformation'
++             authorizationCode:
++               $ref: '#/components/schemas/AuthorizationCode'
+               cardProductId:
+                 $ref: '#/components/schemas/CardProductId'
+               linkedTransactionId:
+@@ HUNK       : -2142,6 +2145,8
+                 $ref: '#/components/schemas/AcquirerProcessingTime'
+               approvalCode:
+                 $ref: '#/components/schemas/ApprovalCode'
++             authorizationCode:
++               $ref: '#/components/schemas/AuthorizationCode'
+               authenticationFrameworkIndicator:
+                 $ref: '#/components/schemas/AuthenticationFrameworkIndicator'
+               authenticationTokenAssuranceMethod:
+@@ HUNK       : -2212,6 +2217,7
+         required:
+           - acquirerId
+           - associatedAuthorization
++         - orderId
+           - submissionTimestamp
+           - transactionId
+         properties:
+@@ HUNK       : -2309,6 +2315,7
+                 allOf:
+                   - $ref: '#/components/schemas/LinkedTransactionId'
+               merchant:
++               title: AuthorizationVoidSubmissionAssociatedAuthorizationMerchant
+                 description: |-
+                   Information about the merchant provided during associated authorization, including their contact and address details. If the merchant operates as a Payment Facilitator, data includes the Payment Facilitator's information as well as the details of the sub-merchant for whom the transaction is being processed.
+                 required:
+@@ HUNK       : -2872,6 +2879,13
+             $ref: '#/components/schemas/SubmissionTimestamp'
+           transactionId:
+             $ref: '#/components/schemas/TransactionId'
++         transactionType:
++           description: |-
++             Specifies the type of void transaction being submitted. Possible values:
++ 
++             + VOID_AUTH - The request to fully cancel a previously approved authorization.
++           allOf:
++             - $ref: '#/components/schemas/TransactionType'
+       AuthorizationSubmission:
+         type: object
+         description: |-
+@@ HUNK       : -4580,6 +4594,8
+   
+           For co-badged cards, do not set 'DOMESTIC_SCHEME_ONLY'. Instead, set the value to the appropriate global card scheme and include the domestic scheme details in the cardType.domesticScheme field
+   
++         + JCB - Japan Credit Bureau card scheme.
++ 
+         example: MASTERCARD
+         enum:
+           - AMEX
+@@ HUNK       : -4690,13 +4706,19
+         type: string
+         description: |-
+           The type of digital wallet used by the payer to make the payment. Possible values
++         + ANDROID_PAY - Android Pay digital wallet provider.
+           + APPLE_PAY - Apple Pay digital wallet provider.
+           + GOOGLE_PAY - Google Pay digital wallet provider.
++         + MASTERPASS_ONLINE - Masterpass Online digital wallet provider.
+           + SAMSUNG_PAY - Samsung Pay digital wallet provider.
++         + VISA_CHECKOUT - Visa Checkout digital wallet provider.
+         enum:
++         - ANDROID_PAY
+           - APPLE_PAY
+           - GOOGLE_PAY
++         - MASTERPASS_ONLINE
+           - SAMSUNG_PAY
++         - VISA_CHECKOUT
+         example: APPLE_PAY
+       DirectoryServerReference:
+         type: string
+@@ HUNK       : -5504,10 +5526,13
+   
+           + AUTHORIZATION - The request to authorize the payment without the transfer of funds.
+           + AUTHORIZATION_WITH_AUTO_CAPTURE - The request to authorize the payment and initiate the transfer of funds.
++         + VOID_AUTH - The request to fully cancel a previously approved authorization.
+         example: AUTHORIZATION
+         enum:
+           - AUTHORIZATION
+           - AUTHORIZATION_WITH_AUTO_CAPTURE
++         - VERIFICATION
++         - VOID_AUTH
+       TransactionTypeIndicator:
+         type: string
+         description: |-
+@@ HUNK       : -5632,6 +5657,8
+                 $ref: '#/components/schemas/AcquirerProcessingTime'
+               authenticationTokenVerificationCode:
+                 $ref: '#/components/schemas/AuthenticationTokenVerificationCode'
++             authorizationCode:
++               $ref: '#/components/schemas/AuthorizationCode'
+               avsCode:
+                 $ref: '#/components/schemas/AvsCode'
+               cardHolderVerificationMethod:
+@@ HUNK       : -5707,6 +5734,8
+           - submissionTimestamp
+           - transactionCurrency
+           - transactionId
++         - orderId
++         - transactionType
+         properties:
+           accountFunding:
+             description: |-
+@@ HUNK       : -6165,6 +6194,8
+             $ref: '#/components/schemas/TransactionId'
+           transactionPurpose:
+             $ref: '#/components/schemas/TransactionPurpose'
++         transactionType:
++           $ref: '#/components/schemas/TransactionType'
+       XmcRequestMode:
+         type: string
+         default: LIVE
+```
+
+########################################
+# SECTION: STATISTICS
+########################################
+STAT | FILE=src/main/resources/acquirer-card-payment-connectivity-api.yaml | ADDED=4 | DELETED=0 | NET=4
+STAT | FILE=src/main/resources/card-payment-connectivity-api.yaml | ADDED=29 | DELETED=0 | NET=29
+
+TOTAL_LINES_ADDED   : 33
+TOTAL_LINES_DELETED : 0
+NET_CHANGE          : 33
+
+--------------------------------------------------------------------------------
+GIT_STAT_RAW:
+   .../acquirer-card-payment-connectivity-api.yaml    |  4 +++
+   .../resources/card-payment-connectivity-api.yaml   | 31 ++++++++++++++++++++++
+   2 files changed, 35 insertions(+)
+
+########################################
+# SECTION: COMMIT_LOG
+# Commits in SOURCE_BRANCH not yet in TARGET_BRANCH
+########################################
+COMMIT | 5c2b73d Merge branch 'develop' of https://scm.mastercard.int/stash/scm/~e135408/lib-acquirer-connectivity-domain-api-spec into G1198_16781_SUPPORT_VERIFY_OPS
+COMMIT | bdda7f8 changes on AuthorizationVoidSubmissionAssociatedAuthorizationMerchant
+COMMIT | 6fd50bf G1198_16781_FLOW_THREE3DS_AUTH
+COMMIT | 145ef9b G1198_16781_FLOW_THREE3DS_AUTH
+COMMIT | cbba233 Merge branch 'develop' of https://scm.mastercard.int/stash/scm/~e135408/lib-acquirer-connectivity-domain-api-spec into G1198_16781_SUPPORT_VERIFY_OPS
+COMMIT | 9afd4a3 G1198_16781_FLOW_THREE3DS_AUTH
+COMMIT | 454bfa5 G1198_16781_FLOW_THREE3DS_AUTH
+COMMIT | 564db3a G1198_16781_FLOW_THREE3DS_AUTH
+
+########################################
+# SECTION: REPORT_FOOTER
+########################################
+END_REPORT    : GIT_DIFF_ANALYSIS
+SOURCE_BRANCH : G1198_16781_SUPPORT_VERIFY_OPS
+TARGET_BRANCH : develop
+TOTAL_FILES   : 2
+GENERATED_AT  : 2026-04-07 18:54:51
+########################################

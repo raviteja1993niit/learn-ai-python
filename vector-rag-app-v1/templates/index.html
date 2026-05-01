@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VectorRAG — Semantic Search</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <div id="toast-container"></div>
+  <div class="app" id="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-logo">
+        <div class="logo-icon">🔍</div>
+        <div>
+          <div class="logo-title">VectorRAG</div>
+          <div class="logo-sub">Semantic Search</div>
+        </div>
+      </div>
+
+      <button class="btn-new-chat" id="btn-new-chat">＋ New Chat</button>
+
+      <!-- Doc info (hidden until file loaded) -->
+      <div class="doc-info" id="doc-info" style="display:none">
+        <div class="doc-name" id="doc-name"></div>
+        <div class="doc-chips" id="doc-chips"></div>
+        <button class="btn-clear-chat" id="btn-clear-chat">🗑️ Clear Chat</button>
+      </div>
+
+      <div class="sidebar-divider"></div>
+
+      <!-- Settings -->
+      <div class="settings-label">SETTINGS</div>
+      <div class="form-group">
+        <label>GitHub Token</label>
+        <input type="password" id="github-token" placeholder="Auto-detected from gh CLI">
+        <div class="token-status" id="token-status"></div>
+      </div>
+      <div class="form-group">
+        <label>Provider</label>
+        <select id="provider-select"></select>
+      </div>
+      <div class="form-group">
+        <label>Model</label>
+        <select id="model-select"></select>
+      </div>
+      <div class="form-group">
+        <label>Pages to retrieve: <span id="topk-val">4</span></label>
+        <input type="range" id="topk" min="1" max="15" value="6">
+      </div>
+
+      <div class="sidebar-divider"></div>
+      <div class="sidebar-footer">
+        Local Embeddings · ChromaDB · sentence-transformers
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="main" id="main">
+
+      <!-- TOP NAVBAR -->
+      <div class="topbar" id="topbar">
+        <button class="topbar-menu" id="sidebar-toggle">☰</button>
+        <span class="topbar-title" id="topbar-title">VectorRAG — Semantic Search</span>
+        <div class="topbar-badges" id="topbar-badges"></div>
+      </div>
+
+      <!-- TAB BAR (hidden until doc loaded) -->
+      <div class="tabbar" id="tabbar" style="display:none">
+        <button class="tab-btn active" data-tab="chat">💬 Chat</button>
+        <button class="tab-btn" data-tab="browser">📖 Document Browser</button>
+        <button class="tab-btn" data-tab="how">ℹ️ How It Works</button>
+      </div>
+
+      <!-- WELCOME SCREEN -->
+      <div class="tab-panel active" id="panel-welcome">
+        <div class="welcome-center">
+          <div class="welcome-icon">🔍</div>
+          <h1>VectorRAG</h1>
+          <p class="welcome-sub">Upload a document and chat with it using semantic vector search — powered by sentence-transformers + ChromaDB</p>
+
+          <!-- Upload zone -->
+          <div class="upload-zone" id="upload-zone">
+            <input type="file" id="file-input" accept=".pdf,.docx,.xlsx,.xls,.csv,.txt,.md" style="display:none">
+            <div class="upload-icon">📂</div>
+            <div class="upload-title">Drop your document here</div>
+            <div class="upload-sub">PDF · Word · Excel · CSV · Text · Markdown</div>
+            <button class="btn-upload" id="btn-upload-trigger">Choose File</button>
+          </div>
+
+          <!-- Progress (hidden by default) -->
+          <div class="progress-box" id="progress-box" style="display:none">
+            <div class="progress-title" id="progress-title">Processing...</div>
+            <div class="progress-bar-track"><div class="progress-bar-fill" id="progress-fill"></div></div>
+            <div class="progress-msg" id="progress-msg"></div>
+          </div>
+
+          <!-- Feature cards -->
+          <div class="feature-grid">
+            <div class="feature-card">
+              <div class="fc-icon">📑</div>
+              <div class="fc-title">Semantic Chunking</div>
+              <div class="fc-body">Documents split into natural pages, each embedded as a dense vector.</div>
+            </div>
+            <div class="feature-card">
+              <div class="fc-icon">⚡</div>
+              <div class="fc-title">Vector Search — No Cloud</div>
+              <div class="fc-body">Cosine similarity search over all embeddings using ChromaDB in-memory. Fully local.</div>
+            </div>
+            <div class="feature-card">
+              <div class="fc-icon">💬</div>
+              <div class="fc-title">Multi-turn Chat</div>
+              <div class="fc-body">Follow-up questions use conversation history.</div>
+            </div>
+            <div class="feature-card">
+              <div class="fc-icon">🤖</div>
+              <div class="fc-title">18 GitHub Copilot Models</div>
+              <div class="fc-body">GPT-5, Claude Opus/Sonnet, Grok — switch anytime.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CHAT TAB -->
+      <div class="tab-panel" id="panel-chat">
+        <div class="chat-layout">
+          <!-- Messages column -->
+          <div class="chat-col">
+            <div class="messages" id="messages"></div>
+            <div class="input-bar">
+              <div class="input-wrapper">
+                <textarea id="chat-input" placeholder="Ask about your document…" rows="1"></textarea>
+                <button id="send-btn" title="Send">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                  </svg>
+                </button>
+              </div>
+              <div class="input-hint">Enter to send · Shift+Enter for newline</div>
+            </div>
+          </div>
+          <!-- Sources panel -->
+          <div class="sources-col" id="sources-col">
+            <div class="sources-header">RETRIEVED PAGES</div>
+            <div id="sources-content">
+              <div class="sources-empty">Ask a question to see which pages were retrieved</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BROWSER TAB -->
+      <div class="tab-panel" id="panel-browser">
+        <div class="browser-panel">
+          <div class="browser-stats" id="browser-stats"></div>
+          <div class="browser-search-row">
+            <input type="text" id="browser-search" placeholder="🔍 Search pages by semantic similarity…">
+          </div>
+          <div class="browser-count" id="browser-count"></div>
+          <div class="pages-list" id="pages-list"></div>
+        </div>
+      </div>
+
+      <!-- HOW IT WORKS TAB -->
+      <div class="tab-panel" id="panel-how">
+        <div class="how-panel">
+          <h2>🏗️ Architecture</h2>
+          <pre class="arch-diagram">
+📂 Upload Document
+        │
+        ▼
+┌─────────────────────────────────┐
+│  Document Parser                │
+│  PDF  → 1 Page  per PDF page    │
+│  DOCX → 1 Page  per heading     │
+│  XLSX → 1 Page  per sheet       │
+│  CSV  → 1 Page  per 50 rows     │
+│  TXT  → 1 Page  per section     │
+└──────────────┬──────────────────┘
+               │  List[Page]
+               ▼
+┌─────────────────────────────────┐
+│  sentence-transformers          │
+│  all-MiniLM-L6-v2               │
+│  Embed each page → dense vector │
+└──────────────┬──────────────────┘
+               │  Vectors
+               ▼
+┌─────────────────────────────────┐
+│  ChromaDB  (in-memory)          │
+│  Cosine similarity index        │
+│  No disk · No cloud · Instant   │
+└──────────────┬──────────────────┘
+               │
+    ┌──────────┴──────────┐
+    │   User Question     │
+    └──────────┬──────────┘
+               ▼
+┌─────────────────────────────────┐
+│  Embed Query → Search Top-K     │
+│  Cosine similarity ranking      │
+└──────────────┬──────────────────┘
+               │  Top-K full pages
+               ▼
+┌─────────────────────────────────┐
+│  GitHub Copilot LLM             │
+│  System + History + Context     │
+│  → Grounded answer              │
+└─────────────────────────────────┘
+          </pre>
+          <h2>⚖️ Keyword Search vs Vector Search</h2>
+          <table class="how-table">
+            <tr><th>Keyword Search</th><th>Vector Search</th></tr>
+            <tr><td>Exact word matching</td><td>Semantic meaning matching</td></tr>
+            <tr><td>Misses synonyms &amp; paraphrases</td><td>Finds conceptually similar text</td></tr>
+            <tr><td>BM25 TF-IDF scoring</td><td>Cosine similarity in embedding space</td></tr>
+            <tr><td>No GPU / embedding needed</td><td>Requires sentence-transformer model</td></tr>
+            <tr><td>Fast on large corpora</td><td>Dense retrieval — more accurate</td></tr>
+          </table>
+        </div>
+      </div>
+
+    </div><!-- /main -->
+  </div><!-- /app -->
+</body>
+</html>

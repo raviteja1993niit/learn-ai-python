@@ -1,0 +1,26 @@
+# Dev overrides — local development only
+spring:
+  ai:
+    openai:
+      base-url: ${GITHUB_COPILOT_BASE_URL:https://api.githubcopilot.com}
+      api-key: ${GITHUB_COPILOT_TOKEN:dev-token}
+
+mcp:
+  tools:
+    confluence:
+      base-url: http://localhost:9001
+      username: dev@example.com
+      token: dev-confluence-token
+    jira:
+      base-url: http://localhost:9002
+      username: dev@example.com
+      token: dev-jira-token
+    bitbucket:
+      base-url: http://localhost:9003
+      token: dev-bitbucket-token
+
+logging:
+  level:
+    com.ai.assistant: DEBUG
+    org.springframework.ai: DEBUG
+    org.springframework.web.socket: DEBUG

@@ -1,0 +1,9 @@
+fastapi
+uvicorn[standard]
+python-multipart
+pdfplumber
+rank-bm25
+python-docx
+openpyxl
+altair
+pandas

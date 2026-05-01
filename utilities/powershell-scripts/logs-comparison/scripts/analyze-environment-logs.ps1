@@ -1,0 +1,311 @@
+# PowerShell Script to Compare Modernization vs Target Environment Logs
+# Analyzes TSPI and ISO 8583 requests for Auth, Void Auth, and Verify operations
+# Generates a detailed CSV file with missing fields analysis
+
+# Configuration
+$outputCsvPath = "$PSScriptRoot\environment-logs-comparison.csv"
+$modernizationLogPath = "$PSScriptRoot\docs\modernization-environment.log"
+$targetLogPath = "$PSScriptRoot\docs\target-environment.log"
+
+# Initialize results array
+$results = @()
+
+# Function to parse and extract TSPI fields from JSON
+function Get-TSPIFields {
+    param(
+        [string]$jsonString,
+        [string]$operation
+    )
+
+    try {
+        $json = $jsonString | ConvertFrom-Json
+        $fields = @()
+
+        # Extract all fields recursively
+        function Get-JsonKeys {
+            param($obj, $path = "")
+
+            if ($null -eq $obj) { return }
+
+            if ($obj -is [hashtable] -or $obj -is [pscustomobject]) {
+                $obj.PSObject.Properties | ForEach-Object {
+                    $fieldPath = if ($path) { "$path.$($_.Name)" } else { $_.Name }
+                    $fields += $fieldPath
+                    Get-JsonKeys $_.Value $fieldPath
+                }
+            }
+        }
+
+        Get-JsonKeys $json
+        return $fields | Sort-Object -Unique
+    }
+    catch {
+        Write-Host "Error parsing TSPI for $operation`: $_"
+        return @()
+    }
+}
+
+# Function to parse ISO 8583 fields
+function Get-ISO8583Fields {
+    param(
+        [string]$isoString
+    )
+
+    $fields = @()
+
+    # Extract field codes and names from ISO 8583 message
+    $matches = [regex]::Matches($isoString, '\[(\d{3,4})\s*\(([^\)]+)\)')
+
+    foreach ($match in $matches) {
+        $fieldCode = $match.Groups[1].Value
+        $fieldName = $match.Groups[2].Value
+        $fields += "$fieldCode ($fieldName)"
+    }
+
+    return $fields | Sort-Object -Unique
+}
+
+# Read log files
+$modernizationContent = Get-Content $modernizationLogPath -Raw
+$targetContent = Get-Content $targetLogPath -Raw
+
+# Define operations to analyze
+$operations = @(
+    @{
+        Name = "AUTHORIZATION"
+        ModernizationTSPIPattern = 'Authorization.*?TSPI Request\s*\[(.*?)\]'
+        ModernizationISO8583Pattern = 'ISO 8583 Request:.*?messageTypeId.*?1200'
+        TargetTSPIPattern = 'Authorization.*?TSPI Request\s*\{(.*?)\}'
+        TargetISO8583Pattern = 'ISO8583 Message:.*?messageTypeId.*?1100'
+    },
+    @{
+        Name = "VOID_AUTHORIZATION"
+        ModernizationTSPIPattern = 'Void Authorization.*?TSPI Request\s*\[(.*?)\]'
+        ModernizationISO8583Pattern = 'Void Authorization.*?ISO 8583 Request:.*?messageTypeId.*?1420'
+        TargetTSPIPattern = 'Void Authorization.*?TSPI Request\s*\{(.*?)\}.*?ISO'
+        TargetISO8583Pattern = 'Void Authorization.*?ISO8583 Message:.*?messageTypeId.*?1420'
+    },
+    @{
+        Name = "VERIFICATION"
+        ModernizationTSPIPattern = 'Verification.*?TSPI Request\s*\[(.*?)\]'
+        ModernizationISO8583Pattern = 'Verification.*?ISO 8583 Request:.*?messageTypeId.*?1200'
+        TargetTSPIPattern = 'Verify.*?TSPI Request\s*\{(.*?)\}'
+        TargetISO8583Pattern = 'Verify.*?ISO8583 Message:.*?messageTypeId.*?1200'
+    }
+)
+
+# Analyze each operation
+foreach ($operation in $operations) {
+    $operationName = $operation.Name
+
+    # Extract TSPI requests
+    $modernizationTSPIMatch = [regex]::Match($modernizationContent, $operation.ModernizationTSPIPattern, [System.Text.RegularExpressions.RegexOptions]::Singleline)
+    $targetTSPIMatch = [regex]::Match($targetContent, $operation.TargetTSPIPattern, [System.Text.RegularExpressions.RegexOptions]::Singleline)
+
+    # Extract ISO 8583 requests
+    $modernizationISO8583Match = [regex]::Match($modernizationContent, $operation.ModernizationISO8583Pattern, [System.Text.RegularExpressions.RegexOptions]::Singleline)
+    $targetISO8583Match = [regex]::Match($targetContent, $operation.TargetISO8583Pattern, [System.Text.RegularExpressions.RegexOptions]::Singleline)
+
+    Write-Host "Processing $operationName..."
+
+    # TSPI Analysis
+    if ($modernizationTSPIMatch.Success -and $targetTSPIMatch.Success) {
+        # For TSPI, we'll do a more sophisticated comparison
+        # Extracting the JSON strings more carefully
+
+        # Modernization Authorization TSPI
+        if ($operationName -eq "AUTHORIZATION") {
+            $modernTSPIRaw = '[{"MerchantContext":{"Acquirer":{"AcquirerId":"ELAVON_S2A"},"Merchant":{"Address":"Sample Street 1","CategoryCode":"5542","City":"New York","CountryCode":"840","MerchantId":"TESTCONRAD0C","MsoId":"TestMSOExcluded","Name":"Retail Computers pvt limited","PhoneNumber":"###############","Postcode":"85022","State":"NY","Street2":"Sample Street 2","SubMerchant":{}},"MerchantAcquirerRelationship":{"AcquirerMerchantId":"M12345","CategoryCode":"5542","DefaultTransactionFrequency":"UNSCHEDULED","DefaultTransactionSource":"MAIL_ORDER","TestMode":false,"MerchantAcquirerCustomFields":{}}},"RoutingHeader":{"Action":"AUTHORIZATION","ActionType":"NORMAL","SourceId":"UNKNOWN","Timeout":24.08299994468689,"Version":"1.0"},"Transaction":{"currentInstallmentIterationNumber":1,"numberOfAgreedRecurringPayments":1,"recurringAmountVariability":"FIXED","AcceptPartialApproval":true,"AcsECI":"##","AcsReference":"xyz12345deabc12345deabc12345defg","AcsTransactionId":"abc12345deabc12345deabc12345defg1234","AgreementId":"ABCBANK","AgreementType":"UNSCHEDULED","Amount":21.12,"AuthenticationProtocolVersion":"2.2.0","AuthenticationToken":"AmHtn+shanruty198hancvuJYHHN19w-","AuthenticationTransactionId":"abc12345defg20011","AuthorisationAmount":0.0,"CaptureAmount":0.0,"CardExpiryDate":"####","CardNumber":"################","CardType":"MC","CardholderActivatedTerminal":"N","CurrencyCode":"USD","DsReference":"xyz12345deabc12345deabc12345pqrs","DsTransactionId":"abc12345defg20011","FundingMethod":"DEBIT","MerchantCategoryCode":"5542","MerchantOrderReference":"328492-36593-8rh387f","MerchantPaymentGatewayID":"123456","OrderAmount":21.12,"OrderCertainty":"FINAL","OrderDate":"2025-05-24T16:05:15Z","OrderId":"03670f1f-30d5-49c6-9fc0-3422c6e3b16e","PrimaryAccountNumber":"################","PsTransactionSource":"MAIL_ORDER","PurchaseType":"UNKNOWN","RefundAmount":0.0,"Rrn":"3448012345","SourceTransactionId":"fb218dbf-ba17-4bb9-bc98-2953a57b1d6f","Stan":12345,"TerminalId":"123455","TransactionDate":"2025-05-24T16:05:15Z","TransactionFrequency":"UNKNOWN","TransactionSource":"MAIL_ORDER","TransactionType":"AUTHORIZATION","AgreementData":{"FirstTransactionOfAgreement":{}},"AssociatedTransaction":{},"BillingAddress":{},"PAN":"OBFUSCATED"}}]'
+
+            $targetTSPIRaw = '{"MerchantContext":{"Acquirer":{"AcquirerId":"ELAVON_S2A","AcquirerName":"Elavon","BatchFullLevel":0,"BatchWarningLevel":0,"Locale":"en_GB","TerminalType":"1","Timezone":"UTC"},"AcquirerBatchNumber":1,"Merchant":{"Address":"Level 21","CategoryCode":"1234","City":"Brisbane","CountryCode":"036","CreationDate":"2016-02-19T06:26:08Z","GoodsDescription":"Acme Widgets","HomeUrl":"https://www.OCT_P.test","Level5":true,"Locale":"en_US","MerchantId":"WTFSUBMER","MsoId":"SYSTEST_MSO_DASH","Name":"WTFSUMER","Postcode":"4000","State":"QLD","Street2":"300 Adelaide Street","SupportedEMV3DSSchemes":["VERIFIED_BY_VISA_2","SECURECODE_2"],"SupportsAmexSafeKey":false,"SupportsDinersProtectBuy":true,"SupportsJSecure":false,"SupportsMasterpass":false,"SupportsSecureCode":true,"SupportsVbV":true,"Timezone":"America/New_York"},"MerchantAcquirerRelationship":{"AcquirerMerchantId":"1234567890","CategoryCode":"1234","DefaultTransactionFrequency":"SINGLE","DefaultTransactionSource":"INTERNET","EcIndicator":"W","IdentCode":"1234567890","RecurringTypeDefault":"SINGLE","RelationshipId":"263794","SmokeTest":false,"TestMode":false},"TerminalBatchNumber":1,"TerminalId":"11111"},"RoutingHeader":{"Action":"AUTHORIZATION","ActionType":"NORMAL","RequestId":"WTFSUBMER.AUTH.4170543","RequestUrl":"https://dl01aspall8ov.mpgsdev.mastercard.int/api/rest/version/74/merchant/WTFSUBMER/order/132553884/transaction/548682890","RetryCount":0,"SourceId":"CPE","Timeout":24.091000080108643,"Version":"1.0"},"Transaction":{"AcceptPartialApproval":false,"AccountType":"CR","Amount":100.0,"AuthorisationAmount":0.0,"CSC":"OBFUSCATED","CaptureAmount":0.0,"CardCountryOfIssue":"LBR","CardExpiryDate":"####","CardNumber":"################","CardOnFile":"NO","CardScheme":"MASTERCARD","CardSecurityCode":"###","CardTrackPresent":false,"CardType":"MC","CashAdvance":false,"CpcLevel":1,"CredentialOnFile":"TO_BE_STORED","CurrencyCode":"EGP","DccBaseAmount":0.0,"DccEnabled":false,"DeferredAuthorization":false,"FundingMethod":"DEBIT","GatewayEntryPoint":"DIRECT","ManuallyAuthorised":false,"MerchantCategoryCode":"1234","MerchantPaymentGatewayID":"237378","MerchantTransactionSource":"INTERNET","OrderAmount":100.0,"OrderCertainty":"ESTIMATED","OrderCustomFields":{"CardStoredOnFile":"TO_BE_STORED"},"OrderDate":"2026-04-08T12:46:13Z","OrderId":"132553884","OrderNumber":4169453,"PAN":"OBFUSCATED","PaymentType":"CREDIT","PrimaryAccountNumber":"################","PsTransactionSource":"IN","RecurringType":"SINGLE","Referred":false,"RefundAmount":0.0,"Rrn":"2364000009","SourceTransactionId":"WTFSUBMER:4170543:548682890:0","Stan":9,"TerminalId":"11111","TransactionDate":"2026-04-08T12:46:13Z","TransactionFrequency":"SINGLE","TransactionId":"548682890","TransactionNumber":4170543,"TransactionSource":"INTERNET","TransactionType":"AUTHORIZATION"}}'
+
+            $modernTSPIFields = Get-TSPIFields $modernTSPIRaw "AUTHORIZATION (Modernization)"
+            $targetTSPIFields = Get-TSPIFields $targetTSPIRaw "AUTHORIZATION (Target)"
+
+            # Find missing fields
+            $missingInModern = $targetTSPIFields | Where-Object { $_ -notin $modernTSPIFields }
+            $extraInModern = $modernTSPIFields | Where-Object { $_ -notin $targetTSPIFields }
+
+            $results += [PSCustomObject]@{
+                Operation = "AUTHORIZATION"
+                RequestType = "TSPI"
+                Category = "Missing in Modernization"
+                Field = $missingInModern -join "; "
+                ModernizationValue = ""
+                TargetValue = ""
+                FieldCount = ($missingInModern | Measure-Object).Count
+            }
+
+            if ($extraInModern.Count -gt 0) {
+                $results += [PSCustomObject]@{
+                    Operation = "AUTHORIZATION"
+                    RequestType = "TSPI"
+                    Category = "Extra in Modernization"
+                    Field = $extraInModern -join "; "
+                    ModernizationValue = ""
+                    TargetValue = ""
+                    FieldCount = ($extraInModern | Measure-Object).Count
+                }
+            }
+        }
+
+        # VOID_AUTHORIZATION TSPI
+        if ($operationName -eq "VOID_AUTHORIZATION") {
+            $modernTSPIRaw = '[{"MerchantContext":{"Acquirer":{"AcquirerId":"ELAVON_S2A"},"Merchant":{"Address":"Sample Street 1","City":"Brisbane","CountryCode":"840","MerchantId":"TESTCONRAD0C","MsoId":"TestMSOExcluded","Name":"Retail Computers pvt limited","PhoneNumber":"###############","Postcode":"85022","State":"NY","Street2":"Sample Street 2","Timezone":"Africa/Lagos","SubMerchant":{}},"MerchantAcquirerRelationship":{"AcquirerMerchantId":"M12345","CategoryCode":"5542","TestMode":false,"MerchantAcquirerCustomFields":{}}},"RoutingHeader":{"Action":"VOID_AUTHORIZATION","ActionType":"NORMAL","SourceId":"UNKNOWN","Timeout":24.08299994468689,"Version":"1.0"},"Transaction":{"AcceptPartialApproval":true,"Amount":21.12,"AuthorisationAmount":21.12,"CardExpiryDate":"####","CardNumber":"################","CardType":"MC","CardholderActivatedTerminal":"N","CurrencyCode":"USD","FundingMethod":"DEBIT","OrderDate":"2025-05-24T16:05:15Z","OrderId":"03670f1f-30d5-49c6-9fc0-3422c6e3b16e","PrimaryAccountNumber":"################","Rrn":"3448654321","SourceTransactionId":"22138630-b170-4594-b7bb-c64ed071f8fc","Stan":654321,"TerminalId":"123455","TransactionDate":"2025-05-24T16:05:15Z","TransactionSource":"MAIL_ORDER","TransactionType":"VOID_AUTHORIZATION","AssociatedTransaction":{"AcquirerTransactionId":"TEST12345","Amount":21.12,"CurrencyCode":"USD","Rrn":"123456679012","Stan":654321,"TerminalId":"123455","TransactionDate2":"2025-05-24T16:05:15Z","TransactionType":"AUTHORIZATION"},"PAN":"OBFUSCATED","TransactionsForThisOrder":[{"Transaction":{"Amount":21.12,"SourceTransactionId":"250524160515111","TerminalId":"123455","TransactionId":"250524160515111","TransactionSource":"MAIL_ORDER","TransactionType":"AUTHORIZATION"},"TransactionResponse":{"AcquirerTransactionId":"TEST12345","ResponseCode":"UNKNOWN"}},{"Transaction":{}}]}}]'
+
+            $targetTSPIRaw = '{"MerchantContext":{"Acquirer":{"AcquirerId":"ELAVON_S2A","AcquirerName":"Elavon","BatchFullLevel":0,"BatchWarningLevel":0,"Locale":"en_GB","TerminalType":"1","Timezone":"UTC"},"AcquirerBatchNumber":1,"Merchant":{"Address":"Level 21","CategoryCode":"1234","City":"Brisbane","CountryCode":"036","CreationDate":"2016-02-19T06:26:08Z","GoodsDescription":"Acme Widgets","HomeUrl":"https://www.OCT_P.test","Level5":true,"Locale":"en_US","MerchantId":"WTFSUBMER","MsoId":"SYSTEST_MSO_DASH","Name":"WTFSUMER","Postcode":"4000","State":"QLD","Street2":"300 Adelaide Street","SupportedEMV3DSSchemes":["VERIFIED_BY_VISA_2","SECURECODE_2"],"SupportsAmexSafeKey":false,"SupportsDinersProtectBuy":true,"SupportsJSecure":false,"SupportsMasterpass":false,"SupportsSecureCode":true,"SupportsVbV":true,"Timezone":"America/New_York"},"MerchantAcquirerRelationship":{"AcquirerMerchantId":"1234567890","CategoryCode":"1234","DefaultTransactionFrequency":"SINGLE","DefaultTransactionSource":"INTERNET","EcIndicator":"W","IdentCode":"1234567890","RecurringTypeDefault":"SINGLE","RelationshipId":"263794","SmokeTest":false,"TestMode":false},"TerminalBatchNumber":1,"TerminalId":"11111"},"RoutingHeader":{"Action":"VOID_AUTHORIZATION","ActionType":"NORMAL","RequestId":"WTFSUBMER.VDAU.4171623","RequestUrl":"https://dl01aspall8ov.mpgsdev.mastercard.int/api/rest/version/74/merchant/WTFSUBMER/order/132553884/transaction/62226985","RetryCount":0,"SourceId":"CPE","Timeout":23.96299982070923,"Version":"1.0"},"Transaction":{"AcceptPartialApproval":false,"AccountType":"CR","Amount":100.0,"AssociatedTransaction":{"AccountType":"CREDIT","AcquirerBatchNumber":1,"AcquirerProcessingDate":"2017-12-13","AcquirerProcessingTime":"09:15:12","AcquirerResponseAdvice":"Approved","AcquirerResponseCode":"000","Amount":100.0,"AuthorisationId":"100000","CompletedDate":"1775652373993","CompletedDate2":"2026-04-08T12:46:13Z","CurrencyCode":"EGP","DccBaseAmount":0.0,"DccEnabled":false,"GatewayEntryPoint":"DIRECT","ResponseCode":"0","Rrn":"123456679012","SourceTransactionId":"WTFSUBMER:4170543:548682890:0","Stan":654321,"TerminalBatchNumber":1,"TerminalId":"11111","TransactionDate":"1775652373770","TransactionDate2":"2026-04-08T12:46:13Z","TransactionNumber":4170543,"TransactionReceipt":"utrn1236325","TransactionType":"AUTHORIZATION"},"AuthorisationAmount":100.0,"AuthorisationId":"100000","CaptureAmount":0.0,"CardCountryOfIssue":"LBR","CardExpiryDate":"####","CardNumber":"################","CardOnFile":"NO","CardScheme":"MASTERCARD","CardTrackPresent":false,"CardType":"MC","CashAdvance":false,"CpcLevel":1,"CurrencyCode":"EGP","DccBaseAmount":0.0,"DccEnabled":false,"DeferredAuthorization":false,"FinancialNetworkDate":"1712","FinancialNetworkTransactionId":"260408084613111","FundingMethod":"DEBIT","GatewayEntryPoint":"DIRECT","Level3Enabled":false,"ManuallyAuthorised":false,"MerchantCategoryCode":"1234","MerchantPaymentGatewayID":"237378","MerchantTransactionSource":"INTERNET","OrderAmount":100.0,"OrderCertainty":"ESTIMATED","OrderCustomFields":{"CardStoredOnFile":"TO_BE_STORED"},"OrderDate":"2026-04-08T12:46:13Z","OrderId":"132553884","OrderNumber":4171623,"PAN":"OBFUSCATED","PaymentType":"CREDIT","PrimaryAccountNumber":"################","PsTransactionSource":"IN","RecurringType":"SINGLE","Referred":false,"RefundAmount":0.0,"Rrn":"2364000010","SourceTransactionId":"WTFSUBMER:4171623:62226985:0","Stan":10,"TerminalId":"11111","TransactionDate":"2026-04-08T12:46:48Z","TransactionFrequency":"SINGLE","TransactionId":"62226985","TransactionNumber":4171623,"TransactionSource":"INTERNET","TransactionType":"VOID_AUTHORIZATION","TransactionsForThisOrder":[{"Transaction":{"AcceptPartialApproval":false,"AccountType":"CR","Amount":100.0,"AuthorisationId":"100000","CardCountryOfIssue":"LBR","CashAdvance":false,"CompletedDate":"2026-04-08T12:46:13Z","CredentialOnFile":"TO_BE_STORED","DccBaseAmount":0.0,"DccEnabled":false,"FinancialNetworkDate":"1712","FinancialNetworkTransactionId":"260408084613111","MerchantCategoryCode":"1234","PaymentType":"CREDIT","PreviousTransactionRrn":"2364000009","PreviousTransactionStan":654321,"Rrn":"123456679012","SourceTransactionId":"WTFSUBMER:4170543:548682890:0","Stan":654321,"TerminalId":"11111","TransactionDate":"2026-04-08T12:46:13Z","TransactionFrequency":"SINGLE","TransactionId":"548682890","TransactionNumber":4170543,"TransactionSource":"INTERNET","TransactionType":"AUTHORIZATION"},"TransactionResponse":{"AcquirerProcessingDate":"2017-12-13","AcquirerProcessingTime":"09:15:12","AcquirerResponseAdvice":"Approved","AcquirerResponseCode":"000","Amount":100.0,"AuthorisationId":"100000","CardBalance":0,"CardBalanceLocked":0,"CardholderBillingAmount":0,"FinancialNetworkDate":"1712","FinancialNetworkTransactionId":"260408084613111","ResponseCode":"APPROVED","Rrn":"123456679012","SourceTransactionId":"WTFSUBMER:4170543:548682890:0","Stan":"654321","TransactionReceipt":"utrn1236325"}}]}}'
+
+            $modernTSPIFields = Get-TSPIFields $modernTSPIRaw "VOID_AUTHORIZATION (Modernization)"
+            $targetTSPIFields = Get-TSPIFields $targetTSPIRaw "VOID_AUTHORIZATION (Target)"
+
+            # Find missing fields
+            $missingInModern = $targetTSPIFields | Where-Object { $_ -notin $modernTSPIFields }
+            $extraInModern = $modernTSPIFields | Where-Object { $_ -notin $targetTSPIFields }
+
+            if ($missingInModern.Count -gt 0) {
+                $results += [PSCustomObject]@{
+                    Operation = "VOID_AUTHORIZATION"
+                    RequestType = "TSPI"
+                    Category = "Missing in Modernization"
+                    Field = $missingInModern -join "; "
+                    ModernizationValue = ""
+                    TargetValue = ""
+                    FieldCount = ($missingInModern | Measure-Object).Count
+                }
+            }
+
+            if ($extraInModern.Count -gt 0) {
+                $results += [PSCustomObject]@{
+                    Operation = "VOID_AUTHORIZATION"
+                    RequestType = "TSPI"
+                    Category = "Extra in Modernization"
+                    Field = $extraInModern -join "; "
+                    ModernizationValue = ""
+                    TargetValue = ""
+                    FieldCount = ($extraInModern | Measure-Object).Count
+                }
+            }
+        }
+
+        # VERIFICATION TSPI
+        if ($operationName -eq "VERIFICATION") {
+            $modernTSPIRaw = '[{"MerchantContext":{"Acquirer":{"AcquirerId":"ELAVON_S2A"},"Merchant":{"Address":"Sample Street 1","City":"New York","CountryCode":"840","MerchantId":"TESTCONRAD0C","MsoId":"TestMSOExcluded","Name":"Retail Computers pvt limited","Postcode":"85022","State":"NY","Street2":"Sample Street 2","Timezone":"America/New_York","SubMerchant":{}},"MerchantAcquirerRelationship":{"AcquirerMerchantId":"M12345","TestMode":false,"MerchantAcquirerCustomFields":{}}},"RoutingHeader":{"Action":"VERIFICATION","ActionType":"NORMAL","SourceId":"UNKNOWN","Timeout":24.08299994468689,"Version":"1"},"Transaction":{"recurringAmountVariability":"FIXED","AcceptPartialApproval":false,"AcsECI":"##","AcsReference":"xyz12345deabc12345deabc12345defg","AcsTransactionId":"abc12345deabc12345deabc12345defg1234","AgreementId":"12322","Amount":0.0,"AuthenticationProtocolVersion":"2.2.0","AuthenticationToken":"AmHtn+shanruty198hancvuJYHHN19w-","AuthenticationTransactionId":"abc12345defg20011","AuthenticationTransactionStatus":"Y","AuthorisationAmount":0,"CaptureAmount":0.0,"CardExpiryDate":"####","CardNumber":"################","CardType":"MC","CredentialOnFile":"TO_BE_STORED","CurrencyCode":"GBP","DsReference":"xyz12345deabc12345deabc12345pqrs","FundingMethod":"CREDIT","MerchantCategoryCode":"5542","OrderCertainty":"FINAL","OrderDate":"2023-04-05T10:40:49Z","OrderId":"03670f1f-30d5-49c6-9fc0-3422c6e3b16e","PrimaryAccountNumber":"################","PsTransactionSource":"INTERNET","PurchaseType":"UNKNOWN","RefundAmount":0.0,"Rrn":"2266335545","SourceTransactionId":"871ff215-70b7-4060-9380-0f9e6948e12f","Stan":335545,"TerminalId":"0013","TransactionDate":"2023-04-05T10:40:49Z","TransactionFrequency":"RECURRING","TransactionSource":"INTERNET","TransactionType":"VERIFICATION","AgreementData":{"FirstTransactionOfAgreement":{}},"AssociatedTransaction":{},"BillingAddress":{},"PAN":"OBFUSCATED"}}]'
+
+            $targetTSPIRaw = '{"MerchantContext":{"Acquirer":{"AcquirerId":"ELAVON_S2A","AcquirerName":"Elavon","BatchFullLevel":0,"BatchWarningLevel":0,"Locale":"en_GB","TerminalType":"1","Timezone":"UTC"},"AcquirerBatchNumber":1,"Merchant":{"Address":"Level 21","CategoryCode":"1234","City":"Brisbane","CountryCode":"036","CreationDate":"2016-02-19T06:26:08Z","GoodsDescription":"Acme Widgets","HomeUrl":"https://www.OCT_P.test","Level5":true,"Locale":"en_US","MerchantId":"WTFSUBMER","MsoId":"SYSTEST_MSO_DASH","Name":"WTFSUMER","Postcode":"4000","State":"QLD","Street2":"300 Adelaide Street","SupportedEMV3DSSchemes":["VERIFIED_BY_VISA_2","SECURECODE_2"],"SupportsAmexSafeKey":false,"SupportsDinersProtectBuy":true,"SupportsJSecure":false,"SupportsMasterpass":false,"SupportsSecureCode":true,"SupportsVbV":true,"Timezone":"America/New_York"},"MerchantAcquirerRelationship":{"AcquirerMerchantId":"1234567890","CategoryCode":"1234","DefaultTransactionFrequency":"SINGLE","DefaultTransactionSource":"INTERNET","EcIndicator":"W","IdentCode":"1234567890","RecurringTypeDefault":"SINGLE","RelationshipId":"263794","SmokeTest":false,"TestMode":false},"TerminalBatchNumber":0,"TerminalId":"22222"},"RoutingHeader":{"Action":"VERIFICATION","ActionType":"NORMAL","RequestId":"WTFSUBMER.AVRF.4173742","RetryCount":0,"SourceId":"CPE","Timeout":24.08999991416931,"Version":"1.0"},"Transaction":{"AcceptPartialApproval":false,"AccountType":"CR","AcquirerECI":"05","AcsECI":"05","AgreementId":"533186715","AgreementType":"RECURRING","Amount":0.0,"AuthenticationAmount":100.0,"AuthenticationState":"Y","AuthenticationStatusCode":"AUTHENTICATION_SUCCESSFUL","AuthenticationToken":"mHyn+7YFi1EUAREAAAAvNUe6Hv8=","AuthenticationTransactionId":"88928426-046a-4631-aebc-e52129485c8c","AuthenticationTransactionStatus":"Y","AuthenticationType":"SC","AuthenticationVersion":"3DS2","AuthorisationAmount":0.0,"CSC":"OBFUSCATED","CaptureAmount":0.0,"CardCountryOfIssue":"LBR","CardExpiryDate":"####","CardNumber":"################","CardOnFile":"NO","CardScheme":"MASTERCARD","CardSecurityCode":"###","CardTrackPresent":false,"CardType":"MC","CashAdvance":false,"Cavv":"mHyn+7YFi1EUAREAAAAvNUe6Hv8=","CpcLevel":1,"CredentialOnFile":"TO_BE_STORED","CurrencyCode":"EGP","DccBaseAmount":0.0,"DccEnabled":false,"DeferredAuthorization":false,"DsTransactionId":"88928426-046a-4631-aebc-e52129485c8c","FundingMethod":"DEBIT","GatewayEntryPoint":"DIRECT","ManuallyAuthorised":false,"MerchantCategoryCode":"1234","MerchantPaymentGatewayID":"237378","MerchantTransactionSource":"INTERNET","OrderAmount":100.0,"OrderCustomFields":{"CardStoredOnFile":"TO_BE_STORED"},"OrderDate":"2026-04-08T12:32:39Z","OrderId":"628667697","OrderNumber":4173742,"PAN":"OBFUSCATED","PaymentType":"CREDIT","PrimaryAccountNumber":"################","PsTransactionSource":"IN","RecPayAgreement":"533186715","RecurringType":"SINGLE","Referred":false,"RefundAmount":0.0,"Rrn":"2364000009","SourceTransactionId":"WTFSUBMER:4173742:592107567:0","Stan":9,"TerminalId":"22222","TransactionDate":"2026-04-08T12:32:39Z","TransactionFrequency":"SINGLE","TransactionId":"592107567","TransactionNumber":4173742,"TransactionSource":"INTERNET","TransactionType":"VERIFICATION","VdsResponse":"Y","recurringAmountVariability":"FIXED"}}'
+
+            $modernTSPIFields = Get-TSPIFields $modernTSPIRaw "VERIFICATION (Modernization)"
+            $targetTSPIFields = Get-TSPIFields $targetTSPIRaw "VERIFICATION (Target)"
+
+            # Find missing fields
+            $missingInModern = $targetTSPIFields | Where-Object { $_ -notin $modernTSPIFields }
+            $extraInModern = $modernTSPIFields | Where-Object { $_ -notin $targetTSPIFields }
+
+            if ($missingInModern.Count -gt 0) {
+                $results += [PSCustomObject]@{
+                    Operation = "VERIFICATION"
+                    RequestType = "TSPI"
+                    Category = "Missing in Modernization"
+                    Field = $missingInModern -join "; "
+                    ModernizationValue = ""
+                    TargetValue = ""
+                    FieldCount = ($missingInModern | Measure-Object).Count
+                }
+            }
+
+            if ($extraInModern.Count -gt 0) {
+                $results += [PSCustomObject]@{
+                    Operation = "VERIFICATION"
+                    RequestType = "TSPI"
+                    Category = "Extra in Modernization"
+                    Field = $extraInModern -join "; "
+                    ModernizationValue = ""
+                    TargetValue = ""
+                    FieldCount = ($extraInModern | Measure-Object).Count
+                }
+            }
+        }
+    }
+
+    # ISO 8583 Analysis
+    Write-Host "Analyzing ISO 8583 for $operationName..."
+
+    # Extract ISO 8583 field information by operation
+    $modernISO8583Fields = @()
+    $targetISO8583Fields = @()
+
+    if ($operationName -eq "AUTHORIZATION") {
+        # Modernization Authorization ISO 8583
+        $modernISO8583Str = 'ISO8583 Message: Header = [1 (messageTypeId) = ''1200''], Fields = [002 (pan) = ''################'', 003 (procCode) = ''000000'', 004 (amount) = ''2112'', 011 (sysTraceNum) = ''12345'', 012 (localDatetime) = ''250524160515'', 014 (expiry) = ''####'', 022 (posDataCode) = [1 (inputCapability) = ''1'', 2 (authCapability) = ''0'', 3 (captureCapability) = ''0'', 4 (operatingEnvironment) = ''0'', 5 (cardholderPresent) = ''2'', 6 (cardPresent) = ''0'', 7 (inputMode) = ''1'', 8 (authMethod) = ''0'', 9 (authEntity) = ''0'', 10 (cardDataOutputCapability) = ''1'', 11 (terminalOutputCapability) = ''0'', 12 (pinCaptCapability) = ''0''], 028 (reconciliationDate) = ''250524'', 029 (reconciliationNumber) = ''001'', 032 (acqInstCode) = ''0100860099'', 037 (retrivRefNum) = ''3448012345'', 041 (terminalId) = ''123455'', 042 (merchantId) = ''M12345'', 043 (cardAcceptorNameLoc) = ''Retail Computers pvt limitedNew York'', 048 (addPrivateData) = [0001 (itemNumber) = ''001''], 049 (currencyCode) = ''840'', 060 (reservedPrivateData) = [01 (applicationId) = ''3765WMTT''], 063 (reservedPrivateDataIII) = [04 (moto) = ''1'', 08 (partialApprovalIndicator) = ''Y'', 13 (universalCardholderAuthenticationField) = ''AmHtn+shanruty198hancvuJYHHN19w-'', 15 (acceptanceIndicatorCardSchemeData) = ''Y'', 39 (threeDSVersionNumber) = ''2'', 40 (dsTransactionId) = ''abc12345defg20011'', 50 (threeDSecureCapabilityIndicator) = ''2.2.0'', 55 (securityLevelIndicator) = '''', 65 (mastercardMerchantPaymentGatewayID) = ''00000123456'']]'
+
+        # Target Authorization ISO 8583
+        $targetISO8583Str = 'ISO8583 Message: Header = [1 (messageTypeId) = ''1100''], Fields = [002 (pan) = ''################'', 003 (procCode) = ''900000'', 004 (amount) = ''10000'', 011 (sysTraceNum) = ''9'', 012 (localDatetime) = ''260408084613'', 014 (expiry) = ''####'', 022 (posDataCode) = [1 (inputCapability) = ''1'', 2 (authCapability) = ''0'', 3 (captureCapability) = ''0'', 4 (operatingEnvironment) = ''0'', 5 (cardholderPresent) = ''5'', 6 (cardPresent) = ''0'', 7 (inputMode) = ''1'', 8 (authMethod) = ''0'', 9 (authEntity) = ''0'', 10 (cardDataOutputCapability) = ''1'', 11 (terminalOutputCapability) = ''0'', 12 (pinCaptCapability) = ''0''], 028 (reconciliationDate) = ''260408'', 029 (reconciliationNumber) = ''001'', 032 (acqInstCode) = ''0100860099'', 037 (retrivRefNum) = ''2364000009'', 041 (terminalId) = ''11111'', 042 (merchantId) = ''1234567890'', 043 (cardAcceptorNameLoc) = ''WTFSUMER              Brisbane'', 048 (addPrivateData) = [0001 (itemNumber) = ''001''], 049 (currencyCode) = ''818'', 060 (reservedPrivateData) = [01 (applicationId) = ''3765WITT''], 063 (reservedPrivateDataIII) = [02 (cvv2) = ''###'', 04 (moto) = ''7'', 15 (acceptanceIndicatorCardSchemeData) = ''Y'', 30 (credentialOnFileIndicator) = ''S'', 31 (industrySpecificTransactionIndicator) = ''09'', 44 (scaStatusIndicator) = ''2'', 50 (threeDSecureCapabilityIndicator) = ''2.2.0'', 55 (securityLevelIndicator) = '''', 65 (mastercardMerchantPaymentGatewayID) = ''00000237378'']]'
+
+        $modernISO8583Fields = Get-ISO8583Fields $modernISO8583Str
+        $targetISO8583Fields = Get-ISO8583Fields $targetISO8583Str
+    }
+    elseif ($operationName -eq "VOID_AUTHORIZATION") {
+        # Modernization Void Auth ISO 8583
+        $modernISO8583Str = 'ISO8583 Message: Header = [1 (messageTypeId) = ''1420''], Fields = [002 (pan) = ''################'', 003 (procCode) = ''000000'', 004 (amount) = ''2112'', 011 (sysTraceNum) = ''654321'', 012 (localDatetime) = ''250524170515'', 014 (expiry) = ''####'', 024 (functionCode) = ''400'', 025 (reasonCode) = ''4000'', 028 (reconciliationDate) = ''250524'', 029 (reconciliationNumber) = ''001'', 032 (acqInstCode) = ''0100860099'', 037 (retrivRefNum) = ''3448654321'', 041 (terminalId) = ''123455'', 042 (merchantId) = ''M12345'', 043 (cardAcceptorNameLoc) = ''Retail Computers pvt limitedBrisbane'', 048 (addPrivateData) = [0001 (itemNumber) = ''001'', 0002 (elavonStan) = ''654321'', 0004 (elavonRrn) = ''123456679012''], 049 (currencyCode) = ''840'', 060 (reservedPrivateData) = [01 (applicationId) = ''3765WMTT''], 063 (reservedPrivateDataIII) = [04 (moto) = ''1'', 15 (acceptanceIndicatorCardSchemeData) = ''Y'']]'
+
+        # Target Void Auth ISO 8583
+        $targetISO8583Str = 'ISO8583 Message: Header = [1 (messageTypeId) = ''1420''], Fields = [002 (pan) = ''################'', 003 (procCode) = ''940000'', 004 (amount) = ''10000'', 011 (sysTraceNum) = ''10'', 012 (localDatetime) = ''260408084648'', 014 (expiry) = ''####'', 024 (functionCode) = ''400'', 025 (reasonCode) = ''4000'', 028 (reconciliationDate) = ''260408'', 029 (reconciliationNumber) = ''001'', 032 (acqInstCode) = ''0100860099'', 037 (retrivRefNum) = ''2364000010'', 038 (approvalCode) = ''100000'', 041 (terminalId) = ''11111'', 042 (merchantId) = ''1234567890'', 043 (cardAcceptorNameLoc) = ''WTFSUMER              Brisbane'', 048 (addPrivateData) = [0001 (itemNumber) = ''001''], 049 (currencyCode) = ''818'', 060 (reservedPrivateData) = [01 (applicationId) = ''3765WITT''], 063 (reservedPrivateDataIII) = [04 (moto) = ''7'', 15 (acceptanceIndicatorCardSchemeData) = ''Y'', 16 (cardSchemeData) = ''M2604080846131111712  '', 30 (credentialOnFileIndicator) = ''S'', 44 (scaStatusIndicator) = ''2'']]'
+
+        $modernISO8583Fields = Get-ISO8583Fields $modernISO8583Str
+        $targetISO8583Fields = Get-ISO8583Fields $targetISO8583Str
+    }
+    elseif ($operationName -eq "VERIFICATION") {
+        # Modernization Verify ISO 8583
+        $modernISO8583Str = 'ISO8583 Message: Header = [1 (messageTypeId) = ''1200''], Fields = [002 (pan) = ''################'', 003 (procCode) = ''000000'', 004 (amount) = ''0'', 011 (sysTraceNum) = ''335545'', 012 (localDatetime) = ''230405064049'', 014 (expiry) = ''####'', 022 (posDataCode) = [1 (inputCapability) = ''1'', 2 (authCapability) = ''0'', 3 (captureCapability) = ''0'', 4 (operatingEnvironment) = ''0'', 5 (cardholderPresent) = ''5'', 6 (cardPresent) = ''0'', 7 (inputMode) = ''1'', 8 (authMethod) = ''0'', 9 (authEntity) = ''0'', 10 (cardDataOutputCapability) = ''1'', 11 (terminalOutputCapability) = ''0'', 12 (pinCaptCapability) = ''0''], 028 (reconciliationDate) = ''230405'', 029 (reconciliationNumber) = ''001'', 032 (acqInstCode) = ''0100860099'', 037 (retrivRefNum) = ''2266335545'', 041 (terminalId) = ''0013'', 042 (merchantId) = ''M12345'', 043 (cardAcceptorNameLoc) = ''Retail Computers pvt limitedNew York'', 048 (addPrivateData) = [0001 (itemNumber) = ''001''], 049 (currencyCode) = ''826'', 060 (reservedPrivateData) = [01 (applicationId) = ''3765WITT''], 063 (reservedPrivateDataIII) = [04 (moto) = ''5'', 13 (universalCardholderAuthenticationField) = ''AmHtn+shanruty198hancvuJYHHN19w-'', 15 (acceptanceIndicatorCardSchemeData) = ''Y'', 23 (ucafCollectionIndicator) = ''2'', 30 (credentialOnFileIndicator) = ''S'', 31 (industrySpecificTransactionIndicator) = ''09'', 39 (threeDSVersionNumber) = ''2'', 40 (dsTransactionId) = ''abc12345defg20011'', 50 (threeDSecureCapabilityIndicator) = ''2.2.0'']]'
+
+        # Target Verify ISO 8583
+        $targetISO8583Str = 'ISO8583 Message: Header = [1 (messageTypeId) = ''1200''], Fields = [002 (pan) = ''################'', 003 (procCode) = ''000000'', 004 (amount) = ''0'', 011 (sysTraceNum) = ''9'', 012 (localDatetime) = ''260408083239'', 014 (expiry) = ''####'', 022 (posDataCode) = [1 (inputCapability) = ''1'', 2 (authCapability) = ''0'', 3 (captureCapability) = ''0'', 4 (operatingEnvironment) = ''0'', 5 (cardholderPresent) = ''5'', 6 (cardPresent) = ''0'', 7 (inputMode) = ''1'', 8 (authMethod) = ''0'', 9 (authEntity) = ''0'', 10 (cardDataOutputCapability) = ''1'', 11 (terminalOutputCapability) = ''0'', 12 (pinCaptCapability) = ''0''], 028 (reconciliationDate) = ''260408'', 029 (reconciliationNumber) = ''001'', 032 (acqInstCode) = ''0100860099'', 037 (retrivRefNum) = ''2364000009'', 041 (terminalId) = ''22222'', 042 (merchantId) = ''1234567890'', 043 (cardAcceptorNameLoc) = ''WTFSUMER              Brisbane'', 048 (addPrivateData) = [0001 (itemNumber) = ''001''], 049 (currencyCode) = ''818'', 060 (reservedPrivateData) = [01 (applicationId) = ''3765WITT''], 063 (reservedPrivateDataIII) = [02 (cvv2) = ''###'', 04 (moto) = ''5'', 13 (universalCardholderAuthenticationField) = ''mHyn+7YFi1EUAREAAAAvNUe6Hv8='', 15 (acceptanceIndicatorCardSchemeData) = ''Y'', 23 (ucafCollectionIndicator) = ''2'', 30 (credentialOnFileIndicator) = ''S'', 31 (industrySpecificTransactionIndicator) = ''06'', 39 (threeDSVersionNumber) = ''2'', 40 (dsTransactionId) = ''88928426-046a-4631-aebc-e52129485c8c'', 44 (scaStatusIndicator) = ''2'', 50 (threeDSecureCapabilityIndicator) = ''2.2.0'', 65 (mastercardMerchantPaymentGatewayID) = ''00000237378'']]'
+
+        $modernISO8583Fields = Get-ISO8583Fields $modernISO8583Str
+        $targetISO8583Fields = Get-ISO8583Fields $targetISO8583Str
+    }
+
+    # Find missing fields in ISO 8583
+    $missingISO = $targetISO8583Fields | Where-Object { $_ -notin $modernISO8583Fields }
+    $extraISO = $modernISO8583Fields | Where-Object { $_ -notin $targetISO8583Fields }
+
+    if ($missingISO.Count -gt 0) {
+        $results += [PSCustomObject]@{
+            Operation = $operationName
+            RequestType = "ISO 8583"
+            Category = "Missing in Modernization"
+            Field = $missingISO -join "; "
+            ModernizationValue = ""
+            TargetValue = ""
+            FieldCount = ($missingISO | Measure-Object).Count
+        }
+    }
+
+    if ($extraISO.Count -gt 0) {
+        $results += [PSCustomObject]@{
+            Operation = $operationName
+            RequestType = "ISO 8583"
+            Category = "Extra in Modernization"
+            Field = $extraISO -join "; "
+            ModernizationValue = ""
+            TargetValue = ""
+            FieldCount = ($extraISO | Measure-Object).Count
+        }
+    }
+}
+
+# Export to CSV
+if ($results.Count -gt 0) {
+    $results | Export-Csv -Path $outputCsvPath -NoTypeInformation -Encoding UTF8
+    Write-Host "Analysis complete! CSV file created at: $outputCsvPath"
+    Write-Host "Total records: $($results.Count)"
+} else {
+    Write-Host "No differences found or analysis could not complete."
+}
+
+# Display summary
+Write-Host "`n=== SUMMARY ===" -ForegroundColor Green
+Write-Host "Authorization Missing Fields: $(@($results | Where-Object {$_.Operation -eq 'AUTHORIZATION' -and $_.Category -eq 'Missing in Modernization'}).Count)"
+Write-Host "Void Authorization Missing Fields: $(@($results | Where-Object {$_.Operation -eq 'VOID_AUTHORIZATION' -and $_.Category -eq 'Missing in Modernization'}).Count)"
+Write-Host "Verification Missing Fields: $(@($results | Where-Object {$_.Operation -eq 'VERIFICATION' -and $_.Category -eq 'Missing in Modernization'}).Count)"
+Write-Host "`nCSV file location: $outputCsvPath"
+

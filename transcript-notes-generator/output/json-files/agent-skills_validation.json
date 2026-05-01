@@ -1,0 +1,24 @@
+{
+  "meta": {
+    "topic_slug": "agent-skills",
+    "guide_path": "materials\\output\\agent-skills-guide.md",
+    "validated_at": "2026-04-28T20:34:36Z",
+    "overall": "PASS"
+  },
+  "completeness": {
+    "passed": true,
+    "missing_sections": [],
+    "placeholders_found": []
+  },
+  "voice": {
+    "passed": true,
+    "quote_count": 11
+  },
+  "formatting": {
+    "passed": true,
+    "h1": 1,
+    "h2": 9,
+    "h3": 11,
+    "issues": []
+  }
+}

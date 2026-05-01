@@ -1,0 +1,9 @@
+TRANSCRIPT CHUNKER LOG
+======================
+Date           : 2026-04-28
+Topic          : ai-terminology
+Transcript     : materials\input\ai-terminology.txt
+Chunk size     : 5 sentences
+Total sentences: 515
+Total chunks   : 103
+Output file    : C:\Users\e135408\Downloads\personal-work\interview-preparation\Notes\materials\output\chunks\ai-terminology_chunks.json

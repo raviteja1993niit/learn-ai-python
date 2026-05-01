@@ -1,0 +1,50 @@
+{
+  "allowedTools": [
+    "mcp-jira",
+    "mcp-bitbucket",
+    "mcp-github",
+    "mcp-git-local",
+    "mcp-jenkins",
+    "mcp-sonar",
+    "mcp-security",
+    "mcp-confluence",
+    "mcp-slack",
+    "mcp-teams",
+    "mcp-filesystem",
+    "mcp-shell"
+  ],
+  "deniedTools": [],
+  "permissions": {
+    "fileWrite": true,
+    "fileDelete": false,
+    "networkAccess": true,
+    "gitPush": true,
+    "jiraTransition": true
+  },
+  "hooks": [
+    {
+      "name": "on-file-write",
+      "event": "onFileWrite",
+      "filePattern": "**/*.java",
+      "skill": "coding-style",
+      "blocking": true,
+      "definition": ".claude/hooks/on-file-write.md"
+    },
+    {
+      "name": "on-phase-start-coding-style",
+      "event": "onPhaseStart",
+      "phases": [4, 5],
+      "skill": "coding-style",
+      "blocking": false,
+      "definition": ".claude/hooks/on-phase-start-coding-style.md"
+    },
+    {
+      "name": "on-pre-commit-coding-style",
+      "event": "onPreCommit",
+      "filePattern": "**/*.java",
+      "skill": "coding-style",
+      "blocking": true,
+      "definition": ".claude/hooks/on-pre-commit-coding-style.md"
+    }
+  ]
+}
