@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LlamaIndex – AI Libraries Guide</title>
+<style>
+:root{--bg:#fff;--text:#1a1a2e;--accent:#0070f3;--code:#f4f6f8;--border:#e1e4e8;--nav:#f6f8fa;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:Georgia,'Times New Roman',serif;font-size:17px;line-height:1.8;
+     color:var(--text);background:var(--bg);display:flex;min-height:100vh;}
+/* ---- NAV ---- */
+nav{width:260px;min-width:220px;background:var(--nav);border-right:1px solid var(--border);
+    position:sticky;top:0;height:100vh;overflow-y:auto;padding:20px 14px;flex-shrink:0;}
+nav .back-link{display:block;font-family:sans-serif;font-size:12px;color:var(--accent);
+               margin-bottom:14px;text-decoration:none;}
+nav .back-link:hover{text-decoration:underline;}
+nav h3{font-family:sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:.08em;
+       color:#888;margin-bottom:8px;}
+nav ul{list-style:none;}
+nav li{margin:3px 0;}
+nav a{font-family:sans-serif;font-size:13px;color:#444;text-decoration:none;
+      display:block;padding:4px 8px;border-radius:4px;line-height:1.4;}
+nav a:hover{background:#e0e8ff;color:var(--accent);}
+nav a.h3{padding-left:20px;font-size:12px;color:#666;}
+nav a.h4{padding-left:34px;font-size:11px;color:#888;}
+/* ---- MAIN ---- */
+main{flex:1;padding:48px 60px;max-width:960px;}
+.doc-header{margin-bottom:40px;padding-bottom:20px;border-bottom:3px solid var(--accent);}
+.doc-header h1{font-size:2.1em;color:#0a192f;}
+.doc-header .subtitle{font-family:sans-serif;color:#555;margin-top:6px;font-size:.95em;}
+.doc-header .badges span{display:inline-block;font-family:sans-serif;font-size:12px;
+  padding:3px 10px;border-radius:12px;margin:8px 4px 0 0;font-weight:600;}
+.badge-free{background:#d4edda;color:#155724;}
+.badge-paid{background:#fff3cd;color:#856404;}
+.badge-local{background:#cce5ff;color:#004085;}
+/* ---- CONTENT ---- */
+section{margin-bottom:56px;}
+h2{font-size:1.6em;color:#0a192f;margin:2em 0 .6em;padding-bottom:.3em;border-bottom:2px solid var(--border);}
+h3{font-size:1.25em;color:#0a192f;margin:1.6em 0 .4em;}
+h4{font-size:1.05em;color:#0a192f;margin:1.3em 0 .3em;}
+p{margin:.6em 0;}
+ul,ol{margin:.5em 0 .5em 1.5em;}li{margin:.25em 0;}
+strong{color:#0a192f;}
+code{font-family:'Fira Code',Consolas,monospace;background:var(--code);
+     padding:2px 6px;border-radius:3px;font-size:.87em;}
+pre{background:var(--code);border:1px solid var(--border);border-left:4px solid var(--accent);
+    border-radius:6px;padding:18px;overflow-x:auto;margin:1em 0;}
+pre code{background:none;padding:0;font-size:.84em;line-height:1.5;}
+table{border-collapse:collapse;width:100%;margin:1em 0;font-family:sans-serif;font-size:.9em;}
+th,td{border:1px solid var(--border);padding:9px 13px;text-align:left;vertical-align:top;}
+th{background:#e8f0fe;font-weight:700;color:#0a192f;}
+tr:nth-child(even) td{background:#f9f9f9;}
+blockquote{border-left:4px solid var(--accent);padding:10px 18px;background:#f0f4ff;
+           border-radius:0 6px 6px 0;color:#333;margin:1em 0;}
+/* ---- Q&A ---- */
+details{border:1px solid var(--border);border-radius:8px;margin:.8em 0;background:#fafafa;}
+details[open]{background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+summary.qa-q{cursor:pointer;padding:13px 16px;font-weight:700;color:#0a192f;
+             list-style:none;display:flex;align-items:flex-start;gap:10px;line-height:1.5;}
+summary.qa-q::before{content:"Q";background:var(--accent);color:#fff;padding:2px 8px;
+                     border-radius:50%;font-size:.78em;font-family:sans-serif;flex-shrink:0;margin-top:2px;}
+.qa-a{padding:14px 18px;border-top:1px solid #eee;}
+/* ---- callout boxes ---- */
+.tip{background:#e6f9f0;border-left:4px solid #28a745;padding:12px 16px;
+     border-radius:0 6px 6px 0;margin:1em 0;}
+.warn{background:#fff8e1;border-left:4px solid #ffc107;padding:12px 16px;
+      border-radius:0 6px 6px 0;margin:1em 0;}
+a{color:var(--accent);}
+hr{border:none;border-top:1px solid var(--border);margin:2em 0;}
+</style>
+</head>
+<body>
+<nav>
+  <a class="back-link" href="index.html">⬅ All Guides</a>
+  <a class="back-link" href="04-autogen.html">← AutoGen</a><a class="back-link" href="06-haystack.html">Haystack →</a>
+  <h3>Contents</h3>
+  <ul><li><a href="#table-of-contents" class="">Table of Contents</a></li>
+<li><a href="#1-what-is-llamaindex" class="">1. What is LlamaIndex?</a></li>
+<li><a href="#core-abstraction-pipeline" class="h3">Core Abstraction Pipeline</a></li>
+<li><a href="#llamaindex-vs-langchain" class="h3">LlamaIndex vs LangChain</a></li>
+<li><a href="#llamaindex-ecosystem" class="h3">LlamaIndex Ecosystem</a></li>
+<li><a href="#2-installation-setup" class="">2. Installation &amp; Setup</a></li>
+<li><a href="#install" class="h3">Install</a></li>
+<li><a href="#github-copilot-free-auth-no-paid-key-required" class="h3">GitHub Copilot Free Auth (no paid key required)</a></li>
+<li><a href="#global-settings-apply-once-at-startup" class="h3">Global Settings (apply once at startup)</a></li>
+<li><a href="#3-core-concepts" class="">3. Core Concepts</a></li>
+<li><a href="#documents-and-nodes" class="h3">Documents and Nodes</a></li>
+<li><a href="#index-types-at-a-glance" class="h3">Index types (at a glance)</a></li>
+<li><a href="#query-engine-vs-chat-engine" class="h3">Query Engine vs Chat Engine</a></li>
+<li><a href="#response-synthesizers" class="h3">Response Synthesizers</a></li>
+<li><a href="#node-postprocessors-filter-rerank-before-synthesis" class="h3">Node Postprocessors (filter / rerank before synthesis)</a></li>
+<li><a href="#4-document-loading" class="">4. Document Loading</a></li>
+<li><a href="#simpledirectoryreader" class="h3">SimpleDirectoryReader</a></li>
+<li><a href="#webpagereader" class="h3">WebPageReader</a></li>
+<li><a href="#jsonreader" class="h3">JSONReader</a></li>
+<li><a href="#databasereader" class="h3">DatabaseReader</a></li>
+<li><a href="#llamaparse-cloud-best-for-pdfs-with-tables" class="h3">LlamaParse (cloud — best for PDFs with tables)</a></li>
+<li><a href="#metadata-extraction" class="h3">Metadata Extraction</a></li>
+<li><a href="#5-index-types" class="">5. Index Types</a></li>
+<li><a href="#vectorstoreindex-build-persist-load" class="h3">VectorStoreIndex — build, persist, load</a></li>
+<li><a href="#vectorstoreindex-crud-operations" class="h3">VectorStoreIndex — CRUD operations</a></li>
+<li><a href="#summaryindex-listindex" class="h3">SummaryIndex (ListIndex)</a></li>
+<li><a href="#keywordtableindex" class="h3">KeywordTableIndex</a></li>
+<li><a href="#knowledgegraphindex" class="h3">KnowledgeGraphIndex</a></li>
+<li><a href="#6-query-engines" class="">6. Query Engines</a></li>
+<li><a href="#basic-query-engine" class="h3">Basic Query Engine</a></li>
+<li><a href="#streaming-query-engine" class="h3">Streaming Query Engine</a></li>
+<li><a href="#citation-query-engine" class="h3">Citation Query Engine</a></li>
+<li><a href="#sql-query-engine-natural-language-sql" class="h3">SQL Query Engine (Natural Language → SQL)</a></li>
+<li><a href="#pandas-query-engine-natural-language-pandas" class="h3">Pandas Query Engine (Natural Language → Pandas)</a></li>
+<li><a href="#7-chat-engine" class="">7. Chat Engine</a></li>
+<li><a href="#simplechatengine-no-retrieval-direct-llm-chat" class="h3">SimpleChatEngine (no retrieval — direct LLM chat)</a></li>
+<li><a href="#condensequestionchatengine" class="h3">CondenseQuestionChatEngine</a></li>
+<li><a href="#contextchatengine" class="h3">ContextChatEngine</a></li>
+<li><a href="#openaiagentchatengine-function-calling-chat" class="h3">OpenAIAgentChatEngine (function-calling + chat)</a></li>
+<li><a href="#multi-turn-conversational-rag-full-example" class="h3">Multi-turn Conversational RAG (full example)</a></li>
+<li><a href="#8-advanced-retrieval" class="">8. Advanced Retrieval</a></li>
+<li><a href="#subquestionqueryengine" class="h3">SubQuestionQueryEngine</a></li>
+<li><a href="#routerqueryengine" class="h3">RouterQueryEngine</a></li>
+<li><a href="#hyde-hypothetical-document-embeddings" class="h3">HyDE (Hypothetical Document Embeddings)</a></li>
+<li><a href="#recursiveretriever-hierarchical" class="h3">RecursiveRetriever (hierarchical)</a></li>
+<li><a href="#ensemble-retriever-bm25-vector" class="h3">Ensemble Retriever (BM25 + Vector)</a></li>
+<li><a href="#9-agents" class="">9. Agents</a></li>
+<li><a href="#reactagent-with-tools" class="h3">ReActAgent with Tools</a></li>
+<li><a href="#openaiagent-function-calling" class="h3">OpenAIAgent (function calling)</a></li>
+<li><a href="#queryenginetool-functiontool-in-one-agent" class="h3">QueryEngineTool + FunctionTool in one agent</a></li>
+<li><a href="#full-research-agent-3-specialised-tools" class="h3">Full Research Agent — 3 specialised tools</a></li>
+<li><a href="#10-node-postprocessors" class="">10. Node Postprocessors</a></li>
+<li><a href="#similaritypostprocessor-threshold-filter" class="h3">SimilarityPostprocessor (threshold filter)</a></li>
+<li><a href="#metadatareplacementpostprocessor" class="h3">MetadataReplacementPostprocessor</a></li>
+<li><a href="#llmrerank" class="h3">LLMRerank</a></li>
+<li><a href="#sentencetransformerrerank-local-no-api-cost" class="h3">SentenceTransformerRerank (local, no API cost)</a></li>
+<li><a href="#full-pipeline-retrieval-filter-rerank-synthesise" class="h3">Full Pipeline: retrieval → filter → rerank → synthesise</a></li>
+<li><a href="#11-evaluation" class="">11. Evaluation</a></li>
+<li><a href="#faithfulness-relevancy-evaluators" class="h3">Faithfulness &amp; Relevancy Evaluators</a></li>
+<li><a href="#correctnessevaluator-requires-reference-answer" class="h3">CorrectnessEvaluator (requires reference answer)</a></li>
+<li><a href="#batchevalrunner-full-pipeline" class="h3">BatchEvalRunner — full pipeline</a></li>
+<li><a href="#12-llamaindex-workflows-010" class="">12. LlamaIndex Workflows (0.10+)</a></li>
+<li><a href="#13-production-patterns" class="">13. Production Patterns</a></li>
+<li><a href="#async-query-execution" class="h3">Async Query Execution</a></li>
+<li><a href="#streaming-response" class="h3">Streaming Response</a></li>
+<li><a href="#caching-ingestioncache-llm-response-cache" class="h3">Caching (IngestionCache + LLM Response Cache)</a></li>
+<li><a href="#index-persistence-with-chromadb" class="h3">Index Persistence with ChromaDB</a></li>
+<li><a href="#fastapi-service" class="h3">FastAPI Service</a></li>
+<li><a href="#14-interview-qa" class="">14. Interview Q&amp;A</a></li>
+</ul>
+</nav>
+<main>
+  <div class="doc-header">
+    <h1>LlamaIndex</h1>
+    <p class="subtitle">Data framework for connecting LLMs to external data sources</p>
+    <div class="badges"><span class="badge-free">Free</span><span class="badge-paid">Paid LlamaCloud</span></div>
+  </div>
+  <h1 id="llamaindex-comprehensive-guide">LlamaIndex — Comprehensive Guide</h1>
+<blockquote>
+<p><strong>Target audience:</strong> Python developers building LLM-powered applications.
+Every code block is self-contained and runnable (given correct API keys / packages).</p>
+</blockquote>
+<hr />
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol>
+<li><a href="#1-what-is-llamaindex">What is LlamaIndex?</a></li>
+<li><a href="#2-installation--setup">Installation &amp; Setup</a></li>
+<li><a href="#3-core-concepts">Core Concepts</a></li>
+<li><a href="#4-document-loading">Document Loading</a></li>
+<li><a href="#5-index-types">Index Types</a></li>
+<li><a href="#6-query-engines">Query Engines</a></li>
+<li><a href="#7-chat-engine">Chat Engine</a></li>
+<li><a href="#8-advanced-retrieval">Advanced Retrieval</a></li>
+<li><a href="#9-agents">Agents</a></li>
+<li><a href="#10-node-postprocessors">Node Postprocessors</a></li>
+<li><a href="#11-evaluation">Evaluation</a></li>
+<li><a href="#12-llamaindex-workflows-010">LlamaIndex Workflows (0.10+)</a></li>
+<li><a href="#13-production-patterns">Production Patterns</a></li>
+<li><a href="#14-interview-qa">Interview Q&amp;A</a></li>
+<li><a href="#15-complete-end-to-end-example">Complete End-to-End Example</a></li>
+</ol>
+<hr />
+<h2 id="1-what-is-llamaindex">1. What is LlamaIndex?</h2>
+<p>LlamaIndex (formerly GPT Index) is a <strong>data framework for LLM applications</strong>. It provides the
+infrastructure to ingest, structure, and query arbitrary data sources using large language models.</p>
+<h3 id="core-abstraction-pipeline">Core Abstraction Pipeline</h3>
+<pre><code>Raw Data → Documents → Nodes → Index → Query Engine → Response
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Document</strong></td>
+<td>Wrapper around raw text/data with metadata</td>
+</tr>
+<tr>
+<td><strong>Node</strong></td>
+<td>Chunked piece of a Document; unit of retrieval</td>
+</tr>
+<tr>
+<td><strong>Index</strong></td>
+<td>Data structure over Nodes (vector, keyword, graph…)</td>
+</tr>
+<tr>
+<td><strong>Query Engine</strong></td>
+<td>Retrieves Nodes + synthesises an LLM response</td>
+</tr>
+<tr>
+<td><strong>Response</strong></td>
+<td>Final answer + source nodes + metadata</td>
+</tr>
+</tbody>
+</table>
+<h3 id="llamaindex-vs-langchain">LlamaIndex vs LangChain</h3>
+<table>
+<thead>
+<tr>
+<th>Concern</th>
+<th>LlamaIndex</th>
+<th>LangChain</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Primary focus</td>
+<td>Data indexing &amp; retrieval</td>
+<td>Generic LLM chain composition</td>
+</tr>
+<tr>
+<td>RAG ergonomics</td>
+<td>First-class, opinionated</td>
+<td>Flexible but verbose</td>
+</tr>
+<tr>
+<td>Agent support</td>
+<td>ReAct, OpenAI, multi-agent</td>
+<td>Large chain/agent ecosystem</td>
+</tr>
+<tr>
+<td>Best when…</td>
+<td>Your bottleneck is <em>data</em></td>
+<td>Your bottleneck is <em>chain logic</em></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Rule of thumb:</strong> start with LlamaIndex when the core problem is "how do I query my documents
+well?"; reach for LangChain when you need complex conditional chains, tools, or memory systems.</p>
+<h3 id="llamaindex-ecosystem">LlamaIndex Ecosystem</h3>
+<ul>
+<li><strong>LlamaHub</strong> — community-contributed loaders, tools, and packs (<code>llama-index-readers-*</code>)</li>
+<li><strong>LlamaParse</strong> — cloud PDF / DOCX parser with table/image understanding</li>
+<li><strong>LlamaCloud</strong> — managed index hosting + retrieval API</li>
+<li><strong>llama-index-core</strong> — open-source core library (MIT)</li>
+</ul>
+<hr />
+<h2 id="2-installation-setup">2. Installation &amp; Setup</h2>
+<h3 id="install">Install</h3>
+<pre><code class="language-bash">pip install llama-index \
+            llama-index-llms-openai \
+            llama-index-embeddings-huggingface \
+            llama-index-embeddings-openai \
+            llama-index-readers-web \
+            llama-index-postprocessor-sentence-transformer-rerank
+</code></pre>
+<h3 id="github-copilot-free-auth-no-paid-key-required">GitHub Copilot Free Auth (no paid key required)</h3>
+<pre><code class="language-python">import subprocess
+from llama_index.llms.openai import OpenAI
+from llama_index.embeddings.openai import OpenAIEmbedding
+
+# Reuse the token issued by `gh auth login`
+token = subprocess.run(
+    [&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True
+).stdout.strip()
+
+llm = OpenAI(
+    model=&quot;gpt-4o-mini&quot;,
+    api_key=token,
+    api_base=&quot;https://models.inference.ai.azure.com&quot;,
+)
+
+embed_model = OpenAIEmbedding(
+    model=&quot;text-embedding-3-small&quot;,
+    api_key=token,
+    api_base=&quot;https://models.inference.ai.azure.com&quot;,
+)
+</code></pre>
+<h3 id="global-settings-apply-once-at-startup">Global Settings (apply once at startup)</h3>
+<pre><code class="language-python">from llama_index.core import Settings
+from llama_index.llms.openai import OpenAI
+from llama_index.embeddings.huggingface import HuggingFaceEmbedding
+import subprocess
+
+token = subprocess.run(
+    [&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True
+).stdout.strip()
+
+Settings.llm = OpenAI(
+    model=&quot;gpt-4o-mini&quot;,
+    api_key=token,
+    api_base=&quot;https://models.inference.ai.azure.com&quot;,
+)
+
+# Free local embeddings — no API key needed
+Settings.embed_model = HuggingFaceEmbedding(model_name=&quot;BAAI/bge-small-en-v1.5&quot;)
+Settings.chunk_size = 512
+Settings.chunk_overlap = 50
+</code></pre>
+<hr />
+<h2 id="3-core-concepts">3. Core Concepts</h2>
+<h3 id="documents-and-nodes">Documents and Nodes</h3>
+<pre><code class="language-python">from llama_index.core import Document
+from llama_index.core.node_parser import SentenceSplitter
+
+# A Document wraps raw text + optional metadata
+doc = Document(
+    text=&quot;LlamaIndex is a data framework for LLM applications.&quot;,
+    metadata={&quot;source&quot;: &quot;intro.txt&quot;, &quot;author&quot;: &quot;LlamaIndex team&quot;},
+)
+
+# A NodeParser splits Documents into Nodes
+parser = SentenceSplitter(chunk_size=256, chunk_overlap=20)
+nodes = parser.get_nodes_from_documents([doc])
+
+for node in nodes:
+    print(f&quot;Node ID : {node.node_id}&quot;)
+    print(f&quot;Text    : {node.text[:80]}&quot;)
+    print(f&quot;Metadata: {node.metadata}&quot;)
+</code></pre>
+<h3 id="index-types-at-a-glance">Index types (at a glance)</h3>
+<table>
+<thead>
+<tr>
+<th>Index</th>
+<th>Best for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>VectorStoreIndex</code></td>
+<td>Semantic similarity search</td>
+</tr>
+<tr>
+<td><code>SummaryIndex</code></td>
+<td>Sequential summarisation</td>
+</tr>
+<tr>
+<td><code>KeywordTableIndex</code></td>
+<td>Exact keyword lookup</td>
+</tr>
+<tr>
+<td><code>KnowledgeGraphIndex</code></td>
+<td>Relationship / entity queries</td>
+</tr>
+</tbody>
+</table>
+<h3 id="query-engine-vs-chat-engine">Query Engine vs Chat Engine</h3>
+<pre><code>QueryEngine   — one-shot question → answer
+ChatEngine    — multi-turn conversation with memory
+</code></pre>
+<h3 id="response-synthesizers">Response Synthesizers</h3>
+<pre><code class="language-python">from llama_index.core.response_synthesizers import get_response_synthesizer
+
+# &quot;compact&quot; — fewer LLM calls; &quot;refine&quot; — iterative; &quot;tree_summarize&quot; — hierarchical
+synth = get_response_synthesizer(response_mode=&quot;tree_summarize&quot;)
+</code></pre>
+<h3 id="node-postprocessors-filter-rerank-before-synthesis">Node Postprocessors (filter / rerank <em>before</em> synthesis)</h3>
+<pre><code class="language-python">from llama_index.core.postprocessor import SimilarityPostprocessor
+
+postproc = SimilarityPostprocessor(similarity_cutoff=0.75)
+# Pass to query engine via node_postprocessors=[postproc]
+</code></pre>
+<hr />
+<h2 id="4-document-loading">4. Document Loading</h2>
+<h3 id="simpledirectoryreader">SimpleDirectoryReader</h3>
+<pre><code class="language-python">from llama_index.core import SimpleDirectoryReader
+
+# Reads PDF, DOCX, TXT, HTML, CSV automatically
+reader = SimpleDirectoryReader(input_dir=&quot;./docs&quot;, recursive=True)
+documents = reader.load_data()
+print(f&quot;Loaded {len(documents)} documents&quot;)
+</code></pre>
+<h3 id="webpagereader">WebPageReader</h3>
+<pre><code class="language-python">from llama_index.readers.web import SimpleWebPageReader
+
+loader = SimpleWebPageReader(html_to_text=True)
+docs = loader.load_data(urls=[&quot;https://docs.llamaindex.ai/en/stable/&quot;])
+print(docs[0].text[:200])
+</code></pre>
+<h3 id="jsonreader">JSONReader</h3>
+<pre><code class="language-python">from llama_index.readers.json import JSONReader
+import json, pathlib
+
+data = [{&quot;title&quot;: &quot;RAG&quot;, &quot;body&quot;: &quot;Retrieval Augmented Generation...&quot;}]
+pathlib.Path(&quot;sample.json&quot;).write_text(json.dumps(data))
+
+reader = JSONReader(levels_back=0)
+docs = reader.load_data(input_file=&quot;sample.json&quot;)
+print(docs[0].text[:100])
+</code></pre>
+<h3 id="databasereader">DatabaseReader</h3>
+<pre><code class="language-python">from llama_index.readers.database import DatabaseReader
+
+reader = DatabaseReader(
+    scheme=&quot;postgresql&quot;,
+    host=&quot;localhost&quot;,
+    port=&quot;5432&quot;,
+    user=&quot;postgres&quot;,
+    password=&quot;secret&quot;,
+    dbname=&quot;mydb&quot;,
+)
+docs = reader.load_data(query=&quot;SELECT title, body FROM articles LIMIT 50&quot;)
+</code></pre>
+<h3 id="llamaparse-cloud-best-for-pdfs-with-tables">LlamaParse (cloud — best for PDFs with tables)</h3>
+<pre><code class="language-python"># pip install llama-parse
+from llama_parse import LlamaParse
+
+parser = LlamaParse(
+    api_key=&quot;llx-...&quot;,   # get free key at cloud.llamaindex.ai
+    result_type=&quot;markdown&quot;,
+)
+docs = parser.load_data(&quot;report.pdf&quot;)
+print(docs[0].text[:300])
+</code></pre>
+<h3 id="metadata-extraction">Metadata Extraction</h3>
+<pre><code class="language-python">from llama_index.core import SimpleDirectoryReader
+from llama_index.core.extractors import TitleExtractor, QuestionsAnsweredExtractor
+from llama_index.core.node_parser import SentenceSplitter
+from llama_index.core.ingestion import IngestionPipeline
+
+pipeline = IngestionPipeline(
+    transformations=[
+        SentenceSplitter(chunk_size=512),
+        TitleExtractor(nodes=5),
+        QuestionsAnsweredExtractor(questions=3),
+    ]
+)
+docs = SimpleDirectoryReader(&quot;./docs&quot;).load_data()
+nodes = pipeline.run(documents=docs)
+print(nodes[0].metadata)
+</code></pre>
+<hr />
+<h2 id="5-index-types">5. Index Types</h2>
+<h3 id="vectorstoreindex-build-persist-load">VectorStoreIndex — build, persist, load</h3>
+<pre><code class="language-python">from llama_index.core import VectorStoreIndex, SimpleDirectoryReader, StorageContext
+from llama_index.core import load_index_from_storage
+
+# --- Build ---
+docs = SimpleDirectoryReader(&quot;./docs&quot;).load_data()
+index = VectorStoreIndex.from_documents(docs, show_progress=True)
+
+# --- Persist to disk ---
+index.storage_context.persist(persist_dir=&quot;./storage&quot;)
+
+# --- Reload from disk (skips re-embedding) ---
+storage_ctx = StorageContext.from_defaults(persist_dir=&quot;./storage&quot;)
+index = load_index_from_storage(storage_ctx)
+
+# --- Query ---
+query_engine = index.as_query_engine(similarity_top_k=3)
+response = query_engine.query(&quot;What is RAG?&quot;)
+print(response)
+</code></pre>
+<h3 id="vectorstoreindex-crud-operations">VectorStoreIndex — CRUD operations</h3>
+<pre><code class="language-python">from llama_index.core import Document
+
+# INSERT a new document
+new_doc = Document(text=&quot;LlamaIndex 0.10 introduced Workflows.&quot;)
+index.insert(new_doc)
+
+# UPDATE — delete old node then insert updated document
+index.delete_ref_doc(&quot;old_doc_id&quot;, delete_from_docstore=True)
+updated_doc = Document(text=&quot;Updated content here.&quot;, id_=&quot;old_doc_id&quot;)
+index.insert(updated_doc)
+
+# DELETE by document id
+index.delete_ref_doc(&quot;some_doc_id&quot;, delete_from_docstore=True)
+</code></pre>
+<h3 id="summaryindex-listindex">SummaryIndex (ListIndex)</h3>
+<pre><code class="language-python">from llama_index.core import SummaryIndex, SimpleDirectoryReader
+
+docs = SimpleDirectoryReader(&quot;./docs&quot;).load_data()
+index = SummaryIndex.from_documents(docs)
+
+# Best for summarisation tasks — iterates over ALL nodes
+engine = index.as_query_engine(response_mode=&quot;tree_summarize&quot;)
+print(engine.query(&quot;Summarise all documents in 3 bullet points.&quot;))
+</code></pre>
+<h3 id="keywordtableindex">KeywordTableIndex</h3>
+<pre><code class="language-python">from llama_index.core import KeywordTableIndex, SimpleDirectoryReader
+
+docs = SimpleDirectoryReader(&quot;./docs&quot;).load_data()
+index = KeywordTableIndex.from_documents(docs)
+
+engine = index.as_query_engine(retriever_mode=&quot;simple&quot;)
+print(engine.query(&quot;What does the document say about embeddings?&quot;))
+</code></pre>
+<h3 id="knowledgegraphindex">KnowledgeGraphIndex</h3>
+<pre><code class="language-python">from llama_index.core import KnowledgeGraphIndex, SimpleDirectoryReader
+from llama_index.core.graph_stores import SimpleGraphStore
+from llama_index.core import StorageContext
+
+docs = SimpleDirectoryReader(&quot;./docs&quot;).load_data()
+graph_store = SimpleGraphStore()
+storage_ctx = StorageContext.from_defaults(graph_store=graph_store)
+
+kg_index = KnowledgeGraphIndex.from_documents(
+    docs,
+    storage_context=storage_ctx,
+    max_triplets_per_chunk=5,
+    include_embeddings=True,
+)
+
+# Keyword + graph traversal
+engine = kg_index.as_query_engine(
+    include_text=True,
+    retriever_mode=&quot;keyword&quot;,
+    response_mode=&quot;tree_summarize&quot;,
+)
+print(engine.query(&quot;What entities are related to RAG?&quot;))
+</code></pre>
+<hr />
+<h2 id="6-query-engines">6. Query Engines</h2>
+<h3 id="basic-query-engine">Basic Query Engine</h3>
+<pre><code class="language-python">from llama_index.core import VectorStoreIndex, SimpleDirectoryReader
+
+index = VectorStoreIndex.from_documents(SimpleDirectoryReader(&quot;./docs&quot;).load_data())
+engine = index.as_query_engine(similarity_top_k=4)
+response = engine.query(&quot;Explain vector embeddings.&quot;)
+print(response.response)
+print(&quot;\nSources:&quot;)
+for node in response.source_nodes:
+    print(f&quot;  [{node.score:.3f}] {node.metadata.get('file_name','?')}&quot;)
+</code></pre>
+<h3 id="streaming-query-engine">Streaming Query Engine</h3>
+<pre><code class="language-python">engine = index.as_query_engine(streaming=True)
+stream = engine.query(&quot;What is retrieval-augmented generation?&quot;)
+for token in stream.response_gen:
+    print(token, end=&quot;&quot;, flush=True)
+print()
+</code></pre>
+<h3 id="citation-query-engine">Citation Query Engine</h3>
+<pre><code class="language-python">from llama_index.core.query_engine import CitationQueryEngine
+
+citation_engine = CitationQueryEngine.from_args(
+    index,
+    similarity_top_k=3,
+    citation_chunk_size=512,
+)
+response = citation_engine.query(&quot;How does LlamaIndex handle metadata?&quot;)
+print(response.response)
+print(&quot;\nCitations:&quot;)
+for i, node in enumerate(response.source_nodes, 1):
+    print(f&quot;  [{i}] {node.node.get_text()[:80]}...&quot;)
+</code></pre>
+<h3 id="sql-query-engine-natural-language-sql">SQL Query Engine (Natural Language → SQL)</h3>
+<pre><code class="language-python">from sqlalchemy import create_engine, text
+from llama_index.core import SQLDatabase
+from llama_index.core.query_engine import NLSQLTableQueryEngine
+
+sql_engine = create_engine(&quot;sqlite:///sample.db&quot;)
+with sql_engine.connect() as conn:
+    conn.execute(text(&quot;CREATE TABLE IF NOT EXISTS products (id INT, name TEXT, price REAL)&quot;))
+    conn.execute(text(&quot;INSERT OR IGNORE INTO products VALUES (1,'Widget',9.99)&quot;))
+    conn.commit()
+
+db = SQLDatabase(sql_engine, include_tables=[&quot;products&quot;])
+nl_engine = NLSQLTableQueryEngine(sql_database=db)
+response = nl_engine.query(&quot;What products cost less than $15?&quot;)
+print(response)
+</code></pre>
+<h3 id="pandas-query-engine-natural-language-pandas">Pandas Query Engine (Natural Language → Pandas)</h3>
+<pre><code class="language-python">import pandas as pd
+from llama_index.experimental.query_engine import PandasQueryEngine
+
+df = pd.DataFrame({
+    &quot;name&quot;: [&quot;Alice&quot;, &quot;Bob&quot;, &quot;Carol&quot;],
+    &quot;score&quot;: [92, 85, 78],
+    &quot;dept&quot;: [&quot;Eng&quot;, &quot;Sales&quot;, &quot;Eng&quot;],
+})
+engine = PandasQueryEngine(df=df, verbose=True)
+response = engine.query(&quot;What is the average score for the Eng department?&quot;)
+print(response)
+</code></pre>
+<hr />
+<h2 id="7-chat-engine">7. Chat Engine</h2>
+<h3 id="simplechatengine-no-retrieval-direct-llm-chat">SimpleChatEngine (no retrieval — direct LLM chat)</h3>
+<pre><code class="language-python">from llama_index.core.chat_engine import SimpleChatEngine
+
+engine = SimpleChatEngine.from_defaults()
+print(engine.chat(&quot;Hello! What is LlamaIndex?&quot;))
+print(engine.chat(&quot;Can you give me a code example?&quot;))
+</code></pre>
+<h3 id="condensequestionchatengine">CondenseQuestionChatEngine</h3>
+<pre><code class="language-python">index = VectorStoreIndex.from_documents(SimpleDirectoryReader(&quot;./docs&quot;).load_data())
+engine = index.as_chat_engine(chat_mode=&quot;condense_question&quot;, verbose=True)
+print(engine.chat(&quot;What is RAG?&quot;))
+print(engine.chat(&quot;How does it use embeddings?&quot;))  # condensed into a standalone question
+</code></pre>
+<h3 id="contextchatengine">ContextChatEngine</h3>
+<pre><code class="language-python">engine = index.as_chat_engine(chat_mode=&quot;context&quot;, verbose=True)
+print(engine.chat(&quot;Describe the main topics in the documents.&quot;))
+print(engine.chat(&quot;Focus only on the technical details.&quot;))
+</code></pre>
+<h3 id="openaiagentchatengine-function-calling-chat">OpenAIAgentChatEngine (function-calling + chat)</h3>
+<pre><code class="language-python">from llama_index.core.tools import QueryEngineTool, ToolMetadata
+from llama_index.agent.openai import OpenAIAgent
+
+query_tool = QueryEngineTool(
+    query_engine=index.as_query_engine(),
+    metadata=ToolMetadata(name=&quot;docs_search&quot;, description=&quot;Search the document index&quot;),
+)
+agent = OpenAIAgent.from_tools([query_tool], verbose=True)
+response = agent.chat(&quot;What does the document say about embeddings? Summarise briefly.&quot;)
+print(response)
+</code></pre>
+<h3 id="multi-turn-conversational-rag-full-example">Multi-turn Conversational RAG (full example)</h3>
+<pre><code class="language-python">from llama_index.core import VectorStoreIndex, SimpleDirectoryReader
+from llama_index.core.memory import ChatMemoryBuffer
+
+docs = SimpleDirectoryReader(&quot;./docs&quot;).load_data()
+index = VectorStoreIndex.from_documents(docs)
+memory = ChatMemoryBuffer.from_defaults(token_limit=3000)
+
+engine = index.as_chat_engine(
+    chat_mode=&quot;context&quot;,
+    memory=memory,
+    system_prompt=(
+        &quot;You are a helpful research assistant. &quot;
+        &quot;Answer based only on the provided documents.&quot;
+    ),
+)
+
+questions = [
+    &quot;What is the main topic of these documents?&quot;,
+    &quot;Can you elaborate on the first point?&quot;,
+    &quot;Give me a one-line summary of everything we discussed.&quot;,
+]
+for q in questions:
+    print(f&quot;\nUser: {q}&quot;)
+    print(f&quot;Assistant: {engine.chat(q)}&quot;)
+</code></pre>
+<hr />
+<h2 id="8-advanced-retrieval">8. Advanced Retrieval</h2>
+<h3 id="subquestionqueryengine">SubQuestionQueryEngine</h3>
+<pre><code class="language-python">from llama_index.core.query_engine import SubQuestionQueryEngine
+from llama_index.core.tools import QueryEngineTool, ToolMetadata
+from llama_index.core import VectorStoreIndex, Document
+
+# Two specialised indices
+docs_a = [Document(text=&quot;Python was created by Guido van Rossum in 1991.&quot;)]
+docs_b = [Document(text=&quot;JavaScript was created by Brendan Eich in 1995.&quot;)]
+idx_a = VectorStoreIndex.from_documents(docs_a)
+idx_b = VectorStoreIndex.from_documents(docs_b)
+
+tools = [
+    QueryEngineTool(
+        query_engine=idx_a.as_query_engine(),
+        metadata=ToolMetadata(name=&quot;python_facts&quot;, description=&quot;Facts about Python&quot;),
+    ),
+    QueryEngineTool(
+        query_engine=idx_b.as_query_engine(),
+        metadata=ToolMetadata(name=&quot;js_facts&quot;, description=&quot;Facts about JavaScript&quot;),
+    ),
+]
+
+engine = SubQuestionQueryEngine.from_defaults(query_engine_tools=tools, verbose=True)
+response = engine.query(&quot;Who created Python and JavaScript, and in which years?&quot;)
+print(response)
+</code></pre>
+<h3 id="routerqueryengine">RouterQueryEngine</h3>
+<pre><code class="language-python">from llama_index.core.query_engine import RouterQueryEngine
+from llama_index.core.selectors import LLMSingleSelector
+
+router_engine = RouterQueryEngine(
+    selector=LLMSingleSelector.from_defaults(),
+    query_engine_tools=tools,  # same tools from above
+    verbose=True,
+)
+print(router_engine.query(&quot;Tell me about JavaScript's creator.&quot;))
+</code></pre>
+<h3 id="hyde-hypothetical-document-embeddings">HyDE (Hypothetical Document Embeddings)</h3>
+<pre><code class="language-python">from llama_index.core.indices.query.query_transform import HyDEQueryTransform
+from llama_index.core.query_engine import TransformQueryEngine
+
+base_engine = index.as_query_engine(similarity_top_k=5)
+hyde = HyDEQueryTransform(include_original=True)
+hyde_engine = TransformQueryEngine(base_engine, query_transform=hyde)
+print(hyde_engine.query(&quot;What are the benefits of semantic search?&quot;))
+</code></pre>
+<h3 id="recursiveretriever-hierarchical">RecursiveRetriever (hierarchical)</h3>
+<pre><code class="language-python">from llama_index.core.retrievers import RecursiveRetriever
+from llama_index.core.query_engine import RetrieverQueryEngine
+
+# Build a parent index that references child chunk nodes
+parent_retriever = RecursiveRetriever(
+    &quot;vector&quot;,
+    retriever_dict={&quot;vector&quot;: index.as_retriever(similarity_top_k=2)},
+    verbose=True,
+)
+engine = RetrieverQueryEngine.from_args(parent_retriever)
+print(engine.query(&quot;Explain chunking strategies.&quot;))
+</code></pre>
+<h3 id="ensemble-retriever-bm25-vector">Ensemble Retriever (BM25 + Vector)</h3>
+<pre><code class="language-python"># pip install llama-index-retrievers-bm25
+from llama_index.retrievers.bm25 import BM25Retriever
+from llama_index.core.retrievers import QueryFusionRetriever
+
+vector_retriever = index.as_retriever(similarity_top_k=3)
+bm25_retriever = BM25Retriever.from_defaults(index=index, similarity_top_k=3)
+
+fusion_retriever = QueryFusionRetriever(
+    retrievers=[vector_retriever, bm25_retriever],
+    similarity_top_k=4,
+    num_queries=4,
+    mode=&quot;reciprocal_rerank&quot;,
+    verbose=True,
+)
+nodes = fusion_retriever.retrieve(&quot;What is an embedding model?&quot;)
+for n in nodes:
+    print(f&quot;[{n.score:.3f}] {n.text[:80]}&quot;)
+</code></pre>
+<hr />
+<h2 id="9-agents">9. Agents</h2>
+<h3 id="reactagent-with-tools">ReActAgent with Tools</h3>
+<pre><code class="language-python">from llama_index.core.agent import ReActAgent
+from llama_index.core.tools import FunctionTool
+
+def multiply(a: float, b: float) -&gt; float:
+    &quot;&quot;&quot;Multiply two numbers and return the product.&quot;&quot;&quot;
+    return a * b
+
+def add(a: float, b: float) -&gt; float:
+    &quot;&quot;&quot;Add two numbers and return their sum.&quot;&quot;&quot;
+    return a + b
+
+tools = [
+    FunctionTool.from_defaults(fn=multiply),
+    FunctionTool.from_defaults(fn=add),
+]
+agent = ReActAgent.from_tools(tools, verbose=True)
+print(agent.chat(&quot;What is (3 + 7) multiplied by 4?&quot;))
+</code></pre>
+<h3 id="openaiagent-function-calling">OpenAIAgent (function calling)</h3>
+<pre><code class="language-python">from llama_index.agent.openai import OpenAIAgent
+
+agent = OpenAIAgent.from_tools(tools, verbose=True)
+print(agent.chat(&quot;Calculate 15 * 6 then add 10.&quot;))
+</code></pre>
+<h3 id="queryenginetool-functiontool-in-one-agent">QueryEngineTool + FunctionTool in one agent</h3>
+<pre><code class="language-python">from llama_index.core.tools import QueryEngineTool, FunctionTool, ToolMetadata
+from llama_index.agent.openai import OpenAIAgent
+import datetime
+
+def get_current_date() -&gt; str:
+    &quot;&quot;&quot;Return today's date as a string.&quot;&quot;&quot;
+    return datetime.date.today().isoformat()
+
+doc_tool = QueryEngineTool(
+    query_engine=index.as_query_engine(),
+    metadata=ToolMetadata(
+        name=&quot;knowledge_base&quot;,
+        description=&quot;Search the knowledge base for document content&quot;,
+    ),
+)
+date_tool = FunctionTool.from_defaults(fn=get_current_date)
+
+agent = OpenAIAgent.from_tools([doc_tool, date_tool], verbose=True)
+print(agent.chat(&quot;What date is it and what is the main topic of my documents?&quot;))
+</code></pre>
+<h3 id="full-research-agent-3-specialised-tools">Full Research Agent — 3 specialised tools</h3>
+<pre><code class="language-python">import subprocess
+from llama_index.core import VectorStoreIndex, Document, Settings
+from llama_index.core.tools import QueryEngineTool, FunctionTool, ToolMetadata
+from llama_index.agent.openai import OpenAIAgent
+from llama_index.llms.openai import OpenAI
+from llama_index.embeddings.huggingface import HuggingFaceEmbedding
+
+# Setup
+token = subprocess.run([&quot;gh&quot;,&quot;auth&quot;,&quot;token&quot;],capture_output=True,text=True).stdout.strip()
+Settings.llm = OpenAI(model=&quot;gpt-4o-mini&quot;, api_key=token,
+                      api_base=&quot;https://models.inference.ai.azure.com&quot;)
+Settings.embed_model = HuggingFaceEmbedding(model_name=&quot;BAAI/bge-small-en-v1.5&quot;)
+
+# Three mini-indices simulating different data sources
+ai_docs   = [Document(text=&quot;Transformers use self-attention. GPT is autoregressive.&quot;)]
+db_docs   = [Document(text=&quot;PostgreSQL supports JSONB. Indexes speed up SELECT queries.&quot;)]
+code_docs = [Document(text=&quot;Python list comprehensions are faster than for-loops in CPython.&quot;)]
+
+ai_idx   = VectorStoreIndex.from_documents(ai_docs)
+db_idx   = VectorStoreIndex.from_documents(db_docs)
+code_idx = VectorStoreIndex.from_documents(code_docs)
+
+tools = [
+    QueryEngineTool(query_engine=ai_idx.as_query_engine(),
+        metadata=ToolMetadata(name=&quot;ai_research&quot;, description=&quot;AI/ML research knowledge&quot;)),
+    QueryEngineTool(query_engine=db_idx.as_query_engine(),
+        metadata=ToolMetadata(name=&quot;database_facts&quot;, description=&quot;Database engineering facts&quot;)),
+    QueryEngineTool(query_engine=code_idx.as_query_engine(),
+        metadata=ToolMetadata(name=&quot;coding_tips&quot;, description=&quot;Python coding best practices&quot;)),
+]
+
+agent = OpenAIAgent.from_tools(tools, verbose=True,
+    system_prompt=&quot;You are a senior software engineer. Cite which tool you used.&quot;)
+
+queries = [
+    &quot;How do Transformers process sequences?&quot;,
+    &quot;What PostgreSQL feature stores nested data?&quot;,
+    &quot;Are list comprehensions faster than loops?&quot;,
+]
+for q in queries:
+    print(f&quot;\n&gt;&gt;&gt; {q}&quot;)
+    print(agent.chat(q))
+</code></pre>
+<hr />
+<h2 id="10-node-postprocessors">10. Node Postprocessors</h2>
+<h3 id="similaritypostprocessor-threshold-filter">SimilarityPostprocessor (threshold filter)</h3>
+<pre><code class="language-python">from llama_index.core.postprocessor import SimilarityPostprocessor
+from llama_index.core import VectorStoreIndex, SimpleDirectoryReader
+
+index = VectorStoreIndex.from_documents(SimpleDirectoryReader(&quot;./docs&quot;).load_data())
+engine = index.as_query_engine(
+    similarity_top_k=10,
+    node_postprocessors=[SimilarityPostprocessor(similarity_cutoff=0.75)],
+)
+print(engine.query(&quot;What is semantic search?&quot;))
+</code></pre>
+<h3 id="metadatareplacementpostprocessor">MetadataReplacementPostprocessor</h3>
+<pre><code class="language-python">from llama_index.core.postprocessor import MetadataReplacementPostprocessor
+
+# Replaces node text with a metadata field value before synthesis
+pp = MetadataReplacementPostprocessor(target_metadata_key=&quot;window&quot;)
+engine = index.as_query_engine(node_postprocessors=[pp])
+</code></pre>
+<h3 id="llmrerank">LLMRerank</h3>
+<pre><code class="language-python">from llama_index.core.postprocessor import LLMRerank
+
+reranker = LLMRerank(choice_batch_size=5, top_n=3)
+engine = index.as_query_engine(
+    similarity_top_k=10,
+    node_postprocessors=[reranker],
+)
+print(engine.query(&quot;Explain the architecture of transformer models.&quot;))
+</code></pre>
+<h3 id="sentencetransformerrerank-local-no-api-cost">SentenceTransformerRerank (local, no API cost)</h3>
+<pre><code class="language-python">from llama_index.postprocessor.sentence_transformer_rerank import SentenceTransformerRerank
+
+reranker = SentenceTransformerRerank(
+    model=&quot;cross-encoder/ms-marco-MiniLM-L-2-v2&quot;,
+    top_n=3,
+)
+engine = index.as_query_engine(
+    similarity_top_k=10,
+    node_postprocessors=[reranker],
+)
+print(engine.query(&quot;How does BERT handle bidirectional context?&quot;))
+</code></pre>
+<h3 id="full-pipeline-retrieval-filter-rerank-synthesise">Full Pipeline: retrieval → filter → rerank → synthesise</h3>
+<pre><code class="language-python">from llama_index.core import VectorStoreIndex, SimpleDirectoryReader
+from llama_index.core.postprocessor import SimilarityPostprocessor, LLMRerank
+from llama_index.core.query_engine import RetrieverQueryEngine
+from llama_index.core.retrievers import VectorIndexRetriever
+
+docs  = SimpleDirectoryReader(&quot;./docs&quot;).load_data()
+index = VectorStoreIndex.from_documents(docs)
+
+retriever = VectorIndexRetriever(index=index, similarity_top_k=10)
+engine = RetrieverQueryEngine.from_args(
+    retriever=retriever,
+    node_postprocessors=[
+        SimilarityPostprocessor(similarity_cutoff=0.6),
+        LLMRerank(top_n=3),
+    ],
+    response_mode=&quot;compact&quot;,
+)
+response = engine.query(&quot;What is the most important concept in the documents?&quot;)
+print(response)
+</code></pre>
+<hr />
+<h2 id="11-evaluation">11. Evaluation</h2>
+<h3 id="faithfulness-relevancy-evaluators">Faithfulness &amp; Relevancy Evaluators</h3>
+<pre><code class="language-python">from llama_index.core.evaluation import FaithfulnessEvaluator, RelevancyEvaluator
+
+faith_eval    = FaithfulnessEvaluator()
+relevancy_eval = RelevancyEvaluator()
+
+response = index.as_query_engine().query(&quot;What is RAG?&quot;)
+
+faith_result    = faith_eval.evaluate_response(response=response)
+relevancy_result = relevancy_eval.evaluate_response(query=&quot;What is RAG?&quot;, response=response)
+
+print(f&quot;Faithful : {faith_result.passing} (score={faith_result.score})&quot;)
+print(f&quot;Relevant : {relevancy_result.passing} (score={relevancy_result.score})&quot;)
+</code></pre>
+<h3 id="correctnessevaluator-requires-reference-answer">CorrectnessEvaluator (requires reference answer)</h3>
+<pre><code class="language-python">from llama_index.core.evaluation import CorrectnessEvaluator
+
+evaluator = CorrectnessEvaluator()
+result = evaluator.evaluate(
+    query=&quot;What year was Python created?&quot;,
+    response=&quot;Python was created in 1991.&quot;,
+    reference=&quot;Python was first released in 1991 by Guido van Rossum.&quot;,
+)
+print(f&quot;Correct: {result.passing}, Score: {result.score}, Feedback: {result.feedback}&quot;)
+</code></pre>
+<h3 id="batchevalrunner-full-pipeline">BatchEvalRunner — full pipeline</h3>
+<pre><code class="language-python">import asyncio
+from llama_index.core.evaluation import BatchEvalRunner, FaithfulnessEvaluator, RelevancyEvaluator
+
+queries = [
+    &quot;What is a vector database?&quot;,
+    &quot;How does chunking affect retrieval quality?&quot;,
+    &quot;What is the difference between BM25 and dense retrieval?&quot;,
+]
+
+runner = BatchEvalRunner(
+    evaluators={&quot;faithfulness&quot;: FaithfulnessEvaluator(),
+                &quot;relevancy&quot;: RelevancyEvaluator()},
+    show_progress=True,
+)
+
+async def run_eval():
+    engine = index.as_query_engine()
+    results = await runner.aevaluate_queries(engine, queries=queries)
+    for metric, evals in results.items():
+        scores = [e.score for e in evals if e.score is not None]
+        avg = sum(scores) / len(scores) if scores else 0
+        print(f&quot;{metric}: avg={avg:.2f}, pass_rate={sum(1 for e in evals if e.passing)/len(evals):.0%}&quot;)
+
+asyncio.run(run_eval())
+</code></pre>
+<hr />
+<h2 id="12-llamaindex-workflows-010">12. LlamaIndex Workflows (0.10+)</h2>
+<p>Workflows provide an <strong>event-driven, step-based</strong> execution model — much cleaner than
+chaining functions manually.</p>
+<pre><code class="language-python">from llama_index.core.workflow import (
+    Workflow, StartEvent, StopEvent, step, Event
+)
+from llama_index.core import VectorStoreIndex, Document
+from dataclasses import dataclass
+
+# Custom intermediate events
+@dataclass
+class RetrievalEvent(Event):
+    nodes: list
+
+@dataclass
+class SynthesisEvent(Event):
+    query: str
+    context: str
+
+class RAGWorkflow(Workflow):
+
+    @step
+    async def preprocess(self, ev: StartEvent) -&gt; RetrievalEvent:
+        &quot;&quot;&quot;Clean and route the incoming query.&quot;&quot;&quot;
+        query = ev.get(&quot;query&quot;, &quot;&quot;)
+        query = query.strip().rstrip(&quot;?&quot;) + &quot;?&quot;  # normalise punctuation
+        index: VectorStoreIndex = ev.get(&quot;index&quot;)
+        retriever = index.as_retriever(similarity_top_k=3)
+        nodes = retriever.retrieve(query)
+        return RetrievalEvent(nodes=nodes)
+
+    @step
+    async def build_context(self, ev: RetrievalEvent) -&gt; SynthesisEvent:
+        &quot;&quot;&quot;Merge retrieved node text into a single context block.&quot;&quot;&quot;
+        context = &quot;\n\n&quot;.join(n.text for n in ev.nodes)
+        return SynthesisEvent(query=&quot;&quot;, context=context)
+
+    @step
+    async def synthesise(self, ev: SynthesisEvent) -&gt; StopEvent:
+        &quot;&quot;&quot;Produce the final answer.&quot;&quot;&quot;
+        from llama_index.core import Settings
+        prompt = f&quot;Context:\n{ev.context}\n\nAnswer briefly: {ev.query}&quot;
+        answer = await Settings.llm.acomplete(prompt)
+        return StopEvent(result=str(answer))
+
+
+async def run_rag_workflow():
+    docs  = [Document(text=&quot;The Eiffel Tower is in Paris, France.&quot;)]
+    index = VectorStoreIndex.from_documents(docs)
+    workflow = RAGWorkflow(timeout=60)
+    result = await workflow.run(query=&quot;Where is the Eiffel Tower?&quot;, index=index)
+    print(result)
+
+import asyncio
+asyncio.run(run_rag_workflow())
+</code></pre>
+<hr />
+<h2 id="13-production-patterns">13. Production Patterns</h2>
+<h3 id="async-query-execution">Async Query Execution</h3>
+<pre><code class="language-python">import asyncio
+from llama_index.core import VectorStoreIndex, Document
+
+async def batch_query(engine, questions: list[str]):
+    tasks = [engine.aquery(q) for q in questions]
+    responses = await asyncio.gather(*tasks)
+    return responses
+
+async def main():
+    docs   = [Document(text=&quot;LlamaIndex supports async natively via asyncio.&quot;)]
+    index  = VectorStoreIndex.from_documents(docs)
+    engine = index.as_query_engine()
+    qs     = [&quot;What is LlamaIndex?&quot;, &quot;Does it support async?&quot;]
+    for q, r in zip(qs, await batch_query(engine, qs)):
+        print(f&quot;Q: {q}\nA: {r}\n&quot;)
+
+asyncio.run(main())
+</code></pre>
+<h3 id="streaming-response">Streaming Response</h3>
+<pre><code class="language-python">engine = index.as_query_engine(streaming=True)
+stream = engine.query(&quot;Explain LlamaIndex in detail.&quot;)
+print(&quot;Streaming: &quot;, end=&quot;&quot;)
+for chunk in stream.response_gen:
+    print(chunk, end=&quot;&quot;, flush=True)
+print()
+</code></pre>
+<h3 id="caching-ingestioncache-llm-response-cache">Caching (IngestionCache + LLM Response Cache)</h3>
+<pre><code class="language-python">from llama_index.core.ingestion import IngestionPipeline, IngestionCache
+from llama_index.core.node_parser import SentenceSplitter
+from llama_index.core.storage.kvstore import SimpleKVStore
+
+# Ingestion cache — avoids re-embedding unchanged documents
+cache = IngestionCache(cache=SimpleKVStore(), collection=&quot;my_cache&quot;)
+pipeline = IngestionPipeline(
+    transformations=[SentenceSplitter(chunk_size=512)],
+    cache=cache,
+)
+docs  = [Document(text=&quot;Caching avoids redundant embedding calls.&quot;)]
+nodes = pipeline.run(documents=docs)  # first run: embeds; re-runs: uses cache
+print(f&quot;Nodes: {len(nodes)}&quot;)
+</code></pre>
+<h3 id="index-persistence-with-chromadb">Index Persistence with ChromaDB</h3>
+<pre><code class="language-python"># pip install chromadb llama-index-vector-stores-chroma
+import chromadb
+from llama_index.vector_stores.chroma import ChromaVectorStore
+from llama_index.core import VectorStoreIndex, StorageContext, SimpleDirectoryReader
+
+chroma_client     = chromadb.PersistentClient(path=&quot;./chroma_db&quot;)
+chroma_collection = chroma_client.get_or_create_collection(&quot;my_index&quot;)
+vector_store      = ChromaVectorStore(chroma_collection=chroma_collection)
+storage_ctx       = StorageContext.from_defaults(vector_store=vector_store)
+
+docs  = SimpleDirectoryReader(&quot;./docs&quot;).load_data()
+index = VectorStoreIndex.from_documents(docs, storage_context=storage_ctx)
+# Data automatically persisted in ./chroma_db — reload by reusing same client
+</code></pre>
+<h3 id="fastapi-service">FastAPI Service</h3>
+<pre><code class="language-python"># pip install fastapi uvicorn
+from fastapi import FastAPI
+from pydantic import BaseModel
+from llama_index.core import VectorStoreIndex, Document, Settings
+from llama_index.llms.openai import OpenAI
+from llama_index.embeddings.huggingface import HuggingFaceEmbedding
+import subprocess, uvicorn
+
+app = FastAPI(title=&quot;LlamaIndex RAG API&quot;)
+
+# Initialise once at startup
+token = subprocess.run([&quot;gh&quot;,&quot;auth&quot;,&quot;token&quot;],capture_output=True,text=True).stdout.strip()
+Settings.llm = OpenAI(model=&quot;gpt-4o-mini&quot;, api_key=token,
+                      api_base=&quot;https://models.inference.ai.azure.com&quot;)
+Settings.embed_model = HuggingFaceEmbedding(model_name=&quot;BAAI/bge-small-en-v1.5&quot;)
+
+DOCS  = [Document(text=&quot;LlamaIndex makes RAG easy.&quot;)]
+INDEX = VectorStoreIndex.from_documents(DOCS)
+
+class QueryRequest(BaseModel):
+    question: str
+    top_k: int = 3
+
+class QueryResponse(BaseModel):
+    answer: str
+    sources: list[str]
+
+@app.post(&quot;/query&quot;, response_model=QueryResponse)
+async def query(req: QueryRequest):
+    engine   = INDEX.as_query_engine(similarity_top_k=req.top_k)
+    response = await engine.aquery(req.question)
+    sources  = [n.metadata.get(&quot;file_name&quot;, &quot;unknown&quot;) for n in response.source_nodes]
+    return QueryResponse(answer=str(response), sources=sources)
+
+@app.get(&quot;/health&quot;)
+def health():
+    return {&quot;status&quot;: &quot;ok&quot;}
+
+# Run with: uvicorn this_file:app --reload
+if __name__ == &quot;__main__&quot;:
+    uvicorn.run(app, host=&quot;0.0.0.0&quot;, port=8000)
+</code></pre>
+<hr />
+<h2 id="14-interview-qa">14. Interview Q&amp;A</h2>
+<details open><summary class="qa-q">What is the difference between LlamaIndex and LangChain? LlamaIndex specialises in **data ingestion, indexing, and retrieval** — its primary abstraction is the Index/QueryEngine pipeline optimised for RAG. LangChain is a **general-purpose chain composition** framework with a broader set of abstractions (chains, agents, memory, tools). Use LlamaIndex when your bottleneck is data quality/retrieval; use LangChain when you need complex conditional chain logic. They can also be combined.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What is a Node in LlamaIndex? A Node is a **chunk of text** derived from a Document. It is the atomic unit of retrieval. Each Node stores: `text`, `metadata` (inherited + extracted), `embedding`, `relationships` (prev/next/parent), and a unique `node_id`. The chunking strategy (size, overlap, splitter type) directly impacts retrieval quality.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How does VectorStoreIndex work internally? 1. Documents are split into Nodes via a `NodeParser`. 2. Each Node's text is passed to an `EmbedModel` → float vector. 3. Vectors + metadata are stored in a `VectorStore` (in-memory by default; ChromaDB, Pinecone, etc. externally). 4. At query time the query text is embedded, a nearest-neighbour search retrieves top-k Nodes, and a `ResponseSynthesizer` generates the final answer.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What is SubQuestionQueryEngine and when would you use it? It **decomposes a complex multi-part query** into sub-questions, routes each sub-question to the most appropriate index/tool, collects the answers, then synthesises a final combined response. Use it when users ask compound questions spanning multiple data sources (e.g., "Compare Python and JavaScript performance benchmarks and memory usage").  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How do you persist and reload an index? ```python # Persist index.storage_context.persist(persist_dir="./storage")  # Reload from llama_index.core import StorageContext, load_index_from_storage sc    = StorageContext.from_defaults(persist_dir="./storage") index = load_index_from_storage(sc) ``` For production use a persistent vector store (ChromaDB, Pinecone) so embeddings survive restarts.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What is KnowledgeGraphIndex and what problems does it solve? It extracts **(subject, predicate, object) triplets** from documents and stores them as a graph. This enables **relationship-aware queries** that vector search misses — e.g., "Who manages which team?" or "Which component depends on which service?" It excels at multi-hop reasoning tasks where the answer requires traversing several entity relationships.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How do you add metadata filtering to a query? ```python from llama_index.core.vector_stores import MetadataFilter, MetadataFilters  filters = MetadataFilters(filters=[     MetadataFilter(key="source", value="annual_report_2024.pdf"), ]) engine = index.as_query_engine(filters=filters) ``` Only Nodes whose metadata matches the filter are considered during retrieval.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What is HyDE and how does it improve retrieval? **Hypothetical Document Embeddings**: the LLM first generates a *hypothetical ideal answer* to the query, then that synthetic answer is embedded and used for similarity search instead of the raw query. This bridges the vocabulary gap between short queries and long document passages, improving recall especially for factual or domain-specific questions.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How do you implement multi-turn conversation with LlamaIndex? Use a **ChatEngine** with a `ChatMemoryBuffer`: ```python from llama_index.core.memory import ChatMemoryBuffer memory = ChatMemoryBuffer.from_defaults(token_limit=3000) engine = index.as_chat_engine(chat_mode="context", memory=memory) engine.chat("First question") engine.chat("Follow-up using prior context")  # memory is preserved ```  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What is the RouterQueryEngine? A meta-engine that uses an **LLM selector** (or embedding selector) to pick the *best* sub-engine for each query at runtime. You register multiple engines (each with a description) and the router decides which to invoke. Useful when different document collections require different retrieval strategies.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How do you evaluate RAG quality in LlamaIndex? Use the built-in evaluators: - **FaithfulnessEvaluator** — checks the answer is grounded in retrieved context (no hallucination). - **RelevancyEvaluator** — checks the context retrieved was relevant to the query. - **CorrectnessEvaluator** — checks the answer matches a ground-truth reference. - **BatchEvalRunner** — runs all evaluators across a list of queries asynchronously.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What are LlamaIndex Workflows? Introduced in 0.10, Workflows offer an **event-driven execution model** using `@step`-decorated async methods. Each step receives a typed `Event`, does work, and emits the next `Event`. This replaces brittle callback chains with a clean, testable, inspectable DAG of steps — ideal for complex multi-stage RAG pipelines (preprocess → retrieve → rerank → synthesise).  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How do you use LlamaIndex with local models? ```python # pip install llama-index-llms-ollama llama-index-embeddings-huggingface from llama_index.llms.ollama import Ollama from llama_index.embeddings.huggingface import HuggingFaceEmbedding from llama_index.core import Settings  Settings.llm        = Ollama(model="llama3", request_timeout=120.0) Settings.embed_model = HuggingFaceEmbedding(model_name="BAAI/bge-small-en-v1.5") ``` Everything else (indices, engines, agents) works identically — no code changes needed.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What is LlamaParse and when should you use it? LlamaParse is a **cloud document parser** (at cloud.llamaindex.ai) that handles complex PDFs: tables, multi-column layouts, embedded images, and scanned text via OCR. Use it when `SimpleDirectoryReader` produces garbled output for PDFs — e.g., financial reports, research papers, slide decks exported as PDF.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How does LlamaIndex handle very large document collections? Several strategies: 1. **Persistent vector stores** (ChromaDB, Pinecone, Weaviate) — out-of-memory storage. 2. **IngestionPipeline with caching** — skips re-processing unchanged documents. 3. **Async ingestion** — `pipeline.arun(documents=docs)` with concurrency control. 4. **Incremental indexing** — insert/delete individual documents via `index.insert()` / `index.delete_ref_doc()`. 5. **RouterQueryEngine** — shard data into topic-specific indices, route at query time.  ---  ## 15. Complete End-to-End Example  Multi-document research assistant: load 3 docs → build combined index → SubQuestion engine → interactive chat interface.  ```python """ end_to_end_research_assistant.py Multi-document research assistant using LlamaIndex SubQuestionQueryEngine. Run: python end_to_end_research_assistant.py """ import subprocess import asyncio from llama_index.core import VectorStoreIndex, Document, Settings from llama_index.core.tools import QueryEngineTool, ToolMetadata from llama_index.core.query_engine import SubQuestionQueryEngine from llama_index.core.memory import ChatMemoryBuffer from llama_index.llms.openai import OpenAI from llama_index.embeddings.huggingface import HuggingFaceEmbedding  # ── 1. Configure LLM + embeddings ───────────────────────────────────────────── token = subprocess.run(     ["gh", "auth", "token"], capture_output=True, text=True ).stdout.strip()  Settings.llm = OpenAI(     model="gpt-4o-mini",     api_key=token,     api_base="https://models.inference.ai.azure.com", ) Settings.embed_model = HuggingFaceEmbedding(model_name="BAAI/bge-small-en-v1.5") Settings.chunk_size = 256  # ── 2. Load three document "collections" ────────────────────────────────────── python_doc = Document(     text=(         "Python is a high-level, interpreted programming language created by Guido van Rossum "         "and first released in 1991. It emphasises readability and supports multiple paradigms: "         "procedural, object-oriented, and functional. Python 3.12 introduced inline type aliases "         "and improved error messages. The GIL limits CPU-bound threading but asyncio enables "         "efficient I/O concurrency. Popular frameworks include Django, FastAPI, and PyTorch."     ),     metadata={"source": "python_overview.txt"}, )  rust_doc = Document(     text=(         "Rust is a systems programming language focused on safety, speed, and concurrency. "         "It was created by Mozilla Research and first appeared in 2010. Rust eliminates null "         "pointer dereferences and data races at compile time via its ownership and borrow-checker "         "system. Rust 1.75 stabilised async fn in traits. It is widely used in WebAssembly, "         "embedded systems, and performance-critical services."     ),     metadata={"source": "rust_overview.txt"}, )  llm_doc = Document(     text=(         "Large Language Models (LLMs) are neural networks trained on massive text corpora to "         "predict the next token. GPT-4 and Claude 3 use transformer architectures with billions "         "of parameters. Retrieval-Augmented Generation (RAG) extends LLMs by injecting relevant "         "context from a vector database at inference time, reducing hallucinations. Fine-tuning "         "adapts a pre-trained LLM to a specific domain using supervised learning on labelled data."     ),     metadata={"source": "llm_overview.txt"}, )  # ── 3. Build per-topic indices ───────────────────────────────────────────────── python_index = VectorStoreIndex.from_documents([python_doc]) rust_index   = VectorStoreIndex.from_documents([rust_doc]) llm_index    = VectorStoreIndex.from_documents([llm_doc])  print("✓ All three indices built.")  # ── 4. Wrap indices as QueryEngineTools ─────────────────────────────────────── tools = [     QueryEngineTool(         query_engine=python_index.as_query_engine(similarity_top_k=2),         metadata=ToolMetadata(             name="python_knowledge",             description="Facts and details about the Python programming language",         ),     ),     QueryEngineTool(         query_engine=rust_index.as_query_engine(similarity_top_k=2),         metadata=ToolMetadata(             name="rust_knowledge",             description="Facts and details about the Rust programming language",         ),     ),     QueryEngineTool(         query_engine=llm_index.as_query_engine(similarity_top_k=2),         metadata=ToolMetadata(             name="llm_knowledge",             description="Information about Large Language Models and RAG",         ),     ), ]  # ── 5. Build SubQuestionQueryEngine ─────────────────────────────────────────── research_engine = SubQuestionQueryEngine.from_defaults(     query_engine_tools=tools,     verbose=True, ) print("✓ SubQuestionQueryEngine ready.\n")  # ── 6. Run example queries ──────────────────────────────────────────────────── sample_questions = [     "Who created Python and Rust, and in what years were they released?",     "How does RAG reduce hallucinations in LLMs?",     "Compare Python and Rust in terms of memory safety.", ]  for question in sample_questions:     print(f"{'─'*60}")     print(f"Question: {question}")     response = research_engine.query(question)     print(f"Answer  : {response}\n")  # ── 7. Interactive REPL ─────────────────────────────────────────────────────── print("='*60") print("Interactive Research Assistant — type 'exit' to quit") print("="*60) while True:     try:         user_input = input("\nYou: ").strip()     except (EOFError, KeyboardInterrupt):         print("\nGoodbye!")         break     if not user_input or user_input.lower() in ("exit", "quit", "q"):         print("Goodbye!")         break     response = research_engine.query(user_input)     print(f"\nAssistant: {response}") ```  ---  *End of LlamaIndex Comprehensive Guide — ~950 lines</summary><div class="qa-a"></div></details>
+</main>
+</body>
+</html>

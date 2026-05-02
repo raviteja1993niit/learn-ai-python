@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Code Recipes – AI Libraries Guide</title>
+<style>
+:root{--bg:#fff;--text:#1a1a2e;--accent:#0070f3;--code:#f4f6f8;--border:#e1e4e8;--nav:#f6f8fa;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:Georgia,'Times New Roman',serif;font-size:17px;line-height:1.8;
+     color:var(--text);background:var(--bg);display:flex;min-height:100vh;}
+/* ---- NAV ---- */
+nav{width:260px;min-width:220px;background:var(--nav);border-right:1px solid var(--border);
+    position:sticky;top:0;height:100vh;overflow-y:auto;padding:20px 14px;flex-shrink:0;}
+nav .back-link{display:block;font-family:sans-serif;font-size:12px;color:var(--accent);
+               margin-bottom:14px;text-decoration:none;}
+nav .back-link:hover{text-decoration:underline;}
+nav h3{font-family:sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:.08em;
+       color:#888;margin-bottom:8px;}
+nav ul{list-style:none;}
+nav li{margin:3px 0;}
+nav a{font-family:sans-serif;font-size:13px;color:#444;text-decoration:none;
+      display:block;padding:4px 8px;border-radius:4px;line-height:1.4;}
+nav a:hover{background:#e0e8ff;color:var(--accent);}
+nav a.h3{padding-left:20px;font-size:12px;color:#666;}
+nav a.h4{padding-left:34px;font-size:11px;color:#888;}
+/* ---- MAIN ---- */
+main{flex:1;padding:48px 60px;max-width:960px;}
+.doc-header{margin-bottom:40px;padding-bottom:20px;border-bottom:3px solid var(--accent);}
+.doc-header h1{font-size:2.1em;color:#0a192f;}
+.doc-header .subtitle{font-family:sans-serif;color:#555;margin-top:6px;font-size:.95em;}
+.doc-header .badges span{display:inline-block;font-family:sans-serif;font-size:12px;
+  padding:3px 10px;border-radius:12px;margin:8px 4px 0 0;font-weight:600;}
+.badge-free{background:#d4edda;color:#155724;}
+.badge-paid{background:#fff3cd;color:#856404;}
+.badge-local{background:#cce5ff;color:#004085;}
+/* ---- CONTENT ---- */
+section{margin-bottom:56px;}
+h2{font-size:1.6em;color:#0a192f;margin:2em 0 .6em;padding-bottom:.3em;border-bottom:2px solid var(--border);}
+h3{font-size:1.25em;color:#0a192f;margin:1.6em 0 .4em;}
+h4{font-size:1.05em;color:#0a192f;margin:1.3em 0 .3em;}
+p{margin:.6em 0;}
+ul,ol{margin:.5em 0 .5em 1.5em;}li{margin:.25em 0;}
+strong{color:#0a192f;}
+code{font-family:'Fira Code',Consolas,monospace;background:var(--code);
+     padding:2px 6px;border-radius:3px;font-size:.87em;}
+pre{background:var(--code);border:1px solid var(--border);border-left:4px solid var(--accent);
+    border-radius:6px;padding:18px;overflow-x:auto;margin:1em 0;}
+pre code{background:none;padding:0;font-size:.84em;line-height:1.5;}
+table{border-collapse:collapse;width:100%;margin:1em 0;font-family:sans-serif;font-size:.9em;}
+th,td{border:1px solid var(--border);padding:9px 13px;text-align:left;vertical-align:top;}
+th{background:#e8f0fe;font-weight:700;color:#0a192f;}
+tr:nth-child(even) td{background:#f9f9f9;}
+blockquote{border-left:4px solid var(--accent);padding:10px 18px;background:#f0f4ff;
+           border-radius:0 6px 6px 0;color:#333;margin:1em 0;}
+/* ---- Q&A ---- */
+details{border:1px solid var(--border);border-radius:8px;margin:.8em 0;background:#fafafa;}
+details[open]{background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+summary.qa-q{cursor:pointer;padding:13px 16px;font-weight:700;color:#0a192f;
+             list-style:none;display:flex;align-items:flex-start;gap:10px;line-height:1.5;}
+summary.qa-q::before{content:"Q";background:var(--accent);color:#fff;padding:2px 8px;
+                     border-radius:50%;font-size:.78em;font-family:sans-serif;flex-shrink:0;margin-top:2px;}
+.qa-a{padding:14px 18px;border-top:1px solid #eee;}
+/* ---- callout boxes ---- */
+.tip{background:#e6f9f0;border-left:4px solid #28a745;padding:12px 16px;
+     border-radius:0 6px 6px 0;margin:1em 0;}
+.warn{background:#fff8e1;border-left:4px solid #ffc107;padding:12px 16px;
+      border-radius:0 6px 6px 0;margin:1em 0;}
+a{color:var(--accent);}
+hr{border:none;border-top:1px solid var(--border);margin:2em 0;}
+</style>
+</head>
+<body>
+<nav>
+  <a class="back-link" href="index.html">⬅ All Guides</a>
+  <a class="back-link" href="13-resources.html">← Resources</a><a class="back-link" href="15-llms-guide.html">Free & Paid LLMs →</a>
+  <h3>Contents</h3>
+  <ul><li><a href="#github-copilot-auth-reused-in-every-llm-recipe" class="">GitHub Copilot Auth (reused in every LLM recipe)</a></li>
+<li><a href="#recipe-1-streaming-chatbot-with-history" class="">Recipe 1 — Streaming Chatbot with History</a></li>
+<li><a href="#recipe-2-local-rag-with-faiss-no-api-needed" class="">Recipe 2 — Local RAG with FAISS (No API Needed)</a></li>
+<li><a href="#recipe-3-langchain-conversational-rag" class="">Recipe 3 — LangChain Conversational RAG</a></li>
+<li><a href="#recipe-4-langgraph-react-agent-with-3-tools" class="">Recipe 4 — LangGraph ReAct Agent with 3 Tools</a></li>
+<li><a href="#recipe-5-crewai-content-creation-crew" class="">Recipe 5 — CrewAI Content Creation Crew</a></li>
+<li><a href="#recipe-6-autogen-code-test-fix-loop" class="">Recipe 6 — AutoGen Code-Test-Fix Loop</a></li>
+<li><a href="#recipe-7-llamaindex-subquestion-engine" class="">Recipe 7 — LlamaIndex SubQuestion Engine</a></li>
+<li><a href="#recipe-8-haystack-hybrid-rag-pipeline" class="">Recipe 8 — Haystack Hybrid RAG Pipeline</a></li>
+<li><a href="#recipe-9-dspy-optimized-classifier" class="">Recipe 9 — DSPy Optimized Classifier</a></li>
+<li><a href="#recipe-10-mcp-server-langchain-client" class="">Recipe 10 — MCP Server + LangChain Client</a></li>
+<li><a href="#recipe-11-pydantic-ai-structured-extractor" class="">Recipe 11 — Pydantic AI Structured Extractor</a></li>
+<li><a href="#recipe-12-langgraph-human-in-the-loop-approver" class="">Recipe 12 — LangGraph Human-in-the-Loop Approver</a></li>
+<li><a href="#recipe-13-async-parallel-llm-calls" class="">Recipe 13 — Async Parallel LLM Calls</a></li>
+<li><a href="#recipe-14-semantic-kernel-sdlc-plugin" class="">Recipe 14 — Semantic Kernel SDLC Plugin</a></li>
+<li><a href="#recipe-15-full-rag-evaluation-pipeline" class="">Recipe 15 — Full RAG Evaluation Pipeline</a></li>
+<li><a href="#bonus-quick-reference-card" class="">Bonus: Quick Reference Card</a></li>
+<li><a href="#install-one-liners" class="h3">Install One-Liners</a></li>
+<li><a href="#minimal-working-examples" class="h3">Minimal Working Examples</a></li>
+<li><a href="#llm-provider-cheatsheet" class="h3">LLM Provider Cheatsheet</a></li>
+<li><a href="#github-copilot-auth-canonical-snippet" class="h3">GitHub Copilot Auth (canonical snippet)</a></li>
+<li><a href="#common-error-fixes" class="h3">Common Error Fixes</a></li>
+</ul>
+</nav>
+<main>
+  <div class="doc-header">
+    <h1>Code Recipes</h1>
+    <p class="subtitle">15 complete runnable Python recipes — copy, paste, run</p>
+    <div class="badges"><span class="badge-local">Copy-Paste Ready</span><span class="badge-free">GitHub Copilot Free</span></div>
+  </div>
+  <h1 id="python-ai-llm-code-recipes">Python AI / LLM Code Recipes</h1>
+<blockquote>
+<p><strong>15 complete, runnable recipes</strong> — each is self-contained, 50–100 lines, and ready to copy-paste.<br />
+GitHub Copilot free auth is used wherever an LLM call is required.</p>
+</blockquote>
+<hr />
+<h2 id="github-copilot-auth-reused-in-every-llm-recipe">GitHub Copilot Auth (reused in every LLM recipe)</h2>
+<pre><code class="language-python">import subprocess
+from openai import OpenAI
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+client = OpenAI(base_url=&quot;https://models.inference.ai.azure.com&quot;, api_key=token)
+</code></pre>
+<hr />
+<h2 id="recipe-1-streaming-chatbot-with-history">Recipe 1 — Streaming Chatbot with History</h2>
+<pre><code class="language-python"># pip install openai
+import subprocess
+from openai import OpenAI
+from collections import deque
+
+token = subprocess.run([&quot;gh&quot;,&quot;auth&quot;,&quot;token&quot;],capture_output=True,text=True).stdout.strip()
+client = OpenAI(base_url=&quot;https://models.inference.ai.azure.com&quot;, api_key=token)
+
+class ConversationHistory:
+    def __init__(self, system_prompt: str, max_turns: int = 10):
+        self.system = {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: system_prompt}
+        self.turns: deque = deque(maxlen=max_turns * 2)  # user+assistant pairs
+
+    def add(self, role: str, content: str):
+        self.turns.append({&quot;role&quot;: role, &quot;content&quot;: content})
+
+    def messages(self) -&gt; list:
+        return [self.system] + list(self.turns)
+
+
+def stream_response(history: ConversationHistory, user_input: str) -&gt; str:
+    history.add(&quot;user&quot;, user_input)
+    stream = client.chat.completions.create(
+        model=&quot;gpt-4o-mini&quot;,
+        messages=history.messages(),
+        stream=True,
+    )
+    full_reply = &quot;&quot;
+    print(&quot;Assistant: &quot;, end=&quot;&quot;, flush=True)
+    for chunk in stream:
+        delta = chunk.choices[0].delta.content or &quot;&quot;
+        print(delta, end=&quot;&quot;, flush=True)
+        full_reply += delta
+    print()
+    history.add(&quot;assistant&quot;, full_reply)
+    return full_reply
+
+
+def main():
+    history = ConversationHistory(
+        system_prompt=&quot;You are a concise Python tutor. Keep answers under 3 sentences.&quot;,
+        max_turns=8,
+    )
+    print(&quot;Type 'quit' to exit.\n&quot;)
+    while True:
+        user_input = input(&quot;You: &quot;).strip()
+        if user_input.lower() in {&quot;quit&quot;, &quot;exit&quot;}:
+            break
+        stream_response(history, user_input)
+
+
+if __name__ == &quot;__main__&quot;:
+    main()
+</code></pre>
+<hr />
+<h2 id="recipe-2-local-rag-with-faiss-no-api-needed">Recipe 2 — Local RAG with FAISS (No API Needed)</h2>
+<pre><code class="language-python"># pip install faiss-cpu sentence-transformers rank-bm25 numpy
+import numpy as np
+import faiss
+from sentence_transformers import SentenceTransformer
+from rank_bm25 import BM25Okapi
+
+DOCUMENTS = [
+    &quot;Python is a high-level, interpreted programming language known for its readability.&quot;,
+    &quot;LangChain is a framework for building applications powered by language models.&quot;,
+    &quot;FAISS is Facebook's library for efficient similarity search and clustering of dense vectors.&quot;,
+    &quot;RAG stands for Retrieval-Augmented Generation, combining retrieval with LLM generation.&quot;,
+    &quot;Sentence Transformers produce dense vector embeddings suitable for semantic search.&quot;,
+    &quot;BM25 is a classical probabilistic keyword-based ranking algorithm used in information retrieval.&quot;,
+    &quot;Hybrid search combines dense (semantic) and sparse (keyword) retrieval for better recall.&quot;,
+    &quot;Vector databases store embeddings and support approximate nearest-neighbour lookups.&quot;,
+]
+
+model = SentenceTransformer(&quot;all-MiniLM-L6-v2&quot;)
+embeddings = model.encode(DOCUMENTS, convert_to_numpy=True).astype(&quot;float32&quot;)
+faiss.normalize_L2(embeddings)
+
+index = faiss.IndexFlatIP(embeddings.shape[1])
+index.add(embeddings)
+
+tokenized = [doc.lower().split() for doc in DOCUMENTS]
+bm25 = BM25Okapi(tokenized)
+
+
+def hybrid_search(query: str, top_k: int = 3, alpha: float = 0.5) -&gt; list[dict]:
+    q_emb = model.encode([query], convert_to_numpy=True).astype(&quot;float32&quot;)
+    faiss.normalize_L2(q_emb)
+    dense_scores, dense_ids = index.search(q_emb, len(DOCUMENTS))
+
+    sparse_scores = bm25.get_scores(query.lower().split())
+    sparse_scores = sparse_scores / (sparse_scores.max() + 1e-9)
+
+    dense_norm = np.zeros(len(DOCUMENTS))
+    for rank, idx in enumerate(dense_ids[0]):
+        dense_norm[idx] = dense_scores[0][rank]
+
+    combined = alpha * dense_norm + (1 - alpha) * sparse_scores
+    top_ids = combined.argsort()[::-1][:top_k]
+    return [{&quot;doc&quot;: DOCUMENTS[i], &quot;score&quot;: float(combined[i])} for i in top_ids]
+
+
+if __name__ == &quot;__main__&quot;:
+    query = &quot;What is semantic vector search?&quot;
+    results = hybrid_search(query)
+    print(f&quot;Query: {query}\n&quot;)
+    for r in results:
+        print(f&quot;  [{r['score']:.3f}] {r['doc']}&quot;)
+</code></pre>
+<hr />
+<h2 id="recipe-3-langchain-conversational-rag">Recipe 3 — LangChain Conversational RAG</h2>
+<pre><code class="language-python"># pip install langchain langchain-community langchain-huggingface faiss-cpu sentence-transformers pypdf openai
+import subprocess
+from pathlib import Path
+from langchain_community.document_loaders import PyPDFLoader, TextLoader
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_community.vectorstores import FAISS
+from langchain.chains import create_retrieval_chain
+from langchain.chains.combine_documents import create_stuff_documents_chain
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain_openai import ChatOpenAI
+from langchain_core.chat_history import InMemoryChatMessageHistory
+from langchain_core.runnables.history import RunnableWithMessageHistory
+
+token = subprocess.run([&quot;gh&quot;,&quot;auth&quot;,&quot;token&quot;],capture_output=True,text=True).stdout.strip()
+
+# Use a sample text file for demo — replace with your PDF path
+sample_path = Path(&quot;sample_doc.txt&quot;)
+if not sample_path.exists():
+    sample_path.write_text(&quot;Python was created by Guido van Rossum. &quot;
+                           &quot;LangChain enables LLM-powered apps. &quot;
+                           &quot;RAG improves accuracy with retrieval.&quot;)
+
+loader = TextLoader(str(sample_path))
+docs = loader.load()
+splitter = RecursiveCharacterTextSplitter(chunk_size=300, chunk_overlap=50)
+chunks = splitter.split_documents(docs)
+
+embeddings = HuggingFaceEmbeddings(model_name=&quot;all-MiniLM-L6-v2&quot;)
+vector_store = FAISS.from_documents(chunks, embeddings)
+retriever = vector_store.as_retriever(search_kwargs={&quot;k&quot;: 3})
+
+llm = ChatOpenAI(
+    model=&quot;gpt-4o-mini&quot;,
+    base_url=&quot;https://models.inference.ai.azure.com&quot;,
+    api_key=token,
+)
+
+prompt = ChatPromptTemplate.from_messages([
+    (&quot;system&quot;, &quot;Answer using the context below.\n\nContext: {context}&quot;),
+    MessagesPlaceholder(&quot;chat_history&quot;),
+    (&quot;human&quot;, &quot;{input}&quot;),
+])
+
+qa_chain = create_stuff_documents_chain(llm, prompt)
+rag_chain = create_retrieval_chain(retriever, qa_chain)
+
+store: dict = {}
+def get_session_history(session_id: str):
+    if session_id not in store:
+        store[session_id] = InMemoryChatMessageHistory()
+    return store[session_id]
+
+conversational_rag = RunnableWithMessageHistory(
+    rag_chain, get_session_history,
+    input_messages_key=&quot;input&quot;,
+    history_messages_key=&quot;chat_history&quot;,
+    output_messages_key=&quot;answer&quot;,
+)
+
+if __name__ == &quot;__main__&quot;:
+    cfg = {&quot;configurable&quot;: {&quot;session_id&quot;: &quot;demo&quot;}}
+    r1 = conversational_rag.invoke({&quot;input&quot;: &quot;Who created Python?&quot;}, config=cfg)
+    print(&quot;A1:&quot;, r1[&quot;answer&quot;])
+    r2 = conversational_rag.invoke({&quot;input&quot;: &quot;What else did you mention about it?&quot;}, config=cfg)
+    print(&quot;A2:&quot;, r2[&quot;answer&quot;])
+</code></pre>
+<hr />
+<h2 id="recipe-4-langgraph-react-agent-with-3-tools">Recipe 4 — LangGraph ReAct Agent with 3 Tools</h2>
+<pre><code class="language-python"># pip install langgraph langchain-openai langchain-core openai aiofiles
+import subprocess, math, urllib.request
+from langchain_openai import ChatOpenAI
+from langchain_core.tools import tool
+from langgraph.prebuilt import create_react_agent
+from langgraph.checkpoint.sqlite import SqliteSaver
+
+token = subprocess.run([&quot;gh&quot;,&quot;auth&quot;,&quot;token&quot;],capture_output=True,text=True).stdout.strip()
+llm = ChatOpenAI(
+    model=&quot;gpt-4o-mini&quot;,
+    base_url=&quot;https://models.inference.ai.azure.com&quot;,
+    api_key=token,
+)
+
+@tool
+def calculator(expression: str) -&gt; str:
+    &quot;&quot;&quot;Evaluate a safe mathematical expression, e.g. '2 ** 10 + sqrt(16)'.&quot;&quot;&quot;
+    allowed = {k: getattr(math, k) for k in dir(math) if not k.startswith(&quot;_&quot;)}
+    try:
+        return str(eval(expression, {&quot;__builtins__&quot;: {}}, allowed))
+    except Exception as e:
+        return f&quot;Error: {e}&quot;
+
+@tool
+def file_reader(path: str) -&gt; str:
+    &quot;&quot;&quot;Read the first 500 characters of a local text file.&quot;&quot;&quot;
+    try:
+        return open(path).read(500)
+    except Exception as e:
+        return f&quot;Error: {e}&quot;
+
+@tool
+def web_snippet(url: str) -&gt; str:
+    &quot;&quot;&quot;Fetch the first 600 characters of a webpage as plain text.&quot;&quot;&quot;
+    try:
+        req = urllib.request.Request(url, headers={&quot;User-Agent&quot;: &quot;Mozilla/5.0&quot;})
+        html = urllib.request.urlopen(req, timeout=5).read(4000).decode(&quot;utf-8&quot;, errors=&quot;ignore&quot;)
+        import re
+        text = re.sub(r&quot;&lt;[^&gt;]+&gt;&quot;, &quot; &quot;, html)
+        return &quot; &quot;.join(text.split())[:600]
+    except Exception as e:
+        return f&quot;Error: {e}&quot;
+
+with SqliteSaver.from_conn_string(&quot;agent_memory.db&quot;) as memory:
+    agent = create_react_agent(llm, [calculator, file_reader, web_snippet], checkpointer=memory)
+    cfg = {&quot;configurable&quot;: {&quot;thread_id&quot;: &quot;thread-1&quot;}}
+    result = agent.invoke(
+        {&quot;messages&quot;: [(&quot;user&quot;, &quot;What is sqrt(144) + 2^8? Also calculate pi * 7^2.&quot;)]},
+        config=cfg,
+    )
+    print(result[&quot;messages&quot;][-1].content)
+</code></pre>
+<hr />
+<h2 id="recipe-5-crewai-content-creation-crew">Recipe 5 — CrewAI Content Creation Crew</h2>
+<pre><code class="language-python"># pip install crewai crewai-tools pydantic openai
+import subprocess
+from pydantic import BaseModel
+from crewai import Agent, Task, Crew, Process
+from crewai_tools import tool as crew_tool
+from langchain_openai import ChatOpenAI
+
+token = subprocess.run([&quot;gh&quot;,&quot;auth&quot;,&quot;token&quot;],capture_output=True,text=True).stdout.strip()
+llm = ChatOpenAI(
+    model=&quot;gpt-4o-mini&quot;,
+    base_url=&quot;https://models.inference.ai.azure.com&quot;,
+    api_key=token,
+)
+
+@crew_tool(&quot;DuckDuckGo Search&quot;)
+def ddg_search(query: str) -&gt; str:
+    &quot;&quot;&quot;Search the web using DuckDuckGo Lite and return a short summary.&quot;&quot;&quot;
+    import urllib.parse, urllib.request, re
+    url = f&quot;https://lite.duckduckgo.com/lite/?q={urllib.parse.quote(query)}&quot;
+    html = urllib.request.urlopen(url, timeout=6).read(5000).decode(&quot;utf-8&quot;, errors=&quot;ignore&quot;)
+    return re.sub(r&quot;&lt;[^&gt;]+&gt;&quot;, &quot; &quot;, html)[:800]
+
+class ArticleOutput(BaseModel):
+    title: str
+    summary: str
+    body: str
+    editor_notes: str
+
+researcher = Agent(role=&quot;Researcher&quot;, goal=&quot;Find key facts on the topic&quot;,
+                   backstory=&quot;Expert internet researcher.&quot;, tools=[ddg_search], llm=llm, verbose=False)
+writer = Agent(role=&quot;Writer&quot;, goal=&quot;Write a 200-word article&quot;,
+               backstory=&quot;Clear technical writer.&quot;, llm=llm, verbose=False)
+editor = Agent(role=&quot;Editor&quot;, goal=&quot;Polish and add editor notes&quot;,
+               backstory=&quot;Senior content editor.&quot;, llm=llm, verbose=False)
+
+TOPIC = &quot;LangGraph for building stateful AI agents&quot;
+
+t1 = Task(description=f&quot;Research: {TOPIC}. Return 5 bullet facts.&quot;, expected_output=&quot;5 bullet points&quot;, agent=researcher)
+t2 = Task(description=&quot;Write a concise article using the research.&quot;, expected_output=&quot;Article text&quot;, agent=writer)
+t3 = Task(description=&quot;Edit the article and add editor_notes field.&quot;,
+          expected_output=&quot;JSON with title, summary, body, editor_notes&quot;,
+          agent=editor, output_pydantic=ArticleOutput)
+
+crew = Crew(agents=[researcher, writer, editor], tasks=[t1, t2, t3], process=Process.sequential, verbose=False)
+
+if __name__ == &quot;__main__&quot;:
+    result = crew.kickoff()
+    print(result.pydantic)
+</code></pre>
+<hr />
+<h2 id="recipe-6-autogen-code-test-fix-loop">Recipe 6 — AutoGen Code-Test-Fix Loop</h2>
+<pre><code class="language-python"># pip install pyautogen openai
+import subprocess, tempfile, os
+from autogen import AssistantAgent, UserProxyAgent, config_list_from_json
+from autogen.coding import LocalCommandLineCodeExecutor
+
+token = subprocess.run([&quot;gh&quot;,&quot;auth&quot;,&quot;token&quot;],capture_output=True,text=True).stdout.strip()
+
+llm_config = {
+    &quot;config_list&quot;: [{
+        &quot;model&quot;: &quot;gpt-4o-mini&quot;,
+        &quot;api_key&quot;: token,
+        &quot;base_url&quot;: &quot;https://models.inference.ai.azure.com&quot;,
+    }],
+    &quot;temperature&quot;: 0,
+}
+
+work_dir = tempfile.mkdtemp(prefix=&quot;autogen_&quot;)
+executor = LocalCommandLineCodeExecutor(work_dir=work_dir, timeout=30)
+
+coder = AssistantAgent(
+    name=&quot;Coder&quot;,
+    system_message=(
+        &quot;You are an expert Python developer. Write code, run it, fix any errors. &quot;
+        &quot;Always wrap code in ```python ... ``` blocks.&quot;
+    ),
+    llm_config=llm_config,
+)
+
+tester = UserProxyAgent(
+    name=&quot;Tester&quot;,
+    human_input_mode=&quot;NEVER&quot;,
+    max_consecutive_auto_reply=6,
+    code_execution_config={&quot;executor&quot;: executor},
+    is_termination_msg=lambda m: &quot;TERMINATE&quot; in (m.get(&quot;content&quot;) or &quot;&quot;),
+)
+
+if __name__ == &quot;__main__&quot;:
+    task = (
+        &quot;Write a Python function `fibonacci(n)` that returns a list of the first n &quot;
+        &quot;Fibonacci numbers. Then write a pytest test for it and run it. &quot;
+        &quot;Fix any failures. When all tests pass, reply with TERMINATE.&quot;
+    )
+    tester.initiate_chat(coder, message=task)
+</code></pre>
+<hr />
+<h2 id="recipe-7-llamaindex-subquestion-engine">Recipe 7 — LlamaIndex SubQuestion Engine</h2>
+<pre><code class="language-python"># pip install llama-index llama-index-llms-openai llama-index-embeddings-huggingface
+import subprocess
+from pathlib import Path
+from llama_index.core import VectorStoreIndex, SimpleDirectoryReader, Settings
+from llama_index.core.query_engine import SubQuestionQueryEngine
+from llama_index.core.tools import QueryEngineTool, ToolMetadata
+from llama_index.llms.openai import OpenAI as LlamaOpenAI
+from llama_index.embeddings.huggingface import HuggingFaceEmbedding
+
+token = subprocess.run([&quot;gh&quot;,&quot;auth&quot;,&quot;token&quot;],capture_output=True,text=True).stdout.strip()
+
+Settings.llm = LlamaOpenAI(
+    model=&quot;gpt-4o-mini&quot;,
+    api_base=&quot;https://models.inference.ai.azure.com&quot;,
+    api_key=token,
+)
+Settings.embed_model = HuggingFaceEmbedding(model_name=&quot;all-MiniLM-L6-v2&quot;)
+
+docs_dir = Path(&quot;llama_docs&quot;)
+docs_dir.mkdir(exist_ok=True)
+(docs_dir / &quot;python.txt&quot;).write_text(&quot;Python was created by Guido van Rossum in 1991. It emphasises readability.&quot;)
+(docs_dir / &quot;langchain.txt&quot;).write_text(&quot;LangChain was founded in 2022. It provides chains and agents for LLM apps.&quot;)
+(docs_dir / &quot;faiss.txt&quot;).write_text(&quot;FAISS was developed by Facebook AI Research. It enables fast similarity search.&quot;)
+
+sources = {
+    &quot;python&quot;: &quot;python.txt&quot;,
+    &quot;langchain&quot;: &quot;langchain.txt&quot;,
+    &quot;faiss&quot;: &quot;faiss.txt&quot;,
+}
+
+tools = []
+for name, filename in sources.items():
+    docs = SimpleDirectoryReader(input_files=[str(docs_dir / filename)]).load_data()
+    idx = VectorStoreIndex.from_documents(docs)
+    tools.append(QueryEngineTool(
+        query_engine=idx.as_query_engine(streaming=False),
+        metadata=ToolMetadata(name=name, description=f&quot;Information about {name}&quot;),
+    ))
+
+engine = SubQuestionQueryEngine.from_defaults(query_engine_tools=tools, verbose=True)
+
+if __name__ == &quot;__main__&quot;:
+    response = engine.query(&quot;Who created Python and when was LangChain founded?&quot;)
+    print(&quot;\nFinal Answer:&quot;, response)
+</code></pre>
+<hr />
+<h2 id="recipe-8-haystack-hybrid-rag-pipeline">Recipe 8 — Haystack Hybrid RAG Pipeline</h2>
+<pre><code class="language-python"># pip install haystack-ai transformers torch sentence-transformers openai
+import subprocess
+from haystack import Document, Pipeline
+from haystack.document_stores.in_memory import InMemoryDocumentStore
+from haystack.components.retrievers.in_memory import (
+    InMemoryBM25Retriever, InMemoryEmbeddingRetriever,
+)
+from haystack.components.joiners import DocumentJoiner
+from haystack.components.rankers import TransformersSimilarityRanker
+from haystack.components.embedders import SentenceTransformersDocumentEmbedder, SentenceTransformersTextEmbedder
+from haystack.components.builders import ChatPromptBuilder
+from haystack.components.generators.chat import OpenAIChatGenerator
+from haystack.dataclasses import ChatMessage
+
+token = subprocess.run([&quot;gh&quot;,&quot;auth&quot;,&quot;token&quot;],capture_output=True,text=True).stdout.strip()
+
+DOCS = [
+    &quot;Python supports multiple programming paradigms including procedural and object-oriented.&quot;,
+    &quot;LangChain integrates with many LLM providers and vector stores.&quot;,
+    &quot;FAISS supports both exact and approximate nearest-neighbour search.&quot;,
+    &quot;Haystack is an open-source NLP framework for building search and QA systems.&quot;,
+    &quot;Hybrid search combines BM25 keyword retrieval with dense semantic embeddings.&quot;,
+]
+
+store = InMemoryDocumentStore()
+doc_embedder = SentenceTransformersDocumentEmbedder(model=&quot;all-MiniLM-L6-v2&quot;)
+doc_embedder.warm_up()
+docs_with_embs = doc_embedder.run(documents=[Document(content=d) for d in DOCS])[&quot;documents&quot;]
+store.write_documents(docs_with_embs)
+
+text_embedder = SentenceTransformersTextEmbedder(model=&quot;all-MiniLM-L6-v2&quot;)
+bm25 = InMemoryBM25Retriever(document_store=store, top_k=3)
+emb_retriever = InMemoryEmbeddingRetriever(document_store=store, top_k=3)
+joiner = DocumentJoiner()
+ranker = TransformersSimilarityRanker(model=&quot;cross-encoder/ms-marco-MiniLM-L-6-v2&quot;, top_k=2)
+
+template = [ChatMessage.from_user(&quot;Context: {{documents}}\n\nQuestion: {{query}}\n\nAnswer:&quot;)]
+prompt_builder = ChatPromptBuilder(template=template)
+generator = OpenAIChatGenerator(
+    model=&quot;gpt-4o-mini&quot;,
+    api_base_url=&quot;https://models.inference.ai.azure.com&quot;,
+    api_key=token,
+)
+
+pipe = Pipeline()
+for name, comp in [(&quot;text_embedder&quot;, text_embedder), (&quot;bm25&quot;, bm25),
+                   (&quot;emb_retriever&quot;, emb_retriever), (&quot;joiner&quot;, joiner),
+                   (&quot;ranker&quot;, ranker), (&quot;prompt_builder&quot;, prompt_builder), (&quot;generator&quot;, generator)]:
+    pipe.add_component(name, comp)
+
+pipe.connect(&quot;text_embedder.embedding&quot;, &quot;emb_retriever.query_embedding&quot;)
+pipe.connect(&quot;bm25.documents&quot;, &quot;joiner.documents&quot;)
+pipe.connect(&quot;emb_retriever.documents&quot;, &quot;joiner.documents&quot;)
+pipe.connect(&quot;joiner.documents&quot;, &quot;ranker.documents&quot;)
+pipe.connect(&quot;ranker.documents&quot;, &quot;prompt_builder.documents&quot;)
+pipe.connect(&quot;prompt_builder.prompt&quot;, &quot;generator.messages&quot;)
+
+if __name__ == &quot;__main__&quot;:
+    query = &quot;What is hybrid search?&quot;
+    result = pipe.run({&quot;text_embedder&quot;: {&quot;text&quot;: query}, &quot;bm25&quot;: {&quot;query&quot;: query},
+                       &quot;ranker&quot;: {&quot;query&quot;: query}, &quot;prompt_builder&quot;: {&quot;query&quot;: query}})
+    print(result[&quot;generator&quot;][&quot;replies&quot;][0].content)
+</code></pre>
+<hr />
+<h2 id="recipe-9-dspy-optimized-classifier">Recipe 9 — DSPy Optimized Classifier</h2>
+<pre><code class="language-python"># pip install dspy-ai openai
+import subprocess, json
+import dspy
+
+token = subprocess.run([&quot;gh&quot;,&quot;auth&quot;,&quot;token&quot;],capture_output=True,text=True).stdout.strip()
+
+lm = dspy.LM(
+    model=&quot;openai/gpt-4o-mini&quot;,
+    api_base=&quot;https://models.inference.ai.azure.com&quot;,
+    api_key=token,
+)
+dspy.configure(lm=lm)
+
+class SentimentSignature(dspy.Signature):
+    &quot;&quot;&quot;Classify the sentiment of the text as positive, negative, or neutral.&quot;&quot;&quot;
+    text: str = dspy.InputField()
+    sentiment: str = dspy.OutputField(desc=&quot;positive | negative | neutral&quot;)
+
+class SentimentClassifier(dspy.Module):
+    def __init__(self):
+        self.classify = dspy.Predict(SentimentSignature)
+
+    def forward(self, text: str) -&gt; dspy.Prediction:
+        return self.classify(text=text)
+
+trainset = [
+    dspy.Example(text=&quot;I love this product!&quot;, sentiment=&quot;positive&quot;).with_inputs(&quot;text&quot;),
+    dspy.Example(text=&quot;Terrible experience, never again.&quot;, sentiment=&quot;negative&quot;).with_inputs(&quot;text&quot;),
+    dspy.Example(text=&quot;It was okay, nothing special.&quot;, sentiment=&quot;neutral&quot;).with_inputs(&quot;text&quot;),
+    dspy.Example(text=&quot;Absolutely fantastic service!&quot;, sentiment=&quot;positive&quot;).with_inputs(&quot;text&quot;),
+    dspy.Example(text=&quot;Very disappointed with the quality.&quot;, sentiment=&quot;negative&quot;).with_inputs(&quot;text&quot;),
+]
+
+def accuracy_metric(example, pred, trace=None):
+    return int(pred.sentiment.strip().lower() == example.sentiment.strip().lower())
+
+optimizer = dspy.BootstrapFewShot(metric=accuracy_metric, max_bootstrapped_demos=3)
+classifier = SentimentClassifier()
+optimized = optimizer.compile(classifier, trainset=trainset)
+
+eval_set = [
+    dspy.Example(text=&quot;Best purchase I ever made!&quot;, sentiment=&quot;positive&quot;).with_inputs(&quot;text&quot;),
+    dspy.Example(text=&quot;Completely broken on arrival.&quot;, sentiment=&quot;negative&quot;).with_inputs(&quot;text&quot;),
+]
+
+evaluator = dspy.Evaluate(devset=eval_set, metric=accuracy_metric, display_progress=False)
+score = evaluator(optimized)
+print(f&quot;Accuracy: {score:.1%}&quot;)
+
+optimized.save(&quot;optimized_classifier.json&quot;)
+print(&quot;Saved to optimized_classifier.json&quot;)
+</code></pre>
+<hr />
+<h2 id="recipe-10-mcp-server-langchain-client">Recipe 10 — MCP Server + LangChain Client</h2>
+<pre><code class="language-python"># pip install fastmcp langchain-mcp-adapters langchain-openai openai
+# Run the server first: python recipe10_server.py
+# Then run the client: python recipe10_client.py
+
+# ── recipe10_server.py ───────────────────────────────────────────────────────
+SERVER_CODE = '''
+from fastmcp import FastMCP
+import pathlib, ast
+
+mcp = FastMCP(&quot;DevTools&quot;)
+
+@mcp.tool()
+def read_file(path: str) -&gt; str:
+    &quot;&quot;&quot;Read a local file and return its contents (max 1000 chars).&quot;&quot;&quot;
+    return pathlib.Path(path).read_text()[:1000]
+
+@mcp.tool()
+def write_file(path: str, content: str) -&gt; str:
+    &quot;&quot;&quot;Write content to a local file.&quot;&quot;&quot;
+    pathlib.Path(path).write_text(content)
+    return f&quot;Written {len(content)} chars to {path}&quot;
+
+@mcp.tool()
+def count_functions(code: str) -&gt; dict:
+    &quot;&quot;&quot;Count the number of functions defined in a Python code string.&quot;&quot;&quot;
+    try:
+        tree = ast.parse(code)
+        n = sum(1 for node in ast.walk(tree) if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)))
+        return {&quot;function_count&quot;: n}
+    except SyntaxError as e:
+        return {&quot;error&quot;: str(e)}
+
+if __name__ == &quot;__main__&quot;:
+    mcp.run(transport=&quot;stdio&quot;)
+'''
+
+# ── recipe10_client.py ───────────────────────────────────────────────────────
+CLIENT_CODE = '''
+import subprocess, asyncio
+from langchain_mcp_adapters.client import MultiServerMCPClient
+from langchain_openai import ChatOpenAI
+from langgraph.prebuilt import create_react_agent
+
+token = subprocess.run([&quot;gh&quot;,&quot;auth&quot;,&quot;token&quot;],capture_output=True,text=True).stdout.strip()
+llm = ChatOpenAI(model=&quot;gpt-4o-mini&quot;,
+                 base_url=&quot;https://models.inference.ai.azure.com&quot;, api_key=token)
+
+async def main():
+    async with MultiServerMCPClient({
+        &quot;devtools&quot;: {&quot;command&quot;: &quot;python&quot;, &quot;args&quot;: [&quot;recipe10_server.py&quot;], &quot;transport&quot;: &quot;stdio&quot;}
+    }) as client:
+        tools = client.get_tools()
+        agent = create_react_agent(llm, tools)
+        code_snippet = &quot;def foo(): pass\\ndef bar(): pass\\nasync def baz(): pass&quot;
+        result = await agent.ainvoke({
+            &quot;messages&quot;: [(&quot;user&quot;, f&quot;How many functions are in this code?\\n```python\\n{code_snippet}\\n```&quot;)]
+        })
+        print(result[&quot;messages&quot;][-1].content)
+
+asyncio.run(main())
+'''
+
+import pathlib
+pathlib.Path(&quot;recipe10_server.py&quot;).write_text(SERVER_CODE.strip())
+pathlib.Path(&quot;recipe10_client.py&quot;).write_text(CLIENT_CODE.strip())
+print(&quot;Files written: recipe10_server.py  recipe10_client.py&quot;)
+print(&quot;Run: python recipe10_server.py   (in one terminal)&quot;)
+print(&quot;Run: python recipe10_client.py   (in another terminal)&quot;)
+</code></pre>
+<hr />
+<h2 id="recipe-11-pydantic-ai-structured-extractor">Recipe 11 — Pydantic AI Structured Extractor</h2>
+<pre><code class="language-python"># pip install pydantic-ai pydantic openai
+import subprocess
+from pydantic import BaseModel, field_validator
+from pydantic_ai import Agent
+from pydantic_ai.models.openai import OpenAIModel
+
+token = subprocess.run([&quot;gh&quot;,&quot;auth&quot;,&quot;token&quot;],capture_output=True,text=True).stdout.strip()
+model = OpenAIModel(
+    &quot;gpt-4o-mini&quot;,
+    base_url=&quot;https://models.inference.ai.azure.com&quot;,
+    api_key=token,
+)
+
+class Invoice(BaseModel):
+    vendor: str
+    date: str
+    total_amount: float
+    currency: str
+    line_items: list[str]
+
+    @field_validator(&quot;total_amount&quot;)
+    @classmethod
+    def must_be_positive(cls, v: float) -&gt; float:
+        if v &lt;= 0:
+            raise ValueError(&quot;total_amount must be positive&quot;)
+        return v
+
+    @field_validator(&quot;currency&quot;)
+    @classmethod
+    def valid_currency(cls, v: str) -&gt; str:
+        if v.upper() not in {&quot;USD&quot;, &quot;EUR&quot;, &quot;GBP&quot;, &quot;JPY&quot;, &quot;CAD&quot;, &quot;AUD&quot;}:
+            raise ValueError(f&quot;Unsupported currency: {v}&quot;)
+        return v.upper()
+
+agent: Agent[None, Invoice] = Agent(
+    model,
+    result_type=Invoice,
+    system_prompt=&quot;Extract invoice data precisely from the provided text.&quot;,
+)
+
+INVOICES = [
+    &quot;Invoice from Acme Corp dated 2024-03-15. Items: Widget x2 ($25.00 each), Gadget x1 ($50.00). Total: $100.00 USD.&quot;,
+    &quot;Bill from TechSupplies Ltd, 12 Jan 2024. Keyboard £45.99, Mouse £19.99. Total: £65.98 GBP.&quot;,
+    &quot;Rechnung von DataGmbH, 2024-02-28. Lizenz €299.00, Support €50.00. Gesamt: €349.00 EUR.&quot;,
+]
+
+if __name__ == &quot;__main__&quot;:
+    for i, text in enumerate(INVOICES, 1):
+        result = agent.run_sync(text)
+        inv = result.data
+        print(f&quot;\nInvoice {i}: {inv.vendor} | {inv.date} | {inv.total_amount} {inv.currency}&quot;)
+        print(f&quot;  Items: {', '.join(inv.line_items)}&quot;)
+</code></pre>
+<hr />
+<h2 id="recipe-12-langgraph-human-in-the-loop-approver">Recipe 12 — LangGraph Human-in-the-Loop Approver</h2>
+<pre><code class="language-python"># pip install langgraph langchain-openai openai
+import subprocess
+from typing import Annotated
+from typing_extensions import TypedDict
+from langchain_openai import ChatOpenAI
+from langgraph.graph import StateGraph, END
+from langgraph.checkpoint.sqlite import SqliteSaver
+from langgraph.graph.message import add_messages
+from langchain_core.messages import HumanMessage, AIMessage
+
+token = subprocess.run([&quot;gh&quot;,&quot;auth&quot;,&quot;token&quot;],capture_output=True,text=True).stdout.strip()
+llm = ChatOpenAI(model=&quot;gpt-4o-mini&quot;,
+                 base_url=&quot;https://models.inference.ai.azure.com&quot;, api_key=token)
+
+class State(TypedDict):
+    messages: Annotated[list, add_messages]
+    proposed_action: str
+    approved: bool
+
+def plan_node(state: State) -&gt; dict:
+    last = state[&quot;messages&quot;][-1].content
+    response = llm.invoke([HumanMessage(content=f&quot;Propose a one-sentence action plan for: {last}&quot;)])
+    return {&quot;proposed_action&quot;: response.content, &quot;messages&quot;: [response]}
+
+def human_review_node(state: State) -&gt; dict:
+    print(f&quot;\n⚠ Proposed action: {state['proposed_action']}&quot;)
+    choice = input(&quot;Approve? (y/n): &quot;).strip().lower()
+    return {&quot;approved&quot;: choice == &quot;y&quot;}
+
+def execute_node(state: State) -&gt; dict:
+    if state[&quot;approved&quot;]:
+        result = llm.invoke([HumanMessage(content=f&quot;Execute: {state['proposed_action']}&quot;)])
+        return {&quot;messages&quot;: [AIMessage(content=f&quot;✅ Executed: {result.content}&quot;)]}
+    return {&quot;messages&quot;: [AIMessage(content=&quot;❌ Action rejected by human reviewer.&quot;)]}
+
+builder = StateGraph(State)
+builder.add_node(&quot;plan&quot;, plan_node)
+builder.add_node(&quot;human_review&quot;, human_review_node)
+builder.add_node(&quot;execute&quot;, execute_node)
+builder.set_entry_point(&quot;plan&quot;)
+builder.add_edge(&quot;plan&quot;, &quot;human_review&quot;)
+builder.add_edge(&quot;human_review&quot;, &quot;execute&quot;)
+builder.add_edge(&quot;execute&quot;, END)
+
+with SqliteSaver.from_conn_string(&quot;hitl_memory.db&quot;) as memory:
+    graph = builder.compile(checkpointer=memory, interrupt_before=[&quot;execute&quot;])
+    cfg = {&quot;configurable&quot;: {&quot;thread_id&quot;: &quot;hitl-1&quot;}}
+
+    init_state = {&quot;messages&quot;: [HumanMessage(content=&quot;Deploy the new API version to production&quot;)], &quot;approved&quot;: False, &quot;proposed_action&quot;: &quot;&quot;}
+    snapshot = graph.invoke(init_state, config=cfg)
+    print(&quot;Proposed:&quot;, snapshot[&quot;proposed_action&quot;])
+
+    approved = input(&quot;Approve execution? (y/n): &quot;).strip().lower() == &quot;y&quot;
+    graph.update_state(cfg, {&quot;approved&quot;: approved})
+    final = graph.invoke(None, config=cfg)
+    print(final[&quot;messages&quot;][-1].content)
+</code></pre>
+<hr />
+<h2 id="recipe-13-async-parallel-llm-calls">Recipe 13 — Async Parallel LLM Calls</h2>
+<pre><code class="language-python"># pip install aiohttp openai
+import asyncio, subprocess, time
+from openai import AsyncOpenAI
+
+token = subprocess.run([&quot;gh&quot;,&quot;auth&quot;,&quot;token&quot;],capture_output=True,text=True).stdout.strip()
+async_client = AsyncOpenAI(
+    base_url=&quot;https://models.inference.ai.azure.com&quot;,
+    api_key=token,
+)
+
+QUESTIONS = [
+    &quot;What is Python?&quot;, &quot;Explain RAG in one sentence.&quot;, &quot;What is a vector database?&quot;,
+    &quot;Define LLM.&quot;, &quot;What is LangChain?&quot;, &quot;Explain tokenization briefly.&quot;,
+    &quot;What is fine-tuning?&quot;, &quot;Define prompt engineering.&quot;, &quot;What is FAISS?&quot;,
+    &quot;Explain embeddings in NLP.&quot;,
+]
+
+CONCURRENCY_LIMIT = 4
+semaphore = asyncio.Semaphore(CONCURRENCY_LIMIT)
+
+async def ask_llm(idx: int, question: str) -&gt; dict:
+    async with semaphore:
+        response = await async_client.chat.completions.create(
+            model=&quot;gpt-4o-mini&quot;,
+            messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: question}],
+            max_tokens=60,
+        )
+        answer = response.choices[0].message.content.strip()
+        return {&quot;idx&quot;: idx, &quot;question&quot;: question, &quot;answer&quot;: answer}
+
+async def main():
+    start = time.perf_counter()
+    tasks = [ask_llm(i, q) for i, q in enumerate(QUESTIONS)]
+    results = await asyncio.gather(*tasks)
+    elapsed = time.perf_counter() - start
+
+    for r in sorted(results, key=lambda x: x[&quot;idx&quot;]):
+        print(f&quot;[{r['idx']+1:02d}] Q: {r['question']}&quot;)
+        print(f&quot;      A: {r['answer'][:120]}\n&quot;)
+
+    print(f&quot;✅ {len(results)} calls in {elapsed:.2f}s &quot;
+          f&quot;(concurrency={CONCURRENCY_LIMIT})&quot;)
+
+if __name__ == &quot;__main__&quot;:
+    asyncio.run(main())
+</code></pre>
+<hr />
+<h2 id="recipe-14-semantic-kernel-sdlc-plugin">Recipe 14 — Semantic Kernel SDLC Plugin</h2>
+<pre><code class="language-python"># pip install semantic-kernel openai
+import subprocess, asyncio
+from semantic_kernel import Kernel
+from semantic_kernel.connectors.ai.open_ai import OpenAIChatCompletion
+from semantic_kernel.connectors.ai.open_ai import OpenAIChatPromptExecutionSettings
+from semantic_kernel.functions import kernel_function
+from semantic_kernel.contents.chat_history import ChatHistory
+from semantic_kernel.connectors.ai.function_choice_behavior import FunctionChoiceBehavior
+
+token = subprocess.run([&quot;gh&quot;,&quot;auth&quot;,&quot;token&quot;],capture_output=True,text=True).stdout.strip()
+
+kernel = Kernel()
+kernel.add_service(OpenAIChatCompletion(
+    ai_model_id=&quot;gpt-4o-mini&quot;,
+    api_key=token,
+    base_url=&quot;https://models.inference.ai.azure.com&quot;,
+    service_id=&quot;copilot&quot;,
+))
+
+class SDLCPlugin:
+    @kernel_function(name=&quot;code_review&quot;, description=&quot;Review Python code and return improvement suggestions.&quot;)
+    def code_review(self, code: str) -&gt; str:
+        return (f&quot;Code Review for snippet ({len(code)} chars):\n&quot;
+                &quot;1. Add type hints to all function parameters.\n&quot;
+                &quot;2. Include docstrings for public functions.\n&quot;
+                &quot;3. Handle potential exceptions explicitly.\n&quot;
+                &quot;4. Consider extracting repeated logic into helpers.&quot;)
+
+    @kernel_function(name=&quot;generate_docs&quot;, description=&quot;Generate markdown documentation for a Python function.&quot;)
+    def generate_docs(self, function_signature: str) -&gt; str:
+        return (f&quot;## `{function_signature}`\n\n&quot;
+                &quot;**Description:** Performs the specified operation.\n\n&quot;
+                &quot;**Parameters:**\n- `input`: Input value to process.\n\n&quot;
+                &quot;**Returns:** Processed result.\n\n&quot;
+                &quot;**Example:**\n```python\nresult = my_function(input_value)\n```&quot;)
+
+    @kernel_function(name=&quot;suggest_tests&quot;, description=&quot;Suggest unit test cases for a given function name.&quot;)
+    def suggest_tests(self, function_name: str) -&gt; str:
+        return (f&quot;Suggested tests for `{function_name}`:\n&quot;
+                f&quot;1. `test_{function_name}_happy_path` — normal input\n&quot;
+                f&quot;2. `test_{function_name}_empty_input` — empty/None input\n&quot;
+                f&quot;3. `test_{function_name}_boundary_values` — edge values\n&quot;
+                f&quot;4. `test_{function_name}_invalid_type` — wrong type raises TypeError\n&quot;
+                f&quot;5. `test_{function_name}_large_input` — performance check&quot;)
+
+kernel.add_plugin(SDLCPlugin(), plugin_name=&quot;sdlc&quot;)
+
+async def main():
+    chat = kernel.get_service(&quot;copilot&quot;)
+    settings = OpenAIChatPromptExecutionSettings(
+        function_choice_behavior=FunctionChoiceBehavior.Auto(),
+        max_tokens=512,
+    )
+    history = ChatHistory()
+    history.add_system_message(&quot;You are an SDLC assistant. Use your tools to help developers.&quot;)
+
+    prompts = [
+        &quot;Review this code: `def add(a, b): return a + b`&quot;,
+        &quot;Generate docs for: `def process_data(df, threshold=0.5) -&gt; pd.DataFrame`&quot;,
+        &quot;Suggest tests for the function `calculate_discount`&quot;,
+    ]
+
+    for prompt in prompts:
+        history.add_user_message(prompt)
+        response = await chat.get_chat_message_contents(history, settings=settings, kernel=kernel)
+        reply = response[0].content
+        history.add_assistant_message(reply)
+        print(f&quot;User: {prompt}\nAssistant: {reply}\n{'-'*60}&quot;)
+
+if __name__ == &quot;__main__&quot;:
+    asyncio.run(main())
+</code></pre>
+<hr />
+<h2 id="recipe-15-full-rag-evaluation-pipeline">Recipe 15 — Full RAG Evaluation Pipeline</h2>
+<pre><code class="language-python"># pip install langchain langchain-community langchain-huggingface faiss-cpu sentence-transformers openai pandas
+import subprocess, csv, json
+from pathlib import Path
+from langchain_community.vectorstores import FAISS
+from langchain_huggingface import HuggingFaceEmbeddings
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_core.documents import Document
+from langchain_openai import ChatOpenAI
+from langchain.chains import RetrievalQA
+
+token = subprocess.run([&quot;gh&quot;,&quot;auth&quot;,&quot;token&quot;],capture_output=True,text=True).stdout.strip()
+llm = ChatOpenAI(model=&quot;gpt-4o-mini&quot;,
+                 base_url=&quot;https://models.inference.ai.azure.com&quot;, api_key=token)
+
+CORPUS = [
+    &quot;Python was created by Guido van Rossum and first released in 1991.&quot;,
+    &quot;LangChain is a framework for building LLM-powered applications, founded in 2022.&quot;,
+    &quot;FAISS (Facebook AI Similarity Search) enables efficient similarity search over dense vectors.&quot;,
+    &quot;RAG combines a retrieval system with a generative model for grounded answers.&quot;,
+    &quot;Embeddings are numerical representations of text that capture semantic meaning.&quot;,
+    &quot;Sentence Transformers is a Python library to compute dense embeddings for sentences.&quot;,
+    &quot;BM25 is a probabilistic retrieval function used in classic information retrieval.&quot;,
+]
+
+GOLDEN_QA = [
+    {&quot;question&quot;: &quot;Who created Python?&quot;, &quot;answer&quot;: &quot;Guido van Rossum&quot;},
+    {&quot;question&quot;: &quot;When was LangChain founded?&quot;, &quot;answer&quot;: &quot;2022&quot;},
+    {&quot;question&quot;: &quot;What does FAISS stand for?&quot;, &quot;answer&quot;: &quot;Facebook AI Similarity Search&quot;},
+    {&quot;question&quot;: &quot;What does RAG combine?&quot;, &quot;answer&quot;: &quot;retrieval system with a generative model&quot;},
+    {&quot;question&quot;: &quot;What are embeddings?&quot;, &quot;answer&quot;: &quot;numerical representations of text&quot;},
+]
+
+splitter = RecursiveCharacterTextSplitter(chunk_size=200, chunk_overlap=20)
+docs = splitter.split_documents([Document(page_content=c) for c in CORPUS])
+embeddings = HuggingFaceEmbeddings(model_name=&quot;all-MiniLM-L6-v2&quot;)
+vector_store = FAISS.from_documents(docs, embeddings)
+retriever = vector_store.as_retriever(search_kwargs={&quot;k&quot;: 3})
+qa_chain = RetrievalQA.from_chain_type(llm=llm, retriever=retriever, return_source_documents=True)
+
+def score_faithfulness(answer: str, contexts: list[str]) -&gt; float:
+    combined = &quot; &quot;.join(contexts).lower()
+    words = [w for w in answer.lower().split() if len(w) &gt; 3]
+    if not words:
+        return 0.0
+    return sum(1 for w in words if w in combined) / len(words)
+
+def score_answer_correctness(predicted: str, gold: str) -&gt; float:
+    pred_words = set(predicted.lower().split())
+    gold_words = set(gold.lower().split())
+    if not gold_words:
+        return 0.0
+    return len(pred_words &amp; gold_words) / len(gold_words)
+
+results = []
+for item in GOLDEN_QA:
+    output = qa_chain.invoke({&quot;query&quot;: item[&quot;question&quot;]})
+    predicted = output[&quot;result&quot;]
+    contexts = [d.page_content for d in output[&quot;source_documents&quot;]]
+
+    faith = score_faithfulness(predicted, contexts)
+    correctness = score_answer_correctness(predicted, item[&quot;answer&quot;])
+    ctx_relevance = score_faithfulness(item[&quot;question&quot;], contexts)
+
+    results.append({
+        &quot;question&quot;: item[&quot;question&quot;],
+        &quot;gold_answer&quot;: item[&quot;answer&quot;],
+        &quot;predicted_answer&quot;: predicted,
+        &quot;faithfulness&quot;: round(faith, 3),
+        &quot;context_relevance&quot;: round(ctx_relevance, 3),
+        &quot;answer_correctness&quot;: round(correctness, 3),
+        &quot;avg_score&quot;: round((faith + correctness + ctx_relevance) / 3, 3),
+    })
+
+output_csv = Path(&quot;rag_evaluation_results.csv&quot;)
+with output_csv.open(&quot;w&quot;, newline=&quot;&quot;) as f:
+    writer = csv.DictWriter(f, fieldnames=results[0].keys())
+    writer.writeheader()
+    writer.writerows(results)
+
+print(f&quot;\n{'Question':&lt;45} {'Faith':&gt;6} {'CtxRel':&gt;7} {'Corr':&gt;6} {'Avg':&gt;6}&quot;)
+print(&quot;-&quot; * 72)
+for r in results:
+    print(f&quot;{r['question']:&lt;45} {r['faithfulness']:&gt;6.3f} {r['context_relevance']:&gt;7.3f} &quot;
+          f&quot;{r['answer_correctness']:&gt;6.3f} {r['avg_score']:&gt;6.3f}&quot;)
+
+avg_all = sum(r[&quot;avg_score&quot;] for r in results) / len(results)
+print(f&quot;\n{'Overall Average':&lt;45} {'':&gt;6} {'':&gt;7} {'':&gt;6} {avg_all:&gt;6.3f}&quot;)
+print(f&quot;\n✅ Results saved to {output_csv}&quot;)
+</code></pre>
+<hr />
+<h2 id="bonus-quick-reference-card">Bonus: Quick Reference Card</h2>
+<h3 id="install-one-liners">Install One-Liners</h3>
+<pre><code class="language-bash"># Core LLM SDKs
+pip install openai anthropic google-generativeai
+
+# LangChain ecosystem
+pip install langchain langchain-community langchain-openai langchain-huggingface langgraph
+
+# Vector stores &amp; embeddings
+pip install faiss-cpu chromadb qdrant-client sentence-transformers
+
+# Agent frameworks
+pip install crewai pyautogen pydantic-ai semantic-kernel
+
+# RAG &amp; search
+pip install llama-index haystack-ai rank-bm25 pypdf
+
+# DSPy &amp; evaluation
+pip install dspy-ai ragas deepeval
+
+# MCP
+pip install fastmcp langchain-mcp-adapters
+
+# Utilities
+pip install aiohttp pandas pydantic
+</code></pre>
+<h3 id="minimal-working-examples">Minimal Working Examples</h3>
+<pre><code class="language-python"># OpenAI (1 line)
+from openai import OpenAI; c = OpenAI(); print(c.chat.completions.create(model=&quot;gpt-4o-mini&quot;, messages=[{&quot;role&quot;:&quot;user&quot;,&quot;content&quot;:&quot;Hi&quot;}]).choices[0].message.content)
+
+# LangChain chain (2 lines)
+from langchain_openai import ChatOpenAI; from langchain_core.messages import HumanMessage
+print(ChatOpenAI(model=&quot;gpt-4o-mini&quot;).invoke([HumanMessage(content=&quot;What is 2+2?&quot;)]).content)
+
+# FAISS similarity search (3 lines)
+from sentence_transformers import SentenceTransformer; import faiss, numpy as np
+m = SentenceTransformer(&quot;all-MiniLM-L6-v2&quot;); embs = m.encode([&quot;hello world&quot;,&quot;goodbye world&quot;]).astype(&quot;float32&quot;)
+idx = faiss.IndexFlatL2(embs.shape[1]); idx.add(embs); print(idx.search(m.encode([&quot;hi there&quot;]).astype(&quot;float32&quot;),1))
+
+# LlamaIndex (3 lines)
+from llama_index.core import VectorStoreIndex, Document
+idx = VectorStoreIndex.from_documents([Document(text=&quot;Python is great for AI.&quot;)])
+print(idx.as_query_engine().query(&quot;What is Python good for?&quot;))
+
+# Pydantic AI (3 lines)
+from pydantic import BaseModel; from pydantic_ai import Agent
+class City(BaseModel): name: str; population: int
+print(Agent(&quot;openai:gpt-4o-mini&quot;, result_type=City).run_sync(&quot;Describe Tokyo&quot;).data)
+</code></pre>
+<h3 id="llm-provider-cheatsheet">LLM Provider Cheatsheet</h3>
+<table>
+<thead>
+<tr>
+<th>Provider</th>
+<th>Base URL</th>
+<th>Auth env var</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GitHub Copilot</td>
+<td><code>https://models.inference.ai.azure.com</code></td>
+<td><code>gh auth token</code></td>
+</tr>
+<tr>
+<td>OpenAI</td>
+<td><code>https://api.openai.com/v1</code></td>
+<td><code>OPENAI_API_KEY</code></td>
+</tr>
+<tr>
+<td>Azure OpenAI</td>
+<td><code>https://&lt;resource&gt;.openai.azure.com/</code></td>
+<td><code>AZURE_OPENAI_API_KEY</code></td>
+</tr>
+<tr>
+<td>Anthropic</td>
+<td><em>(use anthropic SDK)</em></td>
+<td><code>ANTHROPIC_API_KEY</code></td>
+</tr>
+<tr>
+<td>Groq</td>
+<td><code>https://api.groq.com/openai/v1</code></td>
+<td><code>GROQ_API_KEY</code></td>
+</tr>
+<tr>
+<td>Ollama (local)</td>
+<td><code>http://localhost:11434/v1</code></td>
+<td><code>"ollama"</code> (any string)</td>
+</tr>
+<tr>
+<td>LM Studio</td>
+<td><code>http://localhost:1234/v1</code></td>
+<td><code>"lm-studio"</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="github-copilot-auth-canonical-snippet">GitHub Copilot Auth (canonical snippet)</h3>
+<pre><code class="language-python">import subprocess
+from openai import OpenAI
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+client = OpenAI(base_url=&quot;https://models.inference.ai.azure.com&quot;, api_key=token)
+
+resp = client.chat.completions.create(
+    model=&quot;gpt-4o-mini&quot;,
+    messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Hello!&quot;}],
+)
+print(resp.choices[0].message.content)
+</code></pre>
+<h3 id="common-error-fixes">Common Error Fixes</h3>
+<table>
+<thead>
+<tr>
+<th>Error</th>
+<th>Cause</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>AuthenticationError</code></td>
+<td>Bad or missing API key</td>
+<td>Run <code>gh auth login</code> then re-fetch token</td>
+</tr>
+<tr>
+<td><code>RateLimitError</code></td>
+<td>Too many requests</td>
+<td>Add <code>asyncio.Semaphore</code> or <code>time.sleep(1)</code></td>
+</tr>
+<tr>
+<td><code>ContextWindowExceededError</code></td>
+<td>Prompt too long</td>
+<td>Trim history or use <code>max_tokens</code></td>
+</tr>
+<tr>
+<td><code>ModuleNotFoundError</code></td>
+<td>Missing package</td>
+<td><code>pip install &lt;package&gt;</code></td>
+</tr>
+<tr>
+<td><code>FAISS index empty</code></td>
+<td>Forgot to call <code>.add()</code></td>
+<td>Call <code>index.add(embeddings)</code> before search</td>
+</tr>
+<tr>
+<td><code>pydantic ValidationError</code></td>
+<td>LLM returned wrong format</td>
+<td>Add <code>ModelRetry</code> or stricter prompt</td>
+</tr>
+<tr>
+<td><code>LangGraph thread not found</code></td>
+<td>Wrong thread_id</td>
+<td>Use consistent <code>configurable.thread_id</code></td>
+</tr>
+<tr>
+<td><code>asyncio.run() inside Jupyter</code></td>
+<td>Event loop conflict</td>
+<td>Use <code>await main()</code> or <code>nest_asyncio</code></td>
+</tr>
+<tr>
+<td><code>HuggingFace model download slow</code></td>
+<td>First run caches model</td>
+<td>Wait once; subsequent runs are fast</td>
+</tr>
+<tr>
+<td><code>DSPy no examples compiled</code></td>
+<td>Empty trainset</td>
+<td>Provide ≥3 labelled examples</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>Generated for the EngX AI Coach for Software Developers programme.</em></p>
+</main>
+</body>
+</html>

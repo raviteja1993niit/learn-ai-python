@@ -1,0 +1,259 @@
+# ──────────────────────────────────────────────────────────────────────────────
+# engx-final-exam.yaml
+# Sample content file for the EngX AI Coach Final Exam presentation.
+# Run:  python generate.py content/engx-final-exam.yaml
+# ──────────────────────────────────────────────────────────────────────────────
+
+meta:
+  title:   "How to Develop Your Own Multi-Agentic Solution"
+  author:  "Raviteja Thota (613491)"
+  role:    "Senior Software Engineer"
+  company: "EPAM"
+  event:   "EngX AI Coach — Final Exam Presentation"
+  date:    "May 2026"
+  email:   "OrgEngXSoftwareDevelopersCoach@epam.com"
+  theme:   light          # light | dark
+  output:  "engx-ai-coach-final-exam-raviteja-thota-v3"
+
+slides:
+
+  # ── COVER ────────────────────────────────────────────────────────────────────
+  - type: title
+    title_line1: "How to Develop Your Own"
+    title_line2: "Multi-Agentic Solution"
+    pills:
+      - label: "Use Case 1  ·  Multi-Agentic Solution"
+        color: blue
+      - label: "Use Case 2  ·  RAG Evolution Journey"
+        color: teal
+    sidebar:
+      heading: "EngX AI Coach"
+      lines:
+        - text: "Final Exam"
+          size: 13
+          bold: true
+        - ""
+        - text: "Topic:"
+          size: 11
+          bold: true
+        - text: "Multi-Agentic Solution Design"
+          size: 12
+          bold: true
+        - ""
+        - "2 Use Cases"
+        - "1. Multi-Agent System"
+        - "2. RAG Evolution"
+        - ""
+        - "18 slides"
+        - "20-25 min presentation"
+
+  # ── AGENDA ───────────────────────────────────────────────────────────────────
+  - type: agenda
+    sections:
+      - label: "Use Case 1"
+        title: "Multi-Agentic Solution"
+        color: blue
+        items:
+          - "01   What is a Multi-Agent System?"
+          - "02   Architecture Flow Diagram"
+          - "03   Agent Roles & Responsibilities"
+          - "04   Code: Agent Definition"
+          - "05   Real-World Results"
+      - label: "Use Case 2"
+        title: "RAG Evolution Journey"
+        color: teal
+        items:
+          - "06   Why RAG Needed to Evolve"
+          - "07   RAG Evolution Flow  (V1 › V2 › V3)"
+          - "08   Agentic RAG Architecture"
+          - "09   Code Demo: ask.py"
+          - "10   Comparison & When to Use Each"
+    footer_note: "Practical Task  ·  Key Takeaways  ·  Q&A"
+
+  # ── USE CASE 1: SECTION INTRO ─────────────────────────────────────────────
+  - type: section_intro
+    label: "Use Case 1"
+    label_color: blue
+    title: "Multi-Agentic Solution"
+    subtitle: "Real-World Problem — Developers waste days manually tracking feature toggle impact"
+    learn_heading: "Real-World Problem:"
+    learn_items:
+      - ">  100+ feature toggles across 16,000+ Java files in 7 repos"
+      - ">  Devs manually grep code, check stale Confluence, write impact notes — days per toggle"
+      - '>  No automated way to answer: "What breaks if I flip this toggle OFF in production?"'
+      - ">  Multi-agent system solves this end-to-end in minutes"
+
+  # ── FEATURE TOGGLE PROBLEM / SOLUTION ────────────────────────────────────
+  - type: two_column
+    title: "Real-World Problem: Feature Toggle Chaos"
+    subtitle: "Managing 100+ toggles across 16K+ Java files — manually — every sprint"
+    divider: "→"
+    left:
+      heading: "The Developer's Daily Struggle"
+      bg: red
+      items:
+        - bold: 'A developer is asked: "Is toggle MPGS_3DS_V2 safe to remove?"'
+        - heading: "Step 1 — Manual code hunt"
+          text: "Grep 16K+ Java files across 7 repos. Miss one → production incident."
+        - heading: "Step 2 — Stale documentation"
+          text: "Confluence pages are outdated. BA notes contradict codebase reality."
+        - heading: "Step 3 — Hand-written impact report"
+          text: "Engineer writes a Word doc. No standard format. Takes 2–3 days."
+        - heading: "Step 4 — Review cycle"
+          text: "Back-and-forth with BA and QA to validate. Error-prone each time."
+        - heading: "Result"
+          text: "Days of effort per toggle. Inconsistent. Impossible to scale."
+    right:
+      heading: "What the System Must Do"
+      bg: green
+      items:
+        - bold: 'User types: "analyse toggle MPGS_3DS_V2"'
+        - heading: "Scan all repos"
+          text: "Find every ON/OFF branch, impacted service and field automatically."
+        - heading: "Fetch live Confluence docs"
+          text: "Always current. No stale pages. Metadata extracted per toggle."
+        - heading: "Generate structured report"
+          text: "CSV + Markdown in minutes. Reproducible across the team."
+        - heading: "Advise on safe removal"
+          text: "Decomposition plan. Refactored Java. Zero manual effort."
+        - heading: "Outcome"
+          text: "Minutes per toggle. Consistent. Scalable to 1000+ toggles."
+
+  # ── AGENT ROLES (bullets with two columns) ────────────────────────────────
+  - type: bullets
+    title: "Agent Roles & Responsibilities"
+    subtitle: "Each agent owns exactly one domain — clear input/output contracts"
+    columns: 2
+    items:
+      - heading: "toggle-orchestrator"
+        text: "Session entry point. Routes all commands. NEVER does leaf work."
+      - heading: "SA-1  analysis-engine"
+        text: "Java source scan across 7 repos. Builds ON/OFF business & field-level impact."
+      - heading: "SA-2  report-writer"
+        text: "Generates 6 structured report types from analysis data."
+      - heading: "SA-3  confluence-enquiry"
+        text: "4-tier Confluence search. Extracts page metadata for each toggle."
+      - heading: "SA-4  advisor  ★"
+        text: "Plans & executes Java toggle decomposition (on-request only)."
+      - heading: "SA-5  workspace-manager"
+        text: "Session state, toggle registry, workspace cleanup, repo onboarding."
+
+  # ── RESULTS ───────────────────────────────────────────────────────────────
+  - type: stats_banner
+    title: "Results: What the System Delivered"
+    subtitle: "MPGS Payment Gateway — production implementation"
+    stats:
+      - value: "100+"
+        label: "Feature Toggles Tracked"
+      - value: "7"
+        label: "Repos Scanned"
+      - value: "16K+"
+        label: "Java Files Analysed"
+      - value: "6"
+        label: "Report Types Generated"
+      - value: "5"
+        label: "Specialist Sub-Agents"
+    before:
+      - "Engineer reads Java files manually"
+      - "Checks Confluence (often stale)"
+      - "Writes impact notes by hand"
+      - "Days per toggle  ·  Error-prone"
+    after:
+      - 'User types:  "analyze toggle <name>"'
+      - "Orchestrator routes to SA-1 (analysis)"
+      - "SA-1 scans repos  ·  SA-3 fetches docs"
+      - "Minutes per toggle  ·  Reproducible"
+
+  # ── USE CASE 2: SECTION INTRO ──────────────────────────────────────────────
+  - type: section_intro
+    label: "Use Case 2"
+    label_color: teal
+    title: "RAG Evolution Journey"
+    subtitle: "Real-World Problem — BAs can't track changes in versioned external acquirer specs"
+    learn_heading: "Real-World Problem:"
+    learn_items:
+      - ">  Acquirer specs (Visa, Mastercard, bank APIs) are 200+ page PDFs updated quarterly"
+      - ">  BAs manually diff v2.3 vs v2.4 — hours of reading to find what changed"
+      - '>  No unified way to query: "What changed in Section 4 between versions?"'
+      - ">  RAG evolution (V1 → V2 → V3) solves this — ending with LLM-as-retriever"
+
+  # ── ACQUIRER SPEC PAIN CARDS ───────────────────────────────────────────────
+  - type: pain_cards
+    title: "Real-World Problem: Acquirer Spec Intelligence"
+    subtitle: "BAs drowning in versioned third-party spec documents — no smart search, no diff, no Q&A"
+    pains:
+      - number: "Pain 1"
+        heading: "Version Diff Is Manual"
+        text: |
+          BA must open two 200-page PDFs side-by-side.
+          No tooling to highlight what changed between v2.3 and v2.4.
+          Barrier: misses critical field-level changes every release.
+      - number: "Pain 2"
+        heading: "Multi-Acquirer Fragmentation"
+        text: |
+          Visa, Mastercard, and local bank specs use different formats.
+          BAs switch between 5+ documents with no unified search layer.
+          Barrier: slow, error-prone cross-spec comparisons.
+      - number: "Pain 3"
+        heading: "No Natural Language Q&A"
+        text: |
+          BAs can't ask: "What are the retry rules for declined transactions?"
+          Must CTRL+F keywords and read surrounding context manually.
+          Barrier: no intelligent extraction from spec documents.
+    solutions_heading: "How each generation solved these pains:"
+    solutions:
+      - label: "V1 › V2"
+        text: |
+          Dropped ChromaDB + embeddings entirely.
+          BM25 keyword search over acquirer spec pages — zero infra cost.
+          BAs can now search any versioned spec without GPU or vector DB setup.
+      - label: "V2 › V3"
+        text: |
+          Dropped BM25 + all retrieval code.
+          LLM reads full acquirer spec as JSON — section-aware, version-aware answers.
+          BAs ask "What changed in Auth flow from v2.3 to v2.4?" and get a direct answer.
+      - label: "V3 + Agents"
+        text: |
+          Added .github/agents for multi-turn Q&A on versioned specs.
+          Orchestrate: convert → ask → summarise → diff across acquirer versions.
+          BA gets a structured change report in minutes instead of days.
+
+  # ── RAG COMPARISON TABLE ───────────────────────────────────────────────────
+  - type: comparison_table
+    title: "Comparison: V1 vs V2 vs V3 — When to Use Which?"
+    headers:
+      - "Feature"
+      - "V1 — Vector RAG"
+      - "V2 — Vector-less RAG"
+      - "V3 — Agentic RAG"
+    rows:
+      - ["Setup complexity",         "High — ChromaDB, GPU, model", "Low — BM25 only",   "Very low — 3 files"]
+      - ["Infrastructure required",  "Vector DB + GPU",             "None",               "None"]
+      - ["Semantic search quality",  "Best (embeddings)",           "Partial (keyword)",  "Best (LLM reasoning)"]
+      - ["Large docs (>100 pages)",  "Best — chunked",              "Good",               "Limited by context"]
+      - ["Small–medium docs",        "Overkill",                    "Good",               "Best"]
+      - ["Code to maintain",         "Chunker+Embedder+DB",         "Retriever+Index",    "Zero retrieval code"]
+      - ["Multi-turn agent support", "Manual wiring",               "Manual wiring",      "Built-in via agents"]
+      - ["Best for",                 "Enterprise, large corpus",    "Mid-size, fast POC", "Structured docs, RAG POC"]
+    highlights:
+      - {row: 6, col: 3, color: teal}
+      - {row: 4, col: 3, color: teal}
+      - {row: 0, col: 1, color: red}
+
+  # ── KEY TAKEAWAYS ──────────────────────────────────────────────────────────
+  - type: key_takeaways
+    items:
+      - "Multi-Agent = Orchestrator + Specialists — separation of concerns at the agent level"
+      - "GitHub Copilot Agents (.github/agents) is a real, production-ready framework"
+      - "Choose multi-agent when tasks naturally decompose into parallel specialist work"
+      - "RAG evolved to remove complexity — V3 Agentic RAG needs zero retrieval code"
+      - "Agentic RAG is best for structured docs (acquirer specs, API refs, versioned PDFs)"
+      - "Both use cases share the same principle: LLM-as-orchestrator + specialists"
+
+  # ── CLOSING ────────────────────────────────────────────────────────────────
+  - type: closing
+    title: "Thank You!"
+    subtitle: "Questions & Discussion Welcome"
+    use_cases:
+      - "Use Case 1 — Multi-Agentic Solution (MPGS Feature Toggle Management)"
+      - "Use Case 2 — RAG Evolution Journey (Acquirer Spec Intelligence)"

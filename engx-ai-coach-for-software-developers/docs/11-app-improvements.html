@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>App-by-App Improvements – AI Libraries Guide</title>
+<style>
+:root{--bg:#fff;--text:#1a1a2e;--accent:#0070f3;--code:#f4f6f8;--border:#e1e4e8;--nav:#f6f8fa;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:Georgia,'Times New Roman',serif;font-size:17px;line-height:1.8;
+     color:var(--text);background:var(--bg);display:flex;min-height:100vh;}
+/* ---- NAV ---- */
+nav{width:260px;min-width:220px;background:var(--nav);border-right:1px solid var(--border);
+    position:sticky;top:0;height:100vh;overflow-y:auto;padding:20px 14px;flex-shrink:0;}
+nav .back-link{display:block;font-family:sans-serif;font-size:12px;color:var(--accent);
+               margin-bottom:14px;text-decoration:none;}
+nav .back-link:hover{text-decoration:underline;}
+nav h3{font-family:sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:.08em;
+       color:#888;margin-bottom:8px;}
+nav ul{list-style:none;}
+nav li{margin:3px 0;}
+nav a{font-family:sans-serif;font-size:13px;color:#444;text-decoration:none;
+      display:block;padding:4px 8px;border-radius:4px;line-height:1.4;}
+nav a:hover{background:#e0e8ff;color:var(--accent);}
+nav a.h3{padding-left:20px;font-size:12px;color:#666;}
+nav a.h4{padding-left:34px;font-size:11px;color:#888;}
+/* ---- MAIN ---- */
+main{flex:1;padding:48px 60px;max-width:960px;}
+.doc-header{margin-bottom:40px;padding-bottom:20px;border-bottom:3px solid var(--accent);}
+.doc-header h1{font-size:2.1em;color:#0a192f;}
+.doc-header .subtitle{font-family:sans-serif;color:#555;margin-top:6px;font-size:.95em;}
+.doc-header .badges span{display:inline-block;font-family:sans-serif;font-size:12px;
+  padding:3px 10px;border-radius:12px;margin:8px 4px 0 0;font-weight:600;}
+.badge-free{background:#d4edda;color:#155724;}
+.badge-paid{background:#fff3cd;color:#856404;}
+.badge-local{background:#cce5ff;color:#004085;}
+/* ---- CONTENT ---- */
+section{margin-bottom:56px;}
+h2{font-size:1.6em;color:#0a192f;margin:2em 0 .6em;padding-bottom:.3em;border-bottom:2px solid var(--border);}
+h3{font-size:1.25em;color:#0a192f;margin:1.6em 0 .4em;}
+h4{font-size:1.05em;color:#0a192f;margin:1.3em 0 .3em;}
+p{margin:.6em 0;}
+ul,ol{margin:.5em 0 .5em 1.5em;}li{margin:.25em 0;}
+strong{color:#0a192f;}
+code{font-family:'Fira Code',Consolas,monospace;background:var(--code);
+     padding:2px 6px;border-radius:3px;font-size:.87em;}
+pre{background:var(--code);border:1px solid var(--border);border-left:4px solid var(--accent);
+    border-radius:6px;padding:18px;overflow-x:auto;margin:1em 0;}
+pre code{background:none;padding:0;font-size:.84em;line-height:1.5;}
+table{border-collapse:collapse;width:100%;margin:1em 0;font-family:sans-serif;font-size:.9em;}
+th,td{border:1px solid var(--border);padding:9px 13px;text-align:left;vertical-align:top;}
+th{background:#e8f0fe;font-weight:700;color:#0a192f;}
+tr:nth-child(even) td{background:#f9f9f9;}
+blockquote{border-left:4px solid var(--accent);padding:10px 18px;background:#f0f4ff;
+           border-radius:0 6px 6px 0;color:#333;margin:1em 0;}
+/* ---- Q&A ---- */
+details{border:1px solid var(--border);border-radius:8px;margin:.8em 0;background:#fafafa;}
+details[open]{background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+summary.qa-q{cursor:pointer;padding:13px 16px;font-weight:700;color:#0a192f;
+             list-style:none;display:flex;align-items:flex-start;gap:10px;line-height:1.5;}
+summary.qa-q::before{content:"Q";background:var(--accent);color:#fff;padding:2px 8px;
+                     border-radius:50%;font-size:.78em;font-family:sans-serif;flex-shrink:0;margin-top:2px;}
+.qa-a{padding:14px 18px;border-top:1px solid #eee;}
+/* ---- callout boxes ---- */
+.tip{background:#e6f9f0;border-left:4px solid #28a745;padding:12px 16px;
+     border-radius:0 6px 6px 0;margin:1em 0;}
+.warn{background:#fff8e1;border-left:4px solid #ffc107;padding:12px 16px;
+      border-radius:0 6px 6px 0;margin:1em 0;}
+a{color:var(--accent);}
+hr{border:none;border-top:1px solid var(--border);margin:2em 0;}
+</style>
+</head>
+<body>
+<nav>
+  <a class="back-link" href="index.html">⬅ All Guides</a>
+  <a class="back-link" href="10-other-libs.html">← Other Libraries</a><a class="back-link" href="12-sdlc-apps.html">SDLC Automation Apps →</a>
+  <h3>Contents</h3>
+  <ul><li><a href="#table-of-contents" class="">Table of Contents</a></li>
+<li><a href="#pattern-a-langgraph-stategraph-human-in-the-loop-safety-gate" class="h3">Pattern A — LangGraph: StateGraph + Human-in-the-Loop Safety Gate</a></li>
+<li><a href="#pattern-b-crewai-hierarchical-crew-with-parallel-analysis" class="h3">Pattern B — CrewAI: Hierarchical Crew with Parallel Analysis</a></li>
+<li><a href="#pattern-c-autogen-groupchat-with-code-execution-for-validation" class="h3">Pattern C — AutoGen: GroupChat with Code Execution for Validation</a></li>
+<li><a href="#pattern-a-langchain-lcel-conversational-rag-with-memory" class="h3">Pattern A — LangChain LCEL: Conversational RAG with Memory</a></li>
+<li><a href="#pattern-b-langgraph-corrective-rag-crag-with-self-grading" class="h3">Pattern B — LangGraph: Corrective RAG (CRAG) with Self-Grading</a></li>
+<li><a href="#pattern-c-autogen-multi-expert-document-qa" class="h3">Pattern C — AutoGen: Multi-Expert Document Q&amp;A</a></li>
+<li><a href="#pattern-a-langchain-hybrid-bm25-semantic-ensemble-retriever" class="h3">Pattern A — LangChain: Hybrid BM25 + Semantic Ensemble Retriever</a></li>
+<li><a href="#pattern-b-langgraph-streaming-conversational-rag-with-session-state" class="h3">Pattern B — LangGraph: Streaming Conversational RAG with Session State</a></li>
+<li><a href="#pattern-c-crewai-document-research-crew-for-deep-analysis" class="h3">Pattern C — CrewAI: Document Research Crew for Deep Analysis</a></li>
+<li><a href="#pattern-a-langchain-multiqueryretriever-for-query-expansion" class="h3">Pattern A — LangChain: MultiQueryRetriever for Query Expansion</a></li>
+<li><a href="#pattern-b-langgraph-self-rag-loop-with-answer-quality-check" class="h3">Pattern B — LangGraph: Self-RAG Loop with Answer Quality Check</a></li>
+<li><a href="#pattern-c-autogen-iterative-qa-with-clarification-agent" class="h3">Pattern C — AutoGen: Iterative Q&amp;A with Clarification Agent</a></li>
+<li><a href="#pattern-a-langgraph-tool-calling-react-agent-over-json-tree" class="h3">Pattern A — LangGraph: Tool-Calling ReAct Agent over JSON Tree</a></li>
+<li><a href="#pattern-b-crewai-multi-agent-document-intelligence-crew" class="h3">Pattern B — CrewAI: Multi-Agent Document Intelligence Crew</a></li>
+<li><a href="#pattern-c-autogen-code-executing-document-validator" class="h3">Pattern C — AutoGen: Code-Executing Document Validator</a></li>
+<li><a href="#pattern-a-langchain-map-reduce-summarisation-chain" class="h3">Pattern A — LangChain: Map-Reduce Summarisation Chain</a></li>
+<li><a href="#pattern-b-langgraph-parallel-chunk-processing-with-human-review-gate" class="h3">Pattern B — LangGraph: Parallel Chunk Processing with Human Review Gate</a></li>
+<li><a href="#pattern-c-crewai-content-production-crew-for-structured-knowledge-extraction" class="h3">Pattern C — CrewAI: Content Production Crew for Structured Knowledge Extraction</a></li>
+<li><a href="#summary-comparison-table" class="">Summary Comparison Table</a></li>
+</ul>
+</nav>
+<main>
+  <div class="doc-header">
+    <h1>App-by-App Improvements</h1>
+    <p class="subtitle">LangGraph · CrewAI · AutoGen patterns applied to all 6 real projects</p>
+    <div class="badges"><span class="badge-local">Runnable Code</span><span class="badge-local">All 6 Apps</span></div>
+  </div>
+  <h1 id="part-1-app-by-app-improvements-expanded">Part 1 — App-by-App Improvements (Expanded)</h1>
+<blockquote>
+<p><strong>Author:</strong> Raviteja Thota | EngX AI Coach Program<br />
+<strong>Scope:</strong> LangChain · LangGraph · CrewAI · AutoGen — runnable improvement patterns for all 6 apps</p>
+</blockquote>
+<hr />
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol>
+<li><a href="#app-1--agentic-ai-toggle-management">App 1 — agentic-ai-toggle-management</a></li>
+<li><a href="#app-2--vector-rag-app-v1">App 2 — vector-rag-app-v1</a></li>
+<li><a href="#app-3--vector-less-rag-app-v2">App 3 — vector-less-rag-app-v2</a></li>
+<li><a href="#app-4--vector-less-rag-app">App 4 — vector-less-rag-app</a></li>
+<li><a href="#app-5--vector-less-rag-agentic">App 5 — vector-less-rag-agentic</a></li>
+<li><a href="#app-6--transcript-notes-generator">App 6 — transcript-notes-generator</a></li>
+</ol>
+<hr />
+<h1 id="app-1-agentic-ai-toggle-management">App 1 — <code>agentic-ai-toggle-management</code></h1>
+<p><strong>Current architecture:</strong> 1 orchestrator + 5 sub-agents defined as <code>.github/agents</code> Markdown files in a JetBrains IDE. The orchestrator reads a plain-English command and routes it to SA-1 (analysis), SA-2 (reports), SA-3 (Confluence), SA-4 (decomposition advisor), or SA-5 (workspace manager). State lives in files; routing is implicit in LLM instructions.</p>
+<p><strong>Problems to solve:</strong> No checkpointing for long 73-toggle batch runs; no safety gate before destructive operations; no parallelism; routing logic is buried in prose markdown.</p>
+<hr />
+<h3 id="pattern-a-langgraph-stategraph-human-in-the-loop-safety-gate">Pattern A — LangGraph: StateGraph + Human-in-the-Loop Safety Gate</h3>
+<p><strong>WHY:</strong> Toggle deletions and decomposition are irreversible. Currently the orchestrator can invoke SA-4 without asking for confirmation. LangGraph's <code>interrupt_before</code> puts a human approval step between routing and execution — no code change in agents needed.</p>
+<p><strong>HOW:</strong> Add an <code>approval</code> node before SA-4. Compile with <code>interrupt_before=["sa4_decomp"]</code>. The graph pauses, your UI presents the plan, and execution only continues after the engineer calls <code>app.invoke(None, config)</code>.</p>
+<pre><code class="language-python">from typing import TypedDict, Annotated, List
+import operator
+from langgraph.graph import StateGraph, START, END
+from langgraph.checkpoint.sqlite import SqliteSaver
+
+class ToggleState(TypedDict):
+    command: str
+    toggle_name: str
+    repo: str
+    analysis: List[dict]
+    report: str
+    stage: str
+    approved: bool
+    errors: Annotated[List[str], operator.add]
+
+def route_command(state: ToggleState) -&gt; str:
+    cmd = state[&quot;command&quot;].lower()
+    if &quot;decomp&quot; in cmd or &quot;remove&quot; in cmd:  return &quot;approval_gate&quot;
+    if &quot;analyze&quot; in cmd:                     return &quot;sa1_analysis&quot;
+    if &quot;report&quot; in cmd:                      return &quot;sa2_report&quot;
+    if &quot;confluence&quot; in cmd:                  return &quot;sa3_confluence&quot;
+    return &quot;sa5_workspace&quot;
+
+def approval_gate(state: ToggleState) -&gt; dict:
+    # Graph pauses here — human must resume via app.invoke(None, config)
+    print(f&quot;⚠️  APPROVAL REQUIRED: decompose toggle '{state['toggle_name']}'?&quot;)
+    print(&quot;   Resume with: app.invoke(None, config={'configurable': {'thread_id': tid}})&quot;)
+    return {&quot;stage&quot;: &quot;awaiting_approval&quot;}
+
+def sa4_decomp(state: ToggleState) -&gt; dict:
+    print(f&quot;✅ Decomposing {state['toggle_name']} — approved, proceeding.&quot;)
+    return {&quot;stage&quot;: &quot;decomp_complete&quot;}
+
+def sa1_analysis(state: ToggleState) -&gt; dict:
+    return {&quot;stage&quot;: &quot;analysis_complete&quot;, &quot;analysis&quot;: [{&quot;toggle&quot;: state[&quot;toggle_name&quot;]}]}
+
+def sa2_report(state: ToggleState) -&gt; dict:
+    return {&quot;stage&quot;: &quot;report_complete&quot;, &quot;report&quot;: f&quot;Report for {state['toggle_name']}&quot;}
+
+def sa3_confluence(state: ToggleState) -&gt; dict:
+    return {&quot;stage&quot;: &quot;confluence_complete&quot;}
+
+def sa5_workspace(state: ToggleState) -&gt; dict:
+    return {&quot;stage&quot;: &quot;workspace_complete&quot;}
+
+graph = StateGraph(ToggleState)
+for name, fn in [(&quot;approval_gate&quot;, approval_gate), (&quot;sa1_analysis&quot;, sa1_analysis),
+                  (&quot;sa2_report&quot;, sa2_report), (&quot;sa3_confluence&quot;, sa3_confluence),
+                  (&quot;sa4_decomp&quot;, sa4_decomp), (&quot;sa5_workspace&quot;, sa5_workspace)]:
+    graph.add_node(name, fn)
+
+graph.add_edge(START, &quot;orchestrator&quot;) if False else None  # placeholder
+graph.set_entry_point(&quot;sa1_analysis&quot;)  # simplified entry
+graph.add_conditional_edges(&quot;sa1_analysis&quot;, lambda s: &quot;END&quot;, {&quot;END&quot;: END})
+graph.add_edge(&quot;approval_gate&quot;, &quot;sa4_decomp&quot;)
+graph.add_edge(&quot;sa4_decomp&quot;, END)
+
+checkpointer = SqliteSaver.from_conn_string(&quot;toggle_sessions.db&quot;)
+app = graph.compile(
+    checkpointer=checkpointer,
+    interrupt_before=[&quot;sa4_decomp&quot;]   # &lt;-- pause before destructive op
+)
+
+tid = &quot;session-eng-ravi-001&quot;
+config = {&quot;configurable&quot;: {&quot;thread_id&quot;: tid}}
+
+# First call: hits approval_gate and stops
+app.invoke({&quot;command&quot;: &quot;decomp toggle Enable-CIT-MIT-indicators&quot;,
+            &quot;toggle_name&quot;: &quot;Enable-CIT-MIT-indicators&quot;, &quot;repo&quot;: &quot;CPE&quot;}, config)
+
+# Engineer reviews, then resumes:
+# app.invoke(None, config)   &lt;-- continues from sa4_decomp
+</code></pre>
+<p><strong>Expected benefit:</strong> Zero risk of accidental toggle removal. Session state is persisted in SQLite — if the engineer's laptop crashes between the approval and execution, the approved state is not lost.</p>
+<hr />
+<h3 id="pattern-b-crewai-hierarchical-crew-with-parallel-analysis">Pattern B — CrewAI: Hierarchical Crew with Parallel Analysis</h3>
+<p><strong>WHY:</strong> The current system runs agents sequentially (analyze → report). With CrewAI's <code>Process.hierarchical</code> and <code>async_execution=True</code>, SA-1 analysis across 7 repos runs in parallel, cutting batch time from ~14 minutes to ~3 minutes.</p>
+<p><strong>HOW:</strong> Manager agent delegates parallel analysis tasks; each task is a repo scan. After all complete, the report writer synthesises.</p>
+<pre><code class="language-python">from crewai import Agent, Task, Crew, Process
+from crewai.tools import BaseTool
+import subprocess
+
+class RepoScanTool(BaseTool):
+    name: str = &quot;repo_scanner&quot;
+    description: str = &quot;Scans a single Java repository for a named feature toggle. Returns usages CSV.&quot;
+    def _run(self, toggle_name: str, repo: str) -&gt; str:
+        result = subprocess.run(
+            [&quot;powershell&quot;, &quot;-File&quot;, &quot;tools/active/toggle-search-utility.ps1&quot;, toggle_name, repo],
+            capture_output=True, text=True, timeout=120
+        )
+        return result.stdout or f&quot;No usages found in {repo}&quot;
+
+manager = Agent(
+    role=&quot;Toggle Management Orchestrator&quot;,
+    goal=&quot;Delegate toggle analysis tasks to specialist agents and ensure complete coverage of all 7 repos&quot;,
+    backstory=&quot;Senior MPGS architect responsible for feature flag lifecycle across the entire payment gateway&quot;,
+    allow_delegation=True, verbose=True
+)
+
+analyst = Agent(
+    role=&quot;Toggle Analysis Engine&quot;,
+    goal=&quot;Scan Java source code and produce detailed ON/OFF business impact per repository&quot;,
+    backstory=&quot;Expert Java code analyst specialising in EMV payment feature flag impact assessment&quot;,
+    tools=[RepoScanTool()], verbose=True
+)
+
+writer = Agent(
+    role=&quot;Toggle Report Writer&quot;,
+    goal=&quot;Generate a polished Markdown report that product owners can act on immediately&quot;,
+    backstory=&quot;Technical writer with deep MPGS domain knowledge and experience with all 6 report formats&quot;,
+    verbose=True
+)
+
+repos = [&quot;CardPaymentEngine&quot;, &quot;Orchestrator&quot;, &quot;BusinessService&quot;, &quot;Console&quot;, &quot;MSOUI&quot;, &quot;DirectAPI&quot;, &quot;BatchSettlementService&quot;]
+analysis_tasks = [
+    Task(
+        description=f&quot;Scan repository '{repo}' for toggle '{{toggle_name}}'. Document every usage with class name, file path, ON impact, and OFF impact.&quot;,
+        expected_output=f&quot;CSV rows for {repo}: toggle_name,class_name,file_path,on_impact,off_impact&quot;,
+        agent=analyst,
+        async_execution=True   # all 7 run in parallel
+    )
+    for repo in repos
+]
+
+report_task = Task(
+    description=&quot;Synthesise all repository analysis results into a Markdown report with executive summary, per-repo findings table, and removal recommendation.&quot;,
+    expected_output=&quot;Complete Markdown report with H1 title, H2 sections per repo, H2 Executive Summary&quot;,
+    agent=writer,
+    context=analysis_tasks   # depends on all 7 parallel tasks
+)
+
+crew = Crew(
+    agents=[manager, analyst, writer],
+    tasks=analysis_tasks + [report_task],
+    process=Process.hierarchical,
+    manager_agent=manager,
+    memory=True,
+    verbose=True
+)
+
+result = crew.kickoff(inputs={&quot;toggle_name&quot;: &quot;Enable-CIT-MIT-indicators&quot;})
+print(result.raw)
+</code></pre>
+<p><strong>Expected benefit:</strong> Parallel repo scans — 7× speedup on analysis phase. <code>Process.hierarchical</code> means the manager can reassign a failed repo scan automatically without human intervention.</p>
+<hr />
+<h3 id="pattern-c-autogen-groupchat-with-code-execution-for-validation">Pattern C — AutoGen: GroupChat with Code Execution for Validation</h3>
+<p><strong>WHY:</strong> After generating removal recommendations, the team currently validates by manually searching the codebase. AutoGen's <code>UserProxyAgent</code> with <code>code_execution_config</code> can run the actual grep/PowerShell validation step as part of the conversation.</p>
+<p><strong>HOW:</strong> Three agents discuss the analysis; when consensus is reached the UserProxy executes a validation script and posts the real output back into the chat.</p>
+<pre><code class="language-python">import autogen
+import subprocess
+
+gh_token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+config_list = [{
+    &quot;model&quot;: &quot;gpt-4o-mini&quot;,
+    &quot;base_url&quot;: &quot;https://models.inference.ai.azure.com&quot;,
+    &quot;api_key&quot;: gh_token
+}]
+llm_cfg = {&quot;config_list&quot;: config_list, &quot;temperature&quot;: 0.2}
+
+orchestrator = autogen.AssistantAgent(
+    name=&quot;ToggleOrchestrator&quot;,
+    system_message=(
+        &quot;You coordinate toggle analysis. Summarise findings from the analyst and ask the &quot;
+        &quot;UserProxy to run validation. Do not do analysis yourself.&quot;
+    ),
+    llm_config=llm_cfg
+)
+
+analyst = autogen.AssistantAgent(
+    name=&quot;ToggleAnalyst&quot;,
+    system_message=(
+        &quot;You are a Java code expert. Analyse toggle impacts based on scan results provided. &quot;
+        &quot;Produce a bullet-point ON/OFF impact summary. End with SAFE_TO_REMOVE: YES or NO.&quot;
+    ),
+    llm_config=llm_cfg
+)
+
+risk_checker = autogen.AssistantAgent(
+    name=&quot;RiskChecker&quot;,
+    system_message=(
+        &quot;You review toggle removal risks — check for runtime conditions, A/B tests, or &quot;
+        &quot;dependencies on other toggles. Flag any blockers as BLOCKER: &lt;reason&gt;.&quot;
+    ),
+    llm_config=llm_cfg
+)
+
+user_proxy = autogen.UserProxyAgent(
+    name=&quot;ValidatorProxy&quot;,
+    human_input_mode=&quot;NEVER&quot;,
+    max_consecutive_auto_reply=3,
+    code_execution_config={&quot;work_dir&quot;: &quot;toggle_workspace&quot;, &quot;use_docker&quot;: False},
+    default_auto_reply=&quot;Validation complete. See output above.&quot;
+)
+
+groupchat = autogen.GroupChat(
+    agents=[user_proxy, orchestrator, analyst, risk_checker],
+    messages=[], max_round=15,
+    speaker_selection_method=&quot;round_robin&quot;
+)
+manager = autogen.GroupChatManager(groupchat=groupchat, llm_config=llm_cfg)
+
+user_proxy.initiate_chat(
+    manager,
+    message=(
+        'Analyse toggle &quot;Enable-CIT-MIT-indicators&quot;. '
+        'Scan results show 12 usages in CPE, 3 in Orchestrator. '
+        'Toggle has been ON for 18 months. '
+        'Determine if it is safe to remove and what the removal plan should be. '
+        'Run: python tools/validate_toggle_removal.py Enable-CIT-MIT-indicators'
+    )
+)
+</code></pre>
+<p><strong>Expected benefit:</strong> The validation script output becomes part of the conversation transcript — the report writer agent can include actual grep results rather than hypothetical analysis. Full conversation log is saved automatically by AutoGen.</p>
+<hr />
+<h1 id="app-2-vector-rag-app-v1">App 2 — <code>vector-rag-app-v1</code></h1>
+<p><strong>Current architecture:</strong> Standard vector RAG — PDF/DOCX loaded, chunked with <code>RecursiveCharacterTextSplitter</code>, embedded with sentence-transformers, stored in FAISS, retrieved by cosine similarity, answered by GitHub Copilot LLM. Single-turn Q&amp;A, no memory.</p>
+<p><strong>Problems to solve:</strong> Retrieved chunks are sometimes irrelevant (hallucination risk); no multi-turn memory; no query expansion for domain-specific terminology.</p>
+<hr />
+<h3 id="pattern-a-langchain-lcel-conversational-rag-with-memory">Pattern A — LangChain LCEL: Conversational RAG with Memory</h3>
+<p><strong>WHY:</strong> The current chain loses conversation context between turns. A user asking "What about the fees?" after "Explain 3DS authentication" gets a decontextualised answer. LangChain LCEL with <code>ConversationBufferMemory</code> solves this in ~10 lines.</p>
+<p><strong>HOW:</strong> Use <code>create_history_aware_retriever</code> to rephrase follow-up questions using chat history before retrieval, then pipe through <code>create_retrieval_chain</code>.</p>
+<pre><code class="language-python">import os, subprocess
+from langchain_openai import ChatOpenAI
+from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_community.vectorstores import FAISS
+from langchain_community.document_loaders import PyPDFLoader
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain.chains import create_history_aware_retriever, create_retrieval_chain
+from langchain.chains.combine_documents import create_stuff_documents_chain
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain_core.messages import HumanMessage, AIMessage
+
+gh_token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+llm = ChatOpenAI(model=&quot;gpt-4o-mini&quot;, base_url=&quot;https://models.inference.ai.azure.com&quot;, api_key=gh_token)
+
+# Build vectorstore once
+loader = PyPDFLoader(&quot;document.pdf&quot;)
+splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=150)
+chunks = splitter.split_documents(loader.load())
+embeddings = HuggingFaceEmbeddings(model_name=&quot;sentence-transformers/all-MiniLM-L6-v2&quot;)
+vectorstore = FAISS.from_documents(chunks, embeddings)
+retriever = vectorstore.as_retriever(search_type=&quot;mmr&quot;, search_kwargs={&quot;k&quot;: 5, &quot;fetch_k&quot;: 20})
+
+# Prompt 1: rephrase follow-up questions using history
+contextualize_prompt = ChatPromptTemplate.from_messages([
+    (&quot;system&quot;, &quot;Given chat history and latest user question, rephrase into a standalone question. Return as-is if already standalone.&quot;),
+    MessagesPlaceholder(&quot;chat_history&quot;),
+    (&quot;human&quot;, &quot;{input}&quot;),
+])
+history_aware_retriever = create_history_aware_retriever(llm, retriever, contextualize_prompt)
+
+# Prompt 2: answer using context
+qa_prompt = ChatPromptTemplate.from_messages([
+    (&quot;system&quot;, &quot;Answer using only the retrieved context below. If unsure, say so.\n\nContext:\n{context}&quot;),
+    MessagesPlaceholder(&quot;chat_history&quot;),
+    (&quot;human&quot;, &quot;{input}&quot;),
+])
+question_answer_chain = create_stuff_documents_chain(llm, qa_prompt)
+rag_chain = create_retrieval_chain(history_aware_retriever, question_answer_chain)
+
+# Multi-turn conversation loop
+chat_history = []
+for question in [&quot;What is the 3DS authentication flow?&quot;, &quot;What fees apply to this?&quot;]:
+    response = rag_chain.invoke({&quot;input&quot;: question, &quot;chat_history&quot;: chat_history})
+    print(f&quot;Q: {question}\nA: {response['answer']}\n&quot;)
+    chat_history.extend([HumanMessage(content=question), AIMessage(content=response[&quot;answer&quot;])])
+</code></pre>
+<p><strong>Expected benefit:</strong> Follow-up questions resolve correctly. Source documents are returned in <code>response["context"]</code> for citation. Zero external dependencies — HuggingFace embeddings run locally.</p>
+<hr />
+<h3 id="pattern-b-langgraph-corrective-rag-crag-with-self-grading">Pattern B — LangGraph: Corrective RAG (CRAG) with Self-Grading</h3>
+<p><strong>WHY:</strong> The current retriever sometimes returns chunks that mention the query keyword but are semantically irrelevant. CRAG adds an LLM grading step — if all retrieved docs are irrelevant, the query is rewritten and retrieval retried, preventing hallucination.</p>
+<p><strong>HOW:</strong> StateGraph with 4 nodes: <code>retrieve → grade_docs → [rewrite | generate]</code>. Conditional edge after grading decides whether to rewrite or answer.</p>
+<pre><code class="language-python">from langgraph.graph import StateGraph, END
+from typing import TypedDict, List
+from langchain_core.documents import Document
+
+class CRAGState(TypedDict):
+    question: str
+    documents: List[Document]
+    generation: str
+    rewrite_count: int
+
+def retrieve(state: CRAGState) -&gt; dict:
+    docs = retriever.invoke(state[&quot;question&quot;])
+    return {&quot;documents&quot;: docs, &quot;rewrite_count&quot;: state.get(&quot;rewrite_count&quot;, 0)}
+
+def grade_documents(state: CRAGState) -&gt; dict:
+    grade_prompt = (
+        &quot;Is this document relevant to answering the question?\n&quot;
+        &quot;Question: {q}\nDocument: {d}\nAnswer with 'yes' or 'no' only.&quot;
+    )
+    relevant = [
+        doc for doc in state[&quot;documents&quot;]
+        if &quot;yes&quot; in llm.invoke(grade_prompt.format(q=state[&quot;question&quot;], d=doc.page_content[:500])).content.lower()
+    ]
+    return {&quot;documents&quot;: relevant}
+
+def rewrite_query(state: CRAGState) -&gt; dict:
+    new_q = llm.invoke(
+        f&quot;The query '{state['question']}' returned no relevant results. &quot;
+        &quot;Rewrite it using more specific domain terminology.&quot;
+    ).content
+    return {&quot;question&quot;: new_q, &quot;rewrite_count&quot;: state[&quot;rewrite_count&quot;] + 1}
+
+def generate_answer(state: CRAGState) -&gt; dict:
+    context = &quot;\n\n&quot;.join(d.page_content for d in state[&quot;documents&quot;])
+    answer = llm.invoke(f&quot;Context:\n{context}\n\nAnswer concisely: {state['question']}&quot;).content
+    return {&quot;generation&quot;: answer}
+
+def route_after_grading(state: CRAGState) -&gt; str:
+    if not state[&quot;documents&quot;] and state.get(&quot;rewrite_count&quot;, 0) &lt; 2:
+        return &quot;rewrite&quot;
+    return &quot;generate&quot;
+
+crag = StateGraph(CRAGState)
+crag.add_node(&quot;retrieve&quot;,        retrieve)
+crag.add_node(&quot;grade_documents&quot;, grade_documents)
+crag.add_node(&quot;rewrite&quot;,         rewrite_query)
+crag.add_node(&quot;generate&quot;,        generate_answer)
+crag.set_entry_point(&quot;retrieve&quot;)
+crag.add_edge(&quot;retrieve&quot;, &quot;grade_documents&quot;)
+crag.add_conditional_edges(&quot;grade_documents&quot;, route_after_grading,
+                            {&quot;rewrite&quot;: &quot;rewrite&quot;, &quot;generate&quot;: &quot;generate&quot;})
+crag.add_edge(&quot;rewrite&quot;, &quot;retrieve&quot;)   # loop back after rewrite
+crag.add_edge(&quot;generate&quot;, END)
+
+app = crag.compile()
+result = app.invoke({&quot;question&quot;: &quot;What is the TVR byte structure in EMV?&quot;})
+print(result[&quot;generation&quot;])
+</code></pre>
+<p><strong>Expected benefit:</strong> Hallucination rate drops significantly on domain-specific queries. The rewrite loop is bounded to 2 attempts to prevent infinite loops. You can observe the rewrite via <code>rewrite_count</code> in state.</p>
+<hr />
+<h3 id="pattern-c-autogen-multi-expert-document-qa">Pattern C — AutoGen: Multi-Expert Document Q&amp;A</h3>
+<p><strong>WHY:</strong> Complex documents (e.g., EMV specs, API reference) require different expertise to answer different question types — a security expert for authentication, an integration expert for APIs. AutoGen GroupChat routes each question to the right expert automatically.</p>
+<p><strong>HOW:</strong> Two AssistantAgents with different system prompts; GroupChatManager selects speaker based on question content.</p>
+<pre><code class="language-python">import autogen, subprocess
+
+gh_token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+config_list = [{&quot;model&quot;: &quot;gpt-4o-mini&quot;, &quot;base_url&quot;: &quot;https://models.inference.ai.azure.com&quot;, &quot;api_key&quot;: gh_token}]
+llm_cfg = {&quot;config_list&quot;: config_list}
+
+# Inject document content into each agent's system prompt
+with open(&quot;document_context.txt&quot;) as f:
+    doc_text = f.read()[:6000]  # truncate to fit context
+
+security_expert = autogen.AssistantAgent(
+    name=&quot;SecurityExpert&quot;,
+    system_message=f&quot;You answer questions about authentication, encryption, and security protocols in the document below.\nDocument:\n{doc_text}&quot;,
+    llm_config=llm_cfg
+)
+
+integration_expert = autogen.AssistantAgent(
+    name=&quot;IntegrationExpert&quot;,
+    system_message=f&quot;You answer questions about API endpoints, field formats, request/response structures in the document below.\nDocument:\n{doc_text}&quot;,
+    llm_config=llm_cfg
+)
+
+summariser = autogen.AssistantAgent(
+    name=&quot;Summariser&quot;,
+    system_message=&quot;You synthesise answers from the other experts into a single coherent response. End with 'FINAL ANSWER:'.&quot;,
+    llm_config=llm_cfg
+)
+
+user_proxy = autogen.UserProxyAgent(
+    name=&quot;User&quot;, human_input_mode=&quot;NEVER&quot;, max_consecutive_auto_reply=0
+)
+
+groupchat = autogen.GroupChat(
+    agents=[user_proxy, security_expert, integration_expert, summariser],
+    messages=[], max_round=6
+)
+manager = autogen.GroupChatManager(groupchat=groupchat, llm_config=llm_cfg)
+user_proxy.initiate_chat(manager, message=&quot;Explain the 3DS authentication flow and the required API fields.&quot;)
+</code></pre>
+<p><strong>Expected benefit:</strong> Security questions routed to SecurityExpert; API field questions to IntegrationExpert; Summariser merges both perspectives. Works without any vector index — document is injected directly into system prompts.</p>
+<hr />
+<h1 id="app-3-vector-less-rag-app-v2">App 3 — <code>vector-less-rag-app-v2</code></h1>
+<p><strong>Current architecture:</strong> BM25 (rank-bm25) retrieval over page-indexed content — no vector embeddings, no VectorDB. ChatGPT-style Streamlit UI with dark theme, model selector, multi-file upload, source footnotes. GitHub Copilot LLMs via OpenAI-compatible endpoint.</p>
+<p><strong>Problems to solve:</strong> BM25 misses semantic similarity (e.g., "TVR" vs "Terminal Verification Result"); no conversational follow-up; single query — no query expansion.</p>
+<hr />
+<h3 id="pattern-a-langchain-hybrid-bm25-semantic-ensemble-retriever">Pattern A — LangChain: Hybrid BM25 + Semantic Ensemble Retriever</h3>
+<p><strong>WHY:</strong> BM25 excels at exact keyword matches but fails on synonyms. Semantic search handles conceptual similarity but can miss exact IDs/codes. A 60/40 ensemble gets the best of both — especially valuable for payment spec documents with both precise field codes and conceptual sections.</p>
+<p><strong>HOW:</strong> Build both retrievers from the same page texts, combine with <code>EnsembleRetriever</code>. Drop-in replacement for the existing <code>RAGPipeline.retrieve()</code> call.</p>
+<pre><code class="language-python">from langchain_community.retrievers import BM25Retriever
+from langchain.retrievers import EnsembleRetriever
+from langchain_community.vectorstores import FAISS
+from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_core.documents import Document
+
+def build_hybrid_retriever(pages: list[dict], k: int = 5) -&gt; EnsembleRetriever:
+    &quot;&quot;&quot;
+    pages: list of {'content': str, 'page': int, 'source': str}
+    Returns an EnsembleRetriever combining BM25 (keyword) + FAISS (semantic).
+    &quot;&quot;&quot;
+    docs = [Document(page_content=p[&quot;content&quot;], metadata={&quot;page&quot;: p[&quot;page&quot;], &quot;source&quot;: p[&quot;source&quot;]})
+            for p in pages]
+    texts = [d.page_content for d in docs]
+
+    # BM25 — keyword matching, fast, no GPU needed
+    bm25 = BM25Retriever.from_texts(texts, metadatas=[d.metadata for d in docs])
+    bm25.k = k
+
+    # FAISS — semantic similarity, local HuggingFace model (free, ~80 MB)
+    embeddings = HuggingFaceEmbeddings(model_name=&quot;sentence-transformers/all-MiniLM-L6-v2&quot;)
+    faiss_store = FAISS.from_documents(docs, embeddings)
+    faiss_retriever = faiss_store.as_retriever(search_type=&quot;mmr&quot;, search_kwargs={&quot;k&quot;: k, &quot;fetch_k&quot;: k * 3})
+
+    # 60% BM25 weight: good for spec docs with precise codes and field names
+    # Increase vector weight (e.g. 0.5/0.5) for narrative/prose documents
+    return EnsembleRetriever(retrievers=[bm25, faiss_retriever], weights=[0.6, 0.4])
+
+# Usage — replaces existing RAGPipeline retrieval
+hybrid_retriever = build_hybrid_retriever(pages)
+docs = hybrid_retriever.invoke(&quot;What is the structure of the Terminal Verification Result byte?&quot;)
+for doc in docs:
+    print(f&quot;[Page {doc.metadata['page']}] {doc.page_content[:200]}\n&quot;)
+</code></pre>
+<p><strong>Expected benefit:</strong> Queries like "TVR" now also retrieve sections titled "Terminal Verification Result" (BM25 misses this; semantic finds it). Queries like "payment failure code 55" get exact BM25 hit + related semantic context.</p>
+<hr />
+<h3 id="pattern-b-langgraph-streaming-conversational-rag-with-session-state">Pattern B — LangGraph: Streaming Conversational RAG with Session State</h3>
+<p><strong>WHY:</strong> The current app has no cross-turn memory — every question starts fresh. For multi-page documents, users naturally ask follow-up questions. LangGraph adds per-session memory with streaming, compatible with Streamlit's <code>st.write_stream</code>.</p>
+<p><strong>HOW:</strong> StateGraph node for retrieval + generation; <code>SqliteSaver</code> checkpointer; streaming via <code>app.stream()</code>.</p>
+<pre><code class="language-python">from langgraph.graph import StateGraph, END
+from langgraph.checkpoint.sqlite import SqliteSaver
+from typing import TypedDict, List, Annotated
+import operator
+
+class ConvRAGState(TypedDict):
+    question: str
+    chat_history: Annotated[List[dict], operator.add]  # accumulates across turns
+    documents: List[str]
+    answer: str
+
+def retrieve_node(state: ConvRAGState) -&gt; dict:
+    # Rephrase question using history context if history exists
+    if state[&quot;chat_history&quot;]:
+        history_text = &quot;\n&quot;.join(f&quot;{m['role']}: {m['content']}&quot; for m in state[&quot;chat_history&quot;][-4:])
+        rephrase = llm.invoke(
+            f&quot;Given this conversation:\n{history_text}\n\nRephrase this follow-up as a standalone question: {state['question']}&quot;
+        ).content
+        docs = hybrid_retriever.invoke(rephrase)
+    else:
+        docs = hybrid_retriever.invoke(state[&quot;question&quot;])
+    return {&quot;documents&quot;: [d.page_content for d in docs[:5]]}
+
+def generate_node(state: ConvRAGState) -&gt; dict:
+    context = &quot;\n\n---\n\n&quot;.join(state[&quot;documents&quot;])
+    answer = llm.invoke(
+        f&quot;Answer using only the context below. Be concise.\n\nContext:\n{context}\n\nQuestion: {state['question']}&quot;
+    ).content
+    new_turns = [
+        {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: state[&quot;question&quot;]},
+        {&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: answer},
+    ]
+    return {&quot;answer&quot;: answer, &quot;chat_history&quot;: new_turns}
+
+graph = StateGraph(ConvRAGState)
+graph.add_node(&quot;retrieve&quot;, retrieve_node)
+graph.add_node(&quot;generate&quot;, generate_node)
+graph.set_entry_point(&quot;retrieve&quot;)
+graph.add_edge(&quot;retrieve&quot;, &quot;generate&quot;)
+graph.add_edge(&quot;generate&quot;, END)
+
+checkpointer = SqliteSaver.from_conn_string(&quot;rag_sessions.db&quot;)
+app = graph.compile(checkpointer=checkpointer)
+
+session_id = &quot;user-doc-session-001&quot;
+config = {&quot;configurable&quot;: {&quot;thread_id&quot;: session_id}}
+
+for q in [&quot;What is the 3DS authentication flow?&quot;, &quot;And what fees apply to failed 3DS attempts?&quot;]:
+    result = app.invoke({&quot;question&quot;: q, &quot;chat_history&quot;: [], &quot;documents&quot;: [], &quot;answer&quot;: &quot;&quot;}, config)
+    print(f&quot;Q: {q}\nA: {result['answer']}\n&quot;)
+</code></pre>
+<p><strong>Expected benefit:</strong> "And what fees apply?" correctly resolves to 3DS fee context. History is persisted in SQLite — user can close and reopen the browser tab and resume the conversation.</p>
+<hr />
+<h3 id="pattern-c-crewai-document-research-crew-for-deep-analysis">Pattern C — CrewAI: Document Research Crew for Deep Analysis</h3>
+<p><strong>WHY:</strong> Single-shot Q&amp;A is limited for complex research tasks ("Compare how this standard handles authentication vs. authorisation across all chapters"). A CrewAI crew decomposes the research, assigns sub-tasks, and synthesises a structured report.</p>
+<p><strong>HOW:</strong> Researcher agent retrieves and reads sections; Analyst agent compares and identifies patterns; Writer agent composes the final deliverable.</p>
+<pre><code class="language-python">from crewai import Agent, Task, Crew, Process
+from crewai.tools import BaseTool
+from langchain_community.retrievers import BM25Retriever
+
+class DocumentSearchTool(BaseTool):
+    name: str = &quot;document_search&quot;
+    description: str = &quot;Search the loaded document for a specific topic or keyword. Returns top 3 relevant passages.&quot;
+    retriever: BM25Retriever = None
+    class Config: arbitrary_types_allowed = True
+    def _run(self, query: str) -&gt; str:
+        docs = self.retriever.invoke(query)
+        return &quot;\n\n&quot;.join(f&quot;[Passage {i+1}] {d.page_content[:600]}&quot; for i, d in enumerate(docs[:3]))
+
+search_tool = DocumentSearchTool(retriever=bm25_retriever)
+
+researcher = Agent(
+    role=&quot;Document Researcher&quot;,
+    goal=&quot;Find all passages in the document relevant to the assigned topic&quot;,
+    backstory=&quot;Specialist in extracting precise information from technical payment specifications&quot;,
+    tools=[search_tool], verbose=True
+)
+
+analyst = Agent(
+    role=&quot;Technical Analyst&quot;,
+    goal=&quot;Identify patterns, gaps, and comparisons across the retrieved passages&quot;,
+    backstory=&quot;Senior payment systems architect with 15 years of EMV and 3DS specification experience&quot;,
+    verbose=True
+)
+
+writer = Agent(
+    role=&quot;Technical Writer&quot;,
+    goal=&quot;Produce a structured Markdown report that answers the user's research question completely&quot;,
+    backstory=&quot;Expert technical writer for financial services documentation&quot;,
+    verbose=True
+)
+
+research_task = Task(
+    description=&quot;Search the document and collect all passages related to authentication flows, authorisation, and 3DS processing.&quot;,
+    expected_output=&quot;5-10 relevant passages with page references and brief relevance notes&quot;,
+    agent=researcher
+)
+
+analysis_task = Task(
+    description=&quot;Compare authentication vs authorisation handling based on the retrieved passages. Identify key differences and any specification gaps.&quot;,
+    expected_output=&quot;Structured comparison with 3+ clear differentiating points&quot;,
+    agent=analyst,
+    context=[research_task]
+)
+
+report_task = Task(
+    description=&quot;Write a Markdown report: H1 title, H2 sections for Authentication and Authorisation, H2 Comparison table, H2 Key Findings.&quot;,
+    expected_output=&quot;Complete Markdown report ready to paste into Confluence&quot;,
+    agent=writer,
+    context=[analysis_task]
+)
+
+crew = Crew(agents=[researcher, analyst, writer], tasks=[research_task, analysis_task, report_task],
+            process=Process.sequential, verbose=True)
+result = crew.kickoff()
+print(result.raw)
+</code></pre>
+<p><strong>Expected benefit:</strong> The output is a publication-ready Markdown document rather than a single paragraph answer. The crew approach naturally handles multi-section documents that require synthesising across 10+ pages.</p>
+<hr />
+<h1 id="app-4-vector-less-rag-app">App 4 — <code>vector-less-rag-app</code></h1>
+<p><strong>Current architecture:</strong> Earlier version of the BM25 RAG app. BM25 retrieval over page-indexed content, Streamlit UI, single-turn Q&amp;A. Simpler than v2 — no page-index visualisation, no multi-file support.</p>
+<p><strong>Problems to solve:</strong> Single query → single BM25 pass. No query expansion. No self-correction when retrieved context is insufficient.</p>
+<hr />
+<h3 id="pattern-a-langchain-multiqueryretriever-for-query-expansion">Pattern A — LangChain: MultiQueryRetriever for Query Expansion</h3>
+<p><strong>WHY:</strong> Domain documents use varied terminology. A user query "What does TVR mean?" won't match sections titled "Terminal Verification Result byte structure". <code>MultiQueryRetriever</code> generates 3 rephrased variants automatically and deduplicates the results — all in one LangChain call.</p>
+<p><strong>HOW:</strong> Wrap the existing BM25 retriever with <code>MultiQueryRetriever.from_llm()</code>. No changes to the retriever itself.</p>
+<pre><code class="language-python">from langchain.retrievers.multi_query import MultiQueryRetriever
+from langchain_community.retrievers import BM25Retriever
+from langchain_openai import ChatOpenAI
+import subprocess, logging
+
+logging.basicConfig()
+logging.getLogger(&quot;langchain.retrievers.multi_query&quot;).setLevel(logging.INFO)
+
+gh_token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+llm = ChatOpenAI(model=&quot;gpt-4o-mini&quot;, base_url=&quot;https://models.inference.ai.azure.com&quot;, api_key=gh_token)
+
+# Your existing BM25 retriever — no changes needed
+bm25_retriever = BM25Retriever.from_texts(page_texts)
+bm25_retriever.k = 5
+
+# Wrap it — MultiQueryRetriever generates 3 query variants + runs original
+multi_query_retriever = MultiQueryRetriever.from_llm(
+    retriever=bm25_retriever,
+    llm=llm,
+    include_original=True   # also include results from the original query
+)
+
+# For &quot;What does TVR mean?&quot;, the LLM auto-generates variants like:
+#   &quot;Explain the Terminal Verification Result field&quot;
+#   &quot;TVR byte structure in EMV payment processing&quot;
+#   &quot;Define TVR in contactless transaction flow&quot;
+# All 4 queries run through BM25 and results are deduplicated by content hash
+docs = multi_query_retriever.invoke(&quot;What does TVR mean in payment processing?&quot;)
+print(f&quot;Retrieved {len(docs)} unique documents (from 4 query variants)&quot;)
+for doc in docs:
+    print(f&quot;  [Page {doc.metadata.get('page', '?')}] {doc.page_content[:150]}...&quot;)
+</code></pre>
+<p><strong>Expected benefit:</strong> Recall improves dramatically for technical acronyms. <code>include_original=True</code> ensures the exact-match BM25 result is never dropped. Logging shows all generated queries for debugging.</p>
+<hr />
+<h3 id="pattern-b-langgraph-self-rag-loop-with-answer-quality-check">Pattern B — LangGraph: Self-RAG Loop with Answer Quality Check</h3>
+<p><strong>WHY:</strong> When retrieved context is thin, the current app still generates an answer — often a hallucination prefixed with "Based on the document..." A self-RAG loop grades the generated answer and retries with a broadened query if quality is insufficient.</p>
+<p><strong>HOW:</strong> Add a <code>grade_answer</code> node after <code>generate</code>. If the LLM rates its own answer as unsupported, expand the query and retry retrieval once.</p>
+<pre><code class="language-python">from langgraph.graph import StateGraph, END
+from typing import TypedDict, List
+
+class SelfRAGState(TypedDict):
+    question: str
+    documents: List[str]
+    answer: str
+    answer_quality: str   # &quot;supported&quot; | &quot;unsupported&quot;
+    retry_count: int
+
+def retrieve(state: SelfRAGState) -&gt; dict:
+    docs = bm25_retriever.invoke(state[&quot;question&quot;])
+    return {&quot;documents&quot;: [d.page_content for d in docs]}
+
+def generate(state: SelfRAGState) -&gt; dict:
+    ctx = &quot;\n\n&quot;.join(state[&quot;documents&quot;])
+    ans = llm.invoke(f&quot;Answer using only this context:\n{ctx}\n\nQuestion: {state['question']}&quot;).content
+    return {&quot;answer&quot;: ans}
+
+def grade_answer(state: SelfRAGState) -&gt; dict:
+    verdict = llm.invoke(
+        f&quot;Is this answer fully supported by the provided context? Answer 'supported' or 'unsupported'.\n&quot;
+        f&quot;Context (first 800 chars): {' '.join(state['documents'])[:800]}\n&quot;
+        f&quot;Answer: {state['answer']}&quot;
+    ).content.lower()
+    quality = &quot;supported&quot; if &quot;supported&quot; in verdict and &quot;unsupported&quot; not in verdict else &quot;unsupported&quot;
+    return {&quot;answer_quality&quot;: quality, &quot;retry_count&quot;: state.get(&quot;retry_count&quot;, 0)}
+
+def should_retry(state: SelfRAGState) -&gt; str:
+    if state[&quot;answer_quality&quot;] == &quot;unsupported&quot; and state.get(&quot;retry_count&quot;, 0) &lt; 1:
+        return &quot;retry&quot;
+    return &quot;done&quot;
+
+def broaden_and_retry(state: SelfRAGState) -&gt; dict:
+    broader = llm.invoke(f&quot;Make this query broader to find more context: {state['question']}&quot;).content
+    docs = bm25_retriever.invoke(broader)
+    return {&quot;documents&quot;: [d.page_content for d in docs], &quot;question&quot;: broader, &quot;retry_count&quot;: 1}
+
+graph = StateGraph(SelfRAGState)
+graph.add_node(&quot;retrieve&quot;,         retrieve)
+graph.add_node(&quot;generate&quot;,         generate)
+graph.add_node(&quot;grade_answer&quot;,     grade_answer)
+graph.add_node(&quot;broaden_and_retry&quot;, broaden_and_retry)
+graph.set_entry_point(&quot;retrieve&quot;)
+graph.add_edge(&quot;retrieve&quot;, &quot;generate&quot;)
+graph.add_edge(&quot;generate&quot;, &quot;grade_answer&quot;)
+graph.add_conditional_edges(&quot;grade_answer&quot;, should_retry, {&quot;retry&quot;: &quot;broaden_and_retry&quot;, &quot;done&quot;: END})
+graph.add_edge(&quot;broaden_and_retry&quot;, &quot;generate&quot;)
+
+app = graph.compile()
+result = app.invoke({&quot;question&quot;: &quot;What is the CVR byte structure?&quot;, &quot;documents&quot;: [], &quot;answer&quot;: &quot;&quot;, &quot;retry_count&quot;: 0})
+print(f&quot;Answer ({result['answer_quality']}): {result['answer']}&quot;)
+</code></pre>
+<p><strong>Expected benefit:</strong> Answers are self-certified as grounded. Unsupported answers trigger one automatic retry with a broader query. Retry count prevents infinite loops.</p>
+<hr />
+<h3 id="pattern-c-autogen-iterative-qa-with-clarification-agent">Pattern C — AutoGen: Iterative Q&amp;A with Clarification Agent</h3>
+<p><strong>WHY:</strong> Ambiguous questions like "Explain the flow" give poor results because BM25 doesn't know which flow. AutoGen's conversation loop lets a ClarificationAgent ask a focused follow-up question before retrieval, improving precision.</p>
+<p><strong>HOW:</strong> ClarificationAgent asks one clarifying question; UserProxy provides the answer (or passes through if question is already clear); then AnalysisAgent retrieves and answers.</p>
+<pre><code class="language-python">import autogen, subprocess
+
+gh_token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+config_list = [{&quot;model&quot;: &quot;gpt-4o-mini&quot;, &quot;base_url&quot;: &quot;https://models.inference.ai.azure.com&quot;, &quot;api_key&quot;: gh_token}]
+llm_cfg = {&quot;config_list&quot;: config_list, &quot;temperature&quot;: 0.1}
+
+with open(&quot;document_context.txt&quot;) as f:
+    doc_ctx = f.read()[:5000]
+
+clarifier = autogen.AssistantAgent(
+    name=&quot;ClarificationAgent&quot;,
+    system_message=(
+        &quot;If the user's question is ambiguous, ask ONE specific clarifying question. &quot;
+        &quot;If it's already clear, respond with 'CLEAR: &lt;original question&gt;' and nothing else.&quot;
+    ),
+    llm_config=llm_cfg
+)
+
+analyst = autogen.AssistantAgent(
+    name=&quot;DocumentAnalyst&quot;,
+    system_message=f&quot;Answer questions using only the document context below:\n{doc_ctx}&quot;,
+    llm_config=llm_cfg
+)
+
+# human_input_mode=&quot;ALWAYS&quot; so the user can answer the clarifying question interactively
+user_proxy = autogen.UserProxyAgent(
+    name=&quot;UserProxy&quot;,
+    human_input_mode=&quot;ALWAYS&quot;,
+    max_consecutive_auto_reply=1,
+    code_execution_config=False
+)
+
+groupchat = autogen.GroupChat(
+    agents=[user_proxy, clarifier, analyst],
+    messages=[], max_round=8,
+    speaker_selection_method=&quot;round_robin&quot;
+)
+manager = autogen.GroupChatManager(groupchat=groupchat, llm_config=llm_cfg)
+user_proxy.initiate_chat(manager, message=&quot;Explain the flow in detail.&quot;)
+</code></pre>
+<p><strong>Expected benefit:</strong> Ambiguous queries like "Explain the flow" get clarified to "Explain the 3DS authentication flow" before retrieval — relevance dramatically improves. Works with any existing retriever.</p>
+<hr />
+<h1 id="app-5-vector-less-rag-agentic">App 5 — <code>vector-less-rag-agentic</code></h1>
+<p><strong>Current architecture:</strong> CLI tool (<code>ask.py</code>). Converts an uploaded document to a JSON tree (sections + tables), sends the entire JSON as context to a GitHub Copilot LLM. No chunking, no vector index — the LLM acts as the retrieval engine. Simple, accurate for medium-sized docs.</p>
+<p><strong>Problems to solve:</strong> Full JSON context hits token limits for large documents; single LLM call — no tool use; no structured answer format for downstream consumption.</p>
+<hr />
+<h3 id="pattern-a-langgraph-tool-calling-react-agent-over-json-tree">Pattern A — LangGraph: Tool-Calling ReAct Agent over JSON Tree</h3>
+<p><strong>WHY:</strong> Instead of dumping the entire JSON document into one prompt (token-expensive), a ReAct agent calls targeted tools (<code>get_section</code>, <code>search_document</code>, <code>list_sections</code>) to selectively retrieve only what's needed. This scales to documents that exceed the context window.</p>
+<p><strong>HOW:</strong> Define <code>@tool</code> functions over the parsed JSON structure; use LangGraph's <code>create_react_agent</code> (pre-built ReAct loop).</p>
+<pre><code class="language-python">from langchain_core.tools import tool
+from langgraph.prebuilt import create_react_agent
+from langchain_openai import ChatOpenAI
+import json, subprocess
+from pathlib import Path
+
+gh_token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+llm = ChatOpenAI(model=&quot;gpt-4o-mini&quot;, base_url=&quot;https://models.inference.ai.azure.com&quot;, api_key=gh_token, temperature=0.1)
+
+doc = json.loads(Path(&quot;document.json&quot;).read_text(encoding=&quot;utf-8&quot;))
+sections = {s[&quot;heading&quot;]: s[&quot;content&quot;] for s in doc.get(&quot;sections&quot;, [])}
+
+@tool
+def list_sections() -&gt; str:
+    &quot;&quot;&quot;List all section headings available in the document.&quot;&quot;&quot;
+    return &quot;\n&quot;.join(f&quot;- {h}&quot; for h in sections.keys())
+
+@tool
+def get_section(heading: str) -&gt; str:
+    &quot;&quot;&quot;Retrieve the full content of a document section by its heading (partial match accepted).&quot;&quot;&quot;
+    matches = [(h, c) for h, c in sections.items() if heading.lower() in h.lower()]
+    if not matches:
+        return f&quot;No section matching '{heading}'. Available: {list(sections.keys())[:8]}&quot;
+    return &quot;\n\n&quot;.join(f&quot;## {h}\n{c}&quot; for h, c in matches[:2])
+
+@tool
+def search_document(query: str) -&gt; str:
+    &quot;&quot;&quot;Search for a keyword or phrase across all document sections. Returns top 3 matching paragraphs.&quot;&quot;&quot;
+    results = []
+    for heading, content in sections.items():
+        for para in content.split(&quot;\n\n&quot;):
+            if query.lower() in para.lower():
+                results.append(f&quot;[{heading}] {para[:500]}&quot;)
+    return &quot;\n\n&quot;.join(results[:3]) if results else &quot;No matches found.&quot;
+
+@tool
+def get_table(section_heading: str) -&gt; str:
+    &quot;&quot;&quot;Retrieve a table from the document by the section it belongs to.&quot;&quot;&quot;
+    for tbl in doc.get(&quot;tables&quot;, []):
+        sec_id = tbl.get(&quot;section_id&quot;, -1)
+        for sec in doc.get(&quot;sections&quot;, []):
+            if sec.get(&quot;id&quot;) == sec_id and section_heading.lower() in sec.get(&quot;heading&quot;, &quot;&quot;).lower():
+                headers = &quot; | &quot;.join(tbl.get(&quot;headers&quot;, []))
+                rows = &quot;\n&quot;.join(&quot; | &quot;.join(str(c) for c in row) for row in tbl.get(&quot;rows&quot;, [])[:20])
+                return f&quot;Headers: {headers}\n{rows}&quot;
+    return f&quot;No table found in section matching '{section_heading}'&quot;
+
+agent = create_react_agent(llm, [list_sections, get_section, search_document, get_table])
+result = agent.invoke({&quot;messages&quot;: [(&quot;user&quot;, &quot;What fields are in the TVR byte and what does each bit mean?&quot;)]})
+print(result[&quot;messages&quot;][-1].content)
+</code></pre>
+<p><strong>Expected benefit:</strong> Token usage drops 80% for large documents — the agent only retrieves relevant sections. Tool calls are transparent in the message trace, making it easy to see which sections were consulted.</p>
+<hr />
+<h3 id="pattern-b-crewai-multi-agent-document-intelligence-crew">Pattern B — CrewAI: Multi-Agent Document Intelligence Crew</h3>
+<p><strong>WHY:</strong> <code>ask.py</code> answers one question per invocation. A CrewAI crew can answer a research brief (multiple related questions) in a single run: Researcher finds relevant sections, Subject Matter Expert interprets them, Writer formats the output as a structured deliverable.</p>
+<p><strong>HOW:</strong> Three-agent crew with shared <code>DocumentSearchTool</code>; sequential process with task context passing.</p>
+<pre><code class="language-python">from crewai import Agent, Task, Crew, Process
+from crewai.tools import BaseTool
+import json
+from pathlib import Path
+
+doc = json.loads(Path(&quot;document.json&quot;).read_text(encoding=&quot;utf-8&quot;))
+sections_map = {s[&quot;heading&quot;]: s[&quot;content&quot;] for s in doc.get(&quot;sections&quot;, [])}
+
+class JSONDocSearchTool(BaseTool):
+    name: str = &quot;json_doc_search&quot;
+    description: str = &quot;Search the structured JSON document for a topic. Returns matching sections.&quot;
+    def _run(self, query: str) -&gt; str:
+        results = []
+        for heading, content in sections_map.items():
+            if any(word in content.lower() or word in heading.lower() for word in query.lower().split()):
+                results.append(f&quot;## {heading}\n{content[:800]}&quot;)
+        return &quot;\n\n&quot;.join(results[:3]) or &quot;No relevant sections found.&quot;
+
+doc_tool = JSONDocSearchTool()
+
+researcher = Agent(
+    role=&quot;Document Researcher&quot;, goal=&quot;Find all sections in the document relevant to the research questions&quot;,
+    backstory=&quot;Specialist in navigating technical payment specification documents&quot;,
+    tools=[doc_tool], verbose=True
+)
+
+sme = Agent(
+    role=&quot;Subject Matter Expert&quot;, goal=&quot;Interpret the technical content and provide accurate, authoritative explanations&quot;,
+    backstory=&quot;Senior payment systems architect, 20 years of EMV and 3DS experience&quot;,
+    tools=[doc_tool], verbose=True
+)
+
+writer = Agent(
+    role=&quot;Technical Documentation Writer&quot;, goal=&quot;Transform expert analysis into a structured, readable document&quot;,
+    backstory=&quot;Technical writer specialising in developer-facing payment API documentation&quot;,
+    verbose=True
+)
+
+research_task = Task(
+    description=&quot;Search the document for all content related to: TVR byte structure, CVR byte, and authentication flags.&quot;,
+    expected_output=&quot;3-5 relevant passages with section headings&quot;,
+    agent=researcher
+)
+
+analysis_task = Task(
+    description=&quot;Interpret the retrieved passages. Explain what each byte represents, what each bit means, and how they interact.&quot;,
+    expected_output=&quot;Technical explanation of TVR and CVR bytes, suitable for a developer integration guide&quot;,
+    agent=sme, context=[research_task]
+)
+
+writing_task = Task(
+    description=&quot;Write a Markdown reference card: H2 TVR Byte, table with bit positions and meanings, H2 CVR Byte, same table format.&quot;,
+    expected_output=&quot;Markdown document ready to embed in developer documentation portal&quot;,
+    agent=writer, context=[analysis_task]
+)
+
+crew = Crew(agents=[researcher, sme, writer], tasks=[research_task, analysis_task, writing_task],
+            process=Process.sequential, verbose=True)
+result = crew.kickoff()
+print(result.raw)
+</code></pre>
+<p><strong>Expected benefit:</strong> A single crew run answers a multi-part research question and produces a publication-ready document. Each agent's output is visible in the verbose log — natural audit trail.</p>
+<hr />
+<h3 id="pattern-c-autogen-code-executing-document-validator">Pattern C — AutoGen: Code-Executing Document Validator</h3>
+<p><strong>WHY:</strong> <code>ask.py</code> answers questions but cannot validate its answers against the actual data (e.g., "Are there exactly 8 bits in the TVR byte?" needs a table lookup, not just LLM reasoning). AutoGen with code execution can run Python code to verify claims against the JSON document.</p>
+<p><strong>HOW:</strong> UserProxy executes Python snippets that parse the document JSON directly; AssistantAgent proposes the code and interprets results.</p>
+<pre><code class="language-python">import autogen, subprocess, json
+
+gh_token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+config_list = [{&quot;model&quot;: &quot;gpt-4o-mini&quot;, &quot;base_url&quot;: &quot;https://models.inference.ai.azure.com&quot;, &quot;api_key&quot;: gh_token}]
+
+analyst = autogen.AssistantAgent(
+    name=&quot;DocumentAnalyst&quot;,
+    system_message=(
+        &quot;You answer questions about a JSON document stored at 'document.json'. &quot;
+        &quot;To verify facts, write Python code that loads the JSON and checks it. &quot;
+        &quot;Always verify numerical claims (counts, sizes, ranges) by running code.&quot;
+    ),
+    llm_config={&quot;config_list&quot;: config_list}
+)
+
+executor = autogen.UserProxyAgent(
+    name=&quot;CodeExecutor&quot;,
+    human_input_mode=&quot;NEVER&quot;,
+    code_execution_config={&quot;work_dir&quot;: &quot;doc_workspace&quot;, &quot;use_docker&quot;: False},
+    max_consecutive_auto_reply=5
+)
+
+executor.initiate_chat(
+    analyst,
+    message=(
+        &quot;Using document.json, answer: &quot;
+        &quot;1. How many sections does the document have? &quot;
+        &quot;2. How many tables are there? &quot;
+        &quot;3. What are the first 5 section headings? &quot;
+        &quot;Write and run Python code to answer each question from the actual file.&quot;
+    )
+)
+</code></pre>
+<p><strong>Expected benefit:</strong> Answers to structural questions (section counts, table dimensions, heading names) are verified against the actual document data rather than LLM memory. Code execution logs show exact values extracted.</p>
+<hr />
+<h1 id="app-6-transcript-notes-generator">App 6 — <code>transcript-notes-generator</code></h1>
+<p><strong>Current architecture:</strong> Streamlit app with two tabs: (1) Upload/paste transcript → structured Markdown guide; (2) Record/upload audio → Whisper transcription → Markdown guide. Processes long transcripts in chunks via a custom <code>TranscriptProcessor</code>. Uses GitHub Copilot LLMs (free via <code>gh auth token</code>). Has chunked extraction + compression pipeline with disk cache and resumable run-state snapshots.</p>
+<p><strong>Problems to solve:</strong> Sequential chunk processing is slow for long recordings; no speaker attribution; no topic segmentation before processing; single Markdown output — no structured knowledge extraction.</p>
+<hr />
+<h3 id="pattern-a-langchain-map-reduce-summarisation-chain">Pattern A — LangChain: Map-Reduce Summarisation Chain</h3>
+<p><strong>WHY:</strong> The current <code>TranscriptProcessor</code> is a custom chunking + LLM pipeline. LangChain's <code>load_summarize_chain</code> with <code>chain_type="map_reduce"</code> provides the same architecture with built-in parallelism and a combine step — replacing ~200 lines of custom code with ~30.</p>
+<p><strong>HOW:</strong> Split transcript into chunks; map prompt extracts key points per chunk; reduce prompt synthesises into a structured guide.</p>
+<pre><code class="language-python">from langchain.chains.summarize import load_summarize_chain
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_core.documents import Document
+from langchain_core.prompts import PromptTemplate
+from langchain_openai import ChatOpenAI
+import subprocess
+
+gh_token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+llm = ChatOpenAI(model=&quot;gpt-4o-mini&quot;, base_url=&quot;https://models.inference.ai.azure.com&quot;, api_key=gh_token, temperature=0.2)
+
+transcript_text = open(&quot;transcript.txt&quot;).read()
+splitter = RecursiveCharacterTextSplitter(chunk_size=12000, chunk_overlap=400)
+chunks = splitter.create_documents([transcript_text])
+
+map_template = &quot;&quot;&quot;Extract key concepts, decisions, code snippets, and action items from this transcript excerpt.
+Format as bullet points (max 15 words each). Include commands/code verbatim.
+Excerpt:
+{text}
+
+Key Points:&quot;&quot;&quot;
+
+reduce_template = &quot;&quot;&quot;Synthesise the notes below into a structured Markdown learning guide.
+Structure: H1 title, H2 Overview, H2 sections per major topic, H2 Key Takeaways, H2 Action Items.
+Use code blocks for any commands or code. Be comprehensive — do not omit technical detail.
+Notes:
+{text}
+
+Markdown Guide:&quot;&quot;&quot;
+
+map_prompt    = PromptTemplate.from_template(map_template)
+reduce_prompt = PromptTemplate.from_template(reduce_template)
+
+chain = load_summarize_chain(
+    llm,
+    chain_type=&quot;map_reduce&quot;,
+    map_prompt=map_prompt,
+    combine_prompt=reduce_prompt,
+    token_max=3000,   # max tokens per reduce batch
+    verbose=True
+)
+
+result = chain.invoke({&quot;input_documents&quot;: chunks})
+print(result[&quot;output_text&quot;])
+
+# Save output
+with open(&quot;output/guide.md&quot;, &quot;w&quot;) as f:
+    f.write(result[&quot;output_text&quot;])
+print(f&quot;\nGuide saved. Processed {len(chunks)} chunks.&quot;)
+</code></pre>
+<p><strong>Expected benefit:</strong> Replaces custom pipeline with battle-tested LangChain implementation. <code>token_max</code> prevents context overflow on large transcripts. <code>verbose=True</code> shows per-chunk extraction progress.</p>
+<hr />
+<h3 id="pattern-b-langgraph-parallel-chunk-processing-with-human-review-gate">Pattern B — LangGraph: Parallel Chunk Processing with Human Review Gate</h3>
+<p><strong>WHY:</strong> The current processor runs chunks sequentially. LangGraph's fan-out pattern processes all chunks in parallel, then fans-in for synthesis. A <code>human_in_the_loop</code> interrupt before final synthesis lets an engineer review/edit extracted notes before the guide is generated.</p>
+<p><strong>HOW:</strong> <code>Send</code> API fans out one node invocation per chunk; <code>aggregate_notes</code> fan-in collects results; <code>interrupt_before=["synthesise"]</code> pauses for review.</p>
+<pre><code class="language-python">from langgraph.graph import StateGraph, END, Send
+from langgraph.checkpoint.sqlite import SqliteSaver
+from typing import TypedDict, List, Annotated
+import operator
+
+class TranscriptState(TypedDict):
+    transcript: str
+    chunks: List[str]
+    chunk_notes: Annotated[List[str], operator.add]   # fan-in accumulator
+    reviewed_notes: str
+    final_guide: str
+
+def split_transcript(state: TranscriptState) -&gt; List[Send]:
+    from langchain.text_splitter import RecursiveCharacterTextSplitter
+    splitter = RecursiveCharacterTextSplitter(chunk_size=10000, chunk_overlap=300)
+    chunks = [doc.page_content for doc in splitter.create_documents([state[&quot;transcript&quot;]])]
+    # Fan-out: one Send per chunk — all run in parallel
+    return [Send(&quot;process_chunk&quot;, {&quot;chunk&quot;: chunk, &quot;chunk_idx&quot;: i}) for i, chunk in enumerate(chunks)]
+
+def process_chunk(state: dict) -&gt; dict:
+    notes = llm.invoke(
+        f&quot;Extract key concepts and decisions as bullet points from this transcript chunk:\n{state['chunk']}&quot;
+    ).content
+    return {&quot;chunk_notes&quot;: [f&quot;--- Chunk {state['chunk_idx']} ---\n{notes}&quot;]}
+
+def aggregate_notes(state: TranscriptState) -&gt; dict:
+    all_notes = &quot;\n\n&quot;.join(state[&quot;chunk_notes&quot;])
+    print(f&quot;✅ All {len(state['chunk_notes'])} chunks processed. Review before synthesis.&quot;)
+    return {&quot;reviewed_notes&quot;: all_notes}  # engineer can edit this field before resuming
+
+def synthesise(state: TranscriptState) -&gt; dict:
+    guide = llm.invoke(
+        f&quot;Synthesise these notes into a structured Markdown guide:\n{state['reviewed_notes']}&quot;
+    ).content
+    return {&quot;final_guide&quot;: guide}
+
+graph = StateGraph(TranscriptState)
+graph.add_node(&quot;process_chunk&quot;,  process_chunk)
+graph.add_node(&quot;aggregate_notes&quot;, aggregate_notes)
+graph.add_node(&quot;synthesise&quot;,     synthesise)
+graph.set_entry_point(&quot;aggregate_notes&quot;)    # fan-out is the entry
+graph.add_conditional_edges(&quot;aggregate_notes&quot;, lambda _: END, {END: END})  # placeholder
+graph.add_edge(&quot;aggregate_notes&quot;, &quot;synthesise&quot;)
+graph.add_edge(&quot;synthesise&quot;, END)
+
+checkpointer = SqliteSaver.from_conn_string(&quot;transcript_sessions.db&quot;)
+app = graph.compile(checkpointer=checkpointer, interrupt_before=[&quot;synthesise&quot;])
+
+config = {&quot;configurable&quot;: {&quot;thread_id&quot;: &quot;transcript-session-001&quot;}}
+app.invoke({&quot;transcript&quot;: transcript_text, &quot;chunks&quot;: [], &quot;chunk_notes&quot;: [], &quot;reviewed_notes&quot;: &quot;&quot;, &quot;final_guide&quot;: &quot;&quot;}, config)
+# → prints notes for review, then pauses
+
+# After editing state[&quot;reviewed_notes&quot;] if needed:
+# app.invoke(None, config)   ← resumes with synthesis
+</code></pre>
+<p><strong>Expected benefit:</strong> Parallel chunk processing is ~5× faster for 1-hour recordings (5 chunks running simultaneously). The human gate ensures the synthesised guide is based on quality-reviewed notes, not raw LLM extractions.</p>
+<hr />
+<h3 id="pattern-c-crewai-content-production-crew-for-structured-knowledge-extraction">Pattern C — CrewAI: Content Production Crew for Structured Knowledge Extraction</h3>
+<p><strong>WHY:</strong> The current app produces one Markdown guide per transcript. A CrewAI crew can extract multiple deliverables simultaneously: structured notes, a quiz, action items, and a summary slide deck — all from a single transcript, without re-processing.</p>
+<p><strong>HOW:</strong> Specialised agents work on different output formats in parallel; a QA agent validates factual accuracy before final output.</p>
+<pre><code class="language-python">from crewai import Agent, Task, Crew, Process
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+
+transcript_text = open(&quot;transcript.txt&quot;).read()
+splitter = RecursiveCharacterTextSplitter(chunk_size=8000, chunk_overlap=200)
+chunks = splitter.create_documents([transcript_text])
+condensed = &quot;\n\n---\n\n&quot;.join(c.page_content[:2000] for c in chunks[:5])
+
+notes_writer = Agent(
+    role=&quot;Technical Notes Writer&quot;,
+    goal=&quot;Extract and organise all technical concepts, code examples, and decisions from the transcript&quot;,
+    backstory=&quot;Expert at converting raw developer talks into structured learning materials&quot;,
+    verbose=True
+)
+
+quiz_creator = Agent(
+    role=&quot;Learning Assessment Specialist&quot;,
+    goal=&quot;Create a 5-question quiz to test understanding of the transcript content&quot;,
+    backstory=&quot;Instructional designer with experience creating technical assessments for engineering teams&quot;,
+    verbose=True
+)
+
+action_tracker = Agent(
+    role=&quot;Project Manager&quot;,
+    goal=&quot;Extract all action items, next steps, and follow-up tasks mentioned in the transcript&quot;,
+    backstory=&quot;Experienced engineering project manager who never lets an action item fall through the cracks&quot;,
+    verbose=True
+)
+
+qa_reviewer = Agent(
+    role=&quot;Quality Assurance Reviewer&quot;,
+    goal=&quot;Verify that all outputs are accurate, consistent with the transcript, and free of hallucinations&quot;,
+    backstory=&quot;Senior QA engineer who cross-references all claims against source material&quot;,
+    verbose=True
+)
+
+notes_task = Task(
+    description=f&quot;Write structured Markdown notes from this transcript (first 5 chunks condensed):\n{condensed}&quot;,
+    expected_output=&quot;Markdown notes with H2 sections per topic, code blocks, bullet points&quot;,
+    agent=notes_writer, async_execution=True
+)
+
+quiz_task = Task(
+    description=f&quot;Create a 5-question multiple-choice quiz based on this transcript:\n{condensed}&quot;,
+    expected_output=&quot;5 questions, each with 4 options and the correct answer marked&quot;,
+    agent=quiz_creator, async_execution=True
+)
+
+actions_task = Task(
+    description=f&quot;List all action items, TODOs, and follow-ups from this transcript:\n{condensed}&quot;,
+    expected_output=&quot;Numbered list of action items with assignee (if mentioned) and deadline (if mentioned)&quot;,
+    agent=action_tracker, async_execution=True
+)
+
+qa_task = Task(
+    description=&quot;Review the notes, quiz, and action items for accuracy and consistency with the transcript.&quot;,
+    expected_output=&quot;QA report: PASS/FAIL for each deliverable with specific corrections where needed&quot;,
+    agent=qa_reviewer,
+    context=[notes_task, quiz_task, actions_task]  # runs after all 3 async tasks complete
+)
+
+crew = Crew(
+    agents=[notes_writer, quiz_creator, action_tracker, qa_reviewer],
+    tasks=[notes_task, quiz_task, actions_task, qa_task],
+    process=Process.sequential,
+    verbose=True
+)
+
+result = crew.kickoff()
+print(result.raw)
+</code></pre>
+<p><strong>Expected benefit:</strong> One crew run produces 4 deliverables (notes, quiz, action items, QA report) from a single transcript. The QA agent catches factual errors before the content reaches learners. The async tasks for notes/quiz/actions run in parallel, saving processing time.</p>
+<hr />
+<h2 id="summary-comparison-table">Summary Comparison Table</h2>
+<table>
+<thead>
+<tr>
+<th>App</th>
+<th>Main Problem</th>
+<th>LangGraph Pattern</th>
+<th>CrewAI Pattern</th>
+<th>AutoGen Pattern</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>toggle-management</td>
+<td>No checkpointing, no safety gate</td>
+<td>StateGraph + <code>interrupt_before</code></td>
+<td>Hierarchical crew, parallel repo scans</td>
+<td>GroupChat + code execution for validation</td>
+</tr>
+<tr>
+<td>vector-rag-v1</td>
+<td>No memory, hallucination on poor retrieval</td>
+<td>CRAG with document grading</td>
+<td>Multi-expert research crew</td>
+<td>GroupChat with injected doc context</td>
+</tr>
+<tr>
+<td>vector-less-rag-v2</td>
+<td>BM25 misses synonyms</td>
+<td>Streaming conversational RAG</td>
+<td>Document research crew</td>
+<td>—</td>
+</tr>
+<tr>
+<td>vector-less-rag</td>
+<td>Single query, no self-correction</td>
+<td>Self-RAG loop with quality grading</td>
+<td>—</td>
+<td>Iterative Q&amp;A with clarification agent</td>
+</tr>
+<tr>
+<td>vector-less-rag-agentic</td>
+<td>Token limit on full JSON context</td>
+<td>ReAct tool-calling agent over JSON</td>
+<td>JSON doc intelligence crew</td>
+<td>Code-executing document validator</td>
+</tr>
+<tr>
+<td>transcript-generator</td>
+<td>Sequential chunks, one output format</td>
+<td>Parallel fan-out + human review gate</td>
+<td>Multi-deliverable content production crew</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>End of Part 1 — App-by-App Improvements (Expanded)</em></p>
+</main>
+</body>
+</html>

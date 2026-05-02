@@ -1,0 +1,199 @@
+## About me
+Raviteja Thota
+Senior Software Engineer
+
+Frontend JavaScript, Angular Developer; AWS Certified Developer - Associate; Java, Spring Boot, Microservices; AWS Serverless Software Engineer
+
+Location
+India, Telangana, Hyderabad, Salarpuria Sattva Knowledge Cit
+
+## Recent Profile Summary
+In 2026, I focused on deepening my technical expertise, contributing to innovation, and supporting EPAM’s talent acquisition and development efforts. Key achievements during this period include:
+
+- In April 2026, I was recognized with the "Technical Interviewer" badge for conducting 165 technical interviews, reflecting my commitment to maintaining high hiring standards and sharing my expertise with candidates and peers.
+- I received the "Technical Interview Contributor" badge twice (January and April 2026), acknowledging my professionalism and consistent support to the Technical Interview Department.
+- In February 2026, I was awarded the "Technical Interview Feedback Reviewer 30" badge, highlighting my dedication to improving the quality of technical interviews through constructive feedback.
+- I successfully completed the "Claude Certified Architect – Foundations" certification in April 2026, and was subsequently recognized as "Anthropic Certified," demonstrating my proficiency in advanced AI architecture.
+- In March 2026, I earned the "Microsoft Certified: DevOps Engineer Expert (AZ-400)" certification and the corresponding "Microsoft Azure Certified Role-based" badge, strengthening my DevOps and cloud engineering credentials.
+- I contributed to innovation within EPAM India, as recognized by the "India Innovation Enabler" badge in February 2026. My work on the MPGS AI Run Adoption, including the development of Smart Mapper and the conversion of ATF test cases to Flow Framework, was highlighted at LEAP on a global platform.
+- I completed the "AI-Based EliteA Platform" and "EPAM AI/Run CodeMie in Action: Practical AI for Business and Technology" courses in January 2026, earning practitioner badges for both and enhancing my practical AI skills.
+- I maintained compliance and best practices by completing QMS Awareness Training and the "Preventing and Responding to Cheating During Interview" course in January 2026.
+
+I am grateful for the opportunities to contribute across multiple domains and look forward to building on this momentum in the coming months.
+
+## Certified in
+
+Claude Certified Architect – Foundations
+Active
+
+Authorized
+Anthropic
+Validity Period: 15 Apr 2026 - 15 Oct 2026
+AI Engineering
+Anthropic Claude
+Claude Code
+Gen AI Application Development
+Gen AI Assisted Development
+Microsoft Certified: DevOps Engineer Expert (AZ-400)
+Active
+
+Authorized
+Microsoft
+Validity Period: 23 Mar 2026 - 23 Mar 2027
+Azure Advisor
+Azure App Service
+Azure App Service Environment (ASE)
+Azure Artifacts
+Azure Automation Account
+Professional Cloud Developer
+Active
+
+Authorized
+Google
+Validity Period: 30 Dec 2025 - 30 Dec 2027
+AI Platform Pipelines
+Cloud Run for Anthos
+GCP Developer Tools
+GCP Security
+GCP Security and Identity
+Oracle Cloud Infrastructure Multicloud Architect Professional
+Active
+
+Authorized
+Oracle
+Validity Period: 24 Oct 2025 - 24 Oct 2027
+Azure ExpressRoute
+Federated Identity Management
+Identity and Access Management
+Oracle Cloud
+Oracle Cloud Infrastructure Data Science Professional
+Active
+
+Authorized
+Oracle
+Validity Period: 3 Oct 2025 - 3 Oct 2027
+Anaconda
+Apache Spark
+Data Management
+Data Mining
+Data Science
+Data Visualization
+Git
+Jupyter Notebook
+Oracle Data Platform Foundations Associate
+Active
+
+Authorized
+Oracle
+Validity Period: 2 Oct 2025 - 2 Oct 2027
+Oracle Cloud
+Oracle Cloud Integration
+Oracle Cloud Migrations Service
+Oracle Cloud Infrastructure AI Foundations Associate
+Active
+
+Authorized
+Oracle
+Validity Period: 2 Oct 2025 - 2 Oct 2027
+AT/Generative AI
+Artificial intelligence
+Cloud Fundamentals
+Computer Vision
+Deep Learning
+Deep Learning Commons
+Oracle Al Vector Search Certified Professional
+Active
+
+Authorized
+Oracle
+Validity Period: 23 Sep 2025 - 23 Sep 2027
+Gen AI Application Development
+Retrieval-Augmented Generation (RAG)
+Search in Data
+Semantic Textual Similarity / Search
+Oracle Cloud Infrastructure Generative AI Professional
+Active
+
+Authorized
+Oracle
+Validity Period: 12 Sep 2025 - 12 Sep 2027
+AT/Generative AI
+Gen AI Application Development
+Generative AI Fundamentals
+Oracle Cloud
+Prompt Engineering
+Microsoft Certified: Azure Developer Associate (AZ-204)
+Active
+
+Authorized
+Microsoft
+Validity Period: 30 Jun 2025 - 30 Jun 2026
+Azure API Management
+Azure Advisor
+Azure App Configuration
+Azure App Service Environment (ASE)
+AWS Certified AI Practitioner
+Active
+
+Authorized
+Amazon Web Services
+Validity Period: 25 Jan 2025 - 25 Jan 2028
+AT/Generative AI
+AWS Artifact
+AWS Audit Manager
+AWS Bedrock
+AWS Budgets
+AWS CloudTrail
+AWS Config
+AWS Certified Developer – Associate
+Active
+
+Authorized
+Amazon Web Services
+Validity Period: 16 Jun 2024 - 16 Jun 2027
+AWS Amplify
+AWS AppConfig
+AWS AppSync
+AWS Aurora
+AWS Certificate Manager
+AWS Cloud Development Kit
+Oracle Cloud Infrastructure Developer Professional
+Expired
+
+Authorized
+Oracle
+Validity Period: 1 Dec 2023 - 1 Dec 2025
+Cloud Native Development
+Docker
+Docker Registry
+Oracle API Gateway Service
+Oracle Cloud
+Oracle Cloud Integration
+Oracle Redwood Application Developer Associate
+Active
+
+Authorized
+Oracle
+Validity Period: 30 Oct 2023 - ...
+Cloud Fundamentals
+JavaScript (Frontend)
+JavaScript Development Tools
+JavaScript Web Platform
+Low-Code
+Oracle Cloud Data Management Foundations Certified Associate
+Expired
+
+Authorized
+Oracle
+Validity Period: 22 Oct 2023 - 22 Oct 2025
+Cloud Fundamentals
+Data Engineering Essentials
+Oracle Cloud
+Oracle Database Platform
+Oracle Database Service
+Oracle Cloud Infrastructure Foundations Associate
+Active
+
+Authorized
+Oracle
+Validity Period: 23 Sep 2023 - ...

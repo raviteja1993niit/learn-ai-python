@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GitHub Multi-Account CLI Config – Complete Guide</title>
+<style>
+:root{--bg:#fff;--text:#1a1a2e;--accent:#0070f3;--code:#f4f6f8;--border:#e1e4e8;--nav:#f6f8fa;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:Georgia,'Times New Roman',serif;font-size:17px;line-height:1.8;
+     color:var(--text);background:var(--bg);display:flex;min-height:100vh;}
+nav{width:270px;min-width:220px;background:var(--nav);border-right:1px solid var(--border);
+    position:sticky;top:0;height:100vh;overflow-y:auto;padding:20px 14px;flex-shrink:0;}
+nav .back-link{display:block;font-family:sans-serif;font-size:12px;color:var(--accent);
+               margin-bottom:14px;text-decoration:none;}
+nav .back-link:hover{text-decoration:underline;}
+nav h3{font-family:sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:.08em;
+       color:#888;margin-bottom:8px;}
+nav ul{list-style:none;}
+nav li{margin:3px 0;}
+nav a{font-family:sans-serif;font-size:13px;color:#444;text-decoration:none;
+      display:block;padding:4px 8px;border-radius:4px;line-height:1.4;}
+nav a:hover{background:#e0e8ff;color:var(--accent);}
+nav a.h3{padding-left:20px;font-size:12px;color:#666;}
+nav a.h4{padding-left:34px;font-size:11px;color:#888;}
+main{flex:1;padding:48px 60px;max-width:960px;}
+.doc-header{margin-bottom:40px;padding-bottom:20px;border-bottom:3px solid var(--accent);}
+.doc-header h1{font-size:2.1em;color:#0a192f;}
+.doc-header .subtitle{font-family:sans-serif;color:#555;margin-top:6px;font-size:.95em;}
+.doc-header .badges span{display:inline-block;font-family:sans-serif;font-size:12px;
+  padding:3px 10px;border-radius:12px;margin:8px 4px 0 0;font-weight:600;}
+.badge-free{background:#d4edda;color:#155724;}
+.badge-local{background:#cce5ff;color:#004085;}
+.badge-tip{background:#e9d8fd;color:#553c9a;}
+section{margin-bottom:56px;}
+h2{font-size:1.6em;color:#0a192f;margin:2em 0 .6em;padding-bottom:.3em;border-bottom:2px solid var(--border);}
+h3{font-size:1.25em;color:#0a192f;margin:1.6em 0 .4em;}
+h4{font-size:1.05em;color:#0a192f;margin:1.3em 0 .3em;}
+p{margin:.6em 0;}
+ul,ol{margin:.5em 0 .5em 1.5em;}li{margin:.3em 0;}
+strong{color:#0a192f;}
+code{font-family:'Fira Code',Consolas,monospace;background:var(--code);
+     padding:2px 6px;border-radius:3px;font-size:.87em;}
+pre{background:#0d1117;border:1px solid #30363d;border-left:4px solid var(--accent);
+    border-radius:6px;padding:18px;overflow-x:auto;margin:1em 0;}
+pre code{background:none;padding:0;font-size:.84em;line-height:1.6;color:#e6edf3;}
+/* syntax hint colors */
+.c{color:#8b949e;} /* comment */
+.k{color:#ff7b72;} /* keyword */
+.s{color:#a5d6ff;} /* string */
+.v{color:#79c0ff;} /* variable */
+.f{color:#d2a8ff;} /* function */
+table{border-collapse:collapse;width:100%;margin:1em 0;font-family:sans-serif;font-size:.9em;}
+th,td{border:1px solid var(--border);padding:9px 13px;text-align:left;vertical-align:top;}
+th{background:#e8f0fe;font-weight:700;color:#0a192f;}
+tr:nth-child(even) td{background:#f9f9f9;}
+blockquote{border-left:4px solid var(--accent);padding:10px 18px;background:#f0f4ff;
+           border-radius:0 6px 6px 0;color:#333;margin:1em 0;}
+.tip{background:#e6f9f0;border-left:4px solid #28a745;padding:12px 18px;
+     border-radius:0 6px 6px 0;margin:1em 0;font-family:sans-serif;font-size:.93em;}
+.warn{background:#fff8e1;border-left:4px solid #ffc107;padding:12px 18px;
+      border-radius:0 6px 6px 0;margin:1em 0;font-family:sans-serif;font-size:.93em;}
+.info{background:#e8f4fd;border-left:4px solid #17a2b8;padding:12px 18px;
+      border-radius:0 6px 6px 0;margin:1em 0;font-family:sans-serif;font-size:.93em;}
+details{border:1px solid var(--border);border-radius:8px;margin:.8em 0;background:#fafafa;}
+details[open]{background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+summary.qa-q{cursor:pointer;padding:13px 16px;font-weight:700;color:#0a192f;
+             list-style:none;display:flex;align-items:flex-start;gap:10px;line-height:1.5;}
+summary.qa-q::before{content:"Q";background:var(--accent);color:#fff;padding:2px 8px;
+                     border-radius:50%;font-size:.78em;font-family:sans-serif;flex-shrink:0;margin-top:2px;}
+.qa-a{padding:14px 18px;border-top:1px solid #eee;}
+.step{display:flex;gap:14px;margin:.8em 0;align-items:flex-start;}
+.step-num{background:var(--accent);color:#fff;font-family:sans-serif;font-size:.8em;
+          font-weight:700;border-radius:50%;width:26px;height:26px;display:flex;
+          align-items:center;justify-content:center;flex-shrink:0;margin-top:3px;}
+.flow{background:#0d1117;border-radius:8px;padding:20px 24px;margin:1em 0;
+      font-family:'Fira Code',Consolas,monospace;font-size:.83em;line-height:2;color:#e6edf3;
+      border:1px solid #30363d;}
+.flow .acc{color:#58a6ff;font-weight:700;}
+.flow .sep{color:#8b949e;}
+a{color:var(--accent);}
+hr{border:none;border-top:1px solid var(--border);margin:2em 0;}
+</style>
+</head>
+<body>
+
+<!-- ═══ SIDEBAR ═══ -->
+<nav>
+  <a class="back-link" href="index.html">⬅ All Guides</a>
+  <h3>Contents</h3>
+  <ul>
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#prerequisites">Prerequisites</a></li>
+    <li><a href="#add-accounts">Adding Accounts</a></li>
+    <li><a href="#h3-first">Add First Account</a></li>
+    <li><a href="#h3-second">Add Second Account</a></li>
+    <li><a href="#switching">Switching Accounts</a></li>
+    <li><a href="#h3-global">Global Switch</a></li>
+    <li><a href="#h3-per-session">Per-Session Override</a></li>
+    <li><a href="#h3-per-project">Per-Project (Env Var)</a></li>
+    <li><a href="#copilot">GitHub Copilot CLI</a></li>
+    <li><a href="#h3-copilot-verify">Verify Copilot Access</a></li>
+    <li><a href="#h3-copilot-api">Copilot Free API Tokens</a></li>
+    <li><a href="#git-config">Git Commit Identity</a></li>
+    <li><a href="#h3-local-config">Local Config per Repo</a></li>
+    <li><a href="#h3-ssh-multi">SSH Keys per Account</a></li>
+    <li><a href="#h3-https-multi">HTTPS Credential Multi</a></li>
+    <li><a href="#automation">Automation Scripts</a></li>
+    <li><a href="#h3-ps-switch">PowerShell Helper</a></li>
+    <li><a href="#h3-bash-switch">Bash/Zsh Helper</a></li>
+    <li><a href="#h3-dotenv">dotenv Pattern</a></li>
+    <li><a href="#storage">Where Credentials Live</a></li>
+    <li><a href="#troubleshoot">Troubleshooting</a></li>
+    <li><a href="#qa">Interview Q&amp;A</a></li>
+    <li><a href="#cheatsheet">Quick Cheat Sheet</a></li>
+  </ul>
+</nav>
+
+<!-- ═══ MAIN ═══ -->
+<main>
+  <div class="doc-header">
+    <h1>GitHub Multi-Account CLI Configuration</h1>
+    <p class="subtitle">Manage personal &amp; work GitHub accounts, Copilot profiles, SSH keys, and Git identities — all on one machine</p>
+    <div class="badges">
+      <span class="badge-free">gh CLI v2.40+</span>
+      <span class="badge-local">Windows &amp; macOS &amp; Linux</span>
+      <span class="badge-tip">Copilot Free Supported</span>
+    </div>
+  </div>
+
+  <!-- ─── OVERVIEW ─── -->
+  <section>
+    <h2 id="overview">1. Overview</h2>
+    <p>The GitHub CLI (<code>gh</code>) has supported <strong>multiple authenticated accounts</strong> since <strong>v2.40 (Oct 2023)</strong>. You can have a personal account and a work/enterprise account simultaneously — and switch between them with a single command.</p>
+
+    <div class="flow">
+<span class="acc">~/.config/gh/hosts.yml</span>  <span class="sep">← stores all accounts</span>
+│
+├── <span class="acc">github.com</span>
+│   ├── users:
+│   │   ├── <span class="acc">personal-user</span>    (token, git_protocol: ssh)
+│   │   └── <span class="acc">work-user</span>        (token, git_protocol: https)
+│   └── active_user: <span class="acc">personal-user</span>
+│
+└── <span class="acc">github.company.com</span>  <span class="sep">← GHES / enterprise</span>
+    └── users:
+        └── <span class="acc">corp-user</span>        (token, git_protocol: https)
+    </div>
+
+    <table>
+      <tr><th>Scenario</th><th>Recommended Approach</th></tr>
+      <tr><td>Switch globally for a session</td><td><code>gh auth switch --user &lt;name&gt;</code></td></tr>
+      <tr><td>Per-project token isolation</td><td><code>$env:GH_TOKEN</code> / <code>export GH_TOKEN=</code></td></tr>
+      <tr><td>Copilot Free API per account</td><td><code>gh auth token --user &lt;name&gt;</code></td></tr>
+      <tr><td>Git commits with correct identity</td><td>Per-repo <code>git config user.email</code></td></tr>
+      <tr><td>SSH push to both accounts</td><td>Separate SSH keys + <code>~/.ssh/config</code> aliases</td></tr>
+    </table>
+  </section>
+
+  <!-- ─── PREREQUISITES ─── -->
+  <section>
+    <h2 id="prerequisites">2. Prerequisites</h2>
+
+    <h3 id="h3-install">Install / Update gh CLI</h3>
+    <pre><code><span class="c"># Windows (winget)</span>
+winget install --id GitHub.cli
+
+<span class="c"># Windows (scoop)</span>
+scoop install gh
+
+<span class="c"># macOS</span>
+brew install gh
+
+<span class="c"># Ubuntu/Debian</span>
+sudo apt install gh
+
+<span class="c"># Verify version (need 2.40+)</span>
+gh --version</code></pre>
+
+    <div class="tip">✅ <strong>Minimum version:</strong> <code>gh version 2.40.0</code> — multi-account support was added in this release. Run <code>gh upgrade</code> or reinstall if older.</div>
+  </section>
+
+  <!-- ─── ADDING ACCOUNTS ─── -->
+  <section>
+    <h2 id="add-accounts">3. Adding Accounts</h2>
+
+    <h3 id="h3-first">3.1 Add Your First Account</h3>
+    <p>If you haven't logged in yet, or want to start fresh:</p>
+    <pre><code>gh auth login</code></pre>
+    <p>Follow the interactive prompts:</p>
+    <div class="step"><div class="step-num">1</div><div>Select <strong>GitHub.com</strong> (or Enterprise if applicable)</div></div>
+    <div class="step"><div class="step-num">2</div><div>Select protocol: <strong>HTTPS</strong> (recommended for beginners) or <strong>SSH</strong></div></div>
+    <div class="step"><div class="step-num">3</div><div>Authenticate via browser or paste a Personal Access Token (PAT)</div></div>
+    <div class="step"><div class="step-num">4</div><div>Done — your account is stored in <code>~/.config/gh/hosts.yml</code></div></div>
+
+    <h3 id="h3-second">3.2 Add a Second Account</h3>
+    <p>Run <code>gh auth login</code> again — it detects the existing account and adds a new one alongside it:</p>
+    <pre><code><span class="c"># This will add a SECOND account, not replace the first</span>
+gh auth login --hostname github.com</code></pre>
+
+    <p>When prompted, log in with the <em>different</em> GitHub username/token. Both accounts will coexist.</p>
+
+    <h3 id="h3-enterprise">3.3 Add a GitHub Enterprise Server Account</h3>
+    <pre><code><span class="c"># Replace with your company's GitHub Enterprise hostname</span>
+gh auth login --hostname github.mycompany.com</code></pre>
+
+    <h3 id="h3-pat">3.4 Add Account via PAT (Non-Interactive)</h3>
+    <pre><code><span class="c"># Generate a PAT at: Settings > Developer settings > Personal access tokens</span>
+<span class="c"># Scopes needed: repo, read:org, gist, workflow, copilot</span>
+
+<span class="c"># Windows PowerShell</span>
+$env:GITHUB_TOKEN = "ghp_xxxxxxxxxxxxxxxxxxxx"
+gh auth login --with-token &lt;&lt;&lt; $env:GITHUB_TOKEN
+
+<span class="c"># macOS/Linux</span>
+echo "ghp_xxxxxxxxxxxxxxxxxxxx" | gh auth login --with-token --hostname github.com</code></pre>
+
+    <h3 id="h3-verify-all">3.5 Verify All Accounts Are Registered</h3>
+    <pre><code>gh auth status</code></pre>
+    <p>Expected output with two accounts:</p>
+    <pre><code>github.com
+  ✓ Logged in to github.com account personal-user (keyring)
+  - Active account: true
+  - Git operations protocol: ssh
+  - Token: gho_****
+  - Token scopes: 'gist', 'read:org', 'repo', 'workflow'
+
+github.com
+  ✓ Logged in to github.com account work-user (keyring)
+  - Active account: false
+  - Git operations protocol: https
+  - Token: ghp_****</code></pre>
+  </section>
+
+  <!-- ─── SWITCHING ─── -->
+  <section>
+    <h2 id="switching">4. Switching Accounts</h2>
+
+    <h3 id="h3-global">4.1 Global Switch (Persistent)</h3>
+    <p>Changes the active account for all subsequent <code>gh</code> commands in any terminal:</p>
+    <pre><code><span class="c"># Interactive — shows a picker</span>
+gh auth switch
+
+<span class="c"># Direct — specify username</span>
+gh auth switch --user work-user
+
+<span class="c"># For enterprise hostname</span>
+gh auth switch --hostname github.mycompany.com --user corp-user
+
+<span class="c"># Confirm switch worked</span>
+gh api user --jq .login</code></pre>
+
+    <h3 id="h3-per-session">4.2 Per-Session Override (Environment Variable)</h3>
+    <p>Does <strong>not</strong> change the global active account — only affects the current terminal session:</p>
+    <pre><code><span class="c"># Windows PowerShell</span>
+$env:GH_TOKEN = (gh auth token --user work-user)
+gh api user --jq .login  <span class="c"># → work-user</span>
+
+<span class="c"># macOS/Linux</span>
+export GH_TOKEN=$(gh auth token --user work-user)
+gh api user --jq .login  <span class="c"># → work-user</span>
+
+<span class="c"># Unset to go back to global active account</span>
+Remove-Item Env:GH_TOKEN  <span class="c"># PowerShell</span>
+unset GH_TOKEN            <span class="c"># bash</span></code></pre>
+
+    <div class="tip">✅ <strong>Best practice for parallel work:</strong> Open two terminal windows. Set <code>GH_TOKEN</code> to the personal account token in one, and the work account token in the other. Both run simultaneously without interfering.</div>
+
+    <h3 id="h3-per-project">4.3 Per-Project (Directory-Scoped)</h3>
+    <p>Use a <code>.env</code> file in the project root and load it when entering the directory:</p>
+    <pre><code><span class="c"># work-project/.env  (do NOT commit this file)</span>
+GH_TOKEN=ghp_workAccountTokenHere</code></pre>
+    <pre><code><span class="c"># Load in PowerShell (add to profile or run manually)</span>
+Get-Content .\.env | ForEach-Object {
+    if ($_ -match "^([^#][^=]*)=(.*)$") {
+        [System.Environment]::SetEnvironmentVariable($matches[1], $matches[2], "Process")
+    }
+}
+
+<span class="c"># Load in bash/zsh</span>
+export $(grep -v '^#' .env | xargs)</code></pre>
+
+    <div class="warn">⚠️ <strong>Never commit <code>.env</code></strong> — add it to <code>.gitignore</code>. Use <code>.env.example</code> with placeholder values for documentation.</div>
+  </section>
+
+  <!-- ─── COPILOT ─── -->
+  <section>
+    <h2 id="copilot">5. GitHub Copilot CLI — Per Account</h2>
+
+    <h3 id="h3-copilot-verify">5.1 Verify Copilot Access per Account</h3>
+    <pre><code><span class="c"># Check which account is active</span>
+gh api user --jq .login
+
+<span class="c"># Check Copilot subscription status</span>
+gh api /copilot_internal/v2/token --jq .sku
+
+<span class="c"># Switch to account with Copilot access</span>
+gh auth switch --user personal-user
+
+<span class="c"># Confirm Copilot CLI extension works</span>
+gh copilot explain "what is a closure in JavaScript"</code></pre>
+
+    <h3 id="h3-copilot-api">5.2 Copilot Free API Tokens per Account</h3>
+    <p>The <strong>GitHub Copilot Free API</strong> (Azure AI Inference endpoint) uses the active account's token. Here's how to use both accounts' tokens in code:</p>
+    <pre><code>import subprocess
+from openai import OpenAI
+
+<span class="c"># Get token for a specific account (even if not globally active)</span>
+def get_copilot_client(github_user: str) -> OpenAI:
+    token = subprocess.run(
+        ["gh", "auth", "token", "--user", github_user],
+        capture_output=True, text=True
+    ).stdout.strip()
+    return OpenAI(
+        base_url="https://models.inference.ai.azure.com",
+        api_key=token
+    )
+
+<span class="c"># Use personal account (free tier — gpt-4o, claude-3.5-sonnet)</span>
+personal_client = get_copilot_client("personal-user")
+
+<span class="c"># Use work account (may have Copilot Business/Enterprise)</span>
+work_client = get_copilot_client("work-user")
+
+<span class="c"># Call with personal account</span>
+response = personal_client.chat.completions.create(
+    model="gpt-4o",
+    messages=[{"role": "user", "content": "Hello from personal account!"}]
+)
+print(response.choices[0].message.content)</code></pre>
+
+    <h3 id="h3-copilot-models">5.3 Available Models per Copilot Tier</h3>
+    <table>
+      <tr><th>Model</th><th>Free Tier</th><th>Pro/Business</th><th>Enterprise</th></tr>
+      <tr><td>gpt-4o</td><td>✅ (limited)</td><td>✅ Unlimited</td><td>✅ Unlimited</td></tr>
+      <tr><td>gpt-4o-mini</td><td>✅</td><td>✅</td><td>✅</td></tr>
+      <tr><td>o3-mini</td><td>✅ (limited)</td><td>✅</td><td>✅</td></tr>
+      <tr><td>claude-3.5-sonnet</td><td>✅ (limited)</td><td>✅</td><td>✅</td></tr>
+      <tr><td>claude-3.5-haiku</td><td>✅</td><td>✅</td><td>✅</td></tr>
+      <tr><td>gemini-1.5-pro</td><td>✅ (limited)</td><td>✅</td><td>✅</td></tr>
+      <tr><td>meta-llama-3.1-405b</td><td>✅</td><td>✅</td><td>✅</td></tr>
+    </table>
+  </section>
+
+  <!-- ─── GIT CONFIG ─── -->
+  <section>
+    <h2 id="git-config">6. Git Commit Identity per Account</h2>
+    <p>Even with the correct <code>gh</code> account active, Git commits will use the <em>global</em> <code>user.name</code> / <code>user.email</code> unless overridden per repository.</p>
+
+    <h3 id="h3-local-config">6.1 Set Identity per Repository</h3>
+    <pre><code><span class="c"># Inside a work project repo</span>
+git config user.name  "Raviteja Thota"
+git config user.email "raviteja.thota@company.com"
+
+<span class="c"># Inside a personal project repo</span>
+git config user.name  "Raviteja Thota"
+git config user.email "raviteja1993@gmail.com"
+
+<span class="c"># Verify</span>
+git config --list | Select-String "user"   <span class="c"># PowerShell</span>
+git config --list | grep user              <span class="c"># bash</span></code></pre>
+
+    <h3 id="h3-global-identity">6.2 Set Global Default Identity</h3>
+    <pre><code><span class="c"># Set the account you use most often as global default</span>
+git config --global user.name  "Raviteja Thota"
+git config --global user.email "raviteja1993@gmail.com"
+
+<span class="c"># Check global config file</span>
+cat ~/.gitconfig</code></pre>
+
+    <h3 id="h3-conditional">6.3 Conditional Includes (Auto-Switch by Directory)</h3>
+    <p>The cleanest approach: put all work repos under <code>~/work/</code> and personal repos under <code>~/personal/</code>. Git will automatically use the right identity:</p>
+    <pre><code><span class="c"># ~/.gitconfig</span>
+[user]
+    name  = Raviteja Thota
+    email = raviteja1993@gmail.com
+
+[includeIf "gitdir:~/work/"]
+    path = ~/.gitconfig-work
+
+[includeIf "gitdir:C:/Users/e135408/work/"]
+    path = ~/.gitconfig-work</code></pre>
+    <pre><code><span class="c"># ~/.gitconfig-work</span>
+[user]
+    name  = Raviteja Thota
+    email = raviteja.thota@epam.com</code></pre>
+
+    <div class="tip">✅ <strong>Verify the right identity is being used:</strong> <code>git log --oneline -1 --format="%an &lt;%ae&gt;"</code></div>
+
+    <h3 id="h3-ssh-multi">6.4 SSH Keys — One per Account</h3>
+    <p>Each GitHub account needs its <em>own</em> SSH key. You can't reuse the same public key on two accounts.</p>
+    <pre><code><span class="c"># Generate SSH key for personal account</span>
+ssh-keygen -t ed25519 -C "raviteja1993@gmail.com" -f ~/.ssh/id_ed25519_personal
+
+<span class="c"># Generate SSH key for work account</span>
+ssh-keygen -t ed25519 -C "raviteja.thota@epam.com" -f ~/.ssh/id_ed25519_work
+
+<span class="c"># Add public keys to each GitHub account:</span>
+<span class="c"># GitHub.com → Settings → SSH and GPG Keys → New SSH Key</span>
+cat ~/.ssh/id_ed25519_personal.pub  <span class="c"># paste into personal account</span>
+cat ~/.ssh/id_ed25519_work.pub      <span class="c"># paste into work account</span></code></pre>
+
+    <p>Then configure <code>~/.ssh/config</code> to use different keys per host alias:</p>
+    <pre><code><span class="c"># ~/.ssh/config</span>
+
+<span class="c"># Personal GitHub</span>
+Host github-personal
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/id_ed25519_personal
+    IdentitiesOnly yes
+
+<span class="c"># Work GitHub</span>
+Host github-work
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/id_ed25519_work
+    IdentitiesOnly yes</code></pre>
+
+    <p>Now clone using the alias instead of <code>github.com</code>:</p>
+    <pre><code><span class="c"># Personal repo clone</span>
+git clone git@github-personal:personal-user/my-repo.git
+
+<span class="c"># Work repo clone</span>
+git clone git@github-work:work-org/work-repo.git
+
+<span class="c"># Update existing repo remote</span>
+git remote set-url origin git@github-work:work-org/existing-repo.git
+
+<span class="c"># Test SSH connection</span>
+ssh -T git@github-personal   <span class="c"># → Hi personal-user!</span>
+ssh -T git@github-work        <span class="c"># → Hi work-user!</span></code></pre>
+
+    <h3 id="h3-https-multi">6.5 HTTPS Credentials — Multiple Accounts</h3>
+    <p>HTTPS with Git credential manager supports multiple accounts via the <strong>useHttpPath</strong> setting:</p>
+    <pre><code><span class="c"># Enable per-repository credential storage</span>
+git config --global credential.useHttpPath true
+
+<span class="c"># On Windows, GCM (Git Credential Manager) stores per-repo tokens</span>
+<span class="c"># You'll be prompted to log in the first time you push from each repo</span>
+
+<span class="c"># Check stored credentials</span>
+git credential-manager list</code></pre>
+
+    <div class="info">ℹ️ With <code>gh</code> CLI, HTTPS cloning uses the active account's token automatically via the Git credential helper registered during <code>gh auth login</code>. Switch the active account with <code>gh auth switch</code> before cloning new repos.</div>
+  </section>
+
+  <!-- ─── AUTOMATION ─── -->
+  <section>
+    <h2 id="automation">7. Automation Scripts</h2>
+
+    <h3 id="h3-ps-switch">7.1 PowerShell Helper Functions</h3>
+    <p>Add these to your <code>$PROFILE</code> (<code>notepad $PROFILE</code>) for quick switching:</p>
+    <pre><code><span class="c"># ~/.config/powershell/Microsoft.PowerShell_profile.ps1</span>
+
+function Use-PersonalGitHub {
+    $env:GH_TOKEN = (gh auth token --user personal-user 2>$null)
+    Write-Host "Switched to personal GitHub account" -ForegroundColor Green
+    gh api user --jq '"Active: " + .login'
+}
+
+function Use-WorkGitHub {
+    $env:GH_TOKEN = (gh auth token --user work-user 2>$null)
+    Write-Host "Switched to work GitHub account" -ForegroundColor Cyan
+    gh api user --jq '"Active: " + .login'
+}
+
+function Get-GitHubUser {
+    gh api user --jq '.login + " (" + .name + ")"'
+}
+
+<span class="c"># Usage: type these in any terminal</span>
+<span class="c"># Use-PersonalGitHub</span>
+<span class="c"># Use-WorkGitHub</span>
+<span class="c"># Get-GitHubUser</span></code></pre>
+
+    <h3 id="h3-bash-switch">7.2 Bash/Zsh Helper Functions</h3>
+    <p>Add to <code>~/.bashrc</code> or <code>~/.zshrc</code>:</p>
+    <pre><code><span class="c"># ~/.bashrc or ~/.zshrc</span>
+
+ghpersonal() {
+    export GH_TOKEN=$(gh auth token --user personal-user)
+    echo "✅ Switched to personal GitHub: $(gh api user --jq .login)"
+}
+
+ghwork() {
+    export GH_TOKEN=$(gh auth token --user work-user)
+    echo "✅ Switched to work GitHub: $(gh api user --jq .login)"
+}
+
+ghwho() {
+    echo "Active: $(gh api user --jq '.login + " — " + .name')"
+}
+
+<span class="c"># Usage:</span>
+<span class="c"># ghpersonal  # switch to personal</span>
+<span class="c"># ghwork      # switch to work</span>
+<span class="c"># ghwho       # check current</span></code></pre>
+
+    <h3 id="h3-dotenv">7.3 Python .env Pattern for LLM Projects</h3>
+    <p>Keep both tokens available in Python projects without hard-coding:</p>
+    <pre><code><span class="c"># .env (never commit this)</span>
+PERSONAL_GH_USER=personal-user
+WORK_GH_USER=work-user</code></pre>
+    <pre><code>import subprocess
+import os
+from openai import OpenAI
+from dotenv import load_dotenv
+
+load_dotenv()
+
+def gh_client(user: str = None) -> OpenAI:
+    """Get Copilot Free API client for specified or active GitHub account."""
+    cmd = ["gh", "auth", "token"]
+    if user:
+        cmd += ["--user", user]
+    token = subprocess.run(cmd, capture_output=True, text=True).stdout.strip()
+    if not token:
+        raise RuntimeError(f"No token found for gh user: {user}")
+    return OpenAI(
+        base_url="https://models.inference.ai.azure.com",
+        api_key=token
+    )
+
+<span class="c"># Personal account (free Copilot tier)</span>
+personal = gh_client(os.getenv("PERSONAL_GH_USER"))
+
+<span class="c"># Work account (Copilot Business/Enterprise)</span>
+work = gh_client(os.getenv("WORK_GH_USER"))
+
+<span class="c"># Use whichever is currently active globally</span>
+active = gh_client()
+
+resp = active.chat.completions.create(
+    model="gpt-4o-mini",
+    messages=[{"role": "user", "content": "Summarize this PR in 3 bullets: ..."}]
+)
+print(resp.choices[0].message.content)</code></pre>
+
+    <h3 id="h3-multi-client">7.4 Multi-Account API Comparison Script</h3>
+    <pre><code>"""Run the same prompt on both accounts and compare responses."""
+import subprocess
+from openai import OpenAI
+from concurrent.futures import ThreadPoolExecutor
+
+ACCOUNTS = ["personal-user", "work-user"]
+PROMPT   = "Explain async/await in Python in 2 sentences."
+MODEL    = "gpt-4o-mini"
+
+def ask(user: str) -> tuple[str, str]:
+    token = subprocess.run(
+        ["gh", "auth", "token", "--user", user],
+        capture_output=True, text=True
+    ).stdout.strip()
+    client = OpenAI(base_url="https://models.inference.ai.azure.com", api_key=token)
+    resp = client.chat.completions.create(
+        model=MODEL,
+        messages=[{"role": "user", "content": PROMPT}]
+    )
+    return user, resp.choices[0].message.content
+
+with ThreadPoolExecutor() as ex:
+    results = list(ex.map(lambda u: ask(u), ACCOUNTS))
+
+for user, answer in results:
+    print(f"\n--- {user} ---\n{answer}")</code></pre>
+  </section>
+
+  <!-- ─── STORAGE ─── -->
+  <section>
+    <h2 id="storage">8. Where Credentials Live</h2>
+    <table>
+      <tr><th>Platform</th><th>Storage Location</th><th>Format</th></tr>
+      <tr><td>Windows</td><td>Windows Credential Manager (keyring) + <code>%APPDATA%\GitHub CLI\</code></td><td>Encrypted system keyring</td></tr>
+      <tr><td>macOS</td><td>macOS Keychain + <code>~/.config/gh/</code></td><td>System keychain</td></tr>
+      <tr><td>Linux</td><td>Secret Service (libsecret) or <code>~/.config/gh/hosts.yml</code></td><td>Plaintext if no keyring</td></tr>
+    </table>
+
+    <h3 id="h3-view-config">8.1 View hosts.yml (All Accounts)</h3>
+    <pre><code><span class="c"># Windows</span>
+cat "$env:APPDATA\GitHub CLI\hosts.yml"
+<span class="c"># or</span>
+cat "~/.config/gh/hosts.yml"
+
+<span class="c"># macOS/Linux</span>
+cat ~/.config/gh/hosts.yml</code></pre>
+
+    <p>Example <code>hosts.yml</code> with two accounts:</p>
+    <pre><code>github.com:
+    users:
+        personal-user:
+            oauth_token: gho_xxxxxxxxxxxxxxxxxxxx
+            git_protocol: ssh
+        work-user:
+            oauth_token: ghp_yyyyyyyyyyyyyyyyyyyy
+            git_protocol: https
+    active_user: personal-user</code></pre>
+
+    <h3 id="h3-logout">8.2 Remove an Account</h3>
+    <pre><code><span class="c"># Logout a specific user (removes from hosts.yml)</span>
+gh auth logout --user work-user
+
+<span class="c"># Logout from all accounts on a host</span>
+gh auth logout --hostname github.com</code></pre>
+  </section>
+
+  <!-- ─── TROUBLESHOOTING ─── -->
+  <section>
+    <h2 id="troubleshoot">9. Troubleshooting</h2>
+
+    <table>
+      <tr><th>Problem</th><th>Cause</th><th>Fix</th></tr>
+      <tr>
+        <td><code>gh auth switch</code> not available</td>
+        <td>gh CLI &lt; v2.40</td>
+        <td>Update: <code>winget upgrade GitHub.cli</code> or <code>brew upgrade gh</code></td>
+      </tr>
+      <tr>
+        <td>Wrong account used after switch</td>
+        <td><code>GH_TOKEN</code> env var overrides global active</td>
+        <td>Unset: <code>Remove-Item Env:GH_TOKEN</code></td>
+      </tr>
+      <tr>
+        <td>Git push uses wrong account</td>
+        <td>SSH key / credential not per-repo</td>
+        <td>Set <code>git remote set-url</code> with SSH alias, or set <code>user.email</code> locally</td>
+      </tr>
+      <tr>
+        <td>Copilot shows wrong plan</td>
+        <td>Token belongs to account without Copilot</td>
+        <td><code>gh auth switch --user &lt;copilot-account&gt;</code> then recheck</td>
+      </tr>
+      <tr>
+        <td><code>gh auth token --user X</code> returns empty</td>
+        <td>User X not logged in</td>
+        <td>Run <code>gh auth login</code> for that account first</td>
+      </tr>
+      <tr>
+        <td>SSH: <code>Permission denied (publickey)</code></td>
+        <td>Wrong SSH key being used</td>
+        <td>Use SSH alias (<code>git@github-personal:...</code>) or set <code>IdentityFile</code> in <code>~/.ssh/config</code></td>
+      </tr>
+      <tr>
+        <td>Tokens expire / become invalid</td>
+        <td>OAuth token revoked or expired</td>
+        <td><code>gh auth refresh --user &lt;name&gt;</code></td>
+      </tr>
+      <tr>
+        <td>Two-factor auth loop</td>
+        <td>Enterprise SSO required</td>
+        <td>Use PAT with SSO authorized in GitHub Settings</td>
+      </tr>
+    </table>
+
+    <h3 id="h3-debug">9.1 Debug Commands</h3>
+    <pre><code><span class="c"># Full status of all accounts</span>
+gh auth status --show-token
+
+<span class="c"># Which token will be used for API calls right now?</span>
+gh auth token
+
+<span class="c"># Verbose API call to confirm identity</span>
+gh api user
+
+<span class="c"># Check if Copilot extension is active</span>
+gh extension list | Select-String copilot   <span class="c"># PowerShell</span>
+gh extension list | grep copilot             <span class="c"># bash</span>
+
+<span class="c"># Test token validity manually</span>
+$token = gh auth token
+Invoke-RestMethod -Uri "https://api.github.com/user" `
+    -Headers @{Authorization = "Bearer $token"} | Select login, name, plan</code></pre>
+
+    <h3 id="h3-refresh">9.2 Refresh / Re-Authenticate</h3>
+    <pre><code><span class="c"># Refresh token for specific user</span>
+gh auth refresh --user work-user --scopes repo,read:org,copilot
+
+<span class="c"># Force re-login (clears and re-creates token)</span>
+gh auth logout --user work-user
+gh auth login --hostname github.com</code></pre>
+  </section>
+
+  <!-- ─── Q&A ─── -->
+  <section>
+    <h2 id="qa">10. Interview Q&amp;A</h2>
+
+    <details open>
+      <summary class="qa-q">How does gh CLI store multiple account tokens on Windows?</summary>
+      <div class="qa-a">
+        <p><code>gh</code> uses the <strong>Windows Credential Manager</strong> (system keyring) as the primary storage for OAuth tokens — they are encrypted and tied to your Windows user profile. The account metadata (username, protocol, active user) is stored in plaintext in <code>%APPDATA%\GitHub CLI\hosts.yml</code> (or <code>~/.config/gh/hosts.yml</code>). Running <code>gh auth status</code> shows all registered accounts. Tokens are never stored in plaintext on disk when a keyring is available.</p>
+      </div>
+    </details>
+
+    <details open>
+      <summary class="qa-q">What is the difference between gh auth switch and GH_TOKEN env var?</summary>
+      <div class="qa-a">
+        <p><code>gh auth switch</code> changes the <strong>globally active account</strong> — it persists across all terminal sessions by updating <code>hosts.yml</code>. The <code>GH_TOKEN</code> environment variable is a <strong>session-scoped override</strong> — it only affects the current terminal process and its children, and it takes <em>precedence</em> over the global active account. Unset it to return to the global active account. Use <code>GH_TOKEN</code> for parallel work in different terminal windows.</p>
+      </div>
+    </details>
+
+    <details open>
+      <summary class="qa-q">Can both GitHub accounts use GitHub Copilot Free simultaneously?</summary>
+      <div class="qa-a">
+        <p>Yes — each account has its own Copilot Free quota (2,000 completions/month, 50 chat requests/month as of 2024). You can get a token from each account with <code>gh auth token --user &lt;name&gt;</code> and use them in separate OpenAI client instances pointing to <code>https://models.inference.ai.azure.com</code>. They operate independently — using up one account's quota does not affect the other. This is a legitimate way to increase your free usage for personal experimentation.</p>
+      </div>
+    </details>
+
+    <details open>
+      <summary class="qa-q">How do you ensure Git commits go to the right GitHub account?</summary>
+      <div class="qa-a">
+        <p>There are three levels of control: (1) <strong>Global identity</strong> — <code>git config --global user.email</code> applies to all repos by default. (2) <strong>Per-repo identity</strong> — <code>git config user.email</code> (no <code>--global</code>) inside the repo overrides the global setting. (3) <strong>Conditional includes</strong> — <code>gitconfig</code> <code>[includeIf "gitdir:~/work/"]</code> automatically applies a different config file for all repos under a specific directory. The SSH host alias approach (<code>git@github-work:org/repo.git</code>) handles <em>authentication</em> (which account can push), while <code>user.email</code> handles the <em>commit author identity</em>.</p>
+      </div>
+    </details>
+
+    <details open>
+      <summary class="qa-q">Why can't you use the same SSH key for two GitHub accounts?</summary>
+      <div class="qa-a">
+        <p>GitHub uses SSH public keys as a unique account identifier — each public key can only be registered to <em>one</em> account. If you try to add the same key to a second account, GitHub rejects it with "Key already in use." The solution is to generate a separate key pair per account (<code>ssh-keygen -f ~/.ssh/id_ed25519_work</code>) and configure SSH host aliases in <code>~/.ssh/config</code> so the correct key is automatically selected when connecting to <code>github-personal</code> vs <code>github-work</code>.</p>
+      </div>
+    </details>
+
+    <details open>
+      <summary class="qa-q">How do you automate account switching in CI/CD pipelines?</summary>
+      <div class="qa-a">
+        <p>In CI/CD, you never use interactive <code>gh auth login</code>. Instead: (1) Create a <strong>fine-grained PAT</strong> (Personal Access Token) with minimal scopes for the pipeline's account. (2) Store it as a <strong>GitHub Actions secret</strong> or pipeline secret variable. (3) Set <code>GH_TOKEN=${{ secrets.WORK_GH_TOKEN }}</code> in the workflow environment. (4) All <code>gh</code> commands in that job automatically use that token. For multi-account workflows in a single pipeline, use separate jobs with different secrets, or use <code>gh api</code> with <code>--header "Authorization: Bearer $TOKEN"</code> and pass different tokens per call.</p>
+      </div>
+    </details>
+
+    <details open>
+      <summary class="qa-q">What scopes does a PAT need for full gh CLI functionality?</summary>
+      <div class="qa-a">
+        <p>For full <code>gh</code> CLI functionality: <code>repo</code> (full repo access), <code>read:org</code> (org membership), <code>gist</code> (gist CRUD), <code>workflow</code> (GitHub Actions workflow management), <code>read:packages</code> (container registry), <code>copilot</code> (Copilot API access if needed). For Copilot Free API specifically, the token obtained via <code>gh auth token</code> is an OAuth token, not a PAT — it has broader scopes managed by the OAuth app. For minimal security in automation, use fine-grained PATs scoped to specific repositories and actions.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- ─── CHEAT SHEET ─── -->
+  <section>
+    <h2 id="cheatsheet">11. Quick Cheat Sheet</h2>
+    <table>
+      <tr><th>Task</th><th>Command</th></tr>
+      <tr><td>Add new account</td><td><code>gh auth login --hostname github.com</code></td></tr>
+      <tr><td>List all accounts</td><td><code>gh auth status</code></td></tr>
+      <tr><td>Switch globally</td><td><code>gh auth switch --user &lt;name&gt;</code></td></tr>
+      <tr><td>Who am I?</td><td><code>gh api user --jq .login</code></td></tr>
+      <tr><td>Get token for account</td><td><code>gh auth token --user &lt;name&gt;</code></td></tr>
+      <tr><td>Session override</td><td><code>$env:GH_TOKEN = (gh auth token --user &lt;name&gt;)</code></td></tr>
+      <tr><td>Unset session override</td><td><code>Remove-Item Env:GH_TOKEN</code></td></tr>
+      <tr><td>Set repo git identity</td><td><code>git config user.email "me@work.com"</code></td></tr>
+      <tr><td>Auto-identity by folder</td><td><code>[includeIf "gitdir:~/work/"]</code> in <code>~/.gitconfig</code></td></tr>
+      <tr><td>Generate SSH key</td><td><code>ssh-keygen -t ed25519 -f ~/.ssh/id_work</code></td></tr>
+      <tr><td>Clone with SSH alias</td><td><code>git clone git@github-work:org/repo.git</code></td></tr>
+      <tr><td>Refresh token</td><td><code>gh auth refresh --user &lt;name&gt;</code></td></tr>
+      <tr><td>Remove account</td><td><code>gh auth logout --user &lt;name&gt;</code></td></tr>
+      <tr><td>View stored config</td><td><code>cat ~/.config/gh/hosts.yml</code></td></tr>
+      <tr><td>Copilot Python client</td><td><code>OpenAI(base_url="https://models.inference.ai.azure.com", api_key=gh_token)</code></td></tr>
+    </table>
+
+    <hr>
+    <blockquote>
+      <strong>Golden Rule:</strong> Use <code>gh auth switch</code> for persistent global changes. Use <code>$env:GH_TOKEN</code> for isolated per-session or per-project overrides. Use SSH aliases for push/pull authentication. Use <code>git config user.email</code> (local) or <code>[includeIf]</code> for commit identity.
+    </blockquote>
+  </section>
+
+</main>
+</body>
+</html>

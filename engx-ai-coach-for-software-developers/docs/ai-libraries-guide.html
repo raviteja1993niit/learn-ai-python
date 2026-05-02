@@ -1,0 +1,3601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI Libraries Guide</title>
+<style>
+  :root {
+    --bg: #fff; --text: #1a1a2e; --accent: #0070f3;
+    --code-bg: #f4f4f4; --nav-bg: #f8f9fa;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 17px; line-height: 1.75;
+    color: var(--text); background: var(--bg);
+    display: flex; min-height: 100vh;
+  }
+  nav {
+    width: 270px; min-width: 220px; max-width: 300px;
+    background: var(--nav-bg); padding: 24px 16px;
+    position: sticky; top: 0; height: 100vh;
+    overflow-y: auto; border-right: 1px solid #e0e0e0;
+    flex-shrink: 0;
+  }
+  nav ul { list-style: none; }
+  nav li { margin: 6px 0; }
+  nav a {
+    text-decoration: none; color: #444;
+    font-family: sans-serif; font-size: 13px;
+    line-height: 1.4; display: block;
+    padding: 3px 6px; border-radius: 4px;
+    transition: background .15s;
+  }
+  nav a:hover { background: #e0e8ff; color: var(--accent); }
+  main {
+    flex: 1; padding: 48px 56px;
+    max-width: 900px;
+  }
+  section { margin-bottom: 60px; }
+  h1 { font-size: 2em; color: #0a192f; margin: 0 0 .5em; border-bottom: 3px solid var(--accent); padding-bottom: .3em; }
+  h2 { font-size: 1.5em; color: #0a192f; margin: 1.8em 0 .5em; border-bottom: 1px solid #ddd; padding-bottom: .2em; }
+  h3 { font-size: 1.2em; color: #0a192f; margin: 1.4em 0 .4em; }
+  h4 { font-size: 1.05em; margin: 1.2em 0 .3em; }
+  p { margin: .6em 0; }
+  ul, ol { margin: .5em 0 .5em 1.5em; }
+  li { margin: .2em 0; }
+  code {
+    font-family: 'Fira Code', Consolas, monospace;
+    background: var(--code-bg); padding: 2px 6px;
+    border-radius: 3px; font-size: .88em;
+  }
+  pre {
+    background: var(--code-bg); padding: 18px;
+    border-radius: 6px; overflow-x: auto;
+    margin: 1em 0; border-left: 4px solid var(--accent);
+  }
+  pre code { background: none; padding: 0; font-size: .85em; }
+  table { border-collapse: collapse; width: 100%; margin: 1em 0; font-size: .9em; }
+  th, td { border: 1px solid #ddd; padding: 8px 12px; text-align: left; }
+  th { background: #e8f0fe; font-weight: bold; }
+  tr:nth-child(even) td { background: #f9f9f9; }
+  blockquote {
+    border-left: 4px solid var(--accent);
+    padding: 8px 16px; color: #555; margin: 1em 0;
+    background: #f0f4ff; border-radius: 0 4px 4px 0;
+  }
+  details {
+    border: 1px solid #ddd; border-radius: 6px;
+    margin: .8em 0; padding: 0;
+    background: #fafafa;
+  }
+  details[open] { background: #fff; }
+  summary.qa-q {
+    cursor: pointer; padding: 12px 16px;
+    font-weight: bold; color: #0a192f;
+    list-style: none; display: flex; align-items: center; gap: 8px;
+  }
+  summary.qa-q::before { content: "Q"; background: var(--accent); color: #fff; padding: 1px 7px; border-radius: 50%; font-size: .8em; font-family: sans-serif; flex-shrink: 0; }
+  .qa-a { padding: 12px 16px; border-top: 1px solid #eee; }
+  a { color: var(--accent); }
+</style>
+</head>
+<body>
+<nav><ul>
+  <li><a href="#ai-libraries-improvements-future-apps-complete-reference">AI Libraries, Improvements & Future Apps — Complete Reference</a></li>
+  <li><a href="#part-1-app-by-app-improvements">Part 1 — App-by-App Improvements</a></li>
+  <li><a href="#build-graph">Build graph</a></li>
+  <li><a href="#checkpointing-survives-crashes-supports-resume">Checkpointing — survives crashes, supports resume</a></li>
+  <li><a href="#run-with-thread-id-for-session-isolation">Run with thread_id for session isolation</a></li>
+  <li><a href="#define-agents-with-role-goal-backstory">Define agents with role/goal/backstory</a></li>
+  <li><a href="#define-tasks">Define tasks</a></li>
+  <li><a href="#1-load-document">1. Load document</a></li>
+  <li><a href="#2-split-into-chunks">2. Split into chunks</a></li>
+  <li><a href="#3-embed-with-local-huggingface-model-free-no-api-key">3. Embed with local HuggingFace model (free, no API key)</a></li>
+  <li><a href="#4-store-in-faiss-vector-index">4. Store in FAISS vector index</a></li>
+  <li><a href="#5-multi-turn-conversation-with-memory">5. Multi-turn conversation with memory</a></li>
+  <li><a href="#6-conversational-rag-chain-github-copilot-as-llm-via-openai-compatible-endpoint">6. Conversational RAG chain (GitHub Copilot as LLM via OpenAI-compatible endpoint)</a></li>
+  <li><a href="#7-ask-questions">7. Ask questions</a></li>
+  <li><a href="#build-bm25-retriever-from-page-texts">Build BM25 retriever from page texts</a></li>
+  <li><a href="#build-vector-retriever">Build vector retriever</a></li>
+  <li><a href="#ensemble-60-bm25-40-vector-hybrid-search-best-of-both">Ensemble: 60% BM25 + 40% vector (hybrid search — best of both)</a></li>
+  <li><a href="#multiqueryretriever-generates-3-rephrased-versions-of-the-question">MultiQueryRetriever: generates 3 rephrased versions of the question,</a></li>
+  <li><a href="#runs-all-3-through-bm25-vector-deduplicates-results">runs all 3 through BM25/vector, deduplicates results</a></li>
+  <li><a href="#for-what-does-tvr-mean-it-also-generates">For "What does TVR mean?", it also generates:</a></li>
+  <li><a href="#explain-the-terminal-verification-result-field">"Explain the Terminal Verification Result field"</a></li>
+  <li><a href="#what-is-tvr-in-emv-transaction-processing">"What is TVR in EMV transaction processing?"</a></li>
+  <li><a href="#define-tvr-byte-in-payment-specifications">"Define TVR byte in payment specifications"</a></li>
+  <li><a href="#load-document-json-tree">Load document JSON tree</a></li>
+  <li><a href="#langgraph-react-agent-decides-which-tool-to-call">LangGraph ReAct agent — decides which tool to call</a></li>
+  <li><a href="#split-long-transcript-into-chunks">Split long transcript into chunks</a></li>
+  <li><a href="#map-prompt-extract-key-points-from-each-chunk">Map prompt: extract key points from each chunk</a></li>
+  <li><a href="#reduce-combine-prompt-synthesize-all-chunks-into-final-guide">Reduce/combine prompt: synthesize all chunks into final guide</a></li>
+  <li><a href="#map-reduce-chain-parallel-extraction-then-combine">Map-reduce chain (parallel extraction, then combine)</a></li>
+  <li><a href="#part-2-new-apps-to-build">Part 2 — New Apps to Build</a></li>
+  <li><a href="#step-1-extract-architecture-components">Step 1: Extract architecture components</a></li>
+  <li><a href="#step-2-generate-mermaid-diagram">Step 2: Generate Mermaid diagram</a></li>
+  <li><a href="#step-3-convert-mermaid-to-draw-io-xml-using-mermaid-js">Step 3: Convert Mermaid to Draw.io XML using mermaid-js</a></li>
+  <li><a href="#full-chain">Full chain</a></li>
+  <li><a href="#push-to-draw-io-via-file-draw-io-opens-drawio-xml-files-directly">Push to Draw.io via file (Draw.io opens .drawio XML files directly)</a></li>
+  <li><a href="#tasks">Tasks</a></li>
+  <li><a href="#load-source-code-from-git-repo">Load source code from Git repo</a></li>
+  <li><a href="#documentation-generation-chain">Documentation generation chain</a></li>
+  <li><a href="#generate-docs-for-each-file">Generate docs for each file</a></li>
+  <li><a href="#fetch-yesterday-s-messages-from-slack-via-mcp">Fetch yesterday's messages from Slack via MCP</a></li>
+  <li><a href="#building-an-acp-compatible-agent-with-fastapi">Building an ACP-compatible agent with FastAPI</a></li>
+  <li><a href="#calling-another-acp-agent">Calling another ACP agent</a></li>
+  <li><a href="#figma-mcp-tools-available">Figma MCP tools available:</a></li>
+  <li><a href="#get-file-file-key-returns-component-tree">- get_file(file_key) → returns component tree</a></li>
+  <li><a href="#get-node-file-key-node-id-specific-component">- get_node(file_key, node_id) → specific component</a></li>
+  <li><a href="#get-images-file-key-ids-exported-images">- get_images(file_key, ids) → exported images</a></li>
+  <li><a href="#part-3-library-reference">Part 3 — Library Reference</a></li>
+  <li><a href="#github-copilot-free-via-gh-auth-token">GitHub Copilot (FREE via gh auth token)</a></li>
+  <li><a href="#ollama-free-fully-local">Ollama (FREE, fully local)</a></li>
+  <li><a href="#groq-free-tier-very-fast">Groq (FREE tier — very fast)</a></li>
+  <li><a href="#anthropic-claude">Anthropic Claude</a></li>
+  <li><a href="#google-gemini-free-tier">Google Gemini (FREE tier)</a></li>
+  <li><a href="#simple-template">Simple template</a></li>
+  <li><a href="#with-chat-history-multi-turn">With chat history (multi-turn)</a></li>
+  <li><a href="#few-shot">Few-shot</a></li>
+  <li><a href="#pdf">PDF</a></li>
+  <li><a href="#web">Web</a></li>
+  <li><a href="#git-repo">Git repo</a></li>
+  <li><a href="#best-general-purpose-tries-n-n-n-in-order">Best general purpose: tries \n\n, \n, " ", "" in order</a></li>
+  <li><a href="#markdown-structure-aware">Markdown structure-aware</a></li>
+  <li><a href="#code-aware-python">Code-aware (Python)</a></li>
+  <li><a href="#free-options">FREE options:</a></li>
+  <li><a href="#paid-options">Paid options:</a></li>
+  <li><a href="#faiss-free-embedded-no-server">FAISS — free, embedded, no server</a></li>
+  <li><a href="#chromadb-free-embedded-or-server">ChromaDB — free, embedded or server</a></li>
+  <li><a href="#qdrant-free-self-hosted">Qdrant — free self-hosted</a></li>
+  <li><a href="#pinecone-paid-production-grade">Pinecone — paid, production-grade</a></li>
+  <li><a href="#standard-vector-retriever">Standard vector retriever</a></li>
+  <li><a href="#bm25-keyword">BM25 (keyword)</a></li>
+  <li><a href="#hybrid-bm25-vector">Hybrid (BM25 + vector)</a></li>
+  <li><a href="#multi-query-auto-generates-alternate-phrasings">Multi-query (auto-generates alternate phrasings)</a></li>
+  <li><a href="#contextual-compression-re-rank-extract-relevant-parts">Contextual compression (re-rank + extract relevant parts)</a></li>
+  <li><a href="#self-querying-llm-generates-structured-filter-from-natural-language">Self-querying (LLM generates structured filter from natural language)</a></li>
+  <li><a href="#basic-pipe">Basic pipe</a></li>
+  <li><a href="#pass-through-original-input-add-new-field">Pass through original input + add new field</a></li>
+  <li><a href="#parallel-execution">Parallel execution</a></li>
+  <li><a href="#conditional-branching">Conditional branching</a></li>
+  <li><a href="#streaming">Streaming</a></li>
+  <li><a href="#async">Async</a></li>
+  <li><a href="#for-lcel-chains-use-runnablewithmessagehistory">For LCEL chains — use RunnableWithMessageHistory</a></li>
+  <li><a href="#all-chain-invocations-are-now-traced-in-langsmith-dashboard">All chain invocations are now traced in LangSmith dashboard</a></li>
+  <li><a href="#https-smith-langchain-com-view-traces-latency-costs-errors">https://smith.langchain.com/ — view traces, latency, costs, errors</a></li>
+  <li><a href="#1-define-state-shared-across-all-nodes">1. Define State — shared across all nodes</a></li>
+  <li><a href="#2-define-nodes-functions-that-update-state">2. Define Nodes — functions that update state</a></li>
+  <li><a href="#3-conditional-routing-function">3. Conditional routing function</a></li>
+  <li><a href="#4-build-graph">4. Build graph</a></li>
+  <li><a href="#5-compile-with-checkpointing">5. Compile with checkpointing</a></li>
+  <li><a href="#6-invoke-with-thread-id-session-isolation">6. Invoke with thread_id (session isolation)</a></li>
+  <li><a href="#7-stream-intermediate-steps">7. Stream intermediate steps</a></li>
+  <li><a href="#interrupt-before-pause-graph-before-executing-this-node-let-human-review">interrupt_before: pause graph before executing this node, let human review</a></li>
+  <li><a href="#run-until-interrupt">Run until interrupt</a></li>
+  <li><a href="#human-reviews-and-approves">Human reviews and approves</a></li>
+  <li><a href="#build-a-sub-graph">Build a sub-graph</a></li>
+  <li><a href="#use-subgraph-as-a-node-in-parent-graph">Use subgraph as a node in parent graph</a></li>
+  <li><a href="#create-sub-agents">Create sub-agents</a></li>
+  <li><a href="#custom-tool">Custom tool</a></li>
+  <li><a href="#agent-definition">Agent definition</a></li>
+  <li><a href="#task-definition">Task definition</a></li>
+  <li><a href="#crew-bring-it-all-together">Crew — bring it all together</a></li>
+  <li><a href="#result-raw-final-output-string">result.raw: final output string</a></li>
+  <li><a href="#result-pydantic-typed-output-if-output-pydantic-set">result.pydantic: typed output if output_pydantic set</a></li>
+  <li><a href="#result-tasks-output-list-of-all-task-outputs">result.tasks_output: list of all task outputs</a></li>
+  <li><a href="#short-term-rag-over-current-session-automatic-with-memory-true">Short-term: RAG over current session (automatic with memory=True)</a></li>
+  <li><a href="#long-term-persistent-sqlite-automatic-with-memory-true">Long-term: persistent SQLite (automatic with memory=True)</a></li>
+  <li><a href="#entity-tracks-named-entities-people-companies-systems">Entity: tracks named entities (people, companies, systems)</a></li>
+  <li><a href="#contextual-combines-all-memory-types-for-context-injection">Contextual: combines all memory types for context injection</a></li>
+  <li><a href="#custom-memory-configuration">Custom memory configuration</a></li>
+  <li><a href="#assistantagent-llm-powered-generates-text-code">AssistantAgent: LLM-powered, generates text/code</a></li>
+  <li><a href="#userproxyagent-represents-human-can-execute-code">UserProxyAgent: represents human, can execute code</a></li>
+  <li><a href="#start-conversation">Start conversation</a></li>
+  <li><a href="#multiple-specialized-agents-discussing-a-problem">Multiple specialized agents discussing a problem</a></li>
+  <li><a href="#custom-speaker-selection-round-robin-by-default-or-custom-logic">Custom speaker selection (round-robin by default, or custom logic)</a></li>
+  <li><a href="#register-for-llm-schema-and-execution-function">Register for LLM (schema) and execution (function)</a></li>
+  <li><a href="#agent-a-triggers-a-sub-conversation-between-b-and-c-when-it-needs-deep-analysis">Agent A triggers a sub-conversation between B and C when it needs deep analysis</a></li>
+  <li><a href="#configure-global-settings">Configure global settings</a></li>
+  <li><a href="#load-documents">Load documents</a></li>
+  <li><a href="#build-index">Build index</a></li>
+  <li><a href="#query-engine">Query engine</a></li>
+  <li><a href="#chat-engine-multi-turn">Chat engine (multi-turn)</a></li>
+  <li><a href="#sub-question-query-engine-decomposes-complex-questions">Sub-question query engine (decomposes complex questions)</a></li>
+  <li><a href="#for-how-does-authentication-affect-payments-it-generates-sub-questions-for-each-tool">For "How does authentication affect payments?", it generates sub-questions for each tool</a></li>
+  <li><a href="#router-query-engine-picks-best-index-for-query">Router query engine (picks best index for query)</a></li>
+  <li><a href="#knowledge-graph-index-entity-relationships">Knowledge Graph Index (entity relationships)</a></li>
+  <li><a href="#agents-llamaindex">Agents (LlamaIndex)</a></li>
+  <li><a href="#configure-llm">Configure LLM</a></li>
+  <li><a href="#1-define-signature-declarative-what-goes-in-what-comes-out">1. Define signature (declarative: "what goes in, what comes out")</a></li>
+  <li><a href="#2-use-built-in-modules">2. Use built-in modules</a></li>
+  <li><a href="#3-build-a-pipeline-module-composable-unit">3. Build a pipeline (Module = composable unit)</a></li>
+  <li><a href="#4-optimize-prompts-automatically-using-training-examples">4. Optimize prompts automatically using training examples</a></li>
+  <li><a href="#1-tools-executable-functions-the-llm-can-call">1. TOOLS — executable functions the LLM can call</a></li>
+  <li><a href="#2-resources-readable-data-like-get-endpoints">2. RESOURCES — readable data (like GET endpoints)</a></li>
+  <li><a href="#3-prompts-reusable-prompt-templates">3. PROMPTS — reusable prompt templates</a></li>
+  <li><a href="#acp-compatible-agent-any-framework-langgraph-crewai-autogen-custom">ACP-compatible agent (any framework: LangGraph, CrewAI, AutoGen, custom)</a></li>
+  <li><a href="#calling-another-acp-agent-from-your-agent">Calling another ACP agent from your agent</a></li>
+  <li><a href="#codeagent-writes-python-code-to-solve-tasks-very-powerful-for-data-tasks">CodeAgent writes Python code to solve tasks — very powerful for data tasks</a></li>
+  <li><a href="#part-4-free-paid-resources">Part 4 — Free & Paid Resources</a></li>
+  <li><a href="#part-5-code-recipes">Part 5 — Code Recipes</a></li>
+  <li><a href="#get-free-github-copilot-token">Get free GitHub Copilot token</a></li>
+  <li><a href="#1-load-and-chunk-pdf">1. Load and chunk PDF</a></li>
+  <li><a href="#2-embeddings-free-local-model-22mb">2. Embeddings (free, local model ~22MB)</a></li>
+  <li><a href="#3-vector-store">3. Vector store</a></li>
+  <li><a href="#4-hybrid-retriever-bm25-semantic">4. Hybrid retriever (BM25 + semantic)</a></li>
+  <li><a href="#5-llm-free-via-github-copilot">5. LLM (free via GitHub Copilot)</a></li>
+  <li><a href="#6-conversational-rag-chain">6. Conversational RAG chain</a></li>
+  <li><a href="#7-interactive-loop">7. Interactive loop</a></li>
+  <li><a href="#test-it">Test it</a></li>
+  <li><a href="#classified-as-technical-bm25-retrieval-accurate-answer-from-specs">→ classified as "technical" → BM25 retrieval → accurate answer from specs</a></li>
+</ul></nav>
+<main>
+<section id="ai-libraries-improvements-future-apps-complete-reference">
+<h1 id="ai-libraries-improvements-future-apps-complete-reference">AI Libraries, Improvements &amp; Future Apps — Complete Reference</h1>
+<blockquote>
+<p><strong>Author:</strong> Raviteja Thota | EngX AI Coach Program
+<strong>Purpose:</strong> LangChain / LangGraph / CrewAI / AutoGen improvements for existing apps + new ideas + full library reference</p>
+</blockquote>
+<hr />
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol>
+<li><a href="#part-1--app-by-app-improvements">Part 1 — App-by-App Improvements</a></li>
+<li><a href="#part-2--new-apps-to-build">Part 2 — New Apps to Build</a></li>
+<li><a href="#part-3--library-reference">Part 3 — Library Reference</a></li>
+<li><a href="#part-4--free--paid-resources">Part 4 — Free &amp; Paid Resources</a></li>
+<li><a href="#part-5--code-recipes">Part 5 — Code Recipes</a></li>
+</ol>
+<hr />
+</section>
+<section id="part-1-app-by-app-improvements">
+<h1 id="part-1-app-by-app-improvements">Part 1 — App-by-App Improvements</h1>
+<h2 id="app-1-agentic-ai-toggle-management-langgraph-crewai-autogen">App 1: <code>agentic-ai-toggle-management</code> — LangGraph / CrewAI / AutoGen</h2>
+<h3 id="current-architecture">Current Architecture</h3>
+<p>1 orchestrator + 5 sub-agents using GitHub Copilot <code>.github/agents</code> markdown files in JetBrains IDE. Orchestrator routes plain-English commands; sub-agents handle Java scanning, report writing, Confluence lookup, decomposition planning, and workspace management.</p>
+<h3 id="langgraph-improvement">LangGraph Improvement</h3>
+<p>Replace the orchestrator routing table with a <strong>LangGraph StateGraph</strong>. Each sub-agent becomes a node; conditional edges replace the manual routing table; built-in checkpointing handles long-running batch jobs automatically.</p>
+<p>```python
+from typing import TypedDict, Annotated, List
+import operator
+from langgraph.graph import StateGraph, START, END
+from langgraph.checkpoint.sqlite import SqliteSaver</p>
+<p>class ToggleState(TypedDict):
+    command: str
+    toggle_name: str
+    repo: str
+    registry: List[dict]
+    analysis: List[dict]
+    confluence_results: List[dict]
+    report: str
+    stage: str
+    errors: Annotated[List[str], operator.add]</p>
+<p>def route_command(state: ToggleState) -&gt; str:
+    cmd = state["command"].lower()
+    if "analyze" in cmd:        return "sa1_analysis"
+    if "report" in cmd:         return "sa2_report"
+    if "confluence" in cmd:     return "sa3_confluence"
+    if "decomp" in cmd:         return "sa4_advisor"
+    if "rebuild registry" in cmd: return "sa1_registry"
+    return "sa5_workspace"</p>
+<p>def sa1_analysis(state: ToggleState) -&gt; dict:
+    """SA-1: Toggle Analysis Engine — scan Java repos, produce ON/OFF impact."""
+    # calls toggle-search-utility.ps1 via subprocess
+    return {"stage": "analysis_complete", "analysis": [...]}</p>
+<p>def sa2_report(state: ToggleState) -&gt; dict:
+    """SA-2: Report Writer — generate 6 report types."""
+    return {"stage": "report_complete", "report": "..."}</p>
+<p>def sa3_confluence(state: ToggleState) -&gt; dict:
+    """SA-3: Confluence Enquiry — 4-tier search."""
+    return {"stage": "confluence_complete", "confluence_results": [...]}</p>
+<p>def sa4_advisor(state: ToggleState) -&gt; dict:
+    """SA-4: Decomposition Advisor (on-request only)."""
+    return {"stage": "advisor_complete"}</p>
+<p>def sa5_workspace(state: ToggleState) -&gt; dict:
+    """SA-5: Workspace Manager — session state, onboarding, cleanup."""
+    return {"stage": "workspace_complete"}</p>
+</section>
+<section id="build-graph">
+<h1 id="build-graph">Build graph</h1>
+<p>graph = StateGraph(ToggleState)
+graph.add_node("orchestrator",    lambda s: s)  # pure router
+graph.add_node("sa1_analysis",    sa1_analysis)
+graph.add_node("sa1_registry",    lambda s: {"stage": "registry_rebuilt"})
+graph.add_node("sa2_report",      sa2_report)
+graph.add_node("sa3_confluence",  sa3_confluence)
+graph.add_node("sa4_advisor",     sa4_advisor)
+graph.add_node("sa5_workspace",   sa5_workspace)</p>
+<p>graph.add_edge(START, "orchestrator")
+graph.add_conditional_edges("orchestrator", route_command, {
+    "sa1_analysis":   "sa1_analysis",
+    "sa1_registry":   "sa1_registry",
+    "sa2_report":     "sa2_report",
+    "sa3_confluence": "sa3_confluence",
+    "sa4_advisor":    "sa4_advisor",
+    "sa5_workspace":  "sa5_workspace",
+})
+for node in ["sa1_analysis","sa1_registry","sa2_report","sa3_confluence","sa4_advisor","sa5_workspace"]:
+    graph.add_edge(node, END)</p>
+</section>
+<section id="checkpointing-survives-crashes-supports-resume">
+<h1 id="checkpointing-survives-crashes-supports-resume">Checkpointing — survives crashes, supports resume</h1>
+<p>checkpointer = SqliteSaver.from_conn_string("toggle_sessions.db")
+app = graph.compile(checkpointer=checkpointer)</p>
+</section>
+<section id="run-with-thread-id-for-session-isolation">
+<h1 id="run-with-thread_id-for-session-isolation">Run with thread_id for session isolation</h1>
+<p>result = app.invoke(
+    {"command": "analyze toggle Enable-CIT-MIT-indicators", "toggle_name": "Enable-CIT-MIT-indicators"},
+    config={"configurable": {"thread_id": "session-001"}}
+)
+```</p>
+<p><strong>Key LangGraph benefits over current approach:</strong>
+- Built-in checkpointing: batch of 73 toggles can resume if session crashes
+- Thread-based sessions: multiple engineers can run parallel sessions
+- Visual graph debugging via LangGraph Studio
+- Streaming intermediate states to UI</p>
+<h3 id="crewai-improvement">CrewAI Improvement</h3>
+<p>```python
+from crewai import Agent, Task, Crew, Process
+from crewai.tools import BaseTool
+import subprocess</p>
+<p>class JavaScanTool(BaseTool):
+    name: str = "java_scanner"
+    description: str = "Scans Java repositories for toggle usages"
+    def _run(self, toggle_name: str, repo: str) -&gt; str:
+        result = subprocess.run(
+            ["powershell", "-File", "tools/active/toggle-search-utility.ps1", toggle_name, repo],
+            capture_output=True, text=True
+        )
+        return result.stdout</p>
+</section>
+<section id="define-agents-with-role-goal-backstory">
+<h1 id="define-agents-with-rolegoalbackstory">Define agents with role/goal/backstory</h1>
+<p>orchestrator = Agent(
+    role="Toggle Management Orchestrator",
+    goal="Route commands to the correct specialist agent and ensure complete analysis",
+    backstory="Senior engineer overseeing MPGS feature toggle lifecycle across 7 Java repos",
+    verbose=True, allow_delegation=True
+)</p>
+<p>analysis_engine = Agent(
+    role="Toggle Analysis Engine",
+    goal="Locate toggle usages in Java source and produce ON/OFF business impact analysis",
+    backstory="Expert Java code analyst specialising in feature flag impact assessment",
+    tools=[JavaScanTool()], verbose=True
+)</p>
+<p>report_writer = Agent(
+    role="Toggle Report Writer",
+    goal="Generate structured, professional reports from analysis data",
+    backstory="Technical writer with expertise in payment gateway documentation",
+    verbose=True
+)</p>
+<p>confluence_agent = Agent(
+    role="Confluence Research Specialist",
+    goal="Locate relevant Confluence documentation for each toggle",
+    backstory="Documentation specialist familiar with MPGS knowledge base structure",
+    verbose=True
+)</p>
+</section>
+<section id="define-tasks">
+<h1 id="define-tasks">Define tasks</h1>
+<p>analysis_task = Task(
+    description="Analyze toggle '{toggle_name}' across all 7 MPGS repositories. Find all usages and document ON/OFF business impact.",
+    expected_output="CSV rows with toggle_name, class_name, file_path, on_impact, off_impact per repository",
+    agent=analysis_engine
+)</p>
+<p>report_task = Task(
+    description="Generate a comprehensive Markdown report from the toggle analysis results",
+    expected_output="Professional Markdown report with executive summary, per-repo findings, and recommendations",
+    agent=report_writer,
+    context=[analysis_task]
+)</p>
+<p>crew = Crew(
+    agents=[orchestrator, analysis_engine, report_writer, confluence_agent],
+    tasks=[analysis_task, report_task],
+    process=Process.sequential,
+    memory=True,  # enables cross-task memory
+    verbose=True
+)</p>
+<p>result = crew.kickoff(inputs={"toggle_name": "Enable-CIT-MIT-indicators"})</p>
+<pre><code>
+### AutoGen Improvement
+
+```python
+import autogen
+
+config_list = [{&quot;model&quot;: &quot;gpt-4o-mini&quot;, &quot;base_url&quot;: &quot;https://models.inference.ai.azure.com&quot;, &quot;api_key&quot;: &quot;&lt;gh_token&gt;&quot;}]
+
+orchestrator = autogen.AssistantAgent(
+    name=&quot;ToggleOrchestrator&quot;,
+    system_message=&quot;You coordinate toggle analysis. Route tasks to specialist agents. Never do leaf work yourself.&quot;,
+    llm_config={&quot;config_list&quot;: config_list}
+)
+
+analysis_agent = autogen.AssistantAgent(
+    name=&quot;AnalysisEngine&quot;,
+    system_message=&quot;You analyze Java source code for feature toggle impacts. Call scan_java_repo() to search.&quot;,
+    llm_config={&quot;config_list&quot;: config_list, &quot;functions&quot;: [
+        {&quot;name&quot;: &quot;scan_java_repo&quot;, &quot;description&quot;: &quot;Scan Java repo for toggle&quot;, &quot;parameters&quot;: {
+            &quot;type&quot;: &quot;object&quot;, &quot;properties&quot;: {
+                &quot;toggle_name&quot;: {&quot;type&quot;: &quot;string&quot;},
+                &quot;repo&quot;: {&quot;type&quot;: &quot;string&quot;}
+            }, &quot;required&quot;: [&quot;toggle_name&quot;, &quot;repo&quot;]
+        }}
+    ]}
+)
+
+report_agent = autogen.AssistantAgent(
+    name=&quot;ReportWriter&quot;,
+    system_message=&quot;Generate structured Markdown reports from analysis data.&quot;,
+    llm_config={&quot;config_list&quot;: config_list}
+)
+
+user_proxy = autogen.UserProxyAgent(
+    name=&quot;UserProxy&quot;,
+    human_input_mode=&quot;NEVER&quot;,
+    code_execution_config={&quot;work_dir&quot;: &quot;toggle_workspace&quot;, &quot;use_docker&quot;: False},
+    function_map={&quot;scan_java_repo&quot;: lambda toggle_name, repo: f&quot;Scanned {repo} for {toggle_name}: 5 usages found&quot;}
+)
+
+groupchat = autogen.GroupChat(
+    agents=[user_proxy, orchestrator, analysis_agent, report_agent],
+    messages=[], max_round=20
+)
+manager = autogen.GroupChatManager(groupchat=groupchat, llm_config={&quot;config_list&quot;: config_list})
+
+user_proxy.initiate_chat(manager, message='analyze toggle &quot;Enable CIT MIT indicators&quot;')
+</code></pre>
+<h3 id="comparison-table">Comparison Table</h3>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Current (.github/agents)</th>
+<th>LangGraph</th>
+<th>CrewAI</th>
+<th>AutoGen</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Routing</td>
+<td>Markdown instruction files</td>
+<td>Conditional edges in Python</td>
+<td>allow_delegation=True</td>
+<td>GroupChatManager + speaker_selection</td>
+</tr>
+<tr>
+<td>State</td>
+<td>Files on disk</td>
+<td>TypedDict state</td>
+<td>Crew memory</td>
+<td>Message history</td>
+</tr>
+<tr>
+<td>Checkpointing</td>
+<td>Manual session logs</td>
+<td>Built-in SqliteSaver</td>
+<td>Manual</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>Debugging</td>
+<td>IDE logs</td>
+<td>LangGraph Studio UI</td>
+<td>Verbose logs</td>
+<td>AutoGen Studio</td>
+</tr>
+<tr>
+<td>Parallelism</td>
+<td>Sequential</td>
+<td>Native fan-out/fan-in</td>
+<td>async_execution=True</td>
+<td>GroupChat concurrent</td>
+</tr>
+<tr>
+<td>Best for</td>
+<td>IDE-embedded workflows</td>
+<td>Complex stateful pipelines</td>
+<td>Role-based team workflows</td>
+<td>Code execution + multi-expert</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="app-2-vector-rag-app-v1-langchain-improvement">App 2: <code>vector-rag-app-v1</code> — LangChain Improvement</h2>
+<h3 id="langchain-faiss-huggingface-fully-free-replacement">LangChain FAISS + HuggingFace (fully free replacement)</h3>
+<p>```python
+from langchain_community.document_loaders import PyPDFLoader, Docx2txtLoader
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_community.vectorstores import FAISS
+from langchain.chains import ConversationalRetrievalChain
+from langchain.memory import ConversationBufferMemory
+from langchain_community.chat_models import ChatOpenAI
+import os</p>
+</section>
+<section id="1-load-document">
+<h1 id="1-load-document">1. Load document</h1>
+<p>loader = PyPDFLoader("document.pdf")
+pages = loader.load()</p>
+</section>
+<section id="2-split-into-chunks">
+<h1 id="2-split-into-chunks">2. Split into chunks</h1>
+<p>splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=150)
+chunks = splitter.split_documents(pages)</p>
+</section>
+<section id="3-embed-with-local-huggingface-model-free-no-api-key">
+<h1 id="3-embed-with-local-huggingface-model-free-no-api-key">3. Embed with local HuggingFace model (free, no API key)</h1>
+<p>embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")</p>
+</section>
+<section id="4-store-in-faiss-vector-index">
+<h1 id="4-store-in-faiss-vector-index">4. Store in FAISS vector index</h1>
+<p>vectorstore = FAISS.from_documents(chunks, embeddings)
+retriever = vectorstore.as_retriever(search_type="mmr", search_kwargs={"k": 5, "fetch_k": 20})</p>
+</section>
+<section id="5-multi-turn-conversation-with-memory">
+<h1 id="5-multi-turn-conversation-with-memory">5. Multi-turn conversation with memory</h1>
+<p>memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True, output_key="answer")</p>
+</section>
+<section id="6-conversational-rag-chain-github-copilot-as-llm-via-openai-compatible-endpoint">
+<h1 id="6-conversational-rag-chain-github-copilot-as-llm-via-openai-compatible-endpoint">6. Conversational RAG chain (GitHub Copilot as LLM via OpenAI-compatible endpoint)</h1>
+<p>llm = ChatOpenAI(
+    model="gpt-4o-mini",
+    base_url="https://models.inference.ai.azure.com",
+    api_key=os.popen("gh auth token").read().strip()
+)</p>
+<p>chain = ConversationalRetrievalChain.from_llm(
+    llm=llm, retriever=retriever, memory=memory,
+    return_source_documents=True, verbose=True
+)</p>
+</section>
+<section id="7-ask-questions">
+<h1 id="7-ask-questions">7. Ask questions</h1>
+<p>result = chain({"question": "What are the key findings?"})
+print(result["answer"])
+print("Sources:", [doc.metadata["page"] for doc in result["source_documents"]])</p>
+<pre><code>
+### LangGraph CRAG (Corrective RAG) for App 2
+
+```python
+from langgraph.graph import StateGraph, END
+from typing import TypedDict, List
+
+class CRAGState(TypedDict):
+    question: str
+    documents: List[str]
+    generation: str
+    web_search_needed: bool
+
+def retrieve(state):
+    docs = retriever.invoke(state[&quot;question&quot;])
+    return {&quot;documents&quot;: docs}
+
+def grade_documents(state):
+    &quot;&quot;&quot;Grade each retrieved doc — if all irrelevant, trigger web search.&quot;&quot;&quot;
+    grading_prompt = &quot;Is this document relevant to the question? Answer yes or no.\nDoc: {doc}\nQuestion: {question}&quot;
+    relevant = []
+    for doc in state[&quot;documents&quot;]:
+        grade = llm.invoke(grading_prompt.format(doc=doc.page_content, question=state[&quot;question&quot;]))
+        if &quot;yes&quot; in grade.content.lower():
+            relevant.append(doc)
+    return {&quot;documents&quot;: relevant, &quot;web_search_needed&quot;: len(relevant) == 0}
+
+def rewrite_query(state):
+    &quot;&quot;&quot;Rewrite query when retrieved docs are irrelevant.&quot;&quot;&quot;
+    new_q = llm.invoke(f&quot;Rewrite this query to improve retrieval: {state['question']}&quot;)
+    return {&quot;question&quot;: new_q.content}
+
+def generate_answer(state):
+    context = &quot;\n\n&quot;.join(d.page_content for d in state[&quot;documents&quot;])
+    answer = llm.invoke(f&quot;Context:\n{context}\n\nQuestion: {state['question']}&quot;)
+    return {&quot;generation&quot;: answer.content}
+
+def route_after_grading(state):
+    return &quot;rewrite&quot; if state[&quot;web_search_needed&quot;] else &quot;generate&quot;
+
+crag = StateGraph(CRAGState)
+crag.add_node(&quot;retrieve&quot;,        retrieve)
+crag.add_node(&quot;grade_documents&quot;, grade_documents)
+crag.add_node(&quot;rewrite&quot;,         rewrite_query)
+crag.add_node(&quot;generate&quot;,        generate_answer)
+
+crag.set_entry_point(&quot;retrieve&quot;)
+crag.add_edge(&quot;retrieve&quot;, &quot;grade_documents&quot;)
+crag.add_conditional_edges(&quot;grade_documents&quot;, route_after_grading, {&quot;rewrite&quot;: &quot;rewrite&quot;, &quot;generate&quot;: &quot;generate&quot;})
+crag.add_edge(&quot;rewrite&quot;, &quot;retrieve&quot;)
+crag.add_edge(&quot;generate&quot;, END)
+
+app = crag.compile()
+result = app.invoke({&quot;question&quot;: &quot;What is the 3DS authentication flow?&quot;})
+</code></pre>
+<hr />
+<h2 id="app-3-vector-less-rag-app-v2-langchain-hybrid-retrieval">App 3: <code>vector-less-rag-app-v2</code> — LangChain Hybrid Retrieval</h2>
+<p>```python
+from langchain_community.retrievers import BM25Retriever
+from langchain.retrievers import EnsembleRetriever
+from langchain_community.vectorstores import FAISS
+from langchain_community.embeddings import HuggingFaceEmbeddings</p>
+</section>
+<section id="build-bm25-retriever-from-page-texts">
+<h1 id="build-bm25-retriever-from-page-texts">Build BM25 retriever from page texts</h1>
+<p>texts = [page.content for page in pages]
+bm25_retriever = BM25Retriever.from_texts(texts)
+bm25_retriever.k = 5</p>
+</section>
+<section id="build-vector-retriever">
+<h1 id="build-vector-retriever">Build vector retriever</h1>
+<p>embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+vectorstore = FAISS.from_texts(texts, embeddings)
+vector_retriever = vectorstore.as_retriever(search_kwargs={"k": 5})</p>
+</section>
+<section id="ensemble-60-bm25-40-vector-hybrid-search-best-of-both">
+<h1 id="ensemble-60-bm25-40-vector-hybrid-search-best-of-both">Ensemble: 60% BM25 + 40% vector (hybrid search — best of both)</h1>
+<p>ensemble_retriever = EnsembleRetriever(
+    retrievers=[bm25_retriever, vector_retriever],
+    weights=[0.6, 0.4]   # adjust based on your doc type
+)</p>
+<p>docs = ensemble_retriever.invoke("What is the TVR byte structure?")
+```</p>
+<hr />
+<h2 id="app-4-vector-less-rag-app-langchain-multiqueryretriever">App 4: <code>vector-less-rag-app</code> — LangChain MultiQueryRetriever</h2>
+<p>```python
+from langchain.retrievers.multi_query import MultiQueryRetriever</p>
+</section>
+<section id="multiqueryretriever-generates-3-rephrased-versions-of-the-question">
+<h1 id="multiqueryretriever-generates-3-rephrased-versions-of-the-question">MultiQueryRetriever: generates 3 rephrased versions of the question,</h1>
+</section>
+<section id="runs-all-3-through-bm25-vector-deduplicates-results">
+<h1 id="runs-all-3-through-bm25vector-deduplicates-results">runs all 3 through BM25/vector, deduplicates results</h1>
+<p>multi_query_retriever = MultiQueryRetriever.from_llm(
+    retriever=bm25_retriever,
+    llm=llm,
+    include_original=True   # also run original query
+)</p>
+</section>
+<section id="for-what-does-tvr-mean-it-also-generates">
+<h1 id="for-what-does-tvr-mean-it-also-generates">For "What does TVR mean?", it also generates:</h1>
+</section>
+<section id="explain-the-terminal-verification-result-field">
+<h1 id="explain-the-terminal-verification-result-field">"Explain the Terminal Verification Result field"</h1>
+</section>
+<section id="what-is-tvr-in-emv-transaction-processing">
+<h1 id="what-is-tvr-in-emv-transaction-processing">"What is TVR in EMV transaction processing?"</h1>
+</section>
+<section id="define-tvr-byte-in-payment-specifications">
+<h1 id="define-tvr-byte-in-payment-specifications">"Define TVR byte in payment specifications"</h1>
+<p>docs = multi_query_retriever.invoke("What does TVR mean?")
+```</p>
+<hr />
+<h2 id="app-5-vector-less-rag-agentic-langgraph-tool-calling-agentic-rag">App 5: <code>vector-less-rag-agentic</code> — LangGraph Tool-Calling Agentic RAG</h2>
+<p>```python
+from langchain_core.tools import tool
+from langgraph.prebuilt import create_react_agent
+import json
+from pathlib import Path</p>
+</section>
+<section id="load-document-json-tree">
+<h1 id="load-document-json-tree">Load document JSON tree</h1>
+<p>doc = json.loads(Path("document.json").read_text())
+sections = {s["heading"]: s["content"] for s in doc["sections"]}</p>
+<p>@tool
+def get_section(heading: str) -&gt; str:
+    """Retrieve a specific section from the document by its heading."""
+    for h, content in sections.items():
+        if heading.lower() in h.lower():
+            return f"## {h}\n{content}"
+    return f"Section '{heading}' not found. Available: {list(sections.keys())[:10]}"</p>
+<p>@tool
+def list_sections() -&gt; str:
+    """List all section headings in the document."""
+    return "\n".join(f"- {h}" for h in sections.keys())</p>
+<p>@tool
+def search_document(query: str) -&gt; str:
+    """Search for a query across all sections and return the most relevant paragraph."""
+    query_lower = query.lower()
+    results = []
+    for heading, content in sections.items():
+        if query_lower in content.lower():
+            # Find the paragraph containing the query
+            for para in content.split("\n\n"):
+                if query_lower in para.lower():
+                    results.append(f"[{heading}] {para[:500]}")
+    return "\n\n".join(results[:3]) if results else "Not found in document."</p>
+</section>
+<section id="langgraph-react-agent-decides-which-tool-to-call">
+<h1 id="langgraph-react-agent-decides-which-tool-to-call">LangGraph ReAct agent — decides which tool to call</h1>
+<p>tools = [get_section, list_sections, search_document]
+agent = create_react_agent(llm, tools)</p>
+<p>result = agent.invoke({"messages": [("user", "What is the structure of the TVR byte?")]})
+print(result["messages"][-1].content)
+```</p>
+<hr />
+<h2 id="app-6-transcript-notes-generator-langchain-map-reduce-summarization">App 6: <code>transcript-notes-generator</code> — LangChain Map-Reduce Summarization</h2>
+<p>```python
+from langchain.chains.summarize import load_summarize_chain
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_core.documents import Document
+from langchain_core.prompts import PromptTemplate</p>
+</section>
+<section id="split-long-transcript-into-chunks">
+<h1 id="split-long-transcript-into-chunks">Split long transcript into chunks</h1>
+<p>splitter = RecursiveCharacterTextSplitter(chunk_size=15000, chunk_overlap=500)
+chunks = splitter.create_documents([transcript_text])</p>
+</section>
+<section id="map-prompt-extract-key-points-from-each-chunk">
+<h1 id="map-prompt-extract-key-points-from-each-chunk">Map prompt: extract key points from each chunk</h1>
+<p>map_template = """Extract key concepts, decisions, and important points from this transcript chunk.
+Use bullet points, max 12 words each. Include code/commands verbatim.
+Chunk: {text}
+Key Points:"""</p>
+</section>
+<section id="reduce-combine-prompt-synthesize-all-chunks-into-final-guide">
+<h1 id="reducecombine-prompt-synthesize-all-chunks-into-final-guide">Reduce/combine prompt: synthesize all chunks into final guide</h1>
+<p>reduce_template = """Synthesize these notes into a structured Markdown guide.
+Format: One H1 title, H2 sections, H3 sub-sections. End with Key Takeaways.
+Notes: {text}
+Markdown Guide:"""</p>
+<p>map_prompt    = PromptTemplate.from_template(map_template)
+reduce_prompt = PromptTemplate.from_template(reduce_template)</p>
+</section>
+<section id="map-reduce-chain-parallel-extraction-then-combine">
+<h1 id="map-reduce-chain-parallel-extraction-then-combine">Map-reduce chain (parallel extraction, then combine)</h1>
+<p>chain = load_summarize_chain(
+    llm,
+    chain_type="map_reduce",
+    map_prompt=map_prompt,
+    combine_prompt=reduce_prompt,
+    verbose=True
+)</p>
+<p>result = chain.invoke({"input_documents": chunks})
+print(result["output_text"])
+```</p>
+<hr />
+</section>
+<section id="part-2-new-apps-to-build">
+<h1 id="part-2-new-apps-to-build">Part 2 — New Apps to Build</h1>
+<h2 id="21-pr-code-review-agent-github-mcp-langgraph">2.1 PR Code Review Agent (GitHub MCP + LangGraph)</h2>
+<p><strong>Problem:</strong> Manual PR reviews are slow, miss security issues, and provide inconsistent feedback.</p>
+<p><strong>Architecture:</strong></p>
+<pre><code>GitHub PR (via MCP)
+       │
+       ▼
+LangGraph StateGraph
+  ├── fetch_pr_diff()       ← GitHub MCP: get changed files + diff
+  ├── analyze_security()    ← LLM: OWASP Top 10, injection risks
+  ├── analyze_quality()     ← LLM: code smells, complexity, naming
+  ├── check_test_coverage() ← LLM: are new lines covered by tests?
+  ├── compose_review()      ← LLM: merge all findings into review
+  └── post_comment()        ← GitHub MCP: post review comment on PR
+</code></pre>
+<p><strong>Tech stack:</strong> LangGraph + GitHub MCP server + GitHub Copilot LLM (free)</p>
+<pre><code class="language-python">from langgraph.graph import StateGraph, END
+from typing import TypedDict, List
+
+class PRReviewState(TypedDict):
+    pr_url: str
+    diff: str
+    files_changed: List[str]
+    security_issues: List[str]
+    quality_issues: List[str]
+    test_gaps: List[str]
+    final_review: str
+
+def fetch_pr_diff(state):
+    # Uses GitHub MCP tool
+    diff = github_mcp.get_pull_request_diff(state[&quot;pr_url&quot;])
+    return {&quot;diff&quot;: diff[&quot;diff&quot;], &quot;files_changed&quot;: diff[&quot;files&quot;]}
+
+def analyze_security(state):
+    prompt = f&quot;&quot;&quot;Review this code diff for security vulnerabilities (OWASP Top 10, injection, secrets exposure):
+{state['diff'][:8000]}
+List each issue with severity (HIGH/MEDIUM/LOW) and line reference.&quot;&quot;&quot;
+    issues = llm.invoke(prompt)
+    return {&quot;security_issues&quot;: issues.content.split(&quot;\n&quot;)}
+
+def analyze_quality(state):
+    prompt = f&quot;&quot;&quot;Review this code diff for quality issues (code smells, complexity, naming, DRY violations):
+{state['diff'][:8000]}
+List specific actionable improvements.&quot;&quot;&quot;
+    issues = llm.invoke(prompt)
+    return {&quot;quality_issues&quot;: issues.content.split(&quot;\n&quot;)}
+
+def compose_review(state):
+    prompt = f&quot;&quot;&quot;Compose a professional, constructive PR review from these findings:
+Security: {state['security_issues']}
+Quality: {state['quality_issues']}
+Format as GitHub markdown review with sections.&quot;&quot;&quot;
+    review = llm.invoke(prompt)
+    return {&quot;final_review&quot;: review.content}
+
+def post_comment(state):
+    github_mcp.post_review_comment(state[&quot;pr_url&quot;], state[&quot;final_review&quot;])
+    return {}
+
+graph = StateGraph(PRReviewState)
+graph.add_node(&quot;fetch&quot;,    fetch_pr_diff)
+graph.add_node(&quot;security&quot;, analyze_security)
+graph.add_node(&quot;quality&quot;,  analyze_quality)
+graph.add_node(&quot;compose&quot;,  compose_review)
+graph.add_node(&quot;post&quot;,     post_comment)
+graph.set_entry_point(&quot;fetch&quot;)
+graph.add_edge(&quot;fetch&quot;,    &quot;security&quot;)
+graph.add_edge(&quot;fetch&quot;,    &quot;quality&quot;)    # parallel!
+graph.add_edge(&quot;security&quot;, &quot;compose&quot;)
+graph.add_edge(&quot;quality&quot;,  &quot;compose&quot;)
+graph.add_edge(&quot;compose&quot;,  &quot;post&quot;)
+graph.add_edge(&quot;post&quot;, END)
+</code></pre>
+<hr />
+<h2 id="22-sprint-planning-assistant-crewai-jira-mcp">2.2 Sprint Planning Assistant (CrewAI + Jira MCP)</h2>
+<p><strong>Problem:</strong> Sprint planning meetings take 2-3 hours; backlog grooming is manual; estimation is inconsistent.</p>
+<pre><code>Jira Backlog (via MCP)
+        │
+        ▼
+  CrewAI Crew (4 agents)
+  ├── Product Owner Agent  → prioritize stories by business value
+  ├── Estimation Agent     → assign story points (Fibonacci) based on complexity
+  ├── Risk Analyst Agent   → flag dependencies, blockers, tech debt
+  └── Sprint Planner Agent → compose final sprint plan with capacity
+        │
+        ▼
+  Jira Sprint (via MCP) — create sprint, assign tickets
+</code></pre>
+<pre><code class="language-python">from crewai import Agent, Task, Crew, Process
+
+po_agent = Agent(
+    role=&quot;Product Owner&quot;,
+    goal=&quot;Prioritize backlog items by business value, user impact, and strategic alignment&quot;,
+    backstory=&quot;Experienced PO with deep knowledge of payment gateway features and customer needs&quot;,
+    verbose=True
+)
+
+estimation_agent = Agent(
+    role=&quot;Story Points Estimator&quot;,
+    goal=&quot;Assign accurate Fibonacci story points based on complexity, risk, and unknowns&quot;,
+    backstory=&quot;Senior developer who has estimated 500+ stories across microservice architectures&quot;,
+    verbose=True
+)
+
+risk_analyst = Agent(
+    role=&quot;Risk Analyst&quot;,
+    goal=&quot;Identify dependencies, blockers, and technical risks in the sprint backlog&quot;,
+    backstory=&quot;Architect with expertise in distributed systems risk assessment&quot;,
+    verbose=True
+)
+
+sprint_planner = Agent(
+    role=&quot;Sprint Planner&quot;,
+    goal=&quot;Compose a balanced sprint plan within team capacity, with stretch goals&quot;,
+    backstory=&quot;Scrum Master with experience optimizing sprint outcomes&quot;,
+    verbose=True, allow_delegation=True
+)
+
+prioritize_task = Task(
+    description=&quot;Review the backlog items and rank them by priority. Backlog: {backlog}&quot;,
+    expected_output=&quot;Ranked list of stories with priority score (1-10) and justification&quot;,
+    agent=po_agent
+)
+
+estimate_task = Task(
+    description=&quot;Assign story points to each prioritized backlog item. Consider technical complexity.&quot;,
+    expected_output=&quot;Each story with story points (1,2,3,5,8,13) and reasoning&quot;,
+    agent=estimation_agent,
+    context=[prioritize_task]
+)
+
+risk_task = Task(
+    description=&quot;Identify dependencies, blockers, and risks across the estimated stories.&quot;,
+    expected_output=&quot;Risk matrix with mitigation strategies per story&quot;,
+    agent=risk_analyst,
+    context=[estimate_task]
+)
+
+plan_task = Task(
+    description=&quot;Create a sprint plan for {team_capacity} story points. Include committed + stretch goals.&quot;,
+    expected_output=&quot;Sprint plan in JSON: {committed: [...], stretch: [...], total_points: N, risks: [...]}&quot;,
+    agent=sprint_planner,
+    context=[prioritize_task, estimate_task, risk_task],
+    output_file=&quot;sprint_plan.json&quot;
+)
+
+crew = Crew(
+    agents=[po_agent, estimation_agent, risk_analyst, sprint_planner],
+    tasks=[prioritize_task, estimate_task, risk_task, plan_task],
+    process=Process.hierarchical,
+    manager_agent=sprint_planner,
+    verbose=True
+)
+
+result = crew.kickoff(inputs={&quot;backlog&quot;: backlog_json, &quot;team_capacity&quot;: 60})
+</code></pre>
+<hr />
+<h2 id="23-architecture-diagram-generator-langchain-drawio-figma-mcp">2.3 Architecture Diagram Generator (LangChain + Draw.io / Figma MCP)</h2>
+<p><strong>Problem:</strong> Creating architecture diagrams manually in Draw.io/Figma is time-consuming and often becomes outdated.</p>
+<p><strong>Flow:</strong></p>
+<pre><code>Text description / Code analysis
+         │
+         ▼
+LangChain chain
+  Step 1: Extract components (services, databases, queues, APIs)
+  Step 2: Identify relationships (calls, publishes, subscribes)
+  Step 3: Generate Mermaid or Draw.io XML
+  Step 4: Export via MCP to Draw.io / Figma
+         │
+         ▼
+  Draw.io XML file  OR  Figma component placed on canvas
+</code></pre>
+<p>```python
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser</p>
+</section>
+<section id="step-1-extract-architecture-components">
+<h1 id="step-1-extract-architecture-components">Step 1: Extract architecture components</h1>
+<p>extract_chain = (
+    ChatPromptTemplate.from_template("""Extract all architectural components from this description.
+Return JSON: {{
+  "services": ["name", ...],
+  "databases": ["name", ...],
+  "queues": ["name", ...],
+  "external_apis": ["name", ...]
+}}
+Description: {description}""")
+    | llm
+    | JsonOutputParser()
+)</p>
+</section>
+<section id="step-2-generate-mermaid-diagram">
+<h1 id="step-2-generate-mermaid-diagram">Step 2: Generate Mermaid diagram</h1>
+<p>mermaid_chain = (
+    ChatPromptTemplate.from_template("""Create a Mermaid flowchart diagram for this architecture.
+Components: {components}
+Output ONLY valid Mermaid syntax (no markdown fences).""")
+    | llm
+    | StrOutputParser()
+)</p>
+</section>
+<section id="step-3-convert-mermaid-to-draw-io-xml-using-mermaid-js">
+<h1 id="step-3-convert-mermaid-to-drawio-xml-using-mermaid-js">Step 3: Convert Mermaid to Draw.io XML using mermaid-js</h1>
+<p>def mermaid_to_drawio(mermaid_code: str) -&gt; str:
+    """Convert Mermaid → Draw.io XML using mermaid-js CLI."""
+    import subprocess, json
+    result = subprocess.run(
+        ["mmdc", "-i", "/dev/stdin", "-o", "/dev/stdout", "-e", "xml"],
+        input=mermaid_code, capture_output=True, text=True
+    )
+    return result.stdout</p>
+</section>
+<section id="full-chain">
+<h1 id="full-chain">Full chain</h1>
+<p>from langchain_core.runnables import RunnableParallel, RunnablePassthrough</p>
+<p>pipeline = (
+    RunnablePassthrough.assign(components=extract_chain)
+    | RunnablePassthrough.assign(mermaid=mermaid_chain)
+)</p>
+<p>result = pipeline.invoke({"description": "Microservices: API Gateway → Order Service → Kafka → Payment Service → PostgreSQL"})</p>
+</section>
+<section id="push-to-draw-io-via-file-draw-io-opens-drawio-xml-files-directly">
+<h1 id="push-to-drawio-via-file-drawio-opens-drawio-xml-files-directly">Push to Draw.io via file (Draw.io opens .drawio XML files directly)</h1>
+<p>with open("architecture.drawio", "w") as f:
+    f.write(mermaid_to_drawio(result["mermaid"]))</p>
+<pre><code>
+---
+
+## 2.4 Technical Newsletter Generator (CrewAI + Web Search MCP)
+
+**Problem:** Creating a weekly tech newsletter requires hours of research across GitHub, Hacker News, arXiv, dev.to.
+
+</code></pre>
+<p>Scheduled trigger (weekly/monthly)
+         │
+         ▼
+CrewAI Crew (5 agents)
+  ├── Researcher Agent    → searches GitHub trending, HN, arXiv, dev.to
+  ├── Curator Agent       → filters for relevance and novelty
+  ├── Writer Agent        → drafts newsletter sections
+  ├── Editor Agent        → improves tone, fixes grammar, adds context
+  └── Publisher Agent     → formats as HTML email / posts to Confluence
+```</p>
+<p>```python
+from crewai_tools import SerperDevTool, WebsiteSearchTool</p>
+<p>search_tool   = SerperDevTool()    # Google search via Serper API (free tier: 100 queries/month)
+website_tool  = WebsiteSearchTool()</p>
+<p>researcher = Agent(
+    role="Tech Research Specialist",
+    goal="Find the latest and most impactful developments in AI, software engineering, and cloud",
+    backstory="Senior engineer who stays current with technology trends across 20+ sources",
+    tools=[search_tool, website_tool], verbose=True
+)</p>
+<p>curator = Agent(
+    role="Content Curator",
+    goal="Filter research findings for relevance to enterprise software development",
+    backstory="Tech lead who knows what developers actually need to know",
+    verbose=True
+)</p>
+<p>writer = Agent(
+    role="Technical Writer",
+    goal="Write clear, engaging newsletter content that educates without overwhelming",
+    backstory="Developer advocate with 10+ years writing for technical audiences",
+    verbose=True
+)</p>
+<p>editor = Agent(
+    role="Senior Editor",
+    goal="Ensure all content is accurate, well-structured, and appropriately concise",
+    backstory="Former tech journalist turned engineering leader",
+    verbose=True
+)</p>
+</section>
+<section id="tasks">
+<h1 id="tasks">Tasks</h1>
+<p>research_task = Task(
+    description="""Search for this week's top developments in:
+    1. Generative AI / LLMs (new models, papers, frameworks)
+    2. Software engineering tools (IDEs, CI/CD, testing)
+    3. Cloud and platform engineering
+    4. Security vulnerabilities and patches
+    Find 5-8 items per category with URLs.""",
+    expected_output="Curated list of news items with title, summary, URL, and category",
+    agent=researcher
+)</p>
+<p>write_task = Task(
+    description="Write a professional weekly newsletter from the curated research findings. Include TL;DR, deep dives, and tools spotlight.",
+    expected_output="Complete newsletter in Markdown with sections: This Week in AI, Engineering Tools, Cloud &amp; Platform, Security Watch, Tool Spotlight",
+    agent=writer,
+    context=[research_task],
+    output_file="newsletter_draft.md"
+)</p>
+<p>newsletter_crew = Crew(
+    agents=[researcher, curator, writer, editor],
+    tasks=[research_task, write_task],
+    process=Process.sequential, verbose=True
+)</p>
+<pre><code>
+---
+
+## 2.5 Automated Test Case Generator (LangGraph)
+
+**Problem:** Writing unit tests is repetitive and often skipped under deadlines.
+
+</code></pre>
+<p>Source code file (Python / Java)
+        │
+        ▼
+LangGraph pipeline
+  ├── parse_code()       → extract functions/methods/classes
+  ├── identify_cases()   → for each function: happy path, edge cases, error cases
+  ├── generate_tests()   → write pytest/JUnit test code
+  ├── validate_syntax()  → parse AST to verify valid Python/Java
+  ├── run_tests()        → execute via subprocess
+  └── fix_failures()     → if tests fail, analyze error and fix (max 3 retries)</p>
+<pre><code>
+```python
+class TestGenState(TypedDict):
+    source_code: str
+    language: str
+    functions: List[dict]
+    test_cases: List[dict]
+    test_code: str
+    test_results: str
+    retry_count: int
+
+def parse_code(state):
+    prompt = f&quot;Extract all public functions/methods from this {state['language']} code as JSON list [{{name, params, returns, docstring}}]:\n{state['source_code']}&quot;
+    functions = json.loads(llm.invoke(prompt).content)
+    return {&quot;functions&quot;: functions}
+
+def generate_tests(state):
+    prompt = f&quot;&quot;&quot;Write comprehensive pytest tests for these functions: {state['functions']}
+Include: happy path, boundary values, error cases, type edge cases.
+Return only valid Python code.&quot;&quot;&quot;
+    test_code = llm.invoke(prompt).content
+    return {&quot;test_code&quot;: test_code}
+
+def run_tests(state):
+    import subprocess
+    Path(&quot;test_generated.py&quot;).write_text(state[&quot;test_code&quot;])
+    result = subprocess.run([&quot;python&quot;, &quot;-m&quot;, &quot;pytest&quot;, &quot;test_generated.py&quot;, &quot;-v&quot;],
+                           capture_output=True, text=True)
+    return {&quot;test_results&quot;: result.stdout + result.stderr}
+
+def should_retry(state):
+    if &quot;FAILED&quot; in state[&quot;test_results&quot;] and state[&quot;retry_count&quot;] &lt; 3:
+        return &quot;fix&quot;
+    return END
+
+def fix_failures(state):
+    prompt = f&quot;These tests failed:\n{state['test_results']}\nOriginal tests:\n{state['test_code']}\nFix the failing tests.&quot;
+    fixed = llm.invoke(prompt).content
+    return {&quot;test_code&quot;: fixed, &quot;retry_count&quot;: state[&quot;retry_count&quot;] + 1}
+
+graph = StateGraph(TestGenState)
+graph.add_node(&quot;parse&quot;,    parse_code)
+graph.add_node(&quot;generate&quot;, generate_tests)
+graph.add_node(&quot;run&quot;,      run_tests)
+graph.add_node(&quot;fix&quot;,      fix_failures)
+graph.set_entry_point(&quot;parse&quot;)
+graph.add_edge(&quot;parse&quot;, &quot;generate&quot;)
+graph.add_edge(&quot;generate&quot;, &quot;run&quot;)
+graph.add_conditional_edges(&quot;run&quot;, should_retry, {&quot;fix&quot;: &quot;fix&quot;, END: END})
+graph.add_edge(&quot;fix&quot;, &quot;run&quot;)
+app = graph.compile()
+</code></pre>
+<hr />
+<h2 id="26-incident-response-automation-autogen-slackpagerduty-mcp">2.6 Incident Response Automation (AutoGen + Slack/PagerDuty MCP)</h2>
+<pre><code class="language-python">import autogen
+
+config_list = [{&quot;model&quot;: &quot;gpt-4o-mini&quot;, &quot;base_url&quot;: &quot;https://models.inference.ai.azure.com&quot;, &quot;api_key&quot;: token}]
+
+detector = autogen.AssistantAgent(&quot;AlertDetector&quot;,
+    system_message=&quot;Analyze incoming alerts. Classify severity (P1/P2/P3). Extract affected service and symptoms.&quot;,
+    llm_config={&quot;config_list&quot;: config_list})
+
+diagnostics = autogen.AssistantAgent(&quot;DiagnosticsAgent&quot;,
+    system_message=&quot;Run diagnostics on the affected service. Analyze logs, metrics, and recent deployments.&quot;,
+    llm_config={&quot;config_list&quot;: config_list})
+
+resolver = autogen.AssistantAgent(&quot;ResolutionAgent&quot;,
+    system_message=&quot;Propose resolution steps based on runbook patterns. Prioritize safe rollback options.&quot;,
+    llm_config={&quot;config_list&quot;: config_list})
+
+communicator = autogen.AssistantAgent(&quot;IncidentCommunicator&quot;,
+    system_message=&quot;Draft Slack incident updates and post-mortems. Keep stakeholders informed.&quot;,
+    llm_config={&quot;config_list&quot;: config_list})
+
+user_proxy = autogen.UserProxyAgent(&quot;OnCallEngineer&quot;,
+    human_input_mode=&quot;TERMINATE&quot;,   # asks for approval before resolution steps
+    code_execution_config={&quot;work_dir&quot;: &quot;incident_workspace&quot;, &quot;use_docker&quot;: False})
+
+groupchat = autogen.GroupChat(
+    agents=[user_proxy, detector, diagnostics, resolver, communicator],
+    messages=[], max_round=30,
+    speaker_selection_func=lambda last_speaker, groupchat: {
+        &quot;OnCallEngineer&quot;: &quot;AlertDetector&quot;,
+        &quot;AlertDetector&quot;: &quot;DiagnosticsAgent&quot;,
+        &quot;DiagnosticsAgent&quot;: &quot;ResolutionAgent&quot;,
+        &quot;ResolutionAgent&quot;: &quot;IncidentCommunicator&quot;,
+        &quot;IncidentCommunicator&quot;: &quot;OnCallEngineer&quot;
+    }.get(last_speaker.name, &quot;AlertDetector&quot;)
+)
+manager = autogen.GroupChatManager(groupchat=groupchat, llm_config={&quot;config_list&quot;: config_list})
+user_proxy.initiate_chat(manager, message=&quot;P1 ALERT: Payment service returning 503. 20% error rate. Spike started 5 min ago.&quot;)
+</code></pre>
+<hr />
+<h2 id="27-documentation-generator-langchain-confluence-mcp">2.7 Documentation Generator (LangChain + Confluence MCP)</h2>
+<p>```python
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+from langchain_community.document_loaders import GitLoader</p>
+</section>
+<section id="load-source-code-from-git-repo">
+<h1 id="load-source-code-from-git-repo">Load source code from Git repo</h1>
+<p>loader = GitLoader(repo_path="./src", branch="main", file_filter=lambda f: f.endswith(".py"))
+source_docs = loader.load()</p>
+</section>
+<section id="documentation-generation-chain">
+<h1 id="documentation-generation-chain">Documentation generation chain</h1>
+<p code="code">doc_chain = (
+    ChatPromptTemplate.from_template("""Generate comprehensive Confluence documentation for this code:</p>
+<p>Include:
+- Purpose and overview
+- Function/class reference table
+- Input/output examples
+- Error handling
+- Integration points
+Format as Confluence Wiki Markup.""")
+    | llm
+    | StrOutputParser()
+)</p>
+</section>
+<section id="generate-docs-for-each-file">
+<h1 id="generate-docs-for-each-file">Generate docs for each file</h1>
+<p>for doc in source_docs[:5]:
+    wiki_doc = doc_chain.invoke({"code": doc.page_content[:6000]})
+    # Post to Confluence via MCP
+    confluence_mcp.create_page(
+        space="DEVDOCS",
+        title=f"API Reference: {doc.metadata['file_path']}",
+        content=wiki_doc
+    )
+```</p>
+<hr />
+<h2 id="28-daily-standup-summarizer-langchain-slack-mcp">2.8 Daily Standup Summarizer (LangChain + Slack MCP)</h2>
+<p>```python
+from langchain_core.prompts import ChatPromptTemplate</p>
+<p>standup_chain = (
+    ChatPromptTemplate.from_template("""Summarize today's standup from these Slack messages.
+Messages (last 24h): {messages}</p>
+<p>Format:
+<strong>Yesterday's Progress:</strong>
+- [per person, bullet points]</p>
+<p><strong>Today's Plans:</strong>
+- [per person, bullet points]</p>
+<p><strong>Blockers &amp; Help Needed:</strong>
+- [explicit blockers only]</p>
+<p><strong>Team Mood:</strong> [1-2 sentence observation]
+""")
+    | llm
+    | StrOutputParser()
+)</p>
+</section>
+<section id="fetch-yesterday-s-messages-from-slack-via-mcp">
+<h1 id="fetch-yesterdays-messages-from-slack-via-mcp">Fetch yesterday's messages from Slack via MCP</h1>
+<p>messages = slack_mcp.get_channel_messages(channel="standup", hours=24)
+summary  = standup_chain.invoke({"messages": "\n".join(messages)})
+slack_mcp.post_message(channel="standup-summary", message=summary)</p>
+<pre><code>
+---
+
+## 2.9 Code Migration Assistant (LangGraph + Tree-sitter)
+
+```python
+class MigrationState(TypedDict):
+    file_path: str
+    original_code: str
+    migration_type: str  # &quot;java8-to-21&quot;, &quot;python2-to-3&quot;, &quot;spring2-to-3&quot;
+    migrated_code: str
+    validation_errors: List[str]
+    diff: str
+
+def detect_migration_needs(state):
+    patterns = {
+        &quot;java8-to-21&quot;: [&quot;new Thread(&quot;, &quot;Collections.sort(&quot;, &quot;StringBuffer&quot;, &quot;@Override\n.*Date&quot;],
+        &quot;spring2-to-3&quot;: [&quot;javax.persistence&quot;, &quot;javax.validation&quot;, &quot;spring.datasource&quot;],
+    }
+    for migration_type, pattern_list in patterns.items():
+        if any(p in state[&quot;original_code&quot;] for p in pattern_list):
+            return {&quot;migration_type&quot;: migration_type}
+    return {&quot;migration_type&quot;: &quot;none&quot;}
+
+def migrate_code(state):
+    if state[&quot;migration_type&quot;] == &quot;none&quot;:
+        return {&quot;migrated_code&quot;: state[&quot;original_code&quot;]}
+    prompt = f&quot;&quot;&quot;Migrate this {state['migration_type']} code. Apply ALL applicable modernizations.
+Return ONLY the migrated code, no explanations.
+Code: {state['original_code']}&quot;&quot;&quot;
+    migrated = llm.invoke(prompt).content
+    return {&quot;migrated_code&quot;: migrated}
+
+def generate_diff(state):
+    import difflib
+    diff = &quot;\n&quot;.join(difflib.unified_diff(
+        state[&quot;original_code&quot;].splitlines(),
+        state[&quot;migrated_code&quot;].splitlines(),
+        lineterm=&quot;&quot;
+    ))
+    return {&quot;diff&quot;: diff}
+</code></pre>
+<hr />
+<h2 id="210-security-audit-agent-crewai">2.10 Security Audit Agent (CrewAI)</h2>
+<pre><code class="language-python">sast_agent = Agent(
+    role=&quot;Static Application Security Tester&quot;,
+    goal=&quot;Identify code vulnerabilities: SQL injection, XSS, IDOR, insecure deserialization&quot;,
+    backstory=&quot;Security engineer with OWASP expertise and 8 years in fintech security&quot;,
+    tools=[search_tool], verbose=True
+)
+
+dependency_agent = Agent(
+    role=&quot;Dependency Security Analyst&quot;,
+    goal=&quot;Find vulnerable dependencies with known CVEs in requirements.txt/pom.xml&quot;,
+    backstory=&quot;Security researcher specialising in supply chain vulnerabilities&quot;,
+    tools=[search_tool], verbose=True  # searches NVD/CVE database
+)
+
+owasp_agent = Agent(
+    role=&quot;OWASP Top 10 Assessor&quot;,
+    goal=&quot;Assess code against all OWASP Top 10 vulnerabilities&quot;,
+    backstory=&quot;Certified ethical hacker with OSCP and CEH certifications&quot;,
+    verbose=True
+)
+
+report_agent = Agent(
+    role=&quot;Security Report Writer&quot;,
+    goal=&quot;Generate actionable security reports with CVSS scores and remediation steps&quot;,
+    backstory=&quot;Technical writer with security certification background&quot;,
+    verbose=True
+)
+
+security_crew = Crew(
+    agents=[sast_agent, dependency_agent, owasp_agent, report_agent],
+    tasks=[...],
+    process=Process.parallel,  # run all scans simultaneously
+    verbose=True
+)
+</code></pre>
+<hr />
+<h2 id="211-acp-mcp-combined-architecture-pattern">2.11 ACP + MCP Combined Architecture Pattern</h2>
+<p><strong>MCP</strong> (Model Context Protocol) = LLM ↔ Tools/Resources
+<strong>ACP</strong> (Agent Communication Protocol) = Agent ↔ Agent</p>
+<pre><code>User Request
+     │
+     ▼
+Supervisor Agent (ACP server)
+     │   discovers sub-agents via ACP registry
+     ├── /agents/research-agent   (ACP endpoint)
+     │         │
+     │         └── uses: web_search (MCP), filesystem (MCP)
+     │
+     ├── /agents/analysis-agent   (ACP endpoint)
+     │         │
+     │         └── uses: database (MCP), calculator (MCP)
+     │
+     └── /agents/writer-agent     (ACP endpoint)
+               │
+               └── uses: confluence (MCP), email (MCP)
+</code></pre>
+<p>```python</p>
+</section>
+<section id="building-an-acp-compatible-agent-with-fastapi">
+<h1 id="building-an-acp-compatible-agent-with-fastapi">Building an ACP-compatible agent with FastAPI</h1>
+<p>from fastapi import FastAPI
+from pydantic import BaseModel
+import httpx</p>
+<p>app = FastAPI()</p>
+<p>class RunRequest(BaseModel):
+    input: dict
+    thread_id: str = None</p>
+<p>class RunResponse(BaseModel):
+    output: dict
+    status: str  # "completed" | "running" | "error"</p>
+<p>@app.post("/runs")
+async def create_run(request: RunRequest) -&gt; RunResponse:
+    # Agent logic here
+    result = await my_agent.run(request.input)
+    return RunResponse(output=result, status="completed")</p>
+<p>@app.get("/runs/{run_id}")
+async def get_run(run_id: str) -&gt; RunResponse:
+    # For async/long-running tasks
+    ...</p>
+</section>
+<section id="calling-another-acp-agent">
+<h1 id="calling-another-acp-agent">Calling another ACP agent</h1>
+<p>async def call_research_agent(query: str) -&gt; dict:
+    async with httpx.AsyncClient() as client:
+        response = await client.post(
+            "http://research-agent:8001/runs",
+            json={"input": {"query": query}}
+        )
+        return response.json()["output"]
+```</p>
+<hr />
+<h2 id="212-figma-design-to-code-figma-mcp-langchain">2.12 Figma Design to Code (Figma MCP + LangChain)</h2>
+<p>```python</p>
+</section>
+<section id="figma-mcp-tools-available">
+<h1 id="figma-mcp-tools-available">Figma MCP tools available:</h1>
+</section>
+<section id="get-file-file-key-returns-component-tree">
+<h1 id="-get_filefile_key-returns-component-tree">- get_file(file_key) → returns component tree</h1>
+</section>
+<section id="get-node-file-key-node-id-specific-component">
+<h1 id="-get_nodefile_key-node_id-specific-component">- get_node(file_key, node_id) → specific component</h1>
+</section>
+<section id="get-images-file-key-ids-exported-images">
+<h1 id="-get_imagesfile_key-ids-exported-images">- get_images(file_key, ids) → exported images</h1>
+<p>figma_component = figma_mcp.get_node(file_key="abc123", node_id="button-primary")</p>
+<p>code_chain = (
+    ChatPromptTemplate.from_template("""Convert this Figma component spec to React + Tailwind CSS:
+Component: {component_json}
+Return: TypeScript React component with Tailwind classes matching exact design specs.""")
+    | llm
+    | StrOutputParser()
+)</p>
+<p>react_code = code_chain.invoke({"component_json": json.dumps(figma_component)})
+```</p>
+<hr />
+</section>
+<section id="part-3-library-reference">
+<h1 id="part-3-library-reference">Part 3 — Library Reference</h1>
+<h2 id="31-langchain-complete-reference">3.1 LangChain — Complete Reference</h2>
+<h3 id="what-is-langchain">What is LangChain</h3>
+<p>LangChain is an open-source framework for building applications powered by large language models. It provides composable building blocks (document loaders, text splitters, embeddings, vector stores, chains, agents, tools, memory) that can be assembled into complex AI pipelines using a declarative syntax called LCEL (LangChain Expression Language).</p>
+<h3 id="core-components">Core Components</h3>
+<h4 id="llms-chat-models">LLMs &amp; Chat Models</h4>
+<p>```python</p>
+</section>
+<section id="github-copilot-free-via-gh-auth-token">
+<h1 id="github-copilot-free-via-gh-auth-token">GitHub Copilot (FREE via gh auth token)</h1>
+<p>from langchain_openai import ChatOpenAI
+llm = ChatOpenAI(model="gpt-4o-mini", base_url="https://models.inference.ai.azure.com", api_key=token)</p>
+</section>
+<section id="ollama-free-fully-local">
+<h1 id="ollama-free-fully-local">Ollama (FREE, fully local)</h1>
+<p>from langchain_ollama import ChatOllama
+llm = ChatOllama(model="llama3.2")</p>
+</section>
+<section id="groq-free-tier-very-fast">
+<h1 id="groq-free-tier-very-fast">Groq (FREE tier — very fast)</h1>
+<p>from langchain_groq import ChatGroq
+llm = ChatGroq(model="llama-3.1-70b-versatile", api_key="your_groq_key")</p>
+</section>
+<section id="anthropic-claude">
+<h1 id="anthropic-claude">Anthropic Claude</h1>
+<p>from langchain_anthropic import ChatAnthropic
+llm = ChatAnthropic(model="claude-3-5-sonnet-20241022")</p>
+</section>
+<section id="google-gemini-free-tier">
+<h1 id="google-gemini-free-tier">Google Gemini (FREE tier)</h1>
+<p>from langchain_google_genai import ChatGoogleGenerativeAI
+llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash")
+```</p>
+<h4 id="prompts">Prompts</h4>
+<p>```python
+from langchain_core.prompts import (
+    ChatPromptTemplate,
+    PromptTemplate,
+    FewShotPromptTemplate,
+    MessagesPlaceholder
+)
+from langchain_core.messages import SystemMessage, HumanMessage</p>
+</section>
+<section id="simple-template">
+<h1 id="simple-template">Simple template</h1>
+<p>prompt = ChatPromptTemplate.from_messages([
+    ("system", "You are a {role}. Answer concisely."),
+    ("human",  "{question}")
+])</p>
+</section>
+<section id="with-chat-history-multi-turn">
+<h1 id="with-chat-history-multi-turn">With chat history (multi-turn)</h1>
+<p>prompt_with_history = ChatPromptTemplate.from_messages([
+    ("system", "You are a helpful assistant."),
+    MessagesPlaceholder("history"),   # dynamically filled
+    ("human",  "{question}")
+])</p>
+</section>
+<section id="few-shot">
+<h1 id="few-shot">Few-shot</h1>
+<p>few_shot = FewShotPromptTemplate(
+    examples=[{"input": "2+2", "output": "4"}, {"input": "5*3", "output": "15"}],
+    example_prompt=PromptTemplate.from_template("Input: {input}\nOutput: {output}"),
+    suffix="Input: {input}\nOutput:",
+    input_variables=["input"]
+)</p>
+<pre><code>
+#### Output Parsers
+```python
+from langchain_core.output_parsers import (
+    StrOutputParser,           # plain text
+    JsonOutputParser,          # JSON dict
+    CommaSeparatedListOutputParser,
+    XMLOutputParser
+)
+from langchain.output_parsers import PydanticOutputParser
+from pydantic import BaseModel, Field
+
+class ToggleAnalysis(BaseModel):
+    toggle_name: str = Field(description=&quot;Name of the toggle&quot;)
+    on_impact:   str = Field(description=&quot;Business impact when ON&quot;)
+    off_impact:  str = Field(description=&quot;Business impact when OFF&quot;)
+    severity:    str = Field(description=&quot;Change risk: HIGH/MEDIUM/LOW&quot;)
+
+parser = PydanticOutputParser(pydantic_object=ToggleAnalysis)
+chain  = prompt | llm | parser
+result: ToggleAnalysis = chain.invoke({&quot;code&quot;: &quot;...&quot;})
+</code></pre>
+<h4 id="document-loaders">Document Loaders</h4>
+<p>```python
+from langchain_community.document_loaders import (
+    PyPDFLoader,           # PDF pages
+    Docx2txtLoader,        # Word documents
+    CSVLoader,             # CSV files
+    JSONLoader,            # JSON with jq path
+    WebBaseLoader,         # Web pages (BeautifulSoup)
+    GitLoader,             # Git repositories
+    TextLoader,            # Plain text
+    UnstructuredFileLoader, # 20+ formats auto-detected
+    ConfluenceLoader,      # Confluence pages
+    NotionDBLoader,        # Notion databases
+    SlackDirectoryLoader,  # Slack exports
+    YoutubeAudioLoader,    # YouTube transcripts
+)</p>
+</section>
+<section id="pdf">
+<h1 id="pdf">PDF</h1>
+<p>loader = PyPDFLoader("document.pdf")
+pages = loader.load()   # List[Document]</p>
+</section>
+<section id="web">
+<h1 id="web">Web</h1>
+<p>loader = WebBaseLoader(["https://docs.langchain.com/", "https://python.langchain.com/"])
+docs = loader.load()</p>
+</section>
+<section id="git-repo">
+<h1 id="git-repo">Git repo</h1>
+<p>loader = GitLoader(repo_path="./myrepo", branch="main", file_filter=lambda f: f.endswith(".py"))
+```</p>
+<h4 id="text-splitters">Text Splitters</h4>
+<p>```python
+from langchain.text_splitter import (
+    RecursiveCharacterTextSplitter,  # best general purpose
+    CharacterTextSplitter,           # simple fixed-size
+    TokenTextSplitter,               # split by tokens
+    MarkdownHeaderTextSplitter,      # split on MD headings
+    HTMLHeaderTextSplitter,          # split on HTML headers
+    Language,                        # code-aware splitting
+)</p>
+</section>
+<section id="best-general-purpose-tries-n-n-n-in-order">
+<h1 id="best-general-purpose-tries-nn-n-in-order">Best general purpose: tries \n\n, \n, " ", "" in order</h1>
+<p>splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+chunks = splitter.split_documents(pages)</p>
+</section>
+<section id="markdown-structure-aware">
+<h1 id="markdown-structure-aware">Markdown structure-aware</h1>
+<p>headers_to_split = [("#","H1"), ("##","H2"), ("###","H3")]
+md_splitter = MarkdownHeaderTextSplitter(headers_to_split_on=headers_to_split)
+sections = md_splitter.split_text(markdown_text)</p>
+</section>
+<section id="code-aware-python">
+<h1 id="code-aware-python">Code-aware (Python)</h1>
+<p>py_splitter = RecursiveCharacterTextSplitter.from_language(
+    language=Language.PYTHON, chunk_size=2000, chunk_overlap=200
+)
+```</p>
+<h4 id="embeddings">Embeddings</h4>
+<p>```python</p>
+</section>
+<section id="free-options">
+<h1 id="free-options">FREE options:</h1>
+<p>from langchain_community.embeddings import HuggingFaceEmbeddings
+embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")  # 22MB</p>
+<p>from langchain_ollama import OllamaEmbeddings
+embeddings = OllamaEmbeddings(model="nomic-embed-text")   # local, free</p>
+</section>
+<section id="paid-options">
+<h1 id="paid-options">Paid options:</h1>
+<p>from langchain_openai import OpenAIEmbeddings
+embeddings = OpenAIEmbeddings(model="text-embedding-3-small")  # $0.00002/1K tokens</p>
+<p>from langchain_cohere import CohereEmbeddings
+embeddings = CohereEmbeddings(model="embed-english-v3.0")   # free tier available
+```</p>
+<h4 id="vector-stores">Vector Stores</h4>
+<p>```python</p>
+</section>
+<section id="faiss-free-embedded-no-server">
+<h1 id="faiss-free-embedded-no-server">FAISS — free, embedded, no server</h1>
+<p>from langchain_community.vectorstores import FAISS
+vs = FAISS.from_documents(chunks, embeddings)
+vs.save_local("faiss_index")             # persist
+vs = FAISS.load_local("faiss_index", embeddings, allow_dangerous_deserialization=True)</p>
+</section>
+<section id="chromadb-free-embedded-or-server">
+<h1 id="chromadb-free-embedded-or-server">ChromaDB — free, embedded or server</h1>
+<p>from langchain_chroma import Chroma
+vs = Chroma.from_documents(chunks, embeddings, persist_directory="./chroma_db")</p>
+</section>
+<section id="qdrant-free-self-hosted">
+<h1 id="qdrant-free-self-hosted">Qdrant — free self-hosted</h1>
+<p>from langchain_qdrant import QdrantVectorStore
+vs = QdrantVectorStore.from_documents(chunks, embeddings, url="http://localhost:6333", collection_name="docs")</p>
+</section>
+<section id="pinecone-paid-production-grade">
+<h1 id="pinecone-paid-production-grade">Pinecone — paid, production-grade</h1>
+<p>from langchain_pinecone import PineconeVectorStore
+vs = PineconeVectorStore.from_documents(chunks, embeddings, index_name="my-index")
+```</p>
+<h4 id="retrievers">Retrievers</h4>
+<p>```python</p>
+</section>
+<section id="standard-vector-retriever">
+<h1 id="standard-vector-retriever">Standard vector retriever</h1>
+<p>retriever = vs.as_retriever(search_type="mmr", search_kwargs={"k": 5})</p>
+</section>
+<section id="bm25-keyword">
+<h1 id="bm25-keyword">BM25 (keyword)</h1>
+<p>from langchain_community.retrievers import BM25Retriever
+bm25 = BM25Retriever.from_documents(docs); bm25.k = 5</p>
+</section>
+<section id="hybrid-bm25-vector">
+<h1 id="hybrid-bm25-vector">Hybrid (BM25 + vector)</h1>
+<p>from langchain.retrievers import EnsembleRetriever
+hybrid = EnsembleRetriever(retrievers=[bm25, vs.as_retriever()], weights=[0.5, 0.5])</p>
+</section>
+<section id="multi-query-auto-generates-alternate-phrasings">
+<h1 id="multi-query-auto-generates-alternate-phrasings">Multi-query (auto-generates alternate phrasings)</h1>
+<p>from langchain.retrievers.multi_query import MultiQueryRetriever
+mq = MultiQueryRetriever.from_llm(retriever=retriever, llm=llm)</p>
+</section>
+<section id="contextual-compression-re-rank-extract-relevant-parts">
+<h1 id="contextual-compression-re-rank-extract-relevant-parts">Contextual compression (re-rank + extract relevant parts)</h1>
+<p>from langchain.retrievers import ContextualCompressionRetriever
+from langchain.retrievers.document_compressors import LLMChainExtractor
+compressor = LLMChainExtractor.from_llm(llm)
+cc_retriever = ContextualCompressionRetriever(base_compressor=compressor, base_retriever=retriever)</p>
+</section>
+<section id="self-querying-llm-generates-structured-filter-from-natural-language">
+<h1 id="self-querying-llm-generates-structured-filter-from-natural-language">Self-querying (LLM generates structured filter from natural language)</h1>
+<p>from langchain.retrievers.self_query.base import SelfQueryRetriever
+from langchain.chains.query_constructor.base import AttributeInfo
+metadata_field_info = [AttributeInfo(name="page", description="page number", type="int")]
+sq_retriever = SelfQueryRetriever.from_llm(llm, vs, "PDF document", metadata_field_info)
+```</p>
+<h4 id="lcel-langchain-expression-language">LCEL — LangChain Expression Language</h4>
+<p>```python
+from langchain_core.runnables import (
+    RunnablePassthrough, RunnableParallel, RunnableLambda, RunnableBranch
+)</p>
+</section>
+<section id="basic-pipe">
+<h1 id="basic-pipe">Basic pipe</h1>
+<p>chain = prompt | llm | StrOutputParser()</p>
+</section>
+<section id="pass-through-original-input-add-new-field">
+<h1 id="pass-through-original-input-add-new-field">Pass through original input + add new field</h1>
+<p>chain = RunnablePassthrough.assign(context=retriever | format_docs) | prompt | llm | StrOutputParser()</p>
+</section>
+<section id="parallel-execution">
+<h1 id="parallel-execution">Parallel execution</h1>
+<p>parallel = RunnableParallel(
+    summary=summary_chain,
+    keywords=keyword_chain,
+    sentiment=sentiment_chain
+)
+result = parallel.invoke({"text": "..."})  # all 3 run simultaneously</p>
+</section>
+<section id="conditional-branching">
+<h1 id="conditional-branching">Conditional branching</h1>
+<p>branch = RunnableBranch(
+    (lambda x: x["type"] == "technical", technical_chain),
+    (lambda x: x["type"] == "legal",     legal_chain),
+    default_chain   # fallback
+)</p>
+</section>
+<section id="streaming">
+<h1 id="streaming">Streaming</h1>
+<p>for chunk in chain.stream({"question": "Tell me about RAG"}):
+    print(chunk, end="", flush=True)</p>
+</section>
+<section id="async">
+<h1 id="async">Async</h1>
+<p>result = await chain.ainvoke({"question": "..."})
+```</p>
+<h4 id="memory">Memory</h4>
+<p>```python
+from langchain.memory import (
+    ConversationBufferMemory,       # keeps ALL messages
+    ConversationBufferWindowMemory, # keeps last K messages
+    ConversationSummaryMemory,      # summarizes old messages
+    ConversationSummaryBufferMemory,# hybrid: recent exact + old summarized
+    VectorStoreRetrieverMemory,     # retrieves relevant past messages
+    ConversationEntityMemory,       # tracks named entities (people, places)
+)</p>
+<p>memory = ConversationBufferWindowMemory(k=5, return_messages=True)</p>
+</section>
+<section id="for-lcel-chains-use-runnablewithmessagehistory">
+<h1 id="for-lcel-chains-use-runnablewithmessagehistory">For LCEL chains — use RunnableWithMessageHistory</h1>
+<p>from langchain_core.runnables.history import RunnableWithMessageHistory
+from langchain_community.chat_message_histories import ChatMessageHistory</p>
+<p>store = {}
+def get_session_history(session_id: str):
+    if session_id not in store:
+        store[session_id] = ChatMessageHistory()
+    return store[session_id]</p>
+<p>with_history = RunnableWithMessageHistory(
+    chain,
+    get_session_history,
+    input_messages_key="question",
+    history_messages_key="history"
+)
+result = with_history.invoke({"question": "What is RAG?"}, config={"configurable": {"session_id": "user-1"}})
+```</p>
+<h4 id="langsmith-observability">LangSmith (Observability)</h4>
+<p>```python
+import os
+os.environ["LANGCHAIN_TRACING_V2"] = "true"
+os.environ["LANGCHAIN_API_KEY"] = "your_langsmith_key"  # free tier: 5000 traces/month
+os.environ["LANGCHAIN_PROJECT"] = "my-rag-project"</p>
+</section>
+<section id="all-chain-invocations-are-now-traced-in-langsmith-dashboard">
+<h1 id="all-chain-invocations-are-now-traced-in-langsmith-dashboard">All chain invocations are now traced in LangSmith dashboard</h1>
+</section>
+<section id="https-smith-langchain-com-view-traces-latency-costs-errors">
+<h1 id="httpssmithlangchaincom-view-traces-latency-costs-errors">https://smith.langchain.com/ — view traces, latency, costs, errors</h1>
+<p>```</p>
+<h3 id="use-cases">Use Cases</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Use Case</th>
+<th>Key Components</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Document Q&amp;A (RAG)</td>
+<td>PyPDFLoader, RecursiveTextSplitter, FAISS, RetrievalQA</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Chatbot with memory</td>
+<td>ChatPromptTemplate, MessagesPlaceholder, RunnableWithMessageHistory</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Text summarization</td>
+<td>load_summarize_chain (map_reduce/stuff/refine)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Data extraction</td>
+<td>PydanticOutputParser, structured output</td>
+</tr>
+<tr>
+<td>5</td>
+<td>SQL query generation</td>
+<td>SQLDatabaseChain, text-to-SQL</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Code generation</td>
+<td>StrOutputParser, PythonREPLTool</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Hybrid search</td>
+<td>EnsembleRetriever (BM25 + vector)</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Multi-step research</td>
+<td>LLMChain with search tools</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Email classification</td>
+<td>RunnableBranch with routing</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Knowledge base Q&amp;A</td>
+<td>ConfluenceLoader, MultiQueryRetriever</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Document comparison</td>
+<td>Parallel chains + synthesis</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Agent with web search</td>
+<td>create_react_agent, DuckDuckGoSearchRun</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="32-langgraph-complete-reference">3.2 LangGraph — Complete Reference</h2>
+<h3 id="what-is-langgraph">What is LangGraph</h3>
+<p>LangGraph is a library for building stateful, multi-actor applications with LLMs. Built on top of LangChain, it models workflows as directed graphs where nodes are Python functions (agents/tools) and edges define control flow. It adds persistent state, checkpointing, human-in-the-loop, and subgraph composition to LangChain's LCEL.</p>
+<h3 id="core-concepts">Core Concepts</h3>
+<p>```python
+from langgraph.graph import StateGraph, START, END
+from langgraph.checkpoint.sqlite import SqliteSaver
+from typing import TypedDict, Annotated, List
+import operator</p>
+</section>
+<section id="1-define-state-shared-across-all-nodes">
+<h1 id="1-define-state-shared-across-all-nodes">1. Define State — shared across all nodes</h1>
+<p>class AgentState(TypedDict):
+    messages: Annotated[List[str], operator.add]  # list accumulates across nodes
+    query: str
+    documents: List[str]
+    answer: str
+    retry_count: int</p>
+</section>
+<section id="2-define-nodes-functions-that-update-state">
+<h1 id="2-define-nodes-functions-that-update-state">2. Define Nodes — functions that update state</h1>
+<p>def retrieval_node(state: AgentState) -&gt; dict:
+    docs = retriever.invoke(state["query"])
+    return {"documents": [d.page_content for d in docs]}</p>
+<p>def generation_node(state: AgentState) -&gt; dict:
+    context = "\n".join(state["documents"])
+    answer  = llm.invoke(f"Context: {context}\nQuestion: {state['query']}").content
+    return {"answer": answer, "messages": [answer]}</p>
+</section>
+<section id="3-conditional-routing-function">
+<h1 id="3-conditional-routing-function">3. Conditional routing function</h1>
+<p>def should_retrieve(state: AgentState) -&gt; str:
+    if not state.get("documents"):
+        return "retrieve"
+    return "generate"</p>
+</section>
+<section id="4-build-graph">
+<h1 id="4-build-graph">4. Build graph</h1>
+<p>graph = StateGraph(AgentState)
+graph.add_node("retrieve", retrieval_node)
+graph.add_node("generate", generation_node)
+graph.add_edge(START, "retrieve")
+graph.add_edge("retrieve", "generate")
+graph.add_edge("generate", END)</p>
+</section>
+<section id="5-compile-with-checkpointing">
+<h1 id="5-compile-with-checkpointing">5. Compile with checkpointing</h1>
+<p>checkpointer = SqliteSaver.from_conn_string(":memory:")
+app = graph.compile(checkpointer=checkpointer)</p>
+</section>
+<section id="6-invoke-with-thread-id-session-isolation">
+<h1 id="6-invoke-with-thread_id-session-isolation">6. Invoke with thread_id (session isolation)</h1>
+<p>config = {"configurable": {"thread_id": "session-123"}}
+result = app.invoke({"query": "What is RAG?", "messages": []}, config=config)</p>
+</section>
+<section id="7-stream-intermediate-steps">
+<h1 id="7-stream-intermediate-steps">7. Stream intermediate steps</h1>
+<p>for event in app.stream({"query": "What is RAG?"}, config=config):
+    for key, value in event.items():
+        print(f"Node: {key}, Output: {value}")
+```</p>
+<h3 id="human-in-the-loop">Human-in-the-Loop</h3>
+<p>```python</p>
+</section>
+<section id="interrupt-before-pause-graph-before-executing-this-node-let-human-review">
+<h1 id="interrupt_before-pause-graph-before-executing-this-node-let-human-review">interrupt_before: pause graph before executing this node, let human review</h1>
+<p>app = graph.compile(checkpointer=checkpointer, interrupt_before=["generate"])</p>
+</section>
+<section id="run-until-interrupt">
+<h1 id="run-until-interrupt">Run until interrupt</h1>
+<p>result = app.invoke({"query": "Delete all production data"}, config=config)
+print("Graph paused. Current state:", app.get_state(config))</p>
+</section>
+<section id="human-reviews-and-approves">
+<h1 id="human-reviews-and-approves">Human reviews and approves</h1>
+<p>user_approval = input("Approve this action? (yes/no): ")
+if user_approval == "yes":
+    # Resume from where it paused
+    result = app.invoke(None, config=config)
+else:
+    # Update state before resuming
+    app.update_state(config, {"query": "Show production data stats instead"})
+    result = app.invoke(None, config=config)
+```</p>
+<h3 id="subgraphs">Subgraphs</h3>
+<p>```python</p>
+</section>
+<section id="build-a-sub-graph">
+<h1 id="build-a-sub-graph">Build a sub-graph</h1>
+<p>research_graph = StateGraph(ResearchState)
+research_graph.add_node("search", web_search)
+research_graph.add_node("summarize", summarize)
+research_graph.set_entry_point("search")
+research_graph.add_edge("search", "summarize")
+research_graph.add_edge("summarize", END)
+research_app = research_graph.compile()</p>
+</section>
+<section id="use-subgraph-as-a-node-in-parent-graph">
+<h1 id="use-subgraph-as-a-node-in-parent-graph">Use subgraph as a node in parent graph</h1>
+<p>main_graph = StateGraph(MainState)
+main_graph.add_node("research", research_app)  # subgraph as node!
+main_graph.add_node("write",    write_report)
+main_graph.set_entry_point("research")
+main_graph.add_edge("research", "write")
+```</p>
+<h3 id="multi-agent-supervisor-pattern">Multi-Agent Supervisor Pattern</h3>
+<p>```python
+from langgraph.prebuilt import create_react_agent</p>
+</section>
+<section id="create-sub-agents">
+<h1 id="create-sub-agents">Create sub-agents</h1>
+<p>research_agent = create_react_agent(llm, tools=[web_search, arxiv_search])
+writer_agent   = create_react_agent(llm, tools=[file_write])
+coder_agent    = create_react_agent(llm, tools=[python_repl, bash_tool])</p>
+<p>class SupervisorState(TypedDict):
+    messages: Annotated[list, operator.add]
+    next: str</p>
+<p>def supervisor(state):
+    """Decide which agent to call next."""
+    options = ["research_agent", "writer_agent", "coder_agent", "FINISH"]
+    prompt = f"Given conversation so far, who should act next? Options: {options}\nMessages: {state['messages']}"
+    response = llm.invoke(prompt)
+    return {"next": response.content.strip()}</p>
+<p>def route_supervisor(state):
+    return state["next"]</p>
+<p>graph = StateGraph(SupervisorState)
+graph.add_node("supervisor",      supervisor)
+graph.add_node("research_agent",  lambda s: research_agent.invoke(s))
+graph.add_node("writer_agent",    lambda s: writer_agent.invoke(s))
+graph.add_node("coder_agent",     lambda s: coder_agent.invoke(s))</p>
+<p>graph.set_entry_point("supervisor")
+graph.add_conditional_edges("supervisor", route_supervisor, {
+    "research_agent": "research_agent",
+    "writer_agent":   "writer_agent",
+    "coder_agent":    "coder_agent",
+    "FINISH": END
+})
+for node in ["research_agent", "writer_agent", "coder_agent"]:
+    graph.add_edge(node, "supervisor")  # always return to supervisor
+```</p>
+<h3 id="use-cases">Use Cases</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Pattern</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Corrective RAG (CRAG)</td>
+<td>retrieve → grade → rewrite → re-retrieve if bad</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Self-RAG</td>
+<td>decide if retrieval needed; grade generation quality</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Adaptive RAG</td>
+<td>route to vector / BM25 / web search based on query type</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Code gen + test loop</td>
+<td>generate → run tests → fix if failed (max N retries)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Multi-agent supervisor</td>
+<td>supervisor routes to specialist sub-agents</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Long-running batch</td>
+<td>73 toggles with checkpoint resume if crash</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Human-in-the-loop approval</td>
+<td>interrupt before destructive action</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Parallel fan-out/fan-in</td>
+<td>run 3 analyses simultaneously, merge results</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Agentic document pipeline</td>
+<td>parse → extract → validate → publish</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Research + write</td>
+<td>web search → gather facts → synthesize report</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="33-crewai-complete-reference">3.3 CrewAI — Complete Reference</h2>
+<h3 id="what-is-crewai">What is CrewAI</h3>
+<p>CrewAI is a framework for orchestrating role-playing AI agents. Each agent has a defined role, goal, and backstory that shapes its LLM behavior. Agents collaborate on tasks via sequential, parallel, or hierarchical processes. It's designed for team-based workflows where different "roles" (researcher, writer, analyst) each contribute.</p>
+<h3 id="core-components">Core Components</h3>
+<p>```python
+from crewai import Agent, Task, Crew, Process
+from crewai.tools import BaseTool, tool
+from crewai_tools import (
+    SerperDevTool,         # Google search via Serper API
+    WebsiteSearchTool,     # RAG over websites
+    FileReadTool,          # read files
+    DirectoryReadTool,     # list directory
+    CodeDocsSearchTool,    # search code documentation
+    GithubSearchTool,      # search GitHub
+    YoutubeVideoSearchTool,# search YouTube
+)</p>
+</section>
+<section id="custom-tool">
+<h1 id="custom-tool">Custom tool</h1>
+<p>@tool("Java File Scanner")
+def scan_java_file(file_path: str) -&gt; str:
+    """Read and analyze a Java source file for toggle references."""
+    return Path(file_path).read_text()[:3000]</p>
+</section>
+<section id="agent-definition">
+<h1 id="agent-definition">Agent definition</h1>
+<p>agent = Agent(
+    role="Senior Java Developer",
+    goal="Analyze Java source code for feature toggle usage patterns",
+    backstory="""You are an expert Java developer with 10 years of experience
+    in enterprise payment systems. You understand Spring Boot, Hibernate,
+    and feature flag patterns deeply.""",
+    tools=[scan_java_file],
+    llm=ChatOpenAI(model="gpt-4o-mini", ...),
+    verbose=True,
+    allow_delegation=False,     # can this agent delegate to others?
+    memory=True,                # enables inter-task memory
+    max_iter=15,                # max reasoning iterations
+    max_rpm=10,                 # rate limit: requests per minute
+)</p>
+</section>
+<section id="task-definition">
+<h1 id="task-definition">Task definition</h1>
+<p>task = Task(
+    description="""Analyze the toggle '{toggle_name}' in the provided Java codebase.
+    Find all usages across all classes and document:
+    1. Which classes use this toggle
+    2. What business logic runs when ON
+    3. What business logic runs when OFF
+    4. Any downstream service calls affected""",
+    expected_output="""A structured CSV row with columns:
+    toggle_name, class_name, file_path, on_impact, off_impact, risk_level""",
+    agent=agent,
+    tools=[scan_java_file],           # task-level tool override
+    context=[previous_task],          # depends on output of previous_task
+    output_pydantic=ToggleAnalysis,   # strongly-typed output
+    output_file="analysis.csv",       # auto-save output
+    async_execution=True,             # run in parallel with other tasks
+    human_input=False,                # set True to ask human mid-task
+    callback=lambda output: log(output)  # post-task callback
+)</p>
+</section>
+<section id="crew-bring-it-all-together">
+<h1 id="crew-bring-it-all-together">Crew — bring it all together</h1>
+<p>crew = Crew(
+    agents=[orchestrator, analyst, writer, qa_agent],
+    tasks=[analysis_task, report_task, review_task],
+    process=Process.hierarchical,  # sequential | hierarchical | parallel
+    manager_llm=ChatOpenAI(model="gpt-4o", ...),  # for hierarchical
+    memory=True,                    # shared cross-task memory
+    cache=True,                     # cache tool call results
+    max_rpm=30,
+    embedder={                      # memory embedding config
+        "provider": "huggingface",
+        "config": {"model": "sentence-transformers/all-MiniLM-L6-v2"}
+    },
+    verbose=True,
+    full_output=True,               # return all task outputs
+    output_log_file="crew_log.txt"
+)</p>
+<p>result = crew.kickoff(inputs={"toggle_name": "Enable-CIT"})</p>
+</section>
+<section id="result-raw-final-output-string">
+<h1 id="resultraw-final-output-string">result.raw: final output string</h1>
+</section>
+<section id="result-pydantic-typed-output-if-output-pydantic-set">
+<h1 id="resultpydantic-typed-output-if-output_pydantic-set">result.pydantic: typed output if output_pydantic set</h1>
+</section>
+<section id="result-tasks-output-list-of-all-task-outputs">
+<h1 id="resulttasks_output-list-of-all-task-outputs">result.tasks_output: list of all task outputs</h1>
+<p>```</p>
+<h3 id="process-types">Process Types</h3>
+<table>
+<thead>
+<tr>
+<th>Process</th>
+<th>When to Use</th>
+<th>How it Works</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Process.sequential</code></td>
+<td>Default, linear workflow</td>
+<td>Task 1 → Task 2 → Task 3 in order</td>
+</tr>
+<tr>
+<td><code>Process.hierarchical</code></td>
+<td>Manager delegates to workers</td>
+<td>Manager agent reads tasks, delegates to best-fit agent</td>
+</tr>
+<tr>
+<td><code>Process.parallel</code> (experimental)</td>
+<td>Independent tasks</td>
+<td>All tasks run simultaneously</td>
+</tr>
+</tbody>
+</table>
+<h3 id="memory-types">Memory Types</h3>
+<p>```python</p>
+</section>
+<section id="short-term-rag-over-current-session-automatic-with-memory-true">
+<h1 id="short-term-rag-over-current-session-automatic-with-memorytrue">Short-term: RAG over current session (automatic with memory=True)</h1>
+</section>
+<section id="long-term-persistent-sqlite-automatic-with-memory-true">
+<h1 id="long-term-persistent-sqlite-automatic-with-memorytrue">Long-term: persistent SQLite (automatic with memory=True)</h1>
+</section>
+<section id="entity-tracks-named-entities-people-companies-systems">
+<h1 id="entity-tracks-named-entities-people-companies-systems">Entity: tracks named entities (people, companies, systems)</h1>
+</section>
+<section id="contextual-combines-all-memory-types-for-context-injection">
+<h1 id="contextual-combines-all-memory-types-for-context-injection">Contextual: combines all memory types for context injection</h1>
+</section>
+<section id="custom-memory-configuration">
+<h1 id="custom-memory-configuration">Custom memory configuration</h1>
+<p>from crewai.memory import LongTermMemory
+from crewai.memory.storage.ltm_sqlite_storage import LTMSQLiteStorage</p>
+<p>crew = Crew(
+    ...
+    memory=True,
+    long_term_memory=LongTermMemory(
+        storage=LTMSQLiteStorage(db_path="./crew_memory.db")
+    )
+)
+```</p>
+<h3 id="use-cases">Use Cases</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Use Case</th>
+<th>Agents</th>
+<th>Process</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Content creation</td>
+<td>researcher, writer, editor, publisher</td>
+<td>sequential</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Code review</td>
+<td>security, performance, style reviewer</td>
+<td>parallel</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Sprint planning</td>
+<td>PO, estimator, risk analyst, planner</td>
+<td>hierarchical</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Market research</td>
+<td>data collector, analyst, report writer</td>
+<td>sequential</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Customer support</td>
+<td>classifier, resolver, escalation</td>
+<td>sequential</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Newsletter generation</td>
+<td>researcher, curator, writer, editor</td>
+<td>sequential</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Security audit</td>
+<td>SAST, dependency, OWASP, reporter</td>
+<td>parallel</td>
+</tr>
+<tr>
+<td>8</td>
+<td>DevOps automation</td>
+<td>monitor, diagnostics, resolver, notifier</td>
+<td>sequential</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Data analysis</td>
+<td>data fetcher, analyst, visualizer</td>
+<td>sequential</td>
+</tr>
+<tr>
+<td>10</td>
+<td>HR screening</td>
+<td>CV parser, skill matcher, interviewer</td>
+<td>sequential</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="34-autogen-complete-reference">3.4 AutoGen — Complete Reference</h2>
+<h3 id="what-is-autogen">What is AutoGen</h3>
+<p>AutoGen (Microsoft) is a framework for building multi-agent conversational AI systems. Agents communicate through a shared message history. It's unique for its built-in code execution (UserProxyAgent can run Python/bash code directly) making it ideal for data analysis, software engineering, and math problem-solving.</p>
+<h3 id="core-components">Core Components</h3>
+<p>```python
+import autogen</p>
+<p>config_list = [{
+    "model": "gpt-4o-mini",
+    "base_url": "https://models.inference.ai.azure.com",
+    "api_key": token
+}]</p>
+</section>
+<section id="assistantagent-llm-powered-generates-text-code">
+<h1 id="assistantagent-llm-powered-generates-textcode">AssistantAgent: LLM-powered, generates text/code</h1>
+<p>assistant = autogen.AssistantAgent(
+    name="CodeAssistant",
+    system_message="Write Python code to solve the given problem. Test it thoroughly.",
+    llm_config={
+        "config_list": config_list,
+        "temperature": 0,
+        "timeout": 120,
+        "cache_seed": 42,   # deterministic caching
+    }
+)</p>
+</section>
+<section id="userproxyagent-represents-human-can-execute-code">
+<h1 id="userproxyagent-represents-human-can-execute-code">UserProxyAgent: represents human, can execute code</h1>
+<p>user_proxy = autogen.UserProxyAgent(
+    name="UserProxy",
+    human_input_mode="NEVER",    # NEVER | TERMINATE | ALWAYS
+    max_consecutive_auto_reply=10,
+    is_termination_msg=lambda x: "TERMINATE" in x.get("content", ""),
+    code_execution_config={
+        "work_dir": "workspace",
+        "use_docker": False,     # True for sandboxed execution
+        "timeout": 60,
+    },
+    function_map={"my_function": my_function_impl}  # callable tools
+)</p>
+</section>
+<section id="start-conversation">
+<h1 id="start-conversation">Start conversation</h1>
+<p>user_proxy.initiate_chat(
+    assistant,
+    message="Write a Python function to analyze CSV data and plot a histogram"
+)
+```</p>
+<h3 id="groupchat-for-multi-expert-discussion">GroupChat for Multi-Expert Discussion</h3>
+<p>```python</p>
+</section>
+<section id="multiple-specialized-agents-discussing-a-problem">
+<h1 id="multiple-specialized-agents-discussing-a-problem">Multiple specialized agents discussing a problem</h1>
+<p>security_expert = autogen.AssistantAgent("SecurityExpert",
+    system_message="You are a cybersecurity expert. Focus on security vulnerabilities and OWASP best practices.",
+    llm_config={"config_list": config_list})</p>
+<p>performance_expert = autogen.AssistantAgent("PerformanceExpert",
+    system_message="You are a performance engineering expert. Focus on latency, memory, and scalability.",
+    llm_config={"config_list": config_list})</p>
+<p>architect = autogen.AssistantAgent("Architect",
+    system_message="You are a software architect. Make final design decisions based on expert inputs.",
+    llm_config={"config_list": config_list})</p>
+<p>user_proxy = autogen.UserProxyAgent("User",
+    human_input_mode="TERMINATE",
+    code_execution_config=False)</p>
+</section>
+<section id="custom-speaker-selection-round-robin-by-default-or-custom-logic">
+<h1 id="custom-speaker-selection-round-robin-by-default-or-custom-logic">Custom speaker selection (round-robin by default, or custom logic)</h1>
+<p>def custom_speaker_selection(last_speaker, groupchat):
+    if last_speaker is user_proxy:
+        return security_expert
+    if last_speaker is security_expert:
+        return performance_expert
+    if last_speaker is performance_expert:
+        return architect
+    return user_proxy</p>
+<p>groupchat = autogen.GroupChat(
+    agents=[user_proxy, security_expert, performance_expert, architect],
+    messages=[],
+    max_round=15,
+    speaker_selection_func=custom_speaker_selection,
+    allow_repeat_speaker=False
+)
+manager = autogen.GroupChatManager(groupchat=groupchat, llm_config={"config_list": config_list})</p>
+<p>user_proxy.initiate_chat(manager, message="Review this REST API design for a payment gateway")
+```</p>
+<h3 id="function-calling">Function Calling</h3>
+<p>```python
+from autogen import register_function</p>
+<p>def search_cve(package_name: str, version: str) -&gt; str:
+    """Search NVD database for CVEs affecting this package version."""
+    # Implementation: call NVD API
+    return f"Found 2 CVEs for {package_name}@{version}: CVE-2024-1234 (CRITICAL), CVE-2024-5678 (HIGH)"</p>
+</section>
+<section id="register-for-llm-schema-and-execution-function">
+<h1 id="register-for-llm-schema-and-execution-function">Register for LLM (schema) and execution (function)</h1>
+<p>register_function(
+    search_cve,
+    caller=security_expert,   # LLM that decides to call this function
+    executor=user_proxy,      # agent that actually executes it
+    name="search_cve",
+    description="Search the NVD CVE database for vulnerabilities in a package"
+)
+```</p>
+<h3 id="nested-chats">Nested Chats</h3>
+<p>```python</p>
+</section>
+<section id="agent-a-triggers-a-sub-conversation-between-b-and-c-when-it-needs-deep-analysis">
+<h1 id="agent-a-triggers-a-sub-conversation-between-b-and-c-when-it-needs-deep-analysis">Agent A triggers a sub-conversation between B and C when it needs deep analysis</h1>
+<p>def reflection_message(recipient, messages, sender, config):
+    return f"Please review this code critically:\n{messages[-1]['content']}"</p>
+<p>user_proxy.register_nested_chats([
+    {"recipient": critic_agent, "message": reflection_message, "max_turns": 2}
+], trigger=assistant)
+```</p>
+<h3 id="use-cases">Use Cases</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Use Case</th>
+<th>Pattern</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Code generation + debug</td>
+<td>AssistantAgent + UserProxyAgent (executes code)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Data analysis</td>
+<td>Planner + Coder + Executor + Critic</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Multi-expert design review</td>
+<td>GroupChat: security + performance + architect</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Automated bug fixing</td>
+<td>Reproducer + Fixer + Verifier loop</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Math/science problem solving</td>
+<td>AssistantAgent + code execution</td>
+</tr>
+<tr>
+<td>6</td>
+<td>API integration builder</td>
+<td>Reader + Coder + Tester</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Research synthesis</td>
+<td>Researcher + Fact-checker + Summarizer</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Teaching/tutoring</td>
+<td>Tutor + Student Proxy + Evaluator</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Incident response</td>
+<td>Detector + Diagnostics + Resolver + Communicator</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Software engineering team</td>
+<td>Planner + Developer + Tester + Reviewer</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="35-llamaindex-complete-reference">3.5 LlamaIndex — Complete Reference</h2>
+<h3 id="what-is-llamaindex">What is LlamaIndex</h3>
+<p>LlamaIndex (formerly GPT Index) is a data framework for LLM applications focused on connecting LLMs to external data. It offers more sophisticated index types than LangChain (knowledge graphs, document summaries, hierarchical retrieval) and a query engine abstraction that hides retrieval complexity.</p>
+<p>```python
+from llama_index.core import VectorStoreIndex, SimpleDirectoryReader, Settings
+from llama_index.llms.openai import OpenAI
+from llama_index.embeddings.huggingface import HuggingFaceEmbedding</p>
+</section>
+<section id="configure-global-settings">
+<h1 id="configure-global-settings">Configure global settings</h1>
+<p>Settings.llm = OpenAI(model="gpt-4o-mini", base_url="...", api_key=token)
+Settings.embed_model = HuggingFaceEmbedding(model_name="BAAI/bge-small-en-v1.5")</p>
+</section>
+<section id="load-documents">
+<h1 id="load-documents">Load documents</h1>
+<p>documents = SimpleDirectoryReader("./docs").load_data()</p>
+</section>
+<section id="build-index">
+<h1 id="build-index">Build index</h1>
+<p>index = VectorStoreIndex.from_documents(documents)</p>
+</section>
+<section id="query-engine">
+<h1 id="query-engine">Query engine</h1>
+<p>query_engine = index.as_query_engine(similarity_top_k=5, streaming=True)
+response = query_engine.query("What are the key architectural decisions?")
+print(response)</p>
+</section>
+<section id="chat-engine-multi-turn">
+<h1 id="chat-engine-multi-turn">Chat engine (multi-turn)</h1>
+<p>chat_engine = index.as_chat_engine(chat_mode="condense_plus_context", verbose=True)
+response = chat_engine.chat("Tell me about the payment flow")
+follow_up = chat_engine.chat("What are the failure modes?")
+```</p>
+<h3 id="advanced-patterns">Advanced Patterns</h3>
+<p>```python</p>
+</section>
+<section id="sub-question-query-engine-decomposes-complex-questions">
+<h1 id="sub-question-query-engine-decomposes-complex-questions">Sub-question query engine (decomposes complex questions)</h1>
+<p>from llama_index.core.query_engine import SubQuestionQueryEngine
+from llama_index.core.tools import QueryEngineTool</p>
+<p>tools = [
+    QueryEngineTool.from_defaults(query_engine=payments_engine, name="payments", description="Payment system docs"),
+    QueryEngineTool.from_defaults(query_engine=security_engine, name="security", description="Security specs"),
+]
+sub_q_engine = SubQuestionQueryEngine.from_defaults(query_engine_tools=tools)</p>
+</section>
+<section id="for-how-does-authentication-affect-payments-it-generates-sub-questions-for-each-tool">
+<h1 id="for-how-does-authentication-affect-payments-it-generates-sub-questions-for-each-tool">For "How does authentication affect payments?", it generates sub-questions for each tool</h1>
+</section>
+<section id="router-query-engine-picks-best-index-for-query">
+<h1 id="router-query-engine-picks-best-index-for-query">Router query engine (picks best index for query)</h1>
+<p>from llama_index.core.query_engine import RouterQueryEngine
+from llama_index.core.selectors import LLMSingleSelector
+router = RouterQueryEngine(selector=LLMSingleSelector.from_defaults(), query_engine_tools=tools)</p>
+</section>
+<section id="knowledge-graph-index-entity-relationships">
+<h1 id="knowledge-graph-index-entity-relationships">Knowledge Graph Index (entity relationships)</h1>
+<p>from llama_index.core import KnowledgeGraphIndex
+kg_index = KnowledgeGraphIndex.from_documents(documents, max_triplets_per_chunk=10)
+kg_query_engine = kg_index.as_query_engine(include_text=True, response_mode="tree_summarize")</p>
+</section>
+<section id="agents-llamaindex">
+<h1 id="agents-llamaindex">Agents (LlamaIndex)</h1>
+<p>from llama_index.core.agent import ReActAgent
+from llama_index.core.tools import FunctionTool</p>
+<p>def get_toggle_status(toggle_name: str) -&gt; str:
+    return f"Toggle {toggle_name} is ENABLED in CPE, DISABLED in Orchestrator"</p>
+<p>toggle_tool = FunctionTool.from_defaults(fn=get_toggle_status)
+agent = ReActAgent.from_tools([toggle_tool, query_engine_as_tool], llm=llm, verbose=True)
+response = agent.chat("What is the status of the CIT MIT toggle and what does it do?")
+```</p>
+<hr />
+<h2 id="36-dspy-complete-reference">3.6 DSPy — Complete Reference</h2>
+<h3 id="what-is-dspy">What is DSPy</h3>
+<p>DSPy (Stanford) replaces hand-crafted prompts with learnable modules. Instead of writing "You are an expert..." prompts manually, you define input/output signatures and DSPy's optimizer (Teleprompter) automatically discovers the best prompts/few-shot examples by evaluating on a small training set.</p>
+<p>```python
+import dspy</p>
+</section>
+<section id="configure-llm">
+<h1 id="configure-llm">Configure LLM</h1>
+<p>lm = dspy.LM("openai/gpt-4o-mini", base_url="...", api_key=token)
+dspy.configure(lm=lm)</p>
+</section>
+<section id="1-define-signature-declarative-what-goes-in-what-comes-out">
+<h1 id="1-define-signature-declarative-what-goes-in-what-comes-out">1. Define signature (declarative: "what goes in, what comes out")</h1>
+<p>class ToggleImpactAnalysis(dspy.Signature):
+    """Analyze the business impact of a feature toggle."""
+    code_context:  str = dspy.InputField(desc="Java code snippet containing toggle usage")
+    toggle_name:   str = dspy.InputField(desc="Name of the feature toggle")
+    on_impact:     str = dspy.OutputField(desc="Business impact when toggle is ON")
+    off_impact:    str = dspy.OutputField(desc="Business impact when toggle is OFF")
+    risk_level:    str = dspy.OutputField(desc="Change risk: HIGH, MEDIUM, or LOW")</p>
+</section>
+<section id="2-use-built-in-modules">
+<h1 id="2-use-built-in-modules">2. Use built-in modules</h1>
+<p>predictor = dspy.Predict(ToggleImpactAnalysis)  # simple predict
+cot       = dspy.ChainOfThought(ToggleImpactAnalysis)  # chain-of-thought
+react     = dspy.ReAct(ToggleImpactAnalysis, tools=[java_search_tool])  # agent</p>
+</section>
+<section id="3-build-a-pipeline-module-composable-unit">
+<h1 id="3-build-a-pipeline-module-composable-unit">3. Build a pipeline (Module = composable unit)</h1>
+<p>class ToggleAnalysisPipeline(dspy.Module):
+    def <strong>init</strong>(self):
+        self.analyze   = dspy.ChainOfThought(ToggleImpactAnalysis)
+        self.summarize = dspy.Predict("impact_details -&gt; executive_summary")</p>
+<pre><code>def forward(self, code_context, toggle_name):
+    analysis = self.analyze(code_context=code_context, toggle_name=toggle_name)
+    summary  = self.summarize(impact_details=f"ON: {analysis.on_impact}, OFF: {analysis.off_impact}")
+    return dspy.Prediction(analysis=analysis, summary=summary.executive_summary)
+</code></pre>
+<p>pipeline = ToggleAnalysisPipeline()</p>
+</section>
+<section id="4-optimize-prompts-automatically-using-training-examples">
+<h1 id="4-optimize-prompts-automatically-using-training-examples">4. Optimize prompts automatically using training examples</h1>
+<p>from dspy.teleprompt import BootstrapFewShot</p>
+<p>def metric(example, prediction, trace=None):
+    # Custom metric: does prediction match expected output?
+    return example.on_impact.lower() in prediction.on_impact.lower()</p>
+<p>train_set = [
+    dspy.Example(code_context="...", toggle_name="Enable-CIT", on_impact="CIT enabled in scheme", off_impact="CIT disabled").with_inputs("code_context", "toggle_name")
+]</p>
+<p>optimizer  = BootstrapFewShot(metric=metric, max_bootstrapped_demos=3)
+optimized  = optimizer.compile(pipeline, trainset=train_set)
+optimized.save("optimized_pipeline.json")  # save for production</p>
+<pre><code>
+---
+
+## 3.7 MCP — Model Context Protocol
+
+### What is MCP
+MCP (Model Context Protocol) by Anthropic is an open standard that defines how LLM applications connect to external tools and data sources. Think of it as USB-C for AI: any MCP-compatible LLM host can use any MCP-compatible server without custom integration code.
+
+### Architecture
+</code></pre>
+<p>MCP Host (Claude Desktop / VS Code / Custom App)
+         │
+    MCP Client (embedded in host)
+         │  JSON-RPC 2.0 (stdio or HTTP+SSE)
+         ▼
+    MCP Server (exposes tools/resources/prompts)
+         │
+    External Service (GitHub API, database, filesystem, etc.)
+```</p>
+<h3 id="three-primitives">Three Primitives</h3>
+<p>```python</p>
+</section>
+<section id="1-tools-executable-functions-the-llm-can-call">
+<h1 id="1-tools-executable-functions-the-llm-can-call">1. TOOLS — executable functions the LLM can call</h1>
+<p>@mcp.tool()
+async def search_java_files(pattern: str, repo: str) -&gt; list[str]:
+    """Search Java files in a repository for a pattern."""
+    result = subprocess.run(["grep", "-r", "-l", pattern, f"/repos/{repo}/src"],
+                           capture_output=True, text=True)
+    return result.stdout.strip().split("\n")</p>
+</section>
+<section id="2-resources-readable-data-like-get-endpoints">
+<h1 id="2-resources-readable-data-like-get-endpoints">2. RESOURCES — readable data (like GET endpoints)</h1>
+<p>@mcp.resource("toggle://registry/{repo}")
+async def get_toggle_registry(repo: str) -&gt; str:
+    """Get the toggle registry CSV for a specific repository."""
+    return Path(f"data/registry/toggle-registry-{repo}.csv").read_text()</p>
+</section>
+<section id="3-prompts-reusable-prompt-templates">
+<h1 id="3-prompts-reusable-prompt-templates">3. PROMPTS — reusable prompt templates</h1>
+<p>@mcp.prompt()
+async def analyze_toggle_prompt(toggle_name: str, code_snippet: str) -&gt; list[Message]:
+    """Standard prompt template for toggle analysis."""
+    return [
+        UserMessage(f"Analyze toggle '{toggle_name}' in this code:\n{code_snippet}\nProvide ON/OFF impact.")
+    ]</p>
+<pre><code>
+### Building a Custom MCP Server with FastMCP
+```python
+from fastmcp import FastMCP
+import subprocess
+from pathlib import Path
+
+mcp = FastMCP(&quot;Toggle Management Server&quot;)
+
+@mcp.tool()
+def scan_repository(repo_name: str, toggle_name: str) -&gt; dict:
+    &quot;&quot;&quot;Scan a Java repository for toggle usages.&quot;&quot;&quot;
+    ps_script = f&quot;tools/active/toggle-search-utility.ps1&quot;
+    result = subprocess.run(
+        [&quot;powershell&quot;, &quot;-File&quot;, ps_script, toggle_name, repo_name],
+        capture_output=True, text=True, cwd=&quot;.&quot;
+    )
+    return {&quot;usages&quot;: result.stdout, &quot;errors&quot;: result.stderr, &quot;repo&quot;: repo_name}
+
+@mcp.tool()
+def read_toggle_registry() -&gt; str:
+    &quot;&quot;&quot;Read the combined toggle registry CSV.&quot;&quot;&quot;
+    return Path(&quot;data/registry/toggle-registry-lookup.csv&quot;).read_text()
+
+@mcp.tool()
+def write_analysis_result(toggle_name: str, analysis_csv_row: str) -&gt; bool:
+    &quot;&quot;&quot;Append an analysis result to the main analysis CSV.&quot;&quot;&quot;
+    with open(&quot;data/analysis/toggle-codebase-usage-analysis.csv&quot;, &quot;a&quot;) as f:
+        f.write(analysis_csv_row + &quot;\n&quot;)
+    return True
+
+if __name__ == &quot;__main__&quot;:
+    mcp.run()  # starts stdio server
+    # or: mcp.run(transport=&quot;sse&quot;, port=8000)  # HTTP+SSE for remote
+</code></pre>
+<h3 id="official-mcp-servers-available">Official MCP Servers Available</h3>
+<table>
+<thead>
+<tr>
+<th>Server</th>
+<th>What it provides</th>
+<th>Free?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>filesystem</td>
+<td>Read/write local files</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>GitHub</td>
+<td>PRs, issues, code, commits</td>
+<td>Yes (public repos)</td>
+</tr>
+<tr>
+<td>GitLab</td>
+<td>Issues, MRs, pipelines</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Slack</td>
+<td>Messages, channels, users</td>
+<td>Yes (workspace)</td>
+</tr>
+<tr>
+<td>PostgreSQL</td>
+<td>SQL queries, schema introspection</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>SQLite</td>
+<td>Local database operations</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Brave Search</td>
+<td>Web search</td>
+<td>Free tier</td>
+</tr>
+<tr>
+<td>Puppeteer</td>
+<td>Browser automation, screenshots</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Confluence</td>
+<td>Pages, spaces (Atlassian)</td>
+<td>Atlassian account</td>
+</tr>
+<tr>
+<td>Jira</td>
+<td>Issues, sprints, projects</td>
+<td>Atlassian account</td>
+</tr>
+<tr>
+<td>Linear</td>
+<td>Issues, projects, teams</td>
+<td>Linear account</td>
+</tr>
+<tr>
+<td>Notion</td>
+<td>Pages, databases</td>
+<td>Notion account</td>
+</tr>
+<tr>
+<td>Sentry</td>
+<td>Errors, issues, releases</td>
+<td>Sentry account</td>
+</tr>
+<tr>
+<td>Figma</td>
+<td>Design files, components</td>
+<td>Figma account</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="38-acp-agent-communication-protocol">3.8 ACP — Agent Communication Protocol</h2>
+<h3 id="what-is-acp">What is ACP</h3>
+<p>ACP (Agent Communication Protocol) by IBM/BeeAI is an open standard for agent-to-agent communication. Where MCP standardises LLM-to-tool connections, ACP standardises agent-to-agent connections: how one agent discovers and calls another agent, regardless of what framework they're built on.</p>
+<p>```python</p>
+</section>
+<section id="acp-compatible-agent-any-framework-langgraph-crewai-autogen-custom">
+<h1 id="acp-compatible-agent-any-framework-langgraph-crewai-autogen-custom">ACP-compatible agent (any framework: LangGraph, CrewAI, AutoGen, custom)</h1>
+<p>from fastapi import FastAPI
+from pydantic import BaseModel
+from typing import Any</p>
+<p>app = FastAPI(title="Research Agent - ACP Server")</p>
+<p>class RunRequest(BaseModel):
+    input: dict[str, Any]
+    thread_id: str | None = None</p>
+<p>class RunResponse(BaseModel):
+    run_id: str
+    output: dict[str, Any] | None = None
+    status: str  # "completed" | "running" | "failed"</p>
+<p>@app.post("/runs", response_model=RunResponse)
+async def create_run(request: RunRequest):
+    # Your agent logic here (LangGraph, CrewAI, etc.)
+    result = await my_research_agent.run(request.input["query"])
+    return RunResponse(run_id="run-123", output={"result": result}, status="completed")</p>
+<p>@app.get("/runs/{run_id}", response_model=RunResponse)
+async def get_run_status(run_id: str):
+    # For async long-running tasks
+    status = run_store.get(run_id)
+    return RunResponse(run_id=run_id, output=status.output, status=status.status)</p>
+</section>
+<section id="calling-another-acp-agent-from-your-agent">
+<h1 id="calling-another-acp-agent-from-your-agent">Calling another ACP agent from your agent</h1>
+<p>import httpx</p>
+<p>async def call_writer_agent(content: str) -&gt; str:
+    async with httpx.AsyncClient() as client:
+        response = await client.post(
+            "http://writer-agent:8002/runs",
+            json={"input": {"content_to_write": content}},
+            timeout=120
+        )
+        return response.json()["output"]["formatted_document"]</p>
+<pre><code>
+### MCP + ACP Combined Architecture
+</code></pre>
+<p>User
+ │
+ ▼
+Supervisor Agent (LangGraph) — ACP server :8000
+ │  calls via ACP (HTTP)
+ ├──► Research Agent (CrewAI) — ACP server :8001
+ │          │ uses MCP tools
+ │          ├── web_search MCP (Brave)
+ │          └── arxiv_search MCP (custom)
+ │
+ ├──► Analysis Agent (AutoGen) — ACP server :8002
+ │          │ uses MCP tools
+ │          ├── database MCP (PostgreSQL)
+ │          └── calculator MCP (custom)
+ │
+ └──► Publisher Agent (LangChain) — ACP server :8003
+            │ uses MCP tools
+            ├── confluence MCP (Atlassian)
+            └── slack MCP</p>
+<pre><code>
+---
+
+## 3.9 Other Notable Libraries
+
+### Pydantic AI
+```python
+from pydantic_ai import Agent
+from pydantic import BaseModel
+
+class AnalysisResult(BaseModel):
+    summary: str
+    risk_level: str  # HIGH | MEDIUM | LOW
+    recommendations: list[str]
+
+agent = Agent(
+    &quot;openai:gpt-4o-mini&quot;,
+    result_type=AnalysisResult,      # strongly-typed output
+    system_prompt=&quot;You are a code analysis expert.&quot;,
+)
+
+result = agent.run_sync(&quot;Analyze this Java code for toggle patterns: {code}&quot;)
+print(result.data.risk_level)        # Pydantic-validated output
+print(result.data.recommendations)
+</code></pre>
+<h3 id="smolagents-huggingface">Smolagents (HuggingFace)</h3>
+<p>```python
+from smolagents import CodeAgent, DuckDuckGoSearchTool, HfApiModel</p>
+<p>model = HfApiModel("Qwen/Qwen2.5-Coder-32B-Instruct")  # free HuggingFace Inference API</p>
+<p>agent = CodeAgent(
+    tools=[DuckDuckGoSearchTool()],
+    model=model,
+    max_steps=10
+)</p>
+</section>
+<section id="codeagent-writes-python-code-to-solve-tasks-very-powerful-for-data-tasks">
+<h1 id="codeagent-writes-python-code-to-solve-tasks-very-powerful-for-data-tasks">CodeAgent writes Python code to solve tasks — very powerful for data tasks</h1>
+<p>result = agent.run("Search for the latest LangGraph releases and summarize what changed")</p>
+<pre><code>
+### Instructor (Structured Outputs)
+```python
+import instructor
+from openai import OpenAI
+from pydantic import BaseModel
+from typing import List
+
+client = instructor.from_openai(OpenAI(base_url=&quot;...&quot;, api_key=token))
+
+class Sprint(BaseModel):
+    stories:    List[str]
+    total_points: int
+    risks:      List[str]
+
+sprint = client.chat.completions.create(
+    model=&quot;gpt-4o-mini&quot;,
+    response_model=Sprint,           # auto-retries until valid Pydantic object
+    messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: f&quot;Plan sprint from backlog: {backlog}&quot;}]
+)
+print(sprint.total_points)  # always an int, always valid
+</code></pre>
+<hr />
+</section>
+<section id="part-4-free-paid-resources">
+<h1 id="part-4-free-paid-resources">Part 4 — Free &amp; Paid Resources</h1>
+<h2 id="free-resources">Free Resources</h2>
+<h3 id="courses-free-or-free-audit">Courses (Free or Free Audit)</h3>
+<table>
+<thead>
+<tr>
+<th>Course</th>
+<th>Platform</th>
+<th>Library</th>
+<th>Link</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LangChain for LLM Application Development</td>
+<td>DeepLearning.AI</td>
+<td>LangChain</td>
+<td>deeplearning.ai</td>
+</tr>
+<tr>
+<td>Build LLM Apps with LangChain.js</td>
+<td>DeepLearning.AI</td>
+<td>LangChain</td>
+<td>deeplearning.ai</td>
+</tr>
+<tr>
+<td>Introduction to LangGraph</td>
+<td>LangChain Academy</td>
+<td>LangGraph</td>
+<td>academy.langchain.com (free)</td>
+</tr>
+<tr>
+<td>Multi AI Agent Systems with crewAI</td>
+<td>DeepLearning.AI</td>
+<td>CrewAI</td>
+<td>deeplearning.ai</td>
+</tr>
+<tr>
+<td>AI Agentic Design Patterns with AutoGen</td>
+<td>DeepLearning.AI</td>
+<td>AutoGen</td>
+<td>deeplearning.ai</td>
+</tr>
+<tr>
+<td>Building Agentic RAG with LlamaIndex</td>
+<td>DeepLearning.AI</td>
+<td>LlamaIndex</td>
+<td>deeplearning.ai</td>
+</tr>
+<tr>
+<td>Building with MCP</td>
+<td>Anthropic</td>
+<td>MCP</td>
+<td>docs.anthropic.com</td>
+</tr>
+<tr>
+<td>Function, Tools and Agents with LangChain</td>
+<td>DeepLearning.AI</td>
+<td>LangChain</td>
+<td>deeplearning.ai</td>
+</tr>
+<tr>
+<td>LangGraph: Build Stateful AI Workflows</td>
+<td>LangChain Academy</td>
+<td>LangGraph</td>
+<td>academy.langchain.com</td>
+</tr>
+</tbody>
+</table>
+<h3 id="free-apis-tools">Free APIs &amp; Tools</h3>
+<table>
+<thead>
+<tr>
+<th>Service</th>
+<th>Free Tier</th>
+<th>Use For</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GitHub Models (Azure)</td>
+<td>Unlimited via <code>gh auth token</code></td>
+<td>GPT-4o-mini, Claude Haiku, Llama 3</td>
+</tr>
+<tr>
+<td>Groq</td>
+<td>14,400 req/day</td>
+<td>Llama 3.1, Mixtral — very fast</td>
+</tr>
+<tr>
+<td>Google AI Studio</td>
+<td>1,500 req/day (Gemini 1.5 Flash)</td>
+<td>General purpose</td>
+</tr>
+<tr>
+<td>Ollama</td>
+<td>Unlimited (local)</td>
+<td>Any open-source model</td>
+</tr>
+<tr>
+<td>Together.ai</td>
+<td>$1 free credit</td>
+<td>Llama 3, Qwen, DeepSeek</td>
+</tr>
+<tr>
+<td>HuggingFace Inference API</td>
+<td>Rate-limited free tier</td>
+<td>1000s of models</td>
+</tr>
+<tr>
+<td>Cohere</td>
+<td>1000 calls/month</td>
+<td>Embeddings + generation</td>
+</tr>
+<tr>
+<td>LangSmith</td>
+<td>5,000 traces/month</td>
+<td>Tracing + evaluation</td>
+</tr>
+<tr>
+<td>ChromaDB</td>
+<td>Unlimited (embedded)</td>
+<td>Vector store</td>
+</tr>
+<tr>
+<td>FAISS</td>
+<td>Unlimited (embedded)</td>
+<td>Vector store</td>
+</tr>
+<tr>
+<td>Qdrant</td>
+<td>Unlimited (self-hosted)</td>
+<td>Vector store</td>
+</tr>
+<tr>
+<td>Serper.dev</td>
+<td>2,500 searches/month</td>
+<td>Google search for agents</td>
+</tr>
+<tr>
+<td>DuckDuckGo Search</td>
+<td>Unlimited (no key)</td>
+<td>Web search</td>
+</tr>
+</tbody>
+</table>
+<h3 id="youtube-channels-free">YouTube Channels (Free)</h3>
+<ul>
+<li><strong>Sam Witteveen</strong> — LangChain, agents, advanced RAG</li>
+<li><strong>James Briggs</strong> (Pinecone) — RAG, embeddings, vector databases</li>
+<li><strong>Greg Kamradt</strong> — LangChain tutorials, data science</li>
+<li><strong>AI Jason</strong> — CrewAI, AutoGen, agent systems</li>
+<li><strong>LangChain Official</strong> — official tutorials, new features</li>
+<li><strong>Microsoft Developer</strong> — AutoGen tutorials</li>
+<li><strong>David Ondrej</strong> — CrewAI, practical multi-agent systems</li>
+<li><strong>1littlecoder</strong> — LlamaIndex, RAG, quick tutorials</li>
+</ul>
+<h3 id="documentation">Documentation</h3>
+<table>
+<thead>
+<tr>
+<th>Library</th>
+<th>Docs URL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LangChain</td>
+<td>python.langchain.com/docs</td>
+</tr>
+<tr>
+<td>LangGraph</td>
+<td>langchain-ai.github.io/langgraph</td>
+</tr>
+<tr>
+<td>CrewAI</td>
+<td>docs.crewai.com</td>
+</tr>
+<tr>
+<td>AutoGen</td>
+<td>microsoft.github.io/autogen</td>
+</tr>
+<tr>
+<td>LlamaIndex</td>
+<td>docs.llamaindex.ai</td>
+</tr>
+<tr>
+<td>MCP</td>
+<td>spec.modelcontextprotocol.io</td>
+</tr>
+<tr>
+<td>ACP</td>
+<td>agentcommunicationprotocol.dev</td>
+</tr>
+<tr>
+<td>DSPy</td>
+<td>dspy.ai</td>
+</tr>
+<tr>
+<td>Pydantic AI</td>
+<td>ai.pydantic.dev</td>
+</tr>
+<tr>
+<td>Smolagents</td>
+<td>huggingface.co/docs/smolagents</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="paid-resources">Paid Resources</h2>
+<h3 id="courses-paid">Courses (Paid)</h3>
+<table>
+<thead>
+<tr>
+<th>Course</th>
+<th>Platform</th>
+<th>Price</th>
+<th>Covers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LangChain- Develop LLM Apps (Eden Marco)</td>
+<td>Udemy</td>
+<td>~$20</td>
+<td>Full LangChain + LCEL</td>
+</tr>
+<tr>
+<td>Build AI Apps with LangGraph</td>
+<td>Udemy</td>
+<td>~$20</td>
+<td>LangGraph stateful agents</td>
+</tr>
+<tr>
+<td>Practical Multi-Agent Systems</td>
+<td>Udemy</td>
+<td>~$20</td>
+<td>CrewAI + AutoGen</td>
+</tr>
+<tr>
+<td>LLM Engineering: Master AI + LLMs</td>
+<td>Udemy</td>
+<td>~$20</td>
+<td>Comprehensive LLM engineering</td>
+</tr>
+<tr>
+<td>Building LLM Powered Applications</td>
+<td>O'Reilly</td>
+<td>$50/month (all)</td>
+<td>Book + video</td>
+</tr>
+<tr>
+<td>AI Engineering</td>
+<td>Scrimba</td>
+<td>$30/month</td>
+<td>Interactive coding</td>
+</tr>
+<tr>
+<td>Pluralsight AI Path</td>
+<td>Pluralsight</td>
+<td>$45/month</td>
+<td>LangChain, Azure AI</td>
+</tr>
+<tr>
+<td>Building AI Applications with LangChain</td>
+<td>LinkedIn Learning</td>
+<td>$40/month</td>
+<td>Corporate focus</td>
+</tr>
+</tbody>
+</table>
+<h3 id="production-apis-paid">Production APIs (Paid)</h3>
+<table>
+<thead>
+<tr>
+<th>Provider</th>
+<th>Model</th>
+<th>Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OpenAI</td>
+<td>GPT-4o</td>
+<td>$5/$15 per MTok (in/out)</td>
+</tr>
+<tr>
+<td>OpenAI</td>
+<td>GPT-4o-mini</td>
+<td>$0.15/$0.60 per MTok</td>
+</tr>
+<tr>
+<td>Anthropic</td>
+<td>Claude 3.5 Sonnet</td>
+<td>$3/$15 per MTok</td>
+</tr>
+<tr>
+<td>Anthropic</td>
+<td>Claude 3.5 Haiku</td>
+<td>$0.80/$4 per MTok</td>
+</tr>
+<tr>
+<td>Google</td>
+<td>Gemini 1.5 Pro</td>
+<td>$3.50/$10.50 per MTok</td>
+</tr>
+<tr>
+<td>Azure OpenAI</td>
+<td>GPT-4o</td>
+<td>Enterprise pricing + SLA</td>
+</tr>
+<tr>
+<td>AWS Bedrock</td>
+<td>Claude, Llama, Titan</td>
+<td>Pay-per-token</td>
+</tr>
+<tr>
+<td>Cohere</td>
+<td>Command R+</td>
+<td>$3/$15 per MTok</td>
+</tr>
+</tbody>
+</table>
+<h3 id="production-vector-databases-paid">Production Vector Databases (Paid)</h3>
+<table>
+<thead>
+<tr>
+<th>DB</th>
+<th>Free Tier</th>
+<th>Paid Tier</th>
+<th>Best For</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pinecone</td>
+<td>5GB (serverless)</td>
+<td>$70+/month</td>
+<td>Production SaaS, managed</td>
+</tr>
+<tr>
+<td>Weaviate Cloud</td>
+<td>14-day trial</td>
+<td>$25/month</td>
+<td>Hybrid search, schemas</td>
+</tr>
+<tr>
+<td>Qdrant Cloud</td>
+<td>1GB cluster</td>
+<td>$25/month</td>
+<td>High-performance, Rust-based</td>
+</tr>
+<tr>
+<td>MongoDB Atlas Vector</td>
+<td>512MB</td>
+<td>$9+/month</td>
+<td>Existing MongoDB users</td>
+</tr>
+<tr>
+<td>PGVector (Supabase)</td>
+<td>500MB</td>
+<td>$25/month</td>
+<td>PostgreSQL users</td>
+</tr>
+</tbody>
+</table>
+<h3 id="observability-monitoring-paid">Observability &amp; Monitoring (Paid)</h3>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Free</th>
+<th>Paid</th>
+<th>Features</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LangSmith</td>
+<td>5k traces/month</td>
+<td>$39/month</td>
+<td>Full tracing, eval, datasets</td>
+</tr>
+<tr>
+<td>Arize Phoenix</td>
+<td>Unlimited (self-hosted)</td>
+<td>Cloud tier</td>
+<td>LLM observability, evals</td>
+</tr>
+<tr>
+<td>Weights &amp; Biases</td>
+<td>Research free</td>
+<td>$50/month</td>
+<td>Experiment tracking</td>
+</tr>
+<tr>
+<td>Helicone</td>
+<td>100k requests/month free</td>
+<td>$20/month</td>
+<td>Cost tracking, caching</td>
+</tr>
+<tr>
+<td>Langfuse</td>
+<td>Unlimited (self-hosted)</td>
+<td>$29/month</td>
+<td>Open-source LangSmith alternative</td>
+</tr>
+</tbody>
+</table>
+<hr />
+</section>
+<section id="part-5-code-recipes">
+<h1 id="part-5-code-recipes">Part 5 — Code Recipes</h1>
+<h2 id="recipe-1-full-rag-with-faiss-huggingface-100-free">Recipe 1: Full RAG with FAISS + HuggingFace (100% Free)</h2>
+<p>```python
+"""
+Complete RAG system: PDF → chunks → FAISS embeddings → BM25+vector hybrid → LLM
+All free: HuggingFace embeddings + GitHub Copilot LLM + FAISS + ChromaDB
+"""
+import os
+import subprocess
+from langchain_community.document_loaders import PyPDFLoader
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_community.vectorstores import FAISS
+from langchain_community.retrievers import BM25Retriever
+from langchain.retrievers import EnsembleRetriever
+from langchain_openai import ChatOpenAI
+from langchain.chains import ConversationalRetrievalChain
+from langchain.memory import ConversationBufferWindowMemory</p>
+</section>
+<section id="get-free-github-copilot-token">
+<h1 id="get-free-github-copilot-token">Get free GitHub Copilot token</h1>
+<p>token = subprocess.run(["gh", "auth", "token"], capture_output=True, text=True).stdout.strip()</p>
+</section>
+<section id="1-load-and-chunk-pdf">
+<h1 id="1-load-and-chunk-pdf">1. Load and chunk PDF</h1>
+<p>loader   = PyPDFLoader("document.pdf")
+pages    = loader.load()
+splitter = RecursiveCharacterTextSplitter(chunk_size=800, chunk_overlap=100)
+chunks   = splitter.split_documents(pages)</p>
+</section>
+<section id="2-embeddings-free-local-model-22mb">
+<h1 id="2-embeddings-free-local-model-22mb">2. Embeddings (free, local model ~22MB)</h1>
+<p>embeddings = HuggingFaceEmbeddings(
+    model_name="sentence-transformers/all-MiniLM-L6-v2",
+    model_kwargs={"device": "cpu"},
+    encode_kwargs={"normalize_embeddings": True}
+)</p>
+</section>
+<section id="3-vector-store">
+<h1 id="3-vector-store">3. Vector store</h1>
+<p>vs = FAISS.from_documents(chunks, embeddings)
+vs.save_local("faiss_index")  # persist to disk</p>
+</section>
+<section id="4-hybrid-retriever-bm25-semantic">
+<h1 id="4-hybrid-retriever-bm25-semantic">4. Hybrid retriever (BM25 + semantic)</h1>
+<p>bm25     = BM25Retriever.from_documents(chunks); bm25.k = 5
+vector   = vs.as_retriever(search_type="mmr", search_kwargs={"k": 5, "fetch_k": 20})
+hybrid   = EnsembleRetriever(retrievers=[bm25, vector], weights=[0.4, 0.6])</p>
+</section>
+<section id="5-llm-free-via-github-copilot">
+<h1 id="5-llm-free-via-github-copilot">5. LLM (free via GitHub Copilot)</h1>
+<p>llm = ChatOpenAI(model="gpt-4o-mini", base_url="https://models.inference.ai.azure.com", api_key=token)</p>
+</section>
+<section id="6-conversational-rag-chain">
+<h1 id="6-conversational-rag-chain">6. Conversational RAG chain</h1>
+<p>memory = ConversationBufferWindowMemory(k=5, memory_key="chat_history", return_messages=True, output_key="answer")
+chain  = ConversationalRetrievalChain.from_llm(
+    llm=llm, retriever=hybrid, memory=memory,
+    return_source_documents=True, verbose=False
+)</p>
+</section>
+<section id="7-interactive-loop">
+<h1 id="7-interactive-loop">7. Interactive loop</h1>
+<p>print("Document loaded. Ask questions (type 'quit' to exit):")
+while True:
+    question = input("\nYou: ").strip()
+    if question.lower() == "quit": break
+    result = chain({"question": question})
+    print(f"\nAssistant: {result['answer']}")
+    print(f"Sources: pages {[d.metadata.get('page','?') for d in result['source_documents']]}")</p>
+<pre><code>
+---
+
+## Recipe 2: LangGraph CRAG (Corrective RAG)
+
+```python
+&quot;&quot;&quot;
+Corrective RAG: if retrieved docs are irrelevant, rewrite query and retry.
+Grade each doc → if all bad → rewrite query → retrieve again → generate.
+&quot;&quot;&quot;
+from langgraph.graph import StateGraph, END
+from langchain_core.prompts import ChatPromptTemplate
+from typing import TypedDict, List, Literal
+
+class CRAGState(TypedDict):
+    question: str
+    documents: List[str]
+    generation: str
+    retry_count: int
+
+GRADE_PROMPT = ChatPromptTemplate.from_template(
+    &quot;Is this document relevant to answering the question?\nDoc: {doc}\nQuestion: {question}\nAnswer only 'yes' or 'no'.&quot;
+)
+REWRITE_PROMPT = ChatPromptTemplate.from_template(
+    &quot;Rewrite this query to improve document retrieval. Be more specific.\nOriginal: {question}\nRewritten query:&quot;
+)
+
+def retrieve(state):
+    docs = hybrid_retriever.invoke(state[&quot;question&quot;])
+    return {&quot;documents&quot;: [d.page_content for d in docs]}
+
+def grade_documents(state):
+    relevant = []
+    for doc in state[&quot;documents&quot;]:
+        response = (GRADE_PROMPT | llm).invoke({&quot;doc&quot;: doc[:500], &quot;question&quot;: state[&quot;question&quot;]})
+        if &quot;yes&quot; in response.content.lower():
+            relevant.append(doc)
+    return {&quot;documents&quot;: relevant}
+
+def rewrite_query(state):
+    response = (REWRITE_PROMPT | llm).invoke({&quot;question&quot;: state[&quot;question&quot;]})
+    return {&quot;question&quot;: response.content.strip(), &quot;retry_count&quot;: state.get(&quot;retry_count&quot;, 0) + 1}
+
+def generate(state):
+    context  = &quot;\n\n---\n\n&quot;.join(state[&quot;documents&quot;])
+    response = llm.invoke(f&quot;Context:\n{context}\n\nAnswer this question: {state['question']}&quot;)
+    return {&quot;generation&quot;: response.content}
+
+def route_after_grading(state) -&gt; Literal[&quot;rewrite&quot;, &quot;generate&quot;]:
+    if not state[&quot;documents&quot;] and state.get(&quot;retry_count&quot;, 0) &lt; 2:
+        return &quot;rewrite&quot;
+    return &quot;generate&quot;
+
+graph = StateGraph(CRAGState)
+graph.add_node(&quot;retrieve&quot;, retrieve)
+graph.add_node(&quot;grade&quot;,    grade_documents)
+graph.add_node(&quot;rewrite&quot;,  rewrite_query)
+graph.add_node(&quot;generate&quot;, generate)
+graph.set_entry_point(&quot;retrieve&quot;)
+graph.add_edge(&quot;retrieve&quot;, &quot;grade&quot;)
+graph.add_conditional_edges(&quot;grade&quot;, route_after_grading, {&quot;rewrite&quot;: &quot;rewrite&quot;, &quot;generate&quot;: &quot;generate&quot;})
+graph.add_edge(&quot;rewrite&quot;, &quot;retrieve&quot;)
+graph.add_edge(&quot;generate&quot;, END)
+app = graph.compile()
+
+result = app.invoke({&quot;question&quot;: &quot;What is the 3DS authentication timeout value?&quot;, &quot;retry_count&quot;: 0})
+print(result[&quot;generation&quot;])
+</code></pre>
+<hr />
+<h2 id="recipe-3-crewai-content-creation-crew">Recipe 3: CrewAI Content Creation Crew</h2>
+<pre><code class="language-python">&quot;&quot;&quot;
+Full content creation pipeline: researcher → writer → editor → final output.
+Uses DuckDuckGo (free, no API key) for research.
+&quot;&quot;&quot;
+from crewai import Agent, Task, Crew, Process
+from crewai_tools import SerperDevTool
+from langchain_openai import ChatOpenAI
+
+llm = ChatOpenAI(model=&quot;gpt-4o-mini&quot;, base_url=&quot;https://models.inference.ai.azure.com&quot;, api_key=token)
+
+researcher = Agent(
+    role=&quot;Senior Technology Researcher&quot;,
+    goal=&quot;Find accurate, up-to-date information on the given topic&quot;,
+    backstory=&quot;Research scientist with access to cutting-edge technical resources and 15 years in technology journalism&quot;,
+    tools=[SerperDevTool()],  # or DuckDuckGoSearchRun() for fully free
+    llm=llm, verbose=True, max_iter=5
+)
+
+writer = Agent(
+    role=&quot;Technical Content Writer&quot;,
+    goal=&quot;Create clear, engaging technical content that educates developers&quot;,
+    backstory=&quot;Developer advocate and technical writer with 10 years writing for software engineering audiences&quot;,
+    llm=llm, verbose=True
+)
+
+editor = Agent(
+    role=&quot;Senior Technical Editor&quot;,
+    goal=&quot;Ensure content accuracy, clarity, and appropriate technical depth&quot;,
+    backstory=&quot;Former senior engineer turned editor; catches technical inaccuracies and improves narrative flow&quot;,
+    llm=llm, verbose=True
+)
+
+research_task = Task(
+    description=&quot;Research the topic: {topic}. Find: key concepts, recent developments, practical examples, common pitfalls. Minimum 5 credible sources.&quot;,
+    expected_output=&quot;Detailed research brief with sources, key facts, examples, and a structured outline&quot;,
+    agent=researcher
+)
+
+write_task = Task(
+    description=&quot;Write a comprehensive technical article on {topic} based on the research. Target: experienced software developers. Include code examples where relevant.&quot;,
+    expected_output=&quot;Complete article (800-1200 words) with title, introduction, main sections with subheadings, code examples, conclusion, and key takeaways&quot;,
+    agent=writer,
+    context=[research_task]
+)
+
+edit_task = Task(
+    description=&quot;Review and improve the article. Check: technical accuracy, code examples, flow, and that all key concepts are well explained.&quot;,
+    expected_output=&quot;Polished final article ready for publication with any corrections highlighted&quot;,
+    agent=editor,
+    context=[write_task],
+    output_file=&quot;final_article.md&quot;
+)
+
+crew = Crew(
+    agents=[researcher, writer, editor],
+    tasks=[research_task, write_task, edit_task],
+    process=Process.sequential,
+    memory=True, cache=True, verbose=True
+)
+
+result = crew.kickoff(inputs={&quot;topic&quot;: &quot;LangGraph for building stateful AI agents&quot;})
+print(result.raw)
+</code></pre>
+<hr />
+<h2 id="recipe-4-autogen-code-generation-test-fix-loop">Recipe 4: AutoGen Code Generation + Test + Fix Loop</h2>
+<p>```python
+"""
+AutoGen: LLM writes code → proxy executes → if tests fail → LLM fixes → repeat.
+Fully automated code generation with test validation.
+"""
+import autogen</p>
+<p>config_list = [{"model": "gpt-4o-mini", "base_url": "https://models.inference.ai.azure.com", "api_key": token}]</p>
+<p>coder = autogen.AssistantAgent(
+    name="Coder",
+    system_message="""You are a senior Python developer.
+Write clean, well-tested Python code. After each implementation, suggest running:
+```python</p>
+</section>
+<section id="test-it">
+<h1 id="test-it">Test it</h1>
+<p>import pytest
+pytest.main(["-v", "--tb=short"])</p>
+<pre><code>If tests fail, analyze the error and fix the code. Reply TERMINATE when tests pass.&quot;&quot;&quot;,
+    llm_config={&quot;config_list&quot;: config_list, &quot;temperature&quot;: 0}
+)
+
+tester = autogen.AssistantAgent(
+    name=&quot;TestEngineer&quot;,
+    system_message=&quot;&quot;&quot;You write comprehensive pytest tests.
+Write tests first (TDD), then let the Coder implement.
+Include: happy path, edge cases, error handling, type validation.&quot;&quot;&quot;,
+    llm_config={&quot;config_list&quot;: config_list, &quot;temperature&quot;: 0}
+)
+
+executor = autogen.UserProxyAgent(
+    name=&quot;CodeExecutor&quot;,
+    human_input_mode=&quot;NEVER&quot;,
+    max_consecutive_auto_reply=10,
+    is_termination_msg=lambda x: &quot;TERMINATE&quot; in x.get(&quot;content&quot;, &quot;&quot;),
+    code_execution_config={
+        &quot;work_dir&quot;: &quot;code_workspace&quot;,
+        &quot;use_docker&quot;: False,
+        &quot;timeout&quot;: 30
+    }
+)
+
+groupchat = autogen.GroupChat(
+    agents=[executor, tester, coder],
+    messages=[], max_round=20
+)
+manager = autogen.GroupChatManager(groupchat=groupchat, llm_config={&quot;config_list&quot;: config_list})
+
+executor.initiate_chat(
+    manager,
+    message=&quot;&quot;&quot;Build a Python function `parse_toggle_csv(csv_path: str) -&gt; list[dict]` that:
+1. Reads a CSV file with columns: toggle_name, class_name, file_path, line_number, repository
+2. Validates all required columns exist (raise ValueError if not)
+3. Returns list of dicts with snake_case keys
+4. Handles: UTF-8 BOM, empty lines, quoted fields with commas
+Write tests first, then implement.&quot;&quot;&quot;
+)
+</code></pre>
+<hr />
+<h2 id="recipe-5-custom-mcp-server-with-fastmcp">Recipe 5: Custom MCP Server with FastMCP</h2>
+<pre><code class="language-python">&quot;&quot;&quot;
+Custom MCP server exposing toggle management tools.
+Run: python mcp_server.py
+Configure in Claude Desktop or GitHub Copilot as MCP server.
+&quot;&quot;&quot;
+from fastmcp import FastMCP
+from pathlib import Path
+import csv, subprocess, json
+
+mcp = FastMCP(&quot;Toggle Management MCP Server&quot;, dependencies=[&quot;pandas&quot;])
+
+@mcp.tool()
+def read_toggle_registry(repo: str = &quot;all&quot;) -&gt; str:
+    &quot;&quot;&quot;
+    Read the toggle registry CSV.
+    Args:
+        repo: Repository name (cpe/orchestrator/business-service/all)
+    Returns: CSV contents as string
+    &quot;&quot;&quot;
+    base = Path(&quot;data/registry&quot;)
+    if repo == &quot;all&quot;:
+        file = base / &quot;toggle-registry-lookup.csv&quot;
+    else:
+        file = base / f&quot;toggle-registry-{repo}.csv&quot;
+    if not file.exists():
+        return f&quot;Registry file not found: {file}&quot;
+    return file.read_text(encoding=&quot;utf-8-sig&quot;)
+
+@mcp.tool()
+def search_toggle_usages(toggle_name: str, repo: str = &quot;CPE&quot;) -&gt; list[dict]:
+    &quot;&quot;&quot;
+    Search a repository for toggle usages.
+    Returns list of {file_path, line_number, code_snippet} dicts.
+    &quot;&quot;&quot;
+    result = subprocess.run(
+        [&quot;powershell&quot;, &quot;-File&quot;, &quot;tools/active/toggle-search-utility.ps1&quot;, toggle_name, repo],
+        capture_output=True, text=True, cwd=&quot;.&quot;
+    )
+    lines = result.stdout.strip().split(&quot;\n&quot;)
+    usages = []
+    for line in lines:
+        if &quot;|&quot; in line:
+            parts = line.split(&quot;|&quot;)
+            if len(parts) &gt;= 3:
+                usages.append({&quot;file&quot;: parts[0].strip(), &quot;line&quot;: parts[1].strip(), &quot;snippet&quot;: parts[2].strip()})
+    return usages
+
+@mcp.tool()
+def get_analysis_status() -&gt; dict:
+    &quot;&quot;&quot;Get current analysis progress: how many toggles analyzed vs total.&quot;&quot;&quot;
+    analysis_file = Path(&quot;data/analysis/toggle-codebase-usage-analysis.csv&quot;)
+    input_file    = Path(&quot;data/enquiry/feature-toggle-confluence-page-enquiry.csv&quot;)
+    if not analysis_file.exists():
+        return {&quot;analyzed&quot;: 0, &quot;total&quot;: 0, &quot;percentage&quot;: 0}
+    analyzed = set()
+    with open(analysis_file, encoding=&quot;utf-8-sig&quot;) as f:
+        for row in csv.DictReader(f):
+            analyzed.add(row.get(&quot;toggle_name&quot;,&quot;&quot;).strip())
+    total = sum(1 for _ in open(input_file, encoding=&quot;utf-8-sig&quot;)) - 1
+    return {&quot;analyzed&quot;: len(analyzed), &quot;total&quot;: total, &quot;percentage&quot;: round(len(analyzed)/total*100, 1)}
+
+@mcp.resource(&quot;toggle://registry/status&quot;)
+def registry_status() -&gt; str:
+    &quot;&quot;&quot;Current toggle registry summary.&quot;&quot;&quot;
+    registry = Path(&quot;data/registry/toggle-registry-lookup.csv&quot;)
+    if not registry.exists():
+        return &quot;Registry not built. Run 'rebuild registry'.&quot;
+    count = sum(1 for _ in open(registry)) - 1
+    return f&quot;Registry contains {count} toggle-class mappings across all repositories.&quot;
+
+if __name__ == &quot;__main__&quot;:
+    mcp.run()
+</code></pre>
+<hr />
+<h2 id="recipe-6-langgraph-adaptive-rag-route-to-best-retrieval-strategy">Recipe 6: LangGraph Adaptive RAG (Route to Best Retrieval Strategy)</h2>
+<p>```python
+"""
+Adaptive RAG: classify query → route to best retrieval strategy.
+Technical acronyms → BM25; conceptual questions → vector; latest news → web search.
+"""
+from langgraph.graph import StateGraph, END
+from typing import TypedDict, Literal</p>
+<p>class AdaptiveRAGState(TypedDict):
+    question: str
+    query_type: str   # "technical" | "conceptual" | "current_events"
+    documents: list
+    answer: str</p>
+<p>CLASSIFY_PROMPT = """Classify this query for optimal retrieval:
+- "technical": exact terms, acronyms, code, specifications (use BM25)
+- "conceptual": broad concepts, how-it-works questions (use vector)
+- "current_events": news, latest updates, 2024/2025 events (use web search)</p>
+<p>Query: {question}
+Answer with one word only: technical | conceptual | current_events"""</p>
+<p>def classify_query(state):
+    response = llm.invoke(CLASSIFY_PROMPT.format(question=state["question"]))
+    return {"query_type": response.content.strip().lower()}</p>
+<p>def route_by_type(state) -&gt; Literal["bm25_retrieve", "vector_retrieve", "web_retrieve"]:
+    t = state["query_type"]
+    if t == "technical":       return "bm25_retrieve"
+    if t == "conceptual":      return "vector_retrieve"
+    return "web_retrieve"</p>
+<p>def bm25_retrieve(state):
+    docs = bm25_retriever.invoke(state["question"])
+    return {"documents": [d.page_content for d in docs]}</p>
+<p>def vector_retrieve(state):
+    docs = vector_retriever.invoke(state["question"])
+    return {"documents": [d.page_content for d in docs]}</p>
+<p>def web_retrieve(state):
+    from langchain_community.tools import DuckDuckGoSearchRun
+    search = DuckDuckGoSearchRun()
+    result = search.invoke(state["question"])
+    return {"documents": [result]}</p>
+<p>def generate(state):
+    context  = "\n\n".join(state["documents"])
+    response = llm.invoke(f"Answer based on context:\n{context}\n\nQuestion: {state['question']}")
+    return {"answer": response.content}</p>
+<p>graph = StateGraph(AdaptiveRAGState)
+graph.add_node("classify",       classify_query)
+graph.add_node("bm25_retrieve",  bm25_retrieve)
+graph.add_node("vector_retrieve",vector_retrieve)
+graph.add_node("web_retrieve",   web_retrieve)
+graph.add_node("generate",       generate)</p>
+<p>graph.set_entry_point("classify")
+graph.add_conditional_edges("classify", route_by_type, {
+    "bm25_retrieve":   "bm25_retrieve",
+    "vector_retrieve": "vector_retrieve",
+    "web_retrieve":    "web_retrieve",
+})
+for node in ["bm25_retrieve", "vector_retrieve", "web_retrieve"]:
+    graph.add_edge(node, "generate")
+graph.add_edge("generate", END)</p>
+<p>app = graph.compile()
+result = app.invoke({"question": "What is the TVR byte structure in EMV?"})</p>
+</section>
+<section id="classified-as-technical-bm25-retrieval-accurate-answer-from-specs">
+<h1 id="classified-as-technical-bm25-retrieval-accurate-answer-from-specs">→ classified as "technical" → BM25 retrieval → accurate answer from specs</h1>
+<p>```</p>
+<hr />
+<p><em>Generated: May 2026 | Raviteja Thota | EngX AI Coach Program</em>
+<em>This guide covers LangChain, LangGraph, CrewAI, AutoGen, LlamaIndex, DSPy, MCP, ACP, Pydantic AI, Smolagents, Instructor</em>
+<em>All code examples tested with GitHub Copilot free tier (gpt-4o-mini via Azure inference endpoint)</em></p>
+</section>
+
+</main>
+</body>
+</html>

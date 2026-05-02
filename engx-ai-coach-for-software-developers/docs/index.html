@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI Libraries & Frameworks – Complete Guide</title>
+<style>
+
+:root{--bg:#fff;--text:#1a1a2e;--accent:#0070f3;--code:#f4f6f8;--border:#e1e4e8;--nav:#f6f8fa;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:Georgia,'Times New Roman',serif;font-size:17px;line-height:1.8;
+     color:var(--text);background:var(--bg);display:flex;min-height:100vh;}
+/* ---- NAV ---- */
+nav{width:260px;min-width:220px;background:var(--nav);border-right:1px solid var(--border);
+    position:sticky;top:0;height:100vh;overflow-y:auto;padding:20px 14px;flex-shrink:0;}
+nav .back-link{display:block;font-family:sans-serif;font-size:12px;color:var(--accent);
+               margin-bottom:14px;text-decoration:none;}
+nav .back-link:hover{text-decoration:underline;}
+nav h3{font-family:sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:.08em;
+       color:#888;margin-bottom:8px;}
+nav ul{list-style:none;}
+nav li{margin:3px 0;}
+nav a{font-family:sans-serif;font-size:13px;color:#444;text-decoration:none;
+      display:block;padding:4px 8px;border-radius:4px;line-height:1.4;}
+nav a:hover{background:#e0e8ff;color:var(--accent);}
+nav a.h3{padding-left:20px;font-size:12px;color:#666;}
+nav a.h4{padding-left:34px;font-size:11px;color:#888;}
+/* ---- MAIN ---- */
+main{flex:1;padding:48px 60px;max-width:960px;}
+.doc-header{margin-bottom:40px;padding-bottom:20px;border-bottom:3px solid var(--accent);}
+.doc-header h1{font-size:2.1em;color:#0a192f;}
+.doc-header .subtitle{font-family:sans-serif;color:#555;margin-top:6px;font-size:.95em;}
+.doc-header .badges span{display:inline-block;font-family:sans-serif;font-size:12px;
+  padding:3px 10px;border-radius:12px;margin:8px 4px 0 0;font-weight:600;}
+.badge-free{background:#d4edda;color:#155724;}
+.badge-paid{background:#fff3cd;color:#856404;}
+.badge-local{background:#cce5ff;color:#004085;}
+/* ---- CONTENT ---- */
+section{margin-bottom:56px;}
+h2{font-size:1.6em;color:#0a192f;margin:2em 0 .6em;padding-bottom:.3em;border-bottom:2px solid var(--border);}
+h3{font-size:1.25em;color:#0a192f;margin:1.6em 0 .4em;}
+h4{font-size:1.05em;color:#0a192f;margin:1.3em 0 .3em;}
+p{margin:.6em 0;}
+ul,ol{margin:.5em 0 .5em 1.5em;}li{margin:.25em 0;}
+strong{color:#0a192f;}
+code{font-family:'Fira Code',Consolas,monospace;background:var(--code);
+     padding:2px 6px;border-radius:3px;font-size:.87em;}
+pre{background:var(--code);border:1px solid var(--border);border-left:4px solid var(--accent);
+    border-radius:6px;padding:18px;overflow-x:auto;margin:1em 0;}
+pre code{background:none;padding:0;font-size:.84em;line-height:1.5;}
+table{border-collapse:collapse;width:100%;margin:1em 0;font-family:sans-serif;font-size:.9em;}
+th,td{border:1px solid var(--border);padding:9px 13px;text-align:left;vertical-align:top;}
+th{background:#e8f0fe;font-weight:700;color:#0a192f;}
+tr:nth-child(even) td{background:#f9f9f9;}
+blockquote{border-left:4px solid var(--accent);padding:10px 18px;background:#f0f4ff;
+           border-radius:0 6px 6px 0;color:#333;margin:1em 0;}
+/* ---- Q&A ---- */
+details{border:1px solid var(--border);border-radius:8px;margin:.8em 0;background:#fafafa;}
+details[open]{background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+summary.qa-q{cursor:pointer;padding:13px 16px;font-weight:700;color:#0a192f;
+             list-style:none;display:flex;align-items:flex-start;gap:10px;line-height:1.5;}
+summary.qa-q::before{content:"Q";background:var(--accent);color:#fff;padding:2px 8px;
+                     border-radius:50%;font-size:.78em;font-family:sans-serif;flex-shrink:0;margin-top:2px;}
+.qa-a{padding:14px 18px;border-top:1px solid #eee;}
+/* ---- callout boxes ---- */
+.tip{background:#e6f9f0;border-left:4px solid #28a745;padding:12px 16px;
+     border-radius:0 6px 6px 0;margin:1em 0;}
+.warn{background:#fff8e1;border-left:4px solid #ffc107;padding:12px 16px;
+      border-radius:0 6px 6px 0;margin:1em 0;}
+a{color:var(--accent);}
+hr{border:none;border-top:1px solid var(--border);margin:2em 0;}
+
+body{display:block;padding:48px 64px;max-width:1000px;margin:0 auto;}
+.hero{margin-bottom:48px;border-bottom:3px solid var(--accent);padding-bottom:24px;}
+.hero h1{font-size:2.4em;color:#0a192f;}
+.hero p{color:#555;font-size:1.05em;margin-top:8px;}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:20px;}
+.card{display:flex;gap:16px;padding:20px;border:1px solid var(--border);border-radius:10px;
+       background:#fff;text-decoration:none;color:inherit;transition:box-shadow .2s,transform .15s;}
+.card:hover{box-shadow:0 4px 16px rgba(0,112,243,.15);transform:translateY(-2px);}
+.card-num{font-family:sans-serif;font-size:1.4em;font-weight:700;color:var(--accent);
+           min-width:36px;padding-top:2px;}
+.card h3{font-size:1.05em;color:#0a192f;margin-bottom:4px;}
+.card p{font-size:.88em;color:#555;margin:0 0 6px;font-family:sans-serif;line-height:1.4;}
+.badges span{display:inline-block;font-family:sans-serif;font-size:11px;padding:2px 8px;
+              border-radius:10px;margin:2px 2px 0 0;font-weight:600;}
+.badge-free{background:#d4edda;color:#155724;}
+.badge-paid{background:#fff3cd;color:#856404;}
+.badge-local{background:#cce5ff;color:#004085;}
+</style>
+</head>
+<body>
+<div class="hero">
+  <h1>AI Libraries &amp; Frameworks</h1>
+  <p>Complete developer reference — 15 individual guides covering every library, app pattern, and runnable recipe.</p>
+</div>
+<div class="grid">
+        <a class="card" href="01-langchain.html">
+          <span class="card-num">01</span>
+          <div>
+            <h3>LangChain</h3>
+            <p>The most popular LLM application framework — chains, agents, RAG, memory</p>
+            <div class="badges"><span class="badge-free">Free Tier</span> <span class="badge-paid">Paid</span></div>
+          </div>
+        </a>
+        <a class="card" href="02-langgraph.html">
+          <span class="card-num">02</span>
+          <div>
+            <h3>LangGraph</h3>
+            <p>Stateful multi-actor graph framework — cycles, checkpoints, human-in-loop</p>
+            <div class="badges"><span class="badge-free">Free</span> <span class="badge-local">Checkpointing</span></div>
+          </div>
+        </a>
+        <a class="card" href="03-crewai.html">
+          <span class="card-num">03</span>
+          <div>
+            <h3>CrewAI</h3>
+            <p>Role-based multi-agent framework with crews, tasks, and tools</p>
+            <div class="badges"><span class="badge-free">Free</span> <span class="badge-paid">Paid Enterprise</span></div>
+          </div>
+        </a>
+        <a class="card" href="04-autogen.html">
+          <span class="card-num">04</span>
+          <div>
+            <h3>AutoGen</h3>
+            <p>Microsoft's multi-agent conversational framework with code execution</p>
+            <div class="badges"><span class="badge-free">Free (MIT)</span> <span class="badge-local">Local Models</span></div>
+          </div>
+        </a>
+        <a class="card" href="05-llamaindex.html">
+          <span class="card-num">05</span>
+          <div>
+            <h3>LlamaIndex</h3>
+            <p>Data framework for connecting LLMs to external data sources</p>
+            <div class="badges"><span class="badge-free">Free</span> <span class="badge-paid">Paid LlamaCloud</span></div>
+          </div>
+        </a>
+        <a class="card" href="06-haystack.html">
+          <span class="card-num">06</span>
+          <div>
+            <h3>Haystack</h3>
+            <p>deepset's end-to-end NLP pipeline framework for production RAG</p>
+            <div class="badges"><span class="badge-free">Free (Apache 2.0)</span> <span class="badge-local">deepset Cloud</span></div>
+          </div>
+        </a>
+        <a class="card" href="07-semantic-kernel.html">
+          <span class="card-num">07</span>
+          <div>
+            <h3>Semantic Kernel</h3>
+            <p>Microsoft's SDK for integrating LLMs into .NET, Python, and Java apps</p>
+            <div class="badges"><span class="badge-free">Free (MIT)</span> <span class="badge-local">Azure OpenAI</span></div>
+          </div>
+        </a>
+        <a class="card" href="08-dspy.html">
+          <span class="card-num">08</span>
+          <div>
+            <h3>DSPy</h3>
+            <p>Declarative Self-improving Language Programs — compile, not prompt</p>
+            <div class="badges"><span class="badge-free">Free (MIT)</span> <span class="badge-local">Local Models</span></div>
+          </div>
+        </a>
+        <a class="card" href="09-mcp-acp.html">
+          <span class="card-num">09</span>
+          <div>
+            <h3>MCP & ACP</h3>
+            <p>Model Context Protocol + Agent Communication Protocol — full reference</p>
+            <div class="badges"><span class="badge-free">Free (Open Standard)</span></div>
+          </div>
+        </a>
+        <a class="card" href="10-other-libs.html">
+          <span class="card-num">10</span>
+          <div>
+            <h3>Other Libraries</h3>
+            <p>Pydantic AI · Smolagents · Instructor · Agno · Marvin · Guidance · LangSmith</p>
+            <div class="badges"><span class="badge-free">Mixed Free/Paid</span></div>
+          </div>
+        </a>
+        <a class="card" href="11-app-improvements.html">
+          <span class="card-num">11</span>
+          <div>
+            <h3>App-by-App Improvements</h3>
+            <p>LangGraph · CrewAI · AutoGen patterns applied to all 6 real projects</p>
+            <div class="badges"><span class="badge-local">Runnable Code</span> <span class="badge-local">All 6 Apps</span></div>
+          </div>
+        </a>
+        <a class="card" href="12-sdlc-apps.html">
+          <span class="card-num">12</span>
+          <div>
+            <h3>SDLC Automation Apps</h3>
+            <p>20 AI-powered app blueprints for the software development lifecycle</p>
+            <div class="badges"><span class="badge-local">Runnable Skeletons</span> <span class="badge-local">MCP · ACP · LangGraph</span></div>
+          </div>
+        </a>
+        <a class="card" href="13-resources.html">
+          <span class="card-num">13</span>
+          <div>
+            <h3>Resources</h3>
+            <p>Free & paid courses, APIs, vector DBs, monitoring tools, communities</p>
+            <div class="badges"><span class="badge-free">Free Resources</span> <span class="badge-paid">Paid Resources</span></div>
+          </div>
+        </a>
+        <a class="card" href="14-code-recipes.html">
+          <span class="card-num">14</span>
+          <div>
+            <h3>Code Recipes</h3>
+            <p>15 complete runnable Python recipes — copy, paste, run</p>
+            <div class="badges"><span class="badge-local">Copy-Paste Ready</span> <span class="badge-free">GitHub Copilot Free</span></div>
+          </div>
+        </a>
+        <a class="card" href="15-llms-guide.html">
+          <span class="card-num">15</span>
+          <div>
+            <h3>Free & Paid LLMs</h3>
+            <p>Complete LLM catalog · setup guides · fine-tuning · RAG vs fine-tune · 20 Q&As</p>
+            <div class="badges"><span class="badge-free">Free Tier</span> <span class="badge-paid">Paid</span></div>
+          </div>
+        </a></div>
+</body>
+</html>

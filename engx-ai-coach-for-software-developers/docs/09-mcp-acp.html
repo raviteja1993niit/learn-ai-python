@@ -1,0 +1,1599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MCP & ACP – AI Libraries Guide</title>
+<style>
+:root{--bg:#fff;--text:#1a1a2e;--accent:#0070f3;--code:#f4f6f8;--border:#e1e4e8;--nav:#f6f8fa;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:Georgia,'Times New Roman',serif;font-size:17px;line-height:1.8;
+     color:var(--text);background:var(--bg);display:flex;min-height:100vh;}
+/* ---- NAV ---- */
+nav{width:260px;min-width:220px;background:var(--nav);border-right:1px solid var(--border);
+    position:sticky;top:0;height:100vh;overflow-y:auto;padding:20px 14px;flex-shrink:0;}
+nav .back-link{display:block;font-family:sans-serif;font-size:12px;color:var(--accent);
+               margin-bottom:14px;text-decoration:none;}
+nav .back-link:hover{text-decoration:underline;}
+nav h3{font-family:sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:.08em;
+       color:#888;margin-bottom:8px;}
+nav ul{list-style:none;}
+nav li{margin:3px 0;}
+nav a{font-family:sans-serif;font-size:13px;color:#444;text-decoration:none;
+      display:block;padding:4px 8px;border-radius:4px;line-height:1.4;}
+nav a:hover{background:#e0e8ff;color:var(--accent);}
+nav a.h3{padding-left:20px;font-size:12px;color:#666;}
+nav a.h4{padding-left:34px;font-size:11px;color:#888;}
+/* ---- MAIN ---- */
+main{flex:1;padding:48px 60px;max-width:960px;}
+.doc-header{margin-bottom:40px;padding-bottom:20px;border-bottom:3px solid var(--accent);}
+.doc-header h1{font-size:2.1em;color:#0a192f;}
+.doc-header .subtitle{font-family:sans-serif;color:#555;margin-top:6px;font-size:.95em;}
+.doc-header .badges span{display:inline-block;font-family:sans-serif;font-size:12px;
+  padding:3px 10px;border-radius:12px;margin:8px 4px 0 0;font-weight:600;}
+.badge-free{background:#d4edda;color:#155724;}
+.badge-paid{background:#fff3cd;color:#856404;}
+.badge-local{background:#cce5ff;color:#004085;}
+/* ---- CONTENT ---- */
+section{margin-bottom:56px;}
+h2{font-size:1.6em;color:#0a192f;margin:2em 0 .6em;padding-bottom:.3em;border-bottom:2px solid var(--border);}
+h3{font-size:1.25em;color:#0a192f;margin:1.6em 0 .4em;}
+h4{font-size:1.05em;color:#0a192f;margin:1.3em 0 .3em;}
+p{margin:.6em 0;}
+ul,ol{margin:.5em 0 .5em 1.5em;}li{margin:.25em 0;}
+strong{color:#0a192f;}
+code{font-family:'Fira Code',Consolas,monospace;background:var(--code);
+     padding:2px 6px;border-radius:3px;font-size:.87em;}
+pre{background:var(--code);border:1px solid var(--border);border-left:4px solid var(--accent);
+    border-radius:6px;padding:18px;overflow-x:auto;margin:1em 0;}
+pre code{background:none;padding:0;font-size:.84em;line-height:1.5;}
+table{border-collapse:collapse;width:100%;margin:1em 0;font-family:sans-serif;font-size:.9em;}
+th,td{border:1px solid var(--border);padding:9px 13px;text-align:left;vertical-align:top;}
+th{background:#e8f0fe;font-weight:700;color:#0a192f;}
+tr:nth-child(even) td{background:#f9f9f9;}
+blockquote{border-left:4px solid var(--accent);padding:10px 18px;background:#f0f4ff;
+           border-radius:0 6px 6px 0;color:#333;margin:1em 0;}
+/* ---- Q&A ---- */
+details{border:1px solid var(--border);border-radius:8px;margin:.8em 0;background:#fafafa;}
+details[open]{background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+summary.qa-q{cursor:pointer;padding:13px 16px;font-weight:700;color:#0a192f;
+             list-style:none;display:flex;align-items:flex-start;gap:10px;line-height:1.5;}
+summary.qa-q::before{content:"Q";background:var(--accent);color:#fff;padding:2px 8px;
+                     border-radius:50%;font-size:.78em;font-family:sans-serif;flex-shrink:0;margin-top:2px;}
+.qa-a{padding:14px 18px;border-top:1px solid #eee;}
+/* ---- callout boxes ---- */
+.tip{background:#e6f9f0;border-left:4px solid #28a745;padding:12px 16px;
+     border-radius:0 6px 6px 0;margin:1em 0;}
+.warn{background:#fff8e1;border-left:4px solid #ffc107;padding:12px 16px;
+      border-radius:0 6px 6px 0;margin:1em 0;}
+a{color:var(--accent);}
+hr{border:none;border-top:1px solid var(--border);margin:2em 0;}
+</style>
+</head>
+<body>
+<nav>
+  <a class="back-link" href="index.html">⬅ All Guides</a>
+  <a class="back-link" href="08-dspy.html">← DSPy</a><a class="back-link" href="10-other-libs.html">Other Libraries →</a>
+  <h3>Contents</h3>
+  <ul><li><a href="#model-context-protocol-agent-communication-protocol" class="h3">Model Context Protocol + Agent Communication Protocol</a></li>
+<li><a href="#table-of-contents" class="">Table of Contents</a></li>
+<li><a href="#1-what-is-mcp" class="">1. What is MCP?</a></li>
+<li><a href="#core-problem-mcp-solves" class="h3">Core Problem MCP Solves</a></li>
+<li><a href="#transport-types" class="h3">Transport Types</a></li>
+<li><a href="#mcp-vs-traditional-function-calling" class="h3">MCP vs Traditional Function Calling</a></li>
+<li><a href="#2-mcp-architecture" class="">2. MCP Architecture</a></li>
+<li><a href="#message-types-json-rpc-20" class="h3">Message Types (JSON-RPC 2.0)</a></li>
+<li><a href="#lifecycle" class="h3">Lifecycle</a></li>
+<li><a href="#3-three-primitives" class="">3. Three Primitives</a></li>
+<li><a href="#tools-executable-functions" class="h3">Tools (Executable Functions)</a></li>
+<li><a href="#resources-readable-data" class="h3">Resources (Readable Data)</a></li>
+<li><a href="#prompts-reusable-templates" class="h3">Prompts (Reusable Templates)</a></li>
+<li><a href="#4-building-an-mcp-server-python" class="">4. Building an MCP Server (Python)</a></li>
+<li><a href="#5-building-an-mcp-client-python" class="">5. Building an MCP Client (Python)</a></li>
+<li><a href="#6-mcp-with-fastmcp" class="">6. MCP with FastMCP</a></li>
+<li><a href="#7-popular-mcp-servers" class="">7. Popular MCP Servers</a></li>
+<li><a href="#github-mcp-server" class="h3">GitHub MCP Server</a></li>
+<li><a href="#filesystem-mcp-server" class="h3">Filesystem MCP Server</a></li>
+<li><a href="#slack-mcp-server" class="h3">Slack MCP Server</a></li>
+<li><a href="#jira-mcp-server-atlassian" class="h3">Jira MCP Server (Atlassian)</a></li>
+<li><a href="#drawio-mcp-server" class="h3">Draw.io MCP Server</a></li>
+<li><a href="#figma-mcp-server" class="h3">Figma MCP Server</a></li>
+<li><a href="#postgres-mcp-server" class="h3">Postgres MCP Server</a></li>
+<li><a href="#claude-desktop-configuration" class="h3">Claude Desktop Configuration</a></li>
+<li><a href="#cursor-configuration-cursormcpjson" class="h3">Cursor Configuration (~/.cursor/mcp.json)</a></li>
+<li><a href="#8-mcp-with-langchain" class="">8. MCP with LangChain</a></li>
+<li><a href="#mcptoolkit-multi-server" class="h3">MCPToolkit (multi-server)</a></li>
+<li><a href="#9-mcp-with-langgraph" class="">9. MCP with LangGraph</a></li>
+<li><a href="#10-mcp-security" class="">10. MCP Security</a></li>
+<li><a href="#trust-model" class="h3">Trust Model</a></li>
+<li><a href="#input-sanitization" class="h3">Input Sanitization</a></li>
+<li><a href="#resource-access-control" class="h3">Resource Access Control</a></li>
+<li><a href="#authentication-patterns" class="h3">Authentication Patterns</a></li>
+<li><a href="#security-checklist" class="h3">Security Checklist</a></li>
+<li><a href="#11-what-is-acp" class="">11. What is ACP?</a></li>
+<li><a href="#acp-vs-mcp" class="h3">ACP vs MCP</a></li>
+<li><a href="#acp-specification-overview" class="h3">ACP Specification Overview</a></li>
+<li><a href="#12-acp-core-concepts" class="">12. ACP Core Concepts</a></li>
+<li><a href="#agent-registration-and-discovery" class="h3">Agent Registration and Discovery</a></li>
+<li><a href="#run-lifecycle" class="h3">Run Lifecycle</a></li>
+<li><a href="#synchronous-vs-asynchronous-runs" class="h3">Synchronous vs Asynchronous Runs</a></li>
+<li><a href="#message-format-parts" class="h3">Message Format — Parts</a></li>
+<li><a href="#13-building-an-acp-agent-python" class="">13. Building an ACP Agent (Python)</a></li>
+<li><a href="#14-acp-client-calling-agents" class="">14. ACP Client — Calling Agents</a></li>
+<li><a href="#15-multi-agent-acp-orchestration" class="">15. Multi-Agent ACP Orchestration</a></li>
+<li><a href="#orchestrator-worker-pattern" class="h3">Orchestrator → Worker Pattern</a></li>
+<li><a href="#langgraph-agent-wrapped-as-acp-endpoint" class="h3">LangGraph Agent Wrapped as ACP Endpoint</a></li>
+<li><a href="#crewai-crew-wrapped-as-acp-endpoint" class="h3">CrewAI Crew Wrapped as ACP Endpoint</a></li>
+<li><a href="#16-mcp-acp-together" class="">16. MCP + ACP Together</a></li>
+<li><a href="#architecture" class="h3">Architecture</a></li>
+<li><a href="#full-pattern-acp-orchestrator-langgraph-sub-agent-mcp-tools" class="h3">Full Pattern: ACP Orchestrator → LangGraph Sub-Agent → MCP Tools</a></li>
+<li><a href="#17-interview-qa-20-questions" class="">17. Interview Q&amp;A (20 Questions)</a></li>
+<li><a href="#mcp-questions" class="h3">MCP Questions</a></li>
+</ul>
+</nav>
+<main>
+  <div class="doc-header">
+    <h1>MCP & ACP</h1>
+    <p class="subtitle">Model Context Protocol + Agent Communication Protocol — full reference</p>
+    <div class="badges"><span class="badge-free">Free (Open Standard)</span></div>
+  </div>
+  <h1 id="mcp-acp-complete-guide">MCP &amp; ACP Complete Guide</h1>
+<h3 id="model-context-protocol-agent-communication-protocol">Model Context Protocol + Agent Communication Protocol</h3>
+<hr />
+<h2 id="table-of-contents">Table of Contents</h2>
+<p><strong>Part A — MCP (Model Context Protocol)</strong>
+1. <a href="#1-what-is-mcp">What is MCP?</a>
+2. <a href="#2-mcp-architecture">MCP Architecture</a>
+3. <a href="#3-three-primitives">Three Primitives</a>
+4. <a href="#4-building-an-mcp-server-python">Building an MCP Server (Python)</a>
+5. <a href="#5-building-an-mcp-client-python">Building an MCP Client (Python)</a>
+6. <a href="#6-mcp-with-fastmcp">MCP with FastMCP</a>
+7. <a href="#7-popular-mcp-servers">Popular MCP Servers</a>
+8. <a href="#8-mcp-with-langchain">MCP with LangChain</a>
+9. <a href="#9-mcp-with-langgraph">MCP with LangGraph</a>
+10. <a href="#10-mcp-security">MCP Security</a></p>
+<p><strong>Part B — ACP (Agent Communication Protocol)</strong>
+11. <a href="#11-what-is-acp">What is ACP?</a>
+12. <a href="#12-acp-core-concepts">ACP Core Concepts</a>
+13. <a href="#13-building-an-acp-agent-python">Building an ACP Agent (Python)</a>
+14. <a href="#14-acp-client--calling-agents">ACP Client — Calling Agents</a>
+15. <a href="#15-multi-agent-acp-orchestration">Multi-Agent ACP Orchestration</a>
+16. <a href="#16-mcp--acp-together">MCP + ACP Together</a>
+17. <a href="#17-interview-qa-20-questions">Interview Q&amp;A (20 Questions)</a>
+18. <a href="#18-complete-end-to-end-example">Complete End-to-End Example</a></p>
+<hr />
+<h1 id="part-a-mcp-model-context-protocol">Part A — MCP (Model Context Protocol)</h1>
+<hr />
+<h2 id="1-what-is-mcp">1. What is MCP?</h2>
+<p><strong>MCP (Model Context Protocol)</strong> is Anthropic's open standard that gives LLMs a uniform way to
+connect with external tools, data sources, and services. Announced in November 2024, it replaces
+the ad-hoc, per-integration approach of traditional function calling with a single, reusable
+protocol.</p>
+<h3 id="core-problem-mcp-solves">Core Problem MCP Solves</h3>
+<p>Without MCP every AI application must write custom connectors for each tool. With MCP, any
+compliant server works with any compliant host — the same GitHub MCP Server works in Claude
+Desktop, Cursor, VS Code, or your own app.</p>
+<pre><code>Before MCP                         After MCP
+─────────────────────────────────  ─────────────────────────────────
+App  →  custom GitHub connector    App  →  MCP Client  →  GitHub MCP Server
+App  →  custom Jira connector      App  →  MCP Client  →  Jira MCP Server
+App  →  custom DB connector        App  →  MCP Client  →  Postgres MCP Server
+  (N integrations × M apps)          (N servers, any app, one protocol)
+</code></pre>
+<h3 id="transport-types">Transport Types</h3>
+<table>
+<thead>
+<tr>
+<th>Transport</th>
+<th>Use Case</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>stdio</strong></td>
+<td>Local servers (CLI tools, filesystem)</td>
+<td>Simplest; server is a child process</td>
+</tr>
+<tr>
+<td><strong>SSE</strong> (Server-Sent Events)</td>
+<td>Remote HTTP servers, streaming</td>
+<td>One-directional push from server</td>
+</tr>
+<tr>
+<td><strong>WebSocket</strong></td>
+<td>Bidirectional remote servers</td>
+<td>Full duplex; best for high-frequency calls</td>
+</tr>
+</tbody>
+</table>
+<h3 id="mcp-vs-traditional-function-calling">MCP vs Traditional Function Calling</h3>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>OpenAI Function Calling</th>
+<th>MCP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Scope</td>
+<td>Single LLM provider</td>
+<td>Open standard, multi-provider</td>
+</tr>
+<tr>
+<td>Reuse</td>
+<td>Per-app re-definition</td>
+<td>Define once, use anywhere</td>
+</tr>
+<tr>
+<td>Data access</td>
+<td>No built-in resource model</td>
+<td>Resources primitive</td>
+</tr>
+<tr>
+<td>Prompt templates</td>
+<td>No built-in support</td>
+<td>Prompts primitive</td>
+</tr>
+<tr>
+<td>Discovery</td>
+<td>Static schema in API call</td>
+<td>Dynamic via list requests</td>
+</tr>
+<tr>
+<td>Transport</td>
+<td>HTTP only</td>
+<td>stdio, SSE, WebSocket</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="2-mcp-architecture">2. MCP Architecture</h2>
+<pre><code>┌──────────────────────────────────────────────────────────────┐
+│  MCP Host (Claude Desktop / Cursor / your app)               │
+│  ┌────────────────────────────────────────────────────────┐  │
+│  │  MCP Client (embedded)                                 │  │
+│  │  • Maintains 1-to-1 connection with each MCP server    │  │
+│  │  • Translates LLM tool calls ↔ MCP protocol messages   │  │
+│  └───────────────┬────────────────────────────────────────┘  │
+└──────────────────┼───────────────────────────────────────────┘
+                   │  JSON-RPC 2.0 over stdio / SSE / WebSocket
+        ┌──────────┼──────────┬──────────────┐
+        ▼          ▼          ▼              ▼
+  ┌──────────┐ ┌────────┐ ┌───────┐  ┌────────────┐
+  │ Filesystem│ │ GitHub │ │ Jira  │  │  Custom    │
+  │ MCP Server│ │  MCP   │ │  MCP  │  │  MCP Server│
+  └──────────┘ └────────┘ └───────┘  └────────────┘
+</code></pre>
+<h3 id="message-types-json-rpc-20">Message Types (JSON-RPC 2.0)</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Direction</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Request</strong></td>
+<td>Client → Server</td>
+<td><code>tools/call</code>, <code>resources/read</code></td>
+</tr>
+<tr>
+<td><strong>Response</strong></td>
+<td>Server → Client</td>
+<td>Result or error for a request</td>
+</tr>
+<tr>
+<td><strong>Notification</strong></td>
+<td>Either direction</td>
+<td><code>notifications/progress</code>, <code>notifications/log</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="lifecycle">Lifecycle</h3>
+<pre><code>1. Host spawns / connects to MCP Server
+2. Client sends initialize request (protocol version, capabilities)
+3. Server responds with its capabilities (tools, resources, prompts)
+4. Client sends initialized notification
+5. Normal operation: requests / responses / notifications
+6. Either side sends shutdown
+</code></pre>
+<hr />
+<h2 id="3-three-primitives">3. Three Primitives</h2>
+<h3 id="tools-executable-functions">Tools (Executable Functions)</h3>
+<p>Tools are functions the LLM can call. Each tool has:
+- <code>name</code> — unique identifier
+- <code>description</code> — natural-language description used by the LLM to decide when to call it
+- <code>inputSchema</code> — JSON Schema for arguments</p>
+<pre><code>tools/list response:
+{
+  &quot;tools&quot;: [
+    {
+      &quot;name&quot;: &quot;read_file&quot;,
+      &quot;description&quot;: &quot;Read the contents of a file at the given path&quot;,
+      &quot;inputSchema&quot;: {
+        &quot;type&quot;: &quot;object&quot;,
+        &quot;properties&quot;: {
+          &quot;path&quot;: { &quot;type&quot;: &quot;string&quot;, &quot;description&quot;: &quot;File path to read&quot; }
+        },
+        &quot;required&quot;: [&quot;path&quot;]
+      }
+    }
+  ]
+}
+</code></pre>
+<p>Tool execution flow:</p>
+<pre><code>LLM decides to call read_file(path=&quot;/etc/hosts&quot;)
+  → MCP Client sends tools/call request
+    → MCP Server executes the function
+      → Returns content result
+        → LLM receives result and continues
+</code></pre>
+<h3 id="resources-readable-data">Resources (Readable Data)</h3>
+<p>Resources expose data the LLM can read. They use a <code>resource://</code> URI scheme.</p>
+<pre><code>resources/list response:
+{
+  &quot;resources&quot;: [
+    {
+      &quot;uri&quot;: &quot;resource://project/README.md&quot;,
+      &quot;name&quot;: &quot;README&quot;,
+      &quot;description&quot;: &quot;Project readme file&quot;,
+      &quot;mimeType&quot;: &quot;text/markdown&quot;
+    },
+    {
+      &quot;uri&quot;: &quot;resource://db/schema&quot;,
+      &quot;name&quot;: &quot;Database Schema&quot;,
+      &quot;mimeType&quot;: &quot;application/json&quot;
+    }
+  ]
+}
+</code></pre>
+<p><strong>Static resource</strong> — fixed URI, fixed content (e.g., a config file).<br />
+<strong>Dynamic resource</strong> — URI template with parameters (e.g., <code>resource://repo/{owner}/{repo}</code>).</p>
+<h3 id="prompts-reusable-templates">Prompts (Reusable Templates)</h3>
+<p>Prompts are server-defined message templates the host can offer to users.</p>
+<pre><code>prompts/list response:
+{
+  &quot;prompts&quot;: [
+    {
+      &quot;name&quot;: &quot;code_review&quot;,
+      &quot;description&quot;: &quot;Review a pull request for quality issues&quot;,
+      &quot;arguments&quot;: [
+        { &quot;name&quot;: &quot;diff&quot;, &quot;description&quot;: &quot;Git diff text&quot;, &quot;required&quot;: true },
+        { &quot;name&quot;: &quot;language&quot;, &quot;description&quot;: &quot;Programming language&quot;, &quot;required&quot;: false }
+      ]
+    }
+  ]
+}
+</code></pre>
+<p>GetPrompt request → server returns fully-expanded messages array ready to send to LLM.</p>
+<hr />
+<h2 id="4-building-an-mcp-server-python">4. Building an MCP Server (Python)</h2>
+<pre><code class="language-bash">pip install mcp
+</code></pre>
+<pre><code class="language-python"># mcp_server.py — Full MCP server: filesystem + git + code analysis tools
+import asyncio
+import os
+import subprocess
+from pathlib import Path
+
+from mcp.server import Server
+from mcp.server.stdio import stdio_server
+from mcp import types
+
+app = Server(&quot;dev-tools-server&quot;)
+
+
+# ─────────────────────────────────────────────
+# TOOLS
+# ─────────────────────────────────────────────
+
+@app.list_tools()
+async def list_tools() -&gt; list[types.Tool]:
+    return [
+        types.Tool(
+            name=&quot;read_file&quot;,
+            description=&quot;Read the text content of a file&quot;,
+            inputSchema={
+                &quot;type&quot;: &quot;object&quot;,
+                &quot;properties&quot;: {
+                    &quot;path&quot;: {&quot;type&quot;: &quot;string&quot;, &quot;description&quot;: &quot;Absolute or relative file path&quot;}
+                },
+                &quot;required&quot;: [&quot;path&quot;],
+            },
+        ),
+        types.Tool(
+            name=&quot;list_directory&quot;,
+            description=&quot;List files and directories at a given path&quot;,
+            inputSchema={
+                &quot;type&quot;: &quot;object&quot;,
+                &quot;properties&quot;: {
+                    &quot;path&quot;: {&quot;type&quot;: &quot;string&quot;, &quot;description&quot;: &quot;Directory path&quot;},
+                    &quot;recursive&quot;: {&quot;type&quot;: &quot;boolean&quot;, &quot;default&quot;: False},
+                },
+                &quot;required&quot;: [&quot;path&quot;],
+            },
+        ),
+        types.Tool(
+            name=&quot;git_log&quot;,
+            description=&quot;Return last N git commits for the repo at the given path&quot;,
+            inputSchema={
+                &quot;type&quot;: &quot;object&quot;,
+                &quot;properties&quot;: {
+                    &quot;repo_path&quot;: {&quot;type&quot;: &quot;string&quot;},
+                    &quot;n&quot;: {&quot;type&quot;: &quot;integer&quot;, &quot;default&quot;: 10},
+                },
+                &quot;required&quot;: [&quot;repo_path&quot;],
+            },
+        ),
+        types.Tool(
+            name=&quot;git_diff&quot;,
+            description=&quot;Return git diff for the repo (staged or unstaged)&quot;,
+            inputSchema={
+                &quot;type&quot;: &quot;object&quot;,
+                &quot;properties&quot;: {
+                    &quot;repo_path&quot;: {&quot;type&quot;: &quot;string&quot;},
+                    &quot;staged&quot;: {&quot;type&quot;: &quot;boolean&quot;, &quot;default&quot;: False},
+                },
+                &quot;required&quot;: [&quot;repo_path&quot;],
+            },
+        ),
+        types.Tool(
+            name=&quot;count_lines&quot;,
+            description=&quot;Count lines of code in a file or directory (by extension)&quot;,
+            inputSchema={
+                &quot;type&quot;: &quot;object&quot;,
+                &quot;properties&quot;: {
+                    &quot;path&quot;: {&quot;type&quot;: &quot;string&quot;},
+                    &quot;extension&quot;: {&quot;type&quot;: &quot;string&quot;, &quot;description&quot;: &quot;e.g. .py&quot;, &quot;default&quot;: &quot;&quot;},
+                },
+                &quot;required&quot;: [&quot;path&quot;],
+            },
+        ),
+    ]
+
+
+@app.call_tool()
+async def call_tool(name: str, arguments: dict) -&gt; list[types.TextContent]:
+    if name == &quot;read_file&quot;:
+        content = Path(arguments[&quot;path&quot;]).read_text(encoding=&quot;utf-8&quot;, errors=&quot;replace&quot;)
+        return [types.TextContent(type=&quot;text&quot;, text=content)]
+
+    if name == &quot;list_directory&quot;:
+        p = Path(arguments[&quot;path&quot;])
+        recursive = arguments.get(&quot;recursive&quot;, False)
+        if recursive:
+            entries = [str(f) for f in p.rglob(&quot;*&quot;)]
+        else:
+            entries = [f.name for f in p.iterdir()]
+        return [types.TextContent(type=&quot;text&quot;, text=&quot;\n&quot;.join(entries))]
+
+    if name == &quot;git_log&quot;:
+        n = arguments.get(&quot;n&quot;, 10)
+        result = subprocess.run(
+            [&quot;git&quot;, &quot;log&quot;, f&quot;--max-count={n}&quot;, &quot;--oneline&quot;],
+            cwd=arguments[&quot;repo_path&quot;],
+            capture_output=True,
+            text=True,
+        )
+        return [types.TextContent(type=&quot;text&quot;, text=result.stdout or result.stderr)]
+
+    if name == &quot;git_diff&quot;:
+        cmd = [&quot;git&quot;, &quot;diff&quot;]
+        if arguments.get(&quot;staged&quot;, False):
+            cmd.append(&quot;--cached&quot;)
+        result = subprocess.run(
+            cmd, cwd=arguments[&quot;repo_path&quot;], capture_output=True, text=True
+        )
+        return [types.TextContent(type=&quot;text&quot;, text=result.stdout or &quot;(no diff)&quot;)]
+
+    if name == &quot;count_lines&quot;:
+        p = Path(arguments[&quot;path&quot;])
+        ext = arguments.get(&quot;extension&quot;, &quot;&quot;)
+        files = [p] if p.is_file() else list(p.rglob(f&quot;*{ext}&quot;) if ext else p.rglob(&quot;*&quot;))
+        total = sum(
+            len(f.read_text(encoding=&quot;utf-8&quot;, errors=&quot;replace&quot;).splitlines())
+            for f in files
+            if f.is_file()
+        )
+        return [types.TextContent(type=&quot;text&quot;, text=f&quot;Total lines: {total}&quot;)]
+
+    raise ValueError(f&quot;Unknown tool: {name}&quot;)
+
+
+# ─────────────────────────────────────────────
+# RESOURCES
+# ─────────────────────────────────────────────
+
+@app.list_resources()
+async def list_resources() -&gt; list[types.Resource]:
+    return [
+        types.Resource(
+            uri=&quot;resource://project/structure&quot;,
+            name=&quot;Project Structure&quot;,
+            description=&quot;Top-level directory listing of the current working directory&quot;,
+            mimeType=&quot;text/plain&quot;,
+        ),
+        types.Resource(
+            uri=&quot;resource://project/git-status&quot;,
+            name=&quot;Git Status&quot;,
+            description=&quot;Output of git status in the current directory&quot;,
+            mimeType=&quot;text/plain&quot;,
+        ),
+    ]
+
+
+@app.read_resource()
+async def read_resource(uri: str) -&gt; str:
+    if uri == &quot;resource://project/structure&quot;:
+        entries = [p.name for p in Path(&quot;.&quot;).iterdir()]
+        return &quot;\n&quot;.join(entries)
+    if uri == &quot;resource://project/git-status&quot;:
+        result = subprocess.run([&quot;git&quot;, &quot;status&quot;], capture_output=True, text=True)
+        return result.stdout
+    raise ValueError(f&quot;Unknown resource: {uri}&quot;)
+
+
+# ─────────────────────────────────────────────
+# PROMPTS
+# ─────────────────────────────────────────────
+
+@app.list_prompts()
+async def list_prompts() -&gt; list[types.Prompt]:
+    return [
+        types.Prompt(
+            name=&quot;code_review&quot;,
+            description=&quot;Review a code diff for bugs, style, and security issues&quot;,
+            arguments=[
+                types.PromptArgument(name=&quot;diff&quot;, description=&quot;Git diff text&quot;, required=True),
+                types.PromptArgument(name=&quot;language&quot;, description=&quot;Language name&quot;, required=False),
+            ],
+        ),
+    ]
+
+
+@app.get_prompt()
+async def get_prompt(name: str, arguments: dict) -&gt; types.GetPromptResult:
+    if name == &quot;code_review&quot;:
+        diff = arguments.get(&quot;diff&quot;, &quot;&quot;)
+        lang = arguments.get(&quot;language&quot;, &quot;the code&quot;)
+        return types.GetPromptResult(
+            description=&quot;Code review prompt&quot;,
+            messages=[
+                types.PromptMessage(
+                    role=&quot;user&quot;,
+                    content=types.TextContent(
+                        type=&quot;text&quot;,
+                        text=(
+                            f&quot;Please review the following {lang} diff.\n&quot;
+                            &quot;Identify bugs, security issues, and improvement suggestions.\n\n&quot;
+                            f&quot;```diff\n{diff}\n```&quot;
+                        ),
+                    ),
+                )
+            ],
+        )
+    raise ValueError(f&quot;Unknown prompt: {name}&quot;)
+
+
+# ─────────────────────────────────────────────
+# ENTRY POINT
+# ─────────────────────────────────────────────
+
+async def main():
+    async with stdio_server() as (read_stream, write_stream):
+        await app.run(read_stream, write_stream, app.create_initialization_options())
+
+
+if __name__ == &quot;__main__&quot;:
+    asyncio.run(main())
+</code></pre>
+<p>Run the server standalone (stdio):</p>
+<pre><code class="language-bash">python mcp_server.py
+</code></pre>
+<hr />
+<h2 id="5-building-an-mcp-client-python">5. Building an MCP Client (Python)</h2>
+<pre><code class="language-python"># mcp_client.py — Full client connecting to the server from Section 4
+import asyncio
+from mcp import ClientSession
+from mcp.client.stdio import stdio_client
+from mcp import StdioServerParameters
+
+SERVER_PARAMS = StdioServerParameters(
+    command=&quot;python&quot;,
+    args=[&quot;mcp_server.py&quot;],   # path to your server script
+    env=None,
+)
+
+
+async def main():
+    async with stdio_client(SERVER_PARAMS) as (read, write):
+        async with ClientSession(read, write) as session:
+            # ── 1. Initialize ──────────────────────────────────────────
+            await session.initialize()
+            print(&quot;Connected to MCP server\n&quot;)
+
+            # ── 2. List tools ──────────────────────────────────────────
+            tools_result = await session.list_tools()
+            print(&quot;=== Available Tools ===&quot;)
+            for tool in tools_result.tools:
+                print(f&quot;  • {tool.name}: {tool.description}&quot;)
+
+            # ── 3. Call a tool ─────────────────────────────────────────
+            print(&quot;\n=== Calling list_directory ===&quot;)
+            result = await session.call_tool(&quot;list_directory&quot;, {&quot;path&quot;: &quot;.&quot;})
+            for content in result.content:
+                print(content.text[:500])   # truncate for demo
+
+            # ── 4. Call git_log tool ───────────────────────────────────
+            print(&quot;\n=== Calling git_log ===&quot;)
+            try:
+                result = await session.call_tool(&quot;git_log&quot;, {&quot;repo_path&quot;: &quot;.&quot;, &quot;n&quot;: 5})
+                for content in result.content:
+                    print(content.text)
+            except Exception as e:
+                print(f&quot;(git_log failed — not a git repo?) {e}&quot;)
+
+            # ── 5. List resources ──────────────────────────────────────
+            print(&quot;\n=== Available Resources ===&quot;)
+            resources_result = await session.list_resources()
+            for resource in resources_result.resources:
+                print(f&quot;  • {resource.uri}: {resource.name}&quot;)
+
+            # ── 6. Read a resource ─────────────────────────────────────
+            print(&quot;\n=== Reading resource://project/structure ===&quot;)
+            resource_result = await session.read_resource(&quot;resource://project/structure&quot;)
+            for content in resource_result.contents:
+                print(content.text[:300])
+
+            # ── 7. List prompts ────────────────────────────────────────
+            print(&quot;\n=== Available Prompts ===&quot;)
+            prompts_result = await session.list_prompts()
+            for prompt in prompts_result.prompts:
+                print(f&quot;  • {prompt.name}: {prompt.description}&quot;)
+
+            # ── 8. Get a prompt ────────────────────────────────────────
+            print(&quot;\n=== Getting code_review prompt ===&quot;)
+            prompt_result = await session.get_prompt(
+                &quot;code_review&quot;,
+                {&quot;diff&quot;: &quot;+def hello():\n+    print('hi')&quot;, &quot;language&quot;: &quot;Python&quot;},
+            )
+            for msg in prompt_result.messages:
+                print(msg.content.text[:400])
+
+
+if __name__ == &quot;__main__&quot;:
+    asyncio.run(main())
+</code></pre>
+<hr />
+<h2 id="6-mcp-with-fastmcp">6. MCP with FastMCP</h2>
+<p>FastMCP offers a higher-level, decorator-first API and built-in HTTP/SSE transport.</p>
+<pre><code class="language-bash">pip install fastmcp
+</code></pre>
+<pre><code class="language-python"># fastmcp_server.py — Simplified MCP server using FastMCP
+from fastmcp import FastMCP
+import subprocess
+from pathlib import Path
+
+mcp = FastMCP(
+    name=&quot;FastDev Server&quot;,
+    instructions=&quot;A developer assistant with file, git, and web tools.&quot;,
+)
+
+
+@mcp.tool()
+def read_file(path: str) -&gt; str:
+    &quot;&quot;&quot;Read the text content of a local file.&quot;&quot;&quot;
+    return Path(path).read_text(encoding=&quot;utf-8&quot;, errors=&quot;replace&quot;)
+
+
+@mcp.tool()
+def write_file(path: str, content: str) -&gt; str:
+    &quot;&quot;&quot;Write content to a local file, creating it if necessary.&quot;&quot;&quot;
+    Path(path).write_text(content, encoding=&quot;utf-8&quot;)
+    return f&quot;Written {len(content)} bytes to {path}&quot;
+
+
+@mcp.tool()
+def run_shell(command: str, cwd: str = &quot;.&quot;) -&gt; str:
+    &quot;&quot;&quot;Run a shell command and return stdout + stderr (max 4 KB).&quot;&quot;&quot;
+    result = subprocess.run(
+        command, shell=True, cwd=cwd, capture_output=True, text=True, timeout=30
+    )
+    output = result.stdout + result.stderr
+    return output[:4096]
+
+
+@mcp.resource(&quot;resource://config/{filename}&quot;)
+def get_config(filename: str) -&gt; str:
+    &quot;&quot;&quot;Return the content of a config file by name.&quot;&quot;&quot;
+    config_dir = Path(&quot;config&quot;)
+    target = config_dir / filename
+    if not target.exists():
+        return f&quot;Config file {filename} not found&quot;
+    return target.read_text()
+
+
+@mcp.prompt()
+def explain_error(error_message: str, language: str = &quot;Python&quot;) -&gt; str:
+    &quot;&quot;&quot;Build a prompt asking the LLM to explain an error.&quot;&quot;&quot;
+    return (
+        f&quot;Explain the following {language} error and suggest a fix:\n\n&quot;
+        f&quot;```\n{error_message}\n```&quot;
+    )
+
+
+# ── Run with HTTP/SSE (default port 8000) ──
+# fastmcp run fastmcp_server.py
+# OR programmatically:
+if __name__ == &quot;__main__&quot;:
+    mcp.run(transport=&quot;stdio&quot;)   # switch to &quot;sse&quot; for HTTP
+</code></pre>
+<p>Connect a FastMCP client over SSE:</p>
+<pre><code class="language-python"># fastmcp_client.py
+import asyncio
+from fastmcp import Client
+
+async def main():
+    async with Client(&quot;http://localhost:8000/sse&quot;) as client:
+        tools = await client.list_tools()
+        print([t.name for t in tools])
+
+        result = await client.call_tool(&quot;read_file&quot;, {&quot;path&quot;: &quot;README.md&quot;})
+        print(result[0].text[:500])
+
+asyncio.run(main())
+</code></pre>
+<hr />
+<h2 id="7-popular-mcp-servers">7. Popular MCP Servers</h2>
+<h3 id="github-mcp-server">GitHub MCP Server</h3>
+<pre><code class="language-bash">npx @modelcontextprotocol/server-github
+</code></pre>
+<p>Capabilities: list repos, read files, create/merge PRs, open issues, search code.</p>
+<h3 id="filesystem-mcp-server">Filesystem MCP Server</h3>
+<pre><code class="language-bash">npx @modelcontextprotocol/server-filesystem /allowed/path
+</code></pre>
+<p>Capabilities: read, write, list, move files within the allowed path.</p>
+<h3 id="slack-mcp-server">Slack MCP Server</h3>
+<pre><code class="language-bash">npx @modelcontextprotocol/server-slack
+</code></pre>
+<p>Capabilities: list channels, post messages, read thread history.</p>
+<h3 id="jira-mcp-server-atlassian">Jira MCP Server (Atlassian)</h3>
+<pre><code class="language-bash">npx @atlassian/mcp-atlassian
+</code></pre>
+<p>Capabilities: search issues (JQL), create/update issues, list projects, add comments.</p>
+<h3 id="drawio-mcp-server">Draw.io MCP Server</h3>
+<pre><code class="language-bash">pip install drawio-mcp
+</code></pre>
+<p>Capabilities: create/edit diagrams, export to PNG/SVG, read existing <code>.drawio</code> files.</p>
+<h3 id="figma-mcp-server">Figma MCP Server</h3>
+<pre><code class="language-bash">npx figma-mcp
+</code></pre>
+<p>Capabilities: read Figma files, list pages/frames, export assets.</p>
+<h3 id="postgres-mcp-server">Postgres MCP Server</h3>
+<pre><code class="language-bash">npx @modelcontextprotocol/server-postgres postgresql://user:pass@host/db
+</code></pre>
+<p>Capabilities: run read-only SQL queries, list tables and schemas.</p>
+<h3 id="claude-desktop-configuration">Claude Desktop Configuration</h3>
+<pre><code class="language-json">// ~/Library/Application Support/Claude/claude_desktop_config.json  (macOS)
+// %APPDATA%\Claude\claude_desktop_config.json  (Windows)
+{
+  &quot;mcpServers&quot;: {
+    &quot;filesystem&quot;: {
+      &quot;command&quot;: &quot;npx&quot;,
+      &quot;args&quot;: [&quot;-y&quot;, &quot;@modelcontextprotocol/server-filesystem&quot;, &quot;/Users/me/projects&quot;],
+      &quot;env&quot;: {}
+    },
+    &quot;github&quot;: {
+      &quot;command&quot;: &quot;npx&quot;,
+      &quot;args&quot;: [&quot;-y&quot;, &quot;@modelcontextprotocol/server-github&quot;],
+      &quot;env&quot;: { &quot;GITHUB_PERSONAL_ACCESS_TOKEN&quot;: &quot;ghp_...&quot; }
+    },
+    &quot;jira&quot;: {
+      &quot;command&quot;: &quot;npx&quot;,
+      &quot;args&quot;: [&quot;-y&quot;, &quot;@atlassian/mcp-atlassian&quot;],
+      &quot;env&quot;: {
+        &quot;JIRA_URL&quot;: &quot;https://myorg.atlassian.net&quot;,
+        &quot;JIRA_EMAIL&quot;: &quot;me@example.com&quot;,
+        &quot;JIRA_API_TOKEN&quot;: &quot;...&quot;
+      }
+    },
+    &quot;postgres&quot;: {
+      &quot;command&quot;: &quot;npx&quot;,
+      &quot;args&quot;: [&quot;-y&quot;, &quot;@modelcontextprotocol/server-postgres&quot;,
+               &quot;postgresql://user:pass@localhost/mydb&quot;]
+    }
+  }
+}
+</code></pre>
+<h3 id="cursor-configuration-cursormcpjson">Cursor Configuration (<code>~/.cursor/mcp.json</code>)</h3>
+<pre><code class="language-json">{
+  &quot;mcpServers&quot;: {
+    &quot;filesystem&quot;: {
+      &quot;command&quot;: &quot;npx&quot;,
+      &quot;args&quot;: [&quot;-y&quot;, &quot;@modelcontextprotocol/server-filesystem&quot;, &quot;.&quot;]
+    },
+    &quot;github&quot;: {
+      &quot;command&quot;: &quot;npx&quot;,
+      &quot;args&quot;: [&quot;-y&quot;, &quot;@modelcontextprotocol/server-github&quot;],
+      &quot;env&quot;: { &quot;GITHUB_PERSONAL_ACCESS_TOKEN&quot;: &quot;ghp_...&quot; }
+    }
+  }
+}
+</code></pre>
+<hr />
+<h2 id="8-mcp-with-langchain">8. MCP with LangChain</h2>
+<pre><code class="language-bash">pip install langchain-mcp-adapters langchain-openai langgraph
+</code></pre>
+<pre><code class="language-python"># langchain_mcp_agent.py — LangChain ReAct agent with GitHub MCP tools
+import asyncio
+from mcp import StdioServerParameters
+from langchain_mcp_adapters.tools import load_mcp_tools
+from langchain_openai import ChatOpenAI
+from langgraph.prebuilt import create_react_agent
+
+GITHUB_SERVER = StdioServerParameters(
+    command=&quot;npx&quot;,
+    args=[&quot;-y&quot;, &quot;@modelcontextprotocol/server-github&quot;],
+    env={&quot;GITHUB_PERSONAL_ACCESS_TOKEN&quot;: &quot;ghp_YOUR_TOKEN_HERE&quot;},
+)
+
+
+async def main():
+    # Load all tools exposed by the GitHub MCP server
+    tools = await load_mcp_tools(GITHUB_SERVER)
+    print(f&quot;Loaded {len(tools)} MCP tools: {[t.name for t in tools]}\n&quot;)
+
+    llm = ChatOpenAI(model=&quot;gpt-4o-mini&quot;, temperature=0)
+    agent = create_react_agent(llm, tools)
+
+    # Run the agent
+    response = await agent.ainvoke({
+        &quot;messages&quot;: [{
+            &quot;role&quot;: &quot;user&quot;,
+            &quot;content&quot;: (
+                &quot;List the 3 most recently updated open issues in &quot;
+                &quot;the modelcontextprotocol/servers repository on GitHub.&quot;
+            ),
+        }]
+    })
+
+    print(&quot;Agent response:&quot;)
+    print(response[&quot;messages&quot;][-1].content)
+
+
+if __name__ == &quot;__main__&quot;:
+    asyncio.run(main())
+</code></pre>
+<h3 id="mcptoolkit-multi-server">MCPToolkit (multi-server)</h3>
+<pre><code class="language-python"># langchain_mcp_toolkit.py — Load tools from multiple MCP servers
+import asyncio
+from mcp import StdioServerParameters
+from langchain_mcp_adapters.tools import load_mcp_tools
+from langchain_openai import ChatOpenAI
+from langgraph.prebuilt import create_react_agent
+
+async def build_agent_with_multiple_servers():
+    github_params = StdioServerParameters(
+        command=&quot;npx&quot;,
+        args=[&quot;-y&quot;, &quot;@modelcontextprotocol/server-github&quot;],
+        env={&quot;GITHUB_PERSONAL_ACCESS_TOKEN&quot;: &quot;ghp_...&quot;},
+    )
+    fs_params = StdioServerParameters(
+        command=&quot;npx&quot;,
+        args=[&quot;-y&quot;, &quot;@modelcontextprotocol/server-filesystem&quot;, &quot;.&quot;],
+    )
+
+    github_tools = await load_mcp_tools(github_params)
+    fs_tools     = await load_mcp_tools(fs_params)
+    all_tools    = github_tools + fs_tools
+
+    llm   = ChatOpenAI(model=&quot;gpt-4o&quot;)
+    agent = create_react_agent(llm, all_tools)
+    return agent
+</code></pre>
+<hr />
+<h2 id="9-mcp-with-langgraph">9. MCP with LangGraph</h2>
+<pre><code class="language-python"># langgraph_mcp_agent.py — LangGraph agent with filesystem + git MCP tools
+import asyncio
+from typing import Annotated
+from typing_extensions import TypedDict
+
+from mcp import StdioServerParameters
+from langchain_mcp_adapters.tools import load_mcp_tools
+from langchain_openai import ChatOpenAI
+from langgraph.graph import StateGraph, END
+from langgraph.graph.message import add_messages
+from langgraph.prebuilt import ToolNode
+
+DEV_SERVER = StdioServerParameters(
+    command=&quot;python&quot;,
+    args=[&quot;mcp_server.py&quot;],   # the server from Section 4
+)
+
+
+class AgentState(TypedDict):
+    messages: Annotated[list, add_messages]
+
+
+async def build_graph():
+    tools = await load_mcp_tools(DEV_SERVER)
+    llm   = ChatOpenAI(model=&quot;gpt-4o-mini&quot;).bind_tools(tools)
+
+    def call_model(state: AgentState):
+        response = llm.invoke(state[&quot;messages&quot;])
+        return {&quot;messages&quot;: [response]}
+
+    def should_continue(state: AgentState):
+        last = state[&quot;messages&quot;][-1]
+        return &quot;tools&quot; if last.tool_calls else END
+
+    tool_node = ToolNode(tools)
+
+    graph = StateGraph(AgentState)
+    graph.add_node(&quot;agent&quot;, call_model)
+    graph.add_node(&quot;tools&quot;, tool_node)
+    graph.set_entry_point(&quot;agent&quot;)
+    graph.add_conditional_edges(&quot;agent&quot;, should_continue, {&quot;tools&quot;: &quot;tools&quot;, END: END})
+    graph.add_edge(&quot;tools&quot;, &quot;agent&quot;)
+
+    return graph.compile()
+
+
+async def main():
+    agent = await build_graph()
+    result = await agent.ainvoke({
+        &quot;messages&quot;: [{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;List all Python files in the current directory.&quot;}]
+    })
+    print(result[&quot;messages&quot;][-1].content)
+
+
+if __name__ == &quot;__main__&quot;:
+    asyncio.run(main())
+</code></pre>
+<hr />
+<h2 id="10-mcp-security">10. MCP Security</h2>
+<h3 id="trust-model">Trust Model</h3>
+<pre><code>Host process (Claude Desktop) ──owns──▶ MCP Client
+MCP Client                    ──trusts──▶ MCP Server (within configured limits)
+MCP Server                    ──must not──▶ escape allowed paths / execute arbitrary code
+</code></pre>
+<ul>
+<li>MCP servers run as separate processes — they do <strong>not</strong> have access to the LLM context.</li>
+<li>The host is responsible for presenting server capabilities to the user before granting consent.</li>
+<li>Users approve which servers the host may connect to (same model as browser extensions).</li>
+</ul>
+<h3 id="input-sanitization">Input Sanitization</h3>
+<pre><code class="language-python"># ✅ Safe: validate and restrict paths before file operations
+import os
+from pathlib import Path
+
+ALLOWED_ROOT = Path(&quot;/home/user/projects&quot;).resolve()
+
+def safe_read(path: str) -&gt; str:
+    target = (ALLOWED_ROOT / path).resolve()
+    # Prevent path traversal attacks
+    if not str(target).startswith(str(ALLOWED_ROOT)):
+        raise PermissionError(f&quot;Access denied: {path}&quot;)
+    return target.read_text()
+</code></pre>
+<h3 id="resource-access-control">Resource Access Control</h3>
+<pre><code class="language-python"># Per-resource ACL on MCP server
+RESOURCE_PERMISSIONS = {
+    &quot;resource://project/secrets&quot;: {&quot;roles&quot;: [&quot;admin&quot;]},
+    &quot;resource://project/readme&quot;:  {&quot;roles&quot;: [&quot;admin&quot;, &quot;user&quot;]},
+}
+
+def check_access(uri: str, user_role: str) -&gt; bool:
+    perms = RESOURCE_PERMISSIONS.get(uri, {&quot;roles&quot;: [&quot;admin&quot;, &quot;user&quot;]})
+    return user_role in perms[&quot;roles&quot;]
+</code></pre>
+<h3 id="authentication-patterns">Authentication Patterns</h3>
+<pre><code class="language-python"># Bearer token authentication for HTTP/SSE MCP servers (FastMCP)
+from fastmcp import FastMCP
+from fastmcp.server.auth import BearerAuthProvider
+
+auth = BearerAuthProvider(
+    public_key=&quot;-----BEGIN PUBLIC KEY-----\n...&quot;,
+    issuer=&quot;https://auth.example.com&quot;,
+    audience=&quot;mcp-server&quot;,
+)
+mcp = FastMCP(name=&quot;Secure Server&quot;, auth=auth)
+</code></pre>
+<h3 id="security-checklist">Security Checklist</h3>
+<table>
+<thead>
+<tr>
+<th>Check</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Path traversal</td>
+<td>Resolve and validate all file paths against an allowed root</td>
+</tr>
+<tr>
+<td>Command injection</td>
+<td>Never pass raw user input to <code>shell=True</code> subprocess calls</td>
+</tr>
+<tr>
+<td>Secret management</td>
+<td>Load tokens from env vars, never hard-code</td>
+</tr>
+<tr>
+<td>Rate limiting</td>
+<td>Limit tool calls per session to prevent abuse</td>
+</tr>
+<tr>
+<td>Principle of least privilege</td>
+<td>MCP server process runs as unprivileged user</td>
+</tr>
+<tr>
+<td>Audit logging</td>
+<td>Log every tool call with inputs for forensics</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="part-b-acp-agent-communication-protocol">Part B — ACP (Agent Communication Protocol)</h1>
+<hr />
+<h2 id="11-what-is-acp">11. What is ACP?</h2>
+<p><strong>ACP (Agent Communication Protocol)</strong> is an open REST-based protocol developed by IBM (BeeAI
+project) for agent-to-agent communication. While MCP solves the tool connectivity problem,
+ACP solves the <strong>agent interoperability problem</strong>: how do independently-built agents call each
+other regardless of framework (LangGraph, CrewAI, AutoGen, custom)?</p>
+<h3 id="acp-vs-mcp">ACP vs MCP</h3>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>MCP</th>
+<th>ACP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Target</td>
+<td>LLM ↔ Tools/Data</td>
+<td>Agent ↔ Agent</td>
+</tr>
+<tr>
+<td>By</td>
+<td>Anthropic</td>
+<td>IBM / BeeAI</td>
+</tr>
+<tr>
+<td>Interface</td>
+<td>JSON-RPC</td>
+<td>REST (HTTP)</td>
+</tr>
+<tr>
+<td>State</td>
+<td>Stateless calls</td>
+<td>Stateful Runs with lifecycle</td>
+</tr>
+<tr>
+<td>Discovery</td>
+<td>MCP server list</td>
+<td>Agent registry</td>
+</tr>
+<tr>
+<td>Streaming</td>
+<td>Notifications</td>
+<td>SSE streaming on Run</td>
+</tr>
+<tr>
+<td>Best for</td>
+<td>Tool connectivity</td>
+<td>Multi-agent orchestration</td>
+</tr>
+</tbody>
+</table>
+<h3 id="acp-specification-overview">ACP Specification Overview</h3>
+<p>ACP defines:
+1. <strong>Agent Registry</strong> — discover available agents and their input/output schemas.
+2. <strong>Run lifecycle</strong> — create, execute, poll, cancel, and stream runs.
+3. <strong>Message format</strong> — parts-based messages (text, file, data).
+4. <strong>REST endpoints</strong> — standardized paths every ACP server must implement.</p>
+<hr />
+<h2 id="12-acp-core-concepts">12. ACP Core Concepts</h2>
+<h3 id="agent-registration-and-discovery">Agent Registration and Discovery</h3>
+<p>Each ACP server exposes <code>GET /agents</code> returning a list of agent manifests:</p>
+<pre><code class="language-json">{
+  &quot;agents&quot;: [
+    {
+      &quot;name&quot;: &quot;code-reviewer&quot;,
+      &quot;description&quot;: &quot;Reviews code diffs for bugs and style issues&quot;,
+      &quot;metadata&quot;: { &quot;framework&quot;: &quot;langgraph&quot;, &quot;version&quot;: &quot;1.0.0&quot; },
+      &quot;input_content_types&quot;:  [&quot;text/plain&quot;],
+      &quot;output_content_types&quot;: [&quot;text/plain&quot;]
+    }
+  ]
+}
+</code></pre>
+<h3 id="run-lifecycle">Run Lifecycle</h3>
+<pre><code>POST /runs           → Create a new run (returns run_id, status=created)
+  ↓
+  Agent executes
+  ↓
+GET  /runs/{run_id}  → Poll status: created | in_progress | completed | failed
+  ↓
+GET  /runs/{run_id}/output  → Retrieve final output (when completed)
+</code></pre>
+<h3 id="synchronous-vs-asynchronous-runs">Synchronous vs Asynchronous Runs</h3>
+<ul>
+<li><strong>Sync</strong> (<code>await=true</code> query param or <code>POST /runs/sync</code>): blocks until complete, returns output directly.</li>
+<li><strong>Async</strong> (default): returns immediately with <code>run_id</code>; client polls or streams.</li>
+</ul>
+<h3 id="message-format-parts">Message Format — Parts</h3>
+<pre><code class="language-json">{
+  &quot;messages&quot;: [
+    {
+      &quot;parts&quot;: [
+        { &quot;content_type&quot;: &quot;text/plain&quot;, &quot;content&quot;: &quot;Review this code&quot; },
+        { &quot;content_type&quot;: &quot;text/plain&quot;, &quot;content&quot;: &quot;def foo():\n    pass&quot; }
+      ]
+    }
+  ]
+}
+</code></pre>
+<p>Supported part types: <code>text/plain</code>, <code>application/json</code>, <code>image/*</code>, any MIME type.</p>
+<hr />
+<h2 id="13-building-an-acp-agent-python">13. Building an ACP Agent (Python)</h2>
+<pre><code class="language-bash">pip install acp-sdk
+</code></pre>
+<pre><code class="language-python"># acp_agent.py — Document summarizer ACP agent
+import asyncio
+from collections.abc import AsyncGenerator
+
+from acp_sdk.models import Message, MessagePart
+from acp_sdk.server import RunYield, RunYieldResume, Server
+
+app = Server()
+
+
+@app.agent()
+async def summarizer(
+    input: list[Message],
+    **kwargs,
+) -&gt; AsyncGenerator[RunYield, RunYieldResume]:
+    &quot;&quot;&quot;
+    Summarize a document passed in the first message part.
+    Yields progress updates then the final summary.
+    &quot;&quot;&quot;
+    # Extract the text from the first message
+    text = &quot;&quot;
+    for message in input:
+        for part in message.parts:
+            if hasattr(part, &quot;content&quot;):
+                text += str(part.content) + &quot;\n&quot;
+
+    yield RunYield(
+        message=Message(parts=[MessagePart(content=&quot;Analyzing document...&quot;, content_type=&quot;text/plain&quot;)])
+    )
+    await asyncio.sleep(0.1)   # simulate work
+
+    # Simple extractive summary: first 3 sentences
+    sentences = [s.strip() for s in text.replace(&quot;\n&quot;, &quot; &quot;).split(&quot;.&quot;) if s.strip()]
+    summary = &quot;. &quot;.join(sentences[:3]) + (&quot;.&quot; if sentences else &quot;&quot;)
+
+    yield RunYield(
+        message=Message(parts=[
+            MessagePart(content=f&quot;Summary:\n{summary}&quot;, content_type=&quot;text/plain&quot;)
+        ])
+    )
+
+
+@app.agent()
+async def code_reviewer(
+    input: list[Message],
+    **kwargs,
+) -&gt; AsyncGenerator[RunYield, RunYieldResume]:
+    &quot;&quot;&quot;
+    Review a code diff. Expects the diff text in the first message part.
+    Streams feedback line by line.
+    &quot;&quot;&quot;
+    diff_text = &quot;&quot;
+    for message in input:
+        for part in message.parts:
+            if hasattr(part, &quot;content&quot;):
+                diff_text += str(part.content)
+
+    feedback_items = [
+        &quot;✅ Code structure looks clean.&quot;,
+        &quot;⚠️  Check for missing error handling on I/O operations.&quot;,
+        &quot;⚠️  Variable names could be more descriptive.&quot;,
+        &quot;✅ No obvious security vulnerabilities found.&quot;,
+        &quot;💡 Consider adding docstrings to public functions.&quot;,
+    ]
+
+    for item in feedback_items:
+        yield RunYield(
+            message=Message(parts=[MessagePart(content=item, content_type=&quot;text/plain&quot;)])
+        )
+        await asyncio.sleep(0.05)
+
+
+# Run:  python acp_agent.py
+# Starts HTTP server on http://localhost:8001 by default
+if __name__ == &quot;__main__&quot;:
+    app.run(host=&quot;0.0.0.0&quot;, port=8001)
+</code></pre>
+<hr />
+<h2 id="14-acp-client-calling-agents">14. ACP Client — Calling Agents</h2>
+<pre><code class="language-python"># acp_client.py — Full client demonstrating sync, async, and streaming calls
+import asyncio
+from acp_sdk.client import Client
+from acp_sdk.models import Message, MessagePart
+
+
+async def demo_sync_call(client: Client) -&gt; None:
+    &quot;&quot;&quot;Call an ACP agent synchronously (blocks until done).&quot;&quot;&quot;
+    print(&quot;=== Synchronous run ===&quot;)
+    run = await client.run_sync(
+        agent=&quot;summarizer&quot;,
+        input=[
+            Message(parts=[
+                MessagePart(
+                    content=(
+                        &quot;Artificial intelligence is transforming software development. &quot;
+                        &quot;Developers now use AI tools for code completion and review. &quot;
+                        &quot;Automated testing and deployment are becoming AI-driven. &quot;
+                        &quot;Security scanning is enhanced by machine learning models. &quot;
+                        &quot;The future of engineering is human-AI collaboration.&quot;
+                    ),
+                    content_type=&quot;text/plain&quot;,
+                )
+            ])
+        ],
+    )
+    for message in run.output:
+        for part in message.parts:
+            print(part.content)
+
+
+async def demo_async_poll(client: Client) -&gt; None:
+    &quot;&quot;&quot;Create a run then poll until completed.&quot;&quot;&quot;
+    print(&quot;\n=== Async run with polling ===&quot;)
+    run = await client.run_async(
+        agent=&quot;code_reviewer&quot;,
+        input=[
+            Message(parts=[
+                MessagePart(
+                    content=&quot;+def process(data):\n+    return data.strip()&quot;,
+                    content_type=&quot;text/plain&quot;,
+                )
+            ])
+        ],
+    )
+    print(f&quot;Run created: {run.run_id}  status={run.status}&quot;)
+
+    # Poll until complete
+    completed_run = await client.run_async_await(run.run_id)
+    for message in completed_run.output:
+        for part in message.parts:
+            print(part.content)
+
+
+async def demo_streaming(client: Client) -&gt; None:
+    &quot;&quot;&quot;Stream run output as it is produced.&quot;&quot;&quot;
+    print(&quot;\n=== Streaming run ===&quot;)
+    async for event in client.run_stream(
+        agent=&quot;code_reviewer&quot;,
+        input=[
+            Message(parts=[
+                MessagePart(content=&quot;+x=1\n+print(x)&quot;, content_type=&quot;text/plain&quot;)
+            ])
+        ],
+    ):
+        # Each event is a RunYield with a partial message
+        if hasattr(event, &quot;message&quot;) and event.message:
+            for part in event.message.parts:
+                print(f&quot;  [stream] {part.content}&quot;)
+
+
+async def main():
+    async with Client(base_url=&quot;http://localhost:8001&quot;) as client:
+        # List available agents
+        agents = await client.list_agents()
+        print(&quot;Available agents:&quot;, [a.name for a in agents.agents])
+        print()
+
+        await demo_sync_call(client)
+        await demo_async_poll(client)
+        await demo_streaming(client)
+
+
+if __name__ == &quot;__main__&quot;:
+    asyncio.run(main())
+</code></pre>
+<hr />
+<h2 id="15-multi-agent-acp-orchestration">15. Multi-Agent ACP Orchestration</h2>
+<h3 id="orchestrator-worker-pattern">Orchestrator → Worker Pattern</h3>
+<pre><code class="language-python"># acp_orchestrator.py — Orchestrator agent that delegates to worker agents
+import asyncio
+from collections.abc import AsyncGenerator
+
+from acp_sdk.client import Client
+from acp_sdk.models import Message, MessagePart
+from acp_sdk.server import RunYield, RunYieldResume, Server
+
+app = Server()
+
+# Addresses of worker ACP servers
+WORKER_CODE_REVIEWER = &quot;http://localhost:8001&quot;
+WORKER_DOC_WRITER    = &quot;http://localhost:8002&quot;
+
+
+@app.agent()
+async def orchestrator(
+    input: list[Message],
+    **kwargs,
+) -&gt; AsyncGenerator[RunYield, RunYieldResume]:
+    &quot;&quot;&quot;
+    Orchestrates a full PR analysis:
+    1. Sends the diff to the code-reviewer agent
+    2. Sends the result to the doc-writer agent
+    3. Returns a combined report
+    &quot;&quot;&quot;
+    diff_text = input[0].parts[0].content if input else &quot;&quot;
+
+    yield RunYield(
+        message=Message(parts=[MessagePart(content=&quot;Step 1: Sending diff to code-reviewer...&quot;, content_type=&quot;text/plain&quot;)])
+    )
+
+    # ── Call Worker 1: code reviewer ─────────────────────────────────
+    async with Client(base_url=WORKER_CODE_REVIEWER) as client:
+        review_run = await client.run_sync(
+            agent=&quot;code_reviewer&quot;,
+            input=[Message(parts=[MessagePart(content=diff_text, content_type=&quot;text/plain&quot;)])],
+        )
+    review_text = &quot;\n&quot;.join(
+        part.content
+        for msg in review_run.output
+        for part in msg.parts
+    )
+
+    yield RunYield(
+        message=Message(parts=[MessagePart(content=f&quot;Review complete:\n{review_text}&quot;, content_type=&quot;text/plain&quot;)])
+    )
+
+    yield RunYield(
+        message=Message(parts=[MessagePart(content=&quot;Step 2: Generating documentation suggestions...&quot;, content_type=&quot;text/plain&quot;)])
+    )
+
+    # ── Call Worker 2: doc writer ─────────────────────────────────────
+    async with Client(base_url=WORKER_DOC_WRITER) as client:
+        doc_run = await client.run_sync(
+            agent=&quot;summarizer&quot;,
+            input=[Message(parts=[MessagePart(content=review_text, content_type=&quot;text/plain&quot;)])],
+        )
+    doc_text = &quot;\n&quot;.join(
+        part.content
+        for msg in doc_run.output
+        for part in msg.parts
+    )
+
+    yield RunYield(
+        message=Message(parts=[MessagePart(
+            content=f&quot;=== Final Report ===\n{review_text}\n\n=== Doc Summary ===\n{doc_text}&quot;,
+            content_type=&quot;text/plain&quot;,
+        )])
+    )
+
+
+if __name__ == &quot;__main__&quot;:
+    app.run(host=&quot;0.0.0.0&quot;, port=8003)
+</code></pre>
+<h3 id="langgraph-agent-wrapped-as-acp-endpoint">LangGraph Agent Wrapped as ACP Endpoint</h3>
+<pre><code class="language-python"># langgraph_as_acp.py — Expose a LangGraph agent through ACP
+import asyncio
+from collections.abc import AsyncGenerator
+
+from acp_sdk.models import Message, MessagePart
+from acp_sdk.server import RunYield, RunYieldResume, Server
+from langchain_openai import ChatOpenAI
+from langgraph.prebuilt import create_react_agent
+
+app = Server()
+
+# Build LangGraph agent once at startup
+_llm   = ChatOpenAI(model=&quot;gpt-4o-mini&quot;)
+_agent = create_react_agent(_llm, tools=[])   # add tools as needed
+
+
+@app.agent()
+async def langgraph_qa(
+    input: list[Message],
+    **kwargs,
+) -&gt; AsyncGenerator[RunYield, RunYieldResume]:
+    &quot;&quot;&quot;ACP endpoint wrapping a LangGraph ReAct agent.&quot;&quot;&quot;
+    user_text = input[0].parts[0].content if input else &quot;&quot;
+
+    yield RunYield(
+        message=Message(parts=[MessagePart(content=&quot;LangGraph agent thinking...&quot;, content_type=&quot;text/plain&quot;)])
+    )
+
+    result = await _agent.ainvoke({
+        &quot;messages&quot;: [{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: user_text}]
+    })
+    answer = result[&quot;messages&quot;][-1].content
+
+    yield RunYield(
+        message=Message(parts=[MessagePart(content=answer, content_type=&quot;text/plain&quot;)])
+    )
+
+
+if __name__ == &quot;__main__&quot;:
+    app.run(host=&quot;0.0.0.0&quot;, port=8004)
+</code></pre>
+<h3 id="crewai-crew-wrapped-as-acp-endpoint">CrewAI Crew Wrapped as ACP Endpoint</h3>
+<pre><code class="language-python"># crewai_as_acp.py — Expose a CrewAI crew through ACP
+# pip install crewai acp-sdk
+import asyncio
+from collections.abc import AsyncGenerator
+
+from acp_sdk.models import Message, MessagePart
+from acp_sdk.server import RunYield, RunYieldResume, Server
+from crewai import Agent, Crew, Task
+
+app = Server()
+
+
+def run_crew(topic: str) -&gt; str:
+    researcher = Agent(
+        role=&quot;Researcher&quot;,
+        goal=f&quot;Research {topic} and summarize findings&quot;,
+        backstory=&quot;Expert technical researcher&quot;,
+        verbose=False,
+    )
+    task = Task(
+        description=f&quot;Research {topic} and provide a concise technical summary.&quot;,
+        expected_output=&quot;A 3-paragraph technical summary&quot;,
+        agent=researcher,
+    )
+    crew = Crew(agents=[researcher], tasks=[task], verbose=False)
+    return str(crew.kickoff())
+
+
+@app.agent()
+async def crew_researcher(
+    input: list[Message],
+    **kwargs,
+) -&gt; AsyncGenerator[RunYield, RunYieldResume]:
+    &quot;&quot;&quot;ACP endpoint wrapping a CrewAI research crew.&quot;&quot;&quot;
+    topic = input[0].parts[0].content if input else &quot;AI trends&quot;
+
+    yield RunYield(
+        message=Message(parts=[MessagePart(content=f&quot;CrewAI researching: {topic}...&quot;, content_type=&quot;text/plain&quot;)])
+    )
+
+    loop   = asyncio.get_event_loop()
+    result = await loop.run_in_executor(None, run_crew, topic)
+
+    yield RunYield(
+        message=Message(parts=[MessagePart(content=result, content_type=&quot;text/plain&quot;)])
+    )
+
+
+if __name__ == &quot;__main__&quot;:
+    app.run(host=&quot;0.0.0.0&quot;, port=8005)
+</code></pre>
+<hr />
+<h2 id="16-mcp-acp-together">16. MCP + ACP Together</h2>
+<h3 id="architecture">Architecture</h3>
+<pre><code>┌──────────────────────────────────────────────────────────────────────┐
+│  ACP Orchestrator (REST :8003)                                       │
+│  • Receives user request via ACP Run                                 │
+│  • Routes to specialist ACP agents                                   │
+└─────────────────┬────────────────────────────────────────────────────┘
+                  │  ACP calls (HTTP REST)
+     ┌────────────┼────────────┐
+     ▼            ▼            ▼
+┌─────────┐  ┌─────────┐  ┌─────────┐
+│  ACP    │  │  ACP    │  │  ACP    │
+│ Agent 1 │  │ Agent 2 │  │ Agent 3 │
+│ (:8001) │  │ (:8002) │  │ (:8004) │
+│LangGraph│  │LangGraph│  │ CrewAI  │
+└────┬────┘  └────┬────┘  └─────────┘
+     │             │
+     │  MCP calls (stdio/SSE)
+     ▼             ▼
+┌─────────┐  ┌─────────┐
+│ GitHub  │  │  File   │
+│   MCP   │  │ System  │
+│ Server  │  │   MCP   │
+└─────────┘  └─────────┘
+</code></pre>
+<p><strong>Rule of thumb:</strong>
+- Use <strong>MCP</strong> when an agent needs to call a <em>tool</em> (read a file, query a database, call an API).
+- Use <strong>ACP</strong> when you want an <em>agent</em> (with its own reasoning loop) to be callable by other agents.</p>
+<h3 id="full-pattern-acp-orchestrator-langgraph-sub-agent-mcp-tools">Full Pattern: ACP Orchestrator → LangGraph Sub-Agent → MCP Tools</h3>
+<pre><code class="language-python"># mcp_acp_combined.py — ACP agent that uses MCP tools internally
+import asyncio
+from collections.abc import AsyncGenerator
+
+from mcp import StdioServerParameters
+from langchain_mcp_adapters.tools import load_mcp_tools
+from langchain_openai import ChatOpenAI
+from langgraph.prebuilt import create_react_agent
+
+from acp_sdk.models import Message, MessagePart
+from acp_sdk.server import RunYield, RunYieldResume, Server
+
+app = Server()
+
+GITHUB_MCP = StdioServerParameters(
+    command=&quot;npx&quot;,
+    args=[&quot;-y&quot;, &quot;@modelcontextprotocol/server-github&quot;],
+    env={&quot;GITHUB_PERSONAL_ACCESS_TOKEN&quot;: &quot;ghp_YOUR_TOKEN&quot;},
+)
+
+
+@app.agent()
+async def github_analyst(
+    input: list[Message],
+    **kwargs,
+) -&gt; AsyncGenerator[RunYield, RunYieldResume]:
+    &quot;&quot;&quot;
+    ACP agent that uses GitHub MCP tools via a LangGraph ReAct agent
+    to answer questions about GitHub repositories.
+    &quot;&quot;&quot;
+    query = input[0].parts[0].content if input else &quot;&quot;
+
+    yield RunYield(
+        message=Message(parts=[MessagePart(content=&quot;Loading GitHub MCP tools...&quot;, content_type=&quot;text/plain&quot;)])
+    )
+
+    tools = await load_mcp_tools(GITHUB_MCP)
+    llm   = ChatOpenAI(model=&quot;gpt-4o-mini&quot;)
+    agent = create_react_agent(llm, tools)
+
+    yield RunYield(
+        message=Message(parts=[MessagePart(content=f&quot;Running agent for: {query}&quot;, content_type=&quot;text/plain&quot;)])
+    )
+
+    result = await agent.ainvoke({
+        &quot;messages&quot;: [{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: query}]
+    })
+    answer = result[&quot;messages&quot;][-1].content
+
+    yield RunYield(
+        message=Message(parts=[MessagePart(content=answer, content_type=&quot;text/plain&quot;)])
+    )
+
+
+if __name__ == &quot;__main__&quot;:
+    app.run(host=&quot;0.0.0.0&quot;, port=8006)
+</code></pre>
+<hr />
+<h2 id="17-interview-qa-20-questions">17. Interview Q&amp;A (20 Questions)</h2>
+<h3 id="mcp-questions">MCP Questions</h3>
+<details open><summary class="qa-q">What is MCP and what problem does it solve? > MCP (Model Context Protocol) is Anthropic's open standard for connecting LLMs to external tools > and data sources. It solves the M×N integration problem: before MCP, every AI app had to write > custom connectors for every tool. With MCP, you write one MCP server per tool and it works with > any MCP-compatible host.</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What are the three MCP primitives? > 1. **Tools** — executable functions the LLM can call (e.g., `read_file`, `search_github`). > 2. **Resources** — readable data exposed via `resource://` URIs (e.g., config files, DB schemas). > 3. **Prompts** — reusable, parameterized message templates the host can surface to users.</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What is the difference between MCP Tools and Resources? > Tools are **actions** (they execute code and produce dynamic results). Resources are **data** > (they expose readable content, similar to a REST GET endpoint). The LLM calls tools when it > needs to *do* something; it reads resources when it needs *information* that doesn't require > computation.</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What transport protocols does MCP support? > Three transports: **stdio** (server is a child process, best for local tools), **SSE** (HTTP > Server-Sent Events, best for remote servers with streaming), and **WebSocket** (bidirectional, > best for high-frequency or interactive use cases).</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How do you build a custom MCP server in Python? > Install `mcp`, create a `Server` instance, decorate handlers with `@app.list_tools()`, > `@app.call_tool()`, `@app.list_resources()`, `@app.read_resource()`, then run it with > `stdio_server()`. See Section 4 for a full working example.</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How do you use MCP tools inside a LangChain agent? > Use `langchain-mcp-adapters`: call `load_mcp_tools(StdioServerParameters(...))` to get a list > of LangChain-compatible `Tool` objects, then pass them to `create_react_agent(llm, tools)`. > The adapter handles the JSON-RPC ↔ LangChain tool interface translation automatically.</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What is FastMCP? > FastMCP is a higher-level Python library built on top of the official `mcp` SDK. It offers a > simpler decorator API (`@mcp.tool()`, `@mcp.resource()`, `@mcp.prompt()`), automatic type > inference from function signatures, and built-in HTTP/SSE transport — reducing boilerplate > significantly compared to raw `mcp`.</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How does MCP compare to traditional OpenAI function calling? > OpenAI function calling is provider-specific, defined per API call, has no resource or prompt > primitives, and cannot be reused across apps. MCP is an open standard, supports dynamic > discovery, provides three primitives (tools/resources/prompts), works across providers, and > allows a single server to serve multiple hosts simultaneously.</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What popular MCP servers exist for SDLC tools? > GitHub (repos, PRs, issues), Filesystem (file read/write), Jira/Confluence (Atlassian), Slack > (channels, messages), Postgres (SQL queries), Figma (design files), Draw.io (diagrams), and > many more from the official `modelcontextprotocol/servers` registry on GitHub.</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What are the security considerations for MCP? > Key concerns: path traversal (validate all file paths against an allowed root), command > injection (never use `shell=True` with user input), secret management (env vars not hard-coded), > rate limiting (cap tool calls per session), least privilege (run server as unprivileged user), > and audit logging (log all tool calls with inputs).  ---  ### ACP Questions</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What is ACP and how does it differ from MCP? > ACP (Agent Communication Protocol) is IBM's open REST-based protocol for **agent-to-agent** > communication. MCP connects LLMs to *tools*; ACP connects *agents* to other agents. MCP uses > JSON-RPC; ACP uses REST. MCP calls are stateless; ACP has a stateful Run lifecycle with > create/execute/complete states.</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What does a Run in ACP represent? > A Run is a single execution of an agent. It has a lifecycle: `created → in_progress → > completed | failed`. Each run has a unique `run_id`, an input (list of Messages), and an > output (list of Messages). Runs can be synchronous (blocking) or asynchronous (polled or > streamed).</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How do you stream output from an ACP agent? > Use `RunYield` inside an `async generator` agent function. Each `yield RunYield(message=...)` > emits a partial result to the client. On the client side, use `client.run_stream(...)` which > returns an `AsyncGenerator` of events, each containing a partial message.</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How can one ACP agent call another ACP agent? > Instantiate an `acp_sdk.client.Client` pointing to the target agent's base URL and call > `await client.run_sync(agent="name", input=[...])`. This is exactly how the orchestrator > pattern works — one ACP server contains agent logic that internally calls other ACP servers.</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How do you wrap a LangGraph agent as an ACP endpoint? > Create an ACP `Server`, define an `@app.agent()` async generator, inside it call > `await langgraph_agent.ainvoke({"messages": [...]})`, then `yield RunYield(message=...)` with > the result. The ACP server handles the HTTP layer; the LangGraph agent handles the reasoning.</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What message types does ACP support? > ACP messages are composed of **parts**, each with a `content_type` (MIME type) and `content`. > Supported types include `text/plain`, `application/json`, `image/png`, `image/jpeg`, and any > other MIME type. This makes ACP suitable for multi-modal agent communication.</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How does ACP enable framework-agnostic multi-agent systems? > Because ACP is a REST standard, any agent — regardless of whether it's built with LangGraph, > CrewAI, AutoGen, or pure Python — exposes the same HTTP interface. An orchestrator only needs > to know the base URL and agent name; it does not need to import or know the internal framework.</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What is the ACP agent registry? > The registry is the `GET /agents` endpoint that every ACP server must implement. It returns a > list of agent manifests (name, description, input/output content types). Orchestrators use > this endpoint to discover what agents are available before routing requests to them.</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How do you handle authentication in ACP? > ACP is built on HTTP, so standard HTTP authentication applies: Bearer tokens (JWT), API keys > in headers (`X-API-Key`), or mutual TLS. Add authentication middleware to the underlying > ASGI/WSGI server (e.g., FastAPI middleware) that the ACP SDK uses under the hood.</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">When would you use ACP vs LangGraph supervisor pattern? > Use **LangGraph supervisor** when all agents are in the same Python process, same team, and > same codebase — it's simpler and has lower latency. Use **ACP** when agents are in *different > services*, built by *different teams* or *different frameworks*, or need to be independently > deployed and scaled. ACP is the inter-service protocol; LangGraph supervisor is the > intra-process pattern.  ---  ## 18. Complete End-to-End Example  Full system: **MCP Server** (GitHub tools) + **ACP Agent** (code reviewer) + **ACP Orchestrator**  ```python # ═══════════════════════════════════════════════════════════════════════ # end_to_end.py — MCP + ACP full system in ~110 lines # # Architecture: #   ACP Orchestrator (:8010) #     └─▶ ACP Code Reviewer Agent (:8011) #           └─▶ GitHub MCP Server (stdio, npx) # # Run order: #   1. python end_to_end.py server   # starts ACP code reviewer on :8011 #   2. python end_to_end.py orch     # starts ACP orchestrator  on :8010 #   3. python end_to_end.py client   # calls the orchestrator # ═══════════════════════════════════════════════════════════════════════ import asyncio import sys from collections.abc import AsyncGenerator  from acp_sdk.client import Client from acp_sdk.models import Message, MessagePart from acp_sdk.server import RunYield, RunYieldResume, Server  # ── Shared helpers ──────────────────────────────────────────────────────  def make_message(text: str) -> Message:     return Message(parts=[MessagePart(content=text, content_type="text/plain")])  def extract_text(messages: list[Message]) -> str:     return "\n".join(         part.content for msg in messages for part in msg.parts         if hasattr(part, "content")     )   # ══════════════════════════════════════════════════════════════════════ # SERVICE 1: ACP Code Reviewer Agent (port 8011) # Uses GitHub MCP tools via LangChain + LangGraph # ══════════════════════════════════════════════════════════════════════  def run_reviewer_server():     from mcp import StdioServerParameters     from langchain_mcp_adapters.tools import load_mcp_tools     from langchain_openai import ChatOpenAI     from langgraph.prebuilt import create_react_agent      reviewer_app = Server()      GITHUB_MCP = StdioServerParameters(         command="npx",         args=["-y", "@modelcontextprotocol/server-github"],         env={"GITHUB_PERSONAL_ACCESS_TOKEN": "ghp_YOUR_TOKEN_HERE"},     )      @reviewer_app.agent()     async def code_reviewer(         input: list[Message], **kwargs     ) -> AsyncGenerator[RunYield, RunYieldResume]:         """Review code using GitHub MCP tools and a LangGraph ReAct agent."""         query = extract_text(input)          yield RunYield(message=make_message("Loading GitHub MCP tools..."))         tools = await load_mcp_tools(GITHUB_MCP)          yield RunYield(message=make_message(f"Running code review for: {query[:80]}..."))         llm   = ChatOpenAI(model="gpt-4o-mini", temperature=0)         agent = create_react_agent(llm, tools)         result = await agent.ainvoke({"messages": [{"role": "user", "content": query}]})         answer = result["messages"][-1].content          yield RunYield(message=make_message(f"Review Result:\n{answer}"))      reviewer_app.run(host="0.0.0.0", port=8011)   # ══════════════════════════════════════════════════════════════════════ # SERVICE 2: ACP Orchestrator (port 8010) # Accepts a GitHub PR URL, calls the reviewer agent, returns full report # ══════════════════════════════════════════════════════════════════════  def run_orchestrator_server():     orch_app = Server()      @orch_app.agent()     async def pr_analysis_orchestrator(         input: list[Message], **kwargs     ) -> AsyncGenerator[RunYield, RunYieldResume]:         """         Orchestrate a full PR analysis pipeline:           1. Extract PR info from user message           2. Delegate to code_reviewer ACP agent           3. Return final report         """         user_request = extract_text(input)         yield RunYield(message=make_message(f"Orchestrator received: {user_request[:100]}"))          # Build reviewer query         reviewer_query = (             f"Please review the following GitHub PR request and provide detailed feedback:\n"             f"{user_request}\n\n"             f"Focus on: code quality, potential bugs, security issues, and best practices."         )          yield RunYield(message=make_message("Delegating to code_reviewer agent..."))         async with Client(base_url="http://localhost:8011") as client:             review_run = await client.run_sync(                 agent="code_reviewer",                 input=[make_message(reviewer_query)],             )         review_text = extract_text(review_run.output)          final_report = (             "═══════════════════════════════════\n"             "        PR ANALYSIS REPORT\n"             "═══════════════════════════════════\n"             f"{review_text}\n"             "═══════════════════════════════════\n"             "Analysis complete. Report generated by MCP + ACP pipeline."         )         yield RunYield(message=make_message(final_report))      orch_app.run(host="0.0.0.0", port=8010)   # ══════════════════════════════════════════════════════════════════════ # CLIENT: Submit a PR for analysis # ══════════════════════════════════════════════════════════════════════  async def run_client():     pr_request = (         "Review the latest open PR in modelcontextprotocol/python-sdk. "         "Check for code quality issues, missing tests, and security concerns."     )     print(f"Submitting PR analysis request:\n{pr_request}\n")      async with Client(base_url="http://localhost:8010") as client:         agents = await client.list_agents()         print(f"Orchestrator agents: {[a.name for a in agents.agents]}\n")          print("=== Streaming orchestrator output ===")         async for event in client.run_stream(             agent="pr_analysis_orchestrator",             input=[make_message(pr_request)],         ):             if hasattr(event, "message") and event.message:                 for part in event.message.parts:                     print(f"  {part.content}")   # ══════════════════════════════════════════════════════════════════════ # ENTRY POINT # ══════════════════════════════════════════════════════════════════════  if __name__ == "__main__":     mode = sys.argv[1] if len(sys.argv) > 1 else "client"     if mode == "server":         run_reviewer_server()     elif mode == "orch":         run_orchestrator_server()     else:         asyncio.run(run_client()) ```  ### Running the Full System  ```bash # Terminal 1 — Start the ACP code reviewer agent (uses GitHub MCP internally) python end_to_end.py server  # Terminal 2 — Start the ACP orchestrator python end_to_end.py orch  # Terminal 3 — Submit a PR for analysis python end_to_end.py client ```  ### Dependencies  ```bash pip install mcp fastmcp langchain-mcp-adapters langchain-openai langgraph acp-sdk crewai npm install -g @modelcontextprotocol/server-github npm install -g @modelcontextprotocol/server-filesystem ```  ---  ## Quick Reference Card  ### MCP  | Task | Code | |------|------| | Install | `pip install mcp fastmcp` | | Define tool | `@app.list_tools()` + `@app.call_tool()` | | Define resource | `@app.list_resources()` + `@app.read_resource()` | | FastMCP tool | `@mcp.tool()` on a plain function | | LangChain adapter | `load_mcp_tools(StdioServerParameters(...))` | | Run stdio server | `async with stdio_server() as (r,w): await app.run(r,w,...)` | | Client connect | `async with stdio_client(params) as (r,w): ClientSession(r,w)` |  ### ACP  | Task | Code | |------|------| | Install | `pip install acp-sdk` | | Define agent | `@app.agent()` async generator | | Yield output | `yield RunYield(message=Message(...))` | | Sync client call | `await client.run_sync(agent="name", input=[...])` | | Async client call | `await client.run_async(...)` then `await client.run_async_await(run_id)` | | Stream output | `async for event in client.run_stream(...): ...` | | List agents | `await client.list_agents()` | | Start server | `app.run(host="0.0.0.0", port=8001)` |  ---  *Guide covers MCP SDK v1.x · FastMCP v2.x · ACP SDK v0.x (BeeAI) · LangChain v0.3+ · LangGraph v0.2+</summary><div class="qa-a"></div></details>
+</main>
+</body>
+</html>

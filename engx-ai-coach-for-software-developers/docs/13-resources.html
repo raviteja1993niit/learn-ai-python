@@ -1,0 +1,2774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Resources – AI Libraries Guide</title>
+<style>
+:root{--bg:#fff;--text:#1a1a2e;--accent:#0070f3;--code:#f4f6f8;--border:#e1e4e8;--nav:#f6f8fa;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:Georgia,'Times New Roman',serif;font-size:17px;line-height:1.8;
+     color:var(--text);background:var(--bg);display:flex;min-height:100vh;}
+/* ---- NAV ---- */
+nav{width:260px;min-width:220px;background:var(--nav);border-right:1px solid var(--border);
+    position:sticky;top:0;height:100vh;overflow-y:auto;padding:20px 14px;flex-shrink:0;}
+nav .back-link{display:block;font-family:sans-serif;font-size:12px;color:var(--accent);
+               margin-bottom:14px;text-decoration:none;}
+nav .back-link:hover{text-decoration:underline;}
+nav h3{font-family:sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:.08em;
+       color:#888;margin-bottom:8px;}
+nav ul{list-style:none;}
+nav li{margin:3px 0;}
+nav a{font-family:sans-serif;font-size:13px;color:#444;text-decoration:none;
+      display:block;padding:4px 8px;border-radius:4px;line-height:1.4;}
+nav a:hover{background:#e0e8ff;color:var(--accent);}
+nav a.h3{padding-left:20px;font-size:12px;color:#666;}
+nav a.h4{padding-left:34px;font-size:11px;color:#888;}
+/* ---- MAIN ---- */
+main{flex:1;padding:48px 60px;max-width:960px;}
+.doc-header{margin-bottom:40px;padding-bottom:20px;border-bottom:3px solid var(--accent);}
+.doc-header h1{font-size:2.1em;color:#0a192f;}
+.doc-header .subtitle{font-family:sans-serif;color:#555;margin-top:6px;font-size:.95em;}
+.doc-header .badges span{display:inline-block;font-family:sans-serif;font-size:12px;
+  padding:3px 10px;border-radius:12px;margin:8px 4px 0 0;font-weight:600;}
+.badge-free{background:#d4edda;color:#155724;}
+.badge-paid{background:#fff3cd;color:#856404;}
+.badge-local{background:#cce5ff;color:#004085;}
+/* ---- CONTENT ---- */
+section{margin-bottom:56px;}
+h2{font-size:1.6em;color:#0a192f;margin:2em 0 .6em;padding-bottom:.3em;border-bottom:2px solid var(--border);}
+h3{font-size:1.25em;color:#0a192f;margin:1.6em 0 .4em;}
+h4{font-size:1.05em;color:#0a192f;margin:1.3em 0 .3em;}
+p{margin:.6em 0;}
+ul,ol{margin:.5em 0 .5em 1.5em;}li{margin:.25em 0;}
+strong{color:#0a192f;}
+code{font-family:'Fira Code',Consolas,monospace;background:var(--code);
+     padding:2px 6px;border-radius:3px;font-size:.87em;}
+pre{background:var(--code);border:1px solid var(--border);border-left:4px solid var(--accent);
+    border-radius:6px;padding:18px;overflow-x:auto;margin:1em 0;}
+pre code{background:none;padding:0;font-size:.84em;line-height:1.5;}
+table{border-collapse:collapse;width:100%;margin:1em 0;font-family:sans-serif;font-size:.9em;}
+th,td{border:1px solid var(--border);padding:9px 13px;text-align:left;vertical-align:top;}
+th{background:#e8f0fe;font-weight:700;color:#0a192f;}
+tr:nth-child(even) td{background:#f9f9f9;}
+blockquote{border-left:4px solid var(--accent);padding:10px 18px;background:#f0f4ff;
+           border-radius:0 6px 6px 0;color:#333;margin:1em 0;}
+/* ---- Q&A ---- */
+details{border:1px solid var(--border);border-radius:8px;margin:.8em 0;background:#fafafa;}
+details[open]{background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+summary.qa-q{cursor:pointer;padding:13px 16px;font-weight:700;color:#0a192f;
+             list-style:none;display:flex;align-items:flex-start;gap:10px;line-height:1.5;}
+summary.qa-q::before{content:"Q";background:var(--accent);color:#fff;padding:2px 8px;
+                     border-radius:50%;font-size:.78em;font-family:sans-serif;flex-shrink:0;margin-top:2px;}
+.qa-a{padding:14px 18px;border-top:1px solid #eee;}
+/* ---- callout boxes ---- */
+.tip{background:#e6f9f0;border-left:4px solid #28a745;padding:12px 16px;
+     border-radius:0 6px 6px 0;margin:1em 0;}
+.warn{background:#fff8e1;border-left:4px solid #ffc107;padding:12px 16px;
+      border-radius:0 6px 6px 0;margin:1em 0;}
+a{color:var(--accent);}
+hr{border:none;border-top:1px solid var(--border);margin:2em 0;}
+</style>
+</head>
+<body>
+<nav>
+  <a class="back-link" href="index.html">⬅ All Guides</a>
+  <a class="back-link" href="12-sdlc-apps.html">← SDLC Automation Apps</a><a class="back-link" href="14-code-recipes.html">Code Recipes →</a>
+  <h3>Contents</h3>
+  <ul><li><a href="#table-of-contents" class="">Table of Contents</a></li>
+<li><a href="#1-free-llm-apis" class="">1. Free LLM APIs</a></li>
+<li><a href="#11-github-models-copilot-azure-ai-inference" class="h3">1.1 GitHub Models (Copilot / Azure AI Inference)</a></li>
+<li><a href="#12-groq" class="h3">1.2 Groq</a></li>
+<li><a href="#13-google-gemini-api" class="h3">1.3 Google Gemini API</a></li>
+<li><a href="#14-mistral-ai" class="h3">1.4 Mistral AI</a></li>
+<li><a href="#15-together-ai" class="h3">1.5 Together AI</a></li>
+<li><a href="#16-cohere" class="h3">1.6 Cohere</a></li>
+<li><a href="#17-fireworks-ai" class="h3">1.7 Fireworks AI</a></li>
+<li><a href="#18-openrouter" class="h3">1.8 OpenRouter</a></li>
+<li><a href="#19-ollama-100-local" class="h3">1.9 Ollama (100% Local)</a></li>
+<li><a href="#2-free-embedding-models" class="">2. Free Embedding Models</a></li>
+<li><a href="#21-text-embedding-3-small-via-github-models" class="h3">2.1 text-embedding-3-small via GitHub Models</a></li>
+<li><a href="#22-all-minilm-l6-v2-local-22-mb" class="h3">2.2 all-MiniLM-L6-v2 (Local, 22 MB)</a></li>
+<li><a href="#23-all-mpnet-base-v2-local-420-mb" class="h3">2.3 all-mpnet-base-v2 (Local, 420 MB)</a></li>
+<li><a href="#24-nomic-embed-text-via-ollama-local" class="h3">2.4 nomic-embed-text via Ollama (Local)</a></li>
+<li><a href="#25-mxbai-embed-large-via-ollama-local" class="h3">2.5 mxbai-embed-large via Ollama (Local)</a></li>
+<li><a href="#3-free-vector-databases" class="">3. Free Vector Databases</a></li>
+<li><a href="#31-faiss-meta" class="h3">3.1 FAISS (Meta)</a></li>
+<li><a href="#32-chromadb" class="h3">3.2 ChromaDB</a></li>
+<li><a href="#33-qdrant" class="h3">3.3 Qdrant</a></li>
+<li><a href="#34-weaviate" class="h3">3.4 Weaviate</a></li>
+<li><a href="#35-milvus-lite" class="h3">3.5 Milvus Lite</a></li>
+<li><a href="#36-lancedb" class="h3">3.6 LanceDB</a></li>
+<li><a href="#4-paid-llm-apis-with-pricing" class="">4. Paid LLM APIs (with Pricing)</a></li>
+<li><a href="#41-openai" class="h3">4.1 OpenAI</a></li>
+<li><a href="#42-anthropic" class="h3">4.2 Anthropic</a></li>
+<li><a href="#43-google-gemini" class="h3">4.3 Google Gemini</a></li>
+<li><a href="#44-azure-openai" class="h3">4.4 Azure OpenAI</a></li>
+<li><a href="#45-aws-bedrock" class="h3">4.5 AWS Bedrock</a></li>
+<li><a href="#46-cost-comparison-table-approximate-tokens-per-dollar" class="h3">4.6 Cost Comparison Table (Approximate Tokens per Dollar)</a></li>
+<li><a href="#5-free-courses-tutorials" class="">5. Free Courses &amp; Tutorials</a></li>
+<li><a href="#51-deeplearningai-short-courses-all-free" class="h3">5.1 DeepLearning.AI Short Courses (All Free)</a></li>
+<li><a href="#52-hugging-face-courses" class="h3">5.2 Hugging Face Courses</a></li>
+<li><a href="#53-fastai" class="h3">5.3 fast.ai</a></li>
+<li><a href="#54-langchain-academy" class="h3">5.4 LangChain Academy</a></li>
+<li><a href="#55-microsoft-learn" class="h3">5.5 Microsoft Learn</a></li>
+<li><a href="#56-google-ai-courses" class="h3">5.6 Google AI Courses</a></li>
+<li><a href="#57-weights-biases-llmops" class="h3">5.7 Weights &amp; Biases LLMOps</a></li>
+<li><a href="#6-paid-courses-certifications" class="">6. Paid Courses &amp; Certifications</a></li>
+<li><a href="#61-coursera-deeplearningai-specializations" class="h3">6.1 Coursera — DeepLearning.AI Specializations</a></li>
+<li><a href="#62-udemy" class="h3">6.2 Udemy</a></li>
+<li><a href="#63-linkedin-learning" class="h3">6.3 LinkedIn Learning</a></li>
+<li><a href="#64-oreilly" class="h3">6.4 O'Reilly</a></li>
+<li><a href="#65-datacamp" class="h3">6.5 DataCamp</a></li>
+<li><a href="#66-cloud-provider-ai-certifications" class="h3">6.6 Cloud Provider AI Certifications</a></li>
+<li><a href="#7-github-repositories-to-study" class="">7. GitHub Repositories to Study</a></li>
+<li><a href="#8-observability-monitoring-tools" class="">8. Observability &amp; Monitoring Tools</a></li>
+<li><a href="#81-tool-comparison-table" class="h3">8.1 Tool Comparison Table</a></li>
+<li><a href="#82-langsmith" class="h3">8.2 LangSmith</a></li>
+<li><a href="#83-langfuse-open-source" class="h3">8.3 LangFuse (Open Source)</a></li>
+<li><a href="#84-arize-phoenix-local-open-source" class="h3">8.4 Arize Phoenix (Local, Open Source)</a></li>
+<li><a href="#85-helicone" class="h3">8.5 Helicone</a></li>
+<li><a href="#9-dev-tools-infrastructure" class="">9. Dev Tools &amp; Infrastructure</a></li>
+<li><a href="#91-litellm" class="h3">9.1 LiteLLM</a></li>
+<li><a href="#92-portkey" class="h3">9.2 Portkey</a></li>
+<li><a href="#93-localai" class="h3">9.3 LocalAI</a></li>
+<li><a href="#94-text-generation-webui-oobabooga" class="h3">9.4 Text Generation WebUI (oobabooga)</a></li>
+<li><a href="#95-anythingllm" class="h3">9.5 AnythingLLM</a></li>
+<li><a href="#96-open-webui" class="h3">9.6 Open WebUI</a></li>
+<li><a href="#10-communities-newsletters" class="">10. Communities &amp; Newsletters</a></li>
+<li><a href="#101-discord-servers" class="h3">10.1 Discord Servers</a></li>
+<li><a href="#102-reddit-communities" class="h3">10.2 Reddit Communities</a></li>
+<li><a href="#103-twitter-x-accounts-to-follow" class="h3">10.3 Twitter / X Accounts to Follow</a></li>
+<li><a href="#104-newsletters" class="h3">10.4 Newsletters</a></li>
+<li><a href="#105-podcasts" class="h3">10.5 Podcasts</a></li>
+<li><a href="#106-technical-blogs" class="h3">10.6 Technical Blogs</a></li>
+<li><a href="#11-quick-setup-cheatsheet" class="">11. Quick Setup Cheatsheet</a></li>
+<li><a href="#111-env-template" class="h3">11.1 .env Template</a></li>
+<li><a href="#112-requirementstxt-by-group" class="h3">11.2 requirements.txt by Group</a></li>
+<li><a href="#113-one-file-free-llm-setup-script" class="h3">11.3 One-File Free LLM Setup Script</a></li>
+<li><a href="#114-docker-compose-local-ai-stack-qdrant-ollama-open-webui" class="h3">11.4 Docker Compose — Local AI Stack (Qdrant + Ollama + Open WebUI)</a></li>
+<li><a href="#115-quick-token-cost-calculator" class="h3">11.5 Quick Token Cost Calculator</a></li>
+</ul>
+</nav>
+<main>
+  <div class="doc-header">
+    <h1>Resources</h1>
+    <p class="subtitle">Free & paid courses, APIs, vector DBs, monitoring tools, communities</p>
+    <div class="badges"><span class="badge-free">Free Resources</span><span class="badge-paid">Paid Resources</span></div>
+  </div>
+  <h1 id="comprehensive-ai-llm-resources-learning-guide">Comprehensive AI / LLM Resources &amp; Learning Guide</h1>
+<blockquote>
+<p><strong>Last updated:</strong> 2025 | Target audience: Software developers building AI-powered applications
+<strong>Goal:</strong> One-stop reference for free APIs, tools, courses, communities, and quick-start code.</p>
+</blockquote>
+<hr />
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol>
+<li><a href="#1-free-llm-apis">Free LLM APIs</a></li>
+<li><a href="#2-free-embedding-models">Free Embedding Models</a></li>
+<li><a href="#3-free-vector-databases">Free Vector Databases</a></li>
+<li><a href="#4-paid-llm-apis-with-pricing">Paid LLM APIs (with Pricing)</a></li>
+<li><a href="#5-free-courses--tutorials">Free Courses &amp; Tutorials</a></li>
+<li><a href="#6-paid-courses--certifications">Paid Courses &amp; Certifications</a></li>
+<li><a href="#7-github-repositories-to-study">GitHub Repositories to Study</a></li>
+<li><a href="#8-observability--monitoring-tools">Observability &amp; Monitoring Tools</a></li>
+<li><a href="#9-dev-tools--infrastructure">Dev Tools &amp; Infrastructure</a></li>
+<li><a href="#10-communities--newsletters">Communities &amp; Newsletters</a></li>
+<li><a href="#11-quick-setup-cheatsheet">Quick Setup Cheatsheet</a></li>
+</ol>
+<hr />
+<h2 id="1-free-llm-apis">1. Free LLM APIs</h2>
+<h3 id="11-github-models-copilot-azure-ai-inference">1.1 GitHub Models (Copilot / Azure AI Inference)</h3>
+<table>
+<thead>
+<tr>
+<th>Detail</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>URL</strong></td>
+<td>https://github.com/marketplace/models</td>
+</tr>
+<tr>
+<td><strong>Docs</strong></td>
+<td>https://docs.github.com/en/github-models</td>
+</tr>
+<tr>
+<td><strong>Models</strong></td>
+<td>gpt-4o, gpt-4o-mini, Llama 3.3 70B, Mistral Large, Phi-4, Cohere Command R+</td>
+</tr>
+<tr>
+<td><strong>Free tier</strong></td>
+<td>Free for all GitHub users (rate-limited per model)</td>
+</tr>
+<tr>
+<td><strong>Auth</strong></td>
+<td>GitHub Personal Access Token (PAT)</td>
+</tr>
+<tr>
+<td><strong>Endpoint</strong></td>
+<td><code>https://models.inference.ai.azure.com</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>How to get key:</strong> Settings → Developer settings → Personal access tokens → Fine-grained token (no special scopes required for Models).</p>
+<pre><code class="language-python">from openai import OpenAI
+
+client = OpenAI(
+    base_url=&quot;https://models.inference.ai.azure.com&quot;,
+    api_key=&quot;YOUR_GITHUB_PAT&quot;,
+)
+
+response = client.chat.completions.create(
+    model=&quot;gpt-4o-mini&quot;,          # or &quot;Meta-Llama-3.3-70B-Instruct&quot;
+    messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Explain RAG in 2 sentences.&quot;}],
+    max_tokens=256,
+)
+print(response.choices[0].message.content)
+</code></pre>
+<hr />
+<h3 id="12-groq">1.2 Groq</h3>
+<table>
+<thead>
+<tr>
+<th>Detail</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>URL</strong></td>
+<td>https://groq.com</td>
+</tr>
+<tr>
+<td><strong>Console</strong></td>
+<td>https://console.groq.com</td>
+</tr>
+<tr>
+<td><strong>Docs</strong></td>
+<td>https://console.groq.com/docs/openai</td>
+</tr>
+<tr>
+<td><strong>Models</strong></td>
+<td>llama-3.3-70b-versatile, llama-3.1-8b-instant, mixtral-8x7b-32768, gemma2-9b-it</td>
+</tr>
+<tr>
+<td><strong>Free tier</strong></td>
+<td>14,400 req/day, 6,000 tokens/min per model</td>
+</tr>
+<tr>
+<td><strong>Latency</strong></td>
+<td>Fastest inference available (~500 tokens/sec on Llama 70B)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>How to get key:</strong> Sign up at https://console.groq.com → API Keys → Create API Key</p>
+<pre><code class="language-python">from groq import Groq
+
+client = Groq(api_key=&quot;YOUR_GROQ_API_KEY&quot;)
+
+response = client.chat.completions.create(
+    model=&quot;llama-3.3-70b-versatile&quot;,
+    messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;What is LangGraph?&quot;}],
+    max_tokens=512,
+)
+print(response.choices[0].message.content)
+</code></pre>
+<hr />
+<h3 id="13-google-gemini-api">1.3 Google Gemini API</h3>
+<table>
+<thead>
+<tr>
+<th>Detail</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>URL</strong></td>
+<td>https://ai.google.dev</td>
+</tr>
+<tr>
+<td><strong>Console</strong></td>
+<td>https://aistudio.google.com</td>
+</tr>
+<tr>
+<td><strong>Docs</strong></td>
+<td>https://ai.google.dev/gemini-api/docs</td>
+</tr>
+<tr>
+<td><strong>Models</strong></td>
+<td>gemini-1.5-flash (free), gemini-1.5-pro (free with limits), gemini-2.0-flash</td>
+</tr>
+<tr>
+<td><strong>Free tier</strong></td>
+<td>15 req/min, 1 million tokens/min, 1,500 req/day on Flash</td>
+</tr>
+</tbody>
+</table>
+<p><strong>How to get key:</strong> https://aistudio.google.com/app/apikey → Create API Key</p>
+<pre><code class="language-python">import google.generativeai as genai
+
+genai.configure(api_key=&quot;YOUR_GEMINI_API_KEY&quot;)
+model = genai.GenerativeModel(&quot;gemini-1.5-flash&quot;)
+
+response = model.generate_content(&quot;List 5 vector databases with pros and cons.&quot;)
+print(response.text)
+</code></pre>
+<hr />
+<h3 id="14-mistral-ai">1.4 Mistral AI</h3>
+<table>
+<thead>
+<tr>
+<th>Detail</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>URL</strong></td>
+<td>https://mistral.ai</td>
+</tr>
+<tr>
+<td><strong>Console</strong></td>
+<td>https://console.mistral.ai</td>
+</tr>
+<tr>
+<td><strong>Docs</strong></td>
+<td>https://docs.mistral.ai</td>
+</tr>
+<tr>
+<td><strong>Models (free)</strong></td>
+<td>mistral-small-latest, open-mistral-7b, open-mixtral-8x7b</td>
+</tr>
+<tr>
+<td><strong>Free tier</strong></td>
+<td>Free "Experiment" tier — generous rate limits for testing</td>
+</tr>
+</tbody>
+</table>
+<p><strong>How to get key:</strong> https://console.mistral.ai/api-keys/</p>
+<pre><code class="language-python">from mistralai import Mistral
+
+client = Mistral(api_key=&quot;YOUR_MISTRAL_API_KEY&quot;)
+
+response = client.chat.complete(
+    model=&quot;mistral-small-latest&quot;,
+    messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;What is function calling in LLMs?&quot;}],
+)
+print(response.choices[0].message.content)
+</code></pre>
+<hr />
+<h3 id="15-together-ai">1.5 Together AI</h3>
+<table>
+<thead>
+<tr>
+<th>Detail</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>URL</strong></td>
+<td>https://www.together.ai</td>
+</tr>
+<tr>
+<td><strong>Docs</strong></td>
+<td>https://docs.together.ai</td>
+</tr>
+<tr>
+<td><strong>Models</strong></td>
+<td>100+ open models: Llama, Mistral, Qwen, DBRX, Gemma, Yi</td>
+</tr>
+<tr>
+<td><strong>Free tier</strong></td>
+<td>$5 free credit on signup, OpenAI-compatible API</td>
+</tr>
+<tr>
+<td><strong>Pricing after</strong></td>
+<td>$0.10–$0.90 per 1M tokens depending on model</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-python">from openai import OpenAI
+
+client = OpenAI(
+    base_url=&quot;https://api.together.xyz/v1&quot;,
+    api_key=&quot;YOUR_TOGETHER_API_KEY&quot;,
+)
+
+response = client.chat.completions.create(
+    model=&quot;meta-llama/Llama-3.3-70B-Instruct-Turbo&quot;,
+    messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Explain embeddings simply.&quot;}],
+)
+print(response.choices[0].message.content)
+</code></pre>
+<hr />
+<h3 id="16-cohere">1.6 Cohere</h3>
+<table>
+<thead>
+<tr>
+<th>Detail</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>URL</strong></td>
+<td>https://cohere.com</td>
+</tr>
+<tr>
+<td><strong>Console</strong></td>
+<td>https://dashboard.cohere.com</td>
+</tr>
+<tr>
+<td><strong>Docs</strong></td>
+<td>https://docs.cohere.com</td>
+</tr>
+<tr>
+<td><strong>Models</strong></td>
+<td>command-r, command-r-plus, embed-v3</td>
+</tr>
+<tr>
+<td><strong>Free tier</strong></td>
+<td>1,000 API calls/month (Trial key), no credit card required</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-python">import cohere
+
+co = cohere.Client(api_key=&quot;YOUR_COHERE_API_KEY&quot;)
+
+response = co.chat(
+    model=&quot;command-r&quot;,
+    message=&quot;What makes a good RAG pipeline?&quot;,
+)
+print(response.text)
+</code></pre>
+<hr />
+<h3 id="17-fireworks-ai">1.7 Fireworks AI</h3>
+<table>
+<thead>
+<tr>
+<th>Detail</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>URL</strong></td>
+<td>https://fireworks.ai</td>
+</tr>
+<tr>
+<td><strong>Docs</strong></td>
+<td>https://docs.fireworks.ai</td>
+</tr>
+<tr>
+<td><strong>Models</strong></td>
+<td>Llama, Mixtral, Phi, Qwen, DeepSeek, FireFunction</td>
+</tr>
+<tr>
+<td><strong>Free tier</strong></td>
+<td>$1 free credit on signup; very competitive pricing</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-python">from openai import OpenAI
+
+client = OpenAI(
+    base_url=&quot;https://api.fireworks.ai/inference/v1&quot;,
+    api_key=&quot;YOUR_FIREWORKS_API_KEY&quot;,
+)
+
+response = client.chat.completions.create(
+    model=&quot;accounts/fireworks/models/llama-v3p3-70b-instruct&quot;,
+    messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Describe the MCP protocol.&quot;}],
+)
+print(response.choices[0].message.content)
+</code></pre>
+<hr />
+<h3 id="18-openrouter">1.8 OpenRouter</h3>
+<table>
+<thead>
+<tr>
+<th>Detail</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>URL</strong></td>
+<td>https://openrouter.ai</td>
+</tr>
+<tr>
+<td><strong>Docs</strong></td>
+<td>https://openrouter.ai/docs</td>
+</tr>
+<tr>
+<td><strong>Models</strong></td>
+<td>200+ models from all providers in one unified API</td>
+</tr>
+<tr>
+<td><strong>Free tier</strong></td>
+<td>Several models are permanently free (marked with <code>:free</code> suffix)</td>
+</tr>
+<tr>
+<td><strong>Key feature</strong></td>
+<td>Automatic fallback, routing, and cost management</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-python">from openai import OpenAI
+
+client = OpenAI(
+    base_url=&quot;https://openrouter.ai/api/v1&quot;,
+    api_key=&quot;YOUR_OPENROUTER_API_KEY&quot;,
+)
+
+response = client.chat.completions.create(
+    model=&quot;meta-llama/llama-3.3-70b-instruct:free&quot;,  # free model
+    messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Summarize chain-of-thought prompting.&quot;}],
+)
+print(response.choices[0].message.content)
+</code></pre>
+<hr />
+<h3 id="19-ollama-100-local">1.9 Ollama (100% Local)</h3>
+<table>
+<thead>
+<tr>
+<th>Detail</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>URL</strong></td>
+<td>https://ollama.com</td>
+</tr>
+<tr>
+<td><strong>Models</strong></td>
+<td>https://ollama.com/library — 50+ models (Llama, Mistral, Phi, Gemma, DeepSeek…)</td>
+</tr>
+<tr>
+<td><strong>Cost</strong></td>
+<td>Completely free — runs on your machine</td>
+</tr>
+<tr>
+<td><strong>Requirements</strong></td>
+<td>8GB RAM minimum; GPU optional but recommended</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Install:</strong></p>
+<pre><code class="language-bash"># macOS / Linux
+curl -fsSL https://ollama.com/install.sh | sh
+
+# Windows: download installer from https://ollama.com/download
+</code></pre>
+<pre><code class="language-python"># Pull and run a model
+# Terminal: ollama pull llama3.2
+# Terminal: ollama serve  (auto-starts)
+
+from openai import OpenAI
+
+client = OpenAI(base_url=&quot;http://localhost:11434/v1&quot;, api_key=&quot;ollama&quot;)
+
+response = client.chat.completions.create(
+    model=&quot;llama3.2&quot;,
+    messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Write a Python function to chunk text.&quot;}],
+)
+print(response.choices[0].message.content)
+</code></pre>
+<hr />
+<h2 id="2-free-embedding-models">2. Free Embedding Models</h2>
+<h3 id="21-text-embedding-3-small-via-github-models">2.1 text-embedding-3-small via GitHub Models</h3>
+<pre><code class="language-python">from openai import OpenAI
+
+client = OpenAI(
+    base_url=&quot;https://models.inference.ai.azure.com&quot;,
+    api_key=&quot;YOUR_GITHUB_PAT&quot;,
+)
+
+response = client.embeddings.create(
+    model=&quot;text-embedding-3-small&quot;,
+    input=&quot;Retrieval-augmented generation improves LLM accuracy.&quot;,
+)
+vector = response.data[0].embedding
+print(f&quot;Dimension: {len(vector)}&quot;)  # 1536
+</code></pre>
+<hr />
+<h3 id="22-all-minilm-l6-v2-local-22-mb">2.2 all-MiniLM-L6-v2 (Local, 22 MB)</h3>
+<pre><code class="language-bash">pip install sentence-transformers
+</code></pre>
+<pre><code class="language-python">from sentence_transformers import SentenceTransformer
+
+model = SentenceTransformer(&quot;sentence-transformers/all-MiniLM-L6-v2&quot;)
+# https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2
+
+texts = [&quot;LangChain is a framework for building LLM apps.&quot;, &quot;RAG retrieves context for generation.&quot;]
+embeddings = model.encode(texts, normalize_embeddings=True)
+
+print(f&quot;Shape: {embeddings.shape}&quot;)  # (2, 384)
+</code></pre>
+<p><strong>Notes:</strong> Best for semantic search, FAQ matching. 384 dimensions. Extremely fast on CPU.</p>
+<hr />
+<h3 id="23-all-mpnet-base-v2-local-420-mb">2.3 all-mpnet-base-v2 (Local, 420 MB)</h3>
+<pre><code class="language-python">from sentence_transformers import SentenceTransformer
+
+model = SentenceTransformer(&quot;sentence-transformers/all-mpnet-base-v2&quot;)
+# https://huggingface.co/sentence-transformers/all-mpnet-base-v2
+
+embeddings = model.encode([&quot;What is a vector database?&quot;], normalize_embeddings=True)
+print(f&quot;Shape: {embeddings.shape}&quot;)  # (1, 768)
+</code></pre>
+<p><strong>Notes:</strong> Higher quality than MiniLM. 768 dimensions. Good for document similarity and clustering.</p>
+<hr />
+<h3 id="24-nomic-embed-text-via-ollama-local">2.4 nomic-embed-text via Ollama (Local)</h3>
+<pre><code class="language-bash">ollama pull nomic-embed-text
+</code></pre>
+<pre><code class="language-python">import requests
+
+response = requests.post(
+    &quot;http://localhost:11434/api/embeddings&quot;,
+    json={&quot;model&quot;: &quot;nomic-embed-text&quot;, &quot;prompt&quot;: &quot;Explain transformer architecture.&quot;},
+)
+vector = response.json()[&quot;embedding&quot;]
+print(f&quot;Dimension: {len(vector)}&quot;)  # 768
+</code></pre>
+<hr />
+<h3 id="25-mxbai-embed-large-via-ollama-local">2.5 mxbai-embed-large via Ollama (Local)</h3>
+<pre><code class="language-bash">ollama pull mxbai-embed-large
+</code></pre>
+<pre><code class="language-python">import requests
+
+response = requests.post(
+    &quot;http://localhost:11434/api/embeddings&quot;,
+    json={&quot;model&quot;: &quot;mxbai-embed-large&quot;, &quot;prompt&quot;: &quot;Vector similarity search techniques.&quot;},
+)
+vector = response.json()[&quot;embedding&quot;]
+print(f&quot;Dimension: {len(vector)}&quot;)  # 1024 — higher quality embeddings
+</code></pre>
+<p><strong>Notes:</strong> State-of-the-art open-source embedding model. Outperforms many commercial alternatives on MTEB benchmark.</p>
+<hr />
+<h2 id="3-free-vector-databases">3. Free Vector Databases</h2>
+<h3 id="31-faiss-meta">3.1 FAISS (Meta)</h3>
+<table>
+<thead>
+<tr>
+<th>Detail</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>URL</strong></td>
+<td>https://github.com/facebookresearch/faiss</td>
+</tr>
+<tr>
+<td><strong>Docs</strong></td>
+<td>https://faiss.ai</td>
+</tr>
+<tr>
+<td><strong>Type</strong></td>
+<td>Fully embedded (in-process), no server</td>
+</tr>
+<tr>
+<td><strong>Limits</strong></td>
+<td>Unlimited — runs in RAM/disk</td>
+</tr>
+<tr>
+<td><strong>Best for</strong></td>
+<td>Fast prototyping, batch indexing, research</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-bash">pip install faiss-cpu  # or faiss-gpu for CUDA
+</code></pre>
+<pre><code class="language-python">import faiss
+import numpy as np
+
+dimension = 384
+index = faiss.IndexFlatL2(dimension)  # exact L2 search
+
+vectors = np.random.rand(1000, dimension).astype(&quot;float32&quot;)
+index.add(vectors)
+
+query = np.random.rand(1, dimension).astype(&quot;float32&quot;)
+distances, indices = index.search(query, k=5)
+print(f&quot;Nearest neighbors: {indices}&quot;)
+
+# Save/load index
+faiss.write_index(index, &quot;my_index.faiss&quot;)
+index = faiss.read_index(&quot;my_index.faiss&quot;)
+</code></pre>
+<hr />
+<h3 id="32-chromadb">3.2 ChromaDB</h3>
+<table>
+<thead>
+<tr>
+<th>Detail</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>URL</strong></td>
+<td>https://www.trychroma.com</td>
+</tr>
+<tr>
+<td><strong>Docs</strong></td>
+<td>https://docs.trychroma.com</td>
+</tr>
+<tr>
+<td><strong>GitHub</strong></td>
+<td>https://github.com/chroma-core/chroma</td>
+</tr>
+<tr>
+<td><strong>Type</strong></td>
+<td>Embedded or server mode, open source</td>
+</tr>
+<tr>
+<td><strong>Free tier</strong></td>
+<td>Unlimited self-hosted; Chroma Cloud free tier available</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-bash">pip install chromadb
+</code></pre>
+<pre><code class="language-python">import chromadb
+
+client = chromadb.PersistentClient(path=&quot;./chroma_db&quot;)
+collection = client.get_or_create_collection(&quot;my_docs&quot;)
+
+collection.add(
+    documents=[&quot;LangChain builds LLM apps.&quot;, &quot;LlamaIndex is for data indexing.&quot;],
+    ids=[&quot;doc1&quot;, &quot;doc2&quot;],
+)
+
+results = collection.query(query_texts=[&quot;How to build AI agents?&quot;], n_results=2)
+print(results[&quot;documents&quot;])
+</code></pre>
+<hr />
+<h3 id="33-qdrant">3.3 Qdrant</h3>
+<table>
+<thead>
+<tr>
+<th>Detail</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>URL</strong></td>
+<td>https://qdrant.tech</td>
+</tr>
+<tr>
+<td><strong>Docs</strong></td>
+<td>https://qdrant.tech/documentation</td>
+</tr>
+<tr>
+<td><strong>Cloud</strong></td>
+<td>https://cloud.qdrant.io — free tier 1 GB cluster</td>
+</tr>
+<tr>
+<td><strong>Self-hosted</strong></td>
+<td>Docker: <code>docker run -p 6333:6333 qdrant/qdrant</code></td>
+</tr>
+<tr>
+<td><strong>Features</strong></td>
+<td>Filtering, payload indexing, multi-vector, quantization</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-bash">pip install qdrant-client
+</code></pre>
+<pre><code class="language-python">from qdrant_client import QdrantClient
+from qdrant_client.models import Distance, VectorParams, PointStruct
+
+client = QdrantClient(&quot;:memory:&quot;)  # or QdrantClient(url=&quot;http://localhost:6333&quot;)
+
+client.create_collection(
+    collection_name=&quot;knowledge&quot;,
+    vectors_config=VectorParams(size=384, distance=Distance.COSINE),
+)
+
+client.upsert(
+    collection_name=&quot;knowledge&quot;,
+    points=[
+        PointStruct(id=1, vector=[0.1]*384, payload={&quot;text&quot;: &quot;RAG tutorial&quot;}),
+        PointStruct(id=2, vector=[0.2]*384, payload={&quot;text&quot;: &quot;Agents overview&quot;}),
+    ],
+)
+
+results = client.search(collection_name=&quot;knowledge&quot;, query_vector=[0.15]*384, limit=2)
+for r in results:
+    print(r.payload[&quot;text&quot;], r.score)
+</code></pre>
+<hr />
+<h3 id="34-weaviate">3.4 Weaviate</h3>
+<table>
+<thead>
+<tr>
+<th>Detail</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>URL</strong></td>
+<td>https://weaviate.io</td>
+</tr>
+<tr>
+<td><strong>Docs</strong></td>
+<td>https://weaviate.io/developers/weaviate</td>
+</tr>
+<tr>
+<td><strong>Cloud</strong></td>
+<td>https://console.weaviate.cloud — free 14-day sandbox</td>
+</tr>
+<tr>
+<td><strong>Self-hosted</strong></td>
+<td><code>docker run -p 8080:8080 semitechnologies/weaviate</code></td>
+</tr>
+<tr>
+<td><strong>Features</strong></td>
+<td>GraphQL API, multi-modal, hybrid search, modules</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-bash">pip install weaviate-client
+</code></pre>
+<pre><code class="language-python">import weaviate
+
+client = weaviate.connect_to_local()  # or connect_to_weaviate_cloud(...)
+
+collection = client.collections.create(
+    name=&quot;Articles&quot;,
+    vectorizer_config=weaviate.classes.config.Configure.Vectorizer.none(),
+)
+
+collection.data.insert({&quot;title&quot;: &quot;Intro to RAG&quot;}, vector=[0.1] * 384)
+
+results = collection.query.near_vector(near_vector=[0.1]*384, limit=3)
+for obj in results.objects:
+    print(obj.properties)
+
+client.close()
+</code></pre>
+<hr />
+<h3 id="35-milvus-lite">3.5 Milvus Lite</h3>
+<table>
+<thead>
+<tr>
+<th>Detail</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>URL</strong></td>
+<td>https://milvus.io</td>
+</tr>
+<tr>
+<td><strong>Docs</strong></td>
+<td>https://milvus.io/docs</td>
+</tr>
+<tr>
+<td><strong>GitHub</strong></td>
+<td>https://github.com/milvus-io/milvus</td>
+</tr>
+<tr>
+<td><strong>Type</strong></td>
+<td>Embedded (Lite) or distributed cluster</td>
+</tr>
+<tr>
+<td><strong>Free tier</strong></td>
+<td>Zilliz Cloud free tier; unlimited self-hosted</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-bash">pip install pymilvus
+</code></pre>
+<pre><code class="language-python">from pymilvus import MilvusClient
+
+client = MilvusClient(&quot;./milvus_lite.db&quot;)  # embedded, no server needed
+
+client.create_collection(collection_name=&quot;docs&quot;, dimension=384)
+
+client.insert(
+    collection_name=&quot;docs&quot;,
+    data=[{&quot;id&quot;: 1, &quot;vector&quot;: [0.1]*384, &quot;text&quot;: &quot;RAG overview&quot;}],
+)
+
+results = client.search(
+    collection_name=&quot;docs&quot;,
+    data=[[0.1]*384],
+    limit=3,
+    output_fields=[&quot;text&quot;],
+)
+print(results)
+</code></pre>
+<hr />
+<h3 id="36-lancedb">3.6 LanceDB</h3>
+<table>
+<thead>
+<tr>
+<th>Detail</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>URL</strong></td>
+<td>https://lancedb.com</td>
+</tr>
+<tr>
+<td><strong>Docs</strong></td>
+<td>https://lancedb.github.io/lancedb</td>
+</tr>
+<tr>
+<td><strong>GitHub</strong></td>
+<td>https://github.com/lancedb/lancedb</td>
+</tr>
+<tr>
+<td><strong>Type</strong></td>
+<td>Serverless, columnar (Lance format), multimodal</td>
+</tr>
+<tr>
+<td><strong>Free tier</strong></td>
+<td>Open source, unlimited self-hosted; LanceDB Cloud free tier</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-bash">pip install lancedb
+</code></pre>
+<pre><code class="language-python">import lancedb
+import numpy as np
+
+db = lancedb.connect(&quot;./lancedb_store&quot;)
+
+data = [{&quot;vector&quot;: np.random.rand(384).tolist(), &quot;text&quot;: f&quot;Document {i}&quot;} for i in range(100)]
+table = db.create_table(&quot;docs&quot;, data=data)
+
+results = table.search(np.random.rand(384).tolist()).limit(5).to_pandas()
+print(results[[&quot;text&quot;, &quot;_distance&quot;]])
+</code></pre>
+<hr />
+<h2 id="4-paid-llm-apis-with-pricing">4. Paid LLM APIs (with Pricing)</h2>
+<h3 id="41-openai">4.1 OpenAI</h3>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Input (per 1M tokens)</th>
+<th>Output (per 1M tokens)</th>
+<th>Context</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>gpt-4o</td>
+<td>$5.00</td>
+<td>$15.00</td>
+<td>128K</td>
+</tr>
+<tr>
+<td>gpt-4o-mini</td>
+<td>$0.15</td>
+<td>$0.60</td>
+<td>128K</td>
+</tr>
+<tr>
+<td>o1</td>
+<td>$15.00</td>
+<td>$60.00</td>
+<td>200K</td>
+</tr>
+<tr>
+<td>o3-mini</td>
+<td>$1.10</td>
+<td>$4.40</td>
+<td>200K</td>
+</tr>
+<tr>
+<td>o1-mini</td>
+<td>$3.00</td>
+<td>$12.00</td>
+<td>128K</td>
+</tr>
+</tbody>
+</table>
+<p><strong>URL:</strong> https://openai.com | <strong>Pricing:</strong> https://openai.com/api/pricing | <strong>Docs:</strong> https://platform.openai.com/docs</p>
+<hr />
+<h3 id="42-anthropic">4.2 Anthropic</h3>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Input (per 1M tokens)</th>
+<th>Output (per 1M tokens)</th>
+<th>Context</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Claude 3.5 Sonnet</td>
+<td>$3.00</td>
+<td>$15.00</td>
+<td>200K</td>
+</tr>
+<tr>
+<td>Claude 3.5 Haiku</td>
+<td>$0.80</td>
+<td>$4.00</td>
+<td>200K</td>
+</tr>
+<tr>
+<td>Claude 3 Haiku</td>
+<td>$0.25</td>
+<td>$1.25</td>
+<td>200K</td>
+</tr>
+<tr>
+<td>Claude 3 Opus</td>
+<td>$15.00</td>
+<td>$75.00</td>
+<td>200K</td>
+</tr>
+</tbody>
+</table>
+<p><strong>URL:</strong> https://anthropic.com | <strong>Pricing:</strong> https://www.anthropic.com/pricing | <strong>Docs:</strong> https://docs.anthropic.com</p>
+<hr />
+<h3 id="43-google-gemini">4.3 Google Gemini</h3>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Input (per 1M tokens)</th>
+<th>Output (per 1M tokens)</th>
+<th>Context</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Gemini 1.5 Pro</td>
+<td>$3.50</td>
+<td>$10.50</td>
+<td>2M</td>
+</tr>
+<tr>
+<td>Gemini 1.5 Flash</td>
+<td>$0.075</td>
+<td>$0.30</td>
+<td>1M</td>
+</tr>
+<tr>
+<td>Gemini 2.0 Flash</td>
+<td>$0.10</td>
+<td>$0.40</td>
+<td>1M</td>
+</tr>
+</tbody>
+</table>
+<p><strong>URL:</strong> https://ai.google.dev | <strong>Pricing:</strong> https://ai.google.dev/pricing</p>
+<hr />
+<h3 id="44-azure-openai">4.4 Azure OpenAI</h3>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>URL</strong></td>
+<td>https://azure.microsoft.com/en-us/products/ai-services/openai-service</td>
+</tr>
+<tr>
+<td><strong>Models</strong></td>
+<td>All OpenAI models + fine-tuned versions</td>
+</tr>
+<tr>
+<td><strong>Pricing</strong></td>
+<td>Same per-token rates as OpenAI + possible Azure discounts</td>
+</tr>
+<tr>
+<td><strong>PTU</strong></td>
+<td>Provisioned Throughput Units for predictable latency</td>
+</tr>
+<tr>
+<td><strong>Enterprise features</strong></td>
+<td>Private endpoints, VNET, compliance, content filters</td>
+</tr>
+<tr>
+<td><strong>Best for</strong></td>
+<td>Enterprise, compliance-heavy workloads, Azure ecosystem</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="45-aws-bedrock">4.5 AWS Bedrock</h3>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>URL</strong></td>
+<td>https://aws.amazon.com/bedrock</td>
+</tr>
+<tr>
+<td><strong>Pricing</strong></td>
+<td>https://aws.amazon.com/bedrock/pricing</td>
+</tr>
+<tr>
+<td><strong>Models</strong></td>
+<td>30+ models: Claude, Llama, Titan, Mistral, Cohere, Stable Diffusion</td>
+</tr>
+<tr>
+<td><strong>Pricing model</strong></td>
+<td>Pay-per-token, no commitment required</td>
+</tr>
+<tr>
+<td><strong>Key feature</strong></td>
+<td>Agents, Knowledge Bases (RAG), Guardrails all integrated</td>
+</tr>
+<tr>
+<td><strong>Claude 3.5 Sonnet</strong></td>
+<td>$3.00 / $15.00 per 1M in/out tokens</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="46-cost-comparison-table-approximate-tokens-per-dollar">4.6 Cost Comparison Table (Approximate Tokens per Dollar)</h3>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Tokens per $1 (input)</th>
+<th>Best use case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GPT-4o-mini</td>
+<td>~6.7M</td>
+<td>High-volume tasks, chat</td>
+</tr>
+<tr>
+<td>Claude 3 Haiku</td>
+<td>~4M</td>
+<td>Fast, cheap summarization</td>
+</tr>
+<tr>
+<td>Gemini 1.5 Flash</td>
+<td>~13M</td>
+<td>Cheapest capable model</td>
+</tr>
+<tr>
+<td>Llama 3 (Groq free)</td>
+<td>∞ (free)</td>
+<td>Development &amp; testing</td>
+</tr>
+<tr>
+<td>GPT-4o</td>
+<td>~200K</td>
+<td>Complex reasoning</td>
+</tr>
+<tr>
+<td>Claude 3.5 Sonnet</td>
+<td>~333K</td>
+<td>Coding &amp; analysis</td>
+</tr>
+<tr>
+<td>Claude 3 Opus</td>
+<td>~67K</td>
+<td>Most capable, most expensive</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="5-free-courses-tutorials">5. Free Courses &amp; Tutorials</h2>
+<h3 id="51-deeplearningai-short-courses-all-free">5.1 DeepLearning.AI Short Courses (All Free)</h3>
+<p><strong>Platform:</strong> https://learn.deeplearning.ai | All courses are free | 1–3 hours each</p>
+<table>
+<thead>
+<tr>
+<th>Course</th>
+<th>URL</th>
+<th>Duration</th>
+<th>What You Learn</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LangChain for LLM Application Development</td>
+<td>https://learn.deeplearning.ai/courses/langchain</td>
+<td>2h</td>
+<td>Chains, memory, agents, tools</td>
+</tr>
+<tr>
+<td>LangGraph: Build Agentic AI</td>
+<td>https://learn.deeplearning.ai/courses/ai-agents-in-langgraph</td>
+<td>2h</td>
+<td>Stateful agents, cycles, human-in-the-loop</td>
+</tr>
+<tr>
+<td>Multi-AI-Agent Systems with CrewAI</td>
+<td>https://learn.deeplearning.ai/courses/multi-ai-agent-systems-with-crewai</td>
+<td>2h</td>
+<td>Role-based agents, tasks, crews</td>
+</tr>
+<tr>
+<td>AI Agents in LangGraph</td>
+<td>https://learn.deeplearning.ai/courses/ai-agents-in-langgraph</td>
+<td>2h</td>
+<td>ReAct, tool calling, memory</td>
+</tr>
+<tr>
+<td>DSPy: Build &amp; Optimize LLM Apps</td>
+<td>https://learn.deeplearning.ai/courses/building-toward-computer-use</td>
+<td>1.5h</td>
+<td>Prompt optimization, DSPy modules</td>
+</tr>
+<tr>
+<td>Building Agentic RAG with LlamaIndex</td>
+<td>https://learn.deeplearning.ai/courses/building-agentic-rag-with-llamaindex</td>
+<td>2h</td>
+<td>Query engines, multi-document agents</td>
+</tr>
+<tr>
+<td>Vector Databases: from Embeddings to Applications</td>
+<td>https://learn.deeplearning.ai/courses/vector-databases-embeddings-applications</td>
+<td>2h</td>
+<td>FAISS, Weaviate, hybrid search</td>
+</tr>
+<tr>
+<td>Building &amp; Evaluating Advanced RAG</td>
+<td>https://learn.deeplearning.ai/courses/building-evaluating-advanced-rag</td>
+<td>2h</td>
+<td>RAG triad, TruLens evaluation</td>
+</tr>
+<tr>
+<td>Pretraining LLMs</td>
+<td>https://learn.deeplearning.ai/courses/pretraining-llms</td>
+<td>2h</td>
+<td>From-scratch pretraining concepts</td>
+</tr>
+<tr>
+<td>Function Calling &amp; Data Extraction</td>
+<td>https://learn.deeplearning.ai/courses/function-calling-and-data-extraction-with-llms</td>
+<td>1.5h</td>
+<td>JSON mode, structured outputs</td>
+</tr>
+<tr>
+<td>MCP: Build Agentic Apps</td>
+<td>https://learn.deeplearning.ai/courses/mcp-build-agentic-apps</td>
+<td>1.5h</td>
+<td>Model Context Protocol, tools, resources</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="52-hugging-face-courses">5.2 Hugging Face Courses</h3>
+<p><strong>Platform:</strong> https://huggingface.co/learn | All free</p>
+<table>
+<thead>
+<tr>
+<th>Course</th>
+<th>URL</th>
+<th>What You Learn</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NLP Course</td>
+<td>https://huggingface.co/learn/nlp-course</td>
+<td>Transformers, fine-tuning, tokenization</td>
+</tr>
+<tr>
+<td>Agents Course</td>
+<td>https://huggingface.co/learn/agents-course</td>
+<td>Tool use, code agents, smolagents</td>
+</tr>
+<tr>
+<td>RAG Course</td>
+<td>https://huggingface.co/learn/cookbook/rag</td>
+<td>Advanced RAG recipes</td>
+</tr>
+<tr>
+<td>Deep RL Course</td>
+<td>https://huggingface.co/learn/deep-rl-course</td>
+<td>Reinforcement learning fundamentals</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="53-fastai">5.3 fast.ai</h3>
+<table>
+<thead>
+<tr>
+<th>Detail</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>URL</strong></td>
+<td>https://course.fast.ai</td>
+</tr>
+<tr>
+<td><strong>Duration</strong></td>
+<td>~20 hours</td>
+</tr>
+<tr>
+<td><strong>Cost</strong></td>
+<td>Free</td>
+</tr>
+<tr>
+<td><strong>What you learn</strong></td>
+<td>Practical deep learning, fine-tuning, diffusion models, NLP from scratch</td>
+</tr>
+<tr>
+<td><strong>Notes</strong></td>
+<td>Highly practical, top-down teaching approach</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="54-langchain-academy">5.4 LangChain Academy</h3>
+<table>
+<thead>
+<tr>
+<th>Detail</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>URL</strong></td>
+<td>https://academy.langchain.com</td>
+</tr>
+<tr>
+<td><strong>Course</strong></td>
+<td>Introduction to LangGraph</td>
+</tr>
+<tr>
+<td><strong>Duration</strong></td>
+<td>~6 hours</td>
+</tr>
+<tr>
+<td><strong>Cost</strong></td>
+<td>Free</td>
+</tr>
+<tr>
+<td><strong>What you learn</strong></td>
+<td>Graphs, state machines, checkpointing, human-in-the-loop patterns</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="55-microsoft-learn">5.5 Microsoft Learn</h3>
+<table>
+<thead>
+<tr>
+<th>Course</th>
+<th>URL</th>
+<th>What You Learn</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Develop AI agents with Azure OpenAI</td>
+<td>https://learn.microsoft.com/en-us/training/paths/develop-ai-agents-azure-open-ai-semantic-kernel-sdk</td>
+<td>Semantic Kernel, agents</td>
+</tr>
+<tr>
+<td>Azure AI Fundamentals</td>
+<td>https://learn.microsoft.com/en-us/training/paths/get-started-with-artificial-intelligence-on-azure</td>
+<td>Azure AI services overview</td>
+</tr>
+<tr>
+<td>Build Copilot with Azure</td>
+<td>https://learn.microsoft.com/en-us/training/paths/build-copilots-with-azure-ai-foundry</td>
+<td>Copilot Studio, Azure AI Foundry</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="56-google-ai-courses">5.6 Google AI Courses</h3>
+<table>
+<thead>
+<tr>
+<th>Course</th>
+<th>URL</th>
+<th>What You Learn</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Gemini API Developer Course</td>
+<td>https://ai.google.dev/gemini-api/docs/get-started/python</td>
+<td>Gemini API, function calling, embeddings</td>
+</tr>
+<tr>
+<td>Google ML Crash Course</td>
+<td>https://developers.google.com/machine-learning/crash-course</td>
+<td>ML fundamentals</td>
+</tr>
+<tr>
+<td>Prompt Engineering Guide (Google)</td>
+<td>https://cloud.google.com/vertex-ai/generative-ai/docs/learn/prompting-best-practices</td>
+<td>Prompting for Vertex AI</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="57-weights-biases-llmops">5.7 Weights &amp; Biases LLMOps</h3>
+<table>
+<thead>
+<tr>
+<th>Detail</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>URL</strong></td>
+<td>https://www.wandb.courses/courses/building-llm-powered-apps</td>
+</tr>
+<tr>
+<td><strong>Duration</strong></td>
+<td>~4 hours</td>
+</tr>
+<tr>
+<td><strong>Cost</strong></td>
+<td>Free</td>
+</tr>
+<tr>
+<td><strong>What you learn</strong></td>
+<td>LLMOps lifecycle, evaluation, fine-tuning, W&amp;B integration</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="6-paid-courses-certifications">6. Paid Courses &amp; Certifications</h2>
+<h3 id="61-coursera-deeplearningai-specializations">6.1 Coursera — DeepLearning.AI Specializations</h3>
+<table>
+<thead>
+<tr>
+<th>Specialization</th>
+<th>URL</th>
+<th>Duration</th>
+<th>Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Machine Learning Specialization</td>
+<td>https://www.coursera.org/specializations/machine-learning-introduction</td>
+<td>3 months</td>
+<td>~$49/month</td>
+</tr>
+<tr>
+<td>Deep Learning Specialization</td>
+<td>https://www.coursera.org/specializations/deep-learning</td>
+<td>5 months</td>
+<td>~$49/month</td>
+</tr>
+<tr>
+<td>MLOps Specialization</td>
+<td>https://www.coursera.org/specializations/machine-learning-engineering-for-production-mlops</td>
+<td>4 months</td>
+<td>~$49/month</td>
+</tr>
+<tr>
+<td>Natural Language Processing</td>
+<td>https://www.coursera.org/specializations/natural-language-processing</td>
+<td>4 months</td>
+<td>~$49/month</td>
+</tr>
+<tr>
+<td>LLMOps by Google Cloud</td>
+<td>https://www.coursera.org/learn/llmops</td>
+<td>1 month</td>
+<td>~$49/month</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Note:</strong> Financial aid available. Certificates from top institutions (Stanford, Google, DeepMind).</p>
+<hr />
+<h3 id="62-udemy">6.2 Udemy</h3>
+<table>
+<thead>
+<tr>
+<th>Course</th>
+<th>URL</th>
+<th>Price (sale)</th>
+<th>What You Learn</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LangChain Masterclass</td>
+<td>https://www.udemy.com/course/master-langchain-pinecone-openai-build-llm-applications</td>
+<td>~$15</td>
+<td>LangChain, Pinecone, OpenAI</td>
+</tr>
+<tr>
+<td>ChatGPT &amp; LangChain Bootcamp</td>
+<td>https://www.udemy.com/course/chatgpt-and-langchain-the-complete-developers-masterclass</td>
+<td>~$15</td>
+<td>Full stack AI apps</td>
+</tr>
+<tr>
+<td>AutoGen &amp; Multi-Agent AI</td>
+<td>https://www.udemy.com/course/autogen-multi-agent-systems</td>
+<td>~$20</td>
+<td>AutoGen framework</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Tip:</strong> Watch for Udemy sales — courses are 80–90% off regularly. Use https://www.udemy.com/courses/search/?q=langchain&amp;price=price-paid&amp;sort=highest-rated</p>
+<hr />
+<h3 id="63-linkedin-learning">6.3 LinkedIn Learning</h3>
+<table>
+<thead>
+<tr>
+<th>Course</th>
+<th>URL</th>
+<th>Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AI for Software Developers</td>
+<td>https://www.linkedin.com/learning/topics/ai-for-developers</td>
+<td>$29.99/month or free with Premium</td>
+</tr>
+<tr>
+<td>Python for AI</td>
+<td>https://www.linkedin.com/learning/python-for-data-science-and-machine-learning-essential-training</td>
+<td>Included in LinkedIn Premium</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="64-oreilly">6.4 O'Reilly</h3>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>URL</th>
+<th>Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>O'Reilly Learning Platform</td>
+<td>https://www.oreilly.com/online-learning</td>
+<td>$49/month</td>
+</tr>
+<tr>
+<td>"Building LLM Powered Applications" book</td>
+<td>Available on O'Reilly</td>
+<td>Included</td>
+</tr>
+<tr>
+<td>"Designing Large Language Model Applications"</td>
+<td>Available on O'Reilly</td>
+<td>Included</td>
+</tr>
+<tr>
+<td>Live AI courses</td>
+<td>https://www.oreilly.com/live-events</td>
+<td>Included in subscription</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="65-datacamp">6.5 DataCamp</h3>
+<table>
+<thead>
+<tr>
+<th>Track</th>
+<th>URL</th>
+<th>Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AI Engineer Track</td>
+<td>https://www.datacamp.com/tracks/ai-engineer</td>
+<td>$25/month</td>
+</tr>
+<tr>
+<td>Associate AI Engineer Cert</td>
+<td>https://www.datacamp.com/certification/associate-ai-engineer-for-developers</td>
+<td>Included in track</td>
+</tr>
+<tr>
+<td>LLM Concepts Course</td>
+<td>https://www.datacamp.com/courses/large-language-models-llms-concepts</td>
+<td>Included</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="66-cloud-provider-ai-certifications">6.6 Cloud Provider AI Certifications</h3>
+<table>
+<thead>
+<tr>
+<th>Certification</th>
+<th>URL</th>
+<th>Cost</th>
+<th>Validity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AWS Certified Machine Learning – Specialty</td>
+<td>https://aws.amazon.com/certification/certified-machine-learning-specialty</td>
+<td>$300 exam</td>
+<td>3 years</td>
+</tr>
+<tr>
+<td>AWS AI Practitioner</td>
+<td>https://aws.amazon.com/certification/certified-ai-practitioner</td>
+<td>$100 exam</td>
+<td>3 years</td>
+</tr>
+<tr>
+<td>Azure AI Engineer Associate (AI-102)</td>
+<td>https://learn.microsoft.com/en-us/credentials/certifications/azure-ai-engineer</td>
+<td>$165 exam</td>
+<td>1 year</td>
+</tr>
+<tr>
+<td>Google Professional ML Engineer</td>
+<td>https://cloud.google.com/learn/certification/machine-learning-engineer</td>
+<td>$200 exam</td>
+<td>2 years</td>
+</tr>
+<tr>
+<td>Google Gemini for Google Cloud</td>
+<td>https://cloud.google.com/learn/certification/cloud-digital-leader</td>
+<td>$99 exam</td>
+<td>2 years</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="7-github-repositories-to-study">7. GitHub Repositories to Study</h2>
+<table>
+<thead>
+<tr>
+<th>Repository</th>
+<th>URL</th>
+<th>Stars (approx.)</th>
+<th>What to Learn</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>langchain-ai/langchain</td>
+<td>https://github.com/langchain-ai/langchain</td>
+<td>90K+</td>
+<td>Core LLM framework: chains, agents, memory, tools</td>
+</tr>
+<tr>
+<td>langchain-ai/langgraph</td>
+<td>https://github.com/langchain-ai/langgraph</td>
+<td>10K+</td>
+<td>Stateful agent graphs, multi-agent orchestration</td>
+</tr>
+<tr>
+<td>crewAIInc/crewAI</td>
+<td>https://github.com/crewAIInc/crewAI</td>
+<td>25K+</td>
+<td>Role-based multi-agent systems, task delegation</td>
+</tr>
+<tr>
+<td>microsoft/autogen</td>
+<td>https://github.com/microsoft/autogen</td>
+<td>35K+</td>
+<td>Conversational multi-agent framework</td>
+</tr>
+<tr>
+<td>run-llama/llama_index</td>
+<td>https://github.com/run-llama/llama_index</td>
+<td>38K+</td>
+<td>Data indexing, query engines, RAG patterns</td>
+</tr>
+<tr>
+<td>deepset-ai/haystack</td>
+<td>https://github.com/deepset-ai/haystack</td>
+<td>18K+</td>
+<td>Production RAG pipelines, NLP components</td>
+</tr>
+<tr>
+<td>microsoft/semantic-kernel</td>
+<td>https://github.com/microsoft/semantic-kernel</td>
+<td>22K+</td>
+<td>Copilot patterns, plugins, planners</td>
+</tr>
+<tr>
+<td>stanfordnlp/dspy</td>
+<td>https://github.com/stanfordnlp/dspy</td>
+<td>20K+</td>
+<td>Prompt optimization, programmatic LM usage</td>
+</tr>
+<tr>
+<td>modelcontextprotocol/python-sdk</td>
+<td>https://github.com/modelcontextprotocol/python-sdk</td>
+<td>3K+</td>
+<td>MCP protocol, tools, resources, servers</td>
+</tr>
+<tr>
+<td>BerriAI/litellm</td>
+<td>https://github.com/BerriAI/litellm</td>
+<td>15K+</td>
+<td>Unified API for 100+ LLM providers</td>
+</tr>
+<tr>
+<td>Significant-Gravitas/AutoGPT</td>
+<td>https://github.com/Significant-Gravitas/AutoGPT</td>
+<td>170K+</td>
+<td>Autonomous agents, long-running tasks</td>
+</tr>
+<tr>
+<td>openai/openai-python</td>
+<td>https://github.com/openai/openai-python</td>
+<td>23K+</td>
+<td>Official OpenAI Python client patterns</td>
+</tr>
+<tr>
+<td>huggingface/transformers</td>
+<td>https://github.com/huggingface/transformers</td>
+<td>135K+</td>
+<td>Model loading, fine-tuning, inference</td>
+</tr>
+<tr>
+<td>qdrant/qdrant</td>
+<td>https://github.com/qdrant/qdrant</td>
+<td>20K+</td>
+<td>Vector DB internals, filtering, HNSW</td>
+</tr>
+<tr>
+<td>chroma-core/chroma</td>
+<td>https://github.com/chroma-core/chroma</td>
+<td>15K+</td>
+<td>Embedded vector DB, metadata filtering</td>
+</tr>
+<tr>
+<td>ollama/ollama</td>
+<td>https://github.com/ollama/ollama</td>
+<td>95K+</td>
+<td>Local model serving, Modelfile format</td>
+</tr>
+<tr>
+<td>vllm-project/vllm</td>
+<td>https://github.com/vllm-project/vllm</td>
+<td>38K+</td>
+<td>High-throughput LLM serving, PagedAttention</td>
+</tr>
+</tbody>
+</table>
+<p><strong>How to study repos effectively:</strong>
+1. Read the README and architecture docs first
+2. Explore <code>/examples</code> and <code>/notebooks</code> directories
+3. Study the <code>/tests</code> for real usage patterns
+4. Trace from a high-level API call down to implementation</p>
+<hr />
+<h2 id="8-observability-monitoring-tools">8. Observability &amp; Monitoring Tools</h2>
+<h3 id="81-tool-comparison-table">8.1 Tool Comparison Table</h3>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Free Tier</th>
+<th>Self-Host</th>
+<th>Open Source</th>
+<th>Key Feature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LangSmith</td>
+<td>5K traces/month</td>
+<td>No</td>
+<td>No</td>
+<td>Native LangChain integration</td>
+</tr>
+<tr>
+<td>LangFuse</td>
+<td>Unlimited (self-hosted)</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Best open-source option</td>
+</tr>
+<tr>
+<td>W&amp;B Weave</td>
+<td>Generous free tier</td>
+<td>No</td>
+<td>Partial</td>
+<td>Weights &amp; Biases ecosystem</td>
+</tr>
+<tr>
+<td>Helicone</td>
+<td>100K logs/month</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Proxy-based, zero code change</td>
+</tr>
+<tr>
+<td>Arize Phoenix</td>
+<td>Unlimited (local)</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Offline-first, OTEL support</td>
+</tr>
+<tr>
+<td>PromptLayer</td>
+<td>5K requests/month</td>
+<td>No</td>
+<td>No</td>
+<td>Prompt versioning, A/B testing</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="82-langsmith">8.2 LangSmith</h3>
+<table>
+<thead>
+<tr>
+<th>Detail</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>URL</strong></td>
+<td>https://smith.langchain.com</td>
+</tr>
+<tr>
+<td><strong>Docs</strong></td>
+<td>https://docs.smith.langchain.com</td>
+</tr>
+<tr>
+<td><strong>Free tier</strong></td>
+<td>5,000 traces/month, full feature access</td>
+</tr>
+<tr>
+<td><strong>Paid</strong></td>
+<td>$39/month Developer, $299/month Team</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-python">import os
+os.environ[&quot;LANGCHAIN_TRACING_V2&quot;] = &quot;true&quot;
+os.environ[&quot;LANGCHAIN_API_KEY&quot;] = &quot;YOUR_LANGSMITH_API_KEY&quot;
+os.environ[&quot;LANGCHAIN_PROJECT&quot;] = &quot;my-rag-project&quot;
+
+# All LangChain calls are now automatically traced
+from langchain_openai import ChatOpenAI
+llm = ChatOpenAI(model=&quot;gpt-4o-mini&quot;)
+result = llm.invoke(&quot;Hello!&quot;)  # Appears in LangSmith dashboard
+</code></pre>
+<hr />
+<h3 id="83-langfuse-open-source">8.3 LangFuse (Open Source)</h3>
+<table>
+<thead>
+<tr>
+<th>Detail</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>URL</strong></td>
+<td>https://langfuse.com</td>
+</tr>
+<tr>
+<td><strong>GitHub</strong></td>
+<td>https://github.com/langfuse/langfuse</td>
+</tr>
+<tr>
+<td><strong>Cloud</strong></td>
+<td>https://cloud.langfuse.com — free tier</td>
+</tr>
+<tr>
+<td><strong>Self-host</strong></td>
+<td>Docker compose: <code>docker compose up</code></td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-python">from langfuse.openai import openai  # drop-in replacement
+
+client = openai.OpenAI(api_key=&quot;YOUR_OPENAI_KEY&quot;)
+# LangFuse automatically captures all calls — set env vars:
+# LANGFUSE_PUBLIC_KEY, LANGFUSE_SECRET_KEY, LANGFUSE_HOST
+
+response = client.chat.completions.create(
+    model=&quot;gpt-4o-mini&quot;,
+    messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Trace this call!&quot;}],
+)
+print(response.choices[0].message.content)
+</code></pre>
+<hr />
+<h3 id="84-arize-phoenix-local-open-source">8.4 Arize Phoenix (Local, Open Source)</h3>
+<table>
+<thead>
+<tr>
+<th>Detail</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>URL</strong></td>
+<td>https://phoenix.arize.com</td>
+</tr>
+<tr>
+<td><strong>GitHub</strong></td>
+<td>https://github.com/Arize-ai/phoenix</td>
+</tr>
+<tr>
+<td><strong>Type</strong></td>
+<td>Runs entirely locally (no cloud)</td>
+</tr>
+<tr>
+<td><strong>Features</strong></td>
+<td>LLM tracing, RAG evaluation, span analysis, OTEL</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-bash">pip install arize-phoenix
+python -m phoenix.server.main serve  # starts at http://localhost:6006
+</code></pre>
+<pre><code class="language-python">import phoenix as px
+from openinference.instrumentation.openai import OpenAIInstrumentor
+from opentelemetry import trace
+from opentelemetry.sdk.trace import TracerProvider
+from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+
+px.launch_app()  # opens browser UI
+</code></pre>
+<hr />
+<h3 id="85-helicone">8.5 Helicone</h3>
+<table>
+<thead>
+<tr>
+<th>Detail</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>URL</strong></td>
+<td>https://helicone.ai</td>
+</tr>
+<tr>
+<td><strong>GitHub</strong></td>
+<td>https://github.com/Helicone/helicone</td>
+</tr>
+<tr>
+<td><strong>Free tier</strong></td>
+<td>100,000 logs/month</td>
+</tr>
+<tr>
+<td><strong>Key feature</strong></td>
+<td>Proxy-based — change one line of code</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-python">from openai import OpenAI
+
+client = OpenAI(
+    base_url=&quot;https://oai.helicone.ai/v1&quot;,  # only change needed
+    api_key=&quot;YOUR_OPENAI_KEY&quot;,
+    default_headers={&quot;Helicone-Auth&quot;: &quot;Bearer YOUR_HELICONE_KEY&quot;},
+)
+</code></pre>
+<hr />
+<h2 id="9-dev-tools-infrastructure">9. Dev Tools &amp; Infrastructure</h2>
+<h3 id="91-litellm">9.1 LiteLLM</h3>
+<table>
+<thead>
+<tr>
+<th>Detail</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>URL</strong></td>
+<td>https://litellm.ai</td>
+</tr>
+<tr>
+<td><strong>GitHub</strong></td>
+<td>https://github.com/BerriAI/litellm</td>
+</tr>
+<tr>
+<td><strong>Purpose</strong></td>
+<td>Unified API for 100+ LLMs — one interface, any provider</td>
+</tr>
+<tr>
+<td><strong>Cost</strong></td>
+<td>Open source, free</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-bash">pip install litellm
+</code></pre>
+<pre><code class="language-python">from litellm import completion
+
+# Works with any provider — just change the model string
+response = completion(
+    model=&quot;groq/llama-3.3-70b-versatile&quot;,     # or &quot;gpt-4o&quot;, &quot;claude-3-5-sonnet&quot;, etc.
+    messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Hello!&quot;}],
+    api_key=&quot;YOUR_GROQ_KEY&quot;,
+)
+print(response.choices[0].message.content)
+</code></pre>
+<p><strong>As a proxy server:</strong></p>
+<pre><code class="language-bash">litellm --model groq/llama-3.3-70b-versatile
+# Now use http://0.0.0.0:4000 as OpenAI-compatible endpoint
+</code></pre>
+<hr />
+<h3 id="92-portkey">9.2 Portkey</h3>
+<table>
+<thead>
+<tr>
+<th>Detail</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>URL</strong></td>
+<td>https://portkey.ai</td>
+</tr>
+<tr>
+<td><strong>Docs</strong></td>
+<td>https://portkey.ai/docs</td>
+</tr>
+<tr>
+<td><strong>Features</strong></td>
+<td>LLM gateway, caching, fallbacks, load balancing, monitoring</td>
+</tr>
+<tr>
+<td><strong>Free tier</strong></td>
+<td>10,000 requests/month</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-python">from openai import OpenAI
+from portkey_ai import PORTKEY_GATEWAY_URL, createHeaders
+
+client = OpenAI(
+    base_url=PORTKEY_GATEWAY_URL,
+    api_key=&quot;YOUR_OPENAI_KEY&quot;,
+    default_headers=createHeaders(api_key=&quot;YOUR_PORTKEY_KEY&quot;, provider=&quot;openai&quot;),
+)
+</code></pre>
+<hr />
+<h3 id="93-localai">9.3 LocalAI</h3>
+<table>
+<thead>
+<tr>
+<th>Detail</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>URL</strong></td>
+<td>https://localai.io</td>
+</tr>
+<tr>
+<td><strong>GitHub</strong></td>
+<td>https://github.com/mudler/LocalAI</td>
+</tr>
+<tr>
+<td><strong>Purpose</strong></td>
+<td>Run models locally with OpenAI-compatible REST API</td>
+</tr>
+<tr>
+<td><strong>Models</strong></td>
+<td>GGUF models (llama.cpp backend), Whisper, Stable Diffusion</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-bash">docker run -p 8080:8080 -v $PWD/models:/build/models:cached \
+  localai/localai:latest-aio-cpu
+</code></pre>
+<hr />
+<h3 id="94-text-generation-webui-oobabooga">9.4 Text Generation WebUI (oobabooga)</h3>
+<table>
+<thead>
+<tr>
+<th>Detail</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>GitHub</strong></td>
+<td>https://github.com/oobabooga/text-generation-webui</td>
+</tr>
+<tr>
+<td><strong>Purpose</strong></td>
+<td>Feature-rich UI for running local LLMs</td>
+</tr>
+<tr>
+<td><strong>Features</strong></td>
+<td>Chat, API, extensions, LoRA, character personas</td>
+</tr>
+<tr>
+<td><strong>Install</strong></td>
+<td><code>git clone https://github.com/oobabooga/text-generation-webui &amp;&amp; cd text-generation-webui &amp;&amp; ./start_linux.sh</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="95-anythingllm">9.5 AnythingLLM</h3>
+<table>
+<thead>
+<tr>
+<th>Detail</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>URL</strong></td>
+<td>https://anythingllm.com</td>
+</tr>
+<tr>
+<td><strong>GitHub</strong></td>
+<td>https://github.com/Mintplex-Labs/anything-llm</td>
+</tr>
+<tr>
+<td><strong>Purpose</strong></td>
+<td>Local RAG application with file upload, workspaces, agents</td>
+</tr>
+<tr>
+<td><strong>Install</strong></td>
+<td>Desktop app or Docker: <code>docker pull mintplexlabs/anythingllm</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="96-open-webui">9.6 Open WebUI</h3>
+<table>
+<thead>
+<tr>
+<th>Detail</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>URL</strong></td>
+<td>https://openwebui.com</td>
+</tr>
+<tr>
+<td><strong>GitHub</strong></td>
+<td>https://github.com/open-webui/open-webui</td>
+</tr>
+<tr>
+<td><strong>Purpose</strong></td>
+<td>ChatGPT-like UI for Ollama and OpenAI-compatible APIs</td>
+</tr>
+<tr>
+<td><strong>Install</strong></td>
+<td><code>docker run -p 3000:8080 ghcr.io/open-webui/open-webui:ollama</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="10-communities-newsletters">10. Communities &amp; Newsletters</h2>
+<h3 id="101-discord-servers">10.1 Discord Servers</h3>
+<table>
+<thead>
+<tr>
+<th>Community</th>
+<th>Invite / URL</th>
+<th>Focus</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LangChain</td>
+<td>https://discord.gg/langchain</td>
+<td>LangChain, LangGraph, LangSmith</td>
+</tr>
+<tr>
+<td>LlamaIndex</td>
+<td>https://discord.gg/eN6D2HQ4aX</td>
+<td>LlamaIndex, RAG, agents</td>
+</tr>
+<tr>
+<td>Hugging Face</td>
+<td>https://discord.gg/huggingface</td>
+<td>Open models, Transformers, Spaces</td>
+</tr>
+<tr>
+<td>CrewAI</td>
+<td>https://discord.gg/X4JWnZnxPb</td>
+<td>Multi-agent systems</td>
+</tr>
+<tr>
+<td>AutoGen</td>
+<td>https://discord.gg/pAbnFJrkgZ</td>
+<td>Microsoft AutoGen</td>
+</tr>
+<tr>
+<td>Ollama</td>
+<td>https://discord.gg/ollama</td>
+<td>Local LLM running</td>
+</tr>
+<tr>
+<td>LocalLLaMA</td>
+<td>https://discord.gg/localllama</td>
+<td>Local models community</td>
+</tr>
+<tr>
+<td>OpenRouter</td>
+<td>https://discord.gg/openrouter</td>
+<td>Multi-provider routing</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="102-reddit-communities">10.2 Reddit Communities</h3>
+<table>
+<thead>
+<tr>
+<th>Subreddit</th>
+<th>URL</th>
+<th>Focus</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>r/LocalLLaMA</td>
+<td>https://www.reddit.com/r/LocalLLaMA</td>
+<td>Local models, hardware, benchmarks</td>
+</tr>
+<tr>
+<td>r/MachineLearning</td>
+<td>https://www.reddit.com/r/MachineLearning</td>
+<td>Research papers, ML news</td>
+</tr>
+<tr>
+<td>r/artificial</td>
+<td>https://www.reddit.com/r/artificial</td>
+<td>General AI news and discussion</td>
+</tr>
+<tr>
+<td>r/ChatGPT</td>
+<td>https://www.reddit.com/r/ChatGPT</td>
+<td>ChatGPT tips and use cases</td>
+</tr>
+<tr>
+<td>r/LangChain</td>
+<td>https://www.reddit.com/r/LangChain</td>
+<td>LangChain community</td>
+</tr>
+<tr>
+<td>r/mlops</td>
+<td>https://www.reddit.com/r/mlops</td>
+<td>ML engineering and deployment</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="103-twitter-x-accounts-to-follow">10.3 Twitter / X Accounts to Follow</h3>
+<table>
+<thead>
+<tr>
+<th>Account</th>
+<th>Handle</th>
+<th>Why Follow</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Andrej Karpathy</td>
+<td>@karpathy</td>
+<td>Deep learning insights, LLM internals</td>
+</tr>
+<tr>
+<td>Yann LeCun</td>
+<td>@ylecun</td>
+<td>AI research, Meta AI</td>
+</tr>
+<tr>
+<td>Sam Altman</td>
+<td>@sama</td>
+<td>OpenAI news</td>
+</tr>
+<tr>
+<td>Demis Hassabis</td>
+<td>@demishassabis</td>
+<td>Google DeepMind</td>
+</tr>
+<tr>
+<td>Harrison Chase</td>
+<td>@hwchase17</td>
+<td>LangChain creator</td>
+</tr>
+<tr>
+<td>Jerry Liu</td>
+<td>@jerryjliu0</td>
+<td>LlamaIndex creator</td>
+</tr>
+<tr>
+<td>Lilian Weng</td>
+<td>@lilianweng</td>
+<td>Deep technical AI blog posts</td>
+</tr>
+<tr>
+<td>Simon Willison</td>
+<td>@simonw</td>
+<td>Practical AI tools and hacks</td>
+</tr>
+<tr>
+<td>Swyx</td>
+<td>@swyx</td>
+<td>AI engineering community</td>
+</tr>
+<tr>
+<td>Eugene Yan</td>
+<td>@eugeneyan</td>
+<td>Applied ML, RecSys, LLMs</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="104-newsletters">10.4 Newsletters</h3>
+<table>
+<thead>
+<tr>
+<th>Newsletter</th>
+<th>URL</th>
+<th>Frequency</th>
+<th>Focus</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>The Batch (DeepLearning.AI)</td>
+<td>https://www.deeplearning.ai/the-batch</td>
+<td>Weekly</td>
+<td>Curated AI news from Andrew Ng</td>
+</tr>
+<tr>
+<td>AI Supremacy</td>
+<td>https://www.aisupremacy.substack.com</td>
+<td>Weekly</td>
+<td>AI industry analysis</td>
+</tr>
+<tr>
+<td>Import AI</td>
+<td>https://importai.substack.com</td>
+<td>Weekly</td>
+<td>Jack Clark's AI research digest</td>
+</tr>
+<tr>
+<td>The Rundown AI</td>
+<td>https://www.therundown.ai</td>
+<td>Daily</td>
+<td>Quick AI news summary</td>
+</tr>
+<tr>
+<td>Last Week in AI</td>
+<td>https://lastweekin.ai</td>
+<td>Weekly</td>
+<td>Podcast + newsletter combo</td>
+</tr>
+<tr>
+<td>Nathan's Substack</td>
+<td>https://nathanbenaich.substack.com</td>
+<td>Quarterly</td>
+<td>State of AI report</td>
+</tr>
+<tr>
+<td>TLDR AI</td>
+<td>https://tldr.tech/ai</td>
+<td>Daily</td>
+<td>Short AI engineering briefs</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="105-podcasts">10.5 Podcasts</h3>
+<table>
+<thead>
+<tr>
+<th>Podcast</th>
+<th>URL</th>
+<th>Focus</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lex Fridman Podcast</td>
+<td>https://lexfridman.com/podcast</td>
+<td>Long-form AI/tech interviews</td>
+</tr>
+<tr>
+<td>TWIML AI Podcast</td>
+<td>https://twimlai.com</td>
+<td>ML engineering and research</td>
+</tr>
+<tr>
+<td>Practical AI</td>
+<td>https://changelog.com/practicalai</td>
+<td>Practical AI application</td>
+</tr>
+<tr>
+<td>Gradient Dissent (W&amp;B)</td>
+<td>https://wandb.ai/fully-connected/podcast</td>
+<td>ML research and practice</td>
+</tr>
+<tr>
+<td>The MLST Podcast</td>
+<td>https://mlst.io</td>
+<td>Academic ML research</td>
+</tr>
+<tr>
+<td>Latent Space</td>
+<td>https://www.latent.space/podcast</td>
+<td>AI engineering deep dives</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="106-technical-blogs">10.6 Technical Blogs</h3>
+<table>
+<thead>
+<tr>
+<th>Blog</th>
+<th>URL</th>
+<th>Why Read</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lilian Weng (OpenAI)</td>
+<td>https://lilianweng.github.io</td>
+<td>Deeply technical, rigorous ML explanations</td>
+</tr>
+<tr>
+<td>Sebastian Ruder</td>
+<td>https://ruder.io</td>
+<td>NLP research, transfer learning</td>
+</tr>
+<tr>
+<td>Eugene Yan</td>
+<td>https://eugeneyan.com</td>
+<td>Applied ML, system design</td>
+</tr>
+<tr>
+<td>Jay Alammar</td>
+<td>https://jalammar.github.io</td>
+<td>Visual guides to transformers</td>
+</tr>
+<tr>
+<td>The AI Summer</td>
+<td>https://theaisummer.com</td>
+<td>Implementation-focused tutorials</td>
+</tr>
+<tr>
+<td>Fast.ai Blog</td>
+<td>https://www.fast.ai/blog</td>
+<td>Practical deep learning</td>
+</tr>
+<tr>
+<td>Chip Huyen</td>
+<td>https://huyenchip.com/blog</td>
+<td>ML systems design</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="11-quick-setup-cheatsheet">11. Quick Setup Cheatsheet</h2>
+<h3 id="111-env-template">11.1 .env Template</h3>
+<pre><code class="language-bash"># ============================================================
+# FREE LLM APIs
+# ============================================================
+GITHUB_TOKEN=ghp_your_github_pat_here
+GROQ_API_KEY=gsk_your_groq_key_here
+GOOGLE_API_KEY=AIza_your_gemini_key_here
+MISTRAL_API_KEY=your_mistral_key_here
+TOGETHER_API_KEY=your_together_key_here
+COHERE_API_KEY=your_cohere_key_here
+FIREWORKS_API_KEY=fw_your_fireworks_key_here
+OPENROUTER_API_KEY=sk-or-your_openrouter_key_here
+
+# ============================================================
+# PAID LLM APIs
+# ============================================================
+OPENAI_API_KEY=sk-your_openai_key_here
+ANTHROPIC_API_KEY=sk-ant-your_anthropic_key_here
+
+# ============================================================
+# OBSERVABILITY
+# ============================================================
+LANGCHAIN_API_KEY=ls__your_langsmith_key_here
+LANGCHAIN_TRACING_V2=true
+LANGCHAIN_PROJECT=my-ai-project
+LANGFUSE_PUBLIC_KEY=pk-your_langfuse_public_key
+LANGFUSE_SECRET_KEY=sk-your_langfuse_secret_key
+LANGFUSE_HOST=https://cloud.langfuse.com
+
+# ============================================================
+# VECTOR DATABASES (cloud)
+# ============================================================
+QDRANT_URL=https://your-cluster.qdrant.io
+QDRANT_API_KEY=your_qdrant_api_key
+</code></pre>
+<hr />
+<h3 id="112-requirementstxt-by-group">11.2 requirements.txt by Group</h3>
+<p><strong>Core LLM frameworks:</strong></p>
+<pre><code># requirements-llm.txt
+openai&gt;=1.40.0
+anthropic&gt;=0.34.0
+google-generativeai&gt;=0.7.0
+groq&gt;=0.9.0
+mistralai&gt;=1.0.0
+cohere&gt;=5.0.0
+litellm&gt;=1.40.0
+</code></pre>
+<p><strong>LangChain ecosystem:</strong></p>
+<pre><code># requirements-langchain.txt
+langchain&gt;=0.3.0
+langchain-openai&gt;=0.2.0
+langchain-anthropic&gt;=0.2.0
+langchain-google-genai&gt;=2.0.0
+langchain-groq&gt;=0.2.0
+langchain-community&gt;=0.3.0
+langgraph&gt;=0.2.0
+langsmith&gt;=0.1.0
+</code></pre>
+<p><strong>Embedding &amp; vector stores:</strong></p>
+<pre><code># requirements-vector.txt
+sentence-transformers&gt;=3.0.0
+faiss-cpu&gt;=1.8.0
+chromadb&gt;=0.5.0
+qdrant-client&gt;=1.11.0
+lancedb&gt;=0.10.0
+pymilvus&gt;=2.4.0
+</code></pre>
+<p><strong>Agent frameworks:</strong></p>
+<pre><code># requirements-agents.txt
+crewai&gt;=0.65.0
+pyautogen&gt;=0.3.0
+llama-index&gt;=0.11.0
+dspy-ai&gt;=2.4.0
+</code></pre>
+<p><strong>Observability:</strong></p>
+<pre><code># requirements-observability.txt
+langsmith&gt;=0.1.0
+langfuse&gt;=2.0.0
+wandb&gt;=0.17.0
+arize-phoenix&gt;=4.0.0
+openinference-instrumentation-openai&gt;=0.1.0
+</code></pre>
+<hr />
+<h3 id="113-one-file-free-llm-setup-script">11.3 One-File Free LLM Setup Script</h3>
+<pre><code class="language-python">&quot;&quot;&quot;
+free_llm_setup.py — Test all free LLM APIs in one script.
+Run: python free_llm_setup.py
+&quot;&quot;&quot;
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+PROMPT = &quot;Say 'API working!' in exactly 3 words.&quot;
+
+def test_github_models():
+    from openai import OpenAI
+    client = OpenAI(
+        base_url=&quot;https://models.inference.ai.azure.com&quot;,
+        api_key=os.getenv(&quot;GITHUB_TOKEN&quot;),
+    )
+    r = client.chat.completions.create(
+        model=&quot;gpt-4o-mini&quot;,
+        messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: PROMPT}],
+        max_tokens=20,
+    )
+    print(f&quot;GitHub Models: {r.choices[0].message.content.strip()}&quot;)
+
+def test_groq():
+    from groq import Groq
+    client = Groq(api_key=os.getenv(&quot;GROQ_API_KEY&quot;))
+    r = client.chat.completions.create(
+        model=&quot;llama-3.3-70b-versatile&quot;,
+        messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: PROMPT}],
+        max_tokens=20,
+    )
+    print(f&quot;Groq: {r.choices[0].message.content.strip()}&quot;)
+
+def test_gemini():
+    import google.generativeai as genai
+    genai.configure(api_key=os.getenv(&quot;GOOGLE_API_KEY&quot;))
+    model = genai.GenerativeModel(&quot;gemini-1.5-flash&quot;)
+    r = model.generate_content(PROMPT)
+    print(f&quot;Gemini: {r.text.strip()}&quot;)
+
+def test_ollama():
+    from openai import OpenAI
+    client = OpenAI(base_url=&quot;http://localhost:11434/v1&quot;, api_key=&quot;ollama&quot;)
+    try:
+        r = client.chat.completions.create(
+            model=&quot;llama3.2&quot;,
+            messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: PROMPT}],
+            max_tokens=20,
+        )
+        print(f&quot;Ollama: {r.choices[0].message.content.strip()}&quot;)
+    except Exception:
+        print(&quot;Ollama: Not running — start with 'ollama serve'&quot;)
+
+if __name__ == &quot;__main__&quot;:
+    print(&quot;=== Testing Free LLM APIs ===\n&quot;)
+    if os.getenv(&quot;GITHUB_TOKEN&quot;):     test_github_models()
+    if os.getenv(&quot;GROQ_API_KEY&quot;):     test_groq()
+    if os.getenv(&quot;GOOGLE_API_KEY&quot;):   test_gemini()
+    test_ollama()
+    print(&quot;\nDone!&quot;)
+</code></pre>
+<hr />
+<h3 id="114-docker-compose-local-ai-stack-qdrant-ollama-open-webui">11.4 Docker Compose — Local AI Stack (Qdrant + Ollama + Open WebUI)</h3>
+<pre><code class="language-yaml"># docker-compose.yml
+# Usage: docker compose up -d
+# Then visit: http://localhost:3000  (Open WebUI)
+#             http://localhost:6333  (Qdrant Dashboard)
+#             http://localhost:11434 (Ollama API)
+
+version: &quot;3.9&quot;
+
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    volumes:
+      - ollama_data:/root/.ollama
+    ports:
+      - &quot;11434:11434&quot;
+    restart: unless-stopped
+    # For GPU support, add:
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: open-webui
+    depends_on:
+      - ollama
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434
+    volumes:
+      - open_webui_data:/app/backend/data
+    ports:
+      - &quot;3000:8080&quot;
+    restart: unless-stopped
+
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: qdrant
+    volumes:
+      - qdrant_data:/qdrant/storage
+    ports:
+      - &quot;6333:6333&quot;
+      - &quot;6334:6334&quot;
+    restart: unless-stopped
+
+  langfuse:
+    image: langfuse/langfuse:latest
+    container_name: langfuse
+    depends_on:
+      - langfuse-db
+    environment:
+      - DATABASE_URL=postgresql://langfuse:langfuse@langfuse-db:5432/langfuse
+      - NEXTAUTH_SECRET=your-secret-here
+      - NEXTAUTH_URL=http://localhost:3100
+      - SALT=your-salt-here
+    ports:
+      - &quot;3100:3000&quot;
+    restart: unless-stopped
+
+  langfuse-db:
+    image: postgres:15
+    container_name: langfuse-db
+    environment:
+      - POSTGRES_USER=langfuse
+      - POSTGRES_PASSWORD=langfuse
+      - POSTGRES_DB=langfuse
+    volumes:
+      - langfuse_db_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  ollama_data:
+  open_webui_data:
+  qdrant_data:
+  langfuse_db_data:
+</code></pre>
+<p><strong>After starting the stack:</strong></p>
+<pre><code class="language-bash"># Pull your first model
+docker exec ollama ollama pull llama3.2
+docker exec ollama ollama pull nomic-embed-text
+
+# Verify all services
+curl http://localhost:11434/api/tags          # Ollama
+curl http://localhost:6333/collections        # Qdrant
+# Open WebUI: http://localhost:3000
+# LangFuse: http://localhost:3100
+</code></pre>
+<hr />
+<h3 id="115-quick-token-cost-calculator">11.5 Quick Token Cost Calculator</h3>
+<pre><code class="language-python">&quot;&quot;&quot;
+token_cost.py — Estimate cost before calling a paid LLM.
+&quot;&quot;&quot;
+PRICING = {
+    &quot;gpt-4o&quot;:               {&quot;input&quot;: 5.00,  &quot;output&quot;: 15.00},
+    &quot;gpt-4o-mini&quot;:          {&quot;input&quot;: 0.15,  &quot;output&quot;: 0.60},
+    &quot;claude-3-5-sonnet&quot;:    {&quot;input&quot;: 3.00,  &quot;output&quot;: 15.00},
+    &quot;claude-3-haiku&quot;:       {&quot;input&quot;: 0.25,  &quot;output&quot;: 1.25},
+    &quot;gemini-1.5-flash&quot;:     {&quot;input&quot;: 0.075, &quot;output&quot;: 0.30},
+    &quot;gemini-1.5-pro&quot;:       {&quot;input&quot;: 3.50,  &quot;output&quot;: 10.50},
+}
+
+def estimate_cost(model: str, input_tokens: int, output_tokens: int) -&gt; float:
+    if model not in PRICING:
+        raise ValueError(f&quot;Unknown model: {model}&quot;)
+    p = PRICING[model]
+    cost = (input_tokens / 1_000_000 * p[&quot;input&quot;]) + (output_tokens / 1_000_000 * p[&quot;output&quot;])
+    return round(cost, 6)
+
+if __name__ == &quot;__main__&quot;:
+    for model in PRICING:
+        cost = estimate_cost(model, input_tokens=10_000, output_tokens=2_000)
+        print(f&quot;{model:&lt;25} 10K in + 2K out = ${cost:.4f}&quot;)
+</code></pre>
+<hr />
+<p><em>This guide is maintained as a living document. Pricing and free tier limits change frequently — always verify at the official URLs before production use.</em></p>
+</main>
+</body>
+</html>

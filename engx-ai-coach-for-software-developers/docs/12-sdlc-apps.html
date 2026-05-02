@@ -1,0 +1,1633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SDLC Automation Apps – AI Libraries Guide</title>
+<style>
+:root{--bg:#fff;--text:#1a1a2e;--accent:#0070f3;--code:#f4f6f8;--border:#e1e4e8;--nav:#f6f8fa;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:Georgia,'Times New Roman',serif;font-size:17px;line-height:1.8;
+     color:var(--text);background:var(--bg);display:flex;min-height:100vh;}
+/* ---- NAV ---- */
+nav{width:260px;min-width:220px;background:var(--nav);border-right:1px solid var(--border);
+    position:sticky;top:0;height:100vh;overflow-y:auto;padding:20px 14px;flex-shrink:0;}
+nav .back-link{display:block;font-family:sans-serif;font-size:12px;color:var(--accent);
+               margin-bottom:14px;text-decoration:none;}
+nav .back-link:hover{text-decoration:underline;}
+nav h3{font-family:sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:.08em;
+       color:#888;margin-bottom:8px;}
+nav ul{list-style:none;}
+nav li{margin:3px 0;}
+nav a{font-family:sans-serif;font-size:13px;color:#444;text-decoration:none;
+      display:block;padding:4px 8px;border-radius:4px;line-height:1.4;}
+nav a:hover{background:#e0e8ff;color:var(--accent);}
+nav a.h3{padding-left:20px;font-size:12px;color:#666;}
+nav a.h4{padding-left:34px;font-size:11px;color:#888;}
+/* ---- MAIN ---- */
+main{flex:1;padding:48px 60px;max-width:960px;}
+.doc-header{margin-bottom:40px;padding-bottom:20px;border-bottom:3px solid var(--accent);}
+.doc-header h1{font-size:2.1em;color:#0a192f;}
+.doc-header .subtitle{font-family:sans-serif;color:#555;margin-top:6px;font-size:.95em;}
+.doc-header .badges span{display:inline-block;font-family:sans-serif;font-size:12px;
+  padding:3px 10px;border-radius:12px;margin:8px 4px 0 0;font-weight:600;}
+.badge-free{background:#d4edda;color:#155724;}
+.badge-paid{background:#fff3cd;color:#856404;}
+.badge-local{background:#cce5ff;color:#004085;}
+/* ---- CONTENT ---- */
+section{margin-bottom:56px;}
+h2{font-size:1.6em;color:#0a192f;margin:2em 0 .6em;padding-bottom:.3em;border-bottom:2px solid var(--border);}
+h3{font-size:1.25em;color:#0a192f;margin:1.6em 0 .4em;}
+h4{font-size:1.05em;color:#0a192f;margin:1.3em 0 .3em;}
+p{margin:.6em 0;}
+ul,ol{margin:.5em 0 .5em 1.5em;}li{margin:.25em 0;}
+strong{color:#0a192f;}
+code{font-family:'Fira Code',Consolas,monospace;background:var(--code);
+     padding:2px 6px;border-radius:3px;font-size:.87em;}
+pre{background:var(--code);border:1px solid var(--border);border-left:4px solid var(--accent);
+    border-radius:6px;padding:18px;overflow-x:auto;margin:1em 0;}
+pre code{background:none;padding:0;font-size:.84em;line-height:1.5;}
+table{border-collapse:collapse;width:100%;margin:1em 0;font-family:sans-serif;font-size:.9em;}
+th,td{border:1px solid var(--border);padding:9px 13px;text-align:left;vertical-align:top;}
+th{background:#e8f0fe;font-weight:700;color:#0a192f;}
+tr:nth-child(even) td{background:#f9f9f9;}
+blockquote{border-left:4px solid var(--accent);padding:10px 18px;background:#f0f4ff;
+           border-radius:0 6px 6px 0;color:#333;margin:1em 0;}
+/* ---- Q&A ---- */
+details{border:1px solid var(--border);border-radius:8px;margin:.8em 0;background:#fafafa;}
+details[open]{background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+summary.qa-q{cursor:pointer;padding:13px 16px;font-weight:700;color:#0a192f;
+             list-style:none;display:flex;align-items:flex-start;gap:10px;line-height:1.5;}
+summary.qa-q::before{content:"Q";background:var(--accent);color:#fff;padding:2px 8px;
+                     border-radius:50%;font-size:.78em;font-family:sans-serif;flex-shrink:0;margin-top:2px;}
+.qa-a{padding:14px 18px;border-top:1px solid #eee;}
+/* ---- callout boxes ---- */
+.tip{background:#e6f9f0;border-left:4px solid #28a745;padding:12px 16px;
+     border-radius:0 6px 6px 0;margin:1em 0;}
+.warn{background:#fff8e1;border-left:4px solid #ffc107;padding:12px 16px;
+      border-radius:0 6px 6px 0;margin:1em 0;}
+a{color:var(--accent);}
+hr{border:none;border-top:1px solid var(--border);margin:2em 0;}
+</style>
+</head>
+<body>
+<nav>
+  <a class="back-link" href="index.html">⬅ All Guides</a>
+  <a class="back-link" href="11-app-improvements.html">← App-by-App Improvements</a><a class="back-link" href="13-resources.html">Resources →</a>
+  <h3>Contents</h3>
+  <ul><li><a href="#table-of-contents" class="">Table of Contents</a></li>
+<li><a href="#213-multi-repo-pr-orchestrator-github-mcp-acp" class="">2.13 Multi-Repo PR Orchestrator (GitHub MCP + ACP)</a></li>
+<li><a href="#problem-statement" class="h3">Problem Statement</a></li>
+<li><a href="#architecture" class="h3">Architecture</a></li>
+<li><a href="#tech-stack" class="h3">Tech Stack</a></li>
+<li><a href="#core-code-skeleton" class="h3">Core Code Skeleton</a></li>
+<li><a href="#integration-points" class="h3">Integration Points</a></li>
+<li><a href="#free-resources" class="h3">Free Resources</a></li>
+<li><a href="#214-jira-github-sync-agent-jira-mcp-github-mcp-langgraph" class="">2.14 Jira ↔ GitHub Sync Agent (Jira MCP + GitHub MCP + LangGraph)</a></li>
+<li><a href="#problem-statement_1" class="h3">Problem Statement</a></li>
+<li><a href="#architecture_1" class="h3">Architecture</a></li>
+<li><a href="#tech-stack_1" class="h3">Tech Stack</a></li>
+<li><a href="#core-code-skeleton_1" class="h3">Core Code Skeleton</a></li>
+<li><a href="#integration-points_1" class="h3">Integration Points</a></li>
+<li><a href="#free-resources_1" class="h3">Free Resources</a></li>
+<li><a href="#215-figma-to-react-pipeline-figma-mcp-langchain" class="">2.15 Figma-to-React Pipeline (Figma MCP + LangChain)</a></li>
+<li><a href="#problem-statement_2" class="h3">Problem Statement</a></li>
+<li><a href="#architecture_2" class="h3">Architecture</a></li>
+<li><a href="#tech-stack_2" class="h3">Tech Stack</a></li>
+<li><a href="#core-code-skeleton_2" class="h3">Core Code Skeleton</a></li>
+<li><a href="#integration-points_2" class="h3">Integration Points</a></li>
+<li><a href="#free-resources_2" class="h3">Free Resources</a></li>
+<li><a href="#216-playwright-web-regression-agent-playwright-mcp-langgraph" class="">2.16 Playwright Web Regression Agent (Playwright MCP + LangGraph)</a></li>
+<li><a href="#problem-statement_3" class="h3">Problem Statement</a></li>
+<li><a href="#architecture_3" class="h3">Architecture</a></li>
+<li><a href="#tech-stack_3" class="h3">Tech Stack</a></li>
+<li><a href="#core-code-skeleton_3" class="h3">Core Code Skeleton</a></li>
+<li><a href="#integration-points_3" class="h3">Integration Points</a></li>
+<li><a href="#free-resources_3" class="h3">Free Resources</a></li>
+<li><a href="#217-real-time-production-monitor-langgraph-slack-mcp" class="">2.17 Real-Time Production Monitor (LangGraph + Slack MCP)</a></li>
+<li><a href="#problem-statement_4" class="h3">Problem Statement</a></li>
+<li><a href="#architecture_4" class="h3">Architecture</a></li>
+<li><a href="#tech-stack_4" class="h3">Tech Stack</a></li>
+<li><a href="#core-code-skeleton_4" class="h3">Core Code Skeleton</a></li>
+<li><a href="#integration-points_4" class="h3">Integration Points</a></li>
+<li><a href="#free-resources_4" class="h3">Free Resources</a></li>
+<li><a href="#218-db-schema-migration-assistant-langchain-sqlalchemy" class="">2.18 DB Schema Migration Assistant (LangChain + SQLAlchemy)</a></li>
+<li><a href="#problem-statement_5" class="h3">Problem Statement</a></li>
+<li><a href="#architecture_5" class="h3">Architecture</a></li>
+<li><a href="#tech-stack_5" class="h3">Tech Stack</a></li>
+<li><a href="#core-code-skeleton_5" class="h3">Core Code Skeleton</a></li>
+<li><a href="#integration-points_5" class="h3">Integration Points</a></li>
+<li><a href="#free-resources_5" class="h3">Free Resources</a></li>
+<li><a href="#219-api-contract-tester-mock-generator-langgraph-schemathesis" class="">2.19 API Contract Tester &amp; Mock Generator (LangGraph + Schemathesis)</a></li>
+<li><a href="#problem-statement_6" class="h3">Problem Statement</a></li>
+<li><a href="#architecture_6" class="h3">Architecture</a></li>
+<li><a href="#tech-stack_6" class="h3">Tech Stack</a></li>
+<li><a href="#core-code-skeleton_6" class="h3">Core Code Skeleton</a></li>
+<li><a href="#integration-points_6" class="h3">Integration Points</a></li>
+<li><a href="#free-resources_6" class="h3">Free Resources</a></li>
+<li><a href="#220-accessibility-auditor-vision-model-playwright-mcp" class="">2.20 Accessibility Auditor (Vision Model + Playwright MCP)</a></li>
+<li><a href="#problem-statement_7" class="h3">Problem Statement</a></li>
+<li><a href="#architecture_7" class="h3">Architecture</a></li>
+<li><a href="#tech-stack_7" class="h3">Tech Stack</a></li>
+<li><a href="#core-code-skeleton_7" class="h3">Core Code Skeleton</a></li>
+<li><a href="#integration-points_7" class="h3">Integration Points</a></li>
+<li><a href="#free-resources_7" class="h3">Free Resources</a></li>
+<li><a href="#summary-table" class="">Summary Table</a></li>
+<li><a href="#shared-patterns-across-all-8-apps" class="">Shared Patterns Across All 8 Apps</a></li>
+<li><a href="#1-free-auth-used-everywhere" class="h3">1. Free Auth (used everywhere)</a></li>
+<li><a href="#2-acp-multi-agent-dispatch-pattern" class="h3">2. ACP Multi-Agent Dispatch Pattern</a></li>
+<li><a href="#3-mcp-tool-call-pattern-any-mcp-server" class="h3">3. MCP Tool Call Pattern (any MCP server)</a></li>
+<li><a href="#4-langgraph-human-in-the-loop-gate" class="h3">4. LangGraph Human-in-the-Loop Gate</a></li>
+</ul>
+</nav>
+<main>
+  <div class="doc-header">
+    <h1>SDLC Automation Apps</h1>
+    <p class="subtitle">20 AI-powered app blueprints for the software development lifecycle</p>
+    <div class="badges"><span class="badge-local">Runnable Skeletons</span><span class="badge-local">MCP · ACP · LangGraph</span></div>
+  </div>
+  <h1 id="part-2-new-sdlc-automation-apps-expanded">Part 2 — New SDLC Automation Apps (Expanded)</h1>
+<blockquote>
+<p><strong>Author:</strong> Raviteja Thota | EngX AI Coach Program<br />
+<strong>Purpose:</strong> 8 new AI-powered app ideas (apps 2.13–2.20) extending the original AI-LIBRARIES-GUIDE.md<br />
+<strong>Auth Pattern:</strong> GitHub Copilot free tier via <code>gh auth token</code> → Azure Inference endpoint</p>
+</blockquote>
+<pre><code class="language-python"># Shared auth pattern used by every app in this guide
+import subprocess
+from openai import OpenAI
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+client = OpenAI(base_url=&quot;https://models.inference.ai.azure.com&quot;, api_key=token)
+</code></pre>
+<hr />
+<h2 id="table-of-contents">Table of Contents</h2>
+<ul>
+<li><a href="#213-multi-repo-pr-orchestrator-github-mcp--acp">2.13 Multi-Repo PR Orchestrator (GitHub MCP + ACP)</a></li>
+<li><a href="#214-jira--github-sync-agent-jira-mcp--github-mcp--langgraph">2.14 Jira ↔ GitHub Sync Agent (Jira MCP + GitHub MCP + LangGraph)</a></li>
+<li><a href="#215-figma-to-react-pipeline-figma-mcp--langchain">2.15 Figma-to-React Pipeline (Figma MCP + LangChain)</a></li>
+<li><a href="#216-playwright-web-regression-agent-playwright-mcp--langgraph">2.16 Playwright Web Regression Agent (Playwright MCP + LangGraph)</a></li>
+<li><a href="#217-real-time-production-monitor-langgraph--slack-mcp">2.17 Real-Time Production Monitor (LangGraph + Slack MCP)</a></li>
+<li><a href="#218-db-schema-migration-assistant-langchain--sqlalchemy">2.18 DB Schema Migration Assistant (LangChain + SQLAlchemy)</a></li>
+<li><a href="#219-api-contract-tester--mock-generator-langgraph--schemathesis">2.19 API Contract Tester &amp; Mock Generator (LangGraph + Schemathesis)</a></li>
+<li><a href="#220-accessibility-auditor-vision-model--playwright-mcp">2.20 Accessibility Auditor (Vision Model + Playwright MCP)</a></li>
+</ul>
+<hr />
+<h2 id="213-multi-repo-pr-orchestrator-github-mcp-acp">2.13 Multi-Repo PR Orchestrator (GitHub MCP + ACP)</h2>
+<p><strong>One-liner:</strong> An ACP-coordinated swarm of specialist agents that review, test, and merge PRs across multiple GitHub repositories in parallel.</p>
+<h3 id="problem-statement">Problem Statement</h3>
+<p>Large platform teams manage 10–30 microservice repos simultaneously. A single PR in <code>auth-service</code> may depend on changes in <code>api-gateway</code> and <code>user-service</code>. Today, engineers manually track cross-repo dependencies, run checks separately, and coordinate merges by hand — losing 2–4 hours per release cycle.</p>
+<h3 id="architecture">Architecture</h3>
+<pre><code class="language-mermaid">flowchart TD
+    Trigger[&quot;GitHub Webhook\n(PR opened/updated)&quot;]
+    Orch[&quot;ACP Orchestrator\n(LangGraph StateGraph)&quot;]
+    GH_MCP[&quot;GitHub MCP Server\n(list PRs, get diff, post review)&quot;]
+    AgentA[&quot;Agent A — Code Reviewer\n(GPT-4o)&quot;]
+    AgentB[&quot;Agent B — Test Runner\n(checks CI status)&quot;]
+    AgentC[&quot;Agent C — Dep Mapper\n(cross-repo impact)&quot;]
+    AgentD[&quot;Agent D — Merge Guard\n(approves/blocks)&quot;]
+    Slack[&quot;Slack MCP\n(post summary)&quot;]
+
+    Trigger --&gt; Orch
+    Orch --&gt;|ACP task dispatch| AgentA &amp; AgentB &amp; AgentC
+    AgentA &amp; AgentB &amp; AgentC --&gt;|ACP results| Orch
+    Orch --&gt; GH_MCP
+    Orch --&gt; AgentD
+    AgentD --&gt; GH_MCP
+    Orch --&gt; Slack
+</code></pre>
+<h3 id="tech-stack">Tech Stack</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Library / Tool</th>
+<th>Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Agent framework</td>
+<td><code>langgraph</code> 0.2+</td>
+<td>Free</td>
+</tr>
+<tr>
+<td>Multi-agent comms</td>
+<td><code>acp-sdk</code> (BeeAI)</td>
+<td>Free</td>
+</tr>
+<tr>
+<td>GitHub integration</td>
+<td><code>mcp-server-github</code></td>
+<td>Free</td>
+</tr>
+<tr>
+<td>Slack notifications</td>
+<td><code>mcp-server-slack</code></td>
+<td>Free</td>
+</tr>
+<tr>
+<td>LLM</td>
+<td>GitHub Models (GPT-4o)</td>
+<td>Free</td>
+</tr>
+<tr>
+<td>Webhook server</td>
+<td><code>fastapi</code> + <code>uvicorn</code></td>
+<td>Free</td>
+</tr>
+</tbody>
+</table>
+<h3 id="core-code-skeleton">Core Code Skeleton</h3>
+<pre><code class="language-python">import subprocess, asyncio
+from openai import OpenAI
+from langgraph.graph import StateGraph, START, END
+from typing import TypedDict, List
+
+# --- Auth ---
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+client = OpenAI(base_url=&quot;https://models.inference.ai.azure.com&quot;, api_key=token)
+
+# --- State ---
+class PRState(TypedDict):
+    repo: str
+    pr_number: int
+    diff: str
+    review_comments: List[str]
+    ci_status: str
+    dep_impact: List[str]
+    decision: str
+
+# --- Nodes ---
+def fetch_diff(state: PRState) -&gt; dict:
+    &quot;&quot;&quot;Call GitHub MCP tool: get_pull_request_diff&quot;&quot;&quot;
+    # MCP call returns unified diff as string
+    diff = f&quot;[diff for {state['repo']}#{state['pr_number']}]&quot;
+    return {&quot;diff&quot;: diff}
+
+def review_code(state: PRState) -&gt; dict:
+    resp = client.chat.completions.create(
+        model=&quot;gpt-4o&quot;,
+        messages=[
+            {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;You are a senior code reviewer. Be concise.&quot;},
+            {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: f&quot;Review this diff:\n{state['diff']}&quot;},
+        ],
+    )
+    return {&quot;review_comments&quot;: [resp.choices[0].message.content]}
+
+def check_ci(state: PRState) -&gt; dict:
+    &quot;&quot;&quot;Call GitHub MCP: get_pull_request_checks&quot;&quot;&quot;
+    return {&quot;ci_status&quot;: &quot;passed&quot;}  # replace with real MCP call
+
+def map_dependencies(state: PRState) -&gt; dict:
+    &quot;&quot;&quot;Scan dependent repos for breaking changes.&quot;&quot;&quot;
+    return {&quot;dep_impact&quot;: [&quot;no breaking changes detected&quot;]}
+
+def merge_guard(state: PRState) -&gt; dict:
+    all_good = state[&quot;ci_status&quot;] == &quot;passed&quot; and not any(
+        &quot;BLOCKER&quot; in c for c in state[&quot;review_comments&quot;]
+    )
+    return {&quot;decision&quot;: &quot;approve&quot; if all_good else &quot;request_changes&quot;}
+
+def route_decision(state: PRState) -&gt; str:
+    return &quot;approve_pr&quot; if state[&quot;decision&quot;] == &quot;approve&quot; else &quot;block_pr&quot;
+
+def approve_pr(state: PRState) -&gt; dict:
+    print(f&quot;✅ Approving {state['repo']}#{state['pr_number']}&quot;)
+    return state
+
+def block_pr(state: PRState) -&gt; dict:
+    print(f&quot;🚫 Blocking {state['repo']}#{state['pr_number']}: {state['review_comments']}&quot;)
+    return state
+
+# --- Graph ---
+g = StateGraph(PRState)
+for name, fn in [(&quot;fetch_diff&quot;, fetch_diff), (&quot;review_code&quot;, review_code),
+                 (&quot;check_ci&quot;, check_ci), (&quot;map_dependencies&quot;, map_dependencies),
+                 (&quot;merge_guard&quot;, merge_guard), (&quot;approve_pr&quot;, approve_pr),
+                 (&quot;block_pr&quot;, block_pr)]:
+    g.add_node(name, fn)
+
+g.add_edge(START, &quot;fetch_diff&quot;)
+g.add_edge(&quot;fetch_diff&quot;, &quot;review_code&quot;)
+g.add_edge(&quot;fetch_diff&quot;, &quot;check_ci&quot;)
+g.add_edge(&quot;fetch_diff&quot;, &quot;map_dependencies&quot;)
+g.add_edge(&quot;review_code&quot;, &quot;merge_guard&quot;)
+g.add_edge(&quot;check_ci&quot;, &quot;merge_guard&quot;)
+g.add_edge(&quot;map_dependencies&quot;, &quot;merge_guard&quot;)
+g.add_conditional_edges(&quot;merge_guard&quot;, route_decision, {&quot;approve_pr&quot;: &quot;approve_pr&quot;, &quot;block_pr&quot;: &quot;block_pr&quot;})
+g.add_edge(&quot;approve_pr&quot;, END)
+g.add_edge(&quot;block_pr&quot;, END)
+
+app = g.compile()
+
+if __name__ == &quot;__main__&quot;:
+    result = app.invoke({&quot;repo&quot;: &quot;my-org/auth-service&quot;, &quot;pr_number&quot;: 42, &quot;diff&quot;: &quot;&quot;, &quot;review_comments&quot;: [], &quot;ci_status&quot;: &quot;&quot;, &quot;dep_impact&quot;: [], &quot;decision&quot;: &quot;&quot;})
+    print(result[&quot;decision&quot;])
+</code></pre>
+<h3 id="integration-points">Integration Points</h3>
+<ul>
+<li><strong>GitHub Actions:</strong> Trigger via <code>pull_request</code> webhook → POST to FastAPI endpoint</li>
+<li><strong>GitHub MCP:</strong> <code>get_pull_request</code>, <code>create_pull_request_review</code>, <code>merge_pull_request</code></li>
+<li><strong>Slack MCP:</strong> <code>post_message</code> to <code>#pr-reviews</code> channel with decision summary</li>
+<li><strong>Jira MCP:</strong> Link PR to ticket, transition story to "In Review"</li>
+</ul>
+<h3 id="free-resources">Free Resources</h3>
+<ul>
+<li><a href="https://github.com/github/github-mcp-server">GitHub MCP Server</a></li>
+<li><a href="https://github.com/i-am-bee/acp">BeeAI ACP SDK</a></li>
+<li><a href="https://langchain-ai.github.io/langgraph/tutorials/multi_agent/multi-agent-collaboration/">LangGraph multi-agent docs</a></li>
+</ul>
+<hr />
+<h2 id="214-jira-github-sync-agent-jira-mcp-github-mcp-langgraph">2.14 Jira ↔ GitHub Sync Agent (Jira MCP + GitHub MCP + LangGraph)</h2>
+<p><strong>One-liner:</strong> Keeps Jira tickets and GitHub issues/branches/PRs in perfect sync — automatically creates branches, updates ticket statuses, and links everything bidirectionally.</p>
+<h3 id="problem-statement_1">Problem Statement</h3>
+<p>Teams waste 20–30 minutes per developer per day manually updating Jira ticket status, copy-pasting PR links into tickets, and creating branches with the right naming convention. Mismatches between Jira and GitHub create confusion during standups and sprint reviews.</p>
+<h3 id="architecture_1">Architecture</h3>
+<pre><code class="language-mermaid">flowchart LR
+    JiraWebhook[&quot;Jira Webhook\n(issue created/updated)&quot;]
+    GHWebhook[&quot;GitHub Webhook\n(PR merged/closed)&quot;]
+    LG[&quot;LangGraph\nSync Orchestrator&quot;]
+    JiraMCP[&quot;Jira MCP\n(get_issue, update_status,\nadd_comment)&quot;]
+    GHMCP[&quot;GitHub MCP\n(create_branch, create_issue,\nget_pr)&quot;]
+    State[(&quot;LangGraph\nCheckpoint Store\n(SQLite)&quot;)]
+
+    JiraWebhook --&gt; LG
+    GHWebhook --&gt; LG
+    LG &lt;--&gt; JiraMCP
+    LG &lt;--&gt; GHMCP
+    LG &lt;--&gt; State
+</code></pre>
+<h3 id="tech-stack_1">Tech Stack</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Library / Tool</th>
+<th>Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Orchestration</td>
+<td><code>langgraph</code> + <code>SqliteSaver</code></td>
+<td>Free</td>
+</tr>
+<tr>
+<td>Jira integration</td>
+<td><code>mcp-atlassian</code></td>
+<td>Free</td>
+</tr>
+<tr>
+<td>GitHub integration</td>
+<td><code>mcp-server-github</code></td>
+<td>Free</td>
+</tr>
+<tr>
+<td>LLM (naming/summaries)</td>
+<td>GitHub Models (gpt-4o-mini)</td>
+<td>Free</td>
+</tr>
+<tr>
+<td>Event server</td>
+<td><code>fastapi</code></td>
+<td>Free</td>
+</tr>
+</tbody>
+</table>
+<h3 id="core-code-skeleton_1">Core Code Skeleton</h3>
+<pre><code class="language-python">import subprocess, re
+from openai import OpenAI
+from langgraph.graph import StateGraph, START, END
+from langgraph.checkpoint.sqlite import SqliteSaver
+from typing import TypedDict, Optional
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+client = OpenAI(base_url=&quot;https://models.inference.ai.azure.com&quot;, api_key=token)
+
+class SyncState(TypedDict):
+    event_type: str          # &quot;jira_created&quot; | &quot;pr_merged&quot; | &quot;pr_closed&quot;
+    jira_key: Optional[str]  # e.g. &quot;PROJ-123&quot;
+    jira_summary: Optional[str]
+    pr_number: Optional[int]
+    branch_name: Optional[str]
+    action_log: list
+
+def generate_branch_name(state: SyncState) -&gt; dict:
+    if state[&quot;event_type&quot;] != &quot;jira_created&quot;:
+        return {}
+    resp = client.chat.completions.create(
+        model=&quot;gpt-4o-mini&quot;,
+        messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;:
+            f&quot;Generate a git branch name for Jira ticket {state['jira_key']}: &quot;
+            f&quot;'{state['jira_summary']}'. Format: feature/PROJ-123-short-desc. &quot;
+            f&quot;Return ONLY the branch name.&quot;}],
+    )
+    branch = resp.choices[0].message.content.strip()
+    return {&quot;branch_name&quot;: branch}
+
+def create_github_branch(state: SyncState) -&gt; dict:
+    &quot;&quot;&quot;Call GitHub MCP: create_branch&quot;&quot;&quot;
+    if not state.get(&quot;branch_name&quot;):
+        return {}
+    # MCP call: create_branch(repo=&quot;org/repo&quot;, branch=state[&quot;branch_name&quot;], from_branch=&quot;main&quot;)
+    log = f&quot;Created branch: {state['branch_name']}&quot;
+    return {&quot;action_log&quot;: state[&quot;action_log&quot;] + [log]}
+
+def update_jira_with_branch(state: SyncState) -&gt; dict:
+    &quot;&quot;&quot;Call Jira MCP: add_comment with branch link&quot;&quot;&quot;
+    if not state.get(&quot;branch_name&quot;):
+        return {}
+    comment = f&quot;Branch created: `{state['branch_name']}`\nGitHub: https://github.com/org/repo/tree/{state['branch_name']}&quot;
+    # MCP call: add_comment(issue_key=state[&quot;jira_key&quot;], body=comment)
+    return {&quot;action_log&quot;: state[&quot;action_log&quot;] + [f&quot;Commented on {state['jira_key']}&quot;]}
+
+def transition_jira_on_merge(state: SyncState) -&gt; dict:
+    &quot;&quot;&quot;On PR merge → move Jira ticket to Done&quot;&quot;&quot;
+    if state[&quot;event_type&quot;] not in (&quot;pr_merged&quot;,):
+        return {}
+    # Extract Jira key from PR branch name or title via regex
+    if state.get(&quot;branch_name&quot;):
+        match = re.search(r&quot;([A-Z]+-\d+)&quot;, state[&quot;branch_name&quot;] or &quot;&quot;)
+        jira_key = match.group(1) if match else state.get(&quot;jira_key&quot;)
+    # MCP call: transition_issue(issue_key=jira_key, transition=&quot;Done&quot;)
+    return {&quot;action_log&quot;: state[&quot;action_log&quot;] + [f&quot;Transitioned {jira_key} → Done&quot;]}
+
+def route_event(state: SyncState) -&gt; str:
+    return &quot;create_github_branch&quot; if state[&quot;event_type&quot;] == &quot;jira_created&quot; else &quot;transition_jira_on_merge&quot;
+
+with SqliteSaver.from_conn_string(&quot;sync_checkpoints.db&quot;) as memory:
+    g = StateGraph(SyncState)
+    g.add_node(&quot;generate_branch_name&quot;, generate_branch_name)
+    g.add_node(&quot;create_github_branch&quot;, create_github_branch)
+    g.add_node(&quot;update_jira_with_branch&quot;, update_jira_with_branch)
+    g.add_node(&quot;transition_jira_on_merge&quot;, transition_jira_on_merge)
+    g.add_edge(START, &quot;generate_branch_name&quot;)
+    g.add_conditional_edges(&quot;generate_branch_name&quot;, route_event,
+        {&quot;create_github_branch&quot;: &quot;create_github_branch&quot;,
+         &quot;transition_jira_on_merge&quot;: &quot;transition_jira_on_merge&quot;})
+    g.add_edge(&quot;create_github_branch&quot;, &quot;update_jira_with_branch&quot;)
+    g.add_edge(&quot;update_jira_with_branch&quot;, END)
+    g.add_edge(&quot;transition_jira_on_merge&quot;, END)
+    app = g.compile(checkpointer=memory)
+    result = app.invoke({&quot;event_type&quot;: &quot;jira_created&quot;, &quot;jira_key&quot;: &quot;PROJ-123&quot;,
+        &quot;jira_summary&quot;: &quot;Add OAuth2 login flow&quot;, &quot;pr_number&quot;: None,
+        &quot;branch_name&quot;: None, &quot;action_log&quot;: []})
+    print(result[&quot;action_log&quot;])
+</code></pre>
+<h3 id="integration-points_1">Integration Points</h3>
+<ul>
+<li><strong>Jira MCP (<code>mcp-atlassian</code>):</strong> <code>get_issue</code>, <code>add_comment</code>, <code>transition_issue</code>, <code>update_issue</code></li>
+<li><strong>GitHub MCP:</strong> <code>create_branch</code>, <code>get_pull_request</code>, <code>list_pull_requests</code></li>
+<li><strong>Slack MCP:</strong> Notify <code>#dev-updates</code> on every sync action</li>
+<li><strong>CI/CD:</strong> GitHub Actions can call the FastAPI endpoint on <code>push</code> events</li>
+</ul>
+<h3 id="free-resources_1">Free Resources</h3>
+<ul>
+<li><a href="https://github.com/sooperset/mcp-atlassian">mcp-atlassian</a></li>
+<li><a href="https://langchain-ai.github.io/langgraph/concepts/persistence/">LangGraph checkpointing</a></li>
+<li><a href="https://developer.atlassian.com/cloud/jira/platform/rest/v3/">Jira REST API v3</a></li>
+</ul>
+<hr />
+<h2 id="215-figma-to-react-pipeline-figma-mcp-langchain">2.15 Figma-to-React Pipeline (Figma MCP + LangChain)</h2>
+<p><strong>One-liner:</strong> Converts Figma frames directly into production-ready React + Tailwind components by reading design tokens, extracting component hierarchy, and generating typed TypeScript code.</p>
+<h3 id="problem-statement_2">Problem Statement</h3>
+<p>Frontend developers spend 60–80% of UI implementation time translating Figma designs into code — pixel-checking spacing, copying hex colors, and mapping component structures. A single screen can take 4–8 hours. Design-to-code tools like Anima produce messy, unmaintainable output.</p>
+<h3 id="architecture_2">Architecture</h3>
+<pre><code class="language-mermaid">flowchart TD
+    FigmaFile[&quot;Figma File\n(Frame / Component)&quot;]
+    FigmaMCP[&quot;Figma MCP\n(get_file, get_node,\nget_image, get_styles)&quot;]
+    Chain[&quot;LangChain LCEL Chain&quot;]
+    TokenParser[&quot;Design Token Parser\n(colors, spacing, fonts)&quot;]
+    HierarchyExtract[&quot;Component Hierarchy\nExtractor&quot;]
+    CodeGen[&quot;React + Tailwind\nCode Generator (GPT-4o)&quot;]
+    Validator[&quot;TypeScript Validator\n(tsc --noEmit)&quot;]
+    Output[&quot;Generated .tsx Files\n+ Storybook stories&quot;]
+
+    FigmaFile --&gt; FigmaMCP
+    FigmaMCP --&gt; TokenParser
+    FigmaMCP --&gt; HierarchyExtract
+    TokenParser &amp; HierarchyExtract --&gt; Chain
+    Chain --&gt; CodeGen
+    CodeGen --&gt; Validator
+    Validator --&gt; Output
+</code></pre>
+<h3 id="tech-stack_2">Tech Stack</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Library / Tool</th>
+<th>Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Design data</td>
+<td><code>figma-mcp</code> or <code>mcp-figma</code></td>
+<td>Free (Figma free plan)</td>
+</tr>
+<tr>
+<td>LLM chain</td>
+<td><code>langchain</code> LCEL</td>
+<td>Free</td>
+</tr>
+<tr>
+<td>Code generation</td>
+<td>GitHub Models (GPT-4o)</td>
+<td>Free</td>
+</tr>
+<tr>
+<td>Validation</td>
+<td>Node.js + TypeScript</td>
+<td>Free</td>
+</tr>
+<tr>
+<td>Storybook gen</td>
+<td><code>@storybook/react</code></td>
+<td>Free</td>
+</tr>
+</tbody>
+</table>
+<h3 id="core-code-skeleton_2">Core Code Skeleton</h3>
+<pre><code class="language-python">import subprocess, json
+from openai import OpenAI
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+client = OpenAI(base_url=&quot;https://models.inference.ai.azure.com&quot;, api_key=token)
+
+# Simulate Figma MCP response (replace with real MCP calls)
+def fetch_figma_node(file_key: str, node_id: str) -&gt; dict:
+    &quot;&quot;&quot;MCP tool: figma_get_node → returns component tree + styles&quot;&quot;&quot;
+    return {
+        &quot;name&quot;: &quot;LoginCard&quot;,
+        &quot;type&quot;: &quot;FRAME&quot;,
+        &quot;styles&quot;: {&quot;fill&quot;: &quot;#FFFFFF&quot;, &quot;cornerRadius&quot;: 8, &quot;padding&quot;: 24},
+        &quot;children&quot;: [
+            {&quot;name&quot;: &quot;Title&quot;, &quot;type&quot;: &quot;TEXT&quot;, &quot;content&quot;: &quot;Sign In&quot;, &quot;style&quot;: {&quot;fontSize&quot;: 24, &quot;fontWeight&quot;: 700}},
+            {&quot;name&quot;: &quot;EmailInput&quot;, &quot;type&quot;: &quot;INSTANCE&quot;, &quot;component&quot;: &quot;Input&quot;, &quot;props&quot;: {&quot;placeholder&quot;: &quot;Email&quot;}},
+            {&quot;name&quot;: &quot;SubmitButton&quot;, &quot;type&quot;: &quot;INSTANCE&quot;, &quot;component&quot;: &quot;Button&quot;, &quot;props&quot;: {&quot;label&quot;: &quot;Continue&quot;}},
+        ],
+    }
+
+def node_to_prompt(node: dict) -&gt; str:
+    return (
+        f&quot;Convert this Figma component spec into a React TypeScript component using Tailwind CSS.\n&quot;
+        f&quot;Component name: {node['name']}\n&quot;
+        f&quot;Spec (JSON):\n{json.dumps(node, indent=2)}\n\n&quot;
+        f&quot;Requirements:\n&quot;
+        f&quot;- Use functional components with TypeScript interfaces\n&quot;
+        f&quot;- Map Figma styles to Tailwind classes (e.g. cornerRadius:8 → rounded-lg)\n&quot;
+        f&quot;- Export the component as default\n&quot;
+        f&quot;- Add a brief JSDoc comment\n&quot;
+        f&quot;Return ONLY the .tsx file content.&quot;
+    )
+
+def generate_component(node: dict) -&gt; str:
+    prompt = node_to_prompt(node)
+    resp = client.chat.completions.create(
+        model=&quot;gpt-4o&quot;,
+        messages=[
+            {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;You are an expert React/TypeScript developer.&quot;},
+            {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: prompt},
+        ],
+        temperature=0.2,
+    )
+    return resp.choices[0].message.content
+
+def generate_storybook_story(component_name: str, code: str) -&gt; str:
+    resp = client.chat.completions.create(
+        model=&quot;gpt-4o-mini&quot;,
+        messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;:
+            f&quot;Write a Storybook story for this React component:\n{code}\n&quot;
+            f&quot;Use CSF3 format. Export default meta and one 'Default' story.&quot;}],
+    )
+    return resp.choices[0].message.content
+
+if __name__ == &quot;__main__&quot;:
+    node = fetch_figma_node(&quot;abc123&quot;, &quot;1:23&quot;)
+    tsx_code = generate_component(node)
+    story_code = generate_storybook_story(node[&quot;name&quot;], tsx_code)
+
+    comp_file = f&quot;{node['name']}.tsx&quot;
+    story_file = f&quot;{node['name']}.stories.tsx&quot;
+
+    with open(comp_file, &quot;w&quot;) as f:
+        f.write(tsx_code)
+    with open(story_file, &quot;w&quot;) as f:
+        f.write(story_code)
+
+    print(f&quot;✅ Generated: {comp_file}, {story_file}&quot;)
+</code></pre>
+<h3 id="integration-points_2">Integration Points</h3>
+<ul>
+<li><strong>Figma MCP:</strong> <code>get_file</code>, <code>get_node</code>, <code>get_image</code> (for screenshots), <code>get_styles</code> (design tokens)</li>
+<li><strong>GitHub MCP:</strong> Auto-open PR with generated components</li>
+<li><strong>Storybook:</strong> Auto-generated stories allow instant visual review</li>
+<li><strong>CI/CD:</strong> Run <code>tsc --noEmit</code> in GitHub Actions to validate generated types</li>
+</ul>
+<h3 id="free-resources_2">Free Resources</h3>
+<ul>
+<li><a href="https://github.com/GLips/Figma-Context-MCP">Figma MCP Server</a></li>
+<li><a href="https://www.figma.com/developers/api">Figma REST API</a></li>
+<li><a href="https://tailwindcss.com/docs">Tailwind CSS docs</a></li>
+</ul>
+<hr />
+<h2 id="216-playwright-web-regression-agent-playwright-mcp-langgraph">2.16 Playwright Web Regression Agent (Playwright MCP + LangGraph)</h2>
+<p><strong>One-liner:</strong> An autonomous agent that uses Playwright MCP to navigate your web app, detect visual and functional regressions, and file GitHub issues with annotated screenshots.</p>
+<h3 id="problem-statement_3">Problem Statement</h3>
+<p>QA engineers manually re-run regression scripts after every deployment. When something breaks at 2 AM, there's no one to catch it. Existing monitoring tools (Datadog Synthetics, Checkly) are expensive and require manual test authoring — they can't self-heal or intelligently describe what broke.</p>
+<h3 id="architecture_3">Architecture</h3>
+<pre><code class="language-mermaid">flowchart TD
+    Cron[&quot;Cron / Deploy Webhook&quot;]
+    LG[&quot;LangGraph\nRegression Orchestrator&quot;]
+    PWMCP[&quot;Playwright MCP\n(navigate, click, screenshot,\nassert_text)&quot;]
+    Vision[&quot;Vision Model\n(GPT-4o with image)\nVisual diff analysis&quot;]
+    GH[&quot;GitHub MCP\n(create_issue with screenshot)&quot;]
+    Slack[&quot;Slack MCP\n(#qa-alerts)&quot;]
+    Baseline[(&quot;Baseline Screenshots\n(local .png store)&quot;)]
+
+    Cron --&gt; LG
+    LG --&gt; PWMCP
+    PWMCP --&gt; Vision
+    Vision --&gt; Baseline
+    Vision --&gt;|regression found| GH
+    Vision --&gt;|regression found| Slack
+    LG --&gt; Baseline
+</code></pre>
+<h3 id="tech-stack_3">Tech Stack</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Library / Tool</th>
+<th>Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Browser control</td>
+<td><code>@playwright/mcp</code></td>
+<td>Free</td>
+</tr>
+<tr>
+<td>Orchestration</td>
+<td><code>langgraph</code></td>
+<td>Free</td>
+</tr>
+<tr>
+<td>Visual analysis</td>
+<td>GitHub Models (GPT-4o vision)</td>
+<td>Free</td>
+</tr>
+<tr>
+<td>Issue filing</td>
+<td><code>mcp-server-github</code></td>
+<td>Free</td>
+</tr>
+<tr>
+<td>Alerting</td>
+<td><code>mcp-server-slack</code></td>
+<td>Free</td>
+</tr>
+<tr>
+<td>Baseline store</td>
+<td>Local filesystem (PNG)</td>
+<td>Free</td>
+</tr>
+</tbody>
+</table>
+<h3 id="core-code-skeleton_3">Core Code Skeleton</h3>
+<pre><code class="language-python">import subprocess, base64, os
+from openai import OpenAI
+from langgraph.graph import StateGraph, START, END
+from typing import TypedDict, List, Optional
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+client = OpenAI(base_url=&quot;https://models.inference.ai.azure.com&quot;, api_key=token)
+
+BASELINE_DIR = &quot;baselines&quot;
+os.makedirs(BASELINE_DIR, exist_ok=True)
+
+class RegressionState(TypedDict):
+    url: str
+    page_name: str
+    screenshot_path: Optional[str]
+    baseline_path: Optional[str]
+    regressions: List[str]
+    issue_filed: bool
+
+def capture_screenshot(state: RegressionState) -&gt; dict:
+    &quot;&quot;&quot;Playwright MCP: navigate(url) → screenshot() → save PNG&quot;&quot;&quot;
+    # MCP call: playwright_navigate(url=state[&quot;url&quot;])
+    # MCP call: playwright_screenshot() → base64 PNG
+    screenshot_path = f&quot;{state['page_name']}_current.png&quot;
+    # Simulated: write blank PNG for demo
+    with open(screenshot_path, &quot;wb&quot;) as f:
+        f.write(b&quot;\x89PNG\r\n\x1a\n&quot;)  # minimal PNG header
+    return {&quot;screenshot_path&quot;: screenshot_path}
+
+def compare_with_baseline(state: RegressionState) -&gt; dict:
+    baseline_path = os.path.join(BASELINE_DIR, f&quot;{state['page_name']}_baseline.png&quot;)
+    if not os.path.exists(baseline_path):
+        # First run: save as baseline
+        import shutil
+        shutil.copy(state[&quot;screenshot_path&quot;], baseline_path)
+        return {&quot;baseline_path&quot;: baseline_path, &quot;regressions&quot;: [&quot;First run: baseline saved&quot;]}
+
+    def encode(path):
+        with open(path, &quot;rb&quot;) as f:
+            return base64.b64encode(f.read()).decode()
+
+    resp = client.chat.completions.create(
+        model=&quot;gpt-4o&quot;,
+        messages=[{
+            &quot;role&quot;: &quot;user&quot;,
+            &quot;content&quot;: [
+                {&quot;type&quot;: &quot;text&quot;, &quot;text&quot;: (
+                    f&quot;Compare these two screenshots of '{state['page_name']}'.\n&quot;
+                    &quot;List any visual regressions (layout shifts, missing elements, broken styles).\n&quot;
+                    &quot;Reply with a JSON list: [{\&quot;element\&quot;: \&quot;...\&quot;, \&quot;issue\&quot;: \&quot;...\&quot;}]. &quot;
+                    &quot;Return [] if no regressions.&quot;)},
+                {&quot;type&quot;: &quot;image_url&quot;, &quot;image_url&quot;: {&quot;url&quot;: f&quot;data:image/png;base64,{encode(baseline_path)}&quot;}},
+                {&quot;type&quot;: &quot;image_url&quot;, &quot;image_url&quot;: {&quot;url&quot;: f&quot;data:image/png;base64,{encode(state['screenshot_path'])}&quot;}},
+            ],
+        }],
+    )
+    import json
+    regressions = json.loads(resp.choices[0].message.content)
+    return {&quot;baseline_path&quot;: baseline_path, &quot;regressions&quot;: [r[&quot;issue&quot;] for r in regressions]}
+
+def file_github_issue(state: RegressionState) -&gt; dict:
+    if not state[&quot;regressions&quot;] or state[&quot;regressions&quot;] == [&quot;First run: baseline saved&quot;]:
+        return {&quot;issue_filed&quot;: False}
+    body = &quot;\n&quot;.join(f&quot;- {r}&quot; for r in state[&quot;regressions&quot;])
+    # GitHub MCP: create_issue(title=f&quot;Visual regression on {state['page_name']}&quot;,
+    #                          body=f&quot;## Regressions\n{body}&quot;, labels=[&quot;regression&quot;, &quot;automated&quot;])
+    print(f&quot;🐛 Filed GitHub issue for {state['page_name']}: {len(state['regressions'])} regressions&quot;)
+    return {&quot;issue_filed&quot;: True}
+
+g = StateGraph(RegressionState)
+for name, fn in [(&quot;capture_screenshot&quot;, capture_screenshot),
+                 (&quot;compare_with_baseline&quot;, compare_with_baseline),
+                 (&quot;file_github_issue&quot;, file_github_issue)]:
+    g.add_node(name, fn)
+
+g.add_edge(START, &quot;capture_screenshot&quot;)
+g.add_edge(&quot;capture_screenshot&quot;, &quot;compare_with_baseline&quot;)
+g.add_edge(&quot;compare_with_baseline&quot;, &quot;file_github_issue&quot;)
+g.add_edge(&quot;file_github_issue&quot;, END)
+app = g.compile()
+
+if __name__ == &quot;__main__&quot;:
+    pages = [
+        {&quot;url&quot;: &quot;http://localhost:3000/login&quot;, &quot;page_name&quot;: &quot;login&quot;},
+        {&quot;url&quot;: &quot;http://localhost:3000/dashboard&quot;, &quot;page_name&quot;: &quot;dashboard&quot;},
+    ]
+    for page in pages:
+        result = app.invoke({**page, &quot;screenshot_path&quot;: None, &quot;baseline_path&quot;: None,
+                             &quot;regressions&quot;: [], &quot;issue_filed&quot;: False})
+        status = &quot;🔴 REGRESSION&quot; if result[&quot;issue_filed&quot;] else &quot;✅ OK&quot;
+        print(f&quot;{status}: {page['page_name']}&quot;)
+</code></pre>
+<h3 id="integration-points_3">Integration Points</h3>
+<ul>
+<li><strong>Playwright MCP:</strong> <code>playwright_navigate</code>, <code>playwright_screenshot</code>, <code>playwright_click</code>, <code>playwright_fill</code></li>
+<li><strong>GitHub MCP:</strong> <code>create_issue</code> with screenshot attachment and <code>regression</code> label</li>
+<li><strong>Slack MCP:</strong> <code>post_message</code> to <code>#qa-alerts</code> with screenshot URL</li>
+<li><strong>GitHub Actions:</strong> Schedule with <code>cron: '0 * * * *'</code> for hourly regression checks</li>
+</ul>
+<h3 id="free-resources_3">Free Resources</h3>
+<ul>
+<li><a href="https://github.com/microsoft/playwright-mcp">Playwright MCP</a></li>
+<li><a href="https://platform.openai.com/docs/guides/vision">GPT-4o Vision API</a></li>
+<li><a href="https://langchain-ai.github.io/langgraph/tutorials/">LangGraph cron patterns</a></li>
+</ul>
+<hr />
+<h2 id="217-real-time-production-monitor-langgraph-slack-mcp">2.17 Real-Time Production Monitor (LangGraph + Slack MCP)</h2>
+<p><strong>One-liner:</strong> A persistent LangGraph daemon that ingests live log streams, detects anomalies using LLM-powered pattern matching, escalates via Slack MCP, and auto-creates Jira incidents — with human-in-the-loop approval gates.</p>
+<h3 id="problem-statement_4">Problem Statement</h3>
+<p>On-call engineers are woken up by noisy, unhelpful PagerDuty alerts that say "CPU spike" with no context. They spend 15–30 minutes manually correlating logs, checking dashboards, and forming a hypothesis before writing the incident ticket. An intelligent monitor can pre-digest the context and deliver a ready-to-act summary.</p>
+<h3 id="architecture_4">Architecture</h3>
+<pre><code class="language-mermaid">flowchart TD
+    LogStream[&quot;Log Stream\n(CloudWatch / stdout / file tail)&quot;]
+    Ingest[&quot;LangGraph Node: Ingest\n(sliding window buffer)&quot;]
+    Detect[&quot;LangGraph Node: Detect\n(LLM anomaly classification)&quot;]
+    Enrich[&quot;LangGraph Node: Enrich\n(recent commits + deploys)&quot;]
+    Human[&quot;Human-in-the-Loop\nApproval Gate (interrupt)&quot;]
+    Escalate[&quot;LangGraph Node: Escalate\n(Slack MCP + Jira MCP)&quot;]
+    Resolve[&quot;LangGraph Node: Resolve\n(auto-runbook execution)&quot;]
+
+    LogStream --&gt; Ingest --&gt; Detect
+    Detect --&gt;|anomaly| Enrich --&gt; Human
+    Human --&gt;|approved| Escalate
+    Human --&gt;|rejected| Ingest
+    Escalate --&gt; Resolve
+    Detect --&gt;|normal| Ingest
+</code></pre>
+<h3 id="tech-stack_4">Tech Stack</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Library / Tool</th>
+<th>Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>State machine</td>
+<td><code>langgraph</code> with streaming</td>
+<td>Free</td>
+</tr>
+<tr>
+<td>Human-in-loop</td>
+<td><code>langgraph</code> interrupt/resume</td>
+<td>Free</td>
+</tr>
+<tr>
+<td>Alerting</td>
+<td><code>mcp-server-slack</code></td>
+<td>Free</td>
+</tr>
+<tr>
+<td>Incident tickets</td>
+<td><code>mcp-atlassian</code> (Jira)</td>
+<td>Free</td>
+</tr>
+<tr>
+<td>LLM</td>
+<td>GitHub Models (GPT-4o)</td>
+<td>Free</td>
+</tr>
+<tr>
+<td>Log source</td>
+<td>Python <code>watchdog</code> / <code>tail -f</code></td>
+<td>Free</td>
+</tr>
+</tbody>
+</table>
+<h3 id="core-code-skeleton_4">Core Code Skeleton</h3>
+<pre><code class="language-python">import subprocess, time, collections
+from openai import OpenAI
+from langgraph.graph import StateGraph, START, END
+from langgraph.checkpoint.sqlite import SqliteSaver
+from langgraph.types import interrupt
+from typing import TypedDict, List, Optional, Deque
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+client = OpenAI(base_url=&quot;https://models.inference.ai.azure.com&quot;, api_key=token)
+
+LOG_WINDOW = 50  # lines
+
+class MonitorState(TypedDict):
+    log_buffer: List[str]
+    anomaly_detected: bool
+    anomaly_summary: str
+    recent_deploys: List[str]
+    human_approved: Optional[bool]
+    incident_id: Optional[str]
+
+def ingest_logs(state: MonitorState) -&gt; dict:
+    &quot;&quot;&quot;In production: tail log file or poll CloudWatch. Here: simulate.&quot;&quot;&quot;
+    new_lines = [
+        &quot;2025-01-15 03:42:11 ERROR NullPointerException at PaymentService.java:142&quot;,
+        &quot;2025-01-15 03:42:12 ERROR NullPointerException at PaymentService.java:142&quot;,
+        &quot;2025-01-15 03:42:13 WARN  DB connection pool exhausted (pool_size=10)&quot;,
+    ]
+    buffer = (state[&quot;log_buffer&quot;] + new_lines)[-LOG_WINDOW:]
+    return {&quot;log_buffer&quot;: buffer}
+
+def detect_anomaly(state: MonitorState) -&gt; dict:
+    logs_text = &quot;\n&quot;.join(state[&quot;log_buffer&quot;])
+    resp = client.chat.completions.create(
+        model=&quot;gpt-4o&quot;,
+        messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;:
+            f&quot;Analyze these production logs for anomalies:\n{logs_text}\n\n&quot;
+            &quot;Respond with JSON: {{\&quot;anomaly\&quot;: true/false, \&quot;summary\&quot;: \&quot;...\&quot;, \&quot;severity\&quot;: \&quot;P1/P2/P3\&quot;}}&quot;}],
+        response_format={&quot;type&quot;: &quot;json_object&quot;},
+    )
+    import json
+    data = json.loads(resp.choices[0].message.content)
+    return {&quot;anomaly_detected&quot;: data[&quot;anomaly&quot;], &quot;anomaly_summary&quot;: data.get(&quot;summary&quot;, &quot;&quot;)}
+
+def enrich_context(state: MonitorState) -&gt; dict:
+    &quot;&quot;&quot;GitHub MCP: list recent commits/deploys for context&quot;&quot;&quot;
+    recent = [&quot;deploy/v2.3.1 by alice (15 min ago)&quot;, &quot;fix: payment null check (2 hr ago)&quot;]
+    return {&quot;recent_deploys&quot;: recent}
+
+def human_approval_gate(state: MonitorState) -&gt; dict:
+    &quot;&quot;&quot;LangGraph interrupt: pause and ask on-call engineer via Slack&quot;&quot;&quot;
+    summary = state[&quot;anomaly_summary&quot;]
+    deploys = &quot;\n&quot;.join(state[&quot;recent_deploys&quot;])
+    # Slack MCP: post_message with approve/reject buttons
+    print(f&quot;⚠️  ANOMALY: {summary}\nRecent deploys:\n{deploys}&quot;)
+    approved = interrupt({&quot;message&quot;: &quot;Approve incident creation?&quot;, &quot;anomaly&quot;: summary})
+    return {&quot;human_approved&quot;: approved}
+
+def escalate_incident(state: MonitorState) -&gt; dict:
+    if not state.get(&quot;human_approved&quot;):
+        return {&quot;incident_id&quot;: None}
+    # Jira MCP: create_issue(project=&quot;OPS&quot;, type=&quot;Incident&quot;, summary=state[&quot;anomaly_summary&quot;])
+    incident_id = &quot;OPS-9999&quot;  # replace with real MCP call
+    # Slack MCP: post_message(&quot;#incidents&quot;, f&quot;Incident {incident_id} created: {state['anomaly_summary']}&quot;)
+    print(f&quot;🚨 Incident {incident_id} created and posted to #incidents&quot;)
+    return {&quot;incident_id&quot;: incident_id}
+
+def route_anomaly(state: MonitorState) -&gt; str:
+    return &quot;enrich_context&quot; if state[&quot;anomaly_detected&quot;] else &quot;ingest_logs&quot;
+
+with SqliteSaver.from_conn_string(&quot;monitor_checkpoints.db&quot;) as memory:
+    g = StateGraph(MonitorState)
+    for name, fn in [(&quot;ingest_logs&quot;, ingest_logs), (&quot;detect_anomaly&quot;, detect_anomaly),
+                     (&quot;enrich_context&quot;, enrich_context), (&quot;human_approval_gate&quot;, human_approval_gate),
+                     (&quot;escalate_incident&quot;, escalate_incident)]:
+        g.add_node(name, fn)
+    g.add_edge(START, &quot;ingest_logs&quot;)
+    g.add_edge(&quot;ingest_logs&quot;, &quot;detect_anomaly&quot;)
+    g.add_conditional_edges(&quot;detect_anomaly&quot;, route_anomaly,
+        {&quot;enrich_context&quot;: &quot;enrich_context&quot;, &quot;ingest_logs&quot;: &quot;ingest_logs&quot;})
+    g.add_edge(&quot;enrich_context&quot;, &quot;human_approval_gate&quot;)
+    g.add_edge(&quot;human_approval_gate&quot;, &quot;escalate_incident&quot;)
+    g.add_edge(&quot;escalate_incident&quot;, END)
+    app = g.compile(checkpointer=memory, interrupt_before=[&quot;human_approval_gate&quot;])
+    config = {&quot;configurable&quot;: {&quot;thread_id&quot;: &quot;monitor-prod-1&quot;}}
+    result = app.invoke({&quot;log_buffer&quot;: [], &quot;anomaly_detected&quot;: False, &quot;anomaly_summary&quot;: &quot;&quot;,
+        &quot;recent_deploys&quot;: [], &quot;human_approved&quot;: None, &quot;incident_id&quot;: None}, config)
+    print(result)
+</code></pre>
+<h3 id="integration-points_4">Integration Points</h3>
+<ul>
+<li><strong>Slack MCP:</strong> Interactive message with Approve/Reject buttons (Block Kit)</li>
+<li><strong>Jira MCP:</strong> <code>create_issue</code> in <code>OPS</code> project with severity label</li>
+<li><strong>GitHub MCP:</strong> <code>list_commits</code> to correlate anomalies with recent deployments</li>
+<li><strong>PagerDuty:</strong> Webhook integration to auto-escalate P1 incidents</li>
+</ul>
+<h3 id="free-resources_4">Free Resources</h3>
+<ul>
+<li><a href="https://langchain-ai.github.io/langgraph/tutorials/customer-support/customer-support/">LangGraph human-in-the-loop</a></li>
+<li><a href="https://langchain-ai.github.io/langgraph/how-tos/stream-values/">LangGraph streaming</a></li>
+<li><a href="https://app.slack.com/block-kit-builder">Slack Block Kit Builder</a></li>
+</ul>
+<hr />
+<h2 id="218-db-schema-migration-assistant-langchain-sqlalchemy">2.18 DB Schema Migration Assistant (LangChain + SQLAlchemy)</h2>
+<p><strong>One-liner:</strong> Analyses existing database schemas, generates Alembic migration scripts with rollback support, detects breaking changes, and produces human-readable change summaries for DBA review.</p>
+<h3 id="problem-statement_5">Problem Statement</h3>
+<p>Writing Alembic migrations is error-prone and tedious — engineers must manually diff schemas, handle foreign key ordering, generate both <code>upgrade()</code> and <code>downgrade()</code> functions, and document what changed. A single missed <code>nullable=False</code> on an existing column causes a production outage.</p>
+<h3 id="architecture_5">Architecture</h3>
+<pre><code class="language-mermaid">flowchart LR
+    DB_Current[&quot;Current DB Schema\n(SQLAlchemy introspection)&quot;]
+    DB_Target[&quot;Target Schema\n(SQLAlchemy models / DDL)&quot;]
+    Differ[&quot;Schema Differ\n(sqlalchemy-diff / alembic autogenerate)&quot;]
+    LLM[&quot;LangChain Chain\n(migration generator + reviewer)&quot;]
+    MigFile[&quot;Alembic Migration\n(.py with upgrade/downgrade)&quot;]
+    PRAgent[&quot;GitHub MCP\n(open PR with migration)&quot;]
+    Review[&quot;DBA Review Summary\n(risk assessment)&quot;]
+
+    DB_Current &amp; DB_Target --&gt; Differ
+    Differ --&gt; LLM
+    LLM --&gt; MigFile
+    LLM --&gt; Review
+    MigFile --&gt; PRAgent
+</code></pre>
+<h3 id="tech-stack_5">Tech Stack</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Library / Tool</th>
+<th>Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Schema introspection</td>
+<td><code>sqlalchemy</code> + <code>alembic</code></td>
+<td>Free</td>
+</tr>
+<tr>
+<td>Migration generation</td>
+<td><code>langchain</code> LCEL</td>
+<td>Free</td>
+</tr>
+<tr>
+<td>LLM</td>
+<td>GitHub Models (GPT-4o)</td>
+<td>Free</td>
+</tr>
+<tr>
+<td>Risk analysis</td>
+<td><code>langchain</code> structured output</td>
+<td>Free</td>
+</tr>
+<tr>
+<td>PR creation</td>
+<td><code>mcp-server-github</code></td>
+<td>Free</td>
+</tr>
+<tr>
+<td>DB support</td>
+<td>PostgreSQL / MySQL / SQLite</td>
+<td>Free</td>
+</tr>
+</tbody>
+</table>
+<h3 id="core-code-skeleton_5">Core Code Skeleton</h3>
+<pre><code class="language-python">import subprocess
+from openai import OpenAI
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+from datetime import datetime
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+client = OpenAI(base_url=&quot;https://models.inference.ai.azure.com&quot;, api_key=token)
+
+def get_schema_diff(current_ddl: str, target_ddl: str) -&gt; str:
+    &quot;&quot;&quot;In production: use alembic autogenerate or sqlalchemy-diff.&quot;&quot;&quot;
+    return f&quot;--- current\n{current_ddl}\n+++ target\n{target_ddl}&quot;
+
+def generate_migration(diff: str, revision_id: str) -&gt; str:
+    prompt = (
+        f&quot;Generate an Alembic migration script for this schema diff:\n\n{diff}\n\n&quot;
+        &quot;Requirements:\n&quot;
+        &quot;1. Include both upgrade() and downgrade() functions\n&quot;
+        &quot;2. Handle FK constraints with proper op.drop_constraint before alter\n&quot;
+        &quot;3. Add inline comments for non-obvious changes\n&quot;
+        &quot;4. Revision ID: {revision_id}\n&quot;
+        &quot;Return ONLY valid Python code for the migration file.&quot;
+    ).format(revision_id=revision_id)
+
+    resp = client.chat.completions.create(
+        model=&quot;gpt-4o&quot;,
+        messages=[
+            {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;You are an expert SQLAlchemy/Alembic migration engineer.&quot;},
+            {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: prompt},
+        ],
+        temperature=0.1,
+    )
+    return resp.choices[0].message.content
+
+def assess_migration_risk(migration_code: str) -&gt; dict:
+    resp = client.chat.completions.create(
+        model=&quot;gpt-4o&quot;,
+        messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;:
+            f&quot;Analyse this Alembic migration for risks:\n{migration_code}\n\n&quot;
+            &quot;Return JSON with keys: risk_level (low/medium/high), &quot;
+            &quot;breaking_changes (list), recommended_window (string), &quot;
+            &quot;requires_downtime (bool), notes (string)&quot;}],
+        response_format={&quot;type&quot;: &quot;json_object&quot;},
+    )
+    import json
+    return json.loads(resp.choices[0].message.content)
+
+def save_migration(code: str, revision_id: str) -&gt; str:
+    ts = datetime.now().strftime(&quot;%Y%m%d_%H%M%S&quot;)
+    filename = f&quot;migrations/versions/{ts}_{revision_id}.py&quot;
+    import os
+    os.makedirs(&quot;migrations/versions&quot;, exist_ok=True)
+    with open(filename, &quot;w&quot;) as f:
+        f.write(code)
+    return filename
+
+if __name__ == &quot;__main__&quot;:
+    current_ddl = &quot;CREATE TABLE users (id SERIAL PRIMARY KEY, email VARCHAR(255));&quot;
+    target_ddl = (
+        &quot;CREATE TABLE users (id SERIAL PRIMARY KEY, email VARCHAR(255) UNIQUE NOT NULL, &quot;
+        &quot;created_at TIMESTAMP DEFAULT NOW(), role VARCHAR(50) DEFAULT 'user');&quot;
+    )
+
+    diff = get_schema_diff(current_ddl, target_ddl)
+    revision_id = &quot;add_users_unique_email_role&quot;
+    migration_code = generate_migration(diff, revision_id)
+    risk = assess_migration_risk(migration_code)
+    filename = save_migration(migration_code, revision_id)
+
+    print(f&quot;✅ Migration saved: {filename}&quot;)
+    print(f&quot;⚠️  Risk Level: {risk['risk_level'].upper()}&quot;)
+    print(f&quot;🕐 Recommended window: {risk['recommended_window']}&quot;)
+    if risk.get(&quot;breaking_changes&quot;):
+        print(&quot;Breaking changes:&quot;)
+        for change in risk[&quot;breaking_changes&quot;]:
+            print(f&quot;  - {change}&quot;)
+    # GitHub MCP: create_pull_request with migration file
+    print(f&quot;\nNext: open PR with {filename} for DBA review&quot;)
+</code></pre>
+<h3 id="integration-points_5">Integration Points</h3>
+<ul>
+<li><strong>Alembic:</strong> <code>alembic autogenerate</code> for baseline diff detection</li>
+<li><strong>GitHub MCP:</strong> Auto-open PRs with migration files; add DBA as required reviewer</li>
+<li><strong>Jira MCP:</strong> Create "DB Change" ticket linked to the PR</li>
+<li><strong>Slack MCP:</strong> Notify <code>#database-changes</code> with risk summary and PR link</li>
+<li><strong>CI/CD:</strong> <code>alembic upgrade head --sql</code> dry-run in GitHub Actions</li>
+</ul>
+<h3 id="free-resources_5">Free Resources</h3>
+<ul>
+<li><a href="https://alembic.sqlalchemy.org/en/latest/">Alembic docs</a></li>
+<li><a href="https://github.com/sidorov-panda/sqlalchemy-diff">sqlalchemy-diff</a></li>
+<li><a href="https://python.langchain.com/docs/how_to/structured_output/">LangChain structured output</a></li>
+</ul>
+<hr />
+<h2 id="219-api-contract-tester-mock-generator-langgraph-schemathesis">2.19 API Contract Tester &amp; Mock Generator (LangGraph + Schemathesis)</h2>
+<p><strong>One-liner:</strong> Reads OpenAPI specs, generates property-based contract tests using Schemathesis, auto-creates Wiremock/MSW mock servers, and reports contract violations back to the API team via Slack.</p>
+<h3 id="problem-statement_6">Problem Statement</h3>
+<p>Consumer-driven contract testing (Pact) requires coordination between teams. Most teams skip it entirely. The result: frontend breaks after backend deploys, integration tests catch bugs too late, and mock servers drift from reality. An AI agent can own the entire contract lifecycle automatically.</p>
+<h3 id="architecture_6">Architecture</h3>
+<pre><code class="language-mermaid">flowchart TD
+    OpenAPI[&quot;OpenAPI / Swagger Spec\n(URL or file)&quot;]
+    Fetcher[&quot;LangGraph: Fetch &amp; Parse Spec&quot;]
+    ContractGen[&quot;LangGraph: Contract Test Generator\n(Schemathesis + LLM edge cases)&quot;]
+    MockGen[&quot;LangGraph: Mock Server Generator\n(WireMock JSON stubs)&quot;]
+    Runner[&quot;LangGraph: Test Runner\n(schemathesis run)&quot;]
+    Reporter[&quot;LangGraph: Violation Reporter\n(Slack MCP + GitHub MCP)&quot;]
+    Mocks[&quot;WireMock / MSW\nmock-server/&quot;]
+
+    OpenAPI --&gt; Fetcher
+    Fetcher --&gt; ContractGen &amp; MockGen
+    ContractGen --&gt; Runner
+    Runner --&gt; Reporter
+    MockGen --&gt; Mocks
+    Reporter --&gt; Mocks
+</code></pre>
+<h3 id="tech-stack_6">Tech Stack</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Library / Tool</th>
+<th>Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Spec parsing</td>
+<td><code>pyyaml</code> + <code>jsonschema</code></td>
+<td>Free</td>
+</tr>
+<tr>
+<td>Contract testing</td>
+<td><code>schemathesis</code></td>
+<td>Free</td>
+</tr>
+<tr>
+<td>Mock generation</td>
+<td><code>wiremock</code> (Docker) or <code>msw</code></td>
+<td>Free</td>
+</tr>
+<tr>
+<td>Orchestration</td>
+<td><code>langgraph</code></td>
+<td>Free</td>
+</tr>
+<tr>
+<td>LLM (edge cases)</td>
+<td>GitHub Models (GPT-4o)</td>
+<td>Free</td>
+</tr>
+<tr>
+<td>Reporting</td>
+<td><code>mcp-server-slack</code> + <code>mcp-server-github</code></td>
+<td>Free</td>
+</tr>
+</tbody>
+</table>
+<h3 id="core-code-skeleton_6">Core Code Skeleton</h3>
+<pre><code class="language-python">import subprocess, json, yaml, os
+from openai import OpenAI
+from langgraph.graph import StateGraph, START, END
+from typing import TypedDict, List, Dict, Any
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+client = OpenAI(base_url=&quot;https://models.inference.ai.azure.com&quot;, api_key=token)
+
+class ContractState(TypedDict):
+    spec_path: str
+    spec: Dict[str, Any]
+    endpoints: List[Dict]
+    edge_cases: List[Dict]
+    mock_stubs: List[Dict]
+    violations: List[str]
+    report_url: str
+
+def parse_spec(state: ContractState) -&gt; dict:
+    with open(state[&quot;spec_path&quot;]) as f:
+        spec = yaml.safe_load(f) if state[&quot;spec_path&quot;].endswith(&quot;.yaml&quot;) else json.load(f)
+    endpoints = []
+    for path, methods in spec.get(&quot;paths&quot;, {}).items():
+        for method, details in methods.items():
+            if method in (&quot;get&quot;, &quot;post&quot;, &quot;put&quot;, &quot;delete&quot;, &quot;patch&quot;):
+                endpoints.append({&quot;path&quot;: path, &quot;method&quot;: method.upper(),
+                                   &quot;summary&quot;: details.get(&quot;summary&quot;, &quot;&quot;), &quot;details&quot;: details})
+    return {&quot;spec&quot;: spec, &quot;endpoints&quot;: endpoints}
+
+def generate_edge_cases(state: ContractState) -&gt; dict:
+    endpoints_summary = json.dumps([{&quot;path&quot;: e[&quot;path&quot;], &quot;method&quot;: e[&quot;method&quot;],
+                                      &quot;summary&quot;: e[&quot;summary&quot;]} for e in state[&quot;endpoints&quot;]], indent=2)
+    resp = client.chat.completions.create(
+        model=&quot;gpt-4o&quot;,
+        messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;:
+            f&quot;For these API endpoints:\n{endpoints_summary}\n\n&quot;
+            &quot;Generate edge case test scenarios as JSON list with keys: &quot;
+            &quot;endpoint, method, case_name, input_data, expected_status_code, description.\n&quot;
+            &quot;Focus on: empty bodies, max-length strings, negative numbers, missing required fields, &quot;
+            &quot;SQL injection strings, Unicode edge cases.&quot;}],
+        response_format={&quot;type&quot;: &quot;json_object&quot;},
+    )
+    data = json.loads(resp.choices[0].message.content)
+    cases = data.get(&quot;cases&quot;, data) if isinstance(data, dict) else data
+    return {&quot;edge_cases&quot;: cases if isinstance(cases, list) else []}
+
+def generate_mock_stubs(state: ContractState) -&gt; dict:
+    stubs = []
+    for endpoint in state[&quot;endpoints&quot;][:5]:  # limit for demo
+        stub = {
+            &quot;request&quot;: {&quot;method&quot;: endpoint[&quot;method&quot;], &quot;url&quot;: endpoint[&quot;path&quot;]},
+            &quot;response&quot;: {
+                &quot;status&quot;: 200,
+                &quot;headers&quot;: {&quot;Content-Type&quot;: &quot;application/json&quot;},
+                &quot;jsonBody&quot;: {&quot;message&quot;: &quot;mock response&quot;, &quot;data&quot;: {}},
+            },
+        }
+        stubs.append(stub)
+    # Save WireMock stubs
+    os.makedirs(&quot;mock-server/mappings&quot;, exist_ok=True)
+    for i, stub in enumerate(stubs):
+        with open(f&quot;mock-server/mappings/stub_{i}.json&quot;, &quot;w&quot;) as f:
+            json.dump(stub, f, indent=2)
+    return {&quot;mock_stubs&quot;: stubs}
+
+def run_contract_tests(state: ContractState) -&gt; dict:
+    &quot;&quot;&quot;Run schemathesis against a live or mock server&quot;&quot;&quot;
+    # In production: subprocess.run([&quot;schemathesis&quot;, &quot;run&quot;, state[&quot;spec_path&quot;],
+    #                                &quot;--base-url&quot;, &quot;http://localhost:8080&quot;, &quot;--checks&quot;, &quot;all&quot;])
+    violations = []
+    for case in state.get(&quot;edge_cases&quot;, []):
+        if case.get(&quot;expected_status_code&quot;) == 400:
+            # Simulate: some endpoints return 500 instead of 400
+            violations.append(f&quot;{case['method']} {case['endpoint']}: returned 500, expected 400 for '{case['case_name']}'&quot;)
+    return {&quot;violations&quot;: violations}
+
+def report_results(state: ContractState) -&gt; dict:
+    if state[&quot;violations&quot;]:
+        report = &quot;\n&quot;.join(f&quot;• {v}&quot; for v in state[&quot;violations&quot;])
+        # Slack MCP: post_message(&quot;#api-contracts&quot;, f&quot;🚨 {len(state['violations'])} contract violations:\n{report}&quot;)
+        # GitHub MCP: create_issue(title=&quot;API Contract Violations&quot;, body=report, labels=[&quot;contract&quot;, &quot;bug&quot;])
+        print(f&quot;🚨 {len(state['violations'])} violations reported&quot;)
+    else:
+        print(&quot;✅ All contract tests passed&quot;)
+    print(f&quot;📁 Mock stubs saved to mock-server/mappings/ ({len(state['mock_stubs'])} stubs)&quot;)
+    return {&quot;report_url&quot;: &quot;https://github.com/org/repo/issues/new&quot;}
+
+g = StateGraph(ContractState)
+for name, fn in [(&quot;parse_spec&quot;, parse_spec), (&quot;generate_edge_cases&quot;, generate_edge_cases),
+                 (&quot;generate_mock_stubs&quot;, generate_mock_stubs), (&quot;run_contract_tests&quot;, run_contract_tests),
+                 (&quot;report_results&quot;, report_results)]:
+    g.add_node(name, fn)
+g.add_edge(START, &quot;parse_spec&quot;)
+g.add_edge(&quot;parse_spec&quot;, &quot;generate_edge_cases&quot;)
+g.add_edge(&quot;parse_spec&quot;, &quot;generate_mock_stubs&quot;)
+g.add_edge(&quot;generate_edge_cases&quot;, &quot;run_contract_tests&quot;)
+g.add_edge(&quot;generate_mock_stubs&quot;, &quot;run_contract_tests&quot;)
+g.add_edge(&quot;run_contract_tests&quot;, &quot;report_results&quot;)
+g.add_edge(&quot;report_results&quot;, END)
+app = g.compile()
+
+if __name__ == &quot;__main__&quot;:
+    # Create a minimal OpenAPI spec for demo
+    sample_spec = {&quot;openapi&quot;: &quot;3.0.0&quot;, &quot;info&quot;: {&quot;title&quot;: &quot;Demo&quot;, &quot;version&quot;: &quot;1.0&quot;},
+                   &quot;paths&quot;: {&quot;/users&quot;: {&quot;get&quot;: {&quot;summary&quot;: &quot;List users&quot;, &quot;responses&quot;: {&quot;200&quot;: {&quot;description&quot;: &quot;OK&quot;}}}},
+                             &quot;/users/{id}&quot;: {&quot;delete&quot;: {&quot;summary&quot;: &quot;Delete user&quot;, &quot;responses&quot;: {&quot;204&quot;: {&quot;description&quot;: &quot;No Content&quot;}}}}}}
+    with open(&quot;demo_spec.yaml&quot;, &quot;w&quot;) as f:
+        yaml.dump(sample_spec, f)
+    result = app.invoke({&quot;spec_path&quot;: &quot;demo_spec.yaml&quot;, &quot;spec&quot;: {}, &quot;endpoints&quot;: [],
+                         &quot;edge_cases&quot;: [], &quot;mock_stubs&quot;: [], &quot;violations&quot;: [], &quot;report_url&quot;: &quot;&quot;})
+</code></pre>
+<h3 id="integration-points_6">Integration Points</h3>
+<ul>
+<li><strong>Schemathesis CLI:</strong> <code>schemathesis run openapi.yaml --base-url http://api-server --checks all</code></li>
+<li><strong>WireMock Docker:</strong> <code>docker run -p 8080:8080 -v $(pwd)/mock-server:/home/wiremock wiremock/wiremock</code></li>
+<li><strong>GitHub MCP:</strong> Create issues for violations; link to API version tag</li>
+<li><strong>Slack MCP:</strong> Weekly contract health digest to <code>#engineering</code></li>
+<li><strong>CI/CD:</strong> Run as part of <code>integration-tests</code> GitHub Actions job</li>
+</ul>
+<h3 id="free-resources_6">Free Resources</h3>
+<ul>
+<li><a href="https://schemathesis.readthedocs.io/">Schemathesis docs</a></li>
+<li><a href="https://wiremock.org/docs/">WireMock docs</a></li>
+<li><a href="https://mswjs.io/">MSW (Mock Service Worker)</a></li>
+<li><a href="https://swagger.io/specification/">OpenAPI Specification</a></li>
+</ul>
+<hr />
+<h2 id="220-accessibility-auditor-vision-model-playwright-mcp">2.20 Accessibility Auditor (Vision Model + Playwright MCP)</h2>
+<p><strong>One-liner:</strong> Screenshots every page of your web app, uses GPT-4o vision to identify WCAG 2.1 accessibility violations, generates a prioritised fix report, and creates GitHub issues with annotated screenshots.</p>
+<h3 id="problem-statement_7">Problem Statement</h3>
+<p>Accessibility audits are typically done manually by specialists, cost thousands of dollars, and happen once a year — meaning violations accumulate in every sprint. Automated tools like axe-core only catch ~30% of WCAG issues (it misses contrast issues in images, missing alt-text meaning, keyboard trap detection). An LLM with vision can catch the other 70%.</p>
+<h3 id="architecture_7">Architecture</h3>
+<pre><code class="language-mermaid">flowchart TD
+    SiteMap[&quot;Sitemap / URL List&quot;]
+    PW[&quot;Playwright MCP\n(navigate + screenshot)&quot;]
+    Axe[&quot;axe-core\n(programmatic A11y scan)&quot;]
+    Vision[&quot;GPT-4o Vision\n(visual WCAG analysis)&quot;]
+    Merger[&quot;Violation Merger &amp;\nDeduplicator&quot;]
+    Priority[&quot;Priority Scorer\n(P1: legal risk / P2: UX / P3: best practice)&quot;]
+    Reporter[&quot;Report Generator\n(HTML + JSON)&quot;]
+    GH[&quot;GitHub MCP\n(create labelled issues)&quot;]
+
+    SiteMap --&gt; PW
+    PW --&gt; Axe &amp; Vision
+    Axe &amp; Vision --&gt; Merger
+    Merger --&gt; Priority
+    Priority --&gt; Reporter &amp; GH
+</code></pre>
+<h3 id="tech-stack_7">Tech Stack</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Library / Tool</th>
+<th>Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Browser automation</td>
+<td><code>@playwright/mcp</code></td>
+<td>Free</td>
+</tr>
+<tr>
+<td>A11y scanning</td>
+<td><code>axe-playwright</code> (Python: <code>axe-core-python</code>)</td>
+<td>Free</td>
+</tr>
+<tr>
+<td>Vision analysis</td>
+<td>GitHub Models (GPT-4o)</td>
+<td>Free</td>
+</tr>
+<tr>
+<td>Orchestration</td>
+<td><code>langgraph</code></td>
+<td>Free</td>
+</tr>
+<tr>
+<td>Issue filing</td>
+<td><code>mcp-server-github</code></td>
+<td>Free</td>
+</tr>
+<tr>
+<td>Report format</td>
+<td><code>jinja2</code> HTML template</td>
+<td>Free</td>
+</tr>
+</tbody>
+</table>
+<h3 id="core-code-skeleton_7">Core Code Skeleton</h3>
+<pre><code class="language-python">import subprocess, base64, json, os
+from openai import OpenAI
+from langgraph.graph import StateGraph, START, END
+from typing import TypedDict, List, Optional
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+client = OpenAI(base_url=&quot;https://models.inference.ai.azure.com&quot;, api_key=token)
+
+WCAG_SYSTEM = &quot;&quot;&quot;You are a WCAG 2.1 AA accessibility expert.
+Analyse the screenshot and identify violations. For each violation return JSON:
+{&quot;violations&quot;: [{&quot;wcag_criterion&quot;: &quot;1.4.3&quot;, &quot;severity&quot;: &quot;critical|serious|moderate|minor&quot;,
+ &quot;element_description&quot;: &quot;...&quot;, &quot;issue&quot;: &quot;...&quot;, &quot;fix_suggestion&quot;: &quot;...&quot;, &quot;legal_risk&quot;: true/false}]}
+Focus on: color contrast, missing alt text, keyboard focus indicators, form labels,
+heading hierarchy, error identification, and time-based media.&quot;&quot;&quot;
+
+class A11yState(TypedDict):
+    url: str
+    page_name: str
+    screenshot_b64: Optional[str]
+    axe_violations: List[dict]
+    vision_violations: List[dict]
+    all_violations: List[dict]
+    issues_created: List[str]
+
+def capture_and_axe_scan(state: A11yState) -&gt; dict:
+    &quot;&quot;&quot;Playwright MCP: navigate + screenshot + inject axe-core&quot;&quot;&quot;
+    # MCP calls:
+    # playwright_navigate(url=state[&quot;url&quot;])
+    # screenshot = playwright_screenshot()  → base64
+    # axe_results = playwright_evaluate(&quot;axe.run()&quot;)  → JSON violations
+    screenshot_b64 = &quot;&quot;  # replace with real MCP call
+    axe_violations = [  # simulated axe results
+        {&quot;id&quot;: &quot;color-contrast&quot;, &quot;impact&quot;: &quot;serious&quot;,
+         &quot;description&quot;: &quot;Ensure text has sufficient contrast&quot;, &quot;nodes&quot;: [{&quot;html&quot;: &quot;&lt;button class='submit'&gt;&quot;}]},
+    ]
+    return {&quot;screenshot_b64&quot;: screenshot_b64, &quot;axe_violations&quot;: axe_violations}
+
+def vision_audit(state: A11yState) -&gt; dict:
+    if not state.get(&quot;screenshot_b64&quot;):
+        # Use a placeholder for demo when no real screenshot
+        print(f&quot;  ⚠️  No screenshot for {state['page_name']}, skipping vision audit&quot;)
+        return {&quot;vision_violations&quot;: []}
+
+    resp = client.chat.completions.create(
+        model=&quot;gpt-4o&quot;,
+        messages=[{
+            &quot;role&quot;: &quot;user&quot;,
+            &quot;content&quot;: [
+                {&quot;type&quot;: &quot;text&quot;, &quot;text&quot;: f&quot;Page: {state['url']}\n{WCAG_SYSTEM}&quot;},
+                {&quot;type&quot;: &quot;image_url&quot;,
+                 &quot;image_url&quot;: {&quot;url&quot;: f&quot;data:image/png;base64,{state['screenshot_b64']}&quot;}},
+            ],
+        }],
+        response_format={&quot;type&quot;: &quot;json_object&quot;},
+    )
+    data = json.loads(resp.choices[0].message.content)
+    return {&quot;vision_violations&quot;: data.get(&quot;violations&quot;, [])}
+
+def merge_violations(state: A11yState) -&gt; dict:
+    &quot;&quot;&quot;Merge axe + vision violations, deduplicate by WCAG criterion.&quot;&quot;&quot;
+    seen = set()
+    merged = []
+    for v in state[&quot;axe_violations&quot;]:
+        key = f&quot;axe-{v.get('id', '')}&quot;
+        if key not in seen:
+            seen.add(key)
+            merged.append({&quot;source&quot;: &quot;axe&quot;, &quot;severity&quot;: v.get(&quot;impact&quot;, &quot;unknown&quot;),
+                           &quot;issue&quot;: v.get(&quot;description&quot;, &quot;&quot;), &quot;element&quot;: str(v.get(&quot;nodes&quot;, [{}])[0])})
+    for v in state[&quot;vision_violations&quot;]:
+        key = f&quot;vision-{v.get('wcag_criterion', '')}-{v.get('issue', '')[:30]}&quot;
+        if key not in seen:
+            seen.add(key)
+            merged.append({&quot;source&quot;: &quot;vision&quot;, &quot;wcag&quot;: v.get(&quot;wcag_criterion&quot;, &quot;&quot;),
+                           &quot;severity&quot;: v.get(&quot;severity&quot;, &quot;unknown&quot;), &quot;issue&quot;: v.get(&quot;issue&quot;, &quot;&quot;),
+                           &quot;fix&quot;: v.get(&quot;fix_suggestion&quot;, &quot;&quot;), &quot;legal_risk&quot;: v.get(&quot;legal_risk&quot;, False)})
+    merged.sort(key=lambda x: {&quot;critical&quot;: 0, &quot;serious&quot;: 1, &quot;moderate&quot;: 2, &quot;minor&quot;: 3}.get(x.get(&quot;severity&quot;, &quot;minor&quot;), 3))
+    return {&quot;all_violations&quot;: merged}
+
+def create_github_issues(state: A11yState) -&gt; dict:
+    critical = [v for v in state[&quot;all_violations&quot;] if v.get(&quot;severity&quot;) in (&quot;critical&quot;, &quot;serious&quot;)]
+    created = []
+    for v in critical[:5]:  # cap at 5 issues per page
+        title = f&quot;A11y [{v.get('wcag', v.get('source','?'))}]: {v['issue'][:60]}&quot;
+        body = (f&quot;**Page:** {state['url']}\n**Severity:** {v['severity']}\n&quot;
+                f&quot;**Issue:** {v['issue']}\n**Fix:** {v.get('fix', 'See WCAG docs')}\n&quot;
+                f&quot;**Legal Risk:** {'⚠️ Yes' if v.get('legal_risk') else 'No'}&quot;)
+        # GitHub MCP: create_issue(title=title, body=body, labels=[&quot;accessibility&quot;, v[&quot;severity&quot;]])
+        created.append(title)
+        print(f&quot;  🐛 Issue: {title}&quot;)
+    return {&quot;issues_created&quot;: created}
+
+g = StateGraph(A11yState)
+for name, fn in [(&quot;capture_and_axe_scan&quot;, capture_and_axe_scan), (&quot;vision_audit&quot;, vision_audit),
+                 (&quot;merge_violations&quot;, merge_violations), (&quot;create_github_issues&quot;, create_github_issues)]:
+    g.add_node(name, fn)
+g.add_edge(START, &quot;capture_and_axe_scan&quot;)
+g.add_edge(&quot;capture_and_axe_scan&quot;, &quot;vision_audit&quot;)
+g.add_edge(&quot;vision_audit&quot;, &quot;merge_violations&quot;)
+g.add_edge(&quot;merge_violations&quot;, &quot;create_github_issues&quot;)
+g.add_edge(&quot;create_github_issues&quot;, END)
+app = g.compile()
+
+if __name__ == &quot;__main__&quot;:
+    pages = [
+        {&quot;url&quot;: &quot;http://localhost:3000/&quot;, &quot;page_name&quot;: &quot;home&quot;},
+        {&quot;url&quot;: &quot;http://localhost:3000/login&quot;, &quot;page_name&quot;: &quot;login&quot;},
+        {&quot;url&quot;: &quot;http://localhost:3000/checkout&quot;, &quot;page_name&quot;: &quot;checkout&quot;},
+    ]
+    all_results = []
+    for page in pages:
+        print(f&quot;\n🔍 Auditing: {page['url']}&quot;)
+        result = app.invoke({**page, &quot;screenshot_b64&quot;: None, &quot;axe_violations&quot;: [],
+                             &quot;vision_violations&quot;: [], &quot;all_violations&quot;: [], &quot;issues_created&quot;: []})
+        total = len(result[&quot;all_violations&quot;])
+        critical = sum(1 for v in result[&quot;all_violations&quot;] if v.get(&quot;severity&quot;) in (&quot;critical&quot;, &quot;serious&quot;))
+        print(f&quot;  Found {total} violations ({critical} critical/serious), {len(result['issues_created'])} issues created&quot;)
+        all_results.append(result)
+
+    total_issues = sum(len(r[&quot;issues_created&quot;]) for r in all_results)
+    print(f&quot;\n📊 Audit complete: {total_issues} GitHub issues created across {len(pages)} pages&quot;)
+</code></pre>
+<h3 id="integration-points_7">Integration Points</h3>
+<ul>
+<li><strong>Playwright MCP:</strong> <code>playwright_navigate</code>, <code>playwright_screenshot</code>, <code>playwright_evaluate</code> (inject axe-core)</li>
+<li><strong>GitHub MCP:</strong> Create labelled issues with <code>accessibility</code> + severity tags; assign to front-end team</li>
+<li><strong>Slack MCP:</strong> Weekly accessibility score digest to <code>#frontend</code> channel</li>
+<li><strong>CI/CD:</strong> Run on every PR that touches CSS/HTML files (GitHub Actions path filter)</li>
+<li><strong>Jira MCP:</strong> Create accessibility backlog items with WCAG criterion as label</li>
+</ul>
+<h3 id="free-resources_7">Free Resources</h3>
+<ul>
+<li><a href="https://github.com/dequelabs/axe-core">axe-core</a> — open source accessibility engine</li>
+<li><a href="https://www.w3.org/WAI/WCAG21/quickref/">WCAG 2.1 Quick Reference</a></li>
+<li><a href="https://github.com/microsoft/playwright-mcp">Playwright MCP</a></li>
+<li><a href="https://webaim.org/resources/contrastchecker/">WebAIM Contrast Checker</a> — validate generated fixes</li>
+</ul>
+<hr />
+<h2 id="summary-table">Summary Table</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>App Name</th>
+<th>Key Protocol</th>
+<th>Primary LLM Use</th>
+<th>SDLC Phase</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2.13</td>
+<td>Multi-Repo PR Orchestrator</td>
+<td>ACP + GitHub MCP</td>
+<td>Code review</td>
+<td>Code Review</td>
+</tr>
+<tr>
+<td>2.14</td>
+<td>Jira ↔ GitHub Sync Agent</td>
+<td>Jira MCP + GitHub MCP</td>
+<td>Branch naming, summaries</td>
+<td>Planning → Dev</td>
+</tr>
+<tr>
+<td>2.15</td>
+<td>Figma-to-React Pipeline</td>
+<td>Figma MCP</td>
+<td>Component code gen</td>
+<td>Design → Dev</td>
+</tr>
+<tr>
+<td>2.16</td>
+<td>Playwright Web Regression Agent</td>
+<td>Playwright MCP</td>
+<td>Visual diff analysis</td>
+<td>QA</td>
+</tr>
+<tr>
+<td>2.17</td>
+<td>Real-Time Production Monitor</td>
+<td>Slack MCP + LangGraph</td>
+<td>Anomaly detection</td>
+<td>Operations</td>
+</tr>
+<tr>
+<td>2.18</td>
+<td>DB Schema Migration Assistant</td>
+<td>SQLAlchemy + GitHub MCP</td>
+<td>Migration script gen</td>
+<td>Dev → Deploy</td>
+</tr>
+<tr>
+<td>2.19</td>
+<td>API Contract Tester &amp; Mock Generator</td>
+<td>Schemathesis + GitHub MCP</td>
+<td>Edge case generation</td>
+<td>QA</td>
+</tr>
+<tr>
+<td>2.20</td>
+<td>Accessibility Auditor</td>
+<td>Playwright MCP + Vision</td>
+<td>WCAG violation detection</td>
+<td>QA → Release</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="shared-patterns-across-all-8-apps">Shared Patterns Across All 8 Apps</h2>
+<h3 id="1-free-auth-used-everywhere">1. Free Auth (used everywhere)</h3>
+<pre><code class="language-python">import subprocess
+from openai import OpenAI
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+client = OpenAI(base_url=&quot;https://models.inference.ai.azure.com&quot;, api_key=token)
+</code></pre>
+<h3 id="2-acp-multi-agent-dispatch-pattern">2. ACP Multi-Agent Dispatch Pattern</h3>
+<pre><code class="language-python">from acp_sdk.client import Client as ACPClient
+
+async def dispatch_to_agent(agent_url: str, task: dict) -&gt; dict:
+    async with ACPClient(base_url=agent_url) as acp:
+        run = await acp.runs.create(agent_name=&quot;specialist&quot;, input=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: str(task)}])
+        async for event in acp.runs.stream(run.run_id):
+            if event.type == &quot;run.completed&quot;:
+                return event.run.output
+</code></pre>
+<h3 id="3-mcp-tool-call-pattern-any-mcp-server">3. MCP Tool Call Pattern (any MCP server)</h3>
+<pre><code class="language-python">from mcp import ClientSession, StdioServerParameters
+from mcp.client.stdio import stdio_client
+
+async def call_mcp_tool(server_cmd: list, tool_name: str, args: dict):
+    async with stdio_client(StdioServerParameters(command=server_cmd[0], args=server_cmd[1:])) as (r, w):
+        async with ClientSession(r, w) as session:
+            await session.initialize()
+            return await session.call_tool(tool_name, args)
+</code></pre>
+<h3 id="4-langgraph-human-in-the-loop-gate">4. LangGraph Human-in-the-Loop Gate</h3>
+<pre><code class="language-python">from langgraph.types import interrupt
+
+def approval_gate(state: dict) -&gt; dict:
+    decision = interrupt({&quot;summary&quot;: state[&quot;summary&quot;], &quot;action&quot;: state[&quot;proposed_action&quot;]})
+    return {&quot;approved&quot;: decision}
+# Resume after human responds:
+# app.invoke(None, config, command=Command(resume=True))
+</code></pre>
+<hr />
+<p><em>End of Part 2 — Expanded (Apps 2.13–2.20)</em></p>
+</main>
+</body>
+</html>

@@ -1,0 +1,1513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LangGraph – AI Libraries Guide</title>
+<style>
+:root{--bg:#fff;--text:#1a1a2e;--accent:#0070f3;--code:#f4f6f8;--border:#e1e4e8;--nav:#f6f8fa;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:Georgia,'Times New Roman',serif;font-size:17px;line-height:1.8;
+     color:var(--text);background:var(--bg);display:flex;min-height:100vh;}
+/* ---- NAV ---- */
+nav{width:260px;min-width:220px;background:var(--nav);border-right:1px solid var(--border);
+    position:sticky;top:0;height:100vh;overflow-y:auto;padding:20px 14px;flex-shrink:0;}
+nav .back-link{display:block;font-family:sans-serif;font-size:12px;color:var(--accent);
+               margin-bottom:14px;text-decoration:none;}
+nav .back-link:hover{text-decoration:underline;}
+nav h3{font-family:sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:.08em;
+       color:#888;margin-bottom:8px;}
+nav ul{list-style:none;}
+nav li{margin:3px 0;}
+nav a{font-family:sans-serif;font-size:13px;color:#444;text-decoration:none;
+      display:block;padding:4px 8px;border-radius:4px;line-height:1.4;}
+nav a:hover{background:#e0e8ff;color:var(--accent);}
+nav a.h3{padding-left:20px;font-size:12px;color:#666;}
+nav a.h4{padding-left:34px;font-size:11px;color:#888;}
+/* ---- MAIN ---- */
+main{flex:1;padding:48px 60px;max-width:960px;}
+.doc-header{margin-bottom:40px;padding-bottom:20px;border-bottom:3px solid var(--accent);}
+.doc-header h1{font-size:2.1em;color:#0a192f;}
+.doc-header .subtitle{font-family:sans-serif;color:#555;margin-top:6px;font-size:.95em;}
+.doc-header .badges span{display:inline-block;font-family:sans-serif;font-size:12px;
+  padding:3px 10px;border-radius:12px;margin:8px 4px 0 0;font-weight:600;}
+.badge-free{background:#d4edda;color:#155724;}
+.badge-paid{background:#fff3cd;color:#856404;}
+.badge-local{background:#cce5ff;color:#004085;}
+/* ---- CONTENT ---- */
+section{margin-bottom:56px;}
+h2{font-size:1.6em;color:#0a192f;margin:2em 0 .6em;padding-bottom:.3em;border-bottom:2px solid var(--border);}
+h3{font-size:1.25em;color:#0a192f;margin:1.6em 0 .4em;}
+h4{font-size:1.05em;color:#0a192f;margin:1.3em 0 .3em;}
+p{margin:.6em 0;}
+ul,ol{margin:.5em 0 .5em 1.5em;}li{margin:.25em 0;}
+strong{color:#0a192f;}
+code{font-family:'Fira Code',Consolas,monospace;background:var(--code);
+     padding:2px 6px;border-radius:3px;font-size:.87em;}
+pre{background:var(--code);border:1px solid var(--border);border-left:4px solid var(--accent);
+    border-radius:6px;padding:18px;overflow-x:auto;margin:1em 0;}
+pre code{background:none;padding:0;font-size:.84em;line-height:1.5;}
+table{border-collapse:collapse;width:100%;margin:1em 0;font-family:sans-serif;font-size:.9em;}
+th,td{border:1px solid var(--border);padding:9px 13px;text-align:left;vertical-align:top;}
+th{background:#e8f0fe;font-weight:700;color:#0a192f;}
+tr:nth-child(even) td{background:#f9f9f9;}
+blockquote{border-left:4px solid var(--accent);padding:10px 18px;background:#f0f4ff;
+           border-radius:0 6px 6px 0;color:#333;margin:1em 0;}
+/* ---- Q&A ---- */
+details{border:1px solid var(--border);border-radius:8px;margin:.8em 0;background:#fafafa;}
+details[open]{background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+summary.qa-q{cursor:pointer;padding:13px 16px;font-weight:700;color:#0a192f;
+             list-style:none;display:flex;align-items:flex-start;gap:10px;line-height:1.5;}
+summary.qa-q::before{content:"Q";background:var(--accent);color:#fff;padding:2px 8px;
+                     border-radius:50%;font-size:.78em;font-family:sans-serif;flex-shrink:0;margin-top:2px;}
+.qa-a{padding:14px 18px;border-top:1px solid #eee;}
+/* ---- callout boxes ---- */
+.tip{background:#e6f9f0;border-left:4px solid #28a745;padding:12px 16px;
+     border-radius:0 6px 6px 0;margin:1em 0;}
+.warn{background:#fff8e1;border-left:4px solid #ffc107;padding:12px 16px;
+      border-radius:0 6px 6px 0;margin:1em 0;}
+a{color:var(--accent);}
+hr{border:none;border-top:1px solid var(--border);margin:2em 0;}
+</style>
+</head>
+<body>
+<nav>
+  <a class="back-link" href="index.html">⬅ All Guides</a>
+  <a class="back-link" href="01-langchain.html">← LangChain</a><a class="back-link" href="03-crewai.html">CrewAI →</a>
+  <h3>Contents</h3>
+  <ul><li><a href="#table-of-contents" class="">Table of Contents</a></li>
+<li><a href="#1-what-is-langgraph" class="">1. What is LangGraph?</a></li>
+<li><a href="#key-advantages-over-plain-langchain-chains" class="h3">Key Advantages Over Plain LangChain Chains</a></li>
+<li><a href="#when-to-use-what" class="h3">When to Use What</a></li>
+<li><a href="#2-installation-core-concepts" class="">2. Installation &amp; Core Concepts</a></li>
+<li><a href="#core-building-blocks" class="h3">Core Building Blocks</a></li>
+<li><a href="#3-your-first-graph" class="">3. Your First Graph</a></li>
+<li><a href="#4-conditional-routing" class="">4. Conditional Routing</a></li>
+<li><a href="#5-checkpointing-persistence" class="">5. Checkpointing &amp; Persistence</a></li>
+<li><a href="#memorysaver-in-memory-lost-on-restart" class="h3">MemorySaver (in-memory, lost on restart)</a></li>
+<li><a href="#sqlitesaver-persistent-across-process-restarts" class="h3">SqliteSaver (persistent across process restarts)</a></li>
+<li><a href="#simulating-crash-and-resume" class="h3">Simulating Crash and Resume</a></li>
+<li><a href="#6-human-in-the-loop" class="">6. Human-in-the-Loop</a></li>
+<li><a href="#interrupt_before-interrupt_after" class="h3">interrupt_before / interrupt_after</a></li>
+<li><a href="#using-interrupt_after" class="h3">Using interrupt_after</a></li>
+<li><a href="#7-multi-agent-patterns" class="">7. Multi-Agent Patterns</a></li>
+<li><a href="#supervisor-pattern" class="h3">Supervisor Pattern</a></li>
+<li><a href="#swarm-pattern-agents-hand-off-to-each-other" class="h3">Swarm Pattern (agents hand off to each other)</a></li>
+<li><a href="#8-streaming" class="">8. Streaming</a></li>
+<li><a href="#stream-modes" class="h3">stream() modes</a></li>
+<li><a href="#async-streaming" class="h3">Async Streaming</a></li>
+<li><a href="#9-tool-calling-nodes" class="">9. Tool Calling Nodes</a></li>
+<li><a href="#create_react_agent-shortcut" class="h3">create_react_agent() Shortcut</a></li>
+<li><a href="#custom-toolnode" class="h3">Custom ToolNode</a></li>
+<li><a href="#10-subgraphs" class="">10. Subgraphs</a></li>
+<li><a href="#11-state-management" class="">11. State Management</a></li>
+<li><a href="#reducers-and-annotated-state" class="h3">Reducers and Annotated State</a></li>
+<li><a href="#shared-vs-private-state-inputoutput-schemas" class="h3">Shared vs Private State (Input/Output Schemas)</a></li>
+<li><a href="#12-error-handling-retries" class="">12. Error Handling &amp; Retries</a></li>
+<li><a href="#13-langgraph-langsmith" class="">13. LangGraph + LangSmith</a></li>
+<li><a href="#14-production-patterns" class="">14. Production Patterns</a></li>
+<li><a href="#fastapi-wrapper" class="h3">FastAPI Wrapper</a></li>
+<li><a href="#background-runs-with-asyncio" class="h3">Background Runs with asyncio</a></li>
+<li><a href="#15-interview-qa" class="">15. Interview Q&amp;A</a></li>
+</ul>
+</nav>
+<main>
+  <div class="doc-header">
+    <h1>LangGraph</h1>
+    <p class="subtitle">Stateful multi-actor graph framework — cycles, checkpoints, human-in-loop</p>
+    <div class="badges"><span class="badge-free">Free</span><span class="badge-local">Checkpointing</span><span class="badge-local">Human-in-Loop</span></div>
+  </div>
+  <h1 id="langgraph-comprehensive-guide-for-software-developers">LangGraph — Comprehensive Guide for Software Developers</h1>
+<blockquote>
+<p><strong>Auth pattern used throughout this guide (GitHub Copilot free tier):</strong>
+<code>python
+import subprocess
+from openai import OpenAI
+token = subprocess.run(["gh", "auth", "token"], capture_output=True, text=True).stdout.strip()
+client = OpenAI(base_url="https://models.inference.ai.azure.com", api_key=token)</code></p>
+</blockquote>
+<hr />
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol>
+<li><a href="#1-what-is-langgraph">What is LangGraph?</a></li>
+<li><a href="#2-installation--core-concepts">Installation &amp; Core Concepts</a></li>
+<li><a href="#3-your-first-graph">Your First Graph</a></li>
+<li><a href="#4-conditional-routing">Conditional Routing</a></li>
+<li><a href="#5-checkpointing--persistence">Checkpointing &amp; Persistence</a></li>
+<li><a href="#6-human-in-the-loop">Human-in-the-Loop</a></li>
+<li><a href="#7-multi-agent-patterns">Multi-Agent Patterns</a></li>
+<li><a href="#8-streaming">Streaming</a></li>
+<li><a href="#9-tool-calling-nodes">Tool Calling Nodes</a></li>
+<li><a href="#10-subgraphs">Subgraphs</a></li>
+<li><a href="#11-state-management">State Management</a></li>
+<li><a href="#12-error-handling--retries">Error Handling &amp; Retries</a></li>
+<li><a href="#13-langgraph--langsmith">LangGraph + LangSmith</a></li>
+<li><a href="#14-production-patterns">Production Patterns</a></li>
+<li><a href="#15-interview-qa">Interview Q&amp;A</a></li>
+<li><a href="#16-complete-end-to-end-example--self-rag-agent">Complete End-to-End Example — Self-RAG Agent</a></li>
+</ol>
+<hr />
+<h2 id="1-what-is-langgraph">1. What is LangGraph?</h2>
+<p>LangGraph is a <strong>graph-based stateful agent framework</strong> built on top of LangChain. It models AI workflows as directed graphs where:</p>
+<ul>
+<li><strong>Nodes</strong> = Python functions (LLM calls, tool invocations, business logic)</li>
+<li><strong>Edges</strong> = transitions between nodes (fixed or conditional)</li>
+<li><strong>State</strong> = a typed dictionary that flows through the graph and is mutated at each node</li>
+</ul>
+<h3 id="key-advantages-over-plain-langchain-chains">Key Advantages Over Plain LangChain Chains</h3>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>LangChain (LCEL)</th>
+<th>LangGraph</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cycles / loops</td>
+<td>❌ No</td>
+<td>✅ Yes</td>
+</tr>
+<tr>
+<td>Persistent state</td>
+<td>❌ Manual</td>
+<td>✅ Built-in checkpointing</td>
+</tr>
+<tr>
+<td>Human-in-the-loop</td>
+<td>❌ Awkward</td>
+<td>✅ First-class <code>interrupt_before/after</code></td>
+</tr>
+<tr>
+<td>Branching logic</td>
+<td>Limited</td>
+<td>✅ <code>add_conditional_edges</code></td>
+</tr>
+<tr>
+<td>Multi-agent orchestration</td>
+<td>❌ No</td>
+<td>✅ Supervisor / Swarm patterns</td>
+</tr>
+<tr>
+<td>Streaming mid-graph</td>
+<td>Limited</td>
+<td>✅ <code>stream_mode</code> options</td>
+</tr>
+</tbody>
+</table>
+<h3 id="when-to-use-what">When to Use What</h3>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Best Tool</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Simple sequential LLM pipeline</td>
+<td>LangChain LCEL</td>
+</tr>
+<tr>
+<td>Stateful agent with loops + memory</td>
+<td><strong>LangGraph</strong></td>
+</tr>
+<tr>
+<td>Multi-agent with roles and tasks</td>
+<td><strong>LangGraph</strong> or CrewAI</td>
+</tr>
+<tr>
+<td>Fully autonomous collaborative agents</td>
+<td>CrewAI / AutoGen</td>
+</tr>
+<tr>
+<td>Enterprise .NET / Java environments</td>
+<td>AutoGen (multi-lang)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Rule of thumb:</strong> If your agent needs to <em>loop</em>, <em>pause for human review</em>, or <em>remember state across turns</em>, use LangGraph.</p>
+<hr />
+<h2 id="2-installation-core-concepts">2. Installation &amp; Core Concepts</h2>
+<pre><code class="language-bash">pip install langgraph langgraph-checkpoint-sqlite langchain-openai langchain-core
+</code></pre>
+<h3 id="core-building-blocks">Core Building Blocks</h3>
+<pre><code class="language-python">from typing import TypedDict, Annotated
+import operator
+from langgraph.graph import StateGraph, START, END
+from langgraph.checkpoint.memory import MemorySaver
+
+# ── 1. STATE ──────────────────────────────────────────────────
+# A TypedDict that holds all data flowing through the graph.
+# Every node receives the full state and returns a partial update.
+
+class MyState(TypedDict):
+    input: str
+    result: str
+    steps: Annotated[list[str], operator.add]   # reducer: auto-appends
+
+# ── 2. NODES ──────────────────────────────────────────────────
+# Plain Python functions: (state) -&gt; dict  (partial state update)
+
+def my_node(state: MyState) -&gt; dict:
+    return {&quot;result&quot;: state[&quot;input&quot;].upper(), &quot;steps&quot;: [&quot;my_node ran&quot;]}
+
+# ── 3. GRAPH BUILDER ──────────────────────────────────────────
+builder = StateGraph(MyState)
+builder.add_node(&quot;my_node&quot;, my_node)
+
+# ── 4. EDGES ──────────────────────────────────────────────────
+# Direct edge: always go from A → B
+builder.add_edge(START, &quot;my_node&quot;)
+builder.add_edge(&quot;my_node&quot;, END)
+
+# Conditional edge (covered in section 4)
+# builder.add_conditional_edges(&quot;node_a&quot;, routing_fn, {&quot;yes&quot;: &quot;node_b&quot;, &quot;no&quot;: &quot;node_c&quot;})
+
+# ── 5. COMPILE ────────────────────────────────────────────────
+# Optionally pass a checkpointer for persistence
+graph = builder.compile()
+
+# ── 6. INVOKE ─────────────────────────────────────────────────
+result = graph.invoke({&quot;input&quot;: &quot;hello&quot;, &quot;steps&quot;: []})
+print(result)  # {'input': 'hello', 'result': 'HELLO', 'steps': ['my_node ran']}
+</code></pre>
+<hr />
+<h2 id="3-your-first-graph">3. Your First Graph</h2>
+<p>A simple 3-node pipeline: <strong>input_node → process_node → output_node</strong></p>
+<pre><code class="language-python">import subprocess
+from openai import OpenAI
+from typing import TypedDict
+from langgraph.graph import StateGraph, START, END
+
+# Auth
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+client = OpenAI(base_url=&quot;https://models.inference.ai.azure.com&quot;, api_key=token)
+
+# ── State ─────────────────────────────────────────────────────
+class PipelineState(TypedDict):
+    raw_input: str
+    cleaned_input: str
+    llm_response: str
+    final_output: str
+
+# ── Nodes ─────────────────────────────────────────────────────
+def input_node(state: PipelineState) -&gt; dict:
+    &quot;&quot;&quot;Normalize the raw input.&quot;&quot;&quot;
+    cleaned = state[&quot;raw_input&quot;].strip().lower()
+    print(f&quot;[input_node] cleaned: {cleaned!r}&quot;)
+    return {&quot;cleaned_input&quot;: cleaned}
+
+def process_node(state: PipelineState) -&gt; dict:
+    &quot;&quot;&quot;Send to LLM.&quot;&quot;&quot;
+    response = client.chat.completions.create(
+        model=&quot;gpt-4o-mini&quot;,
+        messages=[
+            {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;You are a helpful assistant. Answer concisely.&quot;},
+            {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: state[&quot;cleaned_input&quot;]},
+        ],
+        max_tokens=200,
+    )
+    answer = response.choices[0].message.content
+    print(f&quot;[process_node] LLM response: {answer[:80]}...&quot;)
+    return {&quot;llm_response&quot;: answer}
+
+def output_node(state: PipelineState) -&gt; dict:
+    &quot;&quot;&quot;Format the final output.&quot;&quot;&quot;
+    final = f&quot;=== ANSWER ===\n{state['llm_response']}\n==============&quot;
+    print(f&quot;[output_node] formatted output ready&quot;)
+    return {&quot;final_output&quot;: final}
+
+# ── Build Graph ───────────────────────────────────────────────
+builder = StateGraph(PipelineState)
+builder.add_node(&quot;input_node&quot;, input_node)
+builder.add_node(&quot;process_node&quot;, process_node)
+builder.add_node(&quot;output_node&quot;, output_node)
+
+builder.add_edge(START, &quot;input_node&quot;)
+builder.add_edge(&quot;input_node&quot;, &quot;process_node&quot;)
+builder.add_edge(&quot;process_node&quot;, &quot;output_node&quot;)
+builder.add_edge(&quot;output_node&quot;, END)
+
+graph = builder.compile()
+
+# ── Run ───────────────────────────────────────────────────────
+result = graph.invoke({
+    &quot;raw_input&quot;: &quot;  What is LangGraph?  &quot;,
+    &quot;cleaned_input&quot;: &quot;&quot;,
+    &quot;llm_response&quot;: &quot;&quot;,
+    &quot;final_output&quot;: &quot;&quot;,
+})
+print(result[&quot;final_output&quot;])
+</code></pre>
+<hr />
+<h2 id="4-conditional-routing">4. Conditional Routing</h2>
+<p><code>add_conditional_edges()</code> lets a node branch to different next nodes based on a routing function.</p>
+<pre><code class="language-python">import subprocess
+from openai import OpenAI
+from typing import TypedDict, Literal
+from langgraph.graph import StateGraph, START, END
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+client = OpenAI(base_url=&quot;https://models.inference.ai.azure.com&quot;, api_key=token)
+
+# ── State ─────────────────────────────────────────────────────
+class RAGState(TypedDict):
+    question: str
+    document: str
+    grade: str          # &quot;relevant&quot; | &quot;not_relevant&quot;
+    answer: str
+    web_results: str
+
+# ── Nodes ─────────────────────────────────────────────────────
+def retrieve_node(state: RAGState) -&gt; dict:
+    # Simulate retrieval
+    fake_doc = &quot;LangGraph is a stateful agent framework built on LangChain.&quot;
+    print(f&quot;[retrieve] fetched document&quot;)
+    return {&quot;document&quot;: fake_doc}
+
+def grade_node(state: RAGState) -&gt; dict:
+    &quot;&quot;&quot;Ask LLM to grade document relevance.&quot;&quot;&quot;
+    prompt = f&quot;&quot;&quot;Does this document answer the question?
+Question: {state['question']}
+Document: {state['document']}
+Reply with exactly one word: relevant or not_relevant&quot;&quot;&quot;
+    resp = client.chat.completions.create(
+        model=&quot;gpt-4o-mini&quot;,
+        messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: prompt}],
+        max_tokens=10,
+    )
+    grade = resp.choices[0].message.content.strip().lower()
+    grade = &quot;relevant&quot; if &quot;relevant&quot; in grade and &quot;not&quot; not in grade else &quot;not_relevant&quot;
+    print(f&quot;[grade] document is: {grade}&quot;)
+    return {&quot;grade&quot;: grade}
+
+def answer_node(state: RAGState) -&gt; dict:
+    &quot;&quot;&quot;Generate answer from retrieved document.&quot;&quot;&quot;
+    prompt = f&quot;Answer using this document:\n{state['document']}\n\nQuestion: {state['question']}&quot;
+    resp = client.chat.completions.create(
+        model=&quot;gpt-4o-mini&quot;,
+        messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: prompt}],
+        max_tokens=200,
+    )
+    return {&quot;answer&quot;: resp.choices[0].message.content}
+
+def web_search_node(state: RAGState) -&gt; dict:
+    &quot;&quot;&quot;Fallback: simulate web search.&quot;&quot;&quot;
+    print(f&quot;[web_search] document was irrelevant, searching web...&quot;)
+    web_result = f&quot;Web result: LangGraph enables stateful multi-agent workflows.&quot;
+    return {&quot;web_results&quot;: web_result, &quot;answer&quot;: f&quot;Based on web search: {web_result}&quot;}
+
+# ── Routing Function ──────────────────────────────────────────
+def route_after_grading(state: RAGState) -&gt; Literal[&quot;answer_node&quot;, &quot;web_search_node&quot;]:
+    &quot;&quot;&quot;Return the name of the next node.&quot;&quot;&quot;
+    if state[&quot;grade&quot;] == &quot;relevant&quot;:
+        return &quot;answer_node&quot;
+    return &quot;web_search_node&quot;
+
+# ── Build Graph ───────────────────────────────────────────────
+builder = StateGraph(RAGState)
+builder.add_node(&quot;retrieve_node&quot;, retrieve_node)
+builder.add_node(&quot;grade_node&quot;, grade_node)
+builder.add_node(&quot;answer_node&quot;, answer_node)
+builder.add_node(&quot;web_search_node&quot;, web_search_node)
+
+builder.add_edge(START, &quot;retrieve_node&quot;)
+builder.add_edge(&quot;retrieve_node&quot;, &quot;grade_node&quot;)
+
+# Conditional: grade_node → route_after_grading() → answer_node OR web_search_node
+builder.add_conditional_edges(
+    &quot;grade_node&quot;,
+    route_after_grading,
+    {
+        &quot;answer_node&quot;: &quot;answer_node&quot;,
+        &quot;web_search_node&quot;: &quot;web_search_node&quot;,
+    },
+)
+builder.add_edge(&quot;answer_node&quot;, END)
+builder.add_edge(&quot;web_search_node&quot;, END)
+
+graph = builder.compile()
+
+result = graph.invoke({
+    &quot;question&quot;: &quot;What is LangGraph?&quot;,
+    &quot;document&quot;: &quot;&quot;, &quot;grade&quot;: &quot;&quot;, &quot;answer&quot;: &quot;&quot;, &quot;web_results&quot;: &quot;&quot;,
+})
+print(&quot;ANSWER:&quot;, result[&quot;answer&quot;])
+</code></pre>
+<hr />
+<h2 id="5-checkpointing-persistence">5. Checkpointing &amp; Persistence</h2>
+<p>Checkpointers save graph state after every node so you can resume after crashes, support long-running jobs, and isolate sessions with <code>thread_id</code>.</p>
+<h3 id="memorysaver-in-memory-lost-on-restart">MemorySaver (in-memory, lost on restart)</h3>
+<pre><code class="language-python">from langgraph.checkpoint.memory import MemorySaver
+from langgraph.graph import StateGraph, START, END
+from typing import TypedDict, Annotated
+import operator
+
+class CountState(TypedDict):
+    count: int
+    messages: Annotated[list[str], operator.add]
+
+def increment(state: CountState) -&gt; dict:
+    new_count = state[&quot;count&quot;] + 1
+    print(f&quot;[increment] count = {new_count}&quot;)
+    return {&quot;count&quot;: new_count, &quot;messages&quot;: [f&quot;incremented to {new_count}&quot;]}
+
+builder = StateGraph(CountState)
+builder.add_node(&quot;increment&quot;, increment)
+builder.add_edge(START, &quot;increment&quot;)
+builder.add_edge(&quot;increment&quot;, END)
+
+memory = MemorySaver()
+graph = builder.compile(checkpointer=memory)
+
+# thread_id isolates different sessions
+config_a = {&quot;configurable&quot;: {&quot;thread_id&quot;: &quot;session-001&quot;}}
+config_b = {&quot;configurable&quot;: {&quot;thread_id&quot;: &quot;session-002&quot;}}
+
+# Session A: run 3 times — state accumulates
+graph.invoke({&quot;count&quot;: 0, &quot;messages&quot;: []}, config=config_a)
+graph.invoke({&quot;count&quot;: 0, &quot;messages&quot;: []}, config=config_a)  # count: 2
+result_a = graph.invoke({&quot;count&quot;: 0, &quot;messages&quot;: []}, config=config_a)
+print(&quot;Session A count:&quot;, result_a[&quot;count&quot;])   # 3
+print(&quot;Session A messages:&quot;, result_a[&quot;messages&quot;])  # 3 entries
+
+# Session B: independent
+result_b = graph.invoke({&quot;count&quot;: 0, &quot;messages&quot;: []}, config=config_b)
+print(&quot;Session B count:&quot;, result_b[&quot;count&quot;])   # 1
+</code></pre>
+<h3 id="sqlitesaver-persistent-across-process-restarts">SqliteSaver (persistent across process restarts)</h3>
+<pre><code class="language-python">from langgraph.checkpoint.sqlite import SqliteSaver
+from langgraph.graph import StateGraph, START, END
+from typing import TypedDict
+import sqlite3
+
+class JobState(TypedDict):
+    job_id: str
+    status: str
+    result: str
+
+def process_job(state: JobState) -&gt; dict:
+    print(f&quot;[process_job] Processing {state['job_id']}&quot;)
+    return {&quot;status&quot;: &quot;completed&quot;, &quot;result&quot;: f&quot;Done processing {state['job_id']}&quot;}
+
+builder = StateGraph(JobState)
+builder.add_node(&quot;process_job&quot;, process_job)
+builder.add_edge(START, &quot;process_job&quot;)
+builder.add_edge(&quot;process_job&quot;, END)
+
+# Uses a local SQLite file — survives restarts
+DB_PATH = &quot;graph_checkpoints.db&quot;
+conn = sqlite3.connect(DB_PATH, check_same_thread=False)
+saver = SqliteSaver(conn)
+graph = builder.compile(checkpointer=saver)
+
+config = {&quot;configurable&quot;: {&quot;thread_id&quot;: &quot;job-abc-123&quot;}}
+result = graph.invoke({&quot;job_id&quot;: &quot;abc-123&quot;, &quot;status&quot;: &quot;pending&quot;, &quot;result&quot;: &quot;&quot;}, config=config)
+print(result)
+
+# To resume / inspect state after a crash:
+checkpoint = graph.get_state(config)
+print(&quot;Saved state:&quot;, checkpoint.values)
+
+# To get full history:
+for snapshot in graph.get_state_history(config):
+    print(f&quot;  step={snapshot.metadata.get('step')}, values={snapshot.values}&quot;)
+
+conn.close()
+</code></pre>
+<h3 id="simulating-crash-and-resume">Simulating Crash and Resume</h3>
+<pre><code class="language-python">import sqlite3
+from langgraph.checkpoint.sqlite import SqliteSaver
+from langgraph.graph import StateGraph, START, END
+from typing import TypedDict
+
+class WorkflowState(TypedDict):
+    stage: str
+    data: str
+
+CRASH_SIMULATION = False  # set True to simulate crash
+
+def stage_one(state: WorkflowState) -&gt; dict:
+    print(&quot;[stage_one] running&quot;)
+    return {&quot;stage&quot;: &quot;after_one&quot;, &quot;data&quot;: &quot;stage1_data&quot;}
+
+def stage_two(state: WorkflowState) -&gt; dict:
+    if CRASH_SIMULATION:
+        raise RuntimeError(&quot;Simulated crash in stage_two!&quot;)
+    print(&quot;[stage_two] running&quot;)
+    return {&quot;stage&quot;: &quot;complete&quot;, &quot;data&quot;: state[&quot;data&quot;] + &quot;+stage2_data&quot;}
+
+builder = StateGraph(WorkflowState)
+builder.add_node(&quot;stage_one&quot;, stage_one)
+builder.add_node(&quot;stage_two&quot;, stage_two)
+builder.add_edge(START, &quot;stage_one&quot;)
+builder.add_edge(&quot;stage_one&quot;, &quot;stage_two&quot;)
+builder.add_edge(&quot;stage_two&quot;, END)
+
+conn = sqlite3.connect(&quot;:memory:&quot;, check_same_thread=False)
+graph = builder.compile(checkpointer=SqliteSaver(conn))
+config = {&quot;configurable&quot;: {&quot;thread_id&quot;: &quot;resume-demo&quot;}}
+
+# First run (may crash at stage_two)
+try:
+    result = graph.invoke({&quot;stage&quot;: &quot;start&quot;, &quot;data&quot;: &quot;&quot;}, config=config)
+    print(&quot;Completed:&quot;, result)
+except Exception as e:
+    print(f&quot;Crashed: {e}&quot;)
+    # Fix the issue, then resume from last checkpoint:
+    CRASH_SIMULATION = False
+    saved = graph.get_state(config)
+    print(&quot;Resuming from stage:&quot;, saved.values.get(&quot;stage&quot;))
+    result = graph.invoke(None, config=config)  # None = resume from checkpoint
+    print(&quot;Resumed result:&quot;, result)
+</code></pre>
+<hr />
+<h2 id="6-human-in-the-loop">6. Human-in-the-Loop</h2>
+<p>LangGraph supports pausing execution to wait for human input.</p>
+<h3 id="interrupt_before-interrupt_after">interrupt_before / interrupt_after</h3>
+<pre><code class="language-python">import subprocess
+from openai import OpenAI
+from typing import TypedDict
+from langgraph.graph import StateGraph, START, END
+from langgraph.checkpoint.memory import MemorySaver
+from langgraph.errors import NodeInterrupt
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+client = OpenAI(base_url=&quot;https://models.inference.ai.azure.com&quot;, api_key=token)
+
+class CodeReviewState(TypedDict):
+    task: str
+    generated_code: str
+    human_feedback: str
+    final_code: str
+    approved: bool
+
+def write_code(state: CodeReviewState) -&gt; dict:
+    &quot;&quot;&quot;AI generates code.&quot;&quot;&quot;
+    prompt = f&quot;Write a Python function for: {state['task']}\nReturn only the code, no explanation.&quot;
+    resp = client.chat.completions.create(
+        model=&quot;gpt-4o-mini&quot;,
+        messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: prompt}],
+        max_tokens=300,
+    )
+    code = resp.choices[0].message.content
+    print(f&quot;[write_code] Generated:\n{code}&quot;)
+    return {&quot;generated_code&quot;: code}
+
+def human_review(state: CodeReviewState) -&gt; dict:
+    &quot;&quot;&quot;
+    This node raises NodeInterrupt — graph pauses here.
+    The caller (human) reads the state, decides, then resumes.
+    &quot;&quot;&quot;
+    raise NodeInterrupt(
+        f&quot;Human review required!\n\nGenerated code:\n{state['generated_code']}\n\n&quot;
+        &quot;Call graph.update_state() with {'human_feedback': '...', 'approved': True/False}&quot;
+    )
+
+def revise_or_finalize(state: CodeReviewState) -&gt; dict:
+    &quot;&quot;&quot;Incorporate feedback or finalize.&quot;&quot;&quot;
+    if state.get(&quot;approved&quot;):
+        print(&quot;[revise_or_finalize] Approved! Finalizing.&quot;)
+        return {&quot;final_code&quot;: state[&quot;generated_code&quot;]}
+    # Revise based on feedback
+    prompt = (
+        f&quot;Original code:\n{state['generated_code']}\n\n&quot;
+        f&quot;Human feedback: {state['human_feedback']}\n\n&quot;
+        &quot;Revise the code to address the feedback. Return only code.&quot;
+    )
+    resp = client.chat.completions.create(
+        model=&quot;gpt-4o-mini&quot;,
+        messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: prompt}],
+        max_tokens=300,
+    )
+    revised = resp.choices[0].message.content
+    print(f&quot;[revise_or_finalize] Revised code ready&quot;)
+    return {&quot;final_code&quot;: revised}
+
+# ── Build ─────────────────────────────────────────────────────
+builder = StateGraph(CodeReviewState)
+builder.add_node(&quot;write_code&quot;, write_code)
+builder.add_node(&quot;human_review&quot;, human_review)
+builder.add_node(&quot;revise_or_finalize&quot;, revise_or_finalize)
+
+builder.add_edge(START, &quot;write_code&quot;)
+builder.add_edge(&quot;write_code&quot;, &quot;human_review&quot;)
+builder.add_edge(&quot;human_review&quot;, &quot;revise_or_finalize&quot;)
+builder.add_edge(&quot;revise_or_finalize&quot;, END)
+
+memory = MemorySaver()
+graph = builder.compile(checkpointer=memory, interrupt_before=[&quot;human_review&quot;])
+config = {&quot;configurable&quot;: {&quot;thread_id&quot;: &quot;code-review-001&quot;}}
+
+# ── Step 1: Run until interrupt ───────────────────────────────
+initial_state = {
+    &quot;task&quot;: &quot;sort a list of dictionaries by a given key&quot;,
+    &quot;generated_code&quot;: &quot;&quot;,
+    &quot;human_feedback&quot;: &quot;&quot;,
+    &quot;final_code&quot;: &quot;&quot;,
+    &quot;approved&quot;: False,
+}
+for event in graph.stream(initial_state, config=config):
+    print(&quot;Event:&quot;, list(event.keys()))
+
+print(&quot;\n--- GRAPH PAUSED — waiting for human review ---&quot;)
+current = graph.get_state(config)
+print(&quot;Current node:&quot;, current.next)
+
+# ── Step 2: Human reviews and updates state ───────────────────
+graph.update_state(
+    config,
+    {&quot;human_feedback&quot;: &quot;Add type hints and a docstring&quot;, &quot;approved&quot;: False},
+)
+
+# ── Step 3: Resume ────────────────────────────────────────────
+print(&quot;\n--- RESUMING GRAPH ---&quot;)
+final = graph.invoke(None, config=config)
+print(&quot;\nFinal Code:\n&quot;, final[&quot;final_code&quot;])
+</code></pre>
+<h3 id="using-interrupt_after">Using interrupt_after</h3>
+<pre><code class="language-python"># interrupt_after pauses AFTER the named node completes.
+# Useful when you want to see the output before deciding to continue.
+graph_after = builder.compile(
+    checkpointer=MemorySaver(),
+    interrupt_after=[&quot;write_code&quot;],  # pause after write_code, before human_review
+)
+</code></pre>
+<hr />
+<h2 id="7-multi-agent-patterns">7. Multi-Agent Patterns</h2>
+<h3 id="supervisor-pattern">Supervisor Pattern</h3>
+<p>One orchestrator node decides which specialist agent to invoke next.</p>
+<pre><code class="language-python">import subprocess
+from openai import OpenAI
+from typing import TypedDict, Literal, Annotated
+import operator
+from langgraph.graph import StateGraph, START, END
+from langgraph.checkpoint.memory import MemorySaver
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+client = OpenAI(base_url=&quot;https://models.inference.ai.azure.com&quot;, api_key=token)
+
+AGENTS = [&quot;researcher&quot;, &quot;writer&quot;, &quot;reviewer&quot;]
+
+class SupervisorState(TypedDict):
+    task: str
+    research: str
+    draft: str
+    review: str
+    final_article: str
+    next_agent: str
+    iteration: int
+    log: Annotated[list[str], operator.add]
+
+def _llm(prompt: str, max_tokens: int = 400) -&gt; str:
+    resp = client.chat.completions.create(
+        model=&quot;gpt-4o-mini&quot;,
+        messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: prompt}],
+        max_tokens=max_tokens,
+    )
+    return resp.choices[0].message.content.strip()
+
+# ── Supervisor ────────────────────────────────────────────────
+def supervisor(state: SupervisorState) -&gt; dict:
+    &quot;&quot;&quot;Decide which agent to call next.&quot;&quot;&quot;
+    context = (
+        f&quot;Task: {state['task']}\n&quot;
+        f&quot;Research done: {'Yes' if state['research'] else 'No'}\n&quot;
+        f&quot;Draft done: {'Yes' if state['draft'] else 'No'}\n&quot;
+        f&quot;Review done: {'Yes' if state['review'] else 'No'}\n&quot;
+        f&quot;Iteration: {state['iteration']}\n\n&quot;
+        &quot;Choose the next agent: researcher, writer, reviewer, or FINISH.\n&quot;
+        &quot;Reply with exactly one word.&quot;
+    )
+    decision = _llm(context, max_tokens=10).lower()
+    if &quot;finish&quot; in decision or state[&quot;iteration&quot;] &gt;= 3:
+        decision = &quot;FINISH&quot;
+    print(f&quot;[supervisor] → {decision}&quot;)
+    return {&quot;next_agent&quot;: decision, &quot;log&quot;: [f&quot;supervisor decided: {decision}&quot;]}
+
+def researcher(state: SupervisorState) -&gt; dict:
+    research = _llm(f&quot;Research this topic thoroughly: {state['task']}&quot;)
+    print(f&quot;[researcher] done&quot;)
+    return {&quot;research&quot;: research, &quot;iteration&quot;: state[&quot;iteration&quot;] + 1, &quot;log&quot;: [&quot;researcher completed&quot;]}
+
+def writer(state: SupervisorState) -&gt; dict:
+    draft = _llm(f&quot;Write an article about: {state['task']}\n\nResearch notes:\n{state['research']}&quot;)
+    print(f&quot;[writer] done&quot;)
+    return {&quot;draft&quot;: draft, &quot;log&quot;: [&quot;writer completed&quot;]}
+
+def reviewer(state: SupervisorState) -&gt; dict:
+    review = _llm(
+        f&quot;Review this article and give concise improvement suggestions:\n{state['draft']}&quot;
+    )
+    # Auto-apply review for demo
+    final = _llm(f&quot;Improve this article based on review:\nArticle:\n{state['draft']}\nReview:\n{review}&quot;)
+    print(f&quot;[reviewer] done&quot;)
+    return {&quot;review&quot;: review, &quot;final_article&quot;: final, &quot;log&quot;: [&quot;reviewer completed&quot;]}
+
+# ── Routing ───────────────────────────────────────────────────
+def route_supervisor(state: SupervisorState) -&gt; str:
+    next_a = state.get(&quot;next_agent&quot;, &quot;&quot;)
+    if next_a == &quot;FINISH&quot; or &quot;finish&quot; in next_a:
+        return END
+    return next_a if next_a in AGENTS else END
+
+# ── Build ─────────────────────────────────────────────────────
+builder = StateGraph(SupervisorState)
+builder.add_node(&quot;supervisor&quot;, supervisor)
+builder.add_node(&quot;researcher&quot;, researcher)
+builder.add_node(&quot;writer&quot;, writer)
+builder.add_node(&quot;reviewer&quot;, reviewer)
+
+builder.add_edge(START, &quot;supervisor&quot;)
+builder.add_conditional_edges(&quot;supervisor&quot;, route_supervisor, {
+    &quot;researcher&quot;: &quot;researcher&quot;,
+    &quot;writer&quot;: &quot;writer&quot;,
+    &quot;reviewer&quot;: &quot;reviewer&quot;,
+    END: END,
+})
+# All agents report back to supervisor
+for agent in AGENTS:
+    builder.add_edge(agent, &quot;supervisor&quot;)
+
+graph = builder.compile(checkpointer=MemorySaver())
+config = {&quot;configurable&quot;: {&quot;thread_id&quot;: &quot;supervisor-demo&quot;}}
+
+result = graph.invoke({
+    &quot;task&quot;: &quot;The impact of LangGraph on AI agent development&quot;,
+    &quot;research&quot;: &quot;&quot;, &quot;draft&quot;: &quot;&quot;, &quot;review&quot;: &quot;&quot;, &quot;final_article&quot;: &quot;&quot;,
+    &quot;next_agent&quot;: &quot;&quot;, &quot;iteration&quot;: 0, &quot;log&quot;: [],
+}, config=config)
+
+print(&quot;\n=== FINAL ARTICLE (excerpt) ===&quot;)
+print((result.get(&quot;final_article&quot;) or result.get(&quot;draft&quot;, &quot;&quot;))[:500])
+print(&quot;\n=== LOG ===&quot;)
+for entry in result[&quot;log&quot;]:
+    print(&quot; -&quot;, entry)
+</code></pre>
+<h3 id="swarm-pattern-agents-hand-off-to-each-other">Swarm Pattern (agents hand off to each other)</h3>
+<pre><code class="language-python">from typing import TypedDict
+from langgraph.graph import StateGraph, START, END
+
+class SwarmState(TypedDict):
+    task: str
+    current_agent: str
+    output: str
+
+# In the swarm pattern each agent decides the next agent itself
+# (no central supervisor)
+def agent_a(state: SwarmState) -&gt; dict:
+    print(&quot;[Agent A] handling task, handing off to Agent B&quot;)
+    return {&quot;current_agent&quot;: &quot;agent_b&quot;, &quot;output&quot;: state[&quot;output&quot;] + &quot; [A processed]&quot;}
+
+def agent_b(state: SwarmState) -&gt; dict:
+    print(&quot;[Agent B] finalizing&quot;)
+    return {&quot;current_agent&quot;: &quot;done&quot;, &quot;output&quot;: state[&quot;output&quot;] + &quot; [B finalized]&quot;}
+
+def route_swarm(state: SwarmState) -&gt; str:
+    return state[&quot;current_agent&quot;] if state[&quot;current_agent&quot;] != &quot;done&quot; else END
+
+builder = StateGraph(SwarmState)
+builder.add_node(&quot;agent_a&quot;, agent_a)
+builder.add_node(&quot;agent_b&quot;, agent_b)
+builder.add_edge(START, &quot;agent_a&quot;)
+builder.add_conditional_edges(&quot;agent_a&quot;, route_swarm, {&quot;agent_b&quot;: &quot;agent_b&quot;, END: END})
+builder.add_edge(&quot;agent_b&quot;, END)
+
+swarm = builder.compile()
+print(swarm.invoke({&quot;task&quot;: &quot;analyze data&quot;, &quot;current_agent&quot;: &quot;agent_a&quot;, &quot;output&quot;: &quot;&quot;}))
+</code></pre>
+<hr />
+<h2 id="8-streaming">8. Streaming</h2>
+<h3 id="stream-modes">stream() modes</h3>
+<pre><code class="language-python">import subprocess
+from openai import OpenAI
+from typing import TypedDict, Annotated
+import operator
+from langgraph.graph import StateGraph, START, END
+from langgraph.checkpoint.memory import MemorySaver
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+client = OpenAI(base_url=&quot;https://models.inference.ai.azure.com&quot;, api_key=token)
+
+class ChatState(TypedDict):
+    messages: Annotated[list[dict], operator.add]
+    response: str
+
+def chat_node(state: ChatState) -&gt; dict:
+    resp = client.chat.completions.create(
+        model=&quot;gpt-4o-mini&quot;,
+        messages=state[&quot;messages&quot;],
+        max_tokens=300,
+        stream=True,
+    )
+    full_response = &quot;&quot;
+    print(&quot;[chat_node] streaming: &quot;, end=&quot;&quot;, flush=True)
+    for chunk in resp:
+        delta = chunk.choices[0].delta.content or &quot;&quot;
+        print(delta, end=&quot;&quot;, flush=True)
+        full_response += delta
+    print()  # newline
+    return {
+        &quot;response&quot;: full_response,
+        &quot;messages&quot;: [{&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: full_response}],
+    }
+
+builder = StateGraph(ChatState)
+builder.add_node(&quot;chat_node&quot;, chat_node)
+builder.add_edge(START, &quot;chat_node&quot;)
+builder.add_edge(&quot;chat_node&quot;, END)
+
+memory = MemorySaver()
+graph = builder.compile(checkpointer=memory)
+config = {&quot;configurable&quot;: {&quot;thread_id&quot;: &quot;chat-stream-demo&quot;}}
+
+initial = {
+    &quot;messages&quot;: [{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;What are 3 benefits of LangGraph?&quot;}],
+    &quot;response&quot;: &quot;&quot;,
+}
+
+# ── stream_mode=&quot;values&quot; → full state snapshot after each node ──
+print(&quot;\n=== stream_mode='values' ===&quot;)
+for state_snapshot in graph.stream(initial, config=config, stream_mode=&quot;values&quot;):
+    print(f&quot;  keys: {list(state_snapshot.keys())}&quot;)
+
+# ── stream_mode=&quot;updates&quot; → only the changed keys from each node ──
+print(&quot;\n=== stream_mode='updates' ===&quot;)
+config2 = {&quot;configurable&quot;: {&quot;thread_id&quot;: &quot;chat-stream-demo-2&quot;}}
+for node_name, updates in graph.stream(initial, config=config2, stream_mode=&quot;updates&quot;):
+    print(f&quot;  node={node_name}, updated_keys={list(updates.keys())}&quot;)
+
+# ── stream_mode=&quot;debug&quot; → verbose internal events ──
+print(&quot;\n=== stream_mode='debug' (first 3 events) ===&quot;)
+config3 = {&quot;configurable&quot;: {&quot;thread_id&quot;: &quot;chat-stream-demo-3&quot;}}
+events = list(graph.stream(initial, config=config3, stream_mode=&quot;debug&quot;))
+for evt in events[:3]:
+    print(f&quot;  type={evt.get('type')}, step={evt.get('step')}&quot;)
+</code></pre>
+<h3 id="async-streaming">Async Streaming</h3>
+<pre><code class="language-python">import asyncio
+import subprocess
+from openai import AsyncOpenAI
+from typing import TypedDict, Annotated
+import operator
+from langgraph.graph import StateGraph, START, END
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+async_client = AsyncOpenAI(base_url=&quot;https://models.inference.ai.azure.com&quot;, api_key=token)
+
+class AsyncChatState(TypedDict):
+    question: str
+    answer: str
+
+async def async_llm_node(state: AsyncChatState) -&gt; dict:
+    resp = await async_client.chat.completions.create(
+        model=&quot;gpt-4o-mini&quot;,
+        messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: state[&quot;question&quot;]}],
+        max_tokens=200,
+    )
+    return {&quot;answer&quot;: resp.choices[0].message.content}
+
+builder = StateGraph(AsyncChatState)
+builder.add_node(&quot;llm&quot;, async_llm_node)
+builder.add_edge(START, &quot;llm&quot;)
+builder.add_edge(&quot;llm&quot;, END)
+async_graph = builder.compile()
+
+async def main():
+    async for chunk in async_graph.astream(
+        {&quot;question&quot;: &quot;What is astream in LangGraph?&quot;, &quot;answer&quot;: &quot;&quot;},
+        stream_mode=&quot;updates&quot;,
+    ):
+        node, updates = chunk
+        print(f&quot;[{node}] answer: {updates.get('answer', '')[:100]}&quot;)
+
+asyncio.run(main())
+</code></pre>
+<hr />
+<h2 id="9-tool-calling-nodes">9. Tool Calling Nodes</h2>
+<h3 id="create_react_agent-shortcut">create_react_agent() Shortcut</h3>
+<pre><code class="language-python">import subprocess
+from openai import OpenAI
+from langchain_openai import ChatOpenAI
+from langchain_core.tools import tool
+from langgraph.prebuilt import create_react_agent
+from langgraph.checkpoint.memory import MemorySaver
+
+gh_token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+
+llm = ChatOpenAI(
+    model=&quot;gpt-4o-mini&quot;,
+    base_url=&quot;https://models.inference.ai.azure.com&quot;,
+    api_key=gh_token,
+)
+
+# ── Define 3 custom tools ─────────────────────────────────────
+@tool
+def calculator(expression: str) -&gt; str:
+    &quot;&quot;&quot;Evaluate a mathematical expression. Example: '2 + 2 * 10'&quot;&quot;&quot;
+    try:
+        result = eval(expression, {&quot;__builtins__&quot;: {}})
+        return str(result)
+    except Exception as e:
+        return f&quot;Error: {e}&quot;
+
+@tool
+def word_count(text: str) -&gt; str:
+    &quot;&quot;&quot;Count the number of words in the given text.&quot;&quot;&quot;
+    count = len(text.split())
+    return f&quot;{count} words&quot;
+
+@tool
+def reverse_string(text: str) -&gt; str:
+    &quot;&quot;&quot;Reverse the characters in a string.&quot;&quot;&quot;
+    return text[::-1]
+
+# ── Create ReAct agent in one line ───────────────────────────
+memory = MemorySaver()
+agent = create_react_agent(
+    model=llm,
+    tools=[calculator, word_count, reverse_string],
+    checkpointer=memory,
+)
+
+config = {&quot;configurable&quot;: {&quot;thread_id&quot;: &quot;react-demo&quot;}}
+result = agent.invoke(
+    {&quot;messages&quot;: [{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;What is 15 * 23 + 7? Also reverse the word 'LangGraph'.&quot;}]},
+    config=config,
+)
+for msg in result[&quot;messages&quot;]:
+    print(f&quot;[{msg.type}]: {msg.content[:200] if hasattr(msg, 'content') else msg}&quot;)
+</code></pre>
+<h3 id="custom-toolnode">Custom ToolNode</h3>
+<pre><code class="language-python">import json
+import subprocess
+from openai import OpenAI
+from typing import TypedDict, Annotated
+import operator
+from langchain_core.messages import BaseMessage, HumanMessage, AIMessage, ToolMessage
+from langchain_core.tools import tool
+from langchain_openai import ChatOpenAI
+from langgraph.prebuilt import ToolNode
+from langgraph.graph import StateGraph, START, END, MessagesState
+
+gh_token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+llm = ChatOpenAI(
+    model=&quot;gpt-4o-mini&quot;,
+    base_url=&quot;https://models.inference.ai.azure.com&quot;,
+    api_key=gh_token,
+)
+
+@tool
+def get_weather(city: str) -&gt; str:
+    &quot;&quot;&quot;Get current weather for a city (simulated).&quot;&quot;&quot;
+    fake_data = {&quot;london&quot;: &quot;15°C, cloudy&quot;, &quot;tokyo&quot;: &quot;22°C, sunny&quot;, &quot;new york&quot;: &quot;18°C, partly cloudy&quot;}
+    return fake_data.get(city.lower(), f&quot;Weather data unavailable for {city}&quot;)
+
+tools = [get_weather]
+llm_with_tools = llm.bind_tools(tools)
+tool_node = ToolNode(tools)
+
+def call_llm(state: MessagesState) -&gt; dict:
+    response = llm_with_tools.invoke(state[&quot;messages&quot;])
+    return {&quot;messages&quot;: [response]}
+
+def should_continue(state: MessagesState) -&gt; str:
+    last = state[&quot;messages&quot;][-1]
+    if hasattr(last, &quot;tool_calls&quot;) and last.tool_calls:
+        return &quot;tools&quot;
+    return END
+
+builder = StateGraph(MessagesState)
+builder.add_node(&quot;llm&quot;, call_llm)
+builder.add_node(&quot;tools&quot;, tool_node)
+builder.add_edge(START, &quot;llm&quot;)
+builder.add_conditional_edges(&quot;llm&quot;, should_continue, {&quot;tools&quot;: &quot;tools&quot;, END: END})
+builder.add_edge(&quot;tools&quot;, &quot;llm&quot;)
+
+agent_graph = builder.compile()
+result = agent_graph.invoke({
+    &quot;messages&quot;: [HumanMessage(content=&quot;What's the weather in London and Tokyo?&quot;)]
+})
+print(result[&quot;messages&quot;][-1].content)
+</code></pre>
+<hr />
+<h2 id="10-subgraphs">10. Subgraphs</h2>
+<p>Subgraphs let you encapsulate complex logic into reusable components.</p>
+<pre><code class="language-python">import subprocess
+from openai import OpenAI
+from typing import TypedDict
+from langgraph.graph import StateGraph, START, END
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+client = OpenAI(base_url=&quot;https://models.inference.ai.azure.com&quot;, api_key=token)
+
+def _llm(prompt: str, max_tokens: int = 300) -&gt; str:
+    resp = client.chat.completions.create(
+        model=&quot;gpt-4o-mini&quot;,
+        messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: prompt}],
+        max_tokens=max_tokens,
+    )
+    return resp.choices[0].message.content.strip()
+
+# ── SUBGRAPH: Code Review ─────────────────────────────────────
+# The subgraph has its OWN state schema.
+# Keys shared with parent must have the same name and type.
+
+class CodeReviewSubState(TypedDict):
+    code: str           # shared with parent (same name + type)
+    review_comments: str
+    quality_score: int
+
+def syntax_check(state: CodeReviewSubState) -&gt; dict:
+    result = _llm(f&quot;Check this code for syntax errors. Reply 'OK' or list errors:\n{state['code']}&quot;, 50)
+    print(f&quot;  [subgraph:syntax_check] {result[:60]}&quot;)
+    return {&quot;review_comments&quot;: f&quot;Syntax: {result}&quot;}
+
+def quality_check(state: CodeReviewSubState) -&gt; dict:
+    result = _llm(
+        f&quot;Rate this code quality from 1-10 and explain briefly:\n{state['code']}&quot;, 100
+    )
+    # Extract score (naive)
+    score = 7
+    for word in result.split():
+        if word.isdigit() and 1 &lt;= int(word) &lt;= 10:
+            score = int(word)
+            break
+    print(f&quot;  [subgraph:quality_check] score={score}&quot;)
+    return {&quot;quality_score&quot;: score, &quot;review_comments&quot;: state[&quot;review_comments&quot;] + f&quot; | Quality: {result[:80]}&quot;}
+
+sub_builder = StateGraph(CodeReviewSubState)
+sub_builder.add_node(&quot;syntax_check&quot;, syntax_check)
+sub_builder.add_node(&quot;quality_check&quot;, quality_check)
+sub_builder.add_edge(START, &quot;syntax_check&quot;)
+sub_builder.add_edge(&quot;syntax_check&quot;, &quot;quality_check&quot;)
+sub_builder.add_edge(&quot;quality_check&quot;, END)
+code_review_subgraph = sub_builder.compile()
+
+# ── PARENT GRAPH ──────────────────────────────────────────────
+class ParentState(TypedDict):
+    task: str
+    code: str           # shared key — LangGraph maps this to subgraph
+    review_comments: str
+    quality_score: int
+    deployment_decision: str
+
+def generate_code(state: ParentState) -&gt; dict:
+    code = _llm(f&quot;Write a simple Python function for: {state['task']}\nReturn only code.&quot;)
+    print(f&quot;[parent:generate_code] code generated&quot;)
+    return {&quot;code&quot;: code}
+
+def decide_deployment(state: ParentState) -&gt; dict:
+    if state.get(&quot;quality_score&quot;, 0) &gt;= 7:
+        decision = &quot;APPROVED — deploy to production&quot;
+    else:
+        decision = f&quot;REJECTED — quality score {state.get('quality_score')} &lt; 7&quot;
+    print(f&quot;[parent:decide_deployment] {decision}&quot;)
+    return {&quot;deployment_decision&quot;: decision}
+
+parent_builder = StateGraph(ParentState)
+parent_builder.add_node(&quot;generate_code&quot;, generate_code)
+parent_builder.add_node(&quot;code_review&quot;, code_review_subgraph)  # subgraph as node
+parent_builder.add_node(&quot;decide_deployment&quot;, decide_deployment)
+
+parent_builder.add_edge(START, &quot;generate_code&quot;)
+parent_builder.add_edge(&quot;generate_code&quot;, &quot;code_review&quot;)
+parent_builder.add_edge(&quot;code_review&quot;, &quot;decide_deployment&quot;)
+parent_builder.add_edge(&quot;decide_deployment&quot;, END)
+
+parent_graph = parent_builder.compile()
+
+result = parent_graph.invoke({
+    &quot;task&quot;: &quot;calculate fibonacci sequence up to n terms&quot;,
+    &quot;code&quot;: &quot;&quot;, &quot;review_comments&quot;: &quot;&quot;, &quot;quality_score&quot;: 0, &quot;deployment_decision&quot;: &quot;&quot;,
+})
+print(&quot;\n=== RESULTS ===&quot;)
+print(f&quot;Quality Score : {result['quality_score']}/10&quot;)
+print(f&quot;Review        : {result['review_comments'][:120]}&quot;)
+print(f&quot;Decision      : {result['deployment_decision']}&quot;)
+</code></pre>
+<hr />
+<h2 id="11-state-management">11. State Management</h2>
+<h3 id="reducers-and-annotated-state">Reducers and Annotated State</h3>
+<pre><code class="language-python">from typing import TypedDict, Annotated
+import operator
+from langgraph.graph import StateGraph, START, END
+from langgraph.graph.message import add_messages  # built-in message reducer
+
+# ── Custom reducer ────────────────────────────────────────────
+def keep_latest(existing: str, new: str) -&gt; str:
+    &quot;&quot;&quot;Custom reducer: always keep the latest non-empty value.&quot;&quot;&quot;
+    return new if new else existing
+
+class AdvancedState(TypedDict):
+    # operator.add: new items are APPENDED (never replaced)
+    log: Annotated[list[str], operator.add]
+
+    # add_messages: deduplicates by message ID, supports updates
+    messages: Annotated[list, add_messages]
+
+    # Custom reducer
+    status: Annotated[str, keep_latest]
+
+    # No annotation = LAST WRITE WINS (default)
+    counter: int
+
+def node_a(state: AdvancedState) -&gt; dict:
+    return {
+        &quot;log&quot;: [&quot;node_a ran&quot;],
+        &quot;status&quot;: &quot;processing&quot;,
+        &quot;counter&quot;: state[&quot;counter&quot;] + 1,
+    }
+
+def node_b(state: AdvancedState) -&gt; dict:
+    return {
+        &quot;log&quot;: [&quot;node_b ran&quot;],
+        &quot;status&quot;: &quot;done&quot;,
+        &quot;counter&quot;: state[&quot;counter&quot;] + 1,
+    }
+
+builder = StateGraph(AdvancedState)
+builder.add_node(&quot;node_a&quot;, node_a)
+builder.add_node(&quot;node_b&quot;, node_b)
+builder.add_edge(START, &quot;node_a&quot;)
+builder.add_edge(&quot;node_a&quot;, &quot;node_b&quot;)
+builder.add_edge(&quot;node_b&quot;, END)
+
+graph = builder.compile()
+result = graph.invoke({&quot;log&quot;: [], &quot;messages&quot;: [], &quot;status&quot;: &quot;idle&quot;, &quot;counter&quot;: 0})
+print(&quot;log:&quot;, result[&quot;log&quot;])        # ['node_a ran', 'node_b ran']  — appended
+print(&quot;status:&quot;, result[&quot;status&quot;])  # 'done'  — latest wins
+print(&quot;counter:&quot;, result[&quot;counter&quot;])  # 2
+
+# ── MessagesState shortcut ────────────────────────────────────
+from langgraph.graph import MessagesState
+# MessagesState is pre-built with: messages: Annotated[list[BaseMessage], add_messages]
+# Use it when building chat agents to avoid boilerplate.
+</code></pre>
+<h3 id="shared-vs-private-state-inputoutput-schemas">Shared vs Private State (Input/Output Schemas)</h3>
+<pre><code class="language-python">from typing import TypedDict
+from langgraph.graph import StateGraph, START, END
+
+class PrivateState(TypedDict):
+    &quot;&quot;&quot;Full internal state — only visible inside the graph.&quot;&quot;&quot;
+    user_input: str
+    internal_scratchpad: str  # private: not exposed to caller
+    final_answer: str
+
+class PublicInput(TypedDict):
+    &quot;&quot;&quot;What the caller provides.&quot;&quot;&quot;
+    user_input: str
+
+class PublicOutput(TypedDict):
+    &quot;&quot;&quot;What the caller receives back.&quot;&quot;&quot;
+    final_answer: str
+
+def process(state: PrivateState) -&gt; dict:
+    scratchpad = f&quot;Thinking about: {state['user_input']}&quot;
+    answer = f&quot;Answer to '{state['user_input']}'&quot;
+    return {&quot;internal_scratchpad&quot;: scratchpad, &quot;final_answer&quot;: answer}
+
+builder = StateGraph(PrivateState, input=PublicInput, output=PublicOutput)
+builder.add_node(&quot;process&quot;, process)
+builder.add_edge(START, &quot;process&quot;)
+builder.add_edge(&quot;process&quot;, END)
+graph = builder.compile()
+
+# Caller only needs to provide PublicInput fields
+result = graph.invoke({&quot;user_input&quot;: &quot;hello&quot;})
+print(result)  # {'final_answer': &quot;Answer to 'hello'&quot;} — internal_scratchpad hidden
+</code></pre>
+<hr />
+<h2 id="12-error-handling-retries">12. Error Handling &amp; Retries</h2>
+<pre><code class="language-python">import subprocess
+import time
+from openai import OpenAI
+from typing import TypedDict, Annotated
+import operator
+from langgraph.graph import StateGraph, START, END
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+client = OpenAI(base_url=&quot;https://models.inference.ai.azure.com&quot;, api_key=token)
+
+class RobustState(TypedDict):
+    task: str
+    result: str
+    errors: Annotated[list[str], operator.add]
+    retry_count: int
+    status: str
+
+MAX_RETRIES = 3
+_call_count = 0  # simulate flaky service
+
+def flaky_llm_node(state: RobustState) -&gt; dict:
+    &quot;&quot;&quot;Simulates a node that sometimes fails.&quot;&quot;&quot;
+    global _call_count
+    _call_count += 1
+
+    try:
+        # Simulate transient failure on first 2 calls
+        if _call_count &lt;= 2:
+            raise ConnectionError(f&quot;Simulated transient error (attempt {_call_count})&quot;)
+
+        resp = client.chat.completions.create(
+            model=&quot;gpt-4o-mini&quot;,
+            messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: state[&quot;task&quot;]}],
+            max_tokens=100,
+        )
+        return {&quot;result&quot;: resp.choices[0].message.content, &quot;status&quot;: &quot;success&quot;}
+
+    except ConnectionError as e:
+        # Transient error — signal retry
+        print(f&quot;  [flaky_llm_node] transient error: {e}&quot;)
+        return {
+            &quot;errors&quot;: [str(e)],
+            &quot;retry_count&quot;: state[&quot;retry_count&quot;] + 1,
+            &quot;status&quot;: &quot;retry&quot;,
+        }
+    except Exception as e:
+        # Permanent error — go to dead-letter
+        print(f&quot;  [flaky_llm_node] permanent error: {e}&quot;)
+        return {&quot;errors&quot;: [str(e)], &quot;status&quot;: &quot;dead_letter&quot;}
+
+def retry_wait(state: RobustState) -&gt; dict:
+    &quot;&quot;&quot;Exponential backoff before retry.&quot;&quot;&quot;
+    wait = 2 ** state[&quot;retry_count&quot;]
+    print(f&quot;  [retry_wait] waiting {wait}s before retry #{state['retry_count']}&quot;)
+    time.sleep(min(wait, 5))  # cap at 5s for demo
+    return {}
+
+def dead_letter_node(state: RobustState) -&gt; dict:
+    &quot;&quot;&quot;Log permanently failed tasks.&quot;&quot;&quot;
+    print(f&quot;  [dead_letter] task permanently failed after {state['retry_count']} retries&quot;)
+    print(f&quot;  [dead_letter] errors: {state['errors']}&quot;)
+    return {&quot;result&quot;: &quot;FAILED&quot;, &quot;status&quot;: &quot;dead_letter&quot;}
+
+def fallback_node(state: RobustState) -&gt; dict:
+    &quot;&quot;&quot;Return a safe default answer.&quot;&quot;&quot;
+    print(f&quot;  [fallback] max retries exceeded — using fallback&quot;)
+    return {&quot;result&quot;: &quot;Fallback response: unable to process task.&quot;, &quot;status&quot;: &quot;fallback&quot;}
+
+def route_after_llm(state: RobustState) -&gt; str:
+    if state[&quot;status&quot;] == &quot;success&quot;:
+        return END
+    if state[&quot;status&quot;] == &quot;dead_letter&quot;:
+        return &quot;dead_letter_node&quot;
+    if state[&quot;retry_count&quot;] &gt;= MAX_RETRIES:
+        return &quot;fallback_node&quot;
+    return &quot;retry_wait&quot;  # transient error — retry
+
+builder = StateGraph(RobustState)
+builder.add_node(&quot;flaky_llm_node&quot;, flaky_llm_node)
+builder.add_node(&quot;retry_wait&quot;, retry_wait)
+builder.add_node(&quot;dead_letter_node&quot;, dead_letter_node)
+builder.add_node(&quot;fallback_node&quot;, fallback_node)
+
+builder.add_edge(START, &quot;flaky_llm_node&quot;)
+builder.add_conditional_edges(&quot;flaky_llm_node&quot;, route_after_llm, {
+    END: END,
+    &quot;dead_letter_node&quot;: &quot;dead_letter_node&quot;,
+    &quot;fallback_node&quot;: &quot;fallback_node&quot;,
+    &quot;retry_wait&quot;: &quot;retry_wait&quot;,
+})
+builder.add_edge(&quot;retry_wait&quot;, &quot;flaky_llm_node&quot;)  # loop back
+builder.add_edge(&quot;dead_letter_node&quot;, END)
+builder.add_edge(&quot;fallback_node&quot;, END)
+
+graph = builder.compile()
+result = graph.invoke({
+    &quot;task&quot;: &quot;Explain retry patterns in 1 sentence.&quot;,
+    &quot;result&quot;: &quot;&quot;, &quot;errors&quot;: [], &quot;retry_count&quot;: 0, &quot;status&quot;: &quot;pending&quot;,
+})
+print(f&quot;\nFinal status : {result['status']}&quot;)
+print(f&quot;Result       : {result['result']}&quot;)
+print(f&quot;Errors seen  : {result['errors']}&quot;)
+</code></pre>
+<hr />
+<h2 id="13-langgraph-langsmith">13. LangGraph + LangSmith</h2>
+<p>LangSmith provides automatic tracing, visualization, and debugging for LangGraph runs.</p>
+<pre><code class="language-python">import os
+import subprocess
+from openai import OpenAI
+from langchain_openai import ChatOpenAI
+from langchain_core.messages import HumanMessage
+from langgraph.prebuilt import create_react_agent
+from langchain_core.tools import tool
+
+# ── Set LangSmith environment variables ───────────────────────
+# Get a free API key at https://smith.langchain.com
+os.environ[&quot;LANGCHAIN_TRACING_V2&quot;] = &quot;true&quot;
+os.environ[&quot;LANGCHAIN_API_KEY&quot;] = &quot;your-langsmith-api-key&quot;   # replace with real key
+os.environ[&quot;LANGCHAIN_PROJECT&quot;] = &quot;langgraph-demo&quot;
+
+gh_token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+llm = ChatOpenAI(
+    model=&quot;gpt-4o-mini&quot;,
+    base_url=&quot;https://models.inference.ai.azure.com&quot;,
+    api_key=gh_token,
+)
+
+@tool
+def add_numbers(a: int, b: int) -&gt; int:
+    &quot;&quot;&quot;Add two numbers.&quot;&quot;&quot;
+    return a + b
+
+agent = create_react_agent(model=llm, tools=[add_numbers])
+
+# Every invoke is automatically traced in LangSmith
+result = agent.invoke({&quot;messages&quot;: [HumanMessage(content=&quot;What is 42 + 58?&quot;)]})
+print(result[&quot;messages&quot;][-1].content)
+# → Go to https://smith.langchain.com to see the full trace
+
+# ── Visualize graph structure ─────────────────────────────────
+# Generate ASCII diagram in terminal:
+print(agent.get_graph().draw_ascii())
+
+# Generate Mermaid diagram (paste into https://mermaid.live):
+print(agent.get_graph().draw_mermaid())
+
+# Save as PNG (requires graphviz + pygraphviz):
+# agent.get_graph().draw_png(&quot;my_agent.png&quot;)
+</code></pre>
+<hr />
+<h2 id="14-production-patterns">14. Production Patterns</h2>
+<h3 id="fastapi-wrapper">FastAPI Wrapper</h3>
+<pre><code class="language-python"># app.py — run with: uvicorn app:app --reload
+import subprocess
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+from typing import Optional
+from openai import OpenAI
+from typing import TypedDict
+from langgraph.graph import StateGraph, START, END
+from langgraph.checkpoint.memory import MemorySaver
+
+gh_token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+client = OpenAI(base_url=&quot;https://models.inference.ai.azure.com&quot;, api_key=gh_token)
+
+class AgentState(TypedDict):
+    question: str
+    answer: str
+
+def answer_node(state: AgentState) -&gt; dict:
+    resp = client.chat.completions.create(
+        model=&quot;gpt-4o-mini&quot;,
+        messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: state[&quot;question&quot;]}],
+        max_tokens=300,
+    )
+    return {&quot;answer&quot;: resp.choices[0].message.content}
+
+builder = StateGraph(AgentState)
+builder.add_node(&quot;answer&quot;, answer_node)
+builder.add_edge(START, &quot;answer&quot;)
+builder.add_edge(&quot;answer&quot;, END)
+
+memory = MemorySaver()
+graph = builder.compile(checkpointer=memory)
+
+app = FastAPI(title=&quot;LangGraph Agent API&quot;)
+
+class QuestionRequest(BaseModel):
+    question: str
+    thread_id: Optional[str] = &quot;default&quot;
+
+class AnswerResponse(BaseModel):
+    answer: str
+    thread_id: str
+
+@app.post(&quot;/ask&quot;, response_model=AnswerResponse)
+async def ask(req: QuestionRequest):
+    config = {&quot;configurable&quot;: {&quot;thread_id&quot;: req.thread_id}}
+    try:
+        result = graph.invoke(
+            {&quot;question&quot;: req.question, &quot;answer&quot;: &quot;&quot;},
+            config=config,
+        )
+        return AnswerResponse(answer=result[&quot;answer&quot;], thread_id=req.thread_id)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get(&quot;/history/{thread_id}&quot;)
+async def get_history(thread_id: str):
+    config = {&quot;configurable&quot;: {&quot;thread_id&quot;: thread_id}}
+    state = graph.get_state(config)
+    return {&quot;thread_id&quot;: thread_id, &quot;values&quot;: state.values if state else {}}
+
+@app.get(&quot;/health&quot;)
+async def health():
+    return {&quot;status&quot;: &quot;ok&quot;}
+
+# To run: uvicorn app:app --reload
+# Test: curl -X POST http://localhost:8000/ask -H &quot;Content-Type: application/json&quot; \
+#        -d '{&quot;question&quot;: &quot;What is LangGraph?&quot;, &quot;thread_id&quot;: &quot;user-123&quot;}'
+</code></pre>
+<h3 id="background-runs-with-asyncio">Background Runs with asyncio</h3>
+<pre><code class="language-python">import asyncio
+import subprocess
+from openai import OpenAI
+from typing import TypedDict
+from langgraph.graph import StateGraph, START, END
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+client = OpenAI(base_url=&quot;https://models.inference.ai.azure.com&quot;, api_key=token)
+
+class BatchState(TypedDict):
+    item: str
+    result: str
+
+def process_item(state: BatchState) -&gt; dict:
+    resp = client.chat.completions.create(
+        model=&quot;gpt-4o-mini&quot;,
+        messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: f&quot;Summarize in 5 words: {state['item']}&quot;}],
+        max_tokens=20,
+    )
+    return {&quot;result&quot;: resp.choices[0].message.content.strip()}
+
+builder = StateGraph(BatchState)
+builder.add_node(&quot;process&quot;, process_item)
+builder.add_edge(START, &quot;process&quot;)
+builder.add_edge(&quot;process&quot;, END)
+batch_graph = builder.compile()
+
+async def process_batch(items: list[str]) -&gt; list[dict]:
+    &quot;&quot;&quot;Process multiple items concurrently using asyncio.&quot;&quot;&quot;
+    tasks = [
+        asyncio.to_thread(batch_graph.invoke, {&quot;item&quot;: item, &quot;result&quot;: &quot;&quot;})
+        for item in items
+    ]
+    results = await asyncio.gather(*tasks, return_exceptions=True)
+    return [
+        {&quot;item&quot;: item, &quot;result&quot;: r[&quot;result&quot;] if isinstance(r, dict) else str(r)}
+        for item, r in zip(items, results)
+    ]
+
+async def main():
+    items = [&quot;Python programming&quot;, &quot;LangGraph framework&quot;, &quot;AI agents&quot;, &quot;Machine learning&quot;]
+    print(f&quot;Processing {len(items)} items concurrently...&quot;)
+    results = await process_batch(items)
+    for r in results:
+        print(f&quot;  {r['item']!r:30} → {r['result']}&quot;)
+
+asyncio.run(main())
+</code></pre>
+<hr />
+<h2 id="15-interview-qa">15. Interview Q&amp;A</h2>
+<details open><summary class="qa-q">What is the difference between LangChain and LangGraph?  > LangChain provides composable building blocks (LLMs, prompts, chains, tools) for linear pipelines. LangGraph adds a **stateful graph layer** on top, enabling cycles (loops), persistent state, human-in-the-loop, and complex multi-agent coordination. Use LangChain for simple sequential tasks; use LangGraph when you need agents that loop, branch, and remember state.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What is a StateGraph and how is State defined?  > `StateGraph` is LangGraph's main graph class. State is a `TypedDict` that holds all shared data flowing through the graph. Every node receives the full state and returns a **partial update** (a dict of only the keys it changes). LangGraph merges this partial update back into the state using reducer functions.  ```python from typing import TypedDict, Annotated import operator  class MyState(TypedDict):     counter: int                                    # last-write-wins     history: Annotated[list[str], operator.add]    # append-only reducer ```  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How do conditional edges work in LangGraph?  > `add_conditional_edges(source_node, routing_fn, mapping)` — after `source_node` completes, LangGraph calls `routing_fn(state)` which returns a string key. That key is looked up in `mapping` to determine the next node. This implements branching and multi-path workflows.  ```python def router(state) -> str:     return "node_a" if state["score"] > 0.5 else "node_b"  builder.add_conditional_edges("grader", router, {"node_a": "node_a", "node_b": "node_b"}) ```  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What is checkpointing and why is it important?  > Checkpointing saves the full graph state after every node execution. It enables: (1) **resuming** after crashes, (2) **human-in-the-loop** (pause, modify state, resume), (3) **session isolation** via `thread_id`, (4) **time-travel debugging** by replaying from any historical snapshot. `MemorySaver` stores checkpoints in-memory; `SqliteSaver` persists them to disk.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How do you implement human-in-the-loop in LangGraph?  > Three approaches: (1) `interrupt_before=["node_name"]` — graph pauses before the node; (2) `interrupt_after=["node_name"]` — pauses after; (3) raise `NodeInterrupt` inside a node. After pausing, inspect state with `graph.get_state(config)`, modify it with `graph.update_state(config, updates)`, then resume by calling `graph.invoke(None, config=config)`.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">Explain the supervisor multi-agent pattern.  > A central **supervisor** node receives the current state and decides which specialist agent to invoke next. Each specialist completes its task and returns to the supervisor. The supervisor uses `add_conditional_edges` to route between agents and decides when to call `END`. This implements an orchestrator-worker hierarchy without hard-coded execution order.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What is the difference between stream_mode values, updates, and debug?  > - `"values"` — emits the **full state snapshot** after each node runs. Best for monitoring overall state. > - `"updates"` — emits only the **partial dict** returned by each node (what changed). Best for lightweight streaming. > - `"debug"` — emits verbose internal events (task starts, checkpoints, errors). Best for debugging.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How do you share state between a subgraph and its parent?  > State keys with the **same name and type** in both the parent and subgraph schemas are automatically mapped by LangGraph. When the subgraph runs, it receives the matching keys from parent state. When it finishes, its output is merged back into the parent. Keys that exist only in the subgraph remain private to it.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What is MemorySaver vs SqliteSaver?  > `MemorySaver` stores checkpoints in a Python dictionary in RAM — fast, no dependencies, but lost when the process exits. `SqliteSaver` persists checkpoints to a SQLite database file — survives restarts, suitable for development and low-scale production. For production at scale, use `PostgresSaver` (from `langgraph-checkpoint-postgres`).  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How do you handle tool errors in a LangGraph agent?  > Wrap tool logic in `try/except`. `ToolNode` automatically catches exceptions and converts them to `ToolMessage` with `status="error"` so the LLM can see the error and recover. For node-level retries, use conditional edges that check `status` and loop back with exponential backoff. For permanent failures, route to a dead-letter node.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What is interrupt_before vs interrupt_after?  > `interrupt_before=["node"]` — graph **pauses before** the node runs. Use when you want to review/modify the state that will be *input* to that node.   > `interrupt_after=["node"]` — graph **pauses after** the node runs. Use when you want to review the node's *output* before continuing.   > Both require a checkpointer to be set; both resume with `graph.invoke(None, config=config)`.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How do you build a self-correcting RAG agent with LangGraph?  > Define states: retrieve → grade → (if relevant) answer / (if not) rewrite query → retrieve again. The key loop is: `grade_node` → conditional edge → `rewrite_node` → `retrieve_node` → `grade_node`. This creates a self-correcting cycle that keeps searching until it finds a relevant document (with a max-iteration guard to prevent infinite loops). See Section 16 for full code.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">When should you use create_react_agent vs building a custom graph?  > Use `create_react_agent` for standard tool-calling agents — it handles the LLM ↔ tool ↔ LLM loop automatically. Build a **custom graph** when you need: multiple specialized nodes beyond tool calling, complex branching logic, human-in-the-loop steps, subgraphs, custom state reducers, or a supervisor pattern with multiple agents.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How does LangGraph compare to CrewAI for multi-agent systems?  > LangGraph gives **full control** — you define every node, edge, and state update explicitly. It's lower-level, more flexible, and integrates deeply with LangChain. CrewAI is **higher-level** — you define agents with roles/goals/tools and it orchestrates them automatically. Choose LangGraph for custom workflows requiring fine-grained control; choose CrewAI for rapid prototyping of role-based collaborative agents.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How do you visualize a LangGraph graph?  ```python # ASCII (works anywhere) print(graph.get_graph().draw_ascii())  # Mermaid (paste at https://mermaid.live) print(graph.get_graph().draw_mermaid())  # PNG (requires: pip install pygraphviz) graph.get_graph().draw_png("my_graph.png")  # With subgraphs expanded print(graph.get_graph(xray=True).draw_ascii()) ```  ---  ## 16. Complete End-to-End Example — Self-RAG Agent  A Self-RAG (Retrieval-Augmented Generation) agent that: 1. **Retrieves** documents for the question 2. **Grades** each document for relevance 3. **Rewrites** the query if documents are irrelevant 4. **Loops back** to retrieve with the new query 5. **Generates** a grounded answer when relevant docs are found 6. **Guards** against infinite loops with a max-iteration counter  ```python """ Self-RAG Agent with LangGraph ───────────────────────────── Flow:   START     │     ▼   retrieve ──────────────────────────────────────────────────────────────┐     │                                                                     │     ▼                                                                     │   grade_documents                                                         │     │                                                                     │     ├─ all_relevant ──► generate_answer ──► check_hallucination           │     │                          │                                          │     │                          ├─ grounded ──► END                        │     │                          └─ hallucinated ──► generate_answer        │     │                                                                     │     └─ not_relevant (or max iterations) ──► rewrite_query ───────────────┘ """  import subprocess from openai import OpenAI from typing import TypedDict, Annotated, Literal import operator from langgraph.graph import StateGraph, START, END from langgraph.checkpoint.memory import MemorySaver  # ── Auth ────────────────────────────────────────────────────── token = subprocess.run(["gh", "auth", "token"], capture_output=True, text=True).stdout.strip() client = OpenAI(base_url="https://models.inference.ai.azure.com", api_key=token)  MAX_RETRIEVE_ITERATIONS = 3 MAX_GENERATION_RETRIES = 2  # ── State ───────────────────────────────────────────────────── class SelfRAGState(TypedDict):     question: str                                       # original question     current_query: str                                  # may be rewritten     documents: list[str]                                # retrieved docs     relevant_docs: list[str]                            # graded-relevant docs     answer: str                                         # generated answer     retrieve_iterations: int                            # loop guard     generation_retries: int                             # hallucination guard     log: Annotated[list[str], operator.add]             # audit trail     final_status: str  # ── Simulated Vector Store ──────────────────────────────────── KNOWLEDGE_BASE = {     "langgraph": [         "LangGraph is a stateful, graph-based agent framework built on LangChain.",         "LangGraph supports cycles, human-in-the-loop, and persistent state via checkpointing.",         "In LangGraph, nodes are Python functions and edges define transitions between them.",     ],     "langchain": [         "LangChain provides composable building blocks for LLM applications.",         "LangChain Expression Language (LCEL) enables building sequential pipelines.",     ],     "rag": [         "Retrieval-Augmented Generation (RAG) combines document retrieval with LLM generation.",         "Self-RAG extends RAG by grading retrieved documents and rewriting queries when needed.",         "In Self-RAG, a grader LLM scores each retrieved document for relevance before generation.",     ],     "agents": [         "AI agents use LLMs to decide which tools to call in order to complete a task.",         "ReAct agents interleave reasoning and action steps in a loop.",     ], }  def simulated_retrieval(query: str) -> list[str]:     """Simple keyword-based retrieval from our fake knowledge base."""     query_lower = query.lower()     results = []     for topic, docs in KNOWLEDGE_BASE.items():         if topic in query_lower or any(word in query_lower for word in topic.split()):             results.extend(docs)     if not results:         results = ["No specific documents found for the query."]     return results[:4]  # Return top 4  # ── Helper ──────────────────────────────────────────────────── def _llm(system: str, user: str, max_tokens: int = 400) -> str:     resp = client.chat.completions.create(         model="gpt-4o-mini",         messages=[             {"role": "system", "content": system},             {"role": "user", "content": user},         ],         max_tokens=max_tokens,     )     return resp.choices[0].message.content.strip()  # ── Node 1: Retrieve ────────────────────────────────────────── def retrieve(state: SelfRAGState) -> dict:     query = state.get("current_query") or state["question"]     iteration = state.get("retrieve_iterations", 0) + 1     print(f"\n[retrieve] iteration={iteration}, query={query!r}")      docs = simulated_retrieval(query)     print(f"[retrieve] found {len(docs)} documents")      return {         "documents": docs,         "retrieve_iterations": iteration,         "log": [f"retrieve(iter={iteration}): fetched {len(docs)} docs for query={query!r}"],     }  # ── Node 2: Grade Documents ─────────────────────────────────── def grade_documents(state: SelfRAGState) -> dict:     question = state["question"]     docs = state["documents"]     print(f"[grade_documents] grading {len(docs)} documents...")      relevant = []     for i, doc in enumerate(docs):         prompt = (             f"Is this document relevant to answering the question?\n\n"             f"Question: {question}\n\n"             f"Document: {doc}\n\n"             "Reply with exactly: yes or no"         )         grade = _llm("You are a document relevance grader.", prompt, max_tokens=5).lower()         is_relevant = "yes" in grade         if is_relevant:             relevant.append(doc)         print(f"  doc[{i}]: {'✓ relevant' if is_relevant else '✗ not relevant'}")      print(f"[grade_documents] {len(relevant)}/{len(docs)} documents are relevant")     return {         "relevant_docs": relevant,         "log": [f"grade_documents: {len(relevant)}/{len(docs)} relevant"],     }  # ── Node 3: Rewrite Query ───────────────────────────────────── def rewrite_query(state: SelfRAGState) -> dict:     original = state["question"]     current = state.get("current_query") or original     iteration = state.get("retrieve_iterations", 0)      print(f"[rewrite_query] improving query (attempt {iteration})")     new_query = _llm(         "You are a query rewriter. Improve the query to retrieve more relevant documents.",         f"Original question: {original}\nCurrent query: {current}\n\n"         "Rewrite the query to be more specific and likely to retrieve relevant documents. "         "Return only the rewritten query.",         max_tokens=80,     )     print(f"[rewrite_query] new query: {new_query!r}")     return {         "current_query": new_query,         "log": [f"rewrite_query(iter={iteration}): {current!r} → {new_query!r}"],     }  # ── Node 4: Generate Answer ─────────────────────────────────── def generate_answer(state: SelfRAGState) -> dict:     question = state["question"]     docs = state["relevant_docs"] or state["documents"]     retries = state.get("generation_retries", 0) + 1      print(f"[generate_answer] generating (retry={retries})")     context = "\n\n".join(f"Document {i+1}: {doc}" for i, doc in enumerate(docs))      answer = _llm(         "You are a precise Q&A assistant. Answer ONLY using the provided documents. "         "If the documents don't contain the answer, say so explicitly.",         f"Documents:\n{context}\n\nQuestion: {question}\n\nAnswer:",         max_tokens=400,     )     print(f"[generate_answer] answer: {answer[:100]}...")     return {         "answer": answer,         "generation_retries": retries,         "log": [f"generate_answer(retry={retries}): generated answer"],     }  # ── Node 5: Check Hallucination ─────────────────────────────── def check_hallucination(state: SelfRAGState) -> dict:     docs = state["relevant_docs"] or state["documents"]     answer = state["answer"]     context = "\n".join(docs)      print(f"[check_hallucination] verifying answer is grounded...")     verdict = _llm(         "You are a hallucination detector. Check if the answer is grounded in the documents.",         f"Documents:\n{context}\n\nAnswer:\n{answer}\n\n"         "Is this answer supported by the documents? Reply with exactly: grounded or hallucinated",         max_tokens=10,     ).lower()     is_grounded = "grounded" in verdict and "hallucinated" not in verdict     print(f"[check_hallucination] verdict: {'✓ grounded' if is_grounded else '✗ hallucinated'}")     return {         "final_status": "grounded" if is_grounded else "hallucinated",         "log": [f"check_hallucination: {'grounded' if is_grounded else 'hallucinated'}"],     }  # ── Routing Functions ───────────────────────────────────────── def route_after_grading(state: SelfRAGState) -> str:     """Route based on relevance. Guard against infinite loops."""     has_relevant = bool(state.get("relevant_docs"))     iterations = state.get("retrieve_iterations", 0)      if has_relevant:         return "generate_answer"     if iterations >= MAX_RETRIEVE_ITERATIONS:         print(f"[router] max iterations ({MAX_RETRIEVE_ITERATIONS}) reached — generating from best available docs")         return "generate_answer"     return "rewrite_query"  def route_after_generation(state: SelfRAGState) -> str:     """Route based on hallucination check. Guard against infinite retries."""     status = state.get("final_status", "")     retries = state.get("generation_retries", 0)      if status == "grounded":         return END     if retries >= MAX_GENERATION_RETRIES:         print(f"[router] max generation retries reached — accepting answer as-is")         return END     return "generate_answer"  # ── Build Graph ─────────────────────────────────────────────── builder = StateGraph(SelfRAGState)  builder.add_node("retrieve", retrieve) builder.add_node("grade_documents", grade_documents) builder.add_node("rewrite_query", rewrite_query) builder.add_node("generate_answer", generate_answer) builder.add_node("check_hallucination", check_hallucination)  builder.add_edge(START, "retrieve") builder.add_edge("retrieve", "grade_documents") builder.add_conditional_edges(     "grade_documents",     route_after_grading,     {         "generate_answer": "generate_answer",         "rewrite_query": "rewrite_query",     }, ) builder.add_edge("rewrite_query", "retrieve") builder.add_edge("generate_answer", "check_hallucination") builder.add_conditional_edges(     "check_hallucination",     route_after_generation,     {         END: END,         "generate_answer": "generate_answer",     }, )  memory = MemorySaver() self_rag_graph = builder.compile(checkpointer=memory)  # ── Run ─────────────────────────────────────────────────────── if __name__ == "__main__":     print("=" * 60)     print("SELF-RAG AGENT — LangGraph End-to-End Demo")     print("=" * 60)      questions = [         "What is LangGraph and how does it support stateful agents?",         "How does Self-RAG improve on standard RAG?",     ]      for i, question in enumerate(questions):         print(f"\n{'─'*60}")         print(f"QUESTION {i+1}: {question}")         print("─" * 60)          config = {"configurable": {"thread_id": f"self-rag-{i}"}}         initial_state: SelfRAGState = {             "question": question,             "current_query": "",             "documents": [],             "relevant_docs": [],             "answer": "",             "retrieve_iterations": 0,             "generation_retries": 0,             "log": [],             "final_status": "",         }          result = self_rag_graph.invoke(initial_state, config=config)          print(f"\n{'─'*40}")         print(f"FINAL ANSWER:\n{result['answer']}")         print(f"\nStatus         : {result['final_status'] or 'completed'}")         print(f"Retrieve iters : {result['retrieve_iterations']}")         print(f"Gen retries    : {result['generation_retries']}")         print(f"\nExecution log:")         for entry in result["log"]:             print(f"  → {entry}") ```  ---  ## Quick Reference Card  ``` StateGraph(StateType)              — create graph   .add_node(name, fn)              — register node function   .add_edge(a, b)                  — fixed transition a→b   .add_conditional_edges(          — branching transition       src, routing_fn, mapping)   .compile(checkpointer=...,       — build runnable graph            interrupt_before=[...])   .invoke(state, config=...)       — run synchronously   .stream(state, config=...,       — stream events           stream_mode="updates")   .astream(...)                    — async stream   .get_state(config)               — read checkpoint   .update_state(config, updates)   — modify paused state   .get_state_history(config)       — all snapshots  Checkpointers:   MemorySaver()                    — in-memory   SqliteSaver(conn)                — SQLite file   PostgresSaver(conn)              — PostgreSQL (production)  Special nodes:   START                            — graph entry point   END                              — graph exit point  State reducers:   Annotated[list, operator.add]    — append-only list   Annotated[list, add_messages]    — messages with dedup   Annotated[T, custom_fn]          — custom merge logic  Config:   {"configurable": {"thread_id": "..."}}   — session isolation ```</summary><div class="qa-a"></div></details>
+</main>
+</body>
+</html>

@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LLM Categories – Complete Guide</title>
+<style>
+:root{--bg:#fff;--text:#1a1a2e;--accent:#0070f3;--code:#f4f6f8;--border:#e1e4e8;--nav:#f6f8fa;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:Georgia,'Times New Roman',serif;font-size:16px;line-height:1.8;
+     color:var(--text);background:var(--bg);display:flex;min-height:100vh;}
+nav{width:270px;min-width:220px;background:var(--nav);border-right:1px solid var(--border);
+    position:sticky;top:0;height:100vh;overflow-y:auto;padding:16px 12px;flex-shrink:0;}
+nav .back-link{display:block;font-family:sans-serif;font-size:12px;color:var(--accent);
+               margin-bottom:12px;text-decoration:none;}
+nav .back-link:hover{text-decoration:underline;}
+nav h3{font-family:sans-serif;font-size:10px;text-transform:uppercase;letter-spacing:.08em;
+       color:#888;margin:10px 0 4px;}
+nav ul{list-style:none;}
+nav li{margin:2px 0;}
+nav a.toc{font-family:sans-serif;font-size:12.5px;color:#444;text-decoration:none;
+      display:block;padding:3px 7px;border-radius:4px;line-height:1.4;}
+nav a.toc:hover{background:#e0e8ff;color:var(--accent);}
+nav a.toc.h3{padding-left:18px;font-size:11.5px;color:#666;}
+nav a.toc.h4{padding-left:32px;font-size:11px;color:#888;}
+main{flex:1;padding:44px 56px;max-width:980px;}
+.doc-header{margin-bottom:36px;padding-bottom:18px;border-bottom:3px solid var(--accent);}
+.doc-header h1{font-size:2em;color:#0a192f;}
+.doc-header .subtitle{font-family:sans-serif;color:#555;margin-top:6px;font-size:.92em;}
+.badges{margin-top:8px;}
+.badges span{display:inline-block;font-family:sans-serif;font-size:11.5px;
+  padding:3px 10px;border-radius:12px;margin:4px 4px 0 0;font-weight:600;}
+.bf{background:#d4edda;color:#155724;}
+.bp{background:#fff3cd;color:#856404;}
+.bl{background:#cce5ff;color:#004085;}
+.bm{background:#e9d8fd;color:#553c9a;}
+.bo{background:#fde8d8;color:#7d3a00;}
+section{margin-bottom:52px;}
+h2{font-size:1.5em;color:#0a192f;margin:2em 0 .5em;padding-bottom:.3em;border-bottom:2px solid var(--border);}
+h3{font-size:1.18em;color:#0a192f;margin:1.5em 0 .35em;}
+h4{font-size:1em;color:#1a3a6e;margin:1.2em 0 .3em;font-style:italic;}
+p{margin:.55em 0;}
+ul,ol{margin:.45em 0 .45em 1.4em;}li{margin:.25em 0;}
+strong{color:#0a192f;}
+code{font-family:'Fira Code',Consolas,monospace;background:var(--code);
+     padding:2px 5px;border-radius:3px;font-size:.85em;}
+pre{background:#0d1117;border:1px solid #30363d;border-left:4px solid var(--accent);
+    border-radius:6px;padding:16px;overflow-x:auto;margin:.9em 0;}
+pre code{background:none;padding:0;font-size:.82em;line-height:1.6;color:#e6edf3;}
+table{border-collapse:collapse;width:100%;margin:.9em 0;font-family:sans-serif;font-size:.88em;}
+th,td{border:1px solid var(--border);padding:8px 12px;text-align:left;vertical-align:top;}
+th{background:#e8f0fe;font-weight:700;color:#0a192f;}
+tr:nth-child(even) td{background:#f9f9f9;}
+blockquote{border-left:4px solid var(--accent);padding:9px 16px;background:#f0f4ff;
+           border-radius:0 6px 6px 0;color:#333;margin:.9em 0;}
+.tip{background:#e6f9f0;border-left:4px solid #28a745;padding:11px 16px;
+     border-radius:0 6px 6px 0;margin:.9em 0;font-family:sans-serif;font-size:.9em;}
+.warn{background:#fff8e1;border-left:4px solid #ffc107;padding:11px 16px;
+      border-radius:0 6px 6px 0;margin:.9em 0;font-family:sans-serif;font-size:.9em;}
+.info{background:#e8f4fd;border-left:4px solid #17a2b8;padding:11px 16px;
+      border-radius:0 6px 6px 0;margin:.9em 0;font-family:sans-serif;font-size:.9em;}
+.cat-card{border:1px solid var(--border);border-radius:10px;padding:18px 22px;
+          margin:1em 0;background:#fafbfc;}
+.cat-card h3{margin-top:0;font-size:1.1em;color:#0a192f;}
+.cat-icon{font-size:1.4em;margin-right:8px;}
+details{border:1px solid var(--border);border-radius:8px;margin:.7em 0;background:#fafafa;}
+details[open]{background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+summary.qa-q{cursor:pointer;padding:12px 15px;font-weight:700;color:#0a192f;
+             list-style:none;display:flex;align-items:flex-start;gap:9px;line-height:1.5;}
+summary.qa-q::before{content:"Q";background:var(--accent);color:#fff;padding:2px 7px;
+                     border-radius:50%;font-size:.76em;font-family:sans-serif;flex-shrink:0;margin-top:3px;}
+.qa-a{padding:13px 17px;border-top:1px solid #eee;}
+a{color:var(--accent);}
+hr{border:none;border-top:1px solid var(--border);margin:1.8em 0;}
+.free{color:#155724;font-weight:700;}
+.paid{color:#856404;font-weight:700;}
+.local{color:#004085;font-weight:700;}
+</style>
+</head>
+<body>
+
+<!-- ═══ SIDEBAR ═══ -->
+<nav>
+  <a class="back-link" href="index.html">⬅ All Guides</a>
+  <h3>Categories</h3>
+  <ul>
+    <li><a class="toc" href="#overview">Overview Map</a></li>
+    <li><a class="toc" href="#text">1. Text / Language LLMs</a></li>
+    <li><a class="toc h3" href="#text-free">Free Text Models</a></li>
+    <li><a class="toc h3" href="#text-paid">Paid Text Models</a></li>
+    <li><a class="toc h3" href="#text-local">Local Text (Ollama)</a></li>
+    <li><a class="toc h3" href="#text-libs">Text Libraries</a></li>
+    <li><a class="toc" href="#code">2. Code Generation LLMs</a></li>
+    <li><a class="toc h3" href="#code-models">Code Models</a></li>
+    <li><a class="toc h3" href="#code-local">Local Code Apps</a></li>
+    <li><a class="toc" href="#image">3. Image Generation (Diffusion)</a></li>
+    <li><a class="toc h3" href="#image-models">DALL-E, Stable Diffusion…</a></li>
+    <li><a class="toc h3" href="#image-local">Local Image Apps</a></li>
+    <li><a class="toc h3" href="#image-libs">Image Libraries</a></li>
+    <li><a class="toc" href="#vision">4. Vision / Multimodal LLMs</a></li>
+    <li><a class="toc h3" href="#vision-models">Vision Models</a></li>
+    <li><a class="toc h3" href="#vision-local">Local Vision Apps</a></li>
+    <li><a class="toc" href="#audio">5. Audio — STT &amp; TTS</a></li>
+    <li><a class="toc h3" href="#stt">Speech-to-Text Models</a></li>
+    <li><a class="toc h3" href="#tts">Text-to-Speech Models</a></li>
+    <li><a class="toc h3" href="#audio-local">Local Audio Apps</a></li>
+    <li><a class="toc" href="#video">6. Video Generation</a></li>
+    <li><a class="toc" href="#embed">7. Embedding Models</a></li>
+    <li><a class="toc h3" href="#embed-free">Free Embeddings</a></li>
+    <li><a class="toc h3" href="#embed-local">Local Embedding Apps</a></li>
+    <li><a class="toc" href="#reasoning">8. Reasoning / Thinking Models</a></li>
+    <li><a class="toc" href="#agents">9. Agentic / Tool-Use LLMs</a></li>
+    <li><a class="toc" href="#structured">10. Structured Output Models</a></li>
+    <li><a class="toc" href="#local-stack">Local Dev Stack</a></li>
+    <li><a class="toc" href="#experiments">Experiment Ideas</a></li>
+    <li><a class="toc" href="#lib-map">Library → Category Map</a></li>
+    <li><a class="toc" href="#qa">Q&amp;A</a></li>
+  </ul>
+</nav>
+
+<!-- ═══ MAIN ═══ -->
+<main>
+  <div class="doc-header">
+    <h1>🧠 LLM Categories — Complete Guide</h1>
+    <p class="subtitle">Every AI model category explained: free vs paid, local setup, best libraries, and hands-on experiment ideas</p>
+    <div class="badges">
+      <span class="bf">Free Options</span>
+      <span class="bp">Paid Options</span>
+      <span class="bl">Run Locally</span>
+      <span class="bm">Libraries</span>
+      <span class="bo">Experiments</span>
+    </div>
+  </div>
+
+  <!-- ─── OVERVIEW MAP ─── -->
+  <section>
+    <h2 id="overview">0. LLM Category Overview Map</h2>
+    <table>
+      <tr><th>Category</th><th>What It Does</th><th>Best Free</th><th>Best Paid</th><th>Run Locally?</th></tr>
+      <tr><td>🔤 Text / Language</td><td>Chat, summarise, Q&A, translate, write</td><td>Groq LLaMA-3, Gemini Flash</td><td>GPT-4o, Claude 3.5 Sonnet</td><td>✅ Ollama</td></tr>
+      <tr><td>💻 Code Generation</td><td>Write, explain, debug, review code</td><td>GitHub Copilot Free, Codestral-free</td><td>GPT-4o, Claude 3.5 Sonnet</td><td>✅ Ollama (qwen2.5-coder)</td></tr>
+      <tr><td>🎨 Image Generation</td><td>Text→Image, inpainting, style transfer</td><td>Stable Diffusion (local), HF Spaces</td><td>DALL-E 3, Midjourney, Firefly</td><td>✅ AUTOMATIC1111 / ComfyUI</td></tr>
+      <tr><td>👁️ Vision / Multimodal</td><td>Image+text understanding, OCR, VQA</td><td>Gemini Flash (free tier), LLaVA local</td><td>GPT-4o Vision, Claude 3.5 Sonnet</td><td>✅ Ollama (llava, moondream)</td></tr>
+      <tr><td>🎙️ Speech-to-Text</td><td>Transcribe audio → text</td><td>Whisper (local, free)</td><td>OpenAI Whisper API, Deepgram</td><td>✅ faster-whisper, whisper.cpp</td></tr>
+      <tr><td>🔊 Text-to-Speech</td><td>Text → natural speech audio</td><td>Coqui TTS, pyttsx3 (local)</td><td>OpenAI TTS, ElevenLabs</td><td>✅ Coqui, Piper TTS</td></tr>
+      <tr><td>🎬 Video Generation</td><td>Text/image → video clips</td><td>CogVideoX (HF Spaces), Wan2.1 (local)</td><td>Sora, Runway, Kling, Pika</td><td>⚠️ Needs GPU ≥ 24 GB</td></tr>
+      <tr><td>🧮 Embeddings</td><td>Text → vectors for semantic search/RAG</td><td>all-MiniLM (local), Nomic (Ollama)</td><td>OpenAI text-embedding-3, Cohere</td><td>✅ sentence-transformers</td></tr>
+      <tr><td>🤔 Reasoning Models</td><td>Multi-step math, logic, planning</td><td>DeepSeek-R1 (local), o3-mini free</td><td>o1, o3, Claude 3.7 thinking</td><td>✅ Ollama (deepseek-r1)</td></tr>
+      <tr><td>🤖 Agentic / Tool-Use</td><td>Function calling, tool use, planning</td><td>LLaMA-3.1 (Groq), Gemini Flash</td><td>GPT-4o, Claude 3.5 Sonnet</td><td>✅ Ollama + LangChain/LangGraph</td></tr>
+      <tr><td>📐 Structured Output</td><td>JSON/schema-constrained generation</td><td>Groq + Instructor, Ollama JSON mode</td><td>GPT-4o structured outputs</td><td>✅ Ollama JSON mode + Pydantic</td></tr>
+    </table>
+  </section>
+
+  <!-- ─── TEXT ─── -->
+  <section>
+    <h2 id="text">1. 🔤 Text / Language LLMs</h2>
+    <p>The largest and most mature category — general-purpose models that understand and generate text for chat, summarisation, translation, Q&A, writing, and reasoning.</p>
+
+    <h3 id="text-free">Free Text Models</h3>
+    <table>
+      <tr><th>Provider</th><th>Model</th><th>Context</th><th>Speed</th><th>Best For</th><th>API Access</th></tr>
+      <tr><td>GitHub Copilot</td><td>gpt-4o, o3-mini, claude-3.5-sonnet</td><td>128K</td><td>Fast</td><td>General + code</td><td>Azure AI Inference + gh token</td></tr>
+      <tr><td>Groq</td><td>llama-3.3-70b, llama-3.1-8b, mixtral-8x7b</td><td>8K–32K</td><td>⚡ Ultra-fast</td><td>Real-time chat, RAG</td><td>GROQ_API_KEY (free tier)</td></tr>
+      <tr><td>Google AI Studio</td><td>gemini-1.5-flash, gemini-2.0-flash</td><td>1M tokens</td><td>Fast</td><td>Long docs, multimodal</td><td>GEMINI_API_KEY (free tier)</td></tr>
+      <tr><td>OpenRouter</td><td>mistral-7b-free, llama-3-8b-free</td><td>8K–32K</td><td>Medium</td><td>Experimentation</td><td>OPENROUTER_API_KEY</td></tr>
+      <tr><td>Cerebras</td><td>llama-3.1-70b, llama-3.3-70b</td><td>8K</td><td>⚡ Very fast</td><td>Throughput tests</td><td>CEREBRAS_API_KEY (free)</td></tr>
+      <tr><td>Cloudflare Workers AI</td><td>llama-3-8b, mistral-7b</td><td>4K</td><td>Medium</td><td>Edge/serverless</td><td>CF Account ID + API Token</td></tr>
+      <tr><td>Hugging Face Serverless</td><td>Zephyr-7b, Mistral-7b, many more</td><td>4K–8K</td><td>Slow</td><td>Experiments, prototypes</td><td>HF_TOKEN (free tier)</td></tr>
+    </table>
+
+    <h3 id="text-paid">Paid Text Models</h3>
+    <table>
+      <tr><th>Provider</th><th>Model</th><th>Input / 1M tokens</th><th>Output / 1M tokens</th><th>Best For</th></tr>
+      <tr><td>OpenAI</td><td>gpt-4o</td><td>$5</td><td>$15</td><td>Balanced quality + speed</td></tr>
+      <tr><td>OpenAI</td><td>gpt-4o-mini</td><td>$0.15</td><td>$0.60</td><td>High-volume, cost-sensitive</td></tr>
+      <tr><td>Anthropic</td><td>claude-3.5-sonnet</td><td>$3</td><td>$15</td><td>Writing, analysis, long docs</td></tr>
+      <tr><td>Anthropic</td><td>claude-3-haiku</td><td>$0.25</td><td>$1.25</td><td>Fast, cheap production use</td></tr>
+      <tr><td>Google</td><td>gemini-1.5-pro</td><td>$3.50</td><td>$10.50</td><td>Very long context (1M tokens)</td></tr>
+      <tr><td>Mistral AI</td><td>mistral-large</td><td>$2</td><td>$6</td><td>European data residency</td></tr>
+      <tr><td>Cohere</td><td>command-r-plus</td><td>$2.50</td><td>$10</td><td>RAG + enterprise search</td></tr>
+    </table>
+
+    <h3 id="text-local">Running Text Models Locally with Ollama</h3>
+    <pre><code># Install Ollama (Windows)
+winget install Ollama.Ollama
+
+# Pull and run models
+ollama pull llama3.2          # 3B — fast, low RAM (4 GB)
+ollama pull llama3.1:8b       # 8B — good balance (8 GB RAM)
+ollama pull llama3.3:70b      # 70B — best quality (40 GB RAM)
+ollama pull qwen2.5:14b       # Alibaba, strong multilingual
+ollama pull phi3.5            # Microsoft, 3.8B, excellent small model
+ollama pull deepseek-r1:8b    # Reasoning model (local)
+ollama pull gemma2:9b         # Google Gemma 2
+
+# Start REST API server
+ollama serve                  # http://localhost:11434
+
+# Test via curl
+curl http://localhost:11434/api/generate -d '{
+  "model": "llama3.2",
+  "prompt": "Explain RAG in 3 sentences",
+  "stream": false
+}'</code></pre>
+
+    <pre><code>from openai import OpenAI
+
+# Ollama is OpenAI-API-compatible
+client = OpenAI(base_url="http://localhost:11434/v1", api_key="ollama")
+
+response = client.chat.completions.create(
+    model="llama3.2",
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user",   "content": "Summarise the SOLID principles"}
+    ]
+)
+print(response.choices[0].message.content)</code></pre>
+
+    <h3 id="text-libs">Key Libraries for Text LLMs</h3>
+    <table>
+      <tr><th>Library</th><th>Purpose</th><th>Install</th></tr>
+      <tr><td><strong>openai</strong></td><td>OpenAI + any OpenAI-compatible API (Ollama, Groq, GitHub Copilot)</td><td><code>pip install openai</code></td></tr>
+      <tr><td><strong>anthropic</strong></td><td>Claude models SDK</td><td><code>pip install anthropic</code></td></tr>
+      <tr><td><strong>google-generativeai</strong></td><td>Gemini models</td><td><code>pip install google-generativeai</code></td></tr>
+      <tr><td><strong>langchain</strong></td><td>Chains, RAG, agents over any LLM</td><td><code>pip install langchain langchain-openai</code></td></tr>
+      <tr><td><strong>litellm</strong></td><td>Unified interface to 100+ LLMs (one API call works for all)</td><td><code>pip install litellm</code></td></tr>
+      <tr><td><strong>ollama</strong></td><td>Python SDK for Ollama local models</td><td><code>pip install ollama</code></td></tr>
+      <tr><td><strong>groq</strong></td><td>Groq ultra-fast inference SDK</td><td><code>pip install groq</code></td></tr>
+      <tr><td><strong>transformers</strong></td><td>Load any HuggingFace model locally</td><td><code>pip install transformers torch</code></td></tr>
+      <tr><td><strong>llama-cpp-python</strong></td><td>Run GGUF models (quantised) in pure Python, CPU-only</td><td><code>pip install llama-cpp-python</code></td></tr>
+    </table>
+
+    <div class="tip">✅ <strong>LiteLLM trick:</strong> <code>litellm.completion(model="ollama/llama3.2", messages=[...])</code> — same call works for OpenAI, Anthropic, Gemini, Groq by just changing the model prefix. Perfect for writing provider-agnostic code.</div>
+  </section>
+
+  <!-- ─── CODE ─── -->
+  <section>
+    <h2 id="code">2. 💻 Code Generation LLMs</h2>
+    <p>Models fine-tuned specifically on code — better at syntax, debugging, completions, and multi-file understanding than general text models.</p>
+
+    <h3 id="code-models">Code Models — Free &amp; Paid</h3>
+    <table>
+      <tr><th>Model</th><th>Provider</th><th>Free?</th><th>Context</th><th>Languages</th><th>Best For</th></tr>
+      <tr><td>GitHub Copilot Free</td><td>GitHub / OpenAI</td><td class="free">Free (2K completions/mo)</td><td>128K</td><td>All major</td><td>IDE autocomplete, chat</td></tr>
+      <tr><td>gpt-4o (Copilot)</td><td>GitHub Copilot Free API</td><td class="free">Free via gh token</td><td>128K</td><td>All</td><td>Code gen, review, explain</td></tr>
+      <tr><td>qwen2.5-coder:7b</td><td>Alibaba / Ollama</td><td class="local">Local (free)</td><td>32K</td><td>90+ langs</td><td>Offline code assistant</td></tr>
+      <tr><td>qwen2.5-coder:32b</td><td>Alibaba / Ollama</td><td class="local">Local (free)</td><td>32K</td><td>All</td><td>Best local code model</td></tr>
+      <tr><td>deepseek-coder-v2</td><td>DeepSeek / Ollama</td><td class="local">Local (free)</td><td>128K</td><td>All</td><td>Complex algorithms</td></tr>
+      <tr><td>codestral:22b</td><td>Mistral / Ollama</td><td class="local">Local (free)</td><td>32K</td><td>80+ langs</td><td>Code completion, FIM</td></tr>
+      <tr><td>starcoder2:15b</td><td>BigCode / Ollama</td><td class="local">Local (free)</td><td>16K</td><td>600+ langs</td><td>Niche languages</td></tr>
+      <tr><td>GPT-4o</td><td>OpenAI</td><td class="paid">$5/1M in</td><td>128K</td><td>All</td><td>Production code gen</td></tr>
+      <tr><td>Claude 3.5 Sonnet</td><td>Anthropic</td><td class="paid">$3/1M in</td><td>200K</td><td>All</td><td>Long file refactoring</td></tr>
+      <tr><td>Codestral (API)</td><td>Mistral AI</td><td class="paid">$0.20/1M in</td><td>32K</td><td>80+ langs</td><td>Cheap code completions</td></tr>
+    </table>
+
+    <h3 id="code-local">Build a Local Code Assistant App</h3>
+    <pre><code># 1. Pull a code model
+ollama pull qwen2.5-coder:7b
+
+# 2. Install dependencies
+pip install openai rich
+
+# 3. code_assistant.py</code></pre>
+    <pre><code>from openai import OpenAI
+from rich.console import Console
+from rich.markdown import Markdown
+
+client  = OpenAI(base_url="http://localhost:11434/v1", api_key="ollama")
+console = Console()
+
+SYSTEM = """You are an expert software engineer.
+When asked to write code, produce clean, well-commented code.
+Always explain what the code does after writing it."""
+
+history = [{"role": "system", "content": SYSTEM}]
+
+console.print("[bold blue]Local Code Assistant[/] (qwen2.5-coder • Ctrl+C to quit)\n")
+while True:
+    user_input = console.input("[bold green]You:[/] ")
+    history.append({"role": "user", "content": user_input})
+
+    response = client.chat.completions.create(
+        model="qwen2.5-coder:7b",
+        messages=history,
+        stream=True
+    )
+    assistant_text = ""
+    console.print("[bold yellow]Assistant:[/]")
+    for chunk in response:
+        delta = chunk.choices[0].delta.content or ""
+        assistant_text += delta
+        print(delta, end="", flush=True)
+    print()
+    console.print(Markdown(assistant_text))
+    history.append({"role": "assistant", "content": assistant_text})</code></pre>
+
+    <h3 id="code-libs">Code LLM Libraries</h3>
+    <ul>
+      <li><strong>continue.dev</strong> — VS Code / JetBrains plugin using local Ollama models as Copilot replacement</li>
+      <li><strong>aider</strong> — AI pair programmer in terminal (<code>pip install aider-chat</code>)</li>
+      <li><strong>gpt-engineer</strong> — Generates entire codebases from prompt</li>
+      <li><strong>mentat</strong> — AI coding assistant aware of entire repo context</li>
+      <li><strong>open-interpreter</strong> — LLM that can execute Python/bash code locally</li>
+    </ul>
+    <pre><code># aider — AI pair programmer with local model
+pip install aider-chat
+aider --model ollama/qwen2.5-coder:7b --no-auto-commits</code></pre>
+  </section>
+
+  <!-- ─── IMAGE ─── -->
+  <section>
+    <h2 id="image">3. 🎨 Image Generation — Diffusion Models</h2>
+    <p>These are <em>not</em> transformers but <strong>diffusion models</strong> — they iteratively denoise random noise guided by a text prompt. DALL-E 3 uses a transformer-based approach combined with diffusion.</p>
+
+    <h3 id="image-models">Image Generation Models</h3>
+    <table>
+      <tr><th>Model</th><th>Provider</th><th>Free?</th><th>Resolution</th><th>Best For</th><th>Access</th></tr>
+      <tr><td>Stable Diffusion 1.5</td><td>Stability AI / RunwayML</td><td class="local">Local (free)</td><td>512×512</td><td>Portraits, fast</td><td>diffusers / AUTOMATIC1111</td></tr>
+      <tr><td>Stable Diffusion XL (SDXL)</td><td>Stability AI</td><td class="local">Local (free)</td><td>1024×1024</td><td>High quality, photorealistic</td><td>diffusers / ComfyUI</td></tr>
+      <tr><td>Stable Diffusion 3.5</td><td>Stability AI</td><td class="local">Local (free)</td><td>1024×1024+</td><td>Best open-source currently</td><td>diffusers</td></tr>
+      <tr><td>FLUX.1 [dev/schnell]</td><td>Black Forest Labs</td><td class="local">Local (free)</td><td>Any</td><td>State of art open model</td><td>diffusers / ComfyUI</td></tr>
+      <tr><td>DALL-E 3</td><td>OpenAI</td><td class="paid">$0.04–0.12/image</td><td>1024×1024+</td><td>Prompt adherence, text in image</td><td>OpenAI API</td></tr>
+      <tr><td>Imagen 3</td><td>Google</td><td class="paid">Via Vertex AI</td><td>Varies</td><td>Photorealistic faces</td><td>Google Cloud</td></tr>
+      <tr><td>Midjourney v6</td><td>Midjourney</td><td class="paid">$10–$60/mo</td><td>Varies</td><td>Artistic / stylised</td><td>Discord bot / API (beta)</td></tr>
+      <tr><td>Adobe Firefly</td><td>Adobe</td><td class="free">Free tier</td><td>2048×2048</td><td>Commercial-safe images</td><td>Web / API</td></tr>
+      <tr><td>HF Spaces (SDXL etc.)</td><td>HuggingFace</td><td class="free">Free</td><td>1024×1024</td><td>No local GPU experiments</td><td>Gradio web UI</td></tr>
+    </table>
+
+    <h3 id="image-local">Build a Local Image Generation App</h3>
+    <pre><code># Requirements: 4–8 GB GPU RAM (or CPU with patience)
+pip install diffusers transformers accelerate torch torchvision</code></pre>
+    <pre><code>from diffusers import StableDiffusionPipeline, DPMSolverMultistepScheduler
+import torch
+
+MODEL_ID = "stabilityai/stable-diffusion-2-1"
+
+pipe = StableDiffusionPipeline.from_pretrained(
+    MODEL_ID,
+    torch_dtype=torch.float16   # use float32 for CPU
+)
+pipe.scheduler = DPMSolverMultistepScheduler.from_config(pipe.scheduler.config)
+pipe = pipe.to("cuda")          # change to "cpu" if no GPU
+
+prompt = "A futuristic software developer workspace, neon lights, cyberpunk style, 4K"
+negative_prompt = "blurry, low quality, watermark, text"
+
+image = pipe(
+    prompt,
+    negative_prompt=negative_prompt,
+    num_inference_steps=25,     # more steps = better quality but slower
+    guidance_scale=7.5
+).images[0]
+
+image.save("output.png")
+print("Image saved to output.png")</code></pre>
+
+    <pre><code># FLUX.1 schnell — fastest high-quality open model (12 GB VRAM)
+from diffusers import FluxPipeline
+import torch
+
+pipe = FluxPipeline.from_pretrained(
+    "black-forest-labs/FLUX.1-schnell",
+    torch_dtype=torch.bfloat16
+).to("cuda")
+
+image = pipe(
+    "A beautiful mountain landscape at sunrise, photorealistic, 8K",
+    num_inference_steps=4,      # schnell only needs 4 steps!
+    guidance_scale=0.0
+).images[0]
+image.save("flux_output.png")</code></pre>
+
+    <div class="tip">✅ <strong>No GPU?</strong> Use <a href="https://huggingface.co/spaces" target="_blank">Hugging Face Spaces</a> to run SDXL or FLUX in the browser for free. Or use Google Colab free T4 GPU.</div>
+
+    <h3 id="image-libs">Image Generation Libraries</h3>
+    <table>
+      <tr><th>Library</th><th>Purpose</th><th>Notes</th></tr>
+      <tr><td><strong>diffusers</strong> (HuggingFace)</td><td>Run any diffusion model in Python</td><td>Most comprehensive, all models supported</td></tr>
+      <tr><td><strong>AUTOMATIC1111</strong></td><td>Web UI for SD with hundreds of extensions</td><td>Best for non-programmers + extensions</td></tr>
+      <tr><td><strong>ComfyUI</strong></td><td>Node-based visual workflow for diffusion</td><td>Most flexible, supports FLUX, SD, ControlNet</td></tr>
+      <tr><td><strong>Invoke AI</strong></td><td>Professional image gen platform</td><td>Open source, good UX, canvas editing</td></tr>
+      <tr><td><strong>openai</strong></td><td>DALL-E 3 via API</td><td>Easiest for text-in-image, consistent quality</td></tr>
+      <tr><td><strong>stability-sdk</strong></td><td>Stability AI DreamStudio API</td><td>Cloud-based SD access</td></tr>
+      <tr><td><strong>Pillow / PIL</strong></td><td>Image post-processing</td><td>Resize, crop, overlay text on generated images</td></tr>
+      <tr><td><strong>ControlNet</strong></td><td>Condition generation on edges, depth, pose</td><td>Via diffusers ControlNetModel</td></tr>
+    </table>
+  </section>
+
+  <!-- ─── VISION ─── -->
+  <section>
+    <h2 id="vision">4. 👁️ Vision / Multimodal LLMs</h2>
+    <p>Models that accept both <strong>image + text</strong> as input and produce text. Used for image understanding, OCR, chart analysis, document Q&A, and visual reasoning.</p>
+
+    <h3 id="vision-models">Vision Models</h3>
+    <table>
+      <tr><th>Model</th><th>Provider</th><th>Free?</th><th>Strengths</th><th>API</th></tr>
+      <tr><td>GPT-4o Vision</td><td>OpenAI</td><td class="paid">$5/1M in</td><td>Best overall, OCR, charts</td><td>OpenAI API (image_url in messages)</td></tr>
+      <tr><td>Claude 3.5 Sonnet</td><td>Anthropic</td><td class="paid">$3/1M in</td><td>Document understanding, PDFs</td><td>Anthropic API</td></tr>
+      <tr><td>Gemini 1.5 Flash</td><td>Google</td><td class="free">Free tier</td><td>Video frames, long docs + images</td><td>google-generativeai</td></tr>
+      <tr><td>Gemini 1.5 Pro</td><td>Google</td><td class="paid">$3.50/1M in</td><td>Up to 1M token context with images</td><td>google-generativeai</td></tr>
+      <tr><td>LLaVA 1.6 (34B)</td><td>LLaVA / Ollama</td><td class="local">Local (free)</td><td>General visual Q&A</td><td>ollama pull llava</td></tr>
+      <tr><td>moondream2</td><td>vikhyatk / Ollama</td><td class="local">Local (free, 1.8B)</td><td>Tiny, fast, runs on CPU</td><td>ollama pull moondream</td></tr>
+      <tr><td>minicpm-v</td><td>OpenBMB / Ollama</td><td class="local">Local (free, 8B)</td><td>Excellent OCR, multilingual</td><td>ollama pull minicpm-v</td></tr>
+      <tr><td>bakllava</td><td>SkunkworksAI / Ollama</td><td class="local">Local (free, 7B)</td><td>Mistral base + vision</td><td>ollama pull bakllava</td></tr>
+    </table>
+
+    <h3 id="vision-local">Local Vision App Example</h3>
+    <pre><code>import ollama, base64, sys
+from pathlib import Path
+
+# Pull first: ollama pull minicpm-v
+def analyse_image(image_path: str, question: str = "Describe this image in detail") -> str:
+    img_data = Path(image_path).read_bytes()
+    img_b64  = base64.b64encode(img_data).decode()
+
+    response = ollama.chat(
+        model="minicpm-v",
+        messages=[{
+            "role": "user",
+            "content": question,
+            "images": [img_b64]
+        }]
+    )
+    return response["message"]["content"]
+
+# Usage
+result = analyse_image("screenshot.png", "List all the text visible in this image")
+print(result)</code></pre>
+
+    <pre><code># Vision with GitHub Copilot Free API (GPT-4o Vision — no local GPU needed)
+import subprocess, base64
+from openai import OpenAI
+from pathlib import Path
+
+token  = subprocess.run(["gh","auth","token"], capture_output=True, text=True).stdout.strip()
+client = OpenAI(base_url="https://models.inference.ai.azure.com", api_key=token)
+
+def analyse_image_copilot(image_path: str, question: str) -> str:
+    img_b64 = base64.b64encode(Path(image_path).read_bytes()).decode()
+    resp = client.chat.completions.create(
+        model="gpt-4o",
+        messages=[{"role":"user","content":[
+            {"type":"text","text": question},
+            {"type":"image_url","image_url":{"url": f"data:image/png;base64,{img_b64}"}}
+        ]}]
+    )
+    return resp.choices[0].message.content
+
+print(analyse_image_copilot("chart.png", "What trend does this chart show?"))</code></pre>
+  </section>
+
+  <!-- ─── AUDIO ─── -->
+  <section>
+    <h2 id="audio">5. 🎙️ Audio — Speech-to-Text &amp; Text-to-Speech</h2>
+
+    <h3 id="stt">5.1 Speech-to-Text (STT) Models</h3>
+    <table>
+      <tr><th>Model</th><th>Provider</th><th>Free?</th><th>Accuracy</th><th>Speed</th><th>Notes</th></tr>
+      <tr><td>Whisper (local)</td><td>OpenAI / HuggingFace</td><td class="local">Local (free)</td><td>Excellent</td><td>Medium</td><td>Best open-source STT</td></tr>
+      <tr><td>faster-whisper</td><td>SYSTRAN / GitHub</td><td class="local">Local (free)</td><td>Excellent</td><td>⚡ 4× faster</td><td>Uses CTranslate2, int8 quantised</td></tr>
+      <tr><td>whisper.cpp</td><td>ggerganov</td><td class="local">Local (free)</td><td>Excellent</td><td>⚡ Very fast</td><td>CPU only, no Python required</td></tr>
+      <tr><td>OpenAI Whisper API</td><td>OpenAI</td><td class="paid">$0.006/min</td><td>Excellent</td><td>Fast</td><td>Easiest, no local setup</td></tr>
+      <tr><td>Deepgram Nova-2</td><td>Deepgram</td><td class="free">Free $200 credit</td><td>Best in class</td><td>Real-time</td><td>Streaming, speaker diarisation</td></tr>
+      <tr><td>AssemblyAI</td><td>AssemblyAI</td><td class="free">Free tier</td><td>Excellent</td><td>Fast</td><td>Speaker labels, LeMUR (LLM on transcripts)</td></tr>
+      <tr><td>Parakeet (NVIDIA)</td><td>NVIDIA / HuggingFace</td><td class="local">Local (free)</td><td>Excellent</td><td>⚡ Fastest</td><td>Needs NVIDIA GPU, NeMo framework</td></tr>
+    </table>
+
+    <pre><code># faster-whisper — used in your transcript-notes-generator project
+pip install faster-whisper</code></pre>
+    <pre><code>from faster_whisper import WhisperModel
+
+model = WhisperModel(
+    "base",            # tiny/base/small/medium/large-v3
+    device="cpu",      # or "cuda"
+    compute_type="int8"
+)
+
+segments, info = model.transcribe("audio.mp3", beam_size=5)
+print(f"Detected language: {info.language} ({info.language_probability:.0%})")
+
+for segment in segments:
+    print(f"[{segment.start:.1f}s → {segment.end:.1f}s] {segment.text}")</code></pre>
+
+    <h3 id="tts">5.2 Text-to-Speech (TTS) Models</h3>
+    <table>
+      <tr><th>Model</th><th>Provider</th><th>Free?</th><th>Quality</th><th>Notes</th></tr>
+      <tr><td>Coqui TTS (XTTS-v2)</td><td>Coqui AI</td><td class="local">Local (free)</td><td>Excellent</td><td>Voice cloning with 6 sec sample</td></tr>
+      <tr><td>Piper TTS</td><td>rhasspy</td><td class="local">Local (free)</td><td>Good</td><td>Extremely fast, 200+ voices</td></tr>
+      <tr><td>Kokoro TTS</td><td>hexgrad / HuggingFace</td><td class="local">Local (free, 82M)</td><td>Excellent</td><td>82M model, natural prosody, MIT license</td></tr>
+      <tr><td>pyttsx3</td><td>nateshmbhat</td><td class="local">Local (free)</td><td>Robotic</td><td>Uses OS TTS engine, no internet, instant</td></tr>
+      <tr><td>OpenAI TTS</td><td>OpenAI</td><td class="paid">$15/1M chars</td><td>Excellent</td><td>6 voices, alloy/nova/shimmer etc.</td></tr>
+      <tr><td>ElevenLabs</td><td>ElevenLabs</td><td class="free">10K chars/mo free</td><td>Best in class</td><td>Voice cloning, emotional control</td></tr>
+      <tr><td>Azure TTS</td><td>Microsoft</td><td class="free">500K chars/mo free</td><td>Excellent</td><td>500+ voices, SSML support</td></tr>
+    </table>
+
+    <pre><code># Kokoro TTS — best free local TTS (2025)
+pip install kokoro soundfile</code></pre>
+    <pre><code>from kokoro import KPipeline
+import soundfile as sf
+import numpy as np
+
+pipeline = KPipeline(lang_code="a")  # 'a' = American English
+
+text = "Hello! I am a local text-to-speech system running entirely on your machine."
+generator = pipeline(text, voice="af_heart", speed=1.0)
+
+audio_chunks = []
+for chunk, _, _ in generator:
+    audio_chunks.append(chunk)
+
+audio = np.concatenate(audio_chunks)
+sf.write("output.wav", audio, 24000)
+print("Audio saved to output.wav")</code></pre>
+
+    <h3 id="audio-local">Local Audio Pipeline App</h3>
+    <pre><code># Full voice assistant pipeline: Mic → Whisper → LLM → TTS → Speaker
+pip install faster-whisper sounddevice numpy openai kokoro soundfile</code></pre>
+    <pre><code>import sounddevice as sd
+import numpy as np
+import subprocess
+from faster_whisper import WhisperModel
+from openai import OpenAI
+from kokoro import KPipeline
+import soundfile as sf
+import tempfile, os
+
+# Setup
+stt_model  = WhisperModel("base", device="cpu", compute_type="int8")
+tts_pipe   = KPipeline(lang_code="a")
+gh_token   = subprocess.run(["gh","auth","token"], capture_output=True, text=True).stdout.strip()
+llm_client = OpenAI(base_url="https://models.inference.ai.azure.com", api_key=gh_token)
+
+def record_audio(seconds=5, sample_rate=16000) -> np.ndarray:
+    print(f"Recording for {seconds}s...")
+    audio = sd.rec(int(seconds * sample_rate), samplerate=sample_rate,
+                   channels=1, dtype='float32')
+    sd.wait()
+    return audio.flatten()
+
+def transcribe(audio: np.ndarray) -> str:
+    with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as f:
+        sf.write(f.name, audio, 16000)
+        segments, _ = stt_model.transcribe(f.name)
+        os.unlink(f.name)
+    return " ".join(s.text for s in segments).strip()
+
+def ask_llm(text: str) -> str:
+    resp = llm_client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[{"role":"user","content": text}]
+    )
+    return resp.choices[0].message.content
+
+def speak(text: str):
+    chunks = [c for c, _, _ in tts_pipe(text, voice="af_heart")]
+    audio  = np.concatenate(chunks)
+    sd.play(audio, 24000); sd.wait()
+
+# Run the pipeline
+audio   = record_audio(seconds=5)
+user_q  = transcribe(audio)
+print(f"You said: {user_q}")
+answer  = ask_llm(user_q)
+print(f"Assistant: {answer}")
+speak(answer)</code></pre>
+  </section>
+
+  <!-- ─── VIDEO ─── -->
+  <section>
+    <h2 id="video">6. 🎬 Video Generation Models</h2>
+    <p>The newest and most resource-intensive category. Most require <strong>≥ 24 GB VRAM</strong> for local use. Free cloud options exist via HuggingFace Spaces.</p>
+
+    <table>
+      <tr><th>Model</th><th>Provider</th><th>Free?</th><th>Duration</th><th>Resolution</th><th>Notes</th></tr>
+      <tr><td>Wan2.1 (14B)</td><td>Alibaba / HuggingFace</td><td class="local">Local (free)</td><td>Up to 10s</td><td>480p–720p</td><td>Best open-source video model (2025)</td></tr>
+      <tr><td>CogVideoX-5B</td><td>THUDM / HuggingFace</td><td class="local">Local (free)</td><td>6s</td><td>720p</td><td>Needs 24 GB VRAM</td></tr>
+      <tr><td>Mochi-1</td><td>Genmo / HuggingFace</td><td class="local">Local (free)</td><td>5s</td><td>480p</td><td>Good motion quality</td></tr>
+      <tr><td>AnimateDiff</td><td>HuggingFace / diffusers</td><td class="local">Local (free)</td><td>2–4s</td><td>512×512</td><td>Animate SD images, lower VRAM</td></tr>
+      <tr><td>HF Spaces (CogVideoX)</td><td>HuggingFace</td><td class="free">Free (queue)</td><td>6s</td><td>720p</td><td>Browser, no local GPU needed</td></tr>
+      <tr><td>Sora</td><td>OpenAI</td><td class="paid">ChatGPT Plus $20/mo</td><td>Up to 60s</td><td>1080p</td><td>Best quality, photorealistic</td></tr>
+      <tr><td>Runway Gen-3 Alpha</td><td>Runway</td><td class="paid">$12+/mo</td><td>5–10s</td><td>720p</td><td>Image-to-video strong</td></tr>
+      <tr><td>Kling AI</td><td>Kuaishou</td><td class="free">Limited free</td><td>5–10s</td><td>720p</td><td>Good motion, free tier available</td></tr>
+      <tr><td>Pika Labs</td><td>Pika</td><td class="free">Limited free</td><td>3s</td><td>1080p</td><td>Good for animation style</td></tr>
+      <tr><td>Google Veo 2</td><td>Google</td><td class="paid">Via VideoFX / Vertex</td><td>Up to 60s</td><td>4K</td><td>Top-tier quality</td></tr>
+    </table>
+
+    <pre><code># AnimateDiff — animate any image (works on consumer GPU 8–12 GB VRAM)
+pip install diffusers transformers accelerate torch</code></pre>
+    <pre><code>from diffusers import AnimateDiffPipeline, DDIMScheduler, MotionAdapter
+from diffusers.utils import export_to_gif
+import torch
+
+adapter = MotionAdapter.from_pretrained(
+    "guoyww/animatediff-motion-adapter-v1-5-2",
+    torch_dtype=torch.float16
+)
+pipe = AnimateDiffPipeline.from_pretrained(
+    "emilianJR/epiCRealism",
+    motion_adapter=adapter,
+    torch_dtype=torch.float16
+).to("cuda")
+pipe.scheduler = DDIMScheduler.from_config(pipe.scheduler.config,
+    beta_schedule="linear", clip_sample=False, timestep_spacing="linspace", steps_offset=1)
+
+frames = pipe(
+    prompt="A cat sitting on a rooftop, sunset, cinematic, 4K",
+    negative_prompt="bad quality, distorted",
+    num_frames=16,
+    guidance_scale=7.5,
+    num_inference_steps=25
+).frames[0]
+
+export_to_gif(frames, "animation.gif")
+print("Animation saved to animation.gif")</code></pre>
+  </section>
+
+  <!-- ─── EMBEDDINGS ─── -->
+  <section>
+    <h2 id="embed">7. 🧮 Embedding Models</h2>
+    <p>Embeddings convert text into dense vectors for semantic search, RAG retrieval, clustering, classification, and similarity comparison.</p>
+
+    <h3 id="embed-free">Free &amp; Local Embedding Models</h3>
+    <table>
+      <tr><th>Model</th><th>Dimensions</th><th>MTEB Score</th><th>Speed</th><th>Free?</th><th>Notes</th></tr>
+      <tr><td>all-MiniLM-L6-v2</td><td>384</td><td>56.3</td><td>⚡ Very fast</td><td class="local">Local (free)</td><td>Best for CPU, small RAM</td></tr>
+      <tr><td>all-mpnet-base-v2</td><td>768</td><td>57.8</td><td>Fast</td><td class="local">Local (free)</td><td>Better quality than MiniLM</td></tr>
+      <tr><td>nomic-embed-text</td><td>768</td><td>62.4</td><td>Fast</td><td class="local">Local via Ollama</td><td>8K context, top open model</td></tr>
+      <tr><td>mxbai-embed-large</td><td>1024</td><td>64.7</td><td>Medium</td><td class="local">Local via Ollama</td><td>512 token context, high quality</td></tr>
+      <tr><td>bge-large-en-v1.5</td><td>1024</td><td>64.2</td><td>Medium</td><td class="local">Local (free)</td><td>BAAI, great for English RAG</td></tr>
+      <tr><td>text-embedding-3-small</td><td>1536</td><td>62.3</td><td>Fast</td><td class="paid">$0.02/1M tokens</td><td>Cheapest OpenAI option</td></tr>
+      <tr><td>text-embedding-3-large</td><td>3072</td><td>64.6</td><td>Fast</td><td class="paid">$0.13/1M tokens</td><td>Best OpenAI, supports matryoshka</td></tr>
+      <tr><td>embed-v3 english</td><td>1024</td><td>64.5</td><td>Fast</td><td class="free">Free tier</td><td>Cohere, excellent for RAG</td></tr>
+      <tr><td>Gemini text-embedding-004</td><td>768</td><td>62.7</td><td>Fast</td><td class="free">Free tier</td><td>Google, 2048 token context</td></tr>
+    </table>
+
+    <h3 id="embed-local">Local Embedding App for RAG</h3>
+    <pre><code>pip install sentence-transformers chromadb</code></pre>
+    <pre><code>from sentence_transformers import SentenceTransformer
+import chromadb
+
+# Load local embedding model (no API key needed)
+embed_model = SentenceTransformer("all-MiniLM-L6-v2")  # 22 MB, fast on CPU
+
+# Setup ChromaDB (local, persistent)
+client     = chromadb.PersistentClient(path="./chroma_db")
+collection = client.get_or_create_collection("my_docs")
+
+# Index documents
+documents = [
+    "Python is a high-level programming language known for readability.",
+    "LangChain is a framework for building LLM-powered applications.",
+    "FastAPI is a modern web framework for building APIs with Python.",
+    "Docker containers package applications and their dependencies together.",
+]
+embeddings = embed_model.encode(documents).tolist()
+
+collection.add(
+    documents=documents,
+    embeddings=embeddings,
+    ids=[f"doc_{i}" for i in range(len(documents))]
+)
+
+# Query
+query      = "How do I build a web API in Python?"
+query_emb  = embed_model.encode([query]).tolist()
+results    = collection.query(query_embeddings=query_emb, n_results=2)
+
+print("Most relevant docs:")
+for doc in results["documents"][0]:
+    print(f" • {doc}")</code></pre>
+
+    <pre><code># Using Ollama embeddings (nomic-embed-text — 8K context)
+# First: ollama pull nomic-embed-text
+import ollama
+
+def get_embedding(text: str) -> list[float]:
+    resp = ollama.embeddings(model="nomic-embed-text", prompt=text)
+    return resp["embedding"]
+
+emb = get_embedding("How does RAG work?")
+print(f"Embedding dimensions: {len(emb)}")  # 768</code></pre>
+  </section>
+
+  <!-- ─── REASONING ─── -->
+  <section>
+    <h2 id="reasoning">8. 🤔 Reasoning / Thinking Models</h2>
+    <p>Models that use <strong>chain-of-thought</strong> reasoning internally before answering. Significantly better at maths, logic, planning, and multi-step problems. They typically show a "thinking" token stream before the final answer.</p>
+
+    <table>
+      <tr><th>Model</th><th>Provider</th><th>Free?</th><th>Thinking</th><th>Best For</th></tr>
+      <tr><td>o3-mini</td><td>OpenAI / GitHub Copilot</td><td class="free">Free via Copilot</td><td>Hidden internal CoT</td><td>Maths, coding puzzles, logic</td></tr>
+      <tr><td>o1</td><td>OpenAI</td><td class="paid">$15/1M in</td><td>Hidden internal CoT</td><td>Research-level reasoning</td></tr>
+      <tr><td>o3</td><td>OpenAI</td><td class="paid">$10/1M in</td><td>Hidden internal CoT</td><td>Frontier reasoning tasks</td></tr>
+      <tr><td>Claude 3.7 Sonnet (thinking)</td><td>Anthropic</td><td class="paid">$3/1M in</td><td>Visible thinking block</td><td>Long-horizon planning</td></tr>
+      <tr><td>DeepSeek-R1</td><td>DeepSeek</td><td class="local">Local via Ollama</td><td>Visible &lt;think&gt; tags</td><td>Best free reasoning model</td></tr>
+      <tr><td>DeepSeek-R1:8b</td><td>DeepSeek / Ollama</td><td class="local">Local (free, 8B)</td><td>Visible &lt;think&gt; tags</td><td>Local maths/logic (8 GB RAM)</td></tr>
+      <tr><td>QwQ-32B</td><td>Alibaba / Ollama</td><td class="local">Local (free, 32B)</td><td>Visible thinking</td><td>Best local reasoning (20 GB RAM)</td></tr>
+      <tr><td>Gemini 2.0 Flash Thinking</td><td>Google</td><td class="free">Free tier</td><td>Visible thinking</td><td>Fast reasoning, free</td></tr>
+    </table>
+
+    <pre><code># DeepSeek-R1 locally (8B — 8 GB RAM)
+# ollama pull deepseek-r1:8b
+import ollama
+
+response = ollama.chat(
+    model="deepseek-r1:8b",
+    messages=[{
+        "role": "user",
+        "content": "A bat and ball cost $1.10. The bat costs $1 more than the ball. How much does the ball cost?"
+    }],
+    stream=True
+)
+for chunk in response:
+    print(chunk["message"]["content"], end="", flush=True)
+# Watch the <think>...</think> block before the final answer</code></pre>
+  </section>
+
+  <!-- ─── AGENTS ─── -->
+  <section>
+    <h2 id="agents">9. 🤖 Agentic / Tool-Use LLMs</h2>
+    <p>Models capable of <strong>function calling</strong> — they decide which tool to call, with what arguments, based on the user request. Foundation for all AI agents.</p>
+
+    <table>
+      <tr><th>Model</th><th>Function Calling?</th><th>Free?</th><th>Parallel Calls?</th><th>Best For</th></tr>
+      <tr><td>GPT-4o</td><td>✅ Excellent</td><td class="free">Via Copilot Free</td><td>✅ Yes</td><td>Complex multi-tool agents</td></tr>
+      <tr><td>GPT-4o-mini</td><td>✅ Good</td><td class="paid">$0.15/1M in</td><td>✅ Yes</td><td>Cost-effective agents</td></tr>
+      <tr><td>Claude 3.5 Sonnet</td><td>✅ Excellent</td><td class="paid">$3/1M in</td><td>✅ Yes</td><td>Long agentic workflows</td></tr>
+      <tr><td>LLaMA-3.1:8b (Groq)</td><td>✅ Good</td><td class="free">Free tier</td><td>✅ Yes</td><td>Fast free agents</td></tr>
+      <tr><td>LLaMA-3.1:70b (Groq)</td><td>✅ Excellent</td><td class="free">Free tier</td><td>✅ Yes</td><td>Best free agent model</td></tr>
+      <tr><td>Gemini 1.5 Flash</td><td>✅ Good</td><td class="free">Free tier</td><td>✅ Yes</td><td>Agentic + vision</td></tr>
+      <tr><td>ollama (qwen2.5:7b)</td><td>✅ Good</td><td class="local">Local (free)</td><td>✅ Yes</td><td>Local tool-use agents</td></tr>
+      <tr><td>mistral:7b (Ollama)</td><td>⚠️ Limited</td><td class="local">Local (free)</td><td>❌ No</td><td>Simple tool use</td></tr>
+    </table>
+
+    <pre><code># Tool-use agent with LangChain + Groq (free)
+pip install langchain langchain-groq</code></pre>
+    <pre><code">import os
+from langchain_groq import ChatGroq
+from langchain.agents import AgentExecutor, create_tool_calling_agent
+from langchain_core.prompts import ChatPromptTemplate
+from langchain.tools import tool
+
+os.environ["GROQ_API_KEY"] = "your-groq-key"  # free at console.groq.com
+
+@tool
+def get_weather(city: str) -> str:
+    """Get current weather for a city."""
+    # In real app, call a weather API
+    return f"Weather in {city}: 22°C, partly cloudy"
+
+@tool
+def calculate(expression: str) -> str:
+    """Evaluate a mathematical expression."""
+    return str(eval(expression))  # use safer eval in production
+
+llm   = ChatGroq(model="llama-3.1-70b-versatile", temperature=0)
+tools = [get_weather, calculate]
+
+prompt = ChatPromptTemplate.from_messages([
+    ("system", "You are a helpful assistant with access to tools."),
+    ("human",  "{input}"),
+    ("placeholder", "{agent_scratchpad}"),
+])
+
+agent          = create_tool_calling_agent(llm, tools, prompt)
+agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
+
+result = agent_executor.invoke({
+    "input": "What is the weather in Tokyo? Also, what is 25 * 47?"
+})
+print(result["output"])</code></pre>
+  </section>
+
+  <!-- ─── STRUCTURED OUTPUT ─── -->
+  <section>
+    <h2 id="structured">10. 📐 Structured Output Models</h2>
+    <p>Getting LLMs to reliably output valid JSON / schema-constrained data. Critical for production pipelines, data extraction, and API integrations.</p>
+
+    <table>
+      <tr><th>Approach</th><th>Library</th><th>Works With</th><th>Free?</th></tr>
+      <tr><td>OpenAI Structured Outputs</td><td>openai (native)</td><td>GPT-4o, GPT-4o-mini</td><td class="paid">Paid</td></tr>
+      <tr><td>Instructor</td><td><code>pip install instructor</code></td><td>OpenAI, Anthropic, Groq, Ollama</td><td class="free">Free library</td></tr>
+      <tr><td>Pydantic AI</td><td><code>pip install pydantic-ai</code></td><td>OpenAI, Anthropic, Groq, Gemini</td><td class="free">Free library</td></tr>
+      <tr><td>Ollama JSON mode</td><td>ollama native</td><td>All Ollama models</td><td class="local">Local (free)</td></tr>
+      <tr><td>Outlines</td><td><code>pip install outlines</code></td><td>Any HuggingFace model</td><td class="local">Local (free)</td></tr>
+      <tr><td>LangChain with_structured_output</td><td>langchain</td><td>Most providers</td><td class="free">Free library</td></tr>
+    </table>
+
+    <pre><code>pip install instructor groq pydantic</code></pre>
+    <pre><code>import instructor
+from groq import Groq
+from pydantic import BaseModel
+from typing import List
+import os
+
+os.environ["GROQ_API_KEY"] = "your-groq-key"
+
+class Skill(BaseModel):
+    name: str
+    level: str  # beginner / intermediate / expert
+    years: int
+
+class DeveloperProfile(BaseModel):
+    name: str
+    role: str
+    skills: List[Skill]
+    summary: str
+
+# Patch Groq client with instructor
+client = instructor.from_groq(Groq(), mode=instructor.Mode.JSON)
+
+profile = client.chat.completions.create(
+    model="llama-3.1-70b-versatile",
+    response_model=DeveloperProfile,
+    messages=[{
+        "role": "user",
+        "content": "Extract developer info: John is a senior Python developer with 7 years Python (expert), 3 years Docker (intermediate), 1 year Kubernetes (beginner)."
+    }]
+)
+
+print(f"Name: {profile.name}")
+print(f"Role: {profile.role}")
+for skill in profile.skills:
+    print(f"  • {skill.name}: {skill.level} ({skill.years} yrs)")</code></pre>
+  </section>
+
+  <!-- ─── LOCAL DEV STACK ─── -->
+  <section>
+    <h2 id="local-stack">11. 🛠️ Complete Local Dev Stack</h2>
+    <p>Everything you need to run a full AI lab on your laptop — <strong>no API keys required</strong>.</p>
+
+    <h3>Minimum Requirements</h3>
+    <table>
+      <tr><th>Tier</th><th>RAM</th><th>GPU</th><th>What You Can Run</th></tr>
+      <tr><td>Basic</td><td>8 GB</td><td>Any / CPU only</td><td>Text: llama3.2:3b, phi3.5, moondream; STT: whisper-base; TTS: pyttsx3</td></tr>
+      <tr><td>Good</td><td>16 GB</td><td>8 GB VRAM (GTX 1080+)</td><td>Text: llama3.1:8b, qwen2.5:14b; Vision: llava:7b; STT: whisper-medium; Images: SD1.5</td></tr>
+      <tr><td>Great</td><td>32 GB</td><td>12–16 GB VRAM (RTX 3080+)</td><td>Text: llama3.3:70b (int4); Vision: minicpm-v; Images: SDXL, FLUX schnell; Reasoning: deepseek-r1:8b</td></tr>
+      <tr><td>Pro</td><td>64 GB+</td><td>24+ GB VRAM (A10G / RTX 4090)</td><td>Everything above + CogVideoX video gen, QwQ-32B reasoning</td></tr>
+    </table>
+
+    <h3>One-Command Setup</h3>
+    <pre><code># 1. Install Ollama
+winget install Ollama.Ollama
+
+# 2. Pull essential models
+ollama pull llama3.2          # general chat (4 GB)
+ollama pull qwen2.5-coder:7b  # code (5 GB)
+ollama pull nomic-embed-text  # embeddings (274 MB)
+ollama pull moondream         # vision (2 GB)
+ollama pull deepseek-r1:8b    # reasoning (5 GB)
+
+# 3. Install Python libraries
+pip install openai langchain langchain-community chromadb \
+            sentence-transformers faster-whisper \
+            streamlit gradio rich instructor pydantic litellm
+
+# 4. Optional GUI tools
+# ComfyUI         → https://github.com/comfyanonymous/ComfyUI
+# Open WebUI      → docker run -d -p 3000:8080 --add-host=host.docker.internal:host-gateway ghcr.io/open-webui/open-webui:main
+# LM Studio       → https://lmstudio.ai  (GUI for GGUF models)</code></pre>
+
+    <h3>Open WebUI — ChatGPT-like UI for Ollama</h3>
+    <pre><code"># Docker one-liner — gives you a ChatGPT-style interface for ALL Ollama models
+docker run -d \
+  -p 3000:8080 \
+  --add-host=host.docker.internal:host-gateway \
+  -v open-webui:/app/backend/data \
+  --name open-webui \
+  --restart always \
+  ghcr.io/open-webui/open-webui:main
+
+# Open browser: http://localhost:3000</code></pre>
+  </section>
+
+  <!-- ─── EXPERIMENTS ─── -->
+  <section>
+    <h2 id="experiments">12. 🧪 Experiment Ideas by Category</h2>
+
+    <h3>Text / Language</h3>
+    <ul>
+      <li>📝 Build a <strong>personal note summariser</strong> — feed it your daily notes, get a weekly digest</li>
+      <li>🌐 <strong>Multi-language translator</strong> — compare quality of Groq LLaMA vs Gemini Flash on same text</li>
+      <li>📖 <strong>Book chapter Q&A</strong> — load a PDF with LlamaIndex, ask questions about it</li>
+      <li>🎭 <strong>Persona chatbot</strong> — system prompt engineering exercise</li>
+      <li>📊 <strong>Provider benchmark</strong> — run 20 prompts through 5 free models, score outputs</li>
+    </ul>
+
+    <h3>Code Generation</h3>
+    <ul>
+      <li>🔍 <strong>Code reviewer</strong> — paste git diff, get review comments from qwen2.5-coder</li>
+      <li>📝 <strong>Docstring generator</strong> — auto-generate docstrings for undocumented functions</li>
+      <li>🧪 <strong>Test case generator</strong> — input function, get pytest unit tests</li>
+      <li>🔄 <strong>Language translator</strong> — convert Python → TypeScript using local code model</li>
+    </ul>
+
+    <h3>Image Generation</h3>
+    <ul>
+      <li>🖼️ <strong>Prompt engineering lab</strong> — test 50 prompts on SD, log what works</li>
+      <li>🎨 <strong>Style transfer exploration</strong> — same subject, 10 different artistic styles</li>
+      <li>📱 <strong>App icon generator</strong> — generate icons for side projects using DALL-E 3 or FLUX</li>
+      <li>📰 <strong>Blog header generator</strong> — auto-generate featured images from article titles</li>
+    </ul>
+
+    <h3>Vision</h3>
+    <ul>
+      <li>📷 <strong>Receipt OCR</strong> — photo → structured JSON of items and prices</li>
+      <li>📊 <strong>Chart reader</strong> — screenshot a chart, ask questions about data trends</li>
+      <li>🏠 <strong>Room descriptor</strong> — describe room contents, furniture, colours</li>
+      <li>🔍 <strong>Bug screenshot analyser</strong> — screenshot a UI bug, get fix suggestions</li>
+    </ul>
+
+    <h3>Audio</h3>
+    <ul>
+      <li>📽️ <strong>Meeting transcriber</strong> — record audio, transcribe with faster-whisper, summarise with LLM</li>
+      <li>🎵 <strong>Podcast notes generator</strong> — transcribe episode → chapter summaries → key insights</li>
+      <li>🗣️ <strong>Voice Q&A bot</strong> — speak question, get spoken answer (Whisper + LLM + TTS)</li>
+      <li>📚 <strong>Audiobook creator</strong> — any text → natural speech with Kokoro TTS</li>
+    </ul>
+
+    <h3>Embeddings / RAG</h3>
+    <ul>
+      <li>📚 <strong>Personal knowledge base</strong> — index all your notes, search semantically</li>
+      <li>💼 <strong>Job match engine</strong> — embed job descriptions + your CV, find best matches</li>
+      <li>📧 <strong>Email categoriser</strong> — embed emails, cluster by topic automatically</li>
+      <li>🔗 <strong>Duplicate detector</strong> — find near-duplicate documents using cosine similarity</li>
+    </ul>
+  </section>
+
+  <!-- ─── LIBRARY MAP ─── -->
+  <section>
+    <h2 id="lib-map">13. 📚 Library → Category Map</h2>
+    <table>
+      <tr><th>Library</th><th>Category</th><th>Free?</th><th>Install</th><th>Use Case</th></tr>
+      <tr><td><strong>openai</strong></td><td>Text, Code, Vision, STT, TTS, Embeddings</td><td class="free">Free (via Copilot/Ollama)</td><td><code>pip install openai</code></td><td>Universal client for OpenAI-compatible APIs</td></tr>
+      <tr><td><strong>anthropic</strong></td><td>Text, Vision, Code</td><td class="paid">Paid</td><td><code>pip install anthropic</code></td><td>Claude models</td></tr>
+      <tr><td><strong>google-generativeai</strong></td><td>Text, Vision, Embeddings</td><td class="free">Free tier</td><td><code>pip install google-generativeai</code></td><td>Gemini models</td></tr>
+      <tr><td><strong>litellm</strong></td><td>All text categories</td><td class="free">Free</td><td><code>pip install litellm</code></td><td>Single API for 100+ LLMs</td></tr>
+      <tr><td><strong>ollama</strong></td><td>Text, Vision, Embeddings, Code, Reasoning</td><td class="local">Local (free)</td><td><code>pip install ollama</code></td><td>Local model management + inference</td></tr>
+      <tr><td><strong>transformers</strong></td><td>Text, Vision, Audio, Embeddings, Code</td><td class="local">Local (free)</td><td><code>pip install transformers</code></td><td>Load any HuggingFace model</td></tr>
+      <tr><td><strong>diffusers</strong></td><td>Image, Video</td><td class="local">Local (free)</td><td><code>pip install diffusers</code></td><td>All diffusion models</td></tr>
+      <tr><td><strong>faster-whisper</strong></td><td>Audio (STT)</td><td class="local">Local (free)</td><td><code>pip install faster-whisper</code></td><td>Transcription, 4× faster than Whisper</td></tr>
+      <tr><td><strong>kokoro</strong></td><td>Audio (TTS)</td><td class="local">Local (free)</td><td><code>pip install kokoro</code></td><td>Best free local TTS (82M model)</td></tr>
+      <tr><td><strong>sentence-transformers</strong></td><td>Embeddings</td><td class="local">Local (free)</td><td><code>pip install sentence-transformers</code></td><td>Local embeddings for semantic search</td></tr>
+      <tr><td><strong>chromadb</strong></td><td>Embeddings / RAG</td><td class="local">Local (free)</td><td><code>pip install chromadb</code></td><td>Lightweight local vector database</td></tr>
+      <tr><td><strong>faiss-cpu</strong></td><td>Embeddings / RAG</td><td class="local">Local (free)</td><td><code>pip install faiss-cpu</code></td><td>Facebook's fast vector search (production)</td></tr>
+      <tr><td><strong>langchain</strong></td><td>Text, Agents, RAG</td><td class="free">Free</td><td><code>pip install langchain</code></td><td>Chains, agents, RAG pipelines</td></tr>
+      <tr><td><strong>langgraph</strong></td><td>Agents</td><td class="free">Free</td><td><code>pip install langgraph</code></td><td>Stateful multi-agent graphs</td></tr>
+      <tr><td><strong>instructor</strong></td><td>Structured Output</td><td class="free">Free</td><td><code>pip install instructor</code></td><td>Pydantic-validated LLM outputs</td></tr>
+      <tr><td><strong>groq</strong></td><td>Text, Code (ultra-fast)</td><td class="free">Free tier</td><td><code>pip install groq</code></td><td>Fastest free inference (600 tokens/sec)</td></tr>
+      <tr><td><strong>llama-cpp-python</strong></td><td>Text, Code (GGUF)</td><td class="local">Local (free)</td><td><code>pip install llama-cpp-python</code></td><td>CPU inference of quantised GGUF models</td></tr>
+      <tr><td><strong>outlines</strong></td><td>Structured Output</td><td class="local">Local (free)</td><td><code>pip install outlines</code></td><td>JSON/regex constrained generation</td></tr>
+      <tr><td><strong>pydantic-ai</strong></td><td>Agents, Structured Output</td><td class="free">Free</td><td><code>pip install pydantic-ai</code></td><td>Type-safe AI agents</td></tr>
+      <tr><td><strong>crewai</strong></td><td>Agents</td><td class="free">Free (open source)</td><td><code>pip install crewai</code></td><td>Role-based multi-agent crews</td></tr>
+      <tr><td><strong>streamlit</strong></td><td>All (UI)</td><td class="free">Free</td><td><code>pip install streamlit</code></td><td>Build demo UIs for any model in 10 lines</td></tr>
+      <tr><td><strong>gradio</strong></td><td>All (UI)</td><td class="free">Free</td><td><code>pip install gradio</code></td><td>HuggingFace Spaces-style web UI</td></tr>
+    </table>
+  </section>
+
+  <!-- ─── Q&A ─── -->
+  <section>
+    <h2 id="qa">14. 🎤 Q&amp;A</h2>
+
+    <details open>
+      <summary class="qa-q">What is the difference between a transformer and a diffusion model?</summary>
+      <div class="qa-a">
+        <p><strong>Transformers</strong> are sequence-to-sequence architectures based on self-attention. They process tokens in parallel and learn relationships between all positions. Used for: text LLMs (GPT, LLaMA, Claude), vision transformers (ViT), code models, and embedding models. They <em>generate</em> by predicting the next token autoregressively.</p>
+        <p><strong>Diffusion models</strong> work by gradually adding Gaussian noise to an image (forward process) and learning to reverse this (denoising). At inference, they start from pure noise and iteratively denoise guided by a text prompt (via CLIP cross-attention). Used for: image generation (SD, FLUX, DALL-E 3), video generation, audio generation. They <em>generate</em> by iterative denoising over N steps (10–50 typically).</p>
+        <p>Modern multimodal models combine both: DALL-E 3 uses a transformer to convert the prompt into a rich description, then a diffusion model generates the image.</p>
+      </div>
+    </details>
+
+    <details open>
+      <summary class="qa-q">When should I use a local model vs an API?</summary>
+      <div class="qa-a">
+        <ul>
+          <li><strong>Use local (Ollama)</strong> when: data privacy is required, offline capability needed, no API budget, experimenting without rate limits, or processing large volumes where API costs would be high</li>
+          <li><strong>Use API</strong> when: you need the best quality (GPT-4o, Claude 3.5), don't have a GPU, need image generation (DALL-E 3), need multimodal capability not available locally, or building a product where inference speed matters more than cost</li>
+          <li><strong>Hybrid approach</strong>: use free API tiers (Groq, Gemini, GitHub Copilot) for development and testing, switch to paid APIs or local models for production based on cost/quality requirements</li>
+        </ul>
+      </div>
+    </details>
+
+    <details open>
+      <summary class="qa-q">What is quantisation and why does it matter for local models?</summary>
+      <div class="qa-a">
+        <p>Quantisation reduces the precision of model weights from float32 (32-bit) or float16 (16-bit) to int8 (8-bit) or int4 (4-bit). This reduces:</p>
+        <ul>
+          <li><strong>Memory usage</strong>: A 70B model at float16 needs ~140 GB RAM. At 4-bit (Q4_K_M GGUF), it needs ~40 GB — runnable on 2× RTX 3090s or a Mac Studio M2 Ultra</li>
+          <li><strong>Inference speed</strong>: Smaller data types compute faster on CPU/GPU</li>
+        </ul>
+        <p><strong>Quality tradeoff</strong>: Q4 loses ~2–3% on benchmarks vs float16. Q8 loses &lt;1%. For most chat/RAG use cases, Q4 is indistinguishable from full precision. Ollama automatically uses Q4_K_M quantisation for most models.</p>
+      </div>
+    </details>
+
+    <details open>
+      <summary class="qa-q">How do I choose the right embedding model for my RAG app?</summary>
+      <div class="qa-a">
+        <p>Key factors: <strong>(1) Domain</strong> — general models (all-MiniLM) work for most tasks; specialised models exist for code (CodeBERT), medical (BiomedBERT), legal text. <strong>(2) Context length</strong> — all-MiniLM truncates at 256 tokens; nomic-embed-text handles 8K tokens (better for long documents). <strong>(3) Multilingual</strong> — use multilingual-e5-large or Cohere embed-multilingual-v3 for non-English content. <strong>(4) Speed vs quality</strong> — MiniLM-L6 is 5× faster than MPNet but scores ~2% lower on MTEB. <strong>(5) Cost</strong> — for high-volume production, local models (free) beat OpenAI at scale. Start with <code>nomic-embed-text</code> via Ollama — it's free, local, 8K context, and scores 62+ on MTEB.</p>
+      </div>
+    </details>
+
+    <details open>
+      <summary class="qa-q">What free resources can I use to experiment without a GPU?</summary>
+      <div class="qa-a">
+        <ul>
+          <li><strong>Text LLMs</strong>: Groq (free API, 600 tokens/sec), Google AI Studio (free Gemini), GitHub Copilot Free API, OpenRouter free models</li>
+          <li><strong>Image generation</strong>: HuggingFace Spaces (SDXL, FLUX in browser), Playground AI (free tier), Adobe Firefly (free tier)</li>
+          <li><strong>GPU compute (training/fine-tuning)</strong>: Google Colab (free T4), Kaggle (free P100, 30 hrs/week), Lightning AI (free A10G), HuggingFace ZeroGPU</li>
+          <li><strong>Local CPU models</strong>: Ollama with 3B–7B models runs surprisingly well on a modern CPU (8–10 tokens/sec for llama3.2:3b on M1 Mac / Intel i7)</li>
+        </ul>
+      </div>
+    </details>
+
+    <details open>
+      <summary class="qa-q">What is the role of CLIP in image generation models?</summary>
+      <div class="qa-a">
+        <p>CLIP (Contrastive Language–Image Pretraining by OpenAI) is a model trained to align text and image representations in a shared embedding space. In diffusion models like Stable Diffusion:</p>
+        <ol>
+          <li>Your text prompt is passed through the <strong>CLIP text encoder</strong> → produces a text embedding</li>
+          <li>This embedding is used as <strong>cross-attention conditioning</strong> in the U-Net denoising network</li>
+          <li>At each denoising step, the U-Net is "guided" toward images that match the text embedding</li>
+          <li><strong>Guidance scale</strong> controls how strongly the image follows the prompt (7.5 = balanced; 15 = very strict but may lose quality)</li>
+        </ol>
+        <p>FLUX.1 replaced CLIP with T5-XXL (a more powerful text encoder) — which is why FLUX handles complex, detailed prompts much better than SD 1.5.</p>
+      </div>
+    </details>
+
+    <details open>
+      <summary class="qa-q">How do I run a Streamlit demo app for any LLM category?</summary>
+      <div class="qa-a">
+        <pre style="background:#0d1117;color:#e6edf3;padding:12px;border-radius:6px;font-size:.82em;">
+import streamlit as st
+import subprocess
+from openai import OpenAI
+
+token  = subprocess.run(["gh","auth","token"], capture_output=True, text=True).stdout.strip()
+client = OpenAI(base_url="https://models.inference.ai.azure.com", api_key=token)
+
+st.title("🤖 My LLM Demo")
+model = st.selectbox("Model", ["gpt-4o-mini","gpt-4o","meta-llama-3.1-70b-instruct"])
+prompt = st.text_area("Enter your prompt:")
+
+if st.button("Submit") and prompt:
+    with st.spinner("Thinking..."):
+        resp = client.chat.completions.create(
+            model=model,
+            messages=[{"role":"user","content":prompt}]
+        )
+        st.markdown(resp.choices[0].message.content)
+        </pre>
+        <p>Save as <code>app.py</code> and run: <code>streamlit run app.py</code> — opens in browser instantly.</p>
+      </div>
+    </details>
+  </section>
+
+  <hr>
+  <blockquote>
+    <strong>Learning Path:</strong> Start with text LLMs on free APIs (Groq + GitHub Copilot Free) → add embeddings + ChromaDB for RAG → try vision with Ollama moondream → experiment with image gen on HF Spaces → run local models with Ollama → try fine-tuning on Colab → build agents with LangGraph.
+  </blockquote>
+
+</main>
+</body>
+</html>

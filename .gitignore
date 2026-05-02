@@ -1,0 +1,18 @@
+# Specific large files exceeding GitHub's 100MB limit
+python-ai/uncategorized/Youtube-main.zip
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.env
+.venv/
+venv/
+*.egg-info/
+
+# Node
+node_modules/
+
+# OS
+.DS_Store
+Thumbs.db

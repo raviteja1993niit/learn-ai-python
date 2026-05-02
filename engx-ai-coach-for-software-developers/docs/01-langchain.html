@@ -1,0 +1,1829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LangChain – AI Libraries Guide</title>
+<style>
+:root{--bg:#fff;--text:#1a1a2e;--accent:#0070f3;--code:#f4f6f8;--border:#e1e4e8;--nav:#f6f8fa;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:Georgia,'Times New Roman',serif;font-size:17px;line-height:1.8;
+     color:var(--text);background:var(--bg);display:flex;min-height:100vh;}
+/* ---- NAV ---- */
+nav{width:260px;min-width:220px;background:var(--nav);border-right:1px solid var(--border);
+    position:sticky;top:0;height:100vh;overflow-y:auto;padding:20px 14px;flex-shrink:0;}
+nav .back-link{display:block;font-family:sans-serif;font-size:12px;color:var(--accent);
+               margin-bottom:14px;text-decoration:none;}
+nav .back-link:hover{text-decoration:underline;}
+nav h3{font-family:sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:.08em;
+       color:#888;margin-bottom:8px;}
+nav ul{list-style:none;}
+nav li{margin:3px 0;}
+nav a{font-family:sans-serif;font-size:13px;color:#444;text-decoration:none;
+      display:block;padding:4px 8px;border-radius:4px;line-height:1.4;}
+nav a:hover{background:#e0e8ff;color:var(--accent);}
+nav a.h3{padding-left:20px;font-size:12px;color:#666;}
+nav a.h4{padding-left:34px;font-size:11px;color:#888;}
+/* ---- MAIN ---- */
+main{flex:1;padding:48px 60px;max-width:960px;}
+.doc-header{margin-bottom:40px;padding-bottom:20px;border-bottom:3px solid var(--accent);}
+.doc-header h1{font-size:2.1em;color:#0a192f;}
+.doc-header .subtitle{font-family:sans-serif;color:#555;margin-top:6px;font-size:.95em;}
+.doc-header .badges span{display:inline-block;font-family:sans-serif;font-size:12px;
+  padding:3px 10px;border-radius:12px;margin:8px 4px 0 0;font-weight:600;}
+.badge-free{background:#d4edda;color:#155724;}
+.badge-paid{background:#fff3cd;color:#856404;}
+.badge-local{background:#cce5ff;color:#004085;}
+/* ---- CONTENT ---- */
+section{margin-bottom:56px;}
+h2{font-size:1.6em;color:#0a192f;margin:2em 0 .6em;padding-bottom:.3em;border-bottom:2px solid var(--border);}
+h3{font-size:1.25em;color:#0a192f;margin:1.6em 0 .4em;}
+h4{font-size:1.05em;color:#0a192f;margin:1.3em 0 .3em;}
+p{margin:.6em 0;}
+ul,ol{margin:.5em 0 .5em 1.5em;}li{margin:.25em 0;}
+strong{color:#0a192f;}
+code{font-family:'Fira Code',Consolas,monospace;background:var(--code);
+     padding:2px 6px;border-radius:3px;font-size:.87em;}
+pre{background:var(--code);border:1px solid var(--border);border-left:4px solid var(--accent);
+    border-radius:6px;padding:18px;overflow-x:auto;margin:1em 0;}
+pre code{background:none;padding:0;font-size:.84em;line-height:1.5;}
+table{border-collapse:collapse;width:100%;margin:1em 0;font-family:sans-serif;font-size:.9em;}
+th,td{border:1px solid var(--border);padding:9px 13px;text-align:left;vertical-align:top;}
+th{background:#e8f0fe;font-weight:700;color:#0a192f;}
+tr:nth-child(even) td{background:#f9f9f9;}
+blockquote{border-left:4px solid var(--accent);padding:10px 18px;background:#f0f4ff;
+           border-radius:0 6px 6px 0;color:#333;margin:1em 0;}
+/* ---- Q&A ---- */
+details{border:1px solid var(--border);border-radius:8px;margin:.8em 0;background:#fafafa;}
+details[open]{background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+summary.qa-q{cursor:pointer;padding:13px 16px;font-weight:700;color:#0a192f;
+             list-style:none;display:flex;align-items:flex-start;gap:10px;line-height:1.5;}
+summary.qa-q::before{content:"Q";background:var(--accent);color:#fff;padding:2px 8px;
+                     border-radius:50%;font-size:.78em;font-family:sans-serif;flex-shrink:0;margin-top:2px;}
+.qa-a{padding:14px 18px;border-top:1px solid #eee;}
+/* ---- callout boxes ---- */
+.tip{background:#e6f9f0;border-left:4px solid #28a745;padding:12px 16px;
+     border-radius:0 6px 6px 0;margin:1em 0;}
+.warn{background:#fff8e1;border-left:4px solid #ffc107;padding:12px 16px;
+      border-radius:0 6px 6px 0;margin:1em 0;}
+a{color:var(--accent);}
+hr{border:none;border-top:1px solid var(--border);margin:2em 0;}
+</style>
+</head>
+<body>
+<nav>
+  <a class="back-link" href="index.html">⬅ All Guides</a>
+  <a class="back-link" href="02-langgraph.html">LangGraph →</a>
+  <h3>Contents</h3>
+  <ul><li><a href="#table-of-contents" class="">Table of Contents</a></li>
+<li><a href="#1-what-is-langchain" class="">1. What is LangChain?</a></li>
+<li><a href="#when-to-use-langchain-vs-alternatives" class="h3">When to use LangChain vs alternatives</a></li>
+<li><a href="#version-history" class="h3">Version History</a></li>
+<li><a href="#2-installation-setup" class="">2. Installation &amp; Setup</a></li>
+<li><a href="#install-all-sub-packages" class="h3">Install all sub-packages</a></li>
+<li><a href="#environment-variables" class="h3">Environment variables</a></li>
+<li><a href="#github-copilot-free-auth-use-this-in-all-examples-below" class="h3">GitHub Copilot Free Auth (use this in all examples below)</a></li>
+<li><a href="#langchain-chatopenai-with-github-copilot-auth" class="h3">LangChain ChatOpenAI with GitHub Copilot auth</a></li>
+<li><a href="#3-core-concepts" class="">3. Core Concepts</a></li>
+<li><a href="#31-llms-vs-chatmodels" class="h3">3.1 LLMs vs ChatModels</a></li>
+<li><a href="#32-messages" class="h3">3.2 Messages</a></li>
+<li><a href="#33-prompts-prompttemplates" class="h3">3.3 Prompts &amp; PromptTemplates</a></li>
+<li><a href="#34-output-parsers" class="h3">3.4 Output Parsers</a></li>
+<li><a href="#35-chains" class="h3">3.5 Chains</a></li>
+<li><a href="#4-lcel-langchain-expression-language" class="">4. LCEL — LangChain Expression Language</a></li>
+<li><a href="#41-pipe-operator" class="h3">4.1 Pipe Operator |</a></li>
+<li><a href="#42-runnablepassthrough-runnableparallel-runnablelambda" class="h3">4.2 RunnablePassthrough, RunnableParallel, RunnableLambda</a></li>
+<li><a href="#43-branching-and-routing" class="h3">4.3 Branching and Routing</a></li>
+<li><a href="#44-streaming" class="h3">4.4 Streaming</a></li>
+<li><a href="#45-async-with-ainvoke" class="h3">4.5 Async with .ainvoke()</a></li>
+<li><a href="#46-batch-processing" class="h3">4.6 Batch Processing</a></li>
+<li><a href="#47-full-example-multi-step-document-analysis-chain" class="h3">4.7 Full Example: Multi-Step Document Analysis Chain</a></li>
+<li><a href="#5-document-loaders-text-splitters" class="">5. Document Loaders &amp; Text Splitters</a></li>
+<li><a href="#51-document-loaders" class="h3">5.1 Document Loaders</a></li>
+<li><a href="#52-text-splitters" class="h3">5.2 Text Splitters</a></li>
+<li><a href="#53-full-example-load-pdf-split-embed" class="h3">5.3 Full Example: Load PDF → Split → Embed</a></li>
+<li><a href="#6-embeddings" class="">6. Embeddings</a></li>
+<li><a href="#61-openaiembeddings-github-copilot-free-auth" class="h3">6.1 OpenAIEmbeddings (GitHub Copilot free auth)</a></li>
+<li><a href="#62-huggingfaceembeddings-free-local-no-api-key" class="h3">6.2 HuggingFaceEmbeddings (free, local, no API key)</a></li>
+<li><a href="#63-embedding-comparison-table" class="h3">6.3 Embedding Comparison Table</a></li>
+<li><a href="#64-caching-with-cachebackedembeddings" class="h3">6.4 Caching with CacheBackedEmbeddings</a></li>
+<li><a href="#7-vector-stores" class="">7. Vector Stores</a></li>
+<li><a href="#71-faiss-free-in-memorylocal" class="h3">7.1 FAISS (free, in-memory/local)</a></li>
+<li><a href="#72-chromadb-free-embedded-or-server" class="h3">7.2 ChromaDB (free, embedded or server)</a></li>
+<li><a href="#73-qdrant-free-self-hosted" class="h3">7.3 Qdrant (free self-hosted)</a></li>
+<li><a href="#74-pinecone-paid-managed" class="h3">7.4 Pinecone (paid, managed)</a></li>
+<li><a href="#8-retrievers" class="">8. Retrievers</a></li>
+<li><a href="#81-vectorstoreretriever" class="h3">8.1 VectorStoreRetriever</a></li>
+<li><a href="#82-bm25retriever-keyword-based" class="h3">8.2 BM25Retriever (keyword-based)</a></li>
+<li><a href="#83-ensembleretriever-hybrid-bm25-vector" class="h3">8.3 EnsembleRetriever (Hybrid BM25 + Vector)</a></li>
+<li><a href="#84-multiqueryretriever" class="h3">8.4 MultiQueryRetriever</a></li>
+<li><a href="#85-contextualcompressionretriever" class="h3">8.5 ContextualCompressionRetriever</a></li>
+<li><a href="#86-full-hybrid-retrieval-example" class="h3">8.6 Full Hybrid Retrieval Example</a></li>
+<li><a href="#9-rag-patterns" class="">9. RAG Patterns</a></li>
+<li><a href="#91-basic-rag-chain" class="h3">9.1 Basic RAG Chain</a></li>
+<li><a href="#92-conversational-rag-with-history" class="h3">9.2 Conversational RAG with History</a></li>
+<li><a href="#93-full-conversational-rag-with-sqlitesaver" class="h3">9.3 Full Conversational RAG with SqliteSaver</a></li>
+<li><a href="#10-memory" class="">10. Memory</a></li>
+<li><a href="#101-conversationbuffermemory" class="h3">10.1 ConversationBufferMemory</a></li>
+<li><a href="#102-conversationsummarymemory" class="h3">10.2 ConversationSummaryMemory</a></li>
+<li><a href="#103-runnablewithmessagehistory-modern-approach" class="h3">10.3 RunnableWithMessageHistory (modern approach)</a></li>
+<li><a href="#11-agents-tools" class="">11. Agents &amp; Tools</a></li>
+<li><a href="#111-custom-tools-with-tool-decorator" class="h3">11.1 Custom Tools with @tool decorator</a></li>
+<li><a href="#112-structured-tools-with-pydantic" class="h3">11.2 Structured Tools with Pydantic</a></li>
+<li><a href="#113-full-agent-web-search-calculator-code-executor" class="h3">11.3 Full Agent: Web Search + Calculator + Code Executor</a></li>
+<li><a href="#12-callbacks-streaming" class="">12. Callbacks &amp; Streaming</a></li>
+<li><a href="#121-streamingstdoutcallbackhandler" class="h3">12.1 StreamingStdOutCallbackHandler</a></li>
+<li><a href="#122-custom-callback-handler" class="h3">12.2 Custom Callback Handler</a></li>
+<li><a href="#123-token-by-token-streaming-via-stream" class="h3">12.3 Token-by-Token Streaming via .stream()</a></li>
+<li><a href="#13-langsmith-observability" class="">13. LangSmith — Observability</a></li>
+<li><a href="#131-setup-and-configuration" class="h3">13.1 Setup and Configuration</a></li>
+<li><a href="#132-manual-tracing-with-traceable" class="h3">13.2 Manual Tracing with @traceable</a></li>
+<li><a href="#133-evaluating-rag-quality" class="h3">13.3 Evaluating RAG Quality</a></li>
+<li><a href="#134-free-tier-limits" class="h3">13.4 Free Tier Limits</a></li>
+<li><a href="#14-interview-qa" class="">14. Interview Q&amp;A</a></li>
+</ul>
+</nav>
+<main>
+  <div class="doc-header">
+    <h1>LangChain</h1>
+    <p class="subtitle">The most popular LLM application framework — chains, agents, RAG, memory</p>
+    <div class="badges"><span class="badge-free">Free Tier</span><span class="badge-paid">Paid</span><span class="badge-local">LangSmith Tracing</span></div>
+  </div>
+  <h1 id="langchain-comprehensive-guide">LangChain — Comprehensive Guide</h1>
+<blockquote>
+<p><strong>Target audience:</strong> Software developers learning AI engineering.
+<strong>Every code block</strong> is copy-paste runnable Python using GitHub Copilot free auth.</p>
+</blockquote>
+<hr />
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol>
+<li><a href="#1-what-is-langchain">What is LangChain?</a></li>
+<li><a href="#2-installation--setup">Installation &amp; Setup</a></li>
+<li><a href="#3-core-concepts">Core Concepts</a></li>
+<li><a href="#4-lcel--langchain-expression-language">LCEL — LangChain Expression Language</a></li>
+<li><a href="#5-document-loaders--text-splitters">Document Loaders &amp; Text Splitters</a></li>
+<li><a href="#6-embeddings">Embeddings</a></li>
+<li><a href="#7-vector-stores">Vector Stores</a></li>
+<li><a href="#8-retrievers">Retrievers</a></li>
+<li><a href="#9-rag-patterns">RAG Patterns</a></li>
+<li><a href="#10-memory">Memory</a></li>
+<li><a href="#11-agents--tools">Agents &amp; Tools</a></li>
+<li><a href="#12-callbacks--streaming">Callbacks &amp; Streaming</a></li>
+<li><a href="#13-langsmith--observability">LangSmith — Observability</a></li>
+<li><a href="#14-interview-qa">Interview Q&amp;A</a></li>
+<li><a href="#15-comparison-with-alternatives">Comparison with Alternatives</a></li>
+</ol>
+<hr />
+<h2 id="1-what-is-langchain">1. What is LangChain?</h2>
+<p>LangChain is an <strong>open-source framework</strong> for building applications powered by language models. It provides:</p>
+<ul>
+<li><strong>Composable primitives</strong> — chains, prompts, retrievers, tools</li>
+<li><strong>Integrations</strong> — 100+ LLMs, 50+ vector stores, dozens of document loaders</li>
+<li><strong>Expression Language (LCEL)</strong> — declarative pipe-based composition</li>
+<li><strong>Ecosystem</strong> — LangSmith (observability), LangGraph (stateful agents), LangServe (deployment)</li>
+</ul>
+<h3 id="when-to-use-langchain-vs-alternatives">When to use LangChain vs alternatives</h3>
+<table>
+<thead>
+<tr>
+<th>Use Case</th>
+<th>Recommendation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Rapid RAG prototype</td>
+<td>LangChain ✅</td>
+</tr>
+<tr>
+<td>Production RAG with complex indexing</td>
+<td>LlamaIndex ✅</td>
+</tr>
+<tr>
+<td>Multi-agent stateful workflows</td>
+<td>LangGraph ✅</td>
+</tr>
+<tr>
+<td>Simple one-shot LLM call</td>
+<td>Raw SDK (OpenAI/Anthropic) ✅</td>
+</tr>
+<tr>
+<td>Fine-tuned model inference</td>
+<td>Transformers / vLLM ✅</td>
+</tr>
+</tbody>
+</table>
+<h3 id="version-history">Version History</h3>
+<table>
+<thead>
+<tr>
+<th>Version</th>
+<th>Key Changes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>0.1</strong> (Jan 2024)</td>
+<td>Stabilized core API; introduced LCEL as the primary composition model</td>
+</tr>
+<tr>
+<td><strong>0.2</strong> (May 2024)</td>
+<td>Deprecated legacy <code>Chain</code> classes; moved integrations to <code>langchain-community</code>; <code>langchain-core</code> split out</td>
+</tr>
+<tr>
+<td><strong>0.3</strong> (Sep 2024)</td>
+<td>Full Pydantic v2 support; <code>langchain-openai</code>, <code>langchain-anthropic</code> as first-class packages; removed deprecated APIs</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Package structure today:</strong></p>
+<pre><code>langchain-core        # Base abstractions (Runnable, BaseMessage, etc.)
+langchain             # High-level chains, agents, retrievers
+langchain-community   # Third-party integrations (community maintained)
+langchain-openai      # Official OpenAI integration
+langchain-anthropic   # Official Anthropic integration
+langchain-google-*    # Official Google integrations
+langgraph             # Stateful agent graphs
+langsmith             # Observability SDK
+</code></pre>
+<hr />
+<h2 id="2-installation-setup">2. Installation &amp; Setup</h2>
+<h3 id="install-all-sub-packages">Install all sub-packages</h3>
+<pre><code class="language-bash">pip install langchain langchain-core langchain-community langchain-openai
+pip install langchain-anthropic langchain-google-genai
+pip install langgraph langsmith
+pip install faiss-cpu chromadb qdrant-client
+pip install rank-bm25 sentence-transformers tiktoken
+pip install pypdf unstructured bs4 GitPython
+</code></pre>
+<h3 id="environment-variables">Environment variables</h3>
+<pre><code class="language-bash"># OpenAI
+export OPENAI_API_KEY=&quot;sk-...&quot;
+
+# Anthropic
+export ANTHROPIC_API_KEY=&quot;sk-ant-...&quot;
+
+# Google
+export GOOGLE_API_KEY=&quot;...&quot;
+
+# LangSmith (optional, for tracing)
+export LANGCHAIN_TRACING_V2=&quot;true&quot;
+export LANGCHAIN_API_KEY=&quot;ls__...&quot;
+export LANGCHAIN_PROJECT=&quot;my-project&quot;
+</code></pre>
+<h3 id="github-copilot-free-auth-use-this-in-all-examples-below">GitHub Copilot Free Auth (use this in all examples below)</h3>
+<p>GitHub Models gives you free access to GPT-4o, Claude 3.5, Llama, etc. via your GitHub Copilot subscription.</p>
+<pre><code class="language-python">import subprocess
+from openai import OpenAI
+
+# Get token from GitHub CLI (run `gh auth login` once first)
+token = subprocess.run(
+    [&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True
+).stdout.strip()
+
+# Direct OpenAI client
+client = OpenAI(
+    base_url=&quot;https://models.inference.ai.azure.com&quot;,
+    api_key=token
+)
+
+# Quick smoke test
+response = client.chat.completions.create(
+    model=&quot;gpt-4o&quot;,
+    messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Say hello in one sentence.&quot;}]
+)
+print(response.choices[0].message.content)
+</code></pre>
+<h3 id="langchain-chatopenai-with-github-copilot-auth">LangChain ChatOpenAI with GitHub Copilot auth</h3>
+<pre><code class="language-python">import subprocess
+from langchain_openai import ChatOpenAI
+
+token = subprocess.run(
+    [&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True
+).stdout.strip()
+
+llm = ChatOpenAI(
+    model=&quot;gpt-4o&quot;,
+    api_key=token,
+    base_url=&quot;https://models.inference.ai.azure.com&quot;,
+    temperature=0.7,
+)
+
+# Test it
+result = llm.invoke(&quot;What is LangChain in one sentence?&quot;)
+print(result.content)
+</code></pre>
+<hr />
+<h2 id="3-core-concepts">3. Core Concepts</h2>
+<h3 id="31-llms-vs-chatmodels">3.1 LLMs vs ChatModels</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Class</th>
+<th>Input</th>
+<th>Output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LLM</td>
+<td><code>OpenAI</code> (legacy)</td>
+<td>plain string</td>
+<td>plain string</td>
+</tr>
+<tr>
+<td>ChatModel</td>
+<td><code>ChatOpenAI</code></td>
+<td>list of messages</td>
+<td>AIMessage</td>
+</tr>
+</tbody>
+</table>
+<p><strong>ChatModels are the modern standard.</strong> Always use ChatModels.</p>
+<pre><code class="language-python">import subprocess
+from langchain_openai import ChatOpenAI
+from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+llm = ChatOpenAI(model=&quot;gpt-4o&quot;, api_key=token,
+                 base_url=&quot;https://models.inference.ai.azure.com&quot;)
+
+messages = [
+    SystemMessage(content=&quot;You are a concise technical assistant.&quot;),
+    HumanMessage(content=&quot;What is a transformer neural network?&quot;),
+]
+response: AIMessage = llm.invoke(messages)
+print(response.content)
+print(f&quot;Tokens used: {response.usage_metadata}&quot;)
+</code></pre>
+<h3 id="32-messages">3.2 Messages</h3>
+<pre><code class="language-python">from langchain_core.messages import (
+    HumanMessage,
+    AIMessage,
+    SystemMessage,
+    ToolMessage,
+    FunctionMessage,
+)
+
+# Build a conversation manually
+history = [
+    SystemMessage(content=&quot;You are a Python expert.&quot;),
+    HumanMessage(content=&quot;What is a list comprehension?&quot;),
+    AIMessage(content=&quot;A list comprehension is a concise way to create lists.&quot;),
+    HumanMessage(content=&quot;Give me an example.&quot;),
+]
+# Each message has: .content, .type, .additional_kwargs
+for msg in history:
+    print(f&quot;[{msg.type}] {msg.content[:60]}&quot;)
+</code></pre>
+<h3 id="33-prompts-prompttemplates">3.3 Prompts &amp; PromptTemplates</h3>
+<pre><code class="language-python">import subprocess
+from langchain_core.prompts import (
+    ChatPromptTemplate,
+    PromptTemplate,
+    MessagesPlaceholder,
+)
+from langchain_openai import ChatOpenAI
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+llm = ChatOpenAI(model=&quot;gpt-4o&quot;, api_key=token,
+                 base_url=&quot;https://models.inference.ai.azure.com&quot;)
+
+# Simple chat prompt
+prompt = ChatPromptTemplate.from_messages([
+    (&quot;system&quot;, &quot;You are a {role}. Answer in {language}.&quot;),
+    (&quot;human&quot;, &quot;{question}&quot;),
+])
+
+# Inspect the formatted messages before invoking
+formatted = prompt.invoke({&quot;role&quot;: &quot;chef&quot;, &quot;language&quot;: &quot;French&quot;, &quot;question&quot;: &quot;How to boil eggs?&quot;})
+print(formatted.messages)
+
+# Chain prompt → llm
+chain = prompt | llm
+result = chain.invoke({&quot;role&quot;: &quot;chef&quot;, &quot;language&quot;: &quot;English&quot;, &quot;question&quot;: &quot;How to boil eggs?&quot;})
+print(result.content)
+
+# Prompt with message history placeholder (for memory)
+prompt_with_history = ChatPromptTemplate.from_messages([
+    (&quot;system&quot;, &quot;You are a helpful assistant.&quot;),
+    MessagesPlaceholder(variable_name=&quot;history&quot;),
+    (&quot;human&quot;, &quot;{input}&quot;),
+])
+</code></pre>
+<h3 id="34-output-parsers">3.4 Output Parsers</h3>
+<pre><code class="language-python">import subprocess
+from langchain_openai import ChatOpenAI
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser, JsonOutputParser
+from langchain_core.pydantic_v1 import BaseModel, Field
+from langchain.output_parsers import PydanticOutputParser
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+llm = ChatOpenAI(model=&quot;gpt-4o&quot;, api_key=token,
+                 base_url=&quot;https://models.inference.ai.azure.com&quot;)
+
+# --- StrOutputParser: AIMessage → plain string ---
+chain_str = ChatPromptTemplate.from_template(&quot;Tell me a joke about {topic}&quot;) | llm | StrOutputParser()
+print(chain_str.invoke({&quot;topic&quot;: &quot;Python&quot;}))
+
+# --- JsonOutputParser: AIMessage → dict ---
+json_prompt = ChatPromptTemplate.from_template(
+    &quot;Return a JSON object with keys 'name' and 'age' for a fictional person named {name}.&quot;
+)
+chain_json = json_prompt | llm | JsonOutputParser()
+result = chain_json.invoke({&quot;name&quot;: &quot;Alice&quot;})
+print(result, type(result))  # dict
+
+# --- PydanticOutputParser: AIMessage → Pydantic model ---
+class Movie(BaseModel):
+    title: str = Field(description=&quot;Movie title&quot;)
+    year: int = Field(description=&quot;Release year&quot;)
+    genre: str = Field(description=&quot;Primary genre&quot;)
+
+parser = PydanticOutputParser(pydantic_object=Movie)
+pydantic_prompt = ChatPromptTemplate.from_messages([
+    (&quot;system&quot;, &quot;Extract movie information. {format_instructions}&quot;),
+    (&quot;human&quot;, &quot;{text}&quot;),
+]).partial(format_instructions=parser.get_format_instructions())
+
+chain_pydantic = pydantic_prompt | llm | parser
+movie = chain_pydantic.invoke({&quot;text&quot;: &quot;Inception came out in 2010 and is a sci-fi thriller.&quot;})
+print(movie.title, movie.year, movie.genre)
+</code></pre>
+<h3 id="35-chains">3.5 Chains</h3>
+<pre><code class="language-python">import subprocess
+from langchain_openai import ChatOpenAI
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.runnables import RunnableParallel
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+llm = ChatOpenAI(model=&quot;gpt-4o&quot;, api_key=token,
+                 base_url=&quot;https://models.inference.ai.azure.com&quot;)
+
+# Simple chain
+simple = ChatPromptTemplate.from_template(&quot;Summarize: {text}&quot;) | llm | StrOutputParser()
+
+# Sequential chain: output of one feeds into the next
+summarize = ChatPromptTemplate.from_template(&quot;Summarize this in 2 sentences: {text}&quot;) | llm | StrOutputParser()
+translate = ChatPromptTemplate.from_template(&quot;Translate to Spanish: {text}&quot;) | llm | StrOutputParser()
+sequential = summarize | (lambda s: {&quot;text&quot;: s}) | translate
+
+# Parallel chain: run two prompts simultaneously
+parallel = RunnableParallel(
+    summary=ChatPromptTemplate.from_template(&quot;Summarize: {text}&quot;) | llm | StrOutputParser(),
+    keywords=ChatPromptTemplate.from_template(&quot;List 5 keywords from: {text}&quot;) | llm | StrOutputParser(),
+)
+
+text = &quot;LangChain is a framework for building LLM-powered applications with composable primitives.&quot;
+print(&quot;Sequential:&quot;, sequential.invoke({&quot;text&quot;: text}))
+print(&quot;Parallel:&quot;, parallel.invoke({&quot;text&quot;: text}))
+</code></pre>
+<hr />
+<h2 id="4-lcel-langchain-expression-language">4. LCEL — LangChain Expression Language</h2>
+<p>LCEL was introduced in LangChain 0.1 to replace imperative <code>Chain</code> classes with <strong>declarative, composable pipelines</strong>. Every LCEL object is a <code>Runnable</code> with a consistent interface.</p>
+<h3 id="41-pipe-operator">4.1 Pipe Operator <code>|</code></h3>
+<pre><code class="language-python"># chain = A | B | C  means: output of A → input of B → input of C
+chain = prompt | llm | parser
+result = chain.invoke({&quot;key&quot;: &quot;value&quot;})
+</code></pre>
+<h3 id="42-runnablepassthrough-runnableparallel-runnablelambda">4.2 RunnablePassthrough, RunnableParallel, RunnableLambda</h3>
+<pre><code class="language-python">import subprocess
+from langchain_openai import ChatOpenAI
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.runnables import (
+    RunnablePassthrough,
+    RunnableParallel,
+    RunnableLambda,
+)
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+llm = ChatOpenAI(model=&quot;gpt-4o&quot;, api_key=token,
+                 base_url=&quot;https://models.inference.ai.azure.com&quot;)
+
+# RunnablePassthrough: pass input unchanged (useful to keep original data alongside)
+chain = RunnableParallel(
+    original=RunnablePassthrough(),
+    upper=RunnableLambda(lambda x: x.upper()),
+)
+print(chain.invoke(&quot;hello world&quot;))
+# {'original': 'hello world', 'upper': 'HELLO WORLD'}
+
+# RunnableLambda: wrap any function
+def word_count(text: str) -&gt; dict:
+    return {&quot;text&quot;: text, &quot;word_count&quot;: len(text.split())}
+
+analysis_chain = (
+    RunnableLambda(word_count)
+    | RunnableLambda(lambda d: f&quot;The text has {d['word_count']} words: {d['text'][:50]}...&quot;)
+    | ChatPromptTemplate.from_template(&quot;Rewrite this fact more poetically: {input}&quot;)
+    | llm
+    | StrOutputParser()
+)
+# Note: ChatPromptTemplate expects dict; adjust input key as needed
+</code></pre>
+<h3 id="43-branching-and-routing">4.3 Branching and Routing</h3>
+<pre><code class="language-python">import subprocess
+from langchain_openai import ChatOpenAI
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.runnables import RunnableLambda, RunnableBranch
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+llm = ChatOpenAI(model=&quot;gpt-4o&quot;, api_key=token,
+                 base_url=&quot;https://models.inference.ai.azure.com&quot;)
+str_parser = StrOutputParser()
+
+code_chain = ChatPromptTemplate.from_template(&quot;Answer this coding question: {question}&quot;) | llm | str_parser
+general_chain = ChatPromptTemplate.from_template(&quot;Answer this general question: {question}&quot;) | llm | str_parser
+
+def is_code_question(x):
+    keywords = [&quot;python&quot;, &quot;code&quot;, &quot;function&quot;, &quot;bug&quot;, &quot;error&quot;, &quot;class&quot;, &quot;loop&quot;]
+    return any(k in x[&quot;question&quot;].lower() for k in keywords)
+
+branch = RunnableBranch(
+    (is_code_question, code_chain),
+    general_chain,  # default
+)
+
+print(branch.invoke({&quot;question&quot;: &quot;How do I write a Python function?&quot;}))
+print(branch.invoke({&quot;question&quot;: &quot;What is the capital of France?&quot;}))
+</code></pre>
+<h3 id="44-streaming">4.4 Streaming</h3>
+<pre><code class="language-python">import subprocess
+from langchain_openai import ChatOpenAI
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+llm = ChatOpenAI(model=&quot;gpt-4o&quot;, api_key=token,
+                 base_url=&quot;https://models.inference.ai.azure.com&quot;, streaming=True)
+
+chain = ChatPromptTemplate.from_template(&quot;Write a haiku about {topic}&quot;) | llm | StrOutputParser()
+
+print(&quot;Streaming output:&quot;)
+for chunk in chain.stream({&quot;topic&quot;: &quot;machine learning&quot;}):
+    print(chunk, end=&quot;&quot;, flush=True)
+print()
+</code></pre>
+<h3 id="45-async-with-ainvoke">4.5 Async with <code>.ainvoke()</code></h3>
+<pre><code class="language-python">import asyncio
+import subprocess
+from langchain_openai import ChatOpenAI
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+llm = ChatOpenAI(model=&quot;gpt-4o&quot;, api_key=token,
+                 base_url=&quot;https://models.inference.ai.azure.com&quot;)
+chain = ChatPromptTemplate.from_template(&quot;Explain {concept} briefly.&quot;) | llm | StrOutputParser()
+
+async def main():
+    # Single async call
+    result = await chain.ainvoke({&quot;concept&quot;: &quot;gradient descent&quot;})
+    print(result)
+
+    # Concurrent async calls
+    results = await asyncio.gather(
+        chain.ainvoke({&quot;concept&quot;: &quot;attention mechanism&quot;}),
+        chain.ainvoke({&quot;concept&quot;: &quot;tokenization&quot;}),
+        chain.ainvoke({&quot;concept&quot;: &quot;embeddings&quot;}),
+    )
+    for r in results:
+        print(&quot;-&quot;, r[:80])
+
+asyncio.run(main())
+</code></pre>
+<h3 id="46-batch-processing">4.6 Batch Processing</h3>
+<pre><code class="language-python">import subprocess
+from langchain_openai import ChatOpenAI
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+llm = ChatOpenAI(model=&quot;gpt-4o&quot;, api_key=token,
+                 base_url=&quot;https://models.inference.ai.azure.com&quot;)
+chain = ChatPromptTemplate.from_template(&quot;Capital of {country}?&quot;) | llm | StrOutputParser()
+
+inputs = [{&quot;country&quot;: c} for c in [&quot;France&quot;, &quot;Germany&quot;, &quot;Japan&quot;, &quot;Brazil&quot;]]
+results = chain.batch(inputs, config={&quot;max_concurrency&quot;: 4})
+for country, capital in zip([&quot;France&quot;, &quot;Germany&quot;, &quot;Japan&quot;, &quot;Brazil&quot;], results):
+    print(f&quot;{country}: {capital.strip()}&quot;)
+</code></pre>
+<h3 id="47-full-example-multi-step-document-analysis-chain">4.7 Full Example: Multi-Step Document Analysis Chain</h3>
+<pre><code class="language-python">import subprocess
+from langchain_openai import ChatOpenAI
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.runnables import RunnableParallel, RunnablePassthrough, RunnableLambda
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+llm = ChatOpenAI(model=&quot;gpt-4o&quot;, api_key=token,
+                 base_url=&quot;https://models.inference.ai.azure.com&quot;)
+str_parser = StrOutputParser()
+
+# Step 1: Parallel analysis
+parallel_analysis = RunnableParallel(
+    document=RunnablePassthrough(),
+    summary=ChatPromptTemplate.from_template(&quot;Summarize in 2 sentences: {document}&quot;) | llm | str_parser,
+    sentiment=ChatPromptTemplate.from_template(
+        &quot;Classify sentiment as POSITIVE/NEGATIVE/NEUTRAL for: {document}. Reply with one word.&quot;
+    ) | llm | str_parser,
+    topics=ChatPromptTemplate.from_template(
+        &quot;List 3 main topics as a comma-separated list for: {document}&quot;
+    ) | llm | str_parser,
+)
+
+# Step 2: Combine results into a report
+def format_report(data: dict) -&gt; str:
+    return (
+        f&quot;DOCUMENT ANALYSIS REPORT\n&quot;
+        f&quot;{'='*40}\n&quot;
+        f&quot;Summary: {data['summary']}\n&quot;
+        f&quot;Sentiment: {data['sentiment']}\n&quot;
+        f&quot;Topics: {data['topics']}\n&quot;
+    )
+
+# Step 3: Generate actionable insights
+insights_prompt = ChatPromptTemplate.from_template(
+    &quot;Based on this analysis report, suggest 2 actionable next steps:\n{report}&quot;
+)
+
+full_chain = (
+    parallel_analysis
+    | RunnableLambda(format_report)
+    | (lambda report: {&quot;report&quot;: report})
+    | insights_prompt
+    | llm
+    | str_parser
+)
+
+doc = &quot;&quot;&quot;
+The quarterly earnings report shows a 15% increase in revenue driven by cloud services.
+However, operating costs rose by 22% due to infrastructure investments. Customer retention
+improved by 8% while new customer acquisition declined by 3%.
+&quot;&quot;&quot;
+
+result = full_chain.invoke({&quot;document&quot;: doc})
+print(result)
+</code></pre>
+<hr />
+<h2 id="5-document-loaders-text-splitters">5. Document Loaders &amp; Text Splitters</h2>
+<h3 id="51-document-loaders">5.1 Document Loaders</h3>
+<pre><code class="language-python"># ---- TextLoader ----
+from langchain_community.document_loaders import TextLoader
+
+loader = TextLoader(&quot;README.md&quot;, encoding=&quot;utf-8&quot;)
+docs = loader.load()
+print(f&quot;Loaded {len(docs)} doc(s), {len(docs[0].page_content)} chars&quot;)
+
+# ---- PyPDFLoader ----
+from langchain_community.document_loaders import PyPDFLoader
+
+loader = PyPDFLoader(&quot;sample.pdf&quot;)
+pages = loader.load()  # one Document per page
+print(f&quot;PDF has {len(pages)} pages&quot;)
+
+# ---- WebBaseLoader ----
+from langchain_community.document_loaders import WebBaseLoader
+
+loader = WebBaseLoader(&quot;https://python.langchain.com/docs/introduction/&quot;)
+web_docs = loader.load()
+print(web_docs[0].page_content[:200])
+
+# ---- GitLoader (load code from a repo) ----
+from langchain_community.document_loaders import GitLoader
+
+loader = GitLoader(
+    repo_path=&quot;./my-repo&quot;,          # local path (cloned repo)
+    branch=&quot;main&quot;,
+    file_filter=lambda path: path.endswith(&quot;.py&quot;),
+)
+code_docs = loader.load()
+print(f&quot;Loaded {len(code_docs)} Python files&quot;)
+
+# ---- DirectoryLoader (bulk load) ----
+from langchain_community.document_loaders import DirectoryLoader
+
+loader = DirectoryLoader(&quot;./docs&quot;, glob=&quot;**/*.md&quot;, loader_cls=TextLoader)
+all_docs = loader.load()
+</code></pre>
+<h3 id="52-text-splitters">5.2 Text Splitters</h3>
+<pre><code class="language-python">from langchain_text_splitters import (
+    RecursiveCharacterTextSplitter,
+    MarkdownTextSplitter,
+    TokenTextSplitter,
+    CharacterTextSplitter,
+)
+
+sample_text = &quot;LangChain is a framework. &quot; * 200  # simulate long document
+
+# RecursiveCharacterTextSplitter: tries paragraphs → sentences → words
+splitter = RecursiveCharacterTextSplitter(
+    chunk_size=500,
+    chunk_overlap=50,
+    separators=[&quot;\n\n&quot;, &quot;\n&quot;, &quot;. &quot;, &quot; &quot;, &quot;&quot;],
+)
+chunks = splitter.split_text(sample_text)
+print(f&quot;RecursiveSplitter: {len(chunks)} chunks, first chunk: {len(chunks[0])} chars&quot;)
+
+# MarkdownTextSplitter: respects markdown headers
+md_splitter = MarkdownTextSplitter(chunk_size=1000, chunk_overlap=100)
+md_text = &quot;# Title\n\n## Section 1\n\nContent here.\n\n## Section 2\n\nMore content.&quot;
+md_chunks = md_splitter.split_text(md_text)
+print(f&quot;MarkdownSplitter: {len(md_chunks)} chunks&quot;)
+
+# TokenTextSplitter: split by token count (accurate for LLM context limits)
+token_splitter = TokenTextSplitter(chunk_size=256, chunk_overlap=20)
+token_chunks = token_splitter.split_text(sample_text)
+print(f&quot;TokenSplitter: {len(token_chunks)} chunks&quot;)
+</code></pre>
+<h3 id="53-full-example-load-pdf-split-embed">5.3 Full Example: Load PDF → Split → Embed</h3>
+<pre><code class="language-python">import subprocess
+import os
+from langchain_community.document_loaders import PyPDFLoader
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_openai import OpenAIEmbeddings
+from langchain_community.vectorstores import FAISS
+
+# For demo, create a text file instead of a real PDF
+with open(&quot;demo_doc.txt&quot;, &quot;w&quot;) as f:
+    f.write(&quot;LangChain enables building LLM applications. &quot; * 100)
+
+from langchain_community.document_loaders import TextLoader
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+
+# 1. Load
+loader = TextLoader(&quot;demo_doc.txt&quot;)
+raw_docs = loader.load()
+
+# 2. Split
+splitter = RecursiveCharacterTextSplitter(chunk_size=200, chunk_overlap=20)
+chunks = splitter.split_documents(raw_docs)
+print(f&quot;Split into {len(chunks)} chunks&quot;)
+
+# 3. Embed &amp; store
+embeddings = OpenAIEmbeddings(
+    model=&quot;text-embedding-3-small&quot;,
+    api_key=token,
+    base_url=&quot;https://models.inference.ai.azure.com&quot;,
+)
+vectorstore = FAISS.from_documents(chunks, embeddings)
+print(&quot;Vector store created!&quot;)
+
+# 4. Query
+results = vectorstore.similarity_search(&quot;LangChain applications&quot;, k=2)
+for doc in results:
+    print(doc.page_content[:100])
+
+# Cleanup
+os.remove(&quot;demo_doc.txt&quot;)
+</code></pre>
+<hr />
+<h2 id="6-embeddings">6. Embeddings</h2>
+<h3 id="61-openaiembeddings-github-copilot-free-auth">6.1 OpenAIEmbeddings (GitHub Copilot free auth)</h3>
+<pre><code class="language-python">import subprocess
+from langchain_openai import OpenAIEmbeddings
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+
+embeddings = OpenAIEmbeddings(
+    model=&quot;text-embedding-3-small&quot;,   # or text-embedding-3-large
+    api_key=token,
+    base_url=&quot;https://models.inference.ai.azure.com&quot;,
+)
+
+# Embed a single string
+vector = embeddings.embed_query(&quot;What is machine learning?&quot;)
+print(f&quot;Embedding dimension: {len(vector)}&quot;)  # 1536 for 3-small
+
+# Embed multiple documents
+docs = [&quot;LangChain is great&quot;, &quot;Python is versatile&quot;, &quot;AI is transforming software&quot;]
+vectors = embeddings.embed_documents(docs)
+print(f&quot;Embedded {len(vectors)} documents&quot;)
+</code></pre>
+<h3 id="62-huggingfaceembeddings-free-local-no-api-key">6.2 HuggingFaceEmbeddings (free, local, no API key)</h3>
+<pre><code class="language-python"># pip install sentence-transformers
+from langchain_community.embeddings import HuggingFaceEmbeddings
+
+embeddings = HuggingFaceEmbeddings(
+    model_name=&quot;all-MiniLM-L6-v2&quot;,   # small, fast, 384-dim
+    # model_name=&quot;BAAI/bge-large-en-v1.5&quot;  # larger, better quality
+    model_kwargs={&quot;device&quot;: &quot;cpu&quot;},   # use &quot;cuda&quot; for GPU
+    encode_kwargs={&quot;normalize_embeddings&quot;: True},
+)
+
+vector = embeddings.embed_query(&quot;What is machine learning?&quot;)
+print(f&quot;HuggingFace embedding dim: {len(vector)}&quot;)  # 384
+</code></pre>
+<h3 id="63-embedding-comparison-table">6.3 Embedding Comparison Table</h3>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Dimensions</th>
+<th>Cost</th>
+<th>Quality</th>
+<th>Speed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>text-embedding-3-small</code></td>
+<td>1536</td>
+<td>Low ($)</td>
+<td>Good</td>
+<td>Fast</td>
+</tr>
+<tr>
+<td><code>text-embedding-3-large</code></td>
+<td>3072</td>
+<td>Medium ($$)</td>
+<td>Excellent</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td><code>text-embedding-ada-002</code></td>
+<td>1536</td>
+<td>Low ($)</td>
+<td>Good (legacy)</td>
+<td>Fast</td>
+</tr>
+<tr>
+<td><code>all-MiniLM-L6-v2</code> (HF)</td>
+<td>384</td>
+<td>Free</td>
+<td>Decent</td>
+<td>Very Fast</td>
+</tr>
+<tr>
+<td><code>BAAI/bge-large-en-v1.5</code> (HF)</td>
+<td>1024</td>
+<td>Free</td>
+<td>Excellent</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td><code>nomic-embed-text</code> (Ollama)</td>
+<td>768</td>
+<td>Free</td>
+<td>Good</td>
+<td>Fast</td>
+</tr>
+</tbody>
+</table>
+<h3 id="64-caching-with-cachebackedembeddings">6.4 Caching with CacheBackedEmbeddings</h3>
+<pre><code class="language-python">import subprocess
+from langchain_openai import OpenAIEmbeddings
+from langchain.embeddings import CacheBackedEmbeddings
+from langchain.storage import LocalFileStore
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+
+underlying = OpenAIEmbeddings(
+    model=&quot;text-embedding-3-small&quot;,
+    api_key=token,
+    base_url=&quot;https://models.inference.ai.azure.com&quot;,
+)
+
+# Cache to local filesystem (avoids re-computing same embeddings)
+store = LocalFileStore(&quot;./.embedding_cache&quot;)
+cached_embeddings = CacheBackedEmbeddings.from_bytes_store(
+    underlying_embeddings=underlying,
+    document_embedding_cache=store,
+    namespace=underlying.model,
+)
+
+# First call: hits the API
+v1 = cached_embeddings.embed_query(&quot;Hello world&quot;)
+# Second call: returns from cache instantly
+v2 = cached_embeddings.embed_query(&quot;Hello world&quot;)
+print(f&quot;Cached: {v1 == v2}&quot;)  # True
+</code></pre>
+<hr />
+<h2 id="7-vector-stores">7. Vector Stores</h2>
+<h3 id="71-faiss-free-in-memorylocal">7.1 FAISS (free, in-memory/local)</h3>
+<pre><code class="language-python">import subprocess
+from langchain_openai import OpenAIEmbeddings
+from langchain_community.vectorstores import FAISS
+from langchain_core.documents import Document
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+embeddings = OpenAIEmbeddings(
+    model=&quot;text-embedding-3-small&quot;, api_key=token,
+    base_url=&quot;https://models.inference.ai.azure.com&quot;
+)
+
+# CREATE
+docs = [
+    Document(page_content=&quot;LangChain is a framework for LLM apps&quot;, metadata={&quot;source&quot;: &quot;intro&quot;}),
+    Document(page_content=&quot;FAISS is a fast similarity search library&quot;, metadata={&quot;source&quot;: &quot;faiss&quot;}),
+    Document(page_content=&quot;Vector databases store embeddings&quot;, metadata={&quot;source&quot;: &quot;vectors&quot;}),
+    Document(page_content=&quot;RAG combines retrieval with generation&quot;, metadata={&quot;source&quot;: &quot;rag&quot;}),
+]
+db = FAISS.from_documents(docs, embeddings)
+
+# READ (similarity search)
+results = db.similarity_search(&quot;What is RAG?&quot;, k=2)
+for doc in results:
+    print(doc.page_content)
+
+# READ with scores
+results_scored = db.similarity_search_with_score(&quot;embedding storage&quot;, k=2)
+for doc, score in results_scored:
+    print(f&quot;Score: {score:.4f} | {doc.page_content}&quot;)
+
+# UPDATE (add new documents)
+new_docs = [Document(page_content=&quot;LangGraph builds stateful agent workflows&quot;)]
+db.add_documents(new_docs)
+
+# SAVE and LOAD
+db.save_local(&quot;faiss_index&quot;)
+db2 = FAISS.load_local(&quot;faiss_index&quot;, embeddings, allow_dangerous_deserialization=True)
+
+# DELETE (rebuild without doc — FAISS doesn't support delete; workaround below)
+# Filter approach: use metadata to skip unwanted docs at query time
+results_filtered = db.similarity_search(
+    &quot;LangChain&quot;, k=2, filter={&quot;source&quot;: &quot;intro&quot;}
+)
+</code></pre>
+<h3 id="72-chromadb-free-embedded-or-server">7.2 ChromaDB (free, embedded or server)</h3>
+<pre><code class="language-python"># pip install chromadb
+import subprocess
+from langchain_openai import OpenAIEmbeddings
+from langchain_community.vectorstores import Chroma
+from langchain_core.documents import Document
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+embeddings = OpenAIEmbeddings(
+    model=&quot;text-embedding-3-small&quot;, api_key=token,
+    base_url=&quot;https://models.inference.ai.azure.com&quot;
+)
+
+docs = [
+    Document(page_content=&quot;ChromaDB is an open-source vector database&quot;, metadata={&quot;id&quot;: &quot;1&quot;}),
+    Document(page_content=&quot;It supports persistent storage&quot;, metadata={&quot;id&quot;: &quot;2&quot;}),
+]
+
+# Persistent ChromaDB (saves to disk)
+db = Chroma.from_documents(
+    docs, embeddings,
+    persist_directory=&quot;./chroma_db&quot;,
+    collection_name=&quot;my_collection&quot;,
+)
+
+results = db.similarity_search(&quot;persistent storage&quot;, k=1)
+print(results[0].page_content)
+</code></pre>
+<h3 id="73-qdrant-free-self-hosted">7.3 Qdrant (free self-hosted)</h3>
+<pre><code class="language-python"># Run Qdrant: docker run -p 6333:6333 qdrant/qdrant
+# pip install qdrant-client
+import subprocess
+from langchain_openai import OpenAIEmbeddings
+from langchain_community.vectorstores import Qdrant
+from langchain_core.documents import Document
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+embeddings = OpenAIEmbeddings(
+    model=&quot;text-embedding-3-small&quot;, api_key=token,
+    base_url=&quot;https://models.inference.ai.azure.com&quot;
+)
+
+docs = [Document(page_content=&quot;Qdrant is a production-grade vector store&quot;)]
+db = Qdrant.from_documents(
+    docs, embeddings,
+    url=&quot;http://localhost:6333&quot;,
+    collection_name=&quot;langchain_docs&quot;,
+)
+results = db.similarity_search(&quot;vector store&quot;, k=1)
+print(results[0].page_content)
+</code></pre>
+<h3 id="74-pinecone-paid-managed">7.4 Pinecone (paid, managed)</h3>
+<pre><code class="language-python"># pip install pinecone-client langchain-pinecone
+import os
+from langchain_pinecone import PineconeVectorStore
+from langchain_openai import OpenAIEmbeddings
+
+embeddings = OpenAIEmbeddings(model=&quot;text-embedding-3-small&quot;)
+db = PineconeVectorStore.from_existing_index(
+    index_name=&quot;my-index&quot;,
+    embedding=embeddings,
+    namespace=&quot;default&quot;,
+)
+results = db.similarity_search(&quot;query&quot;, k=3)
+</code></pre>
+<hr />
+<h2 id="8-retrievers">8. Retrievers</h2>
+<h3 id="81-vectorstoreretriever">8.1 VectorStoreRetriever</h3>
+<pre><code class="language-python">import subprocess
+from langchain_openai import OpenAIEmbeddings
+from langchain_community.vectorstores import FAISS
+from langchain_core.documents import Document
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+embeddings = OpenAIEmbeddings(
+    model=&quot;text-embedding-3-small&quot;, api_key=token,
+    base_url=&quot;https://models.inference.ai.azure.com&quot;
+)
+docs = [
+    Document(page_content=&quot;Python supports list comprehensions&quot;),
+    Document(page_content=&quot;JavaScript uses arrow functions&quot;),
+    Document(page_content=&quot;Rust ensures memory safety&quot;),
+]
+db = FAISS.from_documents(docs, embeddings)
+
+# Basic retriever
+retriever = db.as_retriever(search_type=&quot;similarity&quot;, search_kwargs={&quot;k&quot;: 2})
+results = retriever.invoke(&quot;Python programming&quot;)
+for doc in results:
+    print(doc.page_content)
+
+# MMR retriever (maximizes diversity)
+mmr_retriever = db.as_retriever(
+    search_type=&quot;mmr&quot;,
+    search_kwargs={&quot;k&quot;: 2, &quot;fetch_k&quot;: 10, &quot;lambda_mult&quot;: 0.5}
+)
+</code></pre>
+<h3 id="82-bm25retriever-keyword-based">8.2 BM25Retriever (keyword-based)</h3>
+<pre><code class="language-python"># pip install rank-bm25
+from langchain_community.retrievers import BM25Retriever
+from langchain_core.documents import Document
+
+docs = [
+    Document(page_content=&quot;LangChain is a framework for building LLM applications&quot;),
+    Document(page_content=&quot;FAISS enables fast approximate nearest neighbor search&quot;),
+    Document(page_content=&quot;RAG combines retrieval augmented generation&quot;),
+    Document(page_content=&quot;LangChain supports many vector store integrations&quot;),
+]
+
+bm25_retriever = BM25Retriever.from_documents(docs, k=2)
+results = bm25_retriever.invoke(&quot;LangChain vector store&quot;)
+for doc in results:
+    print(doc.page_content)
+</code></pre>
+<h3 id="83-ensembleretriever-hybrid-bm25-vector">8.3 EnsembleRetriever (Hybrid BM25 + Vector)</h3>
+<pre><code class="language-python">import subprocess
+from langchain_openai import OpenAIEmbeddings
+from langchain_community.vectorstores import FAISS
+from langchain_community.retrievers import BM25Retriever
+from langchain.retrievers import EnsembleRetriever
+from langchain_core.documents import Document
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+embeddings = OpenAIEmbeddings(
+    model=&quot;text-embedding-3-small&quot;, api_key=token,
+    base_url=&quot;https://models.inference.ai.azure.com&quot;
+)
+
+docs = [
+    Document(page_content=&quot;LangChain LCEL uses pipe operators for composition&quot;),
+    Document(page_content=&quot;Vector embeddings capture semantic meaning&quot;),
+    Document(page_content=&quot;BM25 is a keyword-based retrieval algorithm&quot;),
+    Document(page_content=&quot;Hybrid search combines BM25 and vector similarity&quot;),
+    Document(page_content=&quot;LangChain integrates with many LLM providers&quot;),
+]
+
+bm25 = BM25Retriever.from_documents(docs, k=2)
+faiss_db = FAISS.from_documents(docs, embeddings)
+vector = faiss_db.as_retriever(search_kwargs={&quot;k&quot;: 2})
+
+# Reciprocal Rank Fusion with weighted combination
+ensemble = EnsembleRetriever(
+    retrievers=[bm25, vector],
+    weights=[0.4, 0.6],   # weight vector search higher for semantic queries
+)
+results = ensemble.invoke(&quot;LangChain semantic pipe operator&quot;)
+for doc in results:
+    print(doc.page_content)
+</code></pre>
+<h3 id="84-multiqueryretriever">8.4 MultiQueryRetriever</h3>
+<pre><code class="language-python">import subprocess
+from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+from langchain_community.vectorstores import FAISS
+from langchain.retrievers import MultiQueryRetriever
+from langchain_core.documents import Document
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+llm = ChatOpenAI(model=&quot;gpt-4o&quot;, api_key=token,
+                 base_url=&quot;https://models.inference.ai.azure.com&quot;)
+embeddings = OpenAIEmbeddings(
+    model=&quot;text-embedding-3-small&quot;, api_key=token,
+    base_url=&quot;https://models.inference.ai.azure.com&quot;
+)
+
+docs = [Document(page_content=t) for t in [
+    &quot;RAG stands for Retrieval Augmented Generation&quot;,
+    &quot;RAG improves LLM accuracy by grounding responses in retrieved context&quot;,
+    &quot;Vector stores enable semantic document retrieval&quot;,
+    &quot;LangChain provides a complete RAG pipeline&quot;,
+]]
+db = FAISS.from_documents(docs, embeddings)
+
+# MultiQueryRetriever generates 3 query variants, unions results
+retriever = MultiQueryRetriever.from_llm(
+    retriever=db.as_retriever(search_kwargs={&quot;k&quot;: 2}),
+    llm=llm
+)
+results = retriever.invoke(&quot;How does RAG work?&quot;)
+print(f&quot;Found {len(results)} unique documents&quot;)
+for doc in results:
+    print(&quot;-&quot;, doc.page_content[:80])
+</code></pre>
+<h3 id="85-contextualcompressionretriever">8.5 ContextualCompressionRetriever</h3>
+<pre><code class="language-python">import subprocess
+from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+from langchain_community.vectorstores import FAISS
+from langchain.retrievers import ContextualCompressionRetriever
+from langchain.retrievers.document_compressors import LLMChainExtractor
+from langchain_core.documents import Document
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+llm = ChatOpenAI(model=&quot;gpt-4o&quot;, api_key=token,
+                 base_url=&quot;https://models.inference.ai.azure.com&quot;)
+embeddings = OpenAIEmbeddings(
+    model=&quot;text-embedding-3-small&quot;, api_key=token,
+    base_url=&quot;https://models.inference.ai.azure.com&quot;
+)
+
+docs = [Document(page_content=(
+    &quot;LangChain was created by Harrison Chase in 2022. &quot;
+    &quot;It provides tools for building LLM applications. &quot;
+    &quot;The framework supports Python and JavaScript. &quot;
+    &quot;LangSmith is their observability platform.&quot;
+))]
+db = FAISS.from_documents(docs, embeddings)
+base_retriever = db.as_retriever(search_kwargs={&quot;k&quot;: 1})
+
+# Compressor extracts only the relevant portion of each document
+compressor = LLMChainExtractor.from_llm(llm)
+compression_retriever = ContextualCompressionRetriever(
+    base_compressor=compressor,
+    base_retriever=base_retriever
+)
+
+compressed = compression_retriever.invoke(&quot;Who created LangChain?&quot;)
+for doc in compressed:
+    print(doc.page_content)  # Only the relevant sentence
+</code></pre>
+<h3 id="86-full-hybrid-retrieval-example">8.6 Full Hybrid Retrieval Example</h3>
+<pre><code class="language-python">import subprocess
+from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+from langchain_community.vectorstores import FAISS
+from langchain_community.retrievers import BM25Retriever
+from langchain.retrievers import EnsembleRetriever, ContextualCompressionRetriever
+from langchain.retrievers.document_compressors import LLMChainExtractor
+from langchain_core.documents import Document
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+llm = ChatOpenAI(model=&quot;gpt-4o&quot;, api_key=token,
+                 base_url=&quot;https://models.inference.ai.azure.com&quot;)
+embeddings = OpenAIEmbeddings(
+    model=&quot;text-embedding-3-small&quot;, api_key=token,
+    base_url=&quot;https://models.inference.ai.azure.com&quot;
+)
+
+knowledge_base = [
+    Document(page_content=&quot;LCEL uses pipe operators to compose runnables in LangChain&quot;),
+    Document(page_content=&quot;RunnableParallel executes multiple runnables simultaneously&quot;),
+    Document(page_content=&quot;LangSmith provides tracing and evaluation for LangChain apps&quot;),
+    Document(page_content=&quot;ChromaDB is a free open-source vector store&quot;),
+    Document(page_content=&quot;BM25 is a classical keyword relevance scoring algorithm&quot;),
+]
+
+# Build hybrid retriever
+bm25 = BM25Retriever.from_documents(knowledge_base, k=2)
+faiss_db = FAISS.from_documents(knowledge_base, embeddings)
+vector = faiss_db.as_retriever(search_kwargs={&quot;k&quot;: 2})
+ensemble = EnsembleRetriever(retrievers=[bm25, vector], weights=[0.3, 0.7])
+
+# Add compression on top
+compressor = LLMChainExtractor.from_llm(llm)
+final_retriever = ContextualCompressionRetriever(
+    base_compressor=compressor,
+    base_retriever=ensemble
+)
+
+query = &quot;How does LangChain compose parallel operations?&quot;
+results = final_retriever.invoke(query)
+print(f&quot;Query: {query}&quot;)
+for i, doc in enumerate(results, 1):
+    print(f&quot;[{i}] {doc.page_content}&quot;)
+</code></pre>
+<hr />
+<h2 id="9-rag-patterns">9. RAG Patterns</h2>
+<h3 id="91-basic-rag-chain">9.1 Basic RAG Chain</h3>
+<pre><code class="language-python">import subprocess
+from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+from langchain_community.vectorstores import FAISS
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.runnables import RunnablePassthrough
+from langchain_core.documents import Document
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+llm = ChatOpenAI(model=&quot;gpt-4o&quot;, api_key=token,
+                 base_url=&quot;https://models.inference.ai.azure.com&quot;)
+embeddings = OpenAIEmbeddings(
+    model=&quot;text-embedding-3-small&quot;, api_key=token,
+    base_url=&quot;https://models.inference.ai.azure.com&quot;
+)
+
+# Build knowledge base
+docs = [
+    Document(page_content=&quot;LangChain 0.3 requires Python 3.9+ and uses Pydantic v2&quot;),
+    Document(page_content=&quot;LCEL was introduced to replace legacy Chain classes&quot;),
+    Document(page_content=&quot;LangSmith is used for debugging and evaluating LLM applications&quot;),
+]
+vectorstore = FAISS.from_documents(docs, embeddings)
+retriever = vectorstore.as_retriever(search_kwargs={&quot;k&quot;: 2})
+
+def format_docs(docs):
+    return &quot;\n\n&quot;.join(doc.page_content for doc in docs)
+
+rag_prompt = ChatPromptTemplate.from_template(&quot;&quot;&quot;
+Answer the question based only on the context below. If you don't know, say &quot;I don't know.&quot;
+
+Context:
+{context}
+
+Question: {question}
+&quot;&quot;&quot;)
+
+rag_chain = (
+    {&quot;context&quot;: retriever | format_docs, &quot;question&quot;: RunnablePassthrough()}
+    | rag_prompt
+    | llm
+    | StrOutputParser()
+)
+
+print(rag_chain.invoke(&quot;What Python version does LangChain 0.3 require?&quot;))
+</code></pre>
+<h3 id="92-conversational-rag-with-history">9.2 Conversational RAG with History</h3>
+<pre><code class="language-python">import subprocess
+from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+from langchain_community.vectorstores import FAISS
+from langchain.chains import create_history_aware_retriever, create_retrieval_chain
+from langchain.chains.combine_documents import create_stuff_documents_chain
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain_core.messages import HumanMessage, AIMessage
+from langchain_core.documents import Document
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+llm = ChatOpenAI(model=&quot;gpt-4o&quot;, api_key=token,
+                 base_url=&quot;https://models.inference.ai.azure.com&quot;)
+embeddings = OpenAIEmbeddings(
+    model=&quot;text-embedding-3-small&quot;, api_key=token,
+    base_url=&quot;https://models.inference.ai.azure.com&quot;
+)
+
+docs = [
+    Document(page_content=&quot;LangChain supports OpenAI, Anthropic, and many other LLM providers&quot;),
+    Document(page_content=&quot;You can use ChatOpenAI class for OpenAI chat models&quot;),
+    Document(page_content=&quot;ChatAnthropic class is used for Claude models&quot;),
+]
+vectorstore = FAISS.from_documents(docs, embeddings)
+retriever = vectorstore.as_retriever()
+
+# Prompt to reformulate question with chat history context
+contextualize_q_prompt = ChatPromptTemplate.from_messages([
+    (&quot;system&quot;, &quot;Given the chat history and the latest question, &quot;
+               &quot;reformulate a standalone question. Return only the question.&quot;),
+    MessagesPlaceholder(&quot;chat_history&quot;),
+    (&quot;human&quot;, &quot;{input}&quot;),
+])
+history_aware_retriever = create_history_aware_retriever(llm, retriever, contextualize_q_prompt)
+
+# QA prompt
+qa_prompt = ChatPromptTemplate.from_messages([
+    (&quot;system&quot;, &quot;Answer using the context below:\n\n{context}&quot;),
+    MessagesPlaceholder(&quot;chat_history&quot;),
+    (&quot;human&quot;, &quot;{input}&quot;),
+])
+question_answer_chain = create_stuff_documents_chain(llm, qa_prompt)
+rag_chain = create_retrieval_chain(history_aware_retriever, question_answer_chain)
+
+# Simulate multi-turn conversation
+chat_history = []
+
+q1 = &quot;What LLM providers does LangChain support?&quot;
+r1 = rag_chain.invoke({&quot;input&quot;: q1, &quot;chat_history&quot;: chat_history})
+print(&quot;Q1:&quot;, r1[&quot;answer&quot;])
+chat_history += [HumanMessage(content=q1), AIMessage(content=r1[&quot;answer&quot;])]
+
+q2 = &quot;Which class do I use for the second one you mentioned?&quot;  # refers to Anthropic
+r2 = rag_chain.invoke({&quot;input&quot;: q2, &quot;chat_history&quot;: chat_history})
+print(&quot;Q2:&quot;, r2[&quot;answer&quot;])
+</code></pre>
+<h3 id="93-full-conversational-rag-with-sqlitesaver">9.3 Full Conversational RAG with SqliteSaver</h3>
+<pre><code class="language-python">import subprocess
+from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+from langchain_community.vectorstores import FAISS
+from langchain.chains import create_history_aware_retriever, create_retrieval_chain
+from langchain.chains.combine_documents import create_stuff_documents_chain
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain_core.chat_history import BaseChatMessageHistory
+from langchain_community.chat_message_histories import SQLChatMessageHistory
+from langchain_core.runnables.history import RunnableWithMessageHistory
+from langchain_core.documents import Document
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+llm = ChatOpenAI(model=&quot;gpt-4o&quot;, api_key=token,
+                 base_url=&quot;https://models.inference.ai.azure.com&quot;)
+embeddings = OpenAIEmbeddings(
+    model=&quot;text-embedding-3-small&quot;, api_key=token,
+    base_url=&quot;https://models.inference.ai.azure.com&quot;
+)
+
+docs = [Document(page_content=t) for t in [
+    &quot;LangChain LCEL uses the pipe | operator&quot;,
+    &quot;RunnableWithMessageHistory adds persistent memory to any chain&quot;,
+    &quot;SqliteSaver persists chat history to a SQLite database file&quot;,
+]]
+db = FAISS.from_documents(docs, embeddings)
+retriever = db.as_retriever()
+
+contextualize_prompt = ChatPromptTemplate.from_messages([
+    (&quot;system&quot;, &quot;Reformulate as standalone question given history.&quot;),
+    MessagesPlaceholder(&quot;chat_history&quot;),
+    (&quot;human&quot;, &quot;{input}&quot;),
+])
+qa_prompt = ChatPromptTemplate.from_messages([
+    (&quot;system&quot;, &quot;Answer from context:\n\n{context}&quot;),
+    MessagesPlaceholder(&quot;chat_history&quot;),
+    (&quot;human&quot;, &quot;{input}&quot;),
+])
+
+history_aware_retriever = create_history_aware_retriever(llm, retriever, contextualize_prompt)
+qa_chain = create_stuff_documents_chain(llm, qa_prompt)
+rag_chain = create_retrieval_chain(history_aware_retriever, qa_chain)
+
+def get_session_history(session_id: str) -&gt; BaseChatMessageHistory:
+    return SQLChatMessageHistory(session_id, &quot;sqlite:///chat_history.db&quot;)
+
+conversational_rag = RunnableWithMessageHistory(
+    rag_chain,
+    get_session_history,
+    input_messages_key=&quot;input&quot;,
+    history_messages_key=&quot;chat_history&quot;,
+    output_messages_key=&quot;answer&quot;,
+)
+
+config = {&quot;configurable&quot;: {&quot;session_id&quot;: &quot;user_123&quot;}}
+r = conversational_rag.invoke({&quot;input&quot;: &quot;What operator does LCEL use?&quot;}, config=config)
+print(r[&quot;answer&quot;])
+# History is persisted to SQLite — survives process restarts
+</code></pre>
+<hr />
+<h2 id="10-memory">10. Memory</h2>
+<h3 id="101-conversationbuffermemory">10.1 ConversationBufferMemory</h3>
+<pre><code class="language-python"># NOTE: ConversationBufferMemory is legacy — use RunnableWithMessageHistory for new code.
+# Shown here for reference when working with legacy chains.
+from langchain.memory import ConversationBufferMemory
+from langchain_core.messages import HumanMessage, AIMessage
+
+memory = ConversationBufferMemory(return_messages=True)
+memory.chat_memory.add_user_message(&quot;Hi, I'm Alice&quot;)
+memory.chat_memory.add_ai_message(&quot;Hello Alice! How can I help?&quot;)
+memory.chat_memory.add_user_message(&quot;What's my name?&quot;)
+
+# Load the memory variables
+loaded = memory.load_memory_variables({})
+for msg in loaded[&quot;history&quot;]:
+    print(f&quot;[{msg.type}] {msg.content}&quot;)
+</code></pre>
+<h3 id="102-conversationsummarymemory">10.2 ConversationSummaryMemory</h3>
+<pre><code class="language-python">import subprocess
+from langchain_openai import ChatOpenAI
+from langchain.memory import ConversationSummaryMemory
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+llm = ChatOpenAI(model=&quot;gpt-4o&quot;, api_key=token,
+                 base_url=&quot;https://models.inference.ai.azure.com&quot;)
+
+# Summarizes conversation as it grows (cheaper for long conversations)
+memory = ConversationSummaryMemory(llm=llm, return_messages=True)
+memory.save_context({&quot;input&quot;: &quot;I am building a RAG pipeline for legal documents&quot;},
+                    {&quot;output&quot;: &quot;That's a great use case. What kind of queries?&quot;})
+memory.save_context({&quot;input&quot;: &quot;Contract review and compliance checking&quot;},
+                    {&quot;output&quot;: &quot;I recommend using ContextualCompressionRetriever for that.&quot;})
+
+summary = memory.load_memory_variables({})
+print(&quot;Summary:&quot;, summary)
+</code></pre>
+<h3 id="103-runnablewithmessagehistory-modern-approach">10.3 RunnableWithMessageHistory (modern approach)</h3>
+<pre><code class="language-python">import subprocess
+from langchain_openai import ChatOpenAI
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.runnables.history import RunnableWithMessageHistory
+from langchain_community.chat_message_histories import ChatMessageHistory
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+llm = ChatOpenAI(model=&quot;gpt-4o&quot;, api_key=token,
+                 base_url=&quot;https://models.inference.ai.azure.com&quot;)
+
+prompt = ChatPromptTemplate.from_messages([
+    (&quot;system&quot;, &quot;You are a helpful assistant. Be concise.&quot;),
+    MessagesPlaceholder(variable_name=&quot;history&quot;),
+    (&quot;human&quot;, &quot;{input}&quot;),
+])
+
+chain = prompt | llm | StrOutputParser()
+
+# In-memory store (replace with SQLChatMessageHistory for persistence)
+store = {}
+def get_session_history(session_id: str) -&gt; ChatMessageHistory:
+    if session_id not in store:
+        store[session_id] = ChatMessageHistory()
+    return store[session_id]
+
+with_memory = RunnableWithMessageHistory(
+    chain,
+    get_session_history,
+    input_messages_key=&quot;input&quot;,
+    history_messages_key=&quot;history&quot;,
+)
+
+cfg = {&quot;configurable&quot;: {&quot;session_id&quot;: &quot;demo_session&quot;}}
+print(with_memory.invoke({&quot;input&quot;: &quot;My name is Bob.&quot;}, config=cfg))
+print(with_memory.invoke({&quot;input&quot;: &quot;What is my name?&quot;}, config=cfg))
+print(with_memory.invoke({&quot;input&quot;: &quot;What was my first message?&quot;}, config=cfg))
+</code></pre>
+<hr />
+<h2 id="11-agents-tools">11. Agents &amp; Tools</h2>
+<h3 id="111-custom-tools-with-tool-decorator">11.1 Custom Tools with @tool decorator</h3>
+<pre><code class="language-python">import subprocess
+import math
+from langchain_openai import ChatOpenAI
+from langchain_core.tools import tool
+from langchain.agents import create_tool_calling_agent, AgentExecutor
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+llm = ChatOpenAI(model=&quot;gpt-4o&quot;, api_key=token,
+                 base_url=&quot;https://models.inference.ai.azure.com&quot;)
+
+@tool
+def calculator(expression: str) -&gt; str:
+    &quot;&quot;&quot;Evaluate a mathematical expression. Input: a valid Python math expression string.&quot;&quot;&quot;
+    try:
+        result = eval(expression, {&quot;__builtins__&quot;: {}}, {&quot;math&quot;: math, **vars(math)})
+        return str(result)
+    except Exception as e:
+        return f&quot;Error: {e}&quot;
+
+@tool
+def word_counter(text: str) -&gt; str:
+    &quot;&quot;&quot;Count words and characters in the given text.&quot;&quot;&quot;
+    words = len(text.split())
+    chars = len(text)
+    return f&quot;Words: {words}, Characters: {chars}&quot;
+
+@tool
+def temperature_converter(celsius: float) -&gt; str:
+    &quot;&quot;&quot;Convert a temperature from Celsius to Fahrenheit and Kelvin.&quot;&quot;&quot;
+    f = celsius * 9/5 + 32
+    k = celsius + 273.15
+    return f&quot;{celsius}°C = {f:.1f}°F = {k:.2f}K&quot;
+
+tools = [calculator, word_counter, temperature_converter]
+
+prompt = ChatPromptTemplate.from_messages([
+    (&quot;system&quot;, &quot;You are a helpful assistant with access to tools. Use them when needed.&quot;),
+    MessagesPlaceholder(variable_name=&quot;chat_history&quot;, optional=True),
+    (&quot;human&quot;, &quot;{input}&quot;),
+    MessagesPlaceholder(variable_name=&quot;agent_scratchpad&quot;),
+])
+
+agent = create_tool_calling_agent(llm, tools, prompt)
+executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
+
+result = executor.invoke({&quot;input&quot;: &quot;What is the square root of 144, and what is 25°C in Fahrenheit?&quot;})
+print(result[&quot;output&quot;])
+</code></pre>
+<h3 id="112-structured-tools-with-pydantic">11.2 Structured Tools with Pydantic</h3>
+<pre><code class="language-python">import subprocess
+from pydantic import BaseModel, Field
+from langchain_core.tools import StructuredTool
+from langchain_openai import ChatOpenAI
+from langchain.agents import create_tool_calling_agent, AgentExecutor
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+llm = ChatOpenAI(model=&quot;gpt-4o&quot;, api_key=token,
+                 base_url=&quot;https://models.inference.ai.azure.com&quot;)
+
+class SearchInput(BaseModel):
+    query: str = Field(description=&quot;The search query&quot;)
+    max_results: int = Field(default=3, description=&quot;Maximum number of results to return&quot;)
+
+def mock_web_search(query: str, max_results: int = 3) -&gt; str:
+    &quot;&quot;&quot;Simulate a web search (replace with real API in production).&quot;&quot;&quot;
+    results = [
+        f&quot;Result {i+1} for '{query}': Example article about {query} - detail {i+1}&quot;
+        for i in range(max_results)
+    ]
+    return &quot;\n&quot;.join(results)
+
+search_tool = StructuredTool.from_function(
+    func=mock_web_search,
+    name=&quot;web_search&quot;,
+    description=&quot;Search the web for information on a topic&quot;,
+    args_schema=SearchInput,
+)
+
+prompt = ChatPromptTemplate.from_messages([
+    (&quot;system&quot;, &quot;You are a research assistant. Use tools to find information.&quot;),
+    (&quot;human&quot;, &quot;{input}&quot;),
+    MessagesPlaceholder(variable_name=&quot;agent_scratchpad&quot;),
+])
+
+agent = create_tool_calling_agent(llm, [search_tool], prompt)
+executor = AgentExecutor(agent=agent, tools=[search_tool], verbose=False)
+
+result = executor.invoke({&quot;input&quot;: &quot;Search for information about LangChain LCEL and return 2 results&quot;})
+print(result[&quot;output&quot;])
+</code></pre>
+<h3 id="113-full-agent-web-search-calculator-code-executor">11.3 Full Agent: Web Search + Calculator + Code Executor</h3>
+<pre><code class="language-python">import subprocess
+import math
+import ast
+from langchain_openai import ChatOpenAI
+from langchain_core.tools import tool
+from langchain.agents import create_tool_calling_agent, AgentExecutor
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+llm = ChatOpenAI(model=&quot;gpt-4o&quot;, api_key=token,
+                 base_url=&quot;https://models.inference.ai.azure.com&quot;, temperature=0)
+
+@tool
+def web_search(query: str) -&gt; str:
+    &quot;&quot;&quot;Search the web for up-to-date information about a topic.&quot;&quot;&quot;
+    # In production, use: from langchain_community.tools import DuckDuckGoSearchRun
+    return f&quot;[Simulated search results for: {query}]\n- Article 1: Overview of {query}\n- Article 2: Deep dive into {query}&quot;
+
+@tool
+def calculator(expression: str) -&gt; str:
+    &quot;&quot;&quot;Safely evaluate a mathematical expression (e.g., '2 ** 10', 'math.sqrt(256)').&quot;&quot;&quot;
+    try:
+        safe_globals = {k: getattr(math, k) for k in dir(math) if not k.startswith(&quot;_&quot;)}
+        return str(eval(expression, {&quot;__builtins__&quot;: {}}, safe_globals))
+    except Exception as e:
+        return f&quot;Calculation error: {e}&quot;
+
+@tool
+def python_executor(code: str) -&gt; str:
+    &quot;&quot;&quot;Execute simple Python code and return the output. Only safe operations allowed.&quot;&quot;&quot;
+    try:
+        tree = ast.parse(code, mode=&quot;exec&quot;)
+        # Block imports for safety
+        for node in ast.walk(tree):
+            if isinstance(node, (ast.Import, ast.ImportFrom)):
+                return &quot;Error: imports not allowed&quot;
+        local_vars = {}
+        exec(compile(tree, &quot;&lt;string&gt;&quot;, &quot;exec&quot;), {&quot;__builtins__&quot;: {&quot;print&quot;: print, &quot;len&quot;: len, &quot;range&quot;: range}}, local_vars)
+        return str(local_vars.get(&quot;result&quot;, &quot;Code executed (no 'result' variable set)&quot;))
+    except Exception as e:
+        return f&quot;Execution error: {e}&quot;
+
+tools = [web_search, calculator, python_executor]
+
+prompt = ChatPromptTemplate.from_messages([
+    (&quot;system&quot;, &quot;You are a capable assistant. Use your tools to answer accurately. &quot;
+               &quot;Show your reasoning and tool usage clearly.&quot;),
+    (&quot;human&quot;, &quot;{input}&quot;),
+    MessagesPlaceholder(variable_name=&quot;agent_scratchpad&quot;),
+])
+
+agent = create_tool_calling_agent(llm, tools, prompt)
+executor = AgentExecutor(agent=agent, tools=tools, verbose=True, max_iterations=5)
+
+result = executor.invoke({
+    &quot;input&quot;: &quot;What is 2^20? Then search for information about the Python language.&quot;
+})
+print(&quot;\nFinal Answer:&quot;, result[&quot;output&quot;])
+</code></pre>
+<hr />
+<h2 id="12-callbacks-streaming">12. Callbacks &amp; Streaming</h2>
+<h3 id="121-streamingstdoutcallbackhandler">12.1 StreamingStdOutCallbackHandler</h3>
+<pre><code class="language-python">import subprocess
+from langchain_openai import ChatOpenAI
+from langchain_core.callbacks import StreamingStdOutCallbackHandler
+from langchain_core.prompts import ChatPromptTemplate
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+
+llm = ChatOpenAI(
+    model=&quot;gpt-4o&quot;,
+    api_key=token,
+    base_url=&quot;https://models.inference.ai.azure.com&quot;,
+    streaming=True,
+    callbacks=[StreamingStdOutCallbackHandler()],
+)
+
+chain = ChatPromptTemplate.from_template(&quot;Write 3 tips for {topic}&quot;) | llm
+# Output streams to stdout automatically via the callback
+result = chain.invoke({&quot;topic&quot;: &quot;writing clean Python code&quot;})
+</code></pre>
+<h3 id="122-custom-callback-handler">12.2 Custom Callback Handler</h3>
+<pre><code class="language-python">import subprocess
+import time
+from langchain_openai import ChatOpenAI
+from langchain_core.callbacks import BaseCallbackHandler
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.outputs import LLMResult
+from typing import Any, Dict, List, Union
+
+class TokenCounterCallback(BaseCallbackHandler):
+    &quot;&quot;&quot;Callback that counts tokens and measures latency.&quot;&quot;&quot;
+
+    def __init__(self):
+        self.token_count = 0
+        self.start_time = None
+        self.chunks = []
+
+    def on_llm_start(self, serialized: Dict[str, Any], prompts: List[str], **kwargs):
+        self.start_time = time.time()
+        print(f&quot;[Callback] LLM started | Prompt length: {len(prompts[0])} chars&quot;)
+
+    def on_llm_new_token(self, token: str, **kwargs):
+        self.token_count += 1
+        self.chunks.append(token)
+
+    def on_llm_end(self, response: LLMResult, **kwargs):
+        elapsed = time.time() - self.start_time
+        print(f&quot;\n[Callback] Done | Tokens: {self.token_count} | Latency: {elapsed:.2f}s&quot;)
+
+    def on_llm_error(self, error: Union[Exception, KeyboardInterrupt], **kwargs):
+        print(f&quot;[Callback] Error: {error}&quot;)
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+callback = TokenCounterCallback()
+
+llm = ChatOpenAI(
+    model=&quot;gpt-4o&quot;,
+    api_key=token,
+    base_url=&quot;https://models.inference.ai.azure.com&quot;,
+    streaming=True,
+    callbacks=[callback],
+)
+
+result = llm.invoke(&quot;List 3 Python best practices.&quot;)
+print(f&quot;Total tokens streamed: {callback.token_count}&quot;)
+</code></pre>
+<h3 id="123-token-by-token-streaming-via-stream">12.3 Token-by-Token Streaming via .stream()</h3>
+<pre><code class="language-python">import subprocess
+from langchain_openai import ChatOpenAI
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+llm = ChatOpenAI(model=&quot;gpt-4o&quot;, api_key=token,
+                 base_url=&quot;https://models.inference.ai.azure.com&quot;, streaming=True)
+
+chain = (
+    ChatPromptTemplate.from_template(&quot;Explain {topic} step by step.&quot;)
+    | llm
+    | StrOutputParser()
+)
+
+print(&quot;--- Streaming Response ---&quot;)
+full_response = &quot;&quot;
+for chunk in chain.stream({&quot;topic&quot;: &quot;how a neural network learns&quot;}):
+    print(chunk, end=&quot;&quot;, flush=True)
+    full_response += chunk
+print(f&quot;\n--- Done ({len(full_response)} chars) ---&quot;)
+</code></pre>
+<hr />
+<h2 id="13-langsmith-observability">13. LangSmith — Observability</h2>
+<h3 id="131-setup-and-configuration">13.1 Setup and Configuration</h3>
+<pre><code class="language-bash">pip install langsmith
+
+export LANGCHAIN_TRACING_V2=&quot;true&quot;
+export LANGCHAIN_API_KEY=&quot;ls__your_key_here&quot;
+export LANGCHAIN_PROJECT=&quot;my-rag-project&quot;   # optional, defaults to &quot;default&quot;
+</code></pre>
+<pre><code class="language-python"># Once env vars are set, ALL LangChain calls are automatically traced
+import subprocess
+import os
+from langchain_openai import ChatOpenAI
+from langchain_core.prompts import ChatPromptTemplate
+
+os.environ[&quot;LANGCHAIN_TRACING_V2&quot;] = &quot;true&quot;
+os.environ[&quot;LANGCHAIN_API_KEY&quot;] = &quot;ls__your_key_here&quot;  # replace with real key
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+llm = ChatOpenAI(model=&quot;gpt-4o&quot;, api_key=token,
+                 base_url=&quot;https://models.inference.ai.azure.com&quot;)
+
+chain = ChatPromptTemplate.from_template(&quot;Answer: {q}&quot;) | llm
+result = chain.invoke({&quot;q&quot;: &quot;What is LangSmith?&quot;})
+# This run is now visible at https://smith.langchain.com
+</code></pre>
+<h3 id="132-manual-tracing-with-traceable">13.2 Manual Tracing with @traceable</h3>
+<pre><code class="language-python">from langsmith import traceable
+
+@traceable(name=&quot;my_rag_retrieval&quot;, run_type=&quot;retriever&quot;)
+def retrieve_docs(query: str) -&gt; list:
+    # Your retrieval logic here
+    return [{&quot;content&quot;: f&quot;Result for: {query}&quot;}]
+
+@traceable(name=&quot;my_rag_generation&quot;, run_type=&quot;llm&quot;)
+def generate_answer(query: str, context: list) -&gt; str:
+    return f&quot;Based on context, here is the answer to: {query}&quot;
+
+@traceable(name=&quot;full_rag_pipeline&quot;)
+def rag_pipeline(query: str) -&gt; str:
+    docs = retrieve_docs(query)
+    return generate_answer(query, docs)
+
+result = rag_pipeline(&quot;What is RAG?&quot;)
+</code></pre>
+<h3 id="133-evaluating-rag-quality">13.3 Evaluating RAG Quality</h3>
+<pre><code class="language-python">from langsmith import Client
+from langsmith.evaluation import evaluate
+
+client = Client()
+
+# 1. Create a dataset
+dataset = client.create_dataset(&quot;rag-eval-dataset&quot;, description=&quot;RAG Q&amp;A evaluation&quot;)
+examples = [
+    {&quot;inputs&quot;: {&quot;question&quot;: &quot;What is LangChain?&quot;}, &quot;outputs&quot;: {&quot;answer&quot;: &quot;A framework for LLM apps&quot;}},
+    {&quot;inputs&quot;: {&quot;question&quot;: &quot;What is LCEL?&quot;}, &quot;outputs&quot;: {&quot;answer&quot;: &quot;LangChain Expression Language using pipe operators&quot;}},
+]
+for ex in examples:
+    client.create_example(inputs=ex[&quot;inputs&quot;], outputs=ex[&quot;outputs&quot;], dataset_id=dataset.id)
+
+# 2. Define your RAG chain (replace with real chain)
+def rag_chain(inputs: dict) -&gt; dict:
+    return {&quot;answer&quot;: f&quot;LangChain answer for: {inputs['question']}&quot;}
+
+# 3. Define evaluators
+from langsmith.evaluation import LangChainStringEvaluator
+correctness_evaluator = LangChainStringEvaluator(&quot;qa&quot;)
+
+# 4. Run evaluation
+results = evaluate(
+    rag_chain,
+    data=&quot;rag-eval-dataset&quot;,
+    evaluators=[correctness_evaluator],
+    experiment_prefix=&quot;rag-v1&quot;,
+)
+print(results.to_pandas())
+</code></pre>
+<h3 id="134-free-tier-limits">13.4 Free Tier Limits</h3>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Free Tier</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Traces / month</td>
+<td>5,000</td>
+</tr>
+<tr>
+<td>Datasets</td>
+<td>Unlimited</td>
+</tr>
+<tr>
+<td>Evaluations</td>
+<td>Unlimited (use own LLM)</td>
+</tr>
+<tr>
+<td>Team members</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Retention</td>
+<td>14 days</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="14-interview-qa">14. Interview Q&amp;A</h2>
+<details open><summary class="qa-q">What is LCEL and why was it introduced?  LCEL (LangChain Expression Language) is a declarative composition system using the pipe operator `|`. It was introduced in LangChain 0.1 to replace imperative Chain classes. Benefits: built-in streaming, async, batch processing, automatic tracing, and consistent `.invoke()/.stream()/.batch()/.ainvoke()` interface across all components.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">Difference between a Chain and LCEL?  | Legacy Chain | LCEL | |---|---| | Class-based (e.g., `LLMChain`) | Pipe-based (`prompt \| llm \| parser`) | | Limited streaming support | First-class streaming | | Hard to compose | Composable by design | | Deprecated in 0.2+ | Current standard |  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How do you add memory to a RAG chain?  Use `RunnableWithMessageHistory` wrapping the RAG chain, with a `get_session_history` function that returns a `BaseChatMessageHistory` (e.g., `SQLChatMessageHistory` for persistence). The chain must have `input_messages_key` and `history_messages_key` configured. Also use `create_history_aware_retriever` to reformulate queries with chat history context.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What is the difference between a Retriever and a VectorStore?  | VectorStore | Retriever | |---|---| | Storage layer (CRUD operations) | Query interface only | | `db.similarity_search(query, k=3)` | `retriever.invoke(query)` | | Provider-specific API | Unified `Runnable` interface | | `FAISS`, `Chroma`, `Qdrant` | Any class implementing `BaseRetriever` |  A VectorStore can create a Retriever via `.as_retriever()`. Retrievers are composable in LCEL chains; VectorStores are not directly.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How does MultiQueryRetriever improve retrieval quality?  It uses an LLM to generate 3–5 paraphrased versions of the user query, retrieves documents for each, then takes the union (deduped). This overcomes the limitation of single-query vector search missing relevant documents due to phrasing mismatch. The trade-off is more LLM calls per retrieval.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What is ContextualCompressionRetriever?  It wraps a base retriever and passes each retrieved document through a compressor (e.g., `LLMChainExtractor`) that extracts only the portions relevant to the query. This reduces noise in the context window, improves answer quality, and saves tokens. Useful when documents are long and only partially relevant.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How do you implement streaming in LangChain?  Three approaches: 1. **LCEL `.stream()`** — iterate over chunks: `for chunk in chain.stream(input): print(chunk, end="")` 2. **Callbacks** — pass `StreamingStdOutCallbackHandler()` or custom handler to the LLM 3. **Async streaming** — `async for chunk in chain.astream(input): ...`  The LLM must have `streaming=True` set for token-level streaming.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What are Tools in LangChain agents?  Tools are functions exposed to an agent with a name, description, and schema. The agent's LLM reads the description to decide when to call each tool. Defined via `@tool` decorator, `StructuredTool.from_function()`, or pre-built integrations (DuckDuckGo, Wikipedia, Python REPL, etc.). The agent uses the tool's output to form its final response.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How do you evaluate a RAG system with LangSmith?  1. Create a labeled dataset with `(question, expected_answer)` pairs in LangSmith 2. Define evaluators: `LangChainStringEvaluator("qa")` for correctness, custom evaluators for faithfulness/relevance 3. Run `evaluate(rag_chain, data="dataset-name", evaluators=[...])`  4. View results in the LangSmith UI, compare across experiment runs  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How do you use LangChain with local models (Ollama)?  ```python # pip install langchain-ollama  (run: ollama pull llama3.2) from langchain_ollama import ChatOllama, OllamaEmbeddings  llm = ChatOllama(model="llama3.2", temperature=0.7) embeddings = OllamaEmbeddings(model="nomic-embed-text")  result = llm.invoke("What is LangChain?") print(result.content) ```  Ollama runs models locally — no API key, no cost, works offline.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What is RunnableParallel and when to use it?  `RunnableParallel` executes multiple runnables **simultaneously** on the same input, returning a dict of results. Use when you need to run independent LLM calls in parallel (e.g., summarize + classify + extract keywords from the same document). Reduces total latency from `sum(latencies)` to `max(latency)`.  ```python parallel = RunnableParallel(summary=chain_a, keywords=chain_b, sentiment=chain_c) result = parallel.invoke({"text": document})  # all three run concurrently ```  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How do you debug a complex LCEL chain?  Four methods: 1. **Intermediate inspection** — insert `RunnableLambda(lambda x: (print(x), x)[1])` to print at any step 2. **LangSmith tracing** — set `LANGCHAIN_TRACING_V2=true` to see every step in the UI 3. **`.invoke()` on sub-chains** — test each component independently before composing 4. **Verbose mode** — `AgentExecutor(verbose=True)` for agents  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">Difference between ConversationBufferMemory and ConversationSummaryMemory?  | ConversationBufferMemory | ConversationSummaryMemory | |---|---| | Stores full message history verbatim | Stores an LLM-generated summary | | Grows linearly with turns | Stays bounded in token count | | Good for short conversations | Good for long conversations | | No LLM required for memory | Requires LLM to summarize | | Can exceed context window | Context-window safe |  Both are legacy classes — use `RunnableWithMessageHistory` for new code.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How do you handle large documents that exceed the context window?  Multiple strategies: 1. **Chunking + RAG** — split into chunks, embed, retrieve only relevant chunks 2. **Map-Reduce** — process each chunk independently, then reduce (summarize) results 3. **Refine** — process chunks sequentially, refining the answer incrementally 4. **Parent Document Retriever** — index small chunks for retrieval, return the larger parent for context 5. **Contextual Compression** — retrieve chunks but compress them before sending to LLM  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">When would you use LangChain vs LangGraph vs raw OpenAI SDK?  | Scenario | Use | |---|---| | Simple one-shot completion | Raw OpenAI SDK | | RAG pipeline, multi-step chain | LangChain | | Multi-agent workflows, cycles, state machines | LangGraph | | Complex document indexing (hierarchical) | LlamaIndex | | Maximum control, no abstraction overhead | Raw SDK | | Production observability needed | LangChain + LangSmith |  ---  ## 15. Comparison with Alternatives  ### Framework Comparison Table  | Feature | LangChain | LlamaIndex | Raw OpenAI SDK | LangGraph | |---|---|---|---|---| | **Primary focus** | General LLM apps & RAG | Advanced document RAG | Direct API calls | Stateful agents | | **Learning curve** | Medium | Medium | Low | High | | **Abstraction level** | High | High | Low | Medium | | **RAG capabilities** | Good | Excellent | Manual | Good (via LangChain) | | **Agent support** | Good | Basic | Manual | Excellent | | **Streaming** | Native (LCEL) | Supported | Native | Native | | **Observability** | LangSmith | LlamaTrace | Manual | LangSmith | | **Integrations** | 100+ | 50+ | OpenAI only | Via LangChain | | **Vector stores** | 50+ | 40+ | Manual | Via LangChain | | **Maintenance** | Active | Active | Stable | Active | | **Community** | Very large | Large | Largest | Growing | | **Production maturity** | High | High | Highest | Medium |  ### When NOT to use LangChain  1. **Simple single LLM calls** — raw SDK is less overhead and easier to debug 2. **Performance-critical paths** — abstractions add latency; profile before using 3. **You need full control** — LangChain's abstractions can hide complexity that matters 4. **Heavily custom pipelines** — if your pipeline doesn't fit LangChain's primitives, fight against the framework 5. **Minimal dependency footprint** — LangChain has many transitive dependencies 6. **Complex state machines / multi-agent orchestration** — LangGraph is purpose-built for this 7. **Advanced document indexing (PDFs, tables, images)** — LlamaIndex has better support  ### Decision Flowchart  ``` Start   │   ├─ Single LLM call? ──────────────────────► Raw SDK   │   ├─ Multi-step chain with RAG? ────────────► LangChain   │   ├─ Complex document indexing? ────────────► LlamaIndex   │   ├─ Multi-agent / stateful loops? ─────────► LangGraph   │   └─ Unclear? Start with LangChain,      refactor when you hit its limits. ```  ---  ## Quick Reference Card  ```python # === SETUP === import subprocess from langchain_openai import ChatOpenAI, OpenAIEmbeddings  token = subprocess.run(["gh", "auth", "token"], capture_output=True, text=True).stdout.strip() llm = ChatOpenAI(model="gpt-4o", api_key=token, base_url="https://models.inference.ai.azure.com") emb = OpenAIEmbeddings(model="text-embedding-3-small", api_key=token, base_url="https://models.inference.ai.azure.com")  # === BASIC CHAIN === from langchain_core.prompts import ChatPromptTemplate from langchain_core.output_parsers import StrOutputParser chain = ChatPromptTemplate.from_template("Answer: {q}") | llm | StrOutputParser() chain.invoke({"q": "What is 2+2?"})  # === RAG === from langchain_community.vectorstores import FAISS from langchain_core.runnables import RunnablePassthrough db = FAISS.from_texts(["LangChain is a framework"], emb) retriever = db.as_retriever() rag = ({"context": retriever | (lambda d: "\n".join(x.page_content for x in d)), "question": RunnablePassthrough()}        | ChatPromptTemplate.from_template("Context: {context}\nQ: {question}") | llm | StrOutputParser()) rag.invoke("What is LangChain?")  # === STREAMING === for chunk in chain.stream({"q": "Tell me a story"}): print(chunk, end="")  # === PARALLEL === from langchain_core.runnables import RunnableParallel RunnableParallel(a=chain, b=chain).invoke({"q": "hello"})  # === MEMORY === from langchain_core.runnables.history import RunnableWithMessageHistory from langchain_community.chat_message_histories import ChatMessageHistory store = {} with_mem = RunnableWithMessageHistory(chain, lambda sid: store.setdefault(sid, ChatMessageHistory()),                                        input_messages_key="q", history_messages_key="history") ```  ---  *Guide covers LangChain 0.3.x — verify specific APIs at [python.langchain.com/docs](https://python.langchain.com/docs)</summary><div class="qa-a"></div></details>
+</main>
+</body>
+</html>

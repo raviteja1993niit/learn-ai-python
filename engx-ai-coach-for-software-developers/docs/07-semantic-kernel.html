@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Semantic Kernel – AI Libraries Guide</title>
+<style>
+:root{--bg:#fff;--text:#1a1a2e;--accent:#0070f3;--code:#f4f6f8;--border:#e1e4e8;--nav:#f6f8fa;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:Georgia,'Times New Roman',serif;font-size:17px;line-height:1.8;
+     color:var(--text);background:var(--bg);display:flex;min-height:100vh;}
+/* ---- NAV ---- */
+nav{width:260px;min-width:220px;background:var(--nav);border-right:1px solid var(--border);
+    position:sticky;top:0;height:100vh;overflow-y:auto;padding:20px 14px;flex-shrink:0;}
+nav .back-link{display:block;font-family:sans-serif;font-size:12px;color:var(--accent);
+               margin-bottom:14px;text-decoration:none;}
+nav .back-link:hover{text-decoration:underline;}
+nav h3{font-family:sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:.08em;
+       color:#888;margin-bottom:8px;}
+nav ul{list-style:none;}
+nav li{margin:3px 0;}
+nav a{font-family:sans-serif;font-size:13px;color:#444;text-decoration:none;
+      display:block;padding:4px 8px;border-radius:4px;line-height:1.4;}
+nav a:hover{background:#e0e8ff;color:var(--accent);}
+nav a.h3{padding-left:20px;font-size:12px;color:#666;}
+nav a.h4{padding-left:34px;font-size:11px;color:#888;}
+/* ---- MAIN ---- */
+main{flex:1;padding:48px 60px;max-width:960px;}
+.doc-header{margin-bottom:40px;padding-bottom:20px;border-bottom:3px solid var(--accent);}
+.doc-header h1{font-size:2.1em;color:#0a192f;}
+.doc-header .subtitle{font-family:sans-serif;color:#555;margin-top:6px;font-size:.95em;}
+.doc-header .badges span{display:inline-block;font-family:sans-serif;font-size:12px;
+  padding:3px 10px;border-radius:12px;margin:8px 4px 0 0;font-weight:600;}
+.badge-free{background:#d4edda;color:#155724;}
+.badge-paid{background:#fff3cd;color:#856404;}
+.badge-local{background:#cce5ff;color:#004085;}
+/* ---- CONTENT ---- */
+section{margin-bottom:56px;}
+h2{font-size:1.6em;color:#0a192f;margin:2em 0 .6em;padding-bottom:.3em;border-bottom:2px solid var(--border);}
+h3{font-size:1.25em;color:#0a192f;margin:1.6em 0 .4em;}
+h4{font-size:1.05em;color:#0a192f;margin:1.3em 0 .3em;}
+p{margin:.6em 0;}
+ul,ol{margin:.5em 0 .5em 1.5em;}li{margin:.25em 0;}
+strong{color:#0a192f;}
+code{font-family:'Fira Code',Consolas,monospace;background:var(--code);
+     padding:2px 6px;border-radius:3px;font-size:.87em;}
+pre{background:var(--code);border:1px solid var(--border);border-left:4px solid var(--accent);
+    border-radius:6px;padding:18px;overflow-x:auto;margin:1em 0;}
+pre code{background:none;padding:0;font-size:.84em;line-height:1.5;}
+table{border-collapse:collapse;width:100%;margin:1em 0;font-family:sans-serif;font-size:.9em;}
+th,td{border:1px solid var(--border);padding:9px 13px;text-align:left;vertical-align:top;}
+th{background:#e8f0fe;font-weight:700;color:#0a192f;}
+tr:nth-child(even) td{background:#f9f9f9;}
+blockquote{border-left:4px solid var(--accent);padding:10px 18px;background:#f0f4ff;
+           border-radius:0 6px 6px 0;color:#333;margin:1em 0;}
+/* ---- Q&A ---- */
+details{border:1px solid var(--border);border-radius:8px;margin:.8em 0;background:#fafafa;}
+details[open]{background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+summary.qa-q{cursor:pointer;padding:13px 16px;font-weight:700;color:#0a192f;
+             list-style:none;display:flex;align-items:flex-start;gap:10px;line-height:1.5;}
+summary.qa-q::before{content:"Q";background:var(--accent);color:#fff;padding:2px 8px;
+                     border-radius:50%;font-size:.78em;font-family:sans-serif;flex-shrink:0;margin-top:2px;}
+.qa-a{padding:14px 18px;border-top:1px solid #eee;}
+/* ---- callout boxes ---- */
+.tip{background:#e6f9f0;border-left:4px solid #28a745;padding:12px 16px;
+     border-radius:0 6px 6px 0;margin:1em 0;}
+.warn{background:#fff8e1;border-left:4px solid #ffc107;padding:12px 16px;
+      border-radius:0 6px 6px 0;margin:1em 0;}
+a{color:var(--accent);}
+hr{border:none;border-top:1px solid var(--border);margin:2em 0;}
+</style>
+</head>
+<body>
+<nav>
+  <a class="back-link" href="index.html">⬅ All Guides</a>
+  <a class="back-link" href="06-haystack.html">← Haystack</a><a class="back-link" href="08-dspy.html">DSPy →</a>
+  <h3>Contents</h3>
+  <ul><li><a href="#table-of-contents" class="">Table of Contents</a></li>
+<li><a href="#1-what-is-semantic-kernel" class="">1. What is Semantic Kernel?</a></li>
+<li><a href="#key-pillars" class="h3">Key Pillars</a></li>
+<li><a href="#multi-language-support" class="h3">Multi-Language Support</a></li>
+<li><a href="#when-to-use-sk-vs-alternatives" class="h3">When to Use SK vs Alternatives</a></li>
+<li><a href="#2-installation-setup" class="">2. Installation &amp; Setup</a></li>
+<li><a href="#install-the-package" class="h3">Install the Package</a></li>
+<li><a href="#option-a-github-copilot-free-auth-github-models-endpoint" class="h3">Option A — GitHub Copilot Free Auth (GitHub Models endpoint)</a></li>
+<li><a href="#option-b-standard-openai" class="h3">Option B — Standard OpenAI</a></li>
+<li><a href="#option-c-azure-openai" class="h3">Option C — Azure OpenAI</a></li>
+<li><a href="#option-d-local-model-via-ollama" class="h3">Option D — Local Model via Ollama</a></li>
+<li><a href="#3-kernel" class="">3. Kernel</a></li>
+<li><a href="#creating-configuring-the-kernel" class="h3">Creating &amp; Configuring the Kernel</a></li>
+<li><a href="#4-plugins" class="">4. Plugins</a></li>
+<li><a href="#41-semantic-prompt-plugins" class="h3">4.1 Semantic (Prompt) Plugins</a></li>
+<li><a href="#inline-definition" class="h4">Inline Definition</a></li>
+<li><a href="#loading-plugins-from-a-directory" class="h4">Loading Plugins from a Directory</a></li>
+<li><a href="#42-native-code-plugins" class="h3">4.2 Native (Code) Plugins</a></li>
+<li><a href="#5-function-calling-auto-invocation" class="">5. Function Calling &amp; Auto-Invocation</a></li>
+<li><a href="#6-chat-completion" class="">6. Chat Completion</a></li>
+<li><a href="#multi-turn-chatbot-with-streaming" class="h3">Multi-Turn Chatbot with Streaming</a></li>
+<li><a href="#non-streaming-multi-turn" class="h3">Non-Streaming Multi-Turn</a></li>
+<li><a href="#7-planners" class="">7. Planners</a></li>
+<li><a href="#evolution-of-sk-planners" class="h3">Evolution of SK Planners</a></li>
+<li><a href="#handlebars-planner" class="h3">Handlebars Planner</a></li>
+<li><a href="#auto-function-calling-as-modern-planner" class="h3">Auto Function Calling as Modern Planner</a></li>
+<li><a href="#8-memory-embeddings" class="">8. Memory &amp; Embeddings</a></li>
+<li><a href="#volatile-in-memory-semantic-memory" class="h3">Volatile (In-Memory) Semantic Memory</a></li>
+<li><a href="#chroma-memory-store-persistent" class="h3">Chroma Memory Store (persistent)</a></li>
+<li><a href="#9-filters-middleware" class="">9. Filters &amp; Middleware</a></li>
+<li><a href="#10-dependency-injection" class="">10. Dependency Injection</a></li>
+<li><a href="#11-processes-sk-process-framework" class="">11. Processes (SK Process Framework)</a></li>
+<li><a href="#12-real-world-sdlc-patterns" class="">12. Real-World SDLC Patterns</a></li>
+<li><a href="#three-sdlc-plugins" class="h3">Three SDLC Plugins</a></li>
+<li><a href="#13-net-vs-python-differences" class="">13. .NET vs Python Differences</a></li>
+<li><a href="#feature-parity-table-as-of-sk-v1x" class="h3">Feature Parity Table (as of SK v1.x)</a></li>
+<li><a href="#python-specific-notes" class="h3">Python-Specific Notes</a></li>
+<li><a href="#when-to-choose-c-sk" class="h3">When to Choose C# SK</a></li>
+<li><a href="#14-interview-qa" class="">14. Interview Q&amp;A</a></li>
+</ul>
+</nav>
+<main>
+  <div class="doc-header">
+    <h1>Semantic Kernel</h1>
+    <p class="subtitle">Microsoft's SDK for integrating LLMs into .NET, Python, and Java apps</p>
+    <div class="badges"><span class="badge-free">Free (MIT)</span><span class="badge-local">Azure OpenAI</span></div>
+  </div>
+  <h1 id="semantic-kernel-comprehensive-guide">Semantic Kernel — Comprehensive Guide</h1>
+<blockquote>
+<p><strong>Target audience:</strong> Python developers building AI-powered applications with Microsoft's Semantic Kernel SDK.
+All code examples are self-contained and runnable.</p>
+</blockquote>
+<hr />
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol>
+<li><a href="#1-what-is-semantic-kernel">What is Semantic Kernel?</a></li>
+<li><a href="#2-installation--setup">Installation &amp; Setup</a></li>
+<li><a href="#3-kernel">Kernel</a></li>
+<li><a href="#4-plugins">Plugins</a></li>
+<li><a href="#5-function-calling--auto-invocation">Function Calling &amp; Auto-Invocation</a></li>
+<li><a href="#6-chat-completion">Chat Completion</a></li>
+<li><a href="#7-planners">Planners</a></li>
+<li><a href="#8-memory--embeddings">Memory &amp; Embeddings</a></li>
+<li><a href="#9-filters--middleware">Filters &amp; Middleware</a></li>
+<li><a href="#10-dependency-injection">Dependency Injection</a></li>
+<li><a href="#11-processes-sk-process-framework">Processes (SK Process Framework)</a></li>
+<li><a href="#12-real-world-sdlc-patterns">Real-World SDLC Patterns</a></li>
+<li><a href="#13-net-vs-python-differences">.NET vs Python Differences</a></li>
+<li><a href="#14-interview-qa">Interview Q&amp;A</a></li>
+<li><a href="#15-complete-end-to-end-example">Complete End-to-End Example</a></li>
+</ol>
+<hr />
+<h2 id="1-what-is-semantic-kernel">1. What is Semantic Kernel?</h2>
+<p>Semantic Kernel (SK) is Microsoft's <strong>open-source SDK</strong> that lets you integrate Large Language Models (LLMs)
+into applications using conventional programming patterns. Think of it as an orchestration layer between
+your application code and AI models.</p>
+<h3 id="key-pillars">Key Pillars</h3>
+<table>
+<thead>
+<tr>
+<th>Pillar</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Kernel</strong></td>
+<td>Central orchestrator — holds services, plugins, and settings</td>
+</tr>
+<tr>
+<td><strong>Plugins</strong></td>
+<td>Collections of AI or native functions the Kernel can invoke</td>
+</tr>
+<tr>
+<td><strong>Planners</strong></td>
+<td>Strategies for decomposing goals into sequences of function calls</td>
+</tr>
+<tr>
+<td><strong>Memory</strong></td>
+<td>Vector-store-backed semantic search over documents/data</td>
+</tr>
+<tr>
+<td><strong>Filters</strong></td>
+<td>Middleware hooks for logging, caching, safety, and telemetry</td>
+</tr>
+</tbody>
+</table>
+<h3 id="multi-language-support">Multi-Language Support</h3>
+<ul>
+<li><strong>Python</strong> — <code>semantic-kernel</code> PyPI package (this guide)</li>
+<li><strong>C#</strong> — <code>Microsoft.SemanticKernel</code> NuGet (most mature, production-first)</li>
+<li><strong>Java</strong> — <code>com.microsoft.semantic-kernel</code> Maven artifact</li>
+</ul>
+<h3 id="when-to-use-sk-vs-alternatives">When to Use SK vs Alternatives</h3>
+<table>
+<thead>
+<tr>
+<th>Need</th>
+<th>Best Tool</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Enterprise .NET app + Azure OpenAI</td>
+<td><strong>Semantic Kernel (C#)</strong></td>
+</tr>
+<tr>
+<td>Python-first, many LLM providers, RAG pipelines</td>
+<td><strong>LangChain</strong></td>
+</tr>
+<tr>
+<td>Document indexing &amp; retrieval</td>
+<td><strong>LlamaIndex</strong></td>
+</tr>
+<tr>
+<td>Agent loops with tool use, Python</td>
+<td><strong>SK or LangChain Agents</strong></td>
+</tr>
+<tr>
+<td>Tight Microsoft 365 / Copilot Studio integration</td>
+<td><strong>Semantic Kernel</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="2-installation-setup">2. Installation &amp; Setup</h2>
+<h3 id="install-the-package">Install the Package</h3>
+<pre><code class="language-bash">pip install semantic-kernel          # core
+pip install semantic-kernel[hugging_face]  # + HuggingFace
+pip install semantic-kernel[chroma]        # + Chroma memory
+</code></pre>
+<h3 id="option-a-github-copilot-free-auth-github-models-endpoint">Option A — GitHub Copilot Free Auth (GitHub Models endpoint)</h3>
+<pre><code class="language-python">import subprocess
+from semantic_kernel import Kernel
+from semantic_kernel.connectors.ai.open_ai import OpenAIChatCompletion
+
+def get_kernel_via_github_copilot() -&gt; Kernel:
+    &quot;&quot;&quot;Use `gh auth token` to authenticate against GitHub Models (free tier).&quot;&quot;&quot;
+    token = subprocess.run(
+        [&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;],
+        capture_output=True, text=True
+    ).stdout.strip()
+
+    kernel = Kernel()
+    kernel.add_service(
+        OpenAIChatCompletion(
+            ai_model_id=&quot;gpt-4o-mini&quot;,
+            api_key=token,
+            endpoint=&quot;https://models.inference.ai.azure.com&quot;,
+        )
+    )
+    return kernel
+</code></pre>
+<h3 id="option-b-standard-openai">Option B — Standard OpenAI</h3>
+<pre><code class="language-python">import os
+from semantic_kernel import Kernel
+from semantic_kernel.connectors.ai.open_ai import OpenAIChatCompletion
+
+def get_kernel_openai() -&gt; Kernel:
+    kernel = Kernel()
+    kernel.add_service(
+        OpenAIChatCompletion(
+            ai_model_id=&quot;gpt-4o&quot;,
+            api_key=os.environ[&quot;OPENAI_API_KEY&quot;],
+        )
+    )
+    return kernel
+</code></pre>
+<h3 id="option-c-azure-openai">Option C — Azure OpenAI</h3>
+<pre><code class="language-python">import os
+from semantic_kernel import Kernel
+from semantic_kernel.connectors.ai.open_ai import AzureChatCompletion
+
+def get_kernel_azure() -&gt; Kernel:
+    kernel = Kernel()
+    kernel.add_service(
+        AzureChatCompletion(
+            deployment_name=os.environ[&quot;AZURE_OPENAI_DEPLOYMENT&quot;],
+            endpoint=os.environ[&quot;AZURE_OPENAI_ENDPOINT&quot;],
+            api_key=os.environ[&quot;AZURE_OPENAI_API_KEY&quot;],
+        )
+    )
+    return kernel
+</code></pre>
+<h3 id="option-d-local-model-via-ollama">Option D — Local Model via Ollama</h3>
+<pre><code class="language-python">from semantic_kernel import Kernel
+from semantic_kernel.connectors.ai.ollama import OllamaChatCompletion
+
+def get_kernel_ollama() -&gt; Kernel:
+    kernel = Kernel()
+    kernel.add_service(
+        OllamaChatCompletion(
+            ai_model_id=&quot;llama3&quot;,   # model pulled via: ollama pull llama3
+            host=&quot;http://localhost:11434&quot;,
+        )
+    )
+    return kernel
+</code></pre>
+<hr />
+<h2 id="3-kernel">3. Kernel</h2>
+<p>The <code>Kernel</code> is the central object. It wires together AI services, plugins, and execution settings.</p>
+<h3 id="creating-configuring-the-kernel">Creating &amp; Configuring the Kernel</h3>
+<pre><code class="language-python">import asyncio
+import subprocess
+from semantic_kernel import Kernel
+from semantic_kernel.connectors.ai.open_ai import OpenAIChatCompletion
+from semantic_kernel.connectors.ai.open_ai import OpenAIChatPromptExecutionSettings
+
+# ── build kernel ──────────────────────────────────────────────────────────────
+def build_kernel() -&gt; Kernel:
+    token = subprocess.run(
+        [&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True
+    ).stdout.strip()
+
+    kernel = Kernel()
+    kernel.add_service(
+        OpenAIChatCompletion(
+            ai_model_id=&quot;gpt-4o-mini&quot;,
+            api_key=token,
+            endpoint=&quot;https://models.inference.ai.azure.com&quot;,
+        )
+    )
+    return kernel
+
+# ── invoke a plain prompt ─────────────────────────────────────────────────────
+async def kernel_basics():
+    kernel = build_kernel()
+
+    # Create an inline prompt function
+    summarize_fn = kernel.add_function(
+        plugin_name=&quot;utils&quot;,
+        function_name=&quot;summarize&quot;,
+        prompt=&quot;Summarize this in one sentence: {{$input}}&quot;,
+        prompt_execution_settings=OpenAIChatPromptExecutionSettings(
+            temperature=0.3,
+            max_tokens=100,
+        ),
+    )
+
+    result = await kernel.invoke(
+        summarize_fn,
+        input=&quot;Semantic Kernel is an open-source SDK from Microsoft that helps developers &quot;
+              &quot;integrate LLMs into their applications using plugins, planners, and memory.&quot;,
+    )
+    print(result)
+
+asyncio.run(kernel_basics())
+</code></pre>
+<hr />
+<h2 id="4-plugins">4. Plugins</h2>
+<p>Plugins are <strong>named collections of functions</strong>. SK ships two plugin flavours.</p>
+<hr />
+<h3 id="41-semantic-prompt-plugins">4.1 Semantic (Prompt) Plugins</h3>
+<p>Semantic plugins are LLM-backed functions defined by a prompt template.</p>
+<h4 id="inline-definition">Inline Definition</h4>
+<pre><code class="language-python">import asyncio
+import subprocess
+from semantic_kernel import Kernel
+from semantic_kernel.connectors.ai.open_ai import OpenAIChatCompletion, OpenAIChatPromptExecutionSettings
+
+async def semantic_plugin_demo():
+    token = subprocess.run([&quot;gh&quot;,&quot;auth&quot;,&quot;token&quot;],capture_output=True,text=True).stdout.strip()
+    kernel = Kernel()
+    kernel.add_service(OpenAIChatCompletion(
+        ai_model_id=&quot;gpt-4o-mini&quot;, api_key=token,
+        endpoint=&quot;https://models.inference.ai.azure.com&quot;))
+
+    settings = OpenAIChatPromptExecutionSettings(temperature=0.7, max_tokens=200)
+
+    # {{$language}} and {{$code}} are template variables
+    review_fn = kernel.add_function(
+        plugin_name=&quot;CodeTools&quot;,
+        function_name=&quot;review_snippet&quot;,
+        prompt=(
+            &quot;You are a senior {{$language}} developer.\n&quot;
+            &quot;Review the following code and list up to 3 improvements:\n\n&quot;
+            &quot;```{{$language}}\n{{$code}}\n```&quot;
+        ),
+        prompt_execution_settings=settings,
+    )
+
+    result = await kernel.invoke(
+        review_fn,
+        language=&quot;Python&quot;,
+        code=&quot;def add(a,b):\n  return a+b&quot;,
+    )
+    print(result)
+
+asyncio.run(semantic_plugin_demo())
+</code></pre>
+<h4 id="loading-plugins-from-a-directory">Loading Plugins from a Directory</h4>
+<p>Directory layout:</p>
+<pre><code>plugins/
+  WritingPlugin/
+    Summarize/
+      skprompt.txt      ← the prompt
+      config.json       ← execution settings
+</code></pre>
+<p><code>skprompt.txt</code>:</p>
+<pre><code>Summarize the following text in {{$sentences}} sentences:
+
+{{$input}}
+</code></pre>
+<p><code>config.json</code>:</p>
+<pre><code class="language-json">{
+  &quot;schema&quot;: 1,
+  &quot;description&quot;: &quot;Summarize text&quot;,
+  &quot;execution_settings&quot;: {
+    &quot;default&quot;: { &quot;max_tokens&quot;: 256, &quot;temperature&quot;: 0.3 }
+  },
+  &quot;input_variables&quot;: [
+    { &quot;name&quot;: &quot;input&quot;,     &quot;description&quot;: &quot;Text to summarize&quot;, &quot;required&quot;: true },
+    { &quot;name&quot;: &quot;sentences&quot;, &quot;description&quot;: &quot;Target sentence count&quot;, &quot;default&quot;: &quot;3&quot; }
+  ]
+}
+</code></pre>
+<pre><code class="language-python">import asyncio, subprocess
+from semantic_kernel import Kernel
+from semantic_kernel.connectors.ai.open_ai import OpenAIChatCompletion
+
+async def load_plugin_from_dir():
+    token = subprocess.run([&quot;gh&quot;,&quot;auth&quot;,&quot;token&quot;],capture_output=True,text=True).stdout.strip()
+    kernel = Kernel()
+    kernel.add_service(OpenAIChatCompletion(
+        ai_model_id=&quot;gpt-4o-mini&quot;, api_key=token,
+        endpoint=&quot;https://models.inference.ai.azure.com&quot;))
+
+    # Load all plugins from a directory
+    writing_plugin = kernel.add_plugin(
+        parent_directory=&quot;./plugins&quot;,
+        plugin_name=&quot;WritingPlugin&quot;,
+    )
+    result = await kernel.invoke(
+        writing_plugin[&quot;Summarize&quot;],
+        input=&quot;Semantic Kernel enables developers to integrate AI into apps...&quot;,
+        sentences=&quot;2&quot;,
+    )
+    print(result)
+</code></pre>
+<hr />
+<h3 id="42-native-code-plugins">4.2 Native (Code) Plugins</h3>
+<p>Native plugins are plain Python classes decorated with <code>@kernel_function</code>.</p>
+<pre><code class="language-python">import asyncio, subprocess, math
+from typing import Annotated
+from semantic_kernel import Kernel
+from semantic_kernel.connectors.ai.open_ai import OpenAIChatCompletion
+from semantic_kernel.functions import kernel_function, KernelArguments
+
+# ── define a native plugin ────────────────────────────────────────────────────
+class MathPlugin:
+    &quot;&quot;&quot;Arithmetic helper functions exposed to the Kernel.&quot;&quot;&quot;
+
+    @kernel_function(name=&quot;sqrt&quot;, description=&quot;Return the square root of a number&quot;)
+    def square_root(
+        self,
+        number: Annotated[float, &quot;The number to take the square root of&quot;],
+    ) -&gt; Annotated[float, &quot;The square root result&quot;]:
+        return math.sqrt(number)
+
+    @kernel_function(name=&quot;power&quot;, description=&quot;Raise base to the given exponent&quot;)
+    def power(
+        self,
+        base: Annotated[float, &quot;The base number&quot;],
+        exponent: Annotated[float, &quot;The exponent&quot;],
+    ) -&gt; Annotated[float, &quot;base raised to exponent&quot;]:
+        return base ** exponent
+
+    @kernel_function(name=&quot;summarize_stats&quot;, description=&quot;Return mean and max of a list&quot;)
+    def summarize_stats(
+        self,
+        numbers: Annotated[str, &quot;Comma-separated list of numbers e.g. '1,2,3'&quot;],
+    ) -&gt; str:
+        vals = [float(x.strip()) for x in numbers.split(&quot;,&quot;)]
+        return f&quot;mean={sum(vals)/len(vals):.2f}, max={max(vals):.2f}&quot;
+
+
+async def native_plugin_demo():
+    token = subprocess.run([&quot;gh&quot;,&quot;auth&quot;,&quot;token&quot;],capture_output=True,text=True).stdout.strip()
+    kernel = Kernel()
+    kernel.add_service(OpenAIChatCompletion(
+        ai_model_id=&quot;gpt-4o-mini&quot;, api_key=token,
+        endpoint=&quot;https://models.inference.ai.azure.com&quot;))
+
+    kernel.add_plugin(MathPlugin(), plugin_name=&quot;Math&quot;)
+
+    # Direct invocation (no LLM hop)
+    result = await kernel.invoke(
+        kernel.plugins[&quot;Math&quot;][&quot;sqrt&quot;],
+        KernelArguments(number=144.0),
+    )
+    print(f&quot;sqrt(144) = {result}&quot;)   # → 12.0
+
+asyncio.run(native_plugin_demo())
+</code></pre>
+<hr />
+<h2 id="5-function-calling-auto-invocation">5. Function Calling &amp; Auto-Invocation</h2>
+<p>When <code>FunctionChoiceBehavior.Auto()</code> is set, the LLM decides <strong>which plugin functions to call</strong>
+and SK executes them automatically.</p>
+<pre><code class="language-python">import asyncio, subprocess, datetime
+from typing import Annotated
+from semantic_kernel import Kernel
+from semantic_kernel.connectors.ai.open_ai import (
+    OpenAIChatCompletion, OpenAIChatPromptExecutionSettings)
+from semantic_kernel.connectors.ai.function_choice_behavior import FunctionChoiceBehavior
+from semantic_kernel.contents import ChatHistory
+from semantic_kernel.functions import kernel_function
+
+# ── plugin with tools ─────────────────────────────────────────────────────────
+class DevOpsPlugin:
+    @kernel_function(description=&quot;Return the current UTC date and time&quot;)
+    def get_current_time(self) -&gt; str:
+        return datetime.datetime.utcnow().strftime(&quot;%Y-%m-%d %H:%M UTC&quot;)
+
+    @kernel_function(description=&quot;List open pull requests for a repository&quot;)
+    def list_open_prs(
+        self,
+        repo: Annotated[str, &quot;Repository name in owner/repo format&quot;],
+    ) -&gt; str:
+        # Stub — replace with real GitHub API call
+        return f&quot;[stub] Open PRs for {repo}: #42 fix-login, #43 update-deps&quot;
+
+    @kernel_function(description=&quot;Get CI/CD status for a branch&quot;)
+    def get_ci_status(
+        self,
+        repo: Annotated[str, &quot;Repository name&quot;],
+        branch: Annotated[str, &quot;Branch name&quot;],
+    ) -&gt; str:
+        return f&quot;[stub] {repo}@{branch}: ✅ all checks passed&quot;
+
+
+async def auto_function_calling():
+    token = subprocess.run([&quot;gh&quot;,&quot;auth&quot;,&quot;token&quot;],capture_output=True,text=True).stdout.strip()
+    kernel = Kernel()
+    kernel.add_service(OpenAIChatCompletion(
+        ai_model_id=&quot;gpt-4o-mini&quot;, api_key=token,
+        endpoint=&quot;https://models.inference.ai.azure.com&quot;))
+    kernel.add_plugin(DevOpsPlugin(), plugin_name=&quot;DevOps&quot;)
+
+    settings = OpenAIChatPromptExecutionSettings(
+        function_choice_behavior=FunctionChoiceBehavior.Auto(),  # ← key line
+    )
+
+    history = ChatHistory()
+    history.add_user_message(
+        &quot;What time is it, and show me the open PRs for myorg/my-service?&quot;
+    )
+
+    chat_service = kernel.get_service(type=OpenAIChatCompletion)
+    response = await chat_service.get_chat_message_content(
+        history, settings=settings, kernel=kernel
+    )
+    print(response)
+
+asyncio.run(auto_function_calling())
+</code></pre>
+<hr />
+<h2 id="6-chat-completion">6. Chat Completion</h2>
+<h3 id="multi-turn-chatbot-with-streaming">Multi-Turn Chatbot with Streaming</h3>
+<pre><code class="language-python">import asyncio, subprocess
+from semantic_kernel import Kernel
+from semantic_kernel.connectors.ai.open_ai import (
+    OpenAIChatCompletion, OpenAIChatPromptExecutionSettings)
+from semantic_kernel.contents import ChatHistory
+
+async def streaming_chatbot():
+    token = subprocess.run([&quot;gh&quot;,&quot;auth&quot;,&quot;token&quot;],capture_output=True,text=True).stdout.strip()
+    kernel = Kernel()
+    service = OpenAIChatCompletion(
+        ai_model_id=&quot;gpt-4o-mini&quot;, api_key=token,
+        endpoint=&quot;https://models.inference.ai.azure.com&quot;)
+    kernel.add_service(service)
+
+    history = ChatHistory()
+    history.add_system_message(
+        &quot;You are a helpful software engineering assistant. &quot;
+        &quot;Be concise. Format code in markdown fences.&quot;
+    )
+
+    settings = OpenAIChatPromptExecutionSettings(
+        temperature=0.5, max_tokens=512,
+        stream=True,
+    )
+
+    print(&quot;Chat started. Type 'exit' to quit.\n&quot;)
+    while True:
+        user_input = input(&quot;You: &quot;).strip()
+        if user_input.lower() in (&quot;exit&quot;, &quot;quit&quot;):
+            break
+
+        history.add_user_message(user_input)
+
+        print(&quot;Assistant: &quot;, end=&quot;&quot;, flush=True)
+        full_response = &quot;&quot;
+        async for chunk in service.get_streaming_chat_message_content(
+            history, settings=settings, kernel=kernel
+        ):
+            if chunk.content:
+                print(chunk.content, end=&quot;&quot;, flush=True)
+                full_response += chunk.content
+        print()  # newline after streamed response
+
+        history.add_assistant_message(full_response)
+
+asyncio.run(streaming_chatbot())
+</code></pre>
+<h3 id="non-streaming-multi-turn">Non-Streaming Multi-Turn</h3>
+<pre><code class="language-python">import asyncio, subprocess
+from semantic_kernel import Kernel
+from semantic_kernel.connectors.ai.open_ai import OpenAIChatCompletion
+from semantic_kernel.contents import ChatHistory
+
+async def simple_chatbot():
+    token = subprocess.run([&quot;gh&quot;,&quot;auth&quot;,&quot;token&quot;],capture_output=True,text=True).stdout.strip()
+    kernel = Kernel()
+    service = OpenAIChatCompletion(
+        ai_model_id=&quot;gpt-4o-mini&quot;, api_key=token,
+        endpoint=&quot;https://models.inference.ai.azure.com&quot;)
+    kernel.add_service(service)
+
+    history = ChatHistory()
+    history.add_system_message(&quot;You are a helpful Python tutor.&quot;)
+
+    for user_msg in [
+        &quot;What is a decorator in Python?&quot;,
+        &quot;Show me a simple example.&quot;,
+    ]:
+        history.add_user_message(user_msg)
+        response = await service.get_chat_message_content(chat_history=history, kernel=kernel)
+        history.add_assistant_message(str(response))
+        print(f&quot;User: {user_msg}\nAssistant: {response}\n&quot;)
+
+asyncio.run(simple_chatbot())
+</code></pre>
+<hr />
+<h2 id="7-planners">7. Planners</h2>
+<h3 id="evolution-of-sk-planners">Evolution of SK Planners</h3>
+<table>
+<thead>
+<tr>
+<th>Era</th>
+<th>Planner</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SK v0</td>
+<td>SequentialPlanner</td>
+<td>⚠️ Deprecated</td>
+</tr>
+<tr>
+<td>SK v0</td>
+<td>StepwisePlanner</td>
+<td>⚠️ Deprecated</td>
+</tr>
+<tr>
+<td>SK v1</td>
+<td>HandlebarsPlanner</td>
+<td>✅ Available</td>
+</tr>
+<tr>
+<td>SK v1</td>
+<td><strong>Auto Function Calling</strong></td>
+<td>✅ Recommended</td>
+</tr>
+</tbody>
+</table>
+<h3 id="handlebars-planner">Handlebars Planner</h3>
+<pre><code class="language-python">import asyncio, subprocess
+from semantic_kernel import Kernel
+from semantic_kernel.connectors.ai.open_ai import OpenAIChatCompletion
+from semantic_kernel.planners.handlebars_planner import HandlebarsPlanner, HandlebarsPlannerOptions
+from semantic_kernel.functions import kernel_function
+from typing import Annotated
+
+class ResearchPlugin:
+    @kernel_function(description=&quot;Search the web for a given query&quot;)
+    def web_search(self, query: Annotated[str, &quot;Search query&quot;]) -&gt; str:
+        return f&quot;[stub] Search results for '{query}': ...&quot;
+
+    @kernel_function(description=&quot;Summarize a block of text&quot;)
+    def summarize(self, text: Annotated[str, &quot;Text to summarize&quot;]) -&gt; str:
+        return f&quot;[stub] Summary of: {text[:60]}...&quot;
+
+    @kernel_function(description=&quot;Save text to a file&quot;)
+    def save_to_file(
+        self,
+        content: Annotated[str, &quot;Content to save&quot;],
+        filename: Annotated[str, &quot;Filename without extension&quot;],
+    ) -&gt; str:
+        return f&quot;[stub] Saved {len(content)} chars to {filename}.txt&quot;
+
+
+async def handlebars_planner_demo():
+    token = subprocess.run([&quot;gh&quot;,&quot;auth&quot;,&quot;token&quot;],capture_output=True,text=True).stdout.strip()
+    kernel = Kernel()
+    kernel.add_service(OpenAIChatCompletion(
+        ai_model_id=&quot;gpt-4o-mini&quot;, api_key=token,
+        endpoint=&quot;https://models.inference.ai.azure.com&quot;))
+    kernel.add_plugin(ResearchPlugin(), plugin_name=&quot;Research&quot;)
+
+    planner = HandlebarsPlanner(
+        kernel,
+        HandlebarsPlannerOptions(allow_loops=False, max_tokens=2048)
+    )
+
+    goal = (
+        &quot;Search for 'Semantic Kernel best practices', &quot;
+        &quot;summarize the results, and save them to a file called 'sk_notes'.&quot;
+    )
+    plan = await planner.create_plan(goal)
+    print(&quot;Generated plan:\n&quot;, plan.template)
+
+    result = await plan.invoke(kernel)
+    print(&quot;\nPlan result:&quot;, result)
+
+asyncio.run(handlebars_planner_demo())
+</code></pre>
+<h3 id="auto-function-calling-as-modern-planner">Auto Function Calling as Modern Planner</h3>
+<pre><code class="language-python">import asyncio, subprocess
+from semantic_kernel import Kernel
+from semantic_kernel.connectors.ai.open_ai import (
+    OpenAIChatCompletion, OpenAIChatPromptExecutionSettings)
+from semantic_kernel.connectors.ai.function_choice_behavior import FunctionChoiceBehavior
+from semantic_kernel.contents import ChatHistory
+from semantic_kernel.functions import kernel_function
+from typing import Annotated
+
+class TaskPlugin:
+    @kernel_function(description=&quot;Break a feature into subtasks&quot;)
+    def decompose_feature(self, feature: Annotated[str, &quot;Feature description&quot;]) -&gt; str:
+        return &quot;[stub] Subtasks: 1) write tests  2) implement  3) review  4) deploy&quot;
+
+    @kernel_function(description=&quot;Estimate effort in story points&quot;)
+    def estimate_effort(self, task: Annotated[str, &quot;Task description&quot;]) -&gt; str:
+        return &quot;[stub] Effort estimate: 3 story points&quot;
+
+async def auto_planner_demo():
+    token = subprocess.run([&quot;gh&quot;,&quot;auth&quot;,&quot;token&quot;],capture_output=True,text=True).stdout.strip()
+    kernel = Kernel()
+    kernel.add_service(OpenAIChatCompletion(
+        ai_model_id=&quot;gpt-4o-mini&quot;, api_key=token,
+        endpoint=&quot;https://models.inference.ai.azure.com&quot;))
+    kernel.add_plugin(TaskPlugin(), plugin_name=&quot;Tasks&quot;)
+
+    settings = OpenAIChatPromptExecutionSettings(
+        function_choice_behavior=FunctionChoiceBehavior.Auto(),
+    )
+    history = ChatHistory()
+    history.add_user_message(
+        &quot;Decompose the feature 'user login with OAuth' and estimate each subtask.&quot;
+    )
+    service = kernel.get_service(type=OpenAIChatCompletion)
+    result = await service.get_chat_message_content(history, settings=settings, kernel=kernel)
+    print(result)
+
+asyncio.run(auto_planner_demo())
+</code></pre>
+<hr />
+<h2 id="8-memory-embeddings">8. Memory &amp; Embeddings</h2>
+<h3 id="volatile-in-memory-semantic-memory">Volatile (In-Memory) Semantic Memory</h3>
+<pre><code class="language-python">import asyncio, subprocess
+from semantic_kernel import Kernel
+from semantic_kernel.connectors.ai.open_ai import (
+    OpenAIChatCompletion, OpenAITextEmbedding)
+from semantic_kernel.memory import SemanticTextMemory, VolatileMemoryStore
+from semantic_kernel.core_plugins import TextMemoryPlugin
+
+async def memory_demo():
+    token = subprocess.run([&quot;gh&quot;,&quot;auth&quot;,&quot;token&quot;],capture_output=True,text=True).stdout.strip()
+    kernel = Kernel()
+    kernel.add_service(OpenAIChatCompletion(
+        ai_model_id=&quot;gpt-4o-mini&quot;, api_key=token,
+        endpoint=&quot;https://models.inference.ai.azure.com&quot;))
+
+    # Embedding service for vectorising text
+    embed_service = OpenAITextEmbedding(
+        ai_model_id=&quot;text-embedding-3-small&quot;,
+        api_key=token,
+        endpoint=&quot;https://models.inference.ai.azure.com&quot;,
+    )
+    kernel.add_service(embed_service)
+
+    memory = SemanticTextMemory(
+        storage=VolatileMemoryStore(),
+        embeddings_generator=embed_service,
+    )
+    kernel.add_plugin(TextMemoryPlugin(memory), plugin_name=&quot;memory&quot;)
+
+    collection = &quot;engineering_docs&quot;
+
+    # Store facts
+    facts = [
+        (&quot;sk-intro&quot;,     &quot;Semantic Kernel is Microsoft's open-source LLM SDK.&quot;),
+        (&quot;sk-plugins&quot;,   &quot;Plugins are named collections of functions in Semantic Kernel.&quot;),
+        (&quot;sk-memory&quot;,    &quot;SK memory uses vector embeddings to store and retrieve information.&quot;),
+        (&quot;sk-planners&quot;,  &quot;Planners in SK orchestrate multi-step AI workflows.&quot;),
+    ]
+    for doc_id, text in facts:
+        await memory.save_information(collection=collection, id=doc_id, text=text)
+
+    # Semantic search
+    query = &quot;How does SK handle storage and retrieval?&quot;
+    results = await memory.search(collection=collection, query=query, limit=2)
+    for r in results:
+        print(f&quot;  [{r.relevance:.2f}] {r.id}: {r.description or r.text[:80]}&quot;)
+
+asyncio.run(memory_demo())
+</code></pre>
+<h3 id="chroma-memory-store-persistent">Chroma Memory Store (persistent)</h3>
+<pre><code class="language-python"># pip install semantic-kernel[chroma]
+from semantic_kernel.connectors.memory.chroma import ChromaMemoryStore
+from semantic_kernel.memory import SemanticTextMemory
+
+def get_chroma_memory(embed_service) -&gt; SemanticTextMemory:
+    store = ChromaMemoryStore(persist_directory=&quot;./chroma_db&quot;)
+    return SemanticTextMemory(storage=store, embeddings_generator=embed_service)
+</code></pre>
+<hr />
+<h2 id="9-filters-middleware">9. Filters &amp; Middleware</h2>
+<p>Filters are hooks injected into the SK execution pipeline. Three filter interfaces exist:</p>
+<table>
+<thead>
+<tr>
+<th>Filter</th>
+<th>Trigger point</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>IPromptRenderFilter</code></td>
+<td>Before prompt text is sent to the LLM</td>
+</tr>
+<tr>
+<td><code>IFunctionInvocationFilter</code></td>
+<td>Before/after any KernelFunction runs</td>
+</tr>
+<tr>
+<td><code>IAutoFunctionInvocationFilter</code></td>
+<td>Before/after automatic tool calls</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-python">import asyncio, subprocess, time, logging
+from typing import Callable, Awaitable
+from semantic_kernel import Kernel
+from semantic_kernel.connectors.ai.open_ai import OpenAIChatCompletion, OpenAIChatPromptExecutionSettings
+from semantic_kernel.filters.functions.function_invocation_context import FunctionInvocationContext
+from semantic_kernel.filters.prompts.prompt_render_context import PromptRenderContext
+from semantic_kernel.filters import FilterTypes
+
+logging.basicConfig(level=logging.INFO, format=&quot;%(levelname)s %(message)s&quot;)
+logger = logging.getLogger(__name__)
+
+
+# ── Logging filter: wraps every function call ─────────────────────────────────
+class LoggingFunctionFilter:
+    async def on_function_invocation(
+        self,
+        context: FunctionInvocationContext,
+        next: Callable[[FunctionInvocationContext], Awaitable[None]],
+    ) -&gt; None:
+        start = time.perf_counter()
+        logger.info(&quot;→ Invoking %s.%s&quot;, context.function.plugin_name, context.function.name)
+        await next(context)
+        elapsed = (time.perf_counter() - start) * 1000
+        logger.info(&quot;← Done %s.%s (%.1f ms)&quot;, context.function.plugin_name,
+                    context.function.name, elapsed)
+
+
+# ── Safety filter: block prompts containing PII keywords ─────────────────────
+class SafetyPromptFilter:
+    BLOCKED_KEYWORDS = {&quot;password&quot;, &quot;ssn&quot;, &quot;credit card&quot;}
+
+    async def on_prompt_render(
+        self,
+        context: PromptRenderContext,
+        next: Callable[[PromptRenderContext], Awaitable[None]],
+    ) -&gt; None:
+        rendered = context.rendered_prompt or &quot;&quot;
+        if any(kw in rendered.lower() for kw in self.BLOCKED_KEYWORDS):
+            raise ValueError(&quot;Prompt blocked by safety filter: PII keyword detected.&quot;)
+        await next(context)
+
+
+async def filters_demo():
+    token = subprocess.run([&quot;gh&quot;,&quot;auth&quot;,&quot;token&quot;],capture_output=True,text=True).stdout.strip()
+    kernel = Kernel()
+    kernel.add_service(OpenAIChatCompletion(
+        ai_model_id=&quot;gpt-4o-mini&quot;, api_key=token,
+        endpoint=&quot;https://models.inference.ai.azure.com&quot;))
+
+    # Register filters
+    kernel.add_filter(FilterTypes.FUNCTION_INVOCATION, LoggingFunctionFilter())
+    kernel.add_filter(FilterTypes.PROMPT_RENDERING, SafetyPromptFilter())
+
+    fn = kernel.add_function(
+        plugin_name=&quot;demo&quot;,
+        function_name=&quot;greet&quot;,
+        prompt=&quot;Say hello to {{$name}} in a cheerful way.&quot;,
+    )
+    result = await kernel.invoke(fn, name=&quot;Alice&quot;)
+    print(result)
+
+asyncio.run(filters_demo())
+</code></pre>
+<hr />
+<h2 id="10-dependency-injection">10. Dependency Injection</h2>
+<p>The Kernel acts as a lightweight IoC container. Services registered on the Kernel are available
+to all plugins and can be swapped per environment.</p>
+<pre><code class="language-python">import asyncio, subprocess, os
+from semantic_kernel import Kernel
+from semantic_kernel.connectors.ai.open_ai import OpenAIChatCompletion, AzureChatCompletion
+from semantic_kernel.connectors.ai.prompt_execution_settings import PromptExecutionSettings
+
+# ── Service IDs allow named registration ─────────────────────────────────────
+SERVICE_GITHUB = &quot;github_models&quot;
+SERVICE_AZURE  = &quot;azure_openai&quot;
+
+def build_multi_service_kernel() -&gt; Kernel:
+    kernel = Kernel()
+
+    token = subprocess.run([&quot;gh&quot;,&quot;auth&quot;,&quot;token&quot;],capture_output=True,text=True).stdout.strip()
+
+    # Primary: GitHub Models (free)
+    kernel.add_service(
+        OpenAIChatCompletion(
+            service_id=SERVICE_GITHUB,
+            ai_model_id=&quot;gpt-4o-mini&quot;,
+            api_key=token,
+            endpoint=&quot;https://models.inference.ai.azure.com&quot;,
+        )
+    )
+
+    # Fallback: Azure OpenAI (only if env vars are set)
+    if os.environ.get(&quot;AZURE_OPENAI_API_KEY&quot;):
+        kernel.add_service(
+            AzureChatCompletion(
+                service_id=SERVICE_AZURE,
+                deployment_name=os.environ[&quot;AZURE_OPENAI_DEPLOYMENT&quot;],
+                endpoint=os.environ[&quot;AZURE_OPENAI_ENDPOINT&quot;],
+                api_key=os.environ[&quot;AZURE_OPENAI_API_KEY&quot;],
+            )
+        )
+
+    return kernel
+
+
+async def di_demo():
+    kernel = build_multi_service_kernel()
+
+    # Explicitly request a service by ID
+    service = kernel.get_service(service_id=SERVICE_GITHUB)
+    print(f&quot;Using service: {service.service_id}&quot;)
+
+    fn = kernel.add_function(
+        plugin_name=&quot;test&quot;,
+        function_name=&quot;ping&quot;,
+        prompt=&quot;Reply with exactly: pong&quot;,
+    )
+    result = await kernel.invoke(fn)
+    print(result)
+
+asyncio.run(di_demo())
+</code></pre>
+<hr />
+<h2 id="11-processes-sk-process-framework">11. Processes (SK Process Framework)</h2>
+<p>The Process Framework models <strong>stateful, event-driven pipelines</strong> as discrete steps connected by events.</p>
+<pre><code class="language-python">import asyncio, subprocess
+from semantic_kernel import Kernel
+from semantic_kernel.connectors.ai.open_ai import OpenAIChatCompletion
+from semantic_kernel.processes.kernel_process import KernelProcess
+from semantic_kernel.processes.process_builder import ProcessBuilder
+from semantic_kernel.processes.local_runtime.local_kernel_process_context import LocalKernelProcessContext
+from semantic_kernel.processes.process_step import KernelProcessStep
+from semantic_kernel.processes.kernel_process_step_context import KernelProcessStepContext
+from semantic_kernel.functions import kernel_function
+
+# ── Step 1: Extract information from a raw document ──────────────────────────
+class ExtractStep(KernelProcessStep):
+    @kernel_function(name=&quot;extract&quot;)
+    async def extract(self, context: KernelProcessStepContext, document: str) -&gt; None:
+        extracted = f&quot;[Extracted] Title, Author, Date from: {document[:40]}...&quot;
+        print(f&quot;  ExtractStep → {extracted}&quot;)
+        await context.emit_event(process_event=&quot;extraction_done&quot;, data=extracted)
+
+
+# ── Step 2: Summarise the extracted content ───────────────────────────────────
+class SummarizeStep(KernelProcessStep):
+    @kernel_function(name=&quot;summarize&quot;)
+    async def summarize(self, context: KernelProcessStepContext, extracted: str) -&gt; None:
+        summary = f&quot;[Summary] Key points from: {extracted[:50]}...&quot;
+        print(f&quot;  SummarizeStep → {summary}&quot;)
+        await context.emit_event(process_event=&quot;summary_done&quot;, data=summary)
+
+
+# ── Step 3: Store the summary ─────────────────────────────────────────────────
+class StoreStep(KernelProcessStep):
+    @kernel_function(name=&quot;store&quot;)
+    async def store(self, context: KernelProcessStepContext, summary: str) -&gt; None:
+        print(f&quot;  StoreStep → Saved to DB: {summary[:60]}...&quot;)
+        await context.emit_event(process_event=&quot;process_complete&quot;, data=&quot;done&quot;)
+
+
+async def process_demo():
+    token = subprocess.run([&quot;gh&quot;,&quot;auth&quot;,&quot;token&quot;],capture_output=True,text=True).stdout.strip()
+    kernel = Kernel()
+    kernel.add_service(OpenAIChatCompletion(
+        ai_model_id=&quot;gpt-4o-mini&quot;, api_key=token,
+        endpoint=&quot;https://models.inference.ai.azure.com&quot;))
+
+    # ── wire the process ──────────────────────────────────────────────────────
+    builder = ProcessBuilder(name=&quot;DocumentPipeline&quot;)
+
+    extract_step   = builder.add_step(ExtractStep)
+    summarize_step = builder.add_step(SummarizeStep)
+    store_step     = builder.add_step(StoreStep)
+
+    # Entry → Extract
+    builder.on_input_event(&quot;start&quot;).send_event_to(
+        target=extract_step, function_name=&quot;extract&quot;, parameter_name=&quot;document&quot;
+    )
+    # Extract → Summarize
+    extract_step.on_event(&quot;extraction_done&quot;).send_event_to(
+        target=summarize_step, function_name=&quot;summarize&quot;, parameter_name=&quot;extracted&quot;
+    )
+    # Summarize → Store
+    summarize_step.on_event(&quot;summary_done&quot;).send_event_to(
+        target=store_step, function_name=&quot;store&quot;, parameter_name=&quot;summary&quot;
+    )
+
+    process: KernelProcess = builder.build()
+
+    print(&quot;Running DocumentPipeline process...&quot;)
+    async with LocalKernelProcessContext(process, kernel) as proc_ctx:
+        await proc_ctx.start_with_event(
+            process_event=&quot;start&quot;,
+            data=&quot;Annual Report 2024: Revenue grew 42% year-over-year...&quot;
+        )
+
+asyncio.run(process_demo())
+</code></pre>
+<hr />
+<h2 id="12-real-world-sdlc-patterns">12. Real-World SDLC Patterns</h2>
+<h3 id="three-sdlc-plugins">Three SDLC Plugins</h3>
+<pre><code class="language-python">import asyncio, subprocess
+from typing import Annotated
+from semantic_kernel import Kernel
+from semantic_kernel.connectors.ai.open_ai import OpenAIChatCompletion, OpenAIChatPromptExecutionSettings
+from semantic_kernel.connectors.ai.function_choice_behavior import FunctionChoiceBehavior
+from semantic_kernel.contents import ChatHistory
+from semantic_kernel.functions import kernel_function
+
+# ── Plugin 1: Code Review ─────────────────────────────────────────────────────
+class CodeReviewPlugin:
+    @kernel_function(description=&quot;Review Python code and return a list of issues&quot;)
+    def review_code(
+        self,
+        code: Annotated[str, &quot;Python source code to review&quot;],
+        focus: Annotated[str, &quot;Review focus: security | performance | style&quot;] = &quot;style&quot;,
+    ) -&gt; str:
+        # In production: call an AST linter or feed to LLM inline
+        return (
+            f&quot;[CodeReview/{focus}]\n&quot;
+            &quot;1. Missing type annotations on public functions.\n&quot;
+            &quot;2. No error handling around I/O operations.\n&quot;
+            &quot;3. Magic numbers should be named constants.&quot;
+        )
+
+
+# ── Plugin 2: Documentation Generator ────────────────────────────────────────
+class DocGenPlugin:
+    @kernel_function(description=&quot;Generate a NumPy-style docstring for a function signature&quot;)
+    def generate_docstring(
+        self,
+        signature: Annotated[str, &quot;Function signature e.g. def foo(x: int) -&gt; str&quot;],
+        context: Annotated[str, &quot;Brief description of what the function does&quot;] = &quot;&quot;,
+    ) -&gt; str:
+        return (
+            f'&quot;&quot;&quot;\n'
+            f&quot;{context or 'TODO: describe this function.'}\n\n&quot;
+            f&quot;Parameters\n----------\nSee signature: {signature}\n\n&quot;
+            f&quot;Returns\n-------\nstr\n&quot;
+            f'&quot;&quot;&quot;'
+        )
+
+
+# ── Plugin 3: Bug Triage ──────────────────────────────────────────────────────
+class BugTriagePlugin:
+    @kernel_function(description=&quot;Classify a bug report by severity and suggest owner&quot;)
+    def triage_bug(
+        self,
+        title: Annotated[str, &quot;Bug report title&quot;],
+        description: Annotated[str, &quot;Bug description&quot;],
+    ) -&gt; str:
+        keywords_critical = {&quot;crash&quot;, &quot;data loss&quot;, &quot;security&quot;, &quot;outage&quot;}
+        severity = &quot;CRITICAL&quot; if any(k in description.lower() for k in keywords_critical) \
+                   else &quot;MEDIUM&quot;
+        return (
+            f&quot;Severity: {severity}\n&quot;
+            f&quot;Suggested owner: @platform-team\n&quot;
+            f&quot;Labels: bug, needs-repro\n&quot;
+            f&quot;Priority: {'P0' if severity == 'CRITICAL' else 'P2'}&quot;
+        )
+
+
+async def sdlc_demo():
+    token = subprocess.run([&quot;gh&quot;,&quot;auth&quot;,&quot;token&quot;],capture_output=True,text=True).stdout.strip()
+    kernel = Kernel()
+    kernel.add_service(OpenAIChatCompletion(
+        ai_model_id=&quot;gpt-4o-mini&quot;, api_key=token,
+        endpoint=&quot;https://models.inference.ai.azure.com&quot;))
+
+    kernel.add_plugin(CodeReviewPlugin(), plugin_name=&quot;CodeReview&quot;)
+    kernel.add_plugin(DocGenPlugin(), plugin_name=&quot;DocGen&quot;)
+    kernel.add_plugin(BugTriagePlugin(), plugin_name=&quot;BugTriage&quot;)
+
+    settings = OpenAIChatPromptExecutionSettings(
+        function_choice_behavior=FunctionChoiceBehavior.Auto(),
+    )
+    service = kernel.get_service(type=OpenAIChatCompletion)
+
+    history = ChatHistory()
+    history.add_system_message(
+        &quot;You are an SDLC assistant. Use available tools to help engineers.&quot;
+    )
+
+    for user_msg in [
+        &quot;Review this code for security issues:\ndef get_user(id):\n  return db.query(f'SELECT * FROM users WHERE id={id}')&quot;,
+        &quot;Generate a docstring for: def send_email(to: str, subject: str, body: str) -&gt; bool&quot;,
+        &quot;Triage this bug: 'App crashes on login' — users report data loss after OAuth redirect fails.&quot;,
+    ]:
+        history.add_user_message(user_msg)
+        response = await service.get_chat_message_content(
+            history, settings=settings, kernel=kernel
+        )
+        history.add_assistant_message(str(response))
+        print(f&quot;User: {user_msg[:60]}...\nAssistant: {response}\n{'─'*60}&quot;)
+
+asyncio.run(sdlc_demo())
+</code></pre>
+<hr />
+<h2 id="13-net-vs-python-differences">13. .NET vs Python Differences</h2>
+<h3 id="feature-parity-table-as-of-sk-v1x">Feature Parity Table (as of SK v1.x)</h3>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>C#</th>
+<th>Python</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Kernel core</td>
+<td>✅</td>
+<td>✅</td>
+<td>Full parity</td>
+</tr>
+<tr>
+<td>Semantic plugins</td>
+<td>✅</td>
+<td>✅</td>
+<td>Full parity</td>
+</tr>
+<tr>
+<td>Native plugins</td>
+<td>✅</td>
+<td>✅</td>
+<td>Full parity</td>
+</tr>
+<tr>
+<td>Auto Function Calling</td>
+<td>✅</td>
+<td>✅</td>
+<td>Full parity</td>
+</tr>
+<tr>
+<td>ChatHistory</td>
+<td>✅</td>
+<td>✅</td>
+<td>Full parity</td>
+</tr>
+<tr>
+<td>Streaming</td>
+<td>✅</td>
+<td>✅</td>
+<td>Full parity</td>
+</tr>
+<tr>
+<td>Handlebars Planner</td>
+<td>✅</td>
+<td>✅</td>
+<td>Full parity</td>
+</tr>
+<tr>
+<td>Process Framework</td>
+<td>✅</td>
+<td>✅</td>
+<td>Beta in Python</td>
+</tr>
+<tr>
+<td>Volatile Memory</td>
+<td>✅</td>
+<td>✅</td>
+<td>Full parity</td>
+</tr>
+<tr>
+<td>Chroma connector</td>
+<td>✅</td>
+<td>✅</td>
+<td>Full parity</td>
+</tr>
+<tr>
+<td>Qdrant connector</td>
+<td>✅</td>
+<td>✅</td>
+<td>Full parity</td>
+</tr>
+<tr>
+<td>Azure AI Search connector</td>
+<td>✅</td>
+<td>✅</td>
+<td>Full parity</td>
+</tr>
+<tr>
+<td>OpenAPI plugin import</td>
+<td>✅</td>
+<td>✅</td>
+<td>Full parity</td>
+</tr>
+<tr>
+<td>gRPC plugin</td>
+<td>✅</td>
+<td>⚠️ Partial</td>
+<td>C# ahead</td>
+</tr>
+<tr>
+<td>Dependency Injection (MS DI)</td>
+<td>✅ Native</td>
+<td>❌ Manual</td>
+<td>C# has MS.Extensions.DI</td>
+</tr>
+<tr>
+<td>Copilot Studio integration</td>
+<td>✅</td>
+<td>❌</td>
+<td>C# only</td>
+</tr>
+<tr>
+<td>.NET Aspire observability</td>
+<td>✅</td>
+<td>❌</td>
+<td>C# only</td>
+</tr>
+<tr>
+<td>Blazor / ASP.NET integration</td>
+<td>✅</td>
+<td>❌</td>
+<td>C# only</td>
+</tr>
+</tbody>
+</table>
+<h3 id="python-specific-notes">Python-Specific Notes</h3>
+<ul>
+<li><strong>Async-first</strong>: All SK Python I/O is <code>async/await</code> — design accordingly.</li>
+<li><strong>No built-in DI container</strong>: Use a factory function or a framework like <code>dependency-injector</code>.</li>
+<li><strong>Process Framework in beta</strong>: API surface may change between minor versions.</li>
+<li><strong>Plugin loading</strong>: <code>kernel.add_plugin(parent_directory=…)</code> mirrors C# <code>ImportPluginFromPromptDirectory</code>.</li>
+</ul>
+<h3 id="when-to-choose-c-sk">When to Choose C# SK</h3>
+<ul>
+<li>You are building a production Microsoft 365 / Teams Copilot extension.</li>
+<li>You need tight Azure SDK integration (Key Vault, Service Bus, etc.).</li>
+<li>Your team is already in .NET and you want native DI + minimal-API hosting.</li>
+<li>You need Copilot Studio / Power Platform connectors.</li>
+</ul>
+<hr />
+<h2 id="14-interview-qa">14. Interview Q&amp;A</h2>
+<details open><summary class="qa-q">What is Semantic Kernel and how does it differ from LangChain? > Semantic Kernel (SK) is Microsoft's open-source SDK for integrating LLMs into applications using > Plugins, Planners, and Memory. LangChain is a Python/JS framework with a broader ecosystem of > integrations and a chain-based composition model. SK is preferred for enterprise .NET environments > and Microsoft/Azure integration; LangChain is preferred for Python-first, provider-agnostic pipelines.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What is a Plugin in Semantic Kernel? > A Plugin is a named collection of `KernelFunction` objects registered on the Kernel. Functions > can be AI-backed (semantic) or plain Python (native). The LLM can automatically select and invoke > plugin functions via Auto Function Calling.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What is the difference between a Semantic Plugin and a Native Plugin? > A **Semantic Plugin** uses a prompt template and the LLM to produce output (e.g., `summarize`, > `translate`). A **Native Plugin** is a Python class with `@kernel_function`-decorated methods that > execute code directly — no LLM call required unless the code itself calls one.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How does Auto Function Calling work in SK? > Set `FunctionChoiceBehavior.Auto()` in execution settings. SK serialises all registered plugin > function schemas (name, description, parameters) and sends them to the LLM as tools. When the LLM > emits a tool-call, SK intercepts it, invokes the function, appends the result, and sends everything > back to the LLM for a final response — all transparently.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What is ChatHistory and how is it managed? > `ChatHistory` is an ordered list of `ChatMessageContent` objects (system, user, assistant, tool). > You manually append messages: `history.add_user_message(…)`, `history.add_assistant_message(…)`. > It is passed to the chat completion service on every turn, giving the LLM full conversation context.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What are Filters in Semantic Kernel? > Filters are middleware hooks that wrap the SK execution pipeline. Three types exist: > `IFunctionInvocationFilter` (wraps every function call), > `IPromptRenderFilter` (runs before the prompt is sent to the LLM), and > `IAutoFunctionInvocationFilter` (wraps automatic tool calls). Common uses: logging, caching, safety, telemetry.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How do you implement semantic memory in SK? > 1. Add an embedding service (e.g., `OpenAITextEmbedding`). > 2. Create a `SemanticTextMemory` with a backing `MemoryStore` (e.g., `VolatileMemoryStore`, `ChromaMemoryStore`). > 3. Register `TextMemoryPlugin(memory)` on the Kernel. > 4. Call `await memory.save_information(collection, id, text)` to store. > 5. Call `await memory.search(collection, query, limit)` to retrieve by semantic similarity.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What is the SK Process Framework? > The Process Framework models event-driven, stateful workflows as `KernelProcessStep` subclasses > connected via events. A `ProcessBuilder` wires steps together: each step emits events that trigger > downstream steps. Useful for long-running document pipelines, approval workflows, and multi-agent > orchestration.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How do you use SK with Azure OpenAI vs OpenAI? > Replace `OpenAIChatCompletion` with `AzureChatCompletion` and supply > `deployment_name`, `endpoint`, and `api_key`. Both implement the same `ChatCompletionClientBase` > interface, so all Kernel code above that layer is unchanged.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How do you add multiple AI services and switch between them? > Register each service with a unique `service_id`. Retrieve a specific one with > `kernel.get_service(service_id="my_id")`. You can also set a default service by passing > `service_id` first or relying on the first registered service as default.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What is KernelArguments? > `KernelArguments` is a dict-like object that passes input values to a `KernelFunction`. It also > holds `PromptExecutionSettings` for per-invocation overrides. Example: > `KernelArguments(input="hello", settings=OpenAIChatPromptExecutionSettings(temperature=0.9))`.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How do you stream responses in Semantic Kernel? > Call `service.get_streaming_chat_message_content(history, settings, kernel=kernel)` which > returns an async generator. Set `stream=True` in execution settings and iterate with > `async for chunk in …: print(chunk.content, end="")`.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What happened to the old Planners (SequentialPlanner)? > `SequentialPlanner` and `StepwisePlanner` are deprecated in SK v1. The recommended replacement is > **Auto Function Calling** with `FunctionChoiceBehavior.Auto()` — the LLM dynamically selects tools > rather than a pre-planned sequence. `HandlebarsPlanner` remains available for deterministic plans.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How does SK compare to LangChain for enterprise .NET applications? > SK is purpose-built for .NET with native Microsoft.Extensions.DependencyInjection, Azure SDK > integration, and Copilot Studio connectors. LangChain has no mature .NET port. For .NET enterprise > apps on Azure, SK is the clear choice; for Python-first or multi-cloud workloads, LangChain's > broader integrations may be preferable.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How do you create a plugin from an existing Python class? > Decorate methods with `@kernel_function(name="…", description="…")` and use > `Annotated[type, "description"]` for parameter docs. Then: > `kernel.add_plugin(MyClass(), plugin_name="MyPlugin")`. The Kernel introspects the class, > wraps decorated methods as `KernelFunction` objects, and makes them available for direct > invocation and LLM tool-calling.  ---  ## 15. Complete End-to-End Example  A fully working **SDLC Assistant** with three plugins, auto function calling, streaming output, and a conversational loop — all in ~100 lines.  ```python """ sdlc_assistant.py ───────────────── SDLC AI assistant using Semantic Kernel with:   - CodeReviewPlugin  : review code snippets   - DocGenPlugin      : generate docstrings   - TestSuggestPlugin : suggest unit tests   - Auto Function Calling   - Streaming chat output   - Multi-turn ChatHistory  Run:  python sdlc_assistant.py Requires: pip install semantic-kernel && gh auth login """ import asyncio import subprocess from typing import Annotated  from semantic_kernel import Kernel from semantic_kernel.connectors.ai.open_ai import (     OpenAIChatCompletion,     OpenAIChatPromptExecutionSettings, ) from semantic_kernel.connectors.ai.function_choice_behavior import FunctionChoiceBehavior from semantic_kernel.contents import ChatHistory from semantic_kernel.functions import kernel_function   # ── Plugin 1 ────────────────────────────────────────────────────────────────── class CodeReviewPlugin:     @kernel_function(description="Review Python code and return actionable feedback")     def review(         self,         code: Annotated[str, "Python source code"],         focus: Annotated[str, "Focus area: security | performance | readability"] = "readability",     ) -> str:         issues = {             "security":     "• Potential SQL injection\n• Hard-coded credentials detected",             "performance":  "• Avoid repeated DB calls in loops\n• Add caching layer",             "readability":  "• Missing type hints\n• Long functions — consider splitting",         }         return f"[Review: {focus}]\n{issues.get(focus, 'No issues found.')}"   # ── Plugin 2 ────────────────────────────────────────────────────────────────── class DocGenPlugin:     @kernel_function(description="Generate a NumPy docstring for a Python function")     def generate(         self,         signature: Annotated[str, "Function signature line"],         purpose: Annotated[str, "One-line description of the function"] = "",     ) -> str:         return (             f'"""\n{purpose or "TODO: add description."}\n\n'             f"Parameters\n----------\nRefer to: {signature}\n\n"             f"Returns\n-------\nSee return annotation.\n"             f'"""'         )   # ── Plugin 3 ────────────────────────────────────────────────────────────────── class TestSuggestPlugin:     @kernel_function(description="Suggest pytest unit tests for a Python function")     def suggest_tests(         self,         function_name: Annotated[str, "Name of the function to test"],         description: Annotated[str, "What the function does"],     ) -> str:         return (             f"# Suggested tests for `{function_name}`\n"             f"def test_{function_name}_happy_path(): ...\n"             f"def test_{function_name}_empty_input(): ...\n"             f"def test_{function_name}_invalid_type(): ...\n"             f"def test_{function_name}_boundary_values(): ..."         )   # ── Kernel factory ──────────────────────────────────────────────────────────── def build_kernel() -> Kernel:     token = subprocess.run(         ["gh", "auth", "token"], capture_output=True, text=True     ).stdout.strip()     kernel = Kernel()     kernel.add_service(         OpenAIChatCompletion(             ai_model_id="gpt-4o-mini",             api_key=token,             endpoint="https://models.inference.ai.azure.com",         )     )     kernel.add_plugin(CodeReviewPlugin(), plugin_name="CodeReview")     kernel.add_plugin(DocGenPlugin(),     plugin_name="DocGen")     kernel.add_plugin(TestSuggestPlugin(), plugin_name="TestSuggest")     return kernel   # ── Main loop ───────────────────────────────────────────────────────────────── async def main():     kernel  = build_kernel()     service = kernel.get_service(type=OpenAIChatCompletion)     settings = OpenAIChatPromptExecutionSettings(         function_choice_behavior=FunctionChoiceBehavior.Auto(),         temperature=0.4,         max_tokens=600,     )      history = ChatHistory()     history.add_system_message(         "You are an expert SDLC assistant. "         "Use CodeReview, DocGen, and TestSuggest tools to help engineers. "         "Be concise and actionable."     )      print("╔══════════════════════════════════════════╗")     print("║       SDLC AI Assistant (SK + GPT)       ║")     print("║  Type 'exit' to quit                     ║")     print("╚══════════════════════════════════════════╝\n")      while True:         user_input = input("You: ").strip()         if not user_input or user_input.lower() in ("exit", "quit"):             print("Goodbye!")             break          history.add_user_message(user_input)         print("\nAssistant: ", end="", flush=True)          full_reply = ""         async for chunk in service.get_streaming_chat_message_content(             history, settings=settings, kernel=kernel         ):             if chunk.content:                 print(chunk.content, end="", flush=True)                 full_reply += chunk.content         print("\n")          history.add_assistant_message(full_reply)   if __name__ == "__main__":     asyncio.run(main()) ```  ### Sample Session  ``` You: Review this code for security: def login(user, pwd): return db.query(f"SELECT * FROM users WHERE user='{user}'") Assistant: [Review: security] • Potential SQL injection — never interpolate user input into SQL strings.   Use parameterised queries: db.query("SELECT * FROM users WHERE user=?", (user,)) • Consider hashing passwords with bcrypt before comparison.  You: Suggest tests for the login function Assistant: # Suggested tests for `login` def test_login_happy_path(): ... def test_login_empty_input(): ... def test_login_invalid_type(): ... def test_login_boundary_values(): ...  You: exit Goodbye! ```  ---  ## Quick Reference  ```python # Kernel essentials kernel = Kernel() kernel.add_service(OpenAIChatCompletion(...)) kernel.add_plugin(MyPlugin(), plugin_name="MyPlugin") result = await kernel.invoke(kernel.plugins["MyPlugin"]["my_fn"], arg="value")  # Auto function calling settings = OpenAIChatPromptExecutionSettings(     function_choice_behavior=FunctionChoiceBehavior.Auto() ) response = await service.get_chat_message_content(history, settings=settings, kernel=kernel)  # Memory memory = SemanticTextMemory(storage=VolatileMemoryStore(), embeddings_generator=embed_svc) await memory.save_information(collection="docs", id="doc1", text="...") results = await memory.search(collection="docs", query="...", limit=3)  # Filters kernel.add_filter(FilterTypes.FUNCTION_INVOCATION, MyLoggingFilter())  # Streaming async for chunk in service.get_streaming_chat_message_content(history, settings, kernel=kernel):     print(chunk.content, end="") ```  ---  *Generated with Semantic Kernel v1.x — Python SDK. For the latest API changes, see [https://github.com/microsoft/semantic-kernel](https://github.com/microsoft/semantic-kernel).</summary><div class="qa-a"></div></details>
+</main>
+</body>
+</html>

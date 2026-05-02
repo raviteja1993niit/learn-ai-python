@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Haystack – AI Libraries Guide</title>
+<style>
+:root{--bg:#fff;--text:#1a1a2e;--accent:#0070f3;--code:#f4f6f8;--border:#e1e4e8;--nav:#f6f8fa;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:Georgia,'Times New Roman',serif;font-size:17px;line-height:1.8;
+     color:var(--text);background:var(--bg);display:flex;min-height:100vh;}
+/* ---- NAV ---- */
+nav{width:260px;min-width:220px;background:var(--nav);border-right:1px solid var(--border);
+    position:sticky;top:0;height:100vh;overflow-y:auto;padding:20px 14px;flex-shrink:0;}
+nav .back-link{display:block;font-family:sans-serif;font-size:12px;color:var(--accent);
+               margin-bottom:14px;text-decoration:none;}
+nav .back-link:hover{text-decoration:underline;}
+nav h3{font-family:sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:.08em;
+       color:#888;margin-bottom:8px;}
+nav ul{list-style:none;}
+nav li{margin:3px 0;}
+nav a{font-family:sans-serif;font-size:13px;color:#444;text-decoration:none;
+      display:block;padding:4px 8px;border-radius:4px;line-height:1.4;}
+nav a:hover{background:#e0e8ff;color:var(--accent);}
+nav a.h3{padding-left:20px;font-size:12px;color:#666;}
+nav a.h4{padding-left:34px;font-size:11px;color:#888;}
+/* ---- MAIN ---- */
+main{flex:1;padding:48px 60px;max-width:960px;}
+.doc-header{margin-bottom:40px;padding-bottom:20px;border-bottom:3px solid var(--accent);}
+.doc-header h1{font-size:2.1em;color:#0a192f;}
+.doc-header .subtitle{font-family:sans-serif;color:#555;margin-top:6px;font-size:.95em;}
+.doc-header .badges span{display:inline-block;font-family:sans-serif;font-size:12px;
+  padding:3px 10px;border-radius:12px;margin:8px 4px 0 0;font-weight:600;}
+.badge-free{background:#d4edda;color:#155724;}
+.badge-paid{background:#fff3cd;color:#856404;}
+.badge-local{background:#cce5ff;color:#004085;}
+/* ---- CONTENT ---- */
+section{margin-bottom:56px;}
+h2{font-size:1.6em;color:#0a192f;margin:2em 0 .6em;padding-bottom:.3em;border-bottom:2px solid var(--border);}
+h3{font-size:1.25em;color:#0a192f;margin:1.6em 0 .4em;}
+h4{font-size:1.05em;color:#0a192f;margin:1.3em 0 .3em;}
+p{margin:.6em 0;}
+ul,ol{margin:.5em 0 .5em 1.5em;}li{margin:.25em 0;}
+strong{color:#0a192f;}
+code{font-family:'Fira Code',Consolas,monospace;background:var(--code);
+     padding:2px 6px;border-radius:3px;font-size:.87em;}
+pre{background:var(--code);border:1px solid var(--border);border-left:4px solid var(--accent);
+    border-radius:6px;padding:18px;overflow-x:auto;margin:1em 0;}
+pre code{background:none;padding:0;font-size:.84em;line-height:1.5;}
+table{border-collapse:collapse;width:100%;margin:1em 0;font-family:sans-serif;font-size:.9em;}
+th,td{border:1px solid var(--border);padding:9px 13px;text-align:left;vertical-align:top;}
+th{background:#e8f0fe;font-weight:700;color:#0a192f;}
+tr:nth-child(even) td{background:#f9f9f9;}
+blockquote{border-left:4px solid var(--accent);padding:10px 18px;background:#f0f4ff;
+           border-radius:0 6px 6px 0;color:#333;margin:1em 0;}
+/* ---- Q&A ---- */
+details{border:1px solid var(--border);border-radius:8px;margin:.8em 0;background:#fafafa;}
+details[open]{background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+summary.qa-q{cursor:pointer;padding:13px 16px;font-weight:700;color:#0a192f;
+             list-style:none;display:flex;align-items:flex-start;gap:10px;line-height:1.5;}
+summary.qa-q::before{content:"Q";background:var(--accent);color:#fff;padding:2px 8px;
+                     border-radius:50%;font-size:.78em;font-family:sans-serif;flex-shrink:0;margin-top:2px;}
+.qa-a{padding:14px 18px;border-top:1px solid #eee;}
+/* ---- callout boxes ---- */
+.tip{background:#e6f9f0;border-left:4px solid #28a745;padding:12px 16px;
+     border-radius:0 6px 6px 0;margin:1em 0;}
+.warn{background:#fff8e1;border-left:4px solid #ffc107;padding:12px 16px;
+      border-radius:0 6px 6px 0;margin:1em 0;}
+a{color:var(--accent);}
+hr{border:none;border-top:1px solid var(--border);margin:2em 0;}
+</style>
+</head>
+<body>
+<nav>
+  <a class="back-link" href="index.html">⬅ All Guides</a>
+  <a class="back-link" href="05-llamaindex.html">← LlamaIndex</a><a class="back-link" href="07-semantic-kernel.html">Semantic Kernel →</a>
+  <h3>Contents</h3>
+  <ul><li><a href="#table-of-contents" class="">Table of Contents</a></li>
+<li><a href="#1-what-is-haystack" class="">1. What is Haystack?</a></li>
+<li><a href="#haystack-1x-vs-2x" class="h3">Haystack 1.x vs 2.x</a></li>
+<li><a href="#key-differentiators" class="h3">Key Differentiators</a></li>
+<li><a href="#when-to-use-haystack-vs-alternatives" class="h3">When to Use Haystack vs Alternatives</a></li>
+<li><a href="#2-installation-setup" class="">2. Installation &amp; Setup</a></li>
+<li><a href="#github-copilot-free-auth-azure-inference-endpoint" class="h3">GitHub Copilot Free Auth (Azure Inference Endpoint)</a></li>
+<li><a href="#standard-environment-setup" class="h3">Standard Environment Setup</a></li>
+<li><a href="#3-core-architecture-haystack-2x" class="">3. Core Architecture (Haystack 2.x)</a></li>
+<li><a href="#the-component-contract" class="h3">The Component Contract</a></li>
+<li><a href="#the-document-dataclass" class="h3">The Document Dataclass</a></li>
+<li><a href="#pipeline-basics" class="h3">Pipeline Basics</a></li>
+<li><a href="#4-components-deep-dive" class="">4. Components Deep Dive</a></li>
+<li><a href="#41-converters" class="h3">4.1 Converters</a></li>
+<li><a href="#42-preprocessors" class="h3">4.2 Preprocessors</a></li>
+<li><a href="#43-embedders" class="h3">4.3 Embedders</a></li>
+<li><a href="#44-retrievers" class="h3">4.4 Retrievers</a></li>
+<li><a href="#45-rankers" class="h3">4.5 Rankers</a></li>
+<li><a href="#46-generators" class="h3">4.6 Generators</a></li>
+<li><a href="#5-building-pipelines" class="">5. Building Pipelines</a></li>
+<li><a href="#51-indexing-pipeline" class="h3">5.1 Indexing Pipeline</a></li>
+<li><a href="#52-rag-query-pipeline" class="h3">5.2 RAG Query Pipeline</a></li>
+<li><a href="#6-document-stores" class="">6. Document Stores</a></li>
+<li><a href="#61-inmemorydocumentstore-devtesting" class="h3">6.1 InMemoryDocumentStore (dev/testing)</a></li>
+<li><a href="#62-elasticsearch-production" class="h3">6.2 Elasticsearch (production)</a></li>
+<li><a href="#63-qdrant-free-self-hosted-production" class="h3">6.3 Qdrant (free self-hosted, production)</a></li>
+<li><a href="#64-chroma-lightweight-local-vector-store" class="h3">6.4 Chroma (lightweight local vector store)</a></li>
+<li><a href="#7-hybrid-retrieval" class="">7. Hybrid Retrieval</a></li>
+<li><a href="#8-evaluation" class="">8. Evaluation</a></li>
+<li><a href="#81-built-in-evaluators" class="h3">8.1 Built-in Evaluators</a></li>
+<li><a href="#82-evaluation-run-result" class="h3">8.2 Evaluation Run Result</a></li>
+<li><a href="#9-custom-components" class="">9. Custom Components</a></li>
+<li><a href="#91-minimal-custom-component" class="h3">9.1 Minimal Custom Component</a></li>
+<li><a href="#92-custom-web-scraper-component" class="h3">9.2 Custom Web Scraper Component</a></li>
+<li><a href="#93-streaming-component" class="h3">9.3 Streaming Component</a></li>
+<li><a href="#10-haystack-agent-2x" class="">10. Haystack Agent (2.x)</a></li>
+<li><a href="#11-serialization-deployment" class="">11. Serialization &amp; Deployment</a></li>
+<li><a href="#111-yaml-serialization" class="h3">11.1 YAML Serialization</a></li>
+<li><a href="#112-fastapi-deployment" class="h3">11.2 FastAPI Deployment</a></li>
+<li><a href="#113-dockerfile" class="h3">11.3 Dockerfile</a></li>
+<li><a href="#114-deepset-cloud" class="h3">11.4 deepset Cloud</a></li>
+<li><a href="#12-real-world-patterns" class="">12. Real-World Patterns</a></li>
+<li><a href="#121-multi-hop-qa-pipeline" class="h3">12.1 Multi-Hop QA Pipeline</a></li>
+<li><a href="#122-fallback-pipeline-router" class="h3">12.2 Fallback Pipeline (Router)</a></li>
+<li><a href="#13-interview-qa-15-questions" class="">13. Interview Q&amp;A (15 Questions)</a></li>
+</ul>
+</nav>
+<main>
+  <div class="doc-header">
+    <h1>Haystack</h1>
+    <p class="subtitle">deepset's end-to-end NLP pipeline framework for production RAG</p>
+    <div class="badges"><span class="badge-free">Free (Apache 2.0)</span><span class="badge-local">deepset Cloud</span></div>
+  </div>
+  <h1 id="haystack-deepset-comprehensive-guide">Haystack (deepset) — Comprehensive Guide</h1>
+<blockquote>
+<p><strong>Target audience:</strong> Software engineers preparing for AI/LLM engineering roles<br />
+<strong>Haystack version:</strong> 2.x (component-based architecture)<br />
+<strong>Lines:</strong> ~1000 | All code examples are standalone and runnable</p>
+</blockquote>
+<hr />
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol>
+<li><a href="#1-what-is-haystack">What is Haystack?</a></li>
+<li><a href="#2-installation--setup">Installation &amp; Setup</a></li>
+<li><a href="#3-core-architecture-haystack-2x">Core Architecture (Haystack 2.x)</a></li>
+<li><a href="#4-components-deep-dive">Components Deep Dive</a></li>
+<li><a href="#5-building-pipelines">Building Pipelines</a></li>
+<li><a href="#6-document-stores">Document Stores</a></li>
+<li><a href="#7-hybrid-retrieval">Hybrid Retrieval</a></li>
+<li><a href="#8-evaluation">Evaluation</a></li>
+<li><a href="#9-custom-components">Custom Components</a></li>
+<li><a href="#10-haystack-agent-2x">Haystack Agent (2.x)</a></li>
+<li><a href="#11-serialization--deployment">Serialization &amp; Deployment</a></li>
+<li><a href="#12-real-world-patterns">Real-World Patterns</a></li>
+<li><a href="#13-interview-qa-15-questions">Interview Q&amp;A</a></li>
+<li><a href="#14-complete-end-to-end-example">Complete End-to-End Example</a></li>
+</ol>
+<hr />
+<h2 id="1-what-is-haystack">1. What is Haystack?</h2>
+<p><strong>Haystack</strong> is an open-source, end-to-end NLP/LLM pipeline framework built by <a href="https://www.deepset.ai/">deepset</a>. It provides production-grade building blocks for retrieval-augmented generation (RAG), document search, question answering, and agentic systems.</p>
+<h3 id="haystack-1x-vs-2x">Haystack 1.x vs 2.x</h3>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Haystack 1.x</th>
+<th>Haystack 2.x</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Architecture</td>
+<td>Node-based graph</td>
+<td>Declarative component system</td>
+</tr>
+<tr>
+<td>Component interface</td>
+<td><code>run(query, ...)</code> varies</td>
+<td>Strict <code>run(**kwargs) -&gt; dict</code></td>
+</tr>
+<tr>
+<td>Type safety</td>
+<td>Minimal</td>
+<td>Full input/output socket typing</td>
+</tr>
+<tr>
+<td>Composability</td>
+<td>Limited branching</td>
+<td>Arbitrary DAG, loops supported</td>
+</tr>
+<tr>
+<td>Serialization</td>
+<td>YAML (partial)</td>
+<td>Full YAML round-trip</td>
+</tr>
+<tr>
+<td>Evaluation</td>
+<td>External</td>
+<td>Built-in evaluators</td>
+</tr>
+</tbody>
+</table>
+<h3 id="key-differentiators">Key Differentiators</h3>
+<ul>
+<li><strong>Evaluation-first</strong>: Faithfulness, ContextRelevance, SAS, RAGAS built-in</li>
+<li><strong>Production-grade</strong>: YAML serialization, deepset Cloud deployment, Docker-ready</li>
+<li><strong>Component marketplace</strong>: Hundreds of community + official components</li>
+<li><strong>Strict typing</strong>: Every component declares typed <code>InputSocket</code>/<code>OutputSocket</code></li>
+</ul>
+<h3 id="when-to-use-haystack-vs-alternatives">When to Use Haystack vs Alternatives</h3>
+<table>
+<thead>
+<tr>
+<th>Use Case</th>
+<th>Best Choice</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RAG + evaluation + production ops</td>
+<td><strong>Haystack</strong></td>
+</tr>
+<tr>
+<td>Rapid prototyping, chains, agents</td>
+<td>LangChain</td>
+</tr>
+<tr>
+<td>Complex document indexing + graph RAG</td>
+<td>LlamaIndex</td>
+</tr>
+<tr>
+<td>Simple one-off LLM calls</td>
+<td>Direct SDK</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="2-installation-setup">2. Installation &amp; Setup</h2>
+<pre><code class="language-bash"># Core install
+pip install haystack-ai
+
+# Optional: sentence-transformers for local embeddings
+pip install sentence-transformers
+
+# Optional: PDF support
+pip install pypdf
+
+# Optional: Qdrant support
+pip install qdrant-haystack
+
+# Optional: Elasticsearch support
+pip install elasticsearch-haystack
+</code></pre>
+<h3 id="github-copilot-free-auth-azure-inference-endpoint">GitHub Copilot Free Auth (Azure Inference Endpoint)</h3>
+<pre><code class="language-python">import subprocess
+from haystack.components.generators.chat import OpenAIChatGenerator
+from haystack.dataclasses import ChatMessage
+
+# Grab token from the GitHub CLI (gh must be authenticated)
+token = subprocess.run(
+    [&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;],
+    capture_output=True,
+    text=True
+).stdout.strip()
+
+generator = OpenAIChatGenerator(
+    model=&quot;gpt-4o-mini&quot;,
+    api_key=token,
+    api_base_url=&quot;https://models.inference.ai.azure.com&quot;
+)
+
+result = generator.run(messages=[ChatMessage.from_user(&quot;Say hello in one sentence.&quot;)])
+print(result[&quot;replies&quot;][0].text)
+</code></pre>
+<h3 id="standard-environment-setup">Standard Environment Setup</h3>
+<pre><code class="language-python">import os
+
+# OpenAI
+os.environ[&quot;OPENAI_API_KEY&quot;] = &quot;sk-...&quot;
+
+# HuggingFace (for local models)
+os.environ[&quot;HF_API_TOKEN&quot;] = &quot;hf_...&quot;
+
+# Verify Haystack version
+import haystack
+print(haystack.__version__)  # Should be 2.x
+</code></pre>
+<hr />
+<h2 id="3-core-architecture-haystack-2x">3. Core Architecture (Haystack 2.x)</h2>
+<h3 id="the-component-contract">The Component Contract</h3>
+<p>Every Haystack 2.x component follows a strict contract:</p>
+<pre><code class="language-python">from haystack import component
+
+@component
+class MyComponent:
+    &quot;&quot;&quot;A minimal valid Haystack 2.x component.&quot;&quot;&quot;
+
+    @component.output_types(result=str, count=int)
+    def run(self, text: str, multiplier: int = 1) -&gt; dict:
+        &quot;&quot;&quot;
+        Inputs  : text (str), multiplier (int)
+        Outputs : result (str), count (int)
+        &quot;&quot;&quot;
+        result = text * multiplier
+        return {&quot;result&quot;: result, &quot;count&quot;: len(result)}
+
+# Use standalone
+comp = MyComponent()
+output = comp.run(text=&quot;hello&quot;, multiplier=3)
+print(output)  # {'result': 'hellohellohello', 'count': 15}
+</code></pre>
+<h3 id="the-document-dataclass">The Document Dataclass</h3>
+<pre><code class="language-python">from haystack import Document
+
+doc = Document(
+    id=&quot;doc-001&quot;,                        # auto-generated if omitted
+    content=&quot;Haystack is a great framework.&quot;,
+    meta={&quot;source&quot;: &quot;docs.txt&quot;, &quot;page&quot;: 1},
+    embedding=[0.1, 0.2, 0.3],          # set by embedder
+    score=0.92                           # set by retriever
+)
+
+print(doc.id)
+print(doc.content)
+print(doc.meta)
+</code></pre>
+<h3 id="pipeline-basics">Pipeline Basics</h3>
+<pre><code class="language-python">from haystack import Pipeline
+from haystack import component
+
+@component
+class Greeter:
+    @component.output_types(greeting=str)
+    def run(self, name: str) -&gt; dict:
+        return {&quot;greeting&quot;: f&quot;Hello, {name}!&quot;}
+
+@component
+class Shout:
+    @component.output_types(loud=str)
+    def run(self, text: str) -&gt; dict:
+        return {&quot;loud&quot;: text.upper()}
+
+# Build pipeline
+pipe = Pipeline()
+pipe.add_component(&quot;greeter&quot;, Greeter())
+pipe.add_component(&quot;shout&quot;, Shout())
+
+# Connect: greeter.greeting -&gt; shout.text
+pipe.connect(&quot;greeter.greeting&quot;, &quot;shout.text&quot;)
+
+result = pipe.run({&quot;greeter&quot;: {&quot;name&quot;: &quot;Haystack&quot;}})
+print(result[&quot;shout&quot;][&quot;loud&quot;])  # HELLO, HAYSTACK!
+</code></pre>
+<hr />
+<h2 id="4-components-deep-dive">4. Components Deep Dive</h2>
+<h3 id="41-converters">4.1 Converters</h3>
+<pre><code class="language-python">from haystack.components.converters import (
+    PyPDFToDocument,
+    MarkdownToDocument,
+    HTMLToDocument,
+    TextFileToDocument,
+)
+from pathlib import Path
+
+# PDF → Document
+pdf_converter = PyPDFToDocument()
+docs = pdf_converter.run(sources=[Path(&quot;report.pdf&quot;)])[&quot;documents&quot;]
+
+# Markdown → Document
+md_converter = MarkdownToDocument()
+docs = md_converter.run(sources=[Path(&quot;README.md&quot;)])[&quot;documents&quot;]
+
+# HTML → Document (strips tags)
+html_converter = HTMLToDocument()
+docs = html_converter.run(sources=[Path(&quot;page.html&quot;)])[&quot;documents&quot;]
+
+# Plain text
+txt_converter = TextFileToDocument()
+docs = txt_converter.run(sources=[Path(&quot;data.txt&quot;)])[&quot;documents&quot;]
+
+for d in docs:
+    print(d.content[:120])
+</code></pre>
+<h3 id="42-preprocessors">4.2 Preprocessors</h3>
+<pre><code class="language-python">from haystack.components.preprocessors import DocumentCleaner, DocumentSplitter
+from haystack import Document
+
+raw_docs = [
+    Document(content=&quot;  Hello   world.\n\nThis is   a test.  &quot;),
+    Document(content=&quot;Another document with lots of   whitespace.&quot;),
+]
+
+# Clean: remove extra whitespace, empty lines
+cleaner = DocumentCleaner(
+    remove_empty_lines=True,
+    remove_extra_whitespaces=True,
+    remove_substrings=None,
+)
+cleaned = cleaner.run(documents=raw_docs)[&quot;documents&quot;]
+
+# Split into chunks (by word count)
+splitter = DocumentSplitter(
+    split_by=&quot;word&quot;,       # &quot;word&quot; | &quot;sentence&quot; | &quot;passage&quot; | &quot;page&quot;
+    split_length=100,      # max words per chunk
+    split_overlap=10,      # overlap between chunks
+)
+chunks = splitter.run(documents=cleaned)[&quot;documents&quot;]
+print(f&quot;Split into {len(chunks)} chunks&quot;)
+for c in chunks[:2]:
+    print(&quot; •&quot;, c.content[:80])
+</code></pre>
+<h3 id="43-embedders">4.3 Embedders</h3>
+<pre><code class="language-python">import os
+from haystack.components.embedders import (
+    OpenAIDocumentEmbedder,
+    OpenAITextEmbedder,
+)
+from haystack import Document
+
+# --- OpenAI embedders (requires OPENAI_API_KEY) ---
+doc_embedder = OpenAIDocumentEmbedder(model=&quot;text-embedding-3-small&quot;)
+text_embedder = OpenAITextEmbedder(model=&quot;text-embedding-3-small&quot;)
+
+docs = [Document(content=&quot;Haystack makes RAG easy.&quot;)]
+embedded_docs = doc_embedder.run(documents=docs)[&quot;documents&quot;]
+print(&quot;Doc embedding dim:&quot;, len(embedded_docs[0].embedding))
+
+query_result = text_embedder.run(text=&quot;What makes RAG easy?&quot;)
+print(&quot;Query embedding dim:&quot;, len(query_result[&quot;embedding&quot;]))
+
+# --- Free local embeddings with SentenceTransformers ---
+from haystack.components.embedders import (
+    SentenceTransformersDocumentEmbedder,
+    SentenceTransformersTextEmbedder,
+)
+
+local_doc_embedder = SentenceTransformersDocumentEmbedder(
+    model=&quot;sentence-transformers/all-MiniLM-L6-v2&quot;
+)
+local_doc_embedder.warm_up()  # downloads model once
+
+embedded = local_doc_embedder.run(documents=docs)[&quot;documents&quot;]
+print(&quot;Local embedding dim:&quot;, len(embedded[0].embedding))
+</code></pre>
+<h3 id="44-retrievers">4.4 Retrievers</h3>
+<pre><code class="language-python">from haystack.document_stores.in_memory import InMemoryDocumentStore
+from haystack.components.retrievers.in_memory import (
+    InMemoryBM25Retriever,
+    InMemoryEmbeddingRetriever,
+)
+from haystack import Document
+
+store = InMemoryDocumentStore()
+store.write_documents([
+    Document(content=&quot;Paris is the capital of France.&quot;),
+    Document(content=&quot;Berlin is the capital of Germany.&quot;),
+    Document(content=&quot;Tokyo is the capital of Japan.&quot;),
+])
+
+# BM25 keyword retrieval
+bm25 = InMemoryBM25Retriever(document_store=store, top_k=2)
+results = bm25.run(query=&quot;capital France&quot;)[&quot;documents&quot;]
+for r in results:
+    print(f&quot;  [{r.score:.3f}] {r.content}&quot;)
+
+# Embedding retrieval (docs must have embeddings first)
+# store.write_documents(embedded_docs)
+# emb_retriever = InMemoryEmbeddingRetriever(document_store=store, top_k=2)
+# results = emb_retriever.run(query_embedding=[0.1, 0.2, ...])[&quot;documents&quot;]
+</code></pre>
+<h3 id="45-rankers">4.5 Rankers</h3>
+<pre><code class="language-python">from haystack.components.rankers import TransformersSimilarityRanker
+from haystack import Document
+
+ranker = TransformersSimilarityRanker(
+    model=&quot;cross-encoder/ms-marco-MiniLM-L-6-v2&quot;,
+    top_k=3,
+)
+ranker.warm_up()
+
+docs = [
+    Document(content=&quot;The Eiffel Tower is in Paris.&quot;),
+    Document(content=&quot;France is known for wine and cheese.&quot;),
+    Document(content=&quot;Paris is the capital and largest city of France.&quot;),
+    Document(content=&quot;Berlin is the capital of Germany.&quot;),
+]
+
+ranked = ranker.run(query=&quot;What city is the Eiffel Tower in?&quot;, documents=docs)
+for d in ranked[&quot;documents&quot;]:
+    print(f&quot;  [{d.score:.4f}] {d.content}&quot;)
+</code></pre>
+<h3 id="46-generators">4.6 Generators</h3>
+<pre><code class="language-python">import subprocess
+from haystack.components.generators import OpenAIGenerator
+from haystack.components.generators.chat import OpenAIChatGenerator
+from haystack.dataclasses import ChatMessage
+
+token = subprocess.run([&quot;gh&quot;,&quot;auth&quot;,&quot;token&quot;],capture_output=True,text=True).stdout.strip()
+
+# Text generator (completion style)
+gen = OpenAIGenerator(
+    model=&quot;gpt-4o-mini&quot;,
+    api_key=token,
+    api_base_url=&quot;https://models.inference.ai.azure.com&quot;,
+)
+out = gen.run(prompt=&quot;Explain RAG in one sentence.&quot;)
+print(out[&quot;replies&quot;][0])
+
+# Chat generator (messages style)
+chat_gen = OpenAIChatGenerator(
+    model=&quot;gpt-4o-mini&quot;,
+    api_key=token,
+    api_base_url=&quot;https://models.inference.ai.azure.com&quot;,
+)
+messages = [
+    ChatMessage.from_system(&quot;You are a helpful AI assistant.&quot;),
+    ChatMessage.from_user(&quot;What is Haystack?&quot;),
+]
+out = chat_gen.run(messages=messages)
+print(out[&quot;replies&quot;][0].text)
+
+# --- Fully local with HuggingFace ---
+# from haystack.components.generators import HuggingFaceLocalGenerator
+# local_gen = HuggingFaceLocalGenerator(model=&quot;google/flan-t5-base&quot;, task=&quot;text2text-generation&quot;)
+# local_gen.warm_up()
+# out = local_gen.run(prompt=&quot;What is 2+2?&quot;)
+# print(out[&quot;replies&quot;][0])
+</code></pre>
+<hr />
+<h2 id="5-building-pipelines">5. Building Pipelines</h2>
+<h3 id="51-indexing-pipeline">5.1 Indexing Pipeline</h3>
+<pre><code class="language-python">import subprocess
+from haystack import Pipeline, Document
+from haystack.document_stores.in_memory import InMemoryDocumentStore
+from haystack.components.preprocessors import DocumentCleaner, DocumentSplitter
+from haystack.components.embedders import OpenAIDocumentEmbedder
+from haystack.components.writers import DocumentWriter
+
+token = subprocess.run([&quot;gh&quot;,&quot;auth&quot;,&quot;token&quot;],capture_output=True,text=True).stdout.strip()
+
+store = InMemoryDocumentStore()
+
+indexing = Pipeline()
+indexing.add_component(&quot;cleaner&quot;,  DocumentCleaner())
+indexing.add_component(&quot;splitter&quot;, DocumentSplitter(split_by=&quot;sentence&quot;, split_length=3))
+indexing.add_component(&quot;embedder&quot;, OpenAIDocumentEmbedder(
+    model=&quot;text-embedding-3-small&quot;,
+    api_key=token,
+    api_base_url=&quot;https://models.inference.ai.azure.com&quot;,
+))
+indexing.add_component(&quot;writer&quot;,   DocumentWriter(document_store=store))
+
+indexing.connect(&quot;cleaner.documents&quot;,  &quot;splitter.documents&quot;)
+indexing.connect(&quot;splitter.documents&quot;, &quot;embedder.documents&quot;)
+indexing.connect(&quot;embedder.documents&quot;, &quot;writer.documents&quot;)
+
+raw_docs = [
+    Document(content=&quot;Haystack is a framework for building NLP pipelines. It is made by deepset. It supports RAG.&quot;),
+    Document(content=&quot;Retrieval-Augmented Generation combines search with LLM generation. It grounds answers in facts.&quot;),
+]
+indexing.run({&quot;cleaner&quot;: {&quot;documents&quot;: raw_docs}})
+print(f&quot;Indexed {store.count_documents()} documents&quot;)
+</code></pre>
+<h3 id="52-rag-query-pipeline">5.2 RAG Query Pipeline</h3>
+<pre><code class="language-python">import subprocess
+from haystack import Pipeline
+from haystack.document_stores.in_memory import InMemoryDocumentStore
+from haystack.components.embedders import OpenAITextEmbedder
+from haystack.components.retrievers.in_memory import InMemoryEmbeddingRetriever
+from haystack.components.builders import PromptBuilder
+from haystack.components.generators import OpenAIGenerator
+
+token = subprocess.run([&quot;gh&quot;,&quot;auth&quot;,&quot;token&quot;],capture_output=True,text=True).stdout.strip()
+
+# Reuse store from indexing pipeline above (store must have embedded docs)
+store = InMemoryDocumentStore()  # placeholder; inject your populated store
+
+PROMPT_TEMPLATE = &quot;&quot;&quot;
+Answer the question based only on the provided context.
+If unsure, say &quot;I don't know.&quot;
+
+Context:
+{% for doc in documents %}
+  - {{ doc.content }}
+{% endfor %}
+
+Question: {{ question }}
+Answer:
+&quot;&quot;&quot;
+
+rag = Pipeline()
+rag.add_component(&quot;embedder&quot;,   OpenAITextEmbedder(
+    model=&quot;text-embedding-3-small&quot;,
+    api_key=token,
+    api_base_url=&quot;https://models.inference.ai.azure.com&quot;,
+))
+rag.add_component(&quot;retriever&quot;,  InMemoryEmbeddingRetriever(document_store=store, top_k=3))
+rag.add_component(&quot;prompt&quot;,     PromptBuilder(template=PROMPT_TEMPLATE))
+rag.add_component(&quot;generator&quot;,  OpenAIGenerator(
+    model=&quot;gpt-4o-mini&quot;,
+    api_key=token,
+    api_base_url=&quot;https://models.inference.ai.azure.com&quot;,
+))
+
+rag.connect(&quot;embedder.embedding&quot;,    &quot;retriever.query_embedding&quot;)
+rag.connect(&quot;retriever.documents&quot;,   &quot;prompt.documents&quot;)
+rag.connect(&quot;prompt.prompt&quot;,         &quot;generator.prompt&quot;)
+
+question = &quot;What is Haystack and who made it?&quot;
+result = rag.run({
+    &quot;embedder&quot;:  {&quot;text&quot;: question},
+    &quot;prompt&quot;:    {&quot;question&quot;: question},
+})
+print(result[&quot;generator&quot;][&quot;replies&quot;][0])
+</code></pre>
+<hr />
+<h2 id="6-document-stores">6. Document Stores</h2>
+<h3 id="61-inmemorydocumentstore-devtesting">6.1 InMemoryDocumentStore (dev/testing)</h3>
+<pre><code class="language-python">from haystack.document_stores.in_memory import InMemoryDocumentStore
+from haystack import Document
+import json, pathlib
+
+store = InMemoryDocumentStore(embedding_similarity_function=&quot;cosine&quot;)
+
+# Write documents
+store.write_documents([
+    Document(content=&quot;Alpha document&quot;, meta={&quot;tag&quot;: &quot;a&quot;}),
+    Document(content=&quot;Beta document&quot;,  meta={&quot;tag&quot;: &quot;b&quot;}),
+])
+
+# Filter retrieval
+results = store.filter_documents(filters={&quot;field&quot;: &quot;meta.tag&quot;, &quot;operator&quot;: &quot;==&quot;, &quot;value&quot;: &quot;a&quot;})
+print([r.content for r in results])
+
+# Persist to disk (manual serialization)
+data = [{&quot;id&quot;: d.id, &quot;content&quot;: d.content, &quot;meta&quot;: d.meta} for d in store.filter_documents()]
+pathlib.Path(&quot;store_backup.json&quot;).write_text(json.dumps(data, indent=2))
+print(&quot;Saved&quot;, len(data), &quot;docs to store_backup.json&quot;)
+
+# Reload
+loaded = json.loads(pathlib.Path(&quot;store_backup.json&quot;).read_text())
+restored_docs = [Document(**d) for d in loaded]
+store2 = InMemoryDocumentStore()
+store2.write_documents(restored_docs)
+print(&quot;Restored&quot;, store2.count_documents(), &quot;docs&quot;)
+</code></pre>
+<h3 id="62-elasticsearch-production">6.2 Elasticsearch (production)</h3>
+<pre><code class="language-python"># pip install elasticsearch-haystack
+# Requires running Elasticsearch instance
+from haystack_integrations.document_stores.elasticsearch import ElasticsearchDocumentStore
+
+es_store = ElasticsearchDocumentStore(
+    hosts=&quot;http://localhost:9200&quot;,
+    index=&quot;my-haystack-index&quot;,
+    embedding_dim=1536,            # match your embedder output
+    similarity=&quot;cosine&quot;,
+)
+print(es_store.count_documents())
+</code></pre>
+<h3 id="63-qdrant-free-self-hosted-production">6.3 Qdrant (free self-hosted, production)</h3>
+<pre><code class="language-python"># pip install qdrant-haystack
+# docker run -p 6333:6333 qdrant/qdrant
+from haystack_integrations.document_stores.qdrant import QdrantDocumentStore
+
+qdrant_store = QdrantDocumentStore(
+    url=&quot;http://localhost:6333&quot;,
+    index=&quot;haystack_docs&quot;,
+    embedding_dim=384,             # all-MiniLM-L6-v2 output dim
+    recreate_index=False,
+)
+print(qdrant_store.count_documents())
+</code></pre>
+<h3 id="64-chroma-lightweight-local-vector-store">6.4 Chroma (lightweight local vector store)</h3>
+<pre><code class="language-python"># pip install chroma-haystack
+from haystack_integrations.document_stores.chroma import ChromaDocumentStore
+
+chroma_store = ChromaDocumentStore(
+    collection_name=&quot;haystack_collection&quot;,
+    persist_path=&quot;./chroma_db&quot;,   # persists to disk automatically
+    embedding_function=None,      # managed externally by Haystack embedder
+)
+</code></pre>
+<hr />
+<h2 id="7-hybrid-retrieval">7. Hybrid Retrieval</h2>
+<p>Hybrid retrieval combines <strong>BM25 (keyword)</strong> and <strong>embedding (semantic)</strong> retrieval, merges results with <code>DocumentJoiner</code>, then reranks with <code>TransformersSimilarityRanker</code>.</p>
+<pre><code class="language-python">import subprocess
+from haystack import Pipeline, Document
+from haystack.document_stores.in_memory import InMemoryDocumentStore
+from haystack.components.retrievers.in_memory import (
+    InMemoryBM25Retriever,
+    InMemoryEmbeddingRetriever,
+)
+from haystack.components.joiners import DocumentJoiner
+from haystack.components.rankers import TransformersSimilarityRanker
+from haystack.components.embedders import (
+    OpenAIDocumentEmbedder,
+    OpenAITextEmbedder,
+)
+
+token = subprocess.run([&quot;gh&quot;,&quot;auth&quot;,&quot;token&quot;],capture_output=True,text=True).stdout.strip()
+
+# ── 1. Build and populate store ───────────────────────────────────────────────
+store = InMemoryDocumentStore()
+raw_docs = [
+    Document(content=&quot;Haystack is built by deepset for production NLP.&quot;),
+    Document(content=&quot;RAG grounds language model outputs in retrieved facts.&quot;),
+    Document(content=&quot;BM25 is a classic keyword-based ranking function.&quot;),
+    Document(content=&quot;Dense embeddings capture semantic similarity.&quot;),
+    Document(content=&quot;Hybrid search combines BM25 and dense retrieval.&quot;),
+]
+
+embed_pipe = Pipeline()
+embed_pipe.add_component(&quot;embedder&quot;, OpenAIDocumentEmbedder(
+    model=&quot;text-embedding-3-small&quot;, api_key=token,
+    api_base_url=&quot;https://models.inference.ai.azure.com&quot;))
+embed_pipe.add_component(&quot;writer&quot;,
+    __import__(&quot;haystack.components.writers&quot;, fromlist=[&quot;DocumentWriter&quot;]).DocumentWriter(
+        document_store=store))
+embed_pipe.connect(&quot;embedder.documents&quot;, &quot;writer.documents&quot;)
+embed_pipe.run({&quot;embedder&quot;: {&quot;documents&quot;: raw_docs}})
+
+# ── 2. Hybrid query pipeline ──────────────────────────────────────────────────
+hybrid = Pipeline()
+hybrid.add_component(&quot;text_embedder&quot;, OpenAITextEmbedder(
+    model=&quot;text-embedding-3-small&quot;, api_key=token,
+    api_base_url=&quot;https://models.inference.ai.azure.com&quot;))
+hybrid.add_component(&quot;bm25&quot;,     InMemoryBM25Retriever(document_store=store, top_k=5))
+hybrid.add_component(&quot;dense&quot;,    InMemoryEmbeddingRetriever(document_store=store, top_k=5))
+hybrid.add_component(&quot;joiner&quot;,   DocumentJoiner(join_mode=&quot;reciprocal_rank_fusion&quot;))
+hybrid.add_component(&quot;ranker&quot;,   TransformersSimilarityRanker(
+    model=&quot;cross-encoder/ms-marco-MiniLM-L-6-v2&quot;, top_k=3))
+
+# Connections
+hybrid.connect(&quot;text_embedder.embedding&quot;, &quot;dense.query_embedding&quot;)
+hybrid.connect(&quot;bm25.documents&quot;,          &quot;joiner.documents&quot;)
+hybrid.connect(&quot;dense.documents&quot;,         &quot;joiner.documents&quot;)
+hybrid.connect(&quot;joiner.documents&quot;,        &quot;ranker.documents&quot;)
+
+query = &quot;How does hybrid search work?&quot;
+result = hybrid.run({
+    &quot;text_embedder&quot;: {&quot;text&quot;: query},
+    &quot;bm25&quot;:          {&quot;query&quot;: query},
+    &quot;ranker&quot;:        {&quot;query&quot;: query},
+})
+
+print(f&quot;\nTop results for: '{query}'&quot;)
+for doc in result[&quot;ranker&quot;][&quot;documents&quot;]:
+    print(f&quot;  [{doc.score:.4f}] {doc.content}&quot;)
+</code></pre>
+<hr />
+<h2 id="8-evaluation">8. Evaluation</h2>
+<h3 id="81-built-in-evaluators">8.1 Built-in Evaluators</h3>
+<pre><code class="language-python">import subprocess
+from haystack import Pipeline, Document
+from haystack.document_stores.in_memory import InMemoryDocumentStore
+from haystack.components.evaluators import (
+    FaithfulnessEvaluator,
+    ContextRelevanceEvaluator,
+    DocumentMAPEvaluator,
+    SASEvaluator,
+)
+from haystack.components.generators.chat import OpenAIChatGenerator
+
+token = subprocess.run([&quot;gh&quot;,&quot;auth&quot;,&quot;token&quot;],capture_output=True,text=True).stdout.strip()
+
+llm = OpenAIChatGenerator(
+    model=&quot;gpt-4o-mini&quot;, api_key=token,
+    api_base_url=&quot;https://models.inference.ai.azure.com&quot;
+)
+
+# ── Faithfulness: is the answer grounded in the contexts? ────────────────────
+faithfulness = FaithfulnessEvaluator(llm=llm)
+faith_result = faithfulness.run(
+    questions=[&quot;What is Haystack?&quot;],
+    contexts=[[&quot;Haystack is an NLP framework by deepset.&quot;]],
+    responses=[&quot;Haystack is a framework by deepset for building NLP pipelines.&quot;],
+)
+print(&quot;Faithfulness score:&quot;, faith_result[&quot;score&quot;])  # 0.0 – 1.0
+
+# ── Context Relevance: are retrieved docs relevant to the question? ──────────
+ctx_rel = ContextRelevanceEvaluator(llm=llm)
+ctx_result = ctx_rel.run(
+    questions=[&quot;What is RAG?&quot;],
+    contexts=[[&quot;RAG stands for Retrieval-Augmented Generation.&quot;,
+               &quot;Paris is the capital of France.&quot;]],
+)
+print(&quot;Context relevance:&quot;, ctx_result[&quot;score&quot;])
+
+# ── SAS (Semantic Answer Similarity) — fully local, no LLM needed ────────────
+sas = SASEvaluator(model=&quot;cross-encoder/stsb-roberta-base&quot;)
+sas.warm_up()
+sas_result = sas.run(
+    predicted_answers=[&quot;Haystack is an NLP framework.&quot;],
+    ground_truth_answers=[&quot;Haystack is a framework for NLP pipelines.&quot;],
+)
+print(&quot;SAS score:&quot;, sas_result[&quot;score&quot;])  # semantic similarity 0–1
+</code></pre>
+<h3 id="82-evaluation-run-result">8.2 Evaluation Run Result</h3>
+<pre><code class="language-python">from haystack.evaluation import EvaluationRunResult
+
+# Aggregate multiple metric results
+result = EvaluationRunResult(
+    run_name=&quot;rag-eval-v1&quot;,
+    inputs={
+        &quot;questions&quot;: [&quot;What is Haystack?&quot;, &quot;Who made Haystack?&quot;],
+        &quot;contexts&quot;:  [[&quot;Haystack is by deepset.&quot;], [&quot;deepset built Haystack.&quot;]],
+        &quot;responses&quot;: [&quot;Haystack is a framework.&quot;, &quot;deepset made it.&quot;],
+    },
+    results={
+        &quot;faithfulness&quot;:       {&quot;score&quot;: 0.95, &quot;individual_scores&quot;: [1.0, 0.9]},
+        &quot;context_relevance&quot;:  {&quot;score&quot;: 0.88, &quot;individual_scores&quot;: [0.9, 0.86]},
+        &quot;sas&quot;:                {&quot;score&quot;: 0.91, &quot;individual_scores&quot;: [0.93, 0.89]},
+    },
+)
+
+print(result.score_report())
+df = result.to_pandas()
+print(df)
+</code></pre>
+<hr />
+<h2 id="9-custom-components">9. Custom Components</h2>
+<h3 id="91-minimal-custom-component">9.1 Minimal Custom Component</h3>
+<pre><code class="language-python">from haystack import component, Document
+from typing import List
+
+@component
+class KeywordFilter:
+    &quot;&quot;&quot;Filters documents that contain a specific keyword.&quot;&quot;&quot;
+
+    def __init__(self, keyword: str):
+        self.keyword = keyword.lower()
+
+    @component.output_types(documents=List[Document], filtered_count=int)
+    def run(self, documents: List[Document]) -&gt; dict:
+        kept = [d for d in documents if self.keyword in (d.content or &quot;&quot;).lower()]
+        return {&quot;documents&quot;: kept, &quot;filtered_count&quot;: len(documents) - len(kept)}
+
+# Test standalone
+filt = KeywordFilter(keyword=&quot;haystack&quot;)
+docs = [
+    Document(content=&quot;Haystack is great for RAG.&quot;),
+    Document(content=&quot;LangChain is another option.&quot;),
+    Document(content=&quot;deepset built Haystack.&quot;),
+]
+out = filt.run(documents=docs)
+print(f&quot;Kept: {len(out['documents'])}, Filtered: {out['filtered_count']}&quot;)
+</code></pre>
+<h3 id="92-custom-web-scraper-component">9.2 Custom Web Scraper Component</h3>
+<pre><code class="language-python">from haystack import component, Document
+from typing import List, Optional
+import urllib.request, html, re
+
+@component
+class SimpleWebScraper:
+    &quot;&quot;&quot;
+    Fetches one or more URLs and returns them as Haystack Documents.
+    No external dependencies — uses stdlib urllib only.
+    &quot;&quot;&quot;
+
+    def __init__(self, timeout: int = 10):
+        self.timeout = timeout
+
+    @component.output_types(documents=List[Document])
+    def run(self, urls: List[str]) -&gt; dict:
+        documents = []
+        for url in urls:
+            try:
+                with urllib.request.urlopen(url, timeout=self.timeout) as resp:
+                    raw_html = resp.read().decode(&quot;utf-8&quot;, errors=&quot;ignore&quot;)
+                # Strip HTML tags
+                text = re.sub(r&quot;&lt;[^&gt;]+&gt;&quot;, &quot; &quot;, raw_html)
+                text = html.unescape(text)
+                text = re.sub(r&quot;\s+&quot;, &quot; &quot;, text).strip()
+                documents.append(Document(
+                    content=text[:5000],   # cap at 5k chars
+                    meta={&quot;url&quot;: url, &quot;status&quot;: &quot;ok&quot;},
+                ))
+            except Exception as exc:
+                documents.append(Document(
+                    content=&quot;&quot;,
+                    meta={&quot;url&quot;: url, &quot;status&quot;: &quot;error&quot;, &quot;error&quot;: str(exc)},
+                ))
+        return {&quot;documents&quot;: documents}
+
+# Test
+scraper = SimpleWebScraper(timeout=8)
+result = scraper.run(urls=[&quot;https://example.com&quot;])
+for doc in result[&quot;documents&quot;]:
+    print(f&quot;[{doc.meta['status']}] {doc.meta['url']}: {doc.content[:100]}&quot;)
+</code></pre>
+<h3 id="93-streaming-component">9.3 Streaming Component</h3>
+<pre><code class="language-python">import subprocess
+from haystack import component
+from haystack.components.generators.chat import OpenAIChatGenerator
+from haystack.dataclasses import ChatMessage, StreamingChunk
+from typing import Callable, Optional, List
+
+token = subprocess.run([&quot;gh&quot;,&quot;auth&quot;,&quot;token&quot;],capture_output=True,text=True).stdout.strip()
+
+@component
+class StreamingChatResponder:
+    &quot;&quot;&quot;Wraps OpenAIChatGenerator with a streaming callback.&quot;&quot;&quot;
+
+    def __init__(self, model: str = &quot;gpt-4o-mini&quot;):
+        self.generator = OpenAIChatGenerator(
+            model=model,
+            api_key=token,
+            api_base_url=&quot;https://models.inference.ai.azure.com&quot;,
+            streaming_callback=self._print_chunk,
+        )
+        self._chunks: List[str] = []
+
+    def _print_chunk(self, chunk: StreamingChunk) -&gt; None:
+        print(chunk.content, end=&quot;&quot;, flush=True)
+        self._chunks.append(chunk.content)
+
+    @component.output_types(full_response=str)
+    def run(self, messages: List[ChatMessage]) -&gt; dict:
+        self._chunks = []
+        self.generator.run(messages=messages)
+        print()  # newline after stream
+        return {&quot;full_response&quot;: &quot;&quot;.join(self._chunks)}
+
+# Use it
+responder = StreamingChatResponder()
+msgs = [ChatMessage.from_user(&quot;Count from 1 to 5, one number per token.&quot;)]
+out = responder.run(messages=msgs)
+print(&quot;\nFull:&quot;, out[&quot;full_response&quot;])
+</code></pre>
+<hr />
+<h2 id="10-haystack-agent-2x">10. Haystack Agent (2.x)</h2>
+<pre><code class="language-python">import subprocess, json
+from haystack import Pipeline, component
+from haystack.components.generators.chat import OpenAIChatGenerator
+from haystack.dataclasses import ChatMessage, ToolCall
+from haystack.tools import Tool
+from typing import List
+
+token = subprocess.run([&quot;gh&quot;,&quot;auth&quot;,&quot;token&quot;],capture_output=True,text=True).stdout.strip()
+
+# ── Define tools ──────────────────────────────────────────────────────────────
+def get_weather(city: str) -&gt; str:
+    &quot;&quot;&quot;Returns mock weather for a city.&quot;&quot;&quot;
+    mock = {&quot;London&quot;: &quot;12°C, cloudy&quot;, &quot;Paris&quot;: &quot;18°C, sunny&quot;, &quot;Tokyo&quot;: &quot;22°C, clear&quot;}
+    return mock.get(city, f&quot;No data for {city}&quot;)
+
+def calculate(expression: str) -&gt; str:
+    &quot;&quot;&quot;Evaluates a safe math expression.&quot;&quot;&quot;
+    try:
+        allowed = set(&quot;0123456789+-*/(). &quot;)
+        if not all(c in allowed for c in expression):
+            return &quot;Error: unsafe expression&quot;
+        return str(eval(expression))  # noqa: S307 — demo only
+    except Exception as e:
+        return f&quot;Error: {e}&quot;
+
+weather_tool = Tool(
+    name=&quot;get_weather&quot;,
+    description=&quot;Get current weather for a city. Input: city name (string).&quot;,
+    parameters={&quot;type&quot;: &quot;object&quot;, &quot;properties&quot;: {&quot;city&quot;: {&quot;type&quot;: &quot;string&quot;}}, &quot;required&quot;: [&quot;city&quot;]},
+    function=get_weather,
+)
+
+calc_tool = Tool(
+    name=&quot;calculate&quot;,
+    description=&quot;Evaluate a mathematical expression. Input: expression string.&quot;,
+    parameters={&quot;type&quot;: &quot;object&quot;, &quot;properties&quot;: {&quot;expression&quot;: {&quot;type&quot;: &quot;string&quot;}}, &quot;required&quot;: [&quot;expression&quot;]},
+    function=calculate,
+)
+
+# ── ReAct-style agent loop ────────────────────────────────────────────────────
+from haystack.components.routers import MetadataRouter
+
+llm = OpenAIChatGenerator(
+    model=&quot;gpt-4o-mini&quot;,
+    api_key=token,
+    api_base_url=&quot;https://models.inference.ai.azure.com&quot;,
+    tools=[weather_tool, calc_tool],
+)
+
+def run_agent(user_query: str, max_steps: int = 5) -&gt; str:
+    messages: List[ChatMessage] = [
+        ChatMessage.from_system(&quot;You are a helpful assistant. Use tools when needed.&quot;),
+        ChatMessage.from_user(user_query),
+    ]
+    for step in range(max_steps):
+        result = llm.run(messages=messages)
+        reply = result[&quot;replies&quot;][0]
+        messages.append(reply)
+
+        # No tool calls → final answer
+        if not reply.tool_calls:
+            return reply.text
+
+        # Execute tool calls
+        for tc in reply.tool_calls:
+            tool_map = {&quot;get_weather&quot;: get_weather, &quot;calculate&quot;: calculate}
+            fn = tool_map.get(tc.tool_name)
+            if fn:
+                args = json.loads(tc.arguments) if isinstance(tc.arguments, str) else tc.arguments
+                tool_output = fn(**args)
+                messages.append(ChatMessage.from_tool(
+                    tool_result=tool_output,
+                    origin=tc,
+                ))
+    return &quot;Max steps reached.&quot;
+
+answer = run_agent(&quot;What is the weather in Paris and what is 17 * 23?&quot;)
+print(answer)
+</code></pre>
+<hr />
+<h2 id="11-serialization-deployment">11. Serialization &amp; Deployment</h2>
+<h3 id="111-yaml-serialization">11.1 YAML Serialization</h3>
+<pre><code class="language-python">from haystack import Pipeline
+from haystack.components.builders import PromptBuilder
+from haystack.components.generators import OpenAIGenerator
+import pathlib
+
+pipe = Pipeline()
+pipe.add_component(&quot;prompt&quot;, PromptBuilder(template=&quot;Answer: {{ question }}&quot;))
+pipe.add_component(&quot;llm&quot;,   OpenAIGenerator(model=&quot;gpt-4o-mini&quot;))
+pipe.connect(&quot;prompt.prompt&quot;, &quot;llm.prompt&quot;)
+
+# Save to YAML
+yaml_str = pipe.dumps()                          # YAML string
+pathlib.Path(&quot;my_pipeline.yaml&quot;).write_text(yaml_str)
+print(&quot;Saved pipeline.yaml&quot;)
+print(yaml_str[:300])
+
+# Reload from YAML
+loaded_pipe = Pipeline.loads(yaml_str)
+# or: loaded_pipe = Pipeline.load(open(&quot;my_pipeline.yaml&quot;))
+print(&quot;Reloaded pipeline:&quot;, type(loaded_pipe))
+</code></pre>
+<h3 id="112-fastapi-deployment">11.2 FastAPI Deployment</h3>
+<pre><code class="language-python"># save as app.py → uvicorn app:app
+import subprocess
+from fastapi import FastAPI
+from pydantic import BaseModel
+from haystack import Pipeline
+from haystack.components.builders import PromptBuilder
+from haystack.components.generators import OpenAIGenerator
+
+app = FastAPI(title=&quot;Haystack RAG API&quot;)
+
+token = subprocess.run([&quot;gh&quot;,&quot;auth&quot;,&quot;token&quot;],capture_output=True,text=True).stdout.strip()
+
+pipe = Pipeline()
+pipe.add_component(&quot;prompt&quot;, PromptBuilder(template=&quot;Answer briefly: {{ question }}&quot;))
+pipe.add_component(&quot;llm&quot;,   OpenAIGenerator(
+    model=&quot;gpt-4o-mini&quot;, api_key=token,
+    api_base_url=&quot;https://models.inference.ai.azure.com&quot;))
+pipe.connect(&quot;prompt.prompt&quot;, &quot;llm.prompt&quot;)
+
+class QueryRequest(BaseModel):
+    question: str
+
+class QueryResponse(BaseModel):
+    answer: str
+
+@app.post(&quot;/query&quot;, response_model=QueryResponse)
+async def query(req: QueryRequest):
+    result = pipe.run({&quot;prompt&quot;: {&quot;question&quot;: req.question}})
+    return QueryResponse(answer=result[&quot;llm&quot;][&quot;replies&quot;][0])
+
+@app.get(&quot;/health&quot;)
+async def health():
+    return {&quot;status&quot;: &quot;ok&quot;}
+
+# Run: uvicorn app:app --host 0.0.0.0 --port 8000
+</code></pre>
+<h3 id="113-dockerfile">11.3 Dockerfile</h3>
+<pre><code class="language-dockerfile"># Dockerfile
+FROM python:3.11-slim
+
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY app.py .
+COPY my_pipeline.yaml .
+
+EXPOSE 8000
+CMD [&quot;uvicorn&quot;, &quot;app:app&quot;, &quot;--host&quot;, &quot;0.0.0.0&quot;, &quot;--port&quot;, &quot;8000&quot;]
+</code></pre>
+<pre><code class="language-text"># requirements.txt
+haystack-ai==2.9.0
+fastapi==0.115.0
+uvicorn==0.30.0
+</code></pre>
+<h3 id="114-deepset-cloud">11.4 deepset Cloud</h3>
+<pre><code class="language-python"># pip install deepset-cloud-sdk
+# Set env: DEEPSET_CLOUD_API_KEY, DEEPSET_CLOUD_WORKSPACE
+
+from haystack import Pipeline
+# After designing your pipeline locally:
+# 1. pipeline.to_yaml(&quot;my_pipeline.yaml&quot;)
+# 2. Upload via deepset Cloud SDK or web UI
+# 3. Deploy with one click — handles scaling, monitoring, versioning
+
+# Query deployed pipeline via REST:
+import requests, os
+resp = requests.post(
+    &quot;https://api.cloud.deepset.ai/api/v1/workspaces/MY_WORKSPACE/pipelines/MY_PIPELINE/search&quot;,
+    headers={&quot;Authorization&quot;: f&quot;Bearer {os.environ['DEEPSET_CLOUD_API_KEY']}&quot;},
+    json={&quot;queries&quot;: [&quot;What is Haystack?&quot;]},
+)
+print(resp.json())
+</code></pre>
+<hr />
+<h2 id="12-real-world-patterns">12. Real-World Patterns</h2>
+<h3 id="121-multi-hop-qa-pipeline">12.1 Multi-Hop QA Pipeline</h3>
+<pre><code class="language-python">import subprocess
+from haystack import Pipeline, Document
+from haystack.document_stores.in_memory import InMemoryDocumentStore
+from haystack.components.retrievers.in_memory import InMemoryBM25Retriever
+from haystack.components.builders import PromptBuilder
+from haystack.components.generators import OpenAIGenerator
+
+token = subprocess.run([&quot;gh&quot;,&quot;auth&quot;,&quot;token&quot;],capture_output=True,text=True).stdout.strip()
+store = InMemoryDocumentStore()
+store.write_documents([
+    Document(content=&quot;Alice is the CEO of Acme Corp. Acme Corp was founded in 2010.&quot;),
+    Document(content=&quot;Acme Corp is headquartered in San Francisco, California.&quot;),
+    Document(content=&quot;San Francisco is known for its Golden Gate Bridge and tech industry.&quot;),
+])
+
+HOP1_TEMPLATE = &quot;Extract the main entity from this question for a follow-up search.\nQuestion: {{ question }}\nEntity:&quot;
+HOP2_TEMPLATE = &quot;&quot;&quot;Using these documents, answer the original question.
+Documents: {% for d in documents %}{{ d.content }} {% endfor %}
+Original question: {{ question }}
+Answer:&quot;&quot;&quot;
+
+pipe = Pipeline()
+pipe.add_component(&quot;hop1_prompt&quot;, PromptBuilder(template=HOP1_TEMPLATE))
+pipe.add_component(&quot;hop1_llm&quot;,    OpenAIGenerator(model=&quot;gpt-4o-mini&quot;, api_key=token,
+    api_base_url=&quot;https://models.inference.ai.azure.com&quot;))
+pipe.add_component(&quot;retriever&quot;,   InMemoryBM25Retriever(document_store=store, top_k=3))
+pipe.add_component(&quot;hop2_prompt&quot;, PromptBuilder(template=HOP2_TEMPLATE))
+pipe.add_component(&quot;hop2_llm&quot;,    OpenAIGenerator(model=&quot;gpt-4o-mini&quot;, api_key=token,
+    api_base_url=&quot;https://models.inference.ai.azure.com&quot;))
+
+pipe.connect(&quot;hop1_prompt.prompt&quot;,   &quot;hop1_llm.prompt&quot;)
+pipe.connect(&quot;hop1_llm.replies&quot;,     &quot;retriever.query&quot;)   # first reply used as query
+pipe.connect(&quot;retriever.documents&quot;,  &quot;hop2_prompt.documents&quot;)
+pipe.connect(&quot;hop2_prompt.prompt&quot;,   &quot;hop2_llm.prompt&quot;)
+
+question = &quot;Where is the headquarters of the company whose CEO is Alice?&quot;
+result = pipe.run({&quot;hop1_prompt&quot;: {&quot;question&quot;: question}, &quot;hop2_prompt&quot;: {&quot;question&quot;: question}})
+print(result[&quot;hop2_llm&quot;][&quot;replies&quot;][0])
+</code></pre>
+<h3 id="122-fallback-pipeline-router">12.2 Fallback Pipeline (Router)</h3>
+<pre><code class="language-python">import subprocess
+from haystack import Pipeline, Document, component
+from haystack.document_stores.in_memory import InMemoryDocumentStore
+from haystack.components.retrievers.in_memory import InMemoryBM25Retriever
+from haystack.components.builders import PromptBuilder
+from haystack.components.generators import OpenAIGenerator
+from typing import List
+
+token = subprocess.run([&quot;gh&quot;,&quot;auth&quot;,&quot;token&quot;],capture_output=True,text=True).stdout.strip()
+
+@component
+class FallbackRouter:
+    &quot;&quot;&quot;Routes to 'rag' branch if docs found, else 'fallback' branch.&quot;&quot;&quot;
+    @component.output_types(rag_documents=List[Document], fallback_query=str)
+    def run(self, documents: List[Document], query: str) -&gt; dict:
+        if documents:
+            return {&quot;rag_documents&quot;: documents, &quot;fallback_query&quot;: None}
+        return {&quot;rag_documents&quot;: None, &quot;fallback_query&quot;: query}
+
+store = InMemoryDocumentStore()
+store.write_documents([Document(content=&quot;Haystack is an NLP framework by deepset.&quot;)])
+
+FALLBACK_TEMPLATE = &quot;Answer from general knowledge (no context available): {{ query }}&quot;
+RAG_TEMPLATE = &quot;&quot;&quot;Context: {% for d in documents %}{{ d.content }} {% endfor %}
+Question: {{ question }}  Answer:&quot;&quot;&quot;
+
+pipe = Pipeline()
+pipe.add_component(&quot;retriever&quot;, InMemoryBM25Retriever(document_store=store, top_k=3))
+pipe.add_component(&quot;router&quot;,    FallbackRouter())
+pipe.add_component(&quot;rag_prompt&quot;,      PromptBuilder(template=RAG_TEMPLATE))
+pipe.add_component(&quot;fallback_prompt&quot;, PromptBuilder(template=FALLBACK_TEMPLATE))
+pipe.add_component(&quot;rag_llm&quot;,         OpenAIGenerator(model=&quot;gpt-4o-mini&quot;, api_key=token,
+    api_base_url=&quot;https://models.inference.ai.azure.com&quot;))
+pipe.add_component(&quot;fallback_llm&quot;,    OpenAIGenerator(model=&quot;gpt-4o-mini&quot;, api_key=token,
+    api_base_url=&quot;https://models.inference.ai.azure.com&quot;))
+
+pipe.connect(&quot;retriever.documents&quot;,          &quot;router.documents&quot;)
+pipe.connect(&quot;router.rag_documents&quot;,         &quot;rag_prompt.documents&quot;)
+pipe.connect(&quot;router.fallback_query&quot;,        &quot;fallback_prompt.query&quot;)
+pipe.connect(&quot;rag_prompt.prompt&quot;,            &quot;rag_llm.prompt&quot;)
+pipe.connect(&quot;fallback_prompt.prompt&quot;,       &quot;fallback_llm.prompt&quot;)
+
+q = &quot;What is Haystack?&quot;
+res = pipe.run({&quot;retriever&quot;: {&quot;query&quot;: q}, &quot;router&quot;: {&quot;query&quot;: q}, &quot;rag_prompt&quot;: {&quot;question&quot;: q}})
+rag_out      = res.get(&quot;rag_llm&quot;, {}).get(&quot;replies&quot;, [None])[0]
+fallback_out = res.get(&quot;fallback_llm&quot;, {}).get(&quot;replies&quot;, [None])[0]
+print(&quot;Answer:&quot;, rag_out or fallback_out)
+</code></pre>
+<hr />
+<h2 id="13-interview-qa-15-questions">13. Interview Q&amp;A (15 Questions)</h2>
+<hr />
+<details open><summary class="qa-q">What is the key architectural difference between Haystack 1.x and 2.x?  > **A:** Haystack 1.x used a loosely typed node graph where each node had its own arbitrary API. Haystack 2.x introduces a strict **component contract**: every component declares typed `InputSocket`/`OutputSocket` pairs and implements `run(**kwargs) -> dict`. This enables full YAML serialization, type checking at pipeline build time, and support for arbitrary DAGs including loops.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How do you connect two components in a Haystack pipeline?  > **A:** Use `pipeline.connect("component_a.output_name", "component_b.input_name")`. For example: `pipe.connect("embedder.embedding", "retriever.query_embedding")`. The dot notation specifies the component name and the exact socket name declared in `@component.output_types`.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What is a DocumentStore and which ones are available?  > **A:** A `DocumentStore` is the persistence layer for `Document` objects — it handles write, filter, and retrieval operations. Available stores include: > - `InMemoryDocumentStore` — dev/testing, no dependencies > - `ElasticsearchDocumentStore` — BM25 + kNN, production > - `OpenSearchDocumentStore` — AWS-managed option > - `QdrantDocumentStore` — vector-native, self-hosted or cloud > - `WeaviateDocumentStore` — vector + BM25 hybrid > - `ChromaDocumentStore` — lightweight local vector store > - `PgvectorDocumentStore` — PostgreSQL + pgvector  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How do you implement hybrid retrieval in Haystack?  > **A:** Run both `InMemoryBM25Retriever` and `InMemoryEmbeddingRetriever` in parallel within a single pipeline. Connect both to a `DocumentJoiner` component (using `join_mode="reciprocal_rank_fusion"` or `"concatenate"`). Optionally follow with `TransformersSimilarityRanker` for cross-encoder reranking. Both retrievers share the same `DocumentStore`.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What is the DocumentJoiner component?  > **A:** `DocumentJoiner` merges `List[Document]` from multiple upstream retrievers into a single deduplicated list. It supports three join modes: > - `"concatenate"` — simple union, keeps order > - `"merge"` — averages scores across retrievers > - `"reciprocal_rank_fusion"` — RRF formula, robust to score scale differences (recommended for hybrid retrieval)  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How does Haystack handle evaluation built-in?  > **A:** Haystack 2.x ships `FaithfulnessEvaluator`, `ContextRelevanceEvaluator`, `DocumentMAPEvaluator`, `SASEvaluator` (local), and `RAGASEvaluator` as first-class components. They plug directly into evaluation pipelines. Results are collected in `EvaluationRunResult`, which provides `.score_report()` and `.to_pandas()` for analysis.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How do you create a custom component in Haystack 2.x?  > **A:** Decorate a class with `@component` and implement a `run()` method decorated with `@component.output_types(key=Type, ...)`. The `run()` method's parameters become input sockets; `output_types` declares output sockets. The method must return a `dict` whose keys match the declared output types.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What is TransformersSimilarityRanker and why use it?  > **A:** `TransformersSimilarityRanker` is a **cross-encoder** reranker. Unlike bi-encoders (which embed query and doc separately), a cross-encoder sees the query and document together, enabling much finer relevance scoring. It is used *after* an initial cheap retrieval (BM25 or embedding) to rerank the top-k results with higher accuracy. It runs locally with no API cost.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How do you serialize and reload a Haystack pipeline?  > **A:** > ```python > # Save > yaml_str = pipeline.dumps() > # Reload > pipeline = Pipeline.loads(yaml_str) > ``` > All standard components serialize their constructor arguments to YAML automatically. Custom components must also be importable at load time.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How does Haystack compare to LangChain for production RAG?  > **A:** > | Aspect | Haystack | LangChain | > |--------|----------|-----------| > | Architecture | Strict typed DAG | Flexible chains/graphs | > | Serialization | Full YAML round-trip | Partial | > | Evaluation | First-class built-in | Via LangSmith (external) | > | Production ops | deepset Cloud + Docker | LangServe | > | Learning curve | Steeper, more structured | Gentler | >  > Haystack is preferred when **evaluation**, **reproducibility**, and **production deployment** are priorities.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How do you implement streaming responses in Haystack?  > **A:** Pass a `streaming_callback: Callable[[StreamingChunk], None]` to `OpenAIChatGenerator` or `OpenAIGenerator`. Each token is delivered to the callback as it arrives. The component's `run()` still returns the full assembled response when streaming completes.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What is the ToolInvoker component?  > **A:** `ToolInvoker` is a built-in component that inspects `ChatMessage` objects for `ToolCall` objects, executes the referenced `Tool` functions, and returns `ChatMessage.from_tool(...)` result messages. It enables LLM tool-use (function calling) within a declarative pipeline without manual dispatch logic.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How do you use Haystack with fully local models?  > **A:** > - **Embeddings:** `SentenceTransformersDocumentEmbedder` / `SentenceTransformersTextEmbedder` (HuggingFace models, no API) > - **Generation:** `HuggingFaceLocalGenerator` with any causal LM (e.g., `mistralai/Mistral-7B-Instruct-v0.1`) > - **Reranking:** `TransformersSimilarityRanker` (cross-encoder, runs locally) > - **Store:** `InMemoryDocumentStore` or `QdrantDocumentStore` (self-hosted) >  > All can be combined for a fully air-gapped, zero-API-cost pipeline.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What is deepset Cloud?  > **A:** deepset Cloud is a managed platform for deploying, versioning, and monitoring Haystack pipelines. It provides a REST API, web UI for pipeline management, A/B testing, analytics dashboards, and enterprise-grade security. Pipelines created locally can be uploaded via `deepset-cloud-sdk` and deployed with one click.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How do you handle multi-lingual documents in Haystack?  > **A:** > 1. **Detection:** Use a custom component wrapping `langdetect` or `lingua` to detect language and store it in `doc.meta["language"]`. > 2. **Routing:** Use `MetadataRouter` to route documents to language-specific processing branches. > 3. **Multilingual embeddings:** Use `sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2` which supports 50+ languages natively. > 4. **Translation fallback:** Add an `OpenAIChatGenerator`-based translator component before embedding if needed.  ---  ## 14. Complete End-to-End Example  Production RAG: ingest docs → hybrid retrieval → reranking → answer → auto-evaluate  ```python """ production_rag.py ───────────────────────────────────────────────────────────────────────────── End-to-end Haystack 2.x production RAG pipeline with evaluation. Covers: indexing, hybrid retrieval, cross-encoder reranking, generation,         faithfulness + SAS evaluation — ~100 lines. ───────────────────────────────────────────────────────────────────────────── """ import subprocess from haystack import Document, Pipeline from haystack.document_stores.in_memory import InMemoryDocumentStore from haystack.components.preprocessors import DocumentCleaner, DocumentSplitter from haystack.components.embedders import (     OpenAIDocumentEmbedder, OpenAITextEmbedder, ) from haystack.components.writers import DocumentWriter from haystack.components.retrievers.in_memory import (     InMemoryBM25Retriever, InMemoryEmbeddingRetriever, ) from haystack.components.joiners import DocumentJoiner from haystack.components.rankers import TransformersSimilarityRanker from haystack.components.builders import PromptBuilder from haystack.components.generators import OpenAIGenerator from haystack.components.generators.chat import OpenAIChatGenerator from haystack.components.evaluators import FaithfulnessEvaluator, SASEvaluator  # ── Auth ────────────────────────────────────────────────────────────────────── TOKEN = subprocess.run(["gh","auth","token"],capture_output=True,text=True).stdout.strip() BASE  = "https://models.inference.ai.azure.com" MODEL = "gpt-4o-mini"  def make_gen(**kw):     return OpenAIGenerator(model=MODEL, api_key=TOKEN, api_base_url=BASE, **kw)  def make_chat_gen(**kw):     return OpenAIChatGenerator(model=MODEL, api_key=TOKEN, api_base_url=BASE, **kw)  # ── Corpus ──────────────────────────────────────────────────────────────────── CORPUS = [     Document(content="Haystack is an open-source NLP framework by deepset. "              "It supports RAG, document search, and agentic systems."),     Document(content="Retrieval-Augmented Generation (RAG) combines a retriever "              "with a language model to ground answers in retrieved evidence."),     Document(content="Hybrid retrieval merges BM25 keyword search with dense "              "embedding search, then reranks using a cross-encoder model."),     Document(content="deepset Cloud is a managed platform for deploying Haystack "              "pipelines with REST APIs, monitoring, and A/B testing."),     Document(content="TransformersSimilarityRanker uses a cross-encoder to rerank "              "retrieved documents, improving answer quality significantly."), ]  # ── 1. Indexing Pipeline ────────────────────────────────────────────────────── store = InMemoryDocumentStore()  idx = Pipeline() idx.add_component("cleaner",  DocumentCleaner()) idx.add_component("splitter", DocumentSplitter(split_by="sentence", split_length=2, split_overlap=0)) idx.add_component("embedder", OpenAIDocumentEmbedder(     model="text-embedding-3-small", api_key=TOKEN, api_base_url=BASE)) idx.add_component("writer",   DocumentWriter(document_store=store)) idx.connect("cleaner.documents",  "splitter.documents") idx.connect("splitter.documents", "embedder.documents") idx.connect("embedder.documents", "writer.documents") idx.run({"cleaner": {"documents": CORPUS}}) print(f"[Indexing] Stored {store.count_documents()} chunks\n")  # ── 2. Hybrid RAG Query Pipeline ────────────────────────────────────────────── TEMPLATE = """Answer the question using ONLY the provided context. Be concise.  Context: {% for doc in documents %}   • {{ doc.content }} {% endfor %}  Question: {{ question }} Answer:"""  rag = Pipeline() rag.add_component("text_embedder", OpenAITextEmbedder(     model="text-embedding-3-small", api_key=TOKEN, api_base_url=BASE)) rag.add_component("bm25",     InMemoryBM25Retriever(document_store=store, top_k=5)) rag.add_component("dense",    InMemoryEmbeddingRetriever(document_store=store, top_k=5)) rag.add_component("joiner",   DocumentJoiner(join_mode="reciprocal_rank_fusion")) rag.add_component("ranker",   TransformersSimilarityRanker(     model="cross-encoder/ms-marco-MiniLM-L-6-v2", top_k=3)) rag.add_component("prompt",   PromptBuilder(template=TEMPLATE)) rag.add_component("llm",      make_gen())  rag.connect("text_embedder.embedding", "dense.query_embedding") rag.connect("bm25.documents",          "joiner.documents") rag.connect("dense.documents",         "joiner.documents") rag.connect("joiner.documents",        "ranker.documents") rag.connect("ranker.documents",        "prompt.documents") rag.connect("prompt.prompt",           "llm.prompt")  # ── 3. Run Q&A ──────────────────────────────────────────────────────────────── test_pairs = [     ("What is Haystack and who built it?",      "Haystack is an NLP framework built by deepset."),     ("What is hybrid retrieval?",      "Hybrid retrieval combines BM25 and dense embedding search."),     ("What is deepset Cloud used for?",      "deepset Cloud is used for deploying Haystack pipelines."), ]  questions, ground_truths, answers, contexts = [], [], [], []  for q, gt in test_pairs:     res = rag.run({         "text_embedder": {"text": q},         "bm25":          {"query": q},         "ranker":        {"query": q},         "prompt":        {"question": q},     })     answer = res["llm"]["replies"][0]     docs   = res["ranker"]["documents"]     questions.append(q)     ground_truths.append(gt)     answers.append(answer)     contexts.append([d.content for d in docs])     print(f"Q: {q}\nA: {answer}\n")  # ── 4. Evaluation ───────────────────────────────────────────────────────────── print("=" * 60) print("EVALUATION") print("=" * 60)  # Faithfulness (LLM-based) faithfulness = FaithfulnessEvaluator(llm=make_chat_gen()) f_result = faithfulness.run(     questions=questions, contexts=contexts, responses=answers) print(f"Faithfulness score : {f_result['score']:.3f}")  # SAS (local, no API cost) sas = SASEvaluator(model="cross-encoder/stsb-roberta-base") sas.warm_up() sas_result = sas.run(predicted_answers=answers, ground_truth_answers=ground_truths) print(f"SAS score          : {sas_result['score']:.3f}")  # Per-question breakdown print("\nPer-question SAS scores:") for q, score in zip(questions, sas_result["individual_scores"]):     print(f"  [{score:.3f}] {q[:60]}")  # ── 5. Serialize pipeline ───────────────────────────────────────────────────── yaml_path = "production_rag_pipeline.yaml" with open(yaml_path, "w") as f:     rag.dump(f) print(f"\nPipeline serialized → {yaml_path}")  # Reload proof reloaded = Pipeline.load(open(yaml_path)) print(f"Reloaded pipeline components: {list(reloaded.graph.nodes)}") ```  ---  ## Quick Reference Cheat Sheet  ```python # Install # pip install haystack-ai sentence-transformers  # Core imports from haystack import Pipeline, Document, component from haystack.document_stores.in_memory import InMemoryDocumentStore  # Indexing pipeline skeleton store = InMemoryDocumentStore() idx = Pipeline() idx.add_component("cleaner",  DocumentCleaner()) idx.add_component("splitter", DocumentSplitter(split_by="word", split_length=150)) idx.add_component("embedder", SentenceTransformersDocumentEmbedder("all-MiniLM-L6-v2")) idx.add_component("writer",   DocumentWriter(document_store=store)) idx.connect("cleaner.documents",  "splitter.documents") idx.connect("splitter.documents", "embedder.documents") idx.connect("embedder.documents", "writer.documents")  # Query pipeline skeleton rag = Pipeline() rag.add_component("embedder",  SentenceTransformersTextEmbedder("all-MiniLM-L6-v2")) rag.add_component("retriever", InMemoryEmbeddingRetriever(document_store=store, top_k=3)) rag.add_component("prompt",    PromptBuilder(template="Context: {% for d in documents %}{{d.content}}{% endfor %}\nQ: {{question}}\nA:")) rag.add_component("llm",       HuggingFaceLocalGenerator("google/flan-t5-base")) rag.connect("embedder.embedding",  "retriever.query_embedding") rag.connect("retriever.documents", "prompt.documents") rag.connect("prompt.prompt",       "llm.prompt")  # Serialize / reload yaml_str = rag.dumps() rag2 = Pipeline.loads(yaml_str) ```  ---  *Guide generated for the EngX AI Coach curriculum — Haystack 2.x (deepset)</summary><div class="qa-a"></div></details>
+</main>
+</body>
+</html>

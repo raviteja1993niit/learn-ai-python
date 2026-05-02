@@ -1,0 +1,1609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transcript Notes Generator — Reference Guide</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #30363d;
+  --text: #c9d1d9;
+  --accent: #58a6ff;
+  --accent-dim: #1f3a5c;
+  --muted: #8b949e;
+  --code-bg: #1e2530;
+  --warning: #d29922;
+  --warning-bg: #2d2000;
+  --success: #3fb950;
+  --success-bg: #0d2a1a;
+  --danger: #f85149;
+  --danger-bg: #2d1111;
+  --info-bg: #0c1f38;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+/* ── SIDEBAR ─────────────────────────────────────────── */
+#sidebar {
+  position: fixed;
+  top: 0; left: 0;
+  width: 280px; height: 100vh;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  overflow-x: hidden;
+  z-index: 100;
+  padding-bottom: 32px;
+}
+#sidebar::-webkit-scrollbar { width: 4px; }
+#sidebar::-webkit-scrollbar-track { background: transparent; }
+#sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+.sidebar-header {
+  padding: 18px 16px 12px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 8px;
+}
+.sidebar-header h1 {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  line-height: 1.3;
+}
+.sidebar-header p {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+.nav-group { margin-bottom: 4px; }
+.nav-group-label {
+  display: block;
+  padding: 8px 16px 4px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--muted);
+}
+.nav-link {
+  display: block;
+  padding: 5px 16px;
+  font-size: 13px;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color .15s, background .15s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.nav-link:hover { color: var(--text); background: rgba(88,166,255,.06); }
+.nav-link.active { color: var(--accent); background: var(--accent-dim); font-weight: 600; }
+.nav-sub {
+  display: block;
+  padding: 3px 16px 3px 30px;
+  font-size: 12px;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color .15s;
+}
+.nav-sub:hover { color: var(--text); }
+.nav-sub.active { color: var(--accent); }
+
+/* ── MAIN CONTENT ────────────────────────────────────── */
+#main {
+  margin-left: 280px;
+  padding: 48px 56px 80px 56px;
+  max-width: 1060px;
+}
+
+/* ── TYPOGRAPHY ──────────────────────────────────────── */
+h1 { font-size: 2em; font-weight: 700; color: #e6edf3; margin-bottom: 8px; line-height: 1.2; }
+h2 { font-size: 1.45em; font-weight: 700; color: #e6edf3; margin: 40px 0 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+h3 { font-size: 1.15em; font-weight: 600; color: #cdd9e5; margin: 28px 0 10px; }
+h4 { font-size: .85em; font-weight: 600; color: var(--muted); margin: 20px 0 8px; text-transform: uppercase; letter-spacing: .04em; }
+p { margin-bottom: 14px; }
+ul, ol { margin: 0 0 14px 24px; }
+li { margin-bottom: 5px; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+strong { color: #e6edf3; font-weight: 600; }
+code {
+  background: var(--code-bg);
+  color: #79c0ff;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: .88em;
+}
+pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 18px 20px;
+  overflow-x: auto;
+  margin: 16px 0 20px;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: .85em;
+  line-height: 1.6;
+  color: #c9d1d9;
+}
+pre code { background: none; padding: 0; color: inherit; font-size: inherit; border-radius: 0; }
+hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+
+/* ── TABLES ──────────────────────────────────────────── */
+.table-wrap { overflow-x: auto; margin: 16px 0 24px; }
+table { width: 100%; border-collapse: collapse; font-size: .9em; }
+th {
+  background: var(--surface);
+  color: var(--text);
+  font-weight: 600;
+  padding: 9px 14px;
+  text-align: left;
+  border: 1px solid var(--border);
+}
+td {
+  padding: 8px 14px;
+  border: 1px solid var(--border);
+  vertical-align: top;
+}
+tr:nth-child(even) td { background: rgba(255,255,255,.025); }
+
+/* ── CALLOUTS ────────────────────────────────────────── */
+.callout {
+  border-radius: 6px;
+  padding: 14px 18px;
+  margin: 18px 0;
+  border-left: 4px solid;
+  font-size: .93em;
+}
+.callout-title { font-weight: 700; margin-bottom: 4px; font-size: .88em; text-transform: uppercase; letter-spacing: .05em; }
+.callout.info { background: var(--info-bg); border-color: var(--accent); }
+.callout.info .callout-title { color: var(--accent); }
+.callout.warning { background: var(--warning-bg); border-color: var(--warning); }
+.callout.warning .callout-title { color: var(--warning); }
+.callout.success { background: var(--success-bg); border-color: var(--success); }
+.callout.success .callout-title { color: var(--success); }
+.callout.danger { background: var(--danger-bg); border-color: var(--danger); }
+.callout.danger .callout-title { color: var(--danger); }
+
+/* ── STEP LIST ───────────────────────────────────────── */
+.step-list { list-style: none; margin: 16px 0 20px; padding: 0; counter-reset: steps; }
+.step-list li {
+  counter-increment: steps;
+  display: flex;
+  gap: 14px;
+  margin-bottom: 12px;
+  align-items: flex-start;
+}
+.step-list li::before {
+  content: counter(steps);
+  display: flex; align-items: center; justify-content: center;
+  min-width: 26px; height: 26px;
+  background: var(--accent-dim);
+  color: var(--accent);
+  border-radius: 50%;
+  font-size: .8em;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ── FILE HEADER ─────────────────────────────────────── */
+.file-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin-bottom: 20px;
+}
+.file-icon { font-size: 1.8em; flex-shrink: 0; }
+.file-meta h3 { margin: 0 0 2px; font-size: 1em; color: var(--accent); }
+.file-meta p { margin: 0; font-size: .85em; color: var(--muted); }
+
+/* ── CARD GRID ───────────────────────────────────────── */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 14px;
+  margin: 20px 0;
+}
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+}
+.card-title { font-size: .9em; font-weight: 700; color: var(--accent); margin-bottom: 4px; }
+.card-desc { font-size: .8em; color: var(--muted); line-height: 1.4; }
+
+/* ── ASCII FLOW ──────────────────────────────────────── */
+.flow-diagram {
+  background: #0a0e14;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px 22px;
+  overflow-x: auto;
+  margin: 16px 0 20px;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: .82em;
+  line-height: 1.55;
+  white-space: pre;
+  color: #c9d1d9;
+}
+.flow-diagram .ui { color: #79c0ff; }
+.flow-diagram .proc { color: #56d364; }
+.flow-diagram .io { color: #ffa657; }
+.flow-diagram .api { color: #f78166; }
+.flow-diagram .arrow { color: #8b949e; }
+
+/* ── PAGE HEADER ─────────────────────────────────────── */
+.page-header {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 24px;
+  margin-bottom: 40px;
+}
+.page-header .subtitle { color: var(--muted); font-size: .95em; margin-top: 6px; }
+.badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: .75em;
+  font-weight: 600;
+  background: var(--accent-dim);
+  color: var(--accent);
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+/* ── ANCHOR HELPERS ──────────────────────────────────── */
+.anchor-target {
+  display: block;
+  height: 70px;
+  margin-top: -70px;
+  visibility: hidden;
+}
+
+/* ── INLINE QUOTE ────────────────────────────────────── */
+blockquote {
+  border-left: 3px solid var(--accent);
+  padding: 10px 18px;
+  margin: 14px 0;
+  color: var(--muted);
+  font-style: italic;
+}
+blockquote strong { color: var(--text); }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════ SIDEBAR -->
+<nav id="sidebar">
+  <div class="sidebar-header">
+    <h1>📒 Transcript Notes Generator</h1>
+    <p>Reference Guide v1.3.0</p>
+  </div>
+
+  <div class="nav-group">
+    <span class="nav-group-label">Getting Started</span>
+    <a class="nav-link" href="#overview">🗺️ What This App Does</a>
+    <a class="nav-link" href="#prereqs">🔧 Prerequisites</a>
+    <a class="nav-link" href="#install">⬇️ Installation</a>
+    <a class="nav-link" href="#start-stop">▶️ Start &amp; Stop Service</a>
+  </div>
+
+  <div class="nav-group">
+    <span class="nav-group-label">Architecture</span>
+    <a class="nav-link" href="#architecture">🏗️ System Architecture</a>
+    <a class="nav-link" href="#flow-transcript">📝 Transcript → Markdown Flow</a>
+    <a class="nav-link" href="#flow-audio">🎙️ Audio → Markdown Flow</a>
+  </div>
+
+  <div class="nav-group">
+    <span class="nav-group-label">Source Files</span>
+    <a class="nav-link" href="#file-app">app.py</a>
+    <a class="nav-sub" href="#app-sidebar">↳ Sidebar &amp; Settings</a>
+    <a class="nav-sub" href="#app-tabs">↳ Tabs UI</a>
+    <a class="nav-sub" href="#app-helpers">↳ Helper Functions</a>
+    <a class="nav-link" href="#file-llm">src/llm.py</a>
+    <a class="nav-sub" href="#llm-token">↳ Token Resolution</a>
+    <a class="nav-sub" href="#llm-models">↳ Model Fetching</a>
+    <a class="nav-sub" href="#llm-chat">↳ Chat API Call</a>
+    <a class="nav-sub" href="#llm-retry">↳ Retry &amp; Error Handling</a>
+    <a class="nav-link" href="#file-processor">src/transcript_processor.py</a>
+    <a class="nav-sub" href="#proc-pipeline">↳ Pipeline Overview</a>
+    <a class="nav-sub" href="#proc-normalise">↳ Normalise &amp; Chunk</a>
+    <a class="nav-sub" href="#proc-extract">↳ Note Extraction</a>
+    <a class="nav-sub" href="#proc-compress">↳ Compression</a>
+    <a class="nav-sub" href="#proc-synth">↳ Final Synthesis</a>
+    <a class="nav-link" href="#file-transcriber">src/audio_transcriber.py</a>
+    <a class="nav-link" href="#file-recorder">src/system_audio_recorder.py</a>
+  </div>
+
+  <div class="nav-group">
+    <span class="nav-group-label">Features</span>
+    <a class="nav-link" href="#caching">💾 Disk Cache</a>
+    <a class="nav-sub" href="#checkpoints">↳ Run Snapshots / Resume</a>
+    <a class="nav-link" href="#models">🤖 Model Selection</a>
+    <a class="nav-link" href="#audio-sources">🎵 Audio Sources</a>
+    <a class="nav-link" href="#config">⚙️ Configuration Knobs</a>
+  </div>
+
+  <div class="nav-group">
+    <span class="nav-group-label">Operations</span>
+    <a class="nav-link" href="#log-guide">📋 Reading the Logs</a>
+    <a class="nav-link" href="#errors">❌ Error Reference</a>
+    <a class="nav-link" href="#troubleshoot">🔍 Troubleshooting</a>
+    <a class="nav-link" href="#folder-map">📁 Folder Map</a>
+    <a class="nav-link" href="#changelog">📋 Changelog</a>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════ MAIN -->
+<main id="main">
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <h1>Transcript Notes Generator</h1>
+    <p class="subtitle">Comprehensive Reference Guide &nbsp;<span class="badge">v1.1.0</span><span class="badge">Beginner Friendly</span></p>
+  </div>
+
+  <!-- ─────────────────────────────────── OVERVIEW -->
+  <span id="overview" class="anchor-target"></span>
+  <h2>🗺️ What This App Does</h2>
+  <p>A <strong>Streamlit web app</strong> that converts raw text transcripts (and audio recordings) into well-structured <strong>Markdown guides</strong> using GitHub Copilot AI models — completely <strong>free</strong>, with no paid API keys required.</p>
+  <blockquote><strong>Analogy:</strong> You paste a messy YouTube transcript and get back a polished study guide — with headings, tables, code blocks, and key takeaways — automatically.</blockquote>
+  <p>Key highlights:</p>
+  <ul>
+    <li>No paid API keys needed — uses your <strong>GitHub Copilot subscription</strong> via <code>gh auth token</code></li>
+    <li>Two tabs: <strong>📝 Transcript → Markdown</strong> and <strong>🎙️ Audio → Markdown</strong></li>
+    <li>Disk cache for repeated transcript chunks — no wasted API calls</li>
+    <li>Handles transcripts of any length via chunked pipeline with compression</li>
+  </ul>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Tab</th><th>Input</th><th>What Happens</th><th>Output</th></tr></thead>
+      <tbody>
+        <tr><td>📝 Transcript → Markdown</td><td>Paste text or upload <code>.txt</code></td><td>AI chunks + structures the content</td><td><code>.md</code> file download</td></tr>
+        <tr><td>🎙️ Audio → Markdown</td><td>Record system audio, mic, or upload audio file</td><td>Whisper transcribes locally → AI structures</td><td><code>.md</code> file download</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr>
+
+  <!-- ─────────────────────────────────── PREREQS -->
+  <span id="prereqs" class="anchor-target"></span>
+  <h2>🔧 Prerequisites</h2>
+  <p>Three things must be in place before you can run the app:</p>
+  <ol class="step-list">
+    <li><strong>Python 3.10+</strong> — Check with <code>python --version</code>. Download from <a href="https://python.org" target="_blank">python.org</a> if needed.</li>
+    <li><strong>GitHub CLI (<code>gh</code>) authenticated with Copilot</strong> — Install from <a href="https://cli.github.com" target="_blank">cli.github.com</a>, then run <code>gh auth login</code>.</li>
+    <li><strong>Python packages from requirements.txt</strong> — Installed in the Installation step below.</li>
+  </ol>
+
+  <div class="callout warning">
+    <div class="callout-title">⚠️ Windows Audio Capture Note</div>
+    System audio capture requires <code>pyaudiowpatch</code> and a WASAPI loopback-compatible audio driver. Most Intel, Realtek, and Conexant drivers work. AMD audio drivers sometimes don't expose a loopback device. If you can't capture system audio, use the Upload option instead.
+  </div>
+
+  <h3>Why <code>gh auth token</code>?</h3>
+  <p>Instead of paying for an API key, the app uses your existing <strong>GitHub Copilot subscription</strong>. The GitHub CLI stores your authentication token securely in your OS credential store. The app reads it with one command:</p>
+  <pre><code class="language-python">import subprocess
+token = subprocess.run(["gh", "auth", "token"], capture_output=True, text=True).stdout.strip()</code></pre>
+  <p>This is identical to how Copilot-powered editors authenticate — the same subscription, the same models, zero extra cost.</p>
+
+  <hr>
+
+  <!-- ─────────────────────────────────── INSTALL -->
+  <span id="install" class="anchor-target"></span>
+  <h2>⬇️ Installation</h2>
+  <ol class="step-list">
+    <li>Clone or download this repository to your machine.</li>
+    <li>Open a terminal in the project folder — the one containing <code>app.py</code>.</li>
+    <li>Install Python packages: <code>python -m pip install -r requirements.txt</code></li>
+    <li>Authenticate with GitHub CLI: <code>gh auth login</code> — follow the prompts to log in via browser.</li>
+    <li>Start the app: <code>streamlit run app.py</code></li>
+    <li>Open your browser at <a href="http://localhost:8501" target="_blank">http://localhost:8501</a></li>
+  </ol>
+
+  <div class="callout info">
+    <div class="callout-title">ℹ️ First-Time Audio Use</div>
+    The first time you use the Audio tab, Whisper downloads the <code>base</code> model (~145 MB). It is cached at <code>~/.cache/huggingface/hub/</code> — subsequent runs are instant. No internet connection required after the first download.
+  </div>
+
+  <h3>Package Reference</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Package</th><th>Version</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td><code>streamlit</code></td><td>≥ 1.32</td><td>Web UI framework — renders the browser interface</td></tr>
+        <tr><td><code>faster-whisper</code></td><td>≥ 1.0</td><td>Local audio transcription (CPU only — no GPU, no API key)</td></tr>
+        <tr><td><code>numpy</code></td><td>≥ 1.26</td><td>Audio sample math (stereo downmixing, array operations)</td></tr>
+        <tr><td><code>scipy</code></td><td>≥ 1.13</td><td>Audio resampling from 44.1 kHz to 16 kHz for Whisper</td></tr>
+        <tr><td><code>httpx</code></td><td>≥ 0.27</td><td>HTTP client for non-Windows Copilot API calls</td></tr>
+        <tr><td><code>pyaudiowpatch</code></td><td>≥ 0.2.12</td><td>WASAPI loopback — captures system audio output on Windows</td></tr>
+        <tr><td><code>soundcard</code></td><td>≥ 0.4.4</td><td>Listed in requirements; <code>pyaudiowpatch</code> is the active recorder</td></tr>
+        <tr><td><code>soundfile</code></td><td>≥ 0.12</td><td>Audio file I/O utilities</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr>
+
+  <!-- ─────────────────────────────────── START/STOP -->
+  <span id="start-stop" class="anchor-target"></span>
+  <h2>▶️ Start &amp; Stop the Service</h2>
+
+  <h3>Starting</h3>
+  <pre><code class="language-powershell">cd path\to\transcript-notes-generator
+streamlit run app.py</code></pre>
+  <p>Streamlit prints two URLs to the terminal:</p>
+  <pre><code>  Local URL:   http://localhost:8501
+  Network URL: http://192.168.x.x:8501</code></pre>
+  <p>The <strong>Local URL</strong> is for your machine. The <strong>Network URL</strong> lets other devices on the same WiFi open the app.</p>
+
+  <h3>Stopping</h3>
+  <p>Press <strong>Ctrl+C</strong> in the terminal where Streamlit is running. The process stops immediately.</p>
+
+  <h3>Running in the Background (Windows)</h3>
+  <pre><code class="language-powershell"># Minimized in a new terminal window
+Start-Process -WindowStyle Minimized -FilePath "streamlit" -ArgumentList "run app.py"</code></pre>
+
+  <h3>Checking if It's Running</h3>
+  <pre><code class="language-powershell"># Check for Python processes
+Get-Process | Where-Object { $_.ProcessName -like "*python*" }
+# Or just open http://localhost:8501 — if it loads, it's running</code></pre>
+
+  <h3>Changing the Port</h3>
+  <pre><code class="language-powershell">streamlit run app.py --server.port 8502</code></pre>
+
+  <hr>
+
+  <!-- ─────────────────────────────────── ARCHITECTURE -->
+  <span id="architecture" class="anchor-target"></span>
+  <h2>🏗️ System Architecture</h2>
+  <p>The app is split into five focused modules. <code>app.py</code> is the UI glue; everything else is pure Python business logic.</p>
+
+  <div class="flow-diagram"><span class="ui">┌─────────────────────────────────────────────────────────────┐
+│                   BROWSER (Streamlit UI)                    │
+│  Tab 1: Paste/Upload transcript  Tab 2: Record/Upload audio │
+└───────────────────┬─────────────────────┬───────────────────┘</span>
+                    │ text input           │ audio bytes
+                    ▼                      ▼
+<span class="proc">┌────────────────────────┐  ┌──────────────────────────────────┐
+│       app.py           │  │  src/system_audio_recorder.py    │
+│  (Streamlit UI glue)   │  │  (WASAPI loopback capture)       │
+└──────────┬─────────────┘  └──────────────┬───────────────────┘</span>
+           │                               │ WAV bytes
+           │                               ▼
+           │               <span class="io">┌──────────────────────────────────┐
+           │               │   src/audio_transcriber.py       │
+           │               │   (faster-whisper, CPU only)     │
+           │               └──────────────┬───────────────────┘</span>
+           │                               │ plain text
+           │◄──────────────────────────────┘
+           │ transcript text
+           ▼
+<span class="proc">┌─────────────────────────────────────────────────────────────┐
+│         src/transcript_processor.py                         │
+│  normalise → chunk → extract (cached) → compress → synth   │
+└───────────────────────┬─────────────────────────────────────┘</span>
+                        │ chat messages
+                        ▼
+<span class="io">┌─────────────────────────────────────────────────────────────┐
+│         src/llm.py                                          │
+│  PowerShell Invoke-RestMethod (Windows)                     │
+│  httpx (Linux/Mac)                                          │
+└───────────────────────┬─────────────────────────────────────┘</span>
+                        │ HTTPS POST
+                        ▼
+<span class="api">┌─────────────────────────────────────────────────────────────┐
+│  api.githubcopilot.com/chat/completions                     │
+│  FREE — uses your GitHub Copilot subscription               │
+└─────────────────────────────────────────────────────────────┘</span></div>
+
+  <h3>Module Summary</h3>
+  <div class="card-grid">
+    <div class="card"><div class="card-title">app.py</div><div class="card-desc">Streamlit UI — sidebar, two tabs, progress display, file download</div></div>
+    <div class="card"><div class="card-title">src/llm.py</div><div class="card-desc">GitHub Copilot API wrapper — token, models, chat(), retry logic</div></div>
+    <div class="card"><div class="card-title">src/transcript_processor.py</div><div class="card-desc">Core pipeline — normalise, chunk, extract, compress, synthesise</div></div>
+    <div class="card"><div class="card-title">src/audio_transcriber.py</div><div class="card-desc">faster-whisper wrapper — bytes in, plain text out, 100% offline</div></div>
+    <div class="card"><div class="card-title">src/system_audio_recorder.py</div><div class="card-desc">WASAPI loopback capture — records system audio output on Windows</div></div>
+  </div>
+
+  <hr>
+
+  <!-- ─────────────────────────────────── FLOW TRANSCRIPT -->
+  <span id="flow-transcript" class="anchor-target"></span>
+  <h2>📝 Transcript → Markdown Flow</h2>
+  <p>The pipeline has two branches depending on the transcript length. Short transcripts go straight to synthesis; long ones are chunked, cached, and locally compressed before a final synthesis call.</p>
+
+  <h3>Short Transcript (under 8,000 chars)</h3>
+  <div class="flow-diagram">User pastes text
+    │
+    ▼
+<span class="proc">_normalise()</span>         ← strips timestamps, speaker labels, collapses whitespace
+    │
+    ▼
+<span class="proc">_single_pass()</span>       ← one LLM call: full text + _SYNTHESIS_SYSTEM prompt
+    │
+    ▼
+<span class="io">✅ Structured Markdown</span></div>
+
+  <h3>Long Transcript (over 8,000 chars)</h3>
+  <div class="flow-diagram">User pastes text
+    │
+    ▼
+<span class="proc">_normalise()</span>         ← strips timestamps, speaker labels
+    │
+    ▼
+<span class="proc">_split_chunks()</span>      ← sentence-boundary splits into ~8,000-char pieces
+    │
+    ▼  [for each chunk]
+<span class="io">Check disk cache?</span>
+    ├── HIT  → load notes instantly  (no API call)
+    └── MISS → <span class="proc">_extract_notes()</span> via LLM → save to cache
+    │           + adaptive 2s pause between calls
+    │
+    ▼
+<span class="proc">_dedup_notes()</span>       ← removes exact duplicate bullet lines (15–30% reduction)
+    │
+    ▼  [if notes &gt; 16,000 chars]
+<span class="proc">_local_compress_notes()</span>   ← Python only, zero API calls → dedup + prioritise + trim
+<span class="proc">_compress_notes_batched()</span>  ← LLM fallback only if local compression isn't enough
+    │
+    ▼
+<span class="proc">_synthesise_from_notes()</span>   ← one final LLM call: structured Markdown
+    │
+    ▼
+<span class="io">✅ Structured Markdown</span></div>
+
+  <h3>The Three Prompts</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Constant</th><th>Instruction to AI</th><th>Used When</th></tr></thead>
+      <tbody>
+        <tr><td><code>_NOTES_SYSTEM</code></td><td>Extract bullet points: concepts, analogies, code, warnings, quotes, comparisons</td><td>Per-chunk note extraction</td></tr>
+        <tr><td><code>_COMPRESS_SYSTEM</code></td><td>Condense notes — remove repetition, keep every unique concept intact</td><td>Compression batches (when notes too large)</td></tr>
+        <tr><td><code>_SYNTHESIS_SYSTEM</code></td><td>Write structured Markdown with H1/H2/H3, tables, code blocks, Key Takeaways</td><td>Final synthesis call</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr>
+
+  <!-- ─────────────────────────────────── FLOW AUDIO -->
+  <span id="flow-audio" class="anchor-target"></span>
+  <h2>🎙️ Audio → Markdown Flow</h2>
+  <p>Three audio sources funnel into the same transcription step, then hand off to the transcript pipeline.</p>
+  <div class="flow-diagram"><span class="ui">┌──────────────────────┐  ┌──────────────────────┐  ┌──────────────────────┐
+│  🖥️ System Audio     │  │  🎤 Microphone        │  │  📁 Upload File      │
+│  WASAPI loopback     │  │  Browser WebRTC       │  │  WAV/MP3/M4A/OGG/    │
+│  pyaudiowpatch       │  │  st.audio_input()     │  │  FLAC/WebM           │
+└──────────┬───────────┘  └──────────┬────────────┘  └──────────┬───────────┘</span>
+           │ WAV bytes               │ WebM bytes                │ raw audio bytes
+           └─────────────────────────┴───────────────────────────┘
+                                     │
+                                     ▼
+<span class="io">┌─────────────────────────────────────────────────────────────┐
+│         src/audio_transcriber.py                            │
+│         transcribe_bytes(audio_bytes, language, model)      │
+│                                                             │
+│  1. Write bytes to temp file                                │
+│  2. faster-whisper inference (beam_size=5, VAD filter)      │
+│  3. Collect + join segments                                 │
+│  4. Delete temp file                                        │
+└───────────────────────┬─────────────────────────────────────┘</span>
+                        │ plain text transcript
+                        ▼
+<span class="proc">┌─────────────────────────────────────────────────────────────┐
+│         src/transcript_processor.py                         │
+│         (same pipeline as transcript tab — see above)       │
+└─────────────────────────────────────────────────────────────┘</span>
+                        │
+                        ▼
+<span class="io">              ✅ Structured Markdown</span></div>
+
+  <hr>
+
+  <!-- ─────────────────────────────────── FILE: app.py -->
+  <span id="file-app" class="anchor-target"></span>
+  <h2>app.py</h2>
+  <div class="file-header">
+    <div class="file-icon">🖥️</div>
+    <div class="file-meta">
+      <h3>app.py</h3>
+      <p>Main entry point &nbsp;·&nbsp; ~504 lines &nbsp;·&nbsp; Streamlit UI code only — no business logic</p>
+    </div>
+  </div>
+  <p><code>app.py</code> is the <strong>"manager"</strong> — it renders the browser interface and delegates all real work to the other modules. It never directly calls the Copilot API; it calls <code>transcript_processor.process()</code> and <code>audio_transcriber.transcribe_bytes()</code>.</p>
+
+  <!-- Sidebar & Settings -->
+  <span id="app-sidebar" class="anchor-target"></span>
+  <h3>Sidebar &amp; Settings</h3>
+  <p>The sidebar is rendered first on every Streamlit rerun. It performs these steps in order:</p>
+  <ol class="step-list">
+    <li><strong>Token check</strong> — calls <code>get_gh_token()</code>. If no token is found: shows a red error message and calls <code>st.stop()</code> to halt rendering.</li>
+    <li><strong>Model list</strong> — calls <code>get_available_models(token)</code> which fetches the live model list from GitHub's API once per session. Speed hint labels (⚡ fast, ⚖️ balanced, 🧠 powerful) are appended.</li>
+    <li><strong>Model persistence fix</strong> — reads <code>st.session_state["selected_model"]</code> to preserve the user's last choice across reruns.</li>
+    <li><strong>Temperature slider</strong> — 0.0 (focused, deterministic) to 1.0 (creative, varied). Default 0.3.</li>
+    <li><strong>Cache controls</strong> — a checkbox to enable/disable the disk cache, stats showing entry count + disk usage, and a Clear button.</li>
+    <li><strong>Synthesis model override</strong> — an advanced expander allowing a different (usually more powerful) model for the final synthesis step only.</li>
+    <li><strong>Whisper model selector</strong> — tiny / base / small / medium, with speed and accuracy hints.</li>
+  </ol>
+
+  <h4>Why Model Selection Used to Reset — and How It's Fixed</h4>
+  <p>Streamlit reruns the entire <code>app.py</code> on every button click. Without a fix, the selectbox recalculates <code>default_idx</code> from <code>DEFAULT_MODEL</code> every time — resetting the user's choice.</p>
+  <pre><code class="language-python"># Before rendering the selectbox, read the previously saved choice:
+saved_model = st.session_state.get("selected_model", copilot_llm.DEFAULT_MODEL)
+default_idx = model_names.index(saved_model) if saved_model in model_names else 0
+
+model_choice = st.selectbox("Model", model_names, index=default_idx)
+
+# After the selectbox renders, save the current choice:
+st.session_state["selected_model"] = model_choice</code></pre>
+
+  <!-- Tabs UI -->
+  <span id="app-tabs" class="anchor-target"></span>
+  <h3>Tabs UI</h3>
+  <p><strong>Tab 1 — Transcript → Markdown</strong> has two input modes:</p>
+  <ul>
+    <li><strong>Upload .txt</strong>: <code>st.file_uploader</code> accepts a <code>.txt</code> file, decodes it as UTF-8, and derives the slug from the filename.</li>
+    <li><strong>Paste text</strong>: <code>st.text_area</code> for free-form paste + a manual slug text input.</li>
+  </ul>
+  <p><strong>Tab 2 — Audio → Markdown</strong> has three audio source options:</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Source</th><th>Mechanism</th><th>Output Format</th></tr></thead>
+      <tbody>
+        <tr><td>🖥️ System Audio</td><td>WASAPI loopback via <code>system_audio_recorder</code></td><td>WAV 16 kHz mono bytes</td></tr>
+        <tr><td>🎤 Microphone</td><td>Browser WebRTC (<code>st.audio_input()</code>)</td><td>WebM bytes</td></tr>
+        <tr><td>📁 Upload</td><td>File picker — WAV / MP3 / M4A / OGG / FLAC / WebM</td><td>Raw audio bytes</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Helper Functions -->
+  <span id="app-helpers" class="anchor-target"></span>
+  <h3>Helper Functions</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Function</th><th>What It Does</th></tr></thead>
+      <tbody>
+        <tr><td><code>_save_and_download(md_content, slug)</code></td><td>Saves the Markdown string to <code>output/md-files/{slug}-guide-{date}.md</code> and renders an <code>st.download_button</code>.</td></tr>
+        <tr><td><code>_generate_and_show(transcript_text, slug)</code></td><td>Runs the full pipeline with a <code>on_progress</code> callback to show a live progress bar, then shows preview + raw code side-by-side.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr>
+
+  <!-- ─────────────────────────────────── FILE: llm.py -->
+  <span id="file-llm" class="anchor-target"></span>
+  <h2>src/llm.py</h2>
+  <div class="file-header">
+    <div class="file-icon">🤖</div>
+    <div class="file-meta">
+      <h3>src/llm.py</h3>
+      <p>GitHub Copilot API wrapper &nbsp;·&nbsp; ~353 lines</p>
+    </div>
+  </div>
+  <p>The <strong>"messenger"</strong> — takes your chat messages and delivers them to GitHub's servers, handling all network complexity: token retrieval, model listing, platform differences (Windows vs Linux), and retry logic.</p>
+
+  <!-- Token Resolution -->
+  <span id="llm-token" class="anchor-target"></span>
+  <h3>Token Resolution</h3>
+  <p><code>get_gh_token()</code> checks two places in order:</p>
+  <pre><code class="language-python">def get_gh_token() -> str:
+    # 1. Check environment variable (useful in CI/CD or Docker)
+    if token := os.environ.get("GITHUB_TOKEN", ""):
+        return token
+    # 2. Ask the GitHub CLI tool (standard desktop usage)
+    result = subprocess.run(
+        ["gh", "auth", "token"],
+        capture_output=True, text=True, timeout=10
+    )
+    return result.stdout.strip()</code></pre>
+
+  <!-- Model Fetching -->
+  <span id="llm-models" class="anchor-target"></span>
+  <h3>Model Fetching</h3>
+  <p>Available models are fetched live from <code>https://api.githubcopilot.com/models</code> once per Python process (module-level cache).</p>
+  <pre><code class="language-python">COPILOT_MODELS: list[str] = []  # module-level cache — empty until first call
+
+def get_available_models(token: str) -> list[str]:
+    if COPILOT_MODELS:           # already fetched — return immediately
+        return COPILOT_MODELS
+    # ... fetch from API, deduplicate, sort by capability, cache in COPILOT_MODELS ...
+    return COPILOT_MODELS</code></pre>
+  <p>Post-fetch processing:</p>
+  <ul>
+    <li><strong><code>_dedupe_by_version()</code></strong>: groups model aliases by their <code>version</code> field, keeps the shortest clean ID (e.g., <code>gpt-5-mini</code> instead of <code>gpt-5-mini-2025-01-15</code>).</li>
+    <li><strong>Filters out</strong> <code>text-embedding-*</code> (search models, not chat) and <code>*-1m</code> (internal/restricted).</li>
+    <li>Models are sorted: fast first, then balanced, then powerful, then code-specialist.</li>
+  </ul>
+
+  <!-- Chat API Call -->
+  <span id="llm-chat" class="anchor-target"></span>
+  <h3>Chat API Call</h3>
+  <pre><code class="language-python">def chat(
+    messages: list[dict[str, str]],  # [{"role": "system", "content": "..."}, ...]
+    model: str = DEFAULT_MODEL,      # "gpt-5-mini" by default
+    temperature: float = 0.3,        # creativity level (0 = focused, 1 = creative)
+    max_retries: int = 4,            # retry on transient failures
+) -> str:
+    # On Windows:   use PowerShell's Invoke-RestMethod
+    #               (works behind corporate SSL-inspecting proxies)
+    # On Linux/Mac: use httpx
+    #               (pure Python, no subprocess overhead)
+    ...</code></pre>
+
+  <h4>Why PowerShell on Windows?</h4>
+  <p>Corporate environments often deploy SSL inspection proxies. Python's <code>ssl</code> module uses its own certificate bundle and <em>doesn't</em> trust the corporate CA certificate — causing <code>SSLError</code>. PowerShell's <code>Invoke-RestMethod</code> uses the <strong>Windows certificate store</strong>, which automatically includes the corporate CA. Result: it works where <code>httpx</code> fails.</p>
+
+  <h4>Temp File Trick</h4>
+  <p>The request body is written to a temporary <code>.json</code> file rather than passed as an inline string. This avoids PowerShell's apostrophe/quote escaping nightmare when transcript text contains single quotes.</p>
+
+  <!-- Retry Logic -->
+  <span id="llm-retry" class="anchor-target"></span>
+  <h3>Retry &amp; Error Handling</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Error</th><th>What It Means</th><th>Behavior</th></tr></thead>
+      <tbody>
+        <tr><td>HTTP 403</td><td>Copilot <strong>rate limit</strong> (confusingly named Forbidden)</td><td>Wait 60 seconds + retry (up to 4 times total)</td></tr>
+        <tr><td>HTTP 413</td><td>Payload too large — context window exceeded</td><td>Raise immediately — retrying won't help; chunk is too big</td></tr>
+        <tr><td>HTTP 429, 503</td><td>Standard rate limit or service unavailable</td><td>Exponential backoff: <code>1.5 × attempt</code> seconds</td></tr>
+        <tr><td>Other errors</td><td>Network glitch, timeout, unexpected response</td><td>Exponential backoff: <code>2^attempt + jitter</code> seconds</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr>
+
+  <!-- ─────────────────────────────────── FILE: transcript_processor.py -->
+  <span id="file-processor" class="anchor-target"></span>
+  <h2>src/transcript_processor.py</h2>
+  <div class="file-header">
+    <div class="file-icon">⚙️</div>
+    <div class="file-meta">
+      <h3>src/transcript_processor.py</h3>
+      <p>Core pipeline &nbsp;·&nbsp; ~409 lines &nbsp;·&nbsp; Most complex file in the project</p>
+    </div>
+  </div>
+  <p>Takes raw messy text through a <strong>multi-stage pipeline</strong> to produce structured Markdown. Handles transcripts of any length via adaptive chunking, caching, and compression.</p>
+
+  <!-- Pipeline Overview -->
+  <span id="proc-pipeline" class="anchor-target"></span>
+  <h3>Public API: <code>process()</code></h3>
+  <pre><code class="language-python">def process(
+    raw_text: str,               # your transcript (any length)
+    model: str = "gpt-5-mini",  # which AI model to use for extraction
+    temperature: float = 0.3,   # creativity (0 = focused, 1 = creative)
+    on_progress = None,          # callback(fraction, message) for UI progress bar
+    use_cache: bool = True,      # use disk cache for repeated chunks
+    synthesis_model = None,      # optional: different model for final synthesis
+) -> str:
+    # Returns: structured Markdown string ready for download</code></pre>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Parameter</th><th>Typical Value</th><th>Effect</th></tr></thead>
+      <tbody>
+        <tr><td><code>raw_text</code></td><td>Any transcript</td><td>The input — can be any length</td></tr>
+        <tr><td><code>model</code></td><td><code>gpt-5-mini</code></td><td>Used for chunk extraction and (if not overridden) synthesis</td></tr>
+        <tr><td><code>temperature</code></td><td>0.3</td><td>Lower = more factual; higher = more creative paraphrasing</td></tr>
+        <tr><td><code>synthesis_model</code></td><td><code>None</code> or <code>gpt-5.5</code></td><td>If set, uses a different (usually more powerful) model for the final synthesis step only</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Normalise & Chunk -->
+  <span id="proc-normalise" class="anchor-target"></span>
+  <h3>Normalise &amp; Chunk</h3>
+  <p><code>_normalise()</code> cleans the raw transcript before any AI processing:</p>
+  <pre><code class="language-python">def _normalise(text: str) -> str:
+    # Remove YouTube timestamps like "0:32" or "1:23:45"
+    text = re.sub(r'\b\d{1,2}:\d{2}(?::\d{2})?\b', '', text)
+    # Remove "Speaker 1:" or "John:" or "[Host]:" labels
+    text = re.sub(r'^\[?[A-Za-z][A-Za-z0-9 ]{0,30}\]?\s*:\s*', '', text, flags=re.MULTILINE)
+    # Collapse multiple spaces, tabs, and newlines into single spaces
+    text = re.sub(r'\s+', ' ', text)
+    return text.strip()</code></pre>
+  <p><code>_split_chunks()</code> splits the normalised text at <strong>sentence boundaries</strong> into pieces of approximately <code>_CHUNK_SIZE</code> characters (default <strong>15,000</strong> — halves API calls vs the old 8,000).</p>
+  <div class="callout info">
+    <div class="callout-title">ℹ️ Why 8,000 Characters?</div>
+    8,000 chars ≈ 2,000 tokens — fits comfortably within the model's context window while keeping API calls manageable. The old value was 3,000 characters, which produced 99 chunks for a 1-hour transcript. At 8,000, that's ~37 chunks — a <strong>3× speedup</strong> with no quality loss.
+  </div>
+
+  <!-- Note Extraction -->
+  <span id="proc-extract" class="anchor-target"></span>
+  <h3>Note Extraction</h3>
+  <p><code>_extract_notes()</code> sends each chunk to the LLM with the <code>_NOTES_SYSTEM</code> prompt, which instructs the AI to extract bullet-point notes covering concepts, analogies, code, warnings, quotes, and comparisons.</p>
+  <p><strong>Example output for a Docker chunk:</strong></p>
+  <pre><code>- Docker containers share the host OS kernel — unlike VMs which each have their own OS
+- Analogy: containers are like shipping containers — standard interface, any contents
+- docker run -d -p 80:80 nginx — runs Nginx in background, maps port 80
+- Warning: data inside a container is lost when it stops — use volumes for persistence
+- containers start in ~100ms; VMs take minutes</code></pre>
+
+  <h4>Adaptive Delay Logic</h4>
+  <pre><code class="language-python"># If a call took > 30 seconds (likely hit a rate-limit retry), back off:
+if call_elapsed > 30:
+    delay = min(delay * 1.5, _INTER_CHUNK_DELAY_MAX)
+# If 3 consecutive fast calls, speed up again:
+elif fast_streak >= 3 and delay > _INTER_CHUNK_DELAY_BASE:
+    delay = max(delay * 0.75, _INTER_CHUNK_DELAY_BASE)</code></pre>
+
+  <p><code>_dedup_notes()</code> removes exact duplicate bullet lines across all chunks. Typical reduction: <strong>15–30%</strong> (introductory topics often re-explained multiple times in long videos).</p>
+
+  <!-- Compression -->
+  <span id="proc-compress" class="anchor-target"></span>
+  <h3>Compression</h3>
+  <p>
+    When combined notes exceed <code>_MAX_SYNTHESIS_CHARS</code> (<strong>80,000 chars</strong>),
+    <strong>local Python compression runs first — zero API calls</strong>.
+    <code>_local_compress_notes()</code> deduplicates near-identical bullets, truncates verbose lines,
+    and proportionally trims with priority given to code, warnings, and quotes.
+    Only if notes still exceed 80k after local compression does it fall back to
+    <code>_compress_notes_batched()</code> (LLM calls — rare).
+  </p>
+  <div class="flow-diagram">all_notes (16 chunk-notes, e.g. 101k chars)
+    │
+    ▼  [_local_compress_notes() — Python only, ~instant]
+  1. Deduplicate near-identical bullets across all chunks
+  2. Prioritise: code (4) > warnings (3) > quotes (2) > bullets (1)
+  3. Truncate lines &gt; 200 chars
+  4. Budget-trim each chunk proportionally to hit target
+    │
+    ▼  [result e.g. 45k chars — under 80k limit]
+  sent to _synthesise_from_notes()
+
+  [LLM fallback — only if &gt;80k after local compression]
+  Batch 1 (chunks 1–5)  → LLM compress → summary_1
+  Batch 2 (chunks 6–10) → LLM compress → summary_2  …</div>
+
+
+  <!-- Final Synthesis -->
+  <span id="proc-synth" class="anchor-target"></span>
+  <h3>Final Synthesis</h3>
+  <p><code>_synthesise_from_notes()</code> sends the (optionally compressed) notes to the LLM with the <code>_SYNTHESIS_SYSTEM</code> prompt — one single call that produces the complete Markdown document.</p>
+  <p>Rules the AI follows from <code>_SYNTHESIS_SYSTEM</code>:</p>
+  <ul>
+    <li>Exactly ONE H1: <code># {Topic} — A Complete Guide</code></li>
+    <li>H2 major sections, H3 sub-topics, H4 details — never skip levels</li>
+    <li>Tables <em>only</em> where the source compares or lists multiple items</li>
+    <li>ASCII diagrams <em>only</em> where flows or architectures are described</li>
+    <li>Code blocks <em>only</em> where real code appeared in the transcript</li>
+    <li>Key Takeaways section at the end</li>
+    <li><strong>No invented content</strong> — only what was in the transcript</li>
+  </ul>
+
+  <h4>Configuration Constants</h4>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Constant</th><th>Default</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td><code>_PIPELINE_VERSION</code></td><td><code>"1"</code></td><td>Cache invalidation key — bump to force full re-run on all cached chunks</td></tr>
+        <tr><td><code>_SINGLE_PASS_THRESHOLD</code></td><td><code>8_000</code></td><td>Max chars before switching from single-pass to chunked pipeline</td></tr>
+        <tr><td><code>_CHUNK_SIZE</code></td><td><code>15_000</code></td><td>Target chunk size in characters — 1-hr transcript ≈ 16 chunks (was 8k = 29 chunks)</td></tr>
+        <tr><td><code>_MAX_SYNTHESIS_CHARS</code></td><td><code>80_000</code></td><td>Notes size limit before compression — gpt-5-mini has 128k context, 80k chars ≈ 20k tokens</td></tr>
+        <tr><td><code>_LOCAL_COMPRESS_TARGET</code></td><td><code>70_000</code></td><td>Target for local Python compressor (below <code>_MAX_SYNTHESIS_CHARS</code> with buffer)</td></tr>
+        <tr><td><code>_COMPRESS_BATCH</code></td><td><code>5</code></td><td>Chunks per LLM compression call (fallback only — rarely triggered)</td></tr>
+        <tr><td><code>_INTER_CHUNK_DELAY_BASE</code></td><td><code>2.0s</code></td><td>Starting pause between chunk extraction calls</td></tr>
+        <tr><td><code>_INTER_CHUNK_DELAY_MAX</code></td><td><code>10.0s</code></td><td>Maximum pause ceiling (under heavy rate limiting)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr>
+
+  <!-- ─────────────────────────────────── FILE: audio_transcriber.py -->
+  <span id="file-transcriber" class="anchor-target"></span>
+  <h2>src/audio_transcriber.py</h2>
+  <div class="file-header">
+    <div class="file-icon">🎤</div>
+    <div class="file-meta">
+      <h3>src/audio_transcriber.py</h3>
+      <p>faster-whisper wrapper &nbsp;·&nbsp; ~104 lines &nbsp;·&nbsp; 100% offline — no API key, no GPU</p>
+    </div>
+  </div>
+  <p><strong>Whisper</strong> is OpenAI's open-source speech recognition model. <strong>faster-whisper</strong> is a reimplementation using CTranslate2 — it requires no PyTorch installation and runs efficiently on CPU. The first run downloads the model weights; all subsequent runs are instant.</p>
+
+  <h3>Whisper Model Comparison</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Model</th><th>Download Size</th><th>Speed</th><th>Accuracy</th><th>Best For</th></tr></thead>
+      <tbody>
+        <tr><td><code>tiny</code></td><td>~75 MB</td><td>⚡⚡⚡ Fastest</td><td>⭐⭐</td><td>Quick drafts, noisy audio where speed matters more</td></tr>
+        <tr><td><code>base</code> (default)</td><td>~145 MB</td><td>⚡⚡ Fast</td><td>⭐⭐⭐</td><td>Good balance for most everyday transcription</td></tr>
+        <tr><td><code>small</code></td><td>~465 MB</td><td>⚡ Moderate</td><td>⭐⭐⭐⭐</td><td>Technical content, accented speech, multiple speakers</td></tr>
+        <tr><td><code>medium</code></td><td>~1.5 GB</td><td>🐌 Slow</td><td>⭐⭐⭐⭐⭐</td><td>High accuracy required, long-form professional content</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>How <code>transcribe_bytes()</code> Works</h3>
+  <ol class="step-list">
+    <li><strong>Load model</strong> — first call downloads weights to <code>~/.cache/huggingface/hub/</code>; subsequent calls reuse the Python object stored in <code>_model_cache</code>.</li>
+    <li><strong>Write to temp file</strong> — faster-whisper requires a file path (not raw bytes), so bytes are written to a temporary file.</li>
+    <li><strong>Run inference</strong> — <code>beam_size=5</code> for quality + VAD filter to skip silent gaps.</li>
+    <li><strong>Collect segments</strong> — all segment texts are joined with spaces to form the full transcript.</li>
+    <li><strong>Cleanup</strong> — temp file is deleted; if the result is empty, a <code>RuntimeError</code> is raised so the UI can show a helpful message.</li>
+  </ol>
+
+  <h4>VAD Filter</h4>
+  <p>The Voice Activity Detection filter skips silent gaps ≥ 500 ms. This is especially useful for system audio recordings with pauses between video sections — it prevents Whisper from hallucinating content during silence.</p>
+
+  <h4>Language Parameter</h4>
+  <p>Default is <code>None</code> = auto-detect from the first 30 seconds. Setting an explicit code like <code>"en"</code> is <strong>faster</strong> (skips detection) and <strong>more accurate</strong> (Whisper doesn't waste probability mass on other languages).</p>
+
+  <hr>
+
+  <!-- ─────────────────────────────────── FILE: system_audio_recorder.py -->
+  <span id="file-recorder" class="anchor-target"></span>
+  <h2>src/system_audio_recorder.py</h2>
+  <div class="file-header">
+    <div class="file-icon">🖥️</div>
+    <div class="file-meta">
+      <h3>src/system_audio_recorder.py</h3>
+      <p>WASAPI loopback capture &nbsp;·&nbsp; ~234 lines &nbsp;·&nbsp; Windows only</p>
+    </div>
+  </div>
+  <blockquote><strong>Answers the question:</strong> how do I record a YouTube video playing on my laptop?<br>Regular microphone = room sounds. WASAPI loopback = the exact digital audio sent to your speakers.</blockquote>
+
+  <h3>Why WASAPI Loopback?</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Method</th><th>What It Records</th><th>Quality</th><th>Requirements</th></tr></thead>
+      <tbody>
+        <tr><td>🎤 Microphone</td><td>Room sounds, your voice, keyboard noise</td><td>Depends on room acoustics</td><td>Nothing extra</td></tr>
+        <tr><td>🖥️ WASAPI Loopback</td><td>The digital audio signal sent to speakers</td><td>Perfect — no room noise</td><td><code>pyaudiowpatch</code> + compatible driver</td></tr>
+        <tr><td>🔀 Stereo Mix</td><td>Same as loopback (driver-level)</td><td>Perfect</td><td>Driver must expose Stereo Mix (not all laptops)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Threading Model</h3>
+  <p>Module-level variables are used so the recording state <strong>survives Streamlit reruns</strong> (each button click reruns <code>app.py</code>, but the module stays loaded):</p>
+  <pre><code class="language-python"># These live at module level — survive Streamlit reruns
+_stop_event:   threading.Event  = threading.Event()
+_audio_frames: list[bytes]      = []
+_record_thread: Optional[Thread] = None
+_record_meta:   dict            = {}   # stores sample_rate + channels
+_lock = threading.Lock()               # thread-safe access to _audio_frames</code></pre>
+
+  <h3>Public API</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Function</th><th>Description</th><th>Returns</th></tr></thead>
+      <tbody>
+        <tr><td><code>list_loopback_devices()</code></td><td>Lists all WASAPI loopback-capable devices</td><td><code>[(index, name), ...]</code></td></tr>
+        <tr><td><code>default_loopback_device()</code></td><td>Returns the system default audio output loopback device</td><td><code>(index, name)</code> or <code>None</code></td></tr>
+        <tr><td><code>start_recording(device_index)</code></td><td>Starts background thread — captures audio frames continuously</td><td>Nothing (side effect)</td></tr>
+        <tr><td><code>stop_recording()</code></td><td>Signals thread to stop; waits for it to finish; processes raw frames</td><td>WAV bytes (16-bit, 16 kHz, mono)</td></tr>
+        <tr><td><code>is_recording()</code></td><td>Checks if recording thread is alive</td><td><code>bool</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Audio Processing in <code>_to_wav_bytes()</code></h3>
+  <ol class="step-list">
+    <li><strong>Parse samples</strong> — raw bytes are <code>int16</code>; NumPy reshapes to <code>[sample, channel]</code> array.</li>
+    <li><strong>Downmix to mono</strong> — stereo averaged: <code>mono = audio.mean(axis=1)</code></li>
+    <li><strong>Resample to 16 kHz</strong> — SciPy <code>resample_poly</code> converts 44.1 kHz → 16 kHz (Whisper requires 16 kHz).</li>
+    <li><strong>Write WAV header</strong> — 44-byte RIFF/WAV header prepended; result is a valid <code>.wav</code> file in memory.</li>
+  </ol>
+
+  <div class="callout warning">
+    <div class="callout-title">⚠️ No Loopback Devices Found?</div>
+    This can happen with AMD audio drivers (less reliable loopback support), Bluetooth-only audio output, or virtual machines. <strong>Workaround:</strong> use the Upload option instead, or enable <em>Stereo Mix</em> in Windows Sound Settings → Recording tab → right-click empty area → "Show disabled devices".
+  </div>
+
+  <hr>
+
+  <!-- ─────────────────────────────────── CACHING -->
+  <span id="caching" class="anchor-target"></span>
+  <h2>💾 Disk Cache</h2>
+  <p>Processing a 1-hour transcript = ~37 API calls. Re-running the same transcript would waste 10 minutes and repeat all those calls. The disk cache prevents this by storing each chunk's extracted notes on disk after the first run.</p>
+  <blockquote><strong>Analogy:</strong> Like a homework answer sheet — the first time you solve a problem, write down the answer. Next time you see the same problem, just look it up.</blockquote>
+
+  <h3>Cache Key Design</h3>
+  <pre><code class="language-python"># SHA-256 hash of everything that affects the output
+raw = f"{chunk_text}|{model}|{temperature:.4f}|{first_64_chars_of_prompt}|v{PIPELINE_VERSION}"
+key = hashlib.sha256(raw.encode()).hexdigest()
+# Result: 64-char hex like "a3f8b2c1d4e5f6a7b8c9..."</code></pre>
+  <p>Any change to any of these inputs produces a completely different hash → cache miss → fresh API call:</p>
+  <ul>
+    <li>The chunk text itself (different transcript = different notes)</li>
+    <li>The model name (<code>gpt-5-mini</code> vs <code>claude-sonnet</code> = different notes)</li>
+    <li>The temperature value</li>
+    <li>The extraction prompt (bump <code>_PIPELINE_VERSION</code> to invalidate all existing cache)</li>
+  </ul>
+
+  <h3>Cache File Location</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Path</th><th>Contents</th></tr></thead>
+      <tbody>
+        <tr><td><code>output/cache/{sha256hash}.json</code></td><td><code>{"notes": "...", "pipeline_version": "1"}</code> — per-chunk extraction result</td></tr>
+        <tr><td><code>output/cache/runs/{run_key}.json</code></td><td>Pipeline run-state snapshot; stage = <code>extracting</code> / <code>compressing</code> / <code>synthesising</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Cache Controls in the Sidebar</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Control</th><th>Effect</th></tr></thead>
+      <tbody>
+        <tr><td>☑ Use cache checkbox (ON by default)</td><td>Enables both cache reads (skip API calls) and cache writes (save new results)</td></tr>
+        <tr><td>📦 N entries · X KB stats</td><td>Shows how many JSON files are in <code>output/cache/</code> and total disk usage</td></tr>
+        <tr><td>🗑️ Clear cache button</td><td>Deletes all <code>.json</code> files in <code>output/cache/</code> — next run calls API for everything</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>When to Clear the Cache</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Situation</th><th>Action</th></tr></thead>
+      <tbody>
+        <tr><td>You changed the extraction prompt in <code>_NOTES_SYSTEM</code></td><td>Bump <code>_PIPELINE_VERSION</code> in the code, OR clear manually</td></tr>
+        <tr><td>You think a chunk was extracted poorly</td><td>Clear cache + re-run (next run will call API fresh)</td></tr>
+        <tr><td>Disk space concern</td><td>Clear cache (typically only a few MB total for most transcripts)</td></tr>
+        <tr><td>Comparing output quality between two models</td><td>Don't clear — use the <em>Synthesis model override</em> option instead</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr>
+
+  <!-- ─────────────────────────────────── RUN SNAPSHOTS -->
+  <span id="checkpoints" class="anchor-target"></span>
+  <h2>♻️ Run Snapshots &amp; Resume</h2>
+  <div class="section-body">
+    <p>
+      When processing a long transcript (e.g. 29 chunks), a <strong>403 rate-limit error on chunk 15</strong>
+      used to discard all progress. The next run would start over — re-extracting all 29 chunks (14 already
+      in cache, 15 new API calls). Run snapshots fix this permanently.
+    </p>
+    <p>
+      Additionally, when a 403 occurs, the UI now shows a <strong>countdown during the retry wait</strong>
+      ("⏳ Rate limited (403) — retry 1/2 in 55s…") and a clear <strong>snapshot-saved message</strong>
+      if all retries are exhausted ("💾 Snapshot saved — wait ~60s, click ▶ Process to resume from chunk 15").
+    </p>
+
+    <h3>How It Works</h3>
+    <p>
+      After every successful event in the pipeline, a small JSON checkpoint is written atomically to
+      <code>output/cache/runs/{run_key}.json</code>. If the process dies at any point, the next run
+      detects the snapshot and jumps directly to the right stage:
+    </p>
+
+    <table>
+      <thead><tr><th>Snapshot Stage</th><th>Saved When</th><th>On Resume</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><code>"extracting"</code></td>
+          <td>After every chunk extraction (API call or cache hit)</td>
+          <td>Reloads notes for completed chunks from chunk cache; resumes extraction loop from <em>next</em> chunk</td>
+        </tr>
+        <tr>
+          <td><code>"compressing"</code></td>
+          <td>After every compression batch</td>
+          <td>Skips extraction entirely; resumes compression from the next unfinished batch</td>
+        </tr>
+        <tr>
+          <td><code>"synthesising"</code></td>
+          <td>When all extraction + compression is done</td>
+          <td>Skips everything; runs only the final synthesis call (~20s)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Snapshot File Structure</h3>
+    <p>Each snapshot is a plain JSON file. Here is what each stage stores:</p>
+    <pre><code class="language-json">// Stage: "extracting" — saved after each chunk
+{
+  "schema": 1,
+  "pipeline_version": "1",
+  "stage": "extracting",
+  "total_chunks": 29,
+  "last_completed_chunk": 14,
+  "chunk_keys": ["a3f8b2...", "c91d40...", ...]   // SHA-256 keys → verified in chunk cache
+}
+
+// Stage: "compressing" — saved after each compression batch
+{
+  "stage": "compressing",
+  "total_chunks": 29,
+  "all_notes": ["=== CHUNK 1 NOTES ===\n...", ...],
+  "last_completed_batch": 2,
+  "completed_batches": ["=== COMPRESSED BATCH 1 ===\n...", ...]
+}
+
+// Stage: "synthesising" — saved once, before the final LLM call
+{
+  "stage": "synthesising",
+  "total_chunks": 29,
+  "final_notes": "... compressed notes ready for synthesis ..."
+}</code></pre>
+
+    <h3>Run Key Design</h3>
+    <p>
+      The snapshot filename is a <strong>SHA-256</strong> of the <em>complete</em> normalised transcript +
+      model + temperature + pipeline version. This guarantees:
+    </p>
+    <ul>
+      <li>Different transcript → different key → fresh run (no cross-contamination)</li>
+      <li>Different model or temperature → different key → fresh run</li>
+      <li>Bumping <code>_PIPELINE_VERSION</code> → different key → all snapshots auto-invalidated</li>
+      <li>Changing <em>only</em> the synthesis model override → same extraction snapshot reused ✅</li>
+    </ul>
+
+    <h3>Atomic Writes</h3>
+    <p>
+      Snapshots are written to a <code>.tmp</code> file first, then renamed to <code>.json</code>.
+      If the process is killed mid-write, the original <code>.json</code> snapshot stays intact —
+      never leaving behind corrupt JSON that would block a future resume.
+    </p>
+
+    <h3>UI Controls</h3>
+    <table>
+      <thead><tr><th>Sidebar Control</th><th>Effect</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>☑ Use cache &amp; run snapshots</strong> (default ON)</td>
+          <td>Enables both chunk cache reads/writes AND run snapshot saves/loads</td>
+        </tr>
+        <tr>
+          <td><strong>🗑️ Clear chunks</strong></td>
+          <td>Deletes all <code>output/cache/*.json</code> chunk extraction files</td>
+        </tr>
+        <tr>
+          <td><strong>🗑️ Clear snapshots</strong></td>
+          <td>Deletes all <code>output/cache/runs/*.json</code> run-state files</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>When to Clear Snapshots</h3>
+    <table>
+      <thead><tr><th>Situation</th><th>Action</th></tr></thead>
+      <tbody>
+        <tr><td>Processing completed successfully</td><td>Auto-deleted — nothing to do</td></tr>
+        <tr><td>You want to force a completely fresh run on the same transcript</td><td>Click <strong>Clear snapshots</strong> + <strong>Clear chunks</strong></td></tr>
+        <tr><td>You changed <code>_PIPELINE_VERSION</code></td><td>Old snapshots auto-invalidated by key mismatch — no manual action needed</td></tr>
+        <tr><td>Disk cleanup</td><td>Each snapshot is typically 20–50 KB — safe to delete any time</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr>
+
+  <!-- ─────────────────────────────────── MODELS -->
+  <span id="models" class="anchor-target"></span>
+  <h2>🤖 Model Selection</h2>
+  <p>The app fetches available models live from the Copilot API. Speed hint labels are added to help you pick the right model for your situation.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Label</th><th>Models</th><th>Speed (synthesis)</th><th>Quality</th><th>Best For</th></tr></thead>
+      <tbody>
+        <tr><td>⚡ fast</td><td><code>gpt-5-mini</code>, <code>gpt-5.4-mini</code>, <code>claude-haiku-4.5</code></td><td>~20–40s</td><td>Good</td><td>All phases — default choice</td></tr>
+        <tr><td>⚖️ balanced</td><td><code>gpt-4.1</code>, <code>gpt-5.2</code>, <code>claude-sonnet-4.6</code></td><td>~60–120s</td><td>Better</td><td>Synthesis override only</td></tr>
+        <tr><td>🧠 powerful</td><td><code>gpt-5.4</code>, <code>gpt-5.5</code>, <code>claude-opus-4.7</code></td><td>~120–300s</td><td>Best</td><td>Avoid — hits 300s timeout on large guides</td></tr>
+        <tr><td>💻 code</td><td><code>gpt-5.2-codex</code>, <code>gpt-5.3-codex</code></td><td>~30–60s</td><td>Best for code</td><td>Programming tutorials, synthesis override</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout warning">
+    <div class="callout-title">⚠️ Bigger ≠ Faster</div>
+    <p>
+      Switching to <code>claude-sonnet-4.6</code> or <code>claude-opus-4.7</code> does <strong>not</strong> reduce 403 rate limits.
+      The 403s come from the Copilot API tier (free = ~5–6 calls per 5 min window), not from the model.
+      Larger models are slower per call and use more quota — making rate limits worse.
+      Use <code>gpt-5-mini</code> for extraction (many calls) and optionally override to a better model
+      for the <strong>final synthesis step only</strong> (1 call, quality matters most there).
+    </p>
+  </div>
+
+  <div class="callout success">
+    <div class="callout-title">✅ Best Strategy for Long Transcripts</div>
+    Use <code>gpt-5-mini</code> for chunk extraction (many calls — speed matters) and <code>gpt-5.5</code> as the Synthesis model override (one final call — quality matters). This gives the fastest processing with the best final output quality.
+  </div>
+
+  <hr>
+
+  <!-- ─────────────────────────────────── AUDIO SOURCES -->
+  <span id="audio-sources" class="anchor-target"></span>
+  <h2>🎵 Audio Sources Compared</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Source</th><th>What It Captures</th><th>Requirements</th><th>Quality</th><th>Works Offline?</th></tr></thead>
+      <tbody>
+        <tr><td>🖥️ System Audio (WASAPI loopback)</td><td>Any app audio: YouTube, Zoom meetings, Spotify, video files</td><td><code>pyaudiowpatch</code> + Windows WASAPI-compatible driver</td><td>⭐⭐⭐⭐⭐ Perfect digital copy</td><td>✅ Yes</td></tr>
+        <tr><td>🎤 Microphone (browser WebRTC)</td><td>Your voice + anything the mic picks up</td><td>None — works in any browser with a mic</td><td>⭐⭐⭐ Depends on room, mic quality</td><td>✅ Yes</td></tr>
+        <tr><td>📁 Upload file</td><td>Pre-recorded audio file (WAV/MP3/M4A/OGG/FLAC/WebM)</td><td>None</td><td>⭐⭐⭐⭐⭐ As good as the source file</td><td>✅ Yes</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr>
+
+  <!-- ─────────────────────────────────── CONFIG -->
+  <span id="config" class="anchor-target"></span>
+  <h2>⚙️ Configuration Knobs</h2>
+
+  <h3>UI Settings (Sidebar)</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Setting</th><th>Location</th><th>Recommendation</th></tr></thead>
+      <tbody>
+        <tr><td>Model</td><td>Sidebar dropdown</td><td><code>gpt-5-mini</code> for long transcripts; <code>gpt-5.5</code> for short/important ones</td></tr>
+        <tr><td>Temperature</td><td>Sidebar slider (0.0–1.0)</td><td>0.2–0.3 for technical content; 0.5–0.7 for creative/narrative content</td></tr>
+        <tr><td>Use cache</td><td>Sidebar checkbox</td><td>ON always — disable only when debugging extraction quality</td></tr>
+        <tr><td>Synthesis model override</td><td>Advanced expander</td><td>Set to a powerful model for best final output quality</td></tr>
+        <tr><td>Whisper model</td><td>Sidebar selector</td><td><code>base</code> for most content; <code>small</code> for accented speech or technical jargon</td></tr>
+        <tr><td>Language</td><td>Tab 2 dropdown</td><td>Set explicitly (e.g., "en") for faster and more accurate transcription</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Code Settings (transcript_processor.py)</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Constant</th><th>Reduce When…</th><th>Increase When…</th></tr></thead>
+      <tbody>
+        <tr><td><code>_CHUNK_SIZE</code></td><td>Getting HTTP 413 (chunks too big for model)</td><td>Processing is slow (more chunks = more API calls)</td></tr>
+        <tr><td><code>_INTER_CHUNK_DELAY_BASE</code></td><td>Not hitting rate limits and want faster processing</td><td>Frequently hitting 403 rate limit errors</td></tr>
+        <tr><td><code>_MAX_SYNTHESIS_CHARS</code></td><td>Final synthesis call hitting context window limit</td><td>Compression is happening but you want to reduce calls</td></tr>
+        <tr><td><code>_COMPRESS_BATCH</code></td><td>Compression API calls failing with 413 errors</td><td>Too many small compression calls slowing things down</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr>
+
+  <!-- ─────────────────────────────────── LOG READING GUIDE -->
+  <span id="log-guide" class="anchor-target"></span>
+  <h2>📋 How to Read the Progress Logs</h2>
+  <div class="section-body">
+    <p>
+      When you click <strong>▶ Process</strong>, a live log appears in the app. Here is exactly what
+      each line means — no technical background needed.
+    </p>
+
+    <h3>Start-up Lines</h3>
+    <table>
+      <thead><tr><th>Log Line</th><th>What It Means</th><th>Is This Good?</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><code>♻️ Run snapshot found — 3/16 chunks already extracted. Resuming from chunk 4…</code></td>
+          <td>A previous run was interrupted. The app found its saved progress and is skipping the first 3 chunks.</td>
+          <td>✅ Great — saves time</td>
+        </tr>
+        <tr>
+          <td><code>📄 Long transcript — 16 chunks (13 to fetch · ✅ 3 cached/resumed)</code></td>
+          <td>Your transcript was split into 16 sections. 3 are already done; 13 still need an API call.</td>
+          <td>✅ Normal</td>
+        </tr>
+        <tr>
+          <td><code>⏱️ Estimated time: ~2m 54s</code></td>
+          <td>Rough time forecast for the remaining API calls. Can vary based on how fast the API responds.</td>
+          <td>✅ Just an estimate</td>
+        </tr>
+        <tr>
+          <td><code>📝 Single-pass processing (short transcript)…</code></td>
+          <td>Transcript is short enough to process in one API call — no chunking needed.</td>
+          <td>✅ Fast path</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Per-Chunk Processing Lines</h3>
+    <table>
+      <thead><tr><th>Log Line</th><th>What It Means</th><th>Is This Good?</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><code>⚡ Chunk 3/16 — loaded from cache (no API call)</code></td>
+          <td>This section was already processed in a previous run and is being reused instantly. No internet call made.</td>
+          <td>✅ Instant — free</td>
+        </tr>
+        <tr>
+          <td><code>🔍 Extracting chunk 9/16… (elapsed 242s · ~160s remaining · delay=10s)</code></td>
+          <td>Sending section 9 to the AI. <em>elapsed</em> = total time so far. <em>remaining</em> = estimated time left. <em>delay</em> = the pause it will add after this call.</td>
+          <td>✅ Normal — working</td>
+        </tr>
+        <tr>
+          <td><code>⏸️ Pausing 3.0s (rate-limit backoff) · chunk 5/16 up next</code></td>
+          <td>A small intentional pause before the next API call to avoid getting blocked. 2–10s = healthy pace.</td>
+          <td>✅ Normal</td>
+        </tr>
+        <tr>
+          <td><code>⏸️ Pausing 65s — API needs to cool down after rate limit</code></td>
+          <td>The previous chunk hit a rate limit and took 65s to complete. The app is now waiting a full minute before the next call so the API can recover.</td>
+          <td>⚠️ Slow but self-healing</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Rate Limit Lines (403 Errors)</h3>
+    <p>
+      These appear when the GitHub Copilot free API temporarily blocks a request. The app handles them automatically — <strong>you do not need to do anything</strong> while you see these.
+    </p>
+    <table>
+      <thead><tr><th>Log Line</th><th>What It Means</th><th>Action Needed?</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><code>⏳ Rate limited (403) — retry 1/2 in 65s…</code></td>
+          <td>The API refused this call. The app is waiting 65 seconds before its <strong>1st</strong> retry out of 2. Countdown shown every 10s.</td>
+          <td>❌ None — wait</td>
+        </tr>
+        <tr>
+          <td><code>⏳ Rate limited (403) — retry 2/2 in 65s…</code></td>
+          <td>First retry also got blocked. Waiting again for the <strong>2nd</strong> (final) retry.</td>
+          <td>❌ None — wait</td>
+        </tr>
+        <tr>
+          <td><code>⚠️ Rate limited at chunk 4/16. 💾 Snapshot saved (3 chunks done). Wait ~60s, then click ▶ Process</code></td>
+          <td>All retries failed. <strong>Progress was saved.</strong> The API is heavily throttled right now. Rest for a minute, then click ▶ Process — it will resume exactly from chunk 4.</td>
+          <td>✅ Wait 60s → click ▶ Process</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Compression &amp; Synthesis Lines</h3>
+    <table>
+      <thead><tr><th>Log Line</th><th>What It Means</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><code>📦 Notes are 101,354 chars — running local compression (no API call)…</code></td>
+          <td>Notes are too large for synthesis. Python compressor runs instantly — dedup, truncate, priority-trim. No API call, no 403 risk.</td>
+        </tr>
+        <tr>
+          <td><code>✅ Local compression: 101,354 → 45,200 chars</code></td>
+          <td>Compression done. Notes now fit within the 80k synthesis limit — proceeding to synthesis.</td>
+        </tr>
+        <tr>
+          <td><code>📦 Still N chars after local compression — falling back to LLM compression…</code></td>
+          <td>Extremely large transcript where even Python compression wasn't enough. LLM batches will run (rare).</td>
+        </tr>
+        <tr>
+          <td><code>✍️ Synthesising final Markdown guide… (~20s, almost done!)</code></td>
+          <td>All notes are ready. One final AI call to produce the formatted Markdown document. This is the last step.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>What the Numbers Mean</h3>
+    <table>
+      <thead><tr><th>Number in Log</th><th>Meaning</th></tr></thead>
+      <tbody>
+        <tr><td><code>elapsed Xs</code></td><td>Total seconds since the current run started (wall-clock time, including all pauses)</td></tr>
+        <tr><td><code>~Xs remaining</code></td><td>Estimated seconds until all chunks are done. Recalculated after each chunk based on actual API speed.</td></tr>
+        <tr><td><code>delay=Xs</code></td><td>The pause the app will add <em>after this chunk</em> before the next API call. Starts at 2s; rises to 65s if the API is throttled.</td></tr>
+        <tr><td><code>retry 1/2</code></td><td>"This is the 1st retry out of a maximum of 2 retries for this chunk."</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Quick Status Key</h3>
+    <table>
+      <thead><tr><th>Emoji</th><th>Meaning</th></tr></thead>
+      <tbody>
+        <tr><td>⚡</td><td>Chunk loaded instantly from cache — no API call, no cost</td></tr>
+        <tr><td>🔍</td><td>Live API call in progress for this chunk</td></tr>
+        <tr><td>⏸️</td><td>Intentional pause between chunks</td></tr>
+        <tr><td>⏳</td><td>Rate limit hit — waiting to retry automatically</td></tr>
+        <tr><td>⚠️</td><td>All retries failed — progress saved, manual resume needed</td></tr>
+        <tr><td>♻️</td><td>Resuming from a saved snapshot — previous progress reused</td></tr>
+        <tr><td>🗜️</td><td>Compression step — reducing note size before synthesis</td></tr>
+        <tr><td>✍️</td><td>Final synthesis — generating the Markdown guide</td></tr>
+        <tr><td>✅</td><td>Success / cached chunks available</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr>
+
+  <!-- ─────────────────────────────────── ERRORS -->
+  <span id="errors" class="anchor-target"></span>
+  <h2>❌ Error Reference</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Error Message</th><th>Root Cause</th><th>Fix</th></tr></thead>
+      <tbody>
+        <tr><td><code>No token found. Run gh auth login</code></td><td>GitHub CLI not authenticated or not found in PATH</td><td>Run <code>gh auth login</code>. Restart the app after authenticating.</td></tr>
+        <tr><td><code>Copilot API returned 403 Forbidden</code></td><td>Copilot rate limit (confusingly named Forbidden)</td><td>App retries 2× automatically with 65s waits + countdown shown. If all fail, snapshot is saved — wait 60s and click ▶ Process to resume.</td></tr>
+        <tr><td><code>413 Payload Too Large</code></td><td>Chunk too large for model context window</td><td>Reduce <code>_CHUNK_SIZE</code> to 8000 in <code>transcript_processor.py</code></td></tr>
+        <tr><td><code>Transcript is empty after cleaning</code></td><td>Input was only timestamps or speaker labels — no real content</td><td>Check transcript actually contains spoken words, not just metadata</td></tr>
+        <tr><td><code>Transcription returned empty text</code></td><td>Audio was silent or contained only background noise</td><td>Check audio was playing. Try a larger Whisper model (base → small)</td></tr>
+        <tr><td><code>No WASAPI loopback devices found</code></td><td>Audio driver doesn't expose a loopback device</td><td>Try <code>pip install --upgrade pyaudiowpatch</code>. If still no devices, use Upload.</td></tr>
+        <tr><td><code>faster-whisper is not installed</code></td><td>Package missing from environment</td><td>Run <code>python -m pip install faster-whisper</code></td></tr>
+        <tr><td><code>Copilot API failed after 4 attempts</code></td><td>Persistent network or authentication error</td><td>Check internet connection. Run <code>gh auth status</code>. Re-authenticate if expired.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr>
+
+  <!-- ─────────────────────────────────── TROUBLESHOOT -->
+  <span id="troubleshoot" class="anchor-target"></span>
+  <h2>🔍 Troubleshooting Guide</h2>
+
+  <h3>Processing Is Very Slow</h3>
+  <ul>
+    <li>Switch to <code>gpt-5-mini</code> in the sidebar — fastest model, still good quality</li>
+    <li>Make sure the <strong>Use cache</strong> checkbox is ON — cached chunks skip API calls entirely</li>
+    <li>If you've processed this transcript before, the sidebar cache stats should show entries</li>
+    <li>If hitting 403s repeatedly, increase <code>_INTER_CHUNK_DELAY_BASE</code> to 4.0 in <code>transcript_processor.py</code></li>
+  </ul>
+
+  <h3>Output Quality Is Poor</h3>
+  <ul>
+    <li>Try <code>gpt-5.4</code> or <code>gpt-5.5</code> as the <strong>Synthesis model override</strong> — one more powerful call for the final output</li>
+    <li>Slightly increase temperature to 0.4–0.5 for more expressive prose</li>
+    <li>If the transcript quality is low (e.g., auto-generated captions), try cleaning it manually before pasting</li>
+  </ul>
+
+  <h3>System Audio Not Recording Video Sound</h3>
+  <ul>
+    <li>Make sure audio is actually playing when you click <strong>Start Recording</strong></li>
+    <li>Try a different loopback device in the dropdown — there may be multiple</li>
+    <li>Open Windows Sound Settings → Recording tab → right-click empty area → "Show Disabled Devices" → enable Stereo Mix</li>
+    <li>Intel SoundWire loopback is the most reliable on modern Intel laptops</li>
+  </ul>
+
+  <h3>Whisper Transcription Is Inaccurate</h3>
+  <ul>
+    <li>Switch from <code>base</code> → <code>small</code> model for better accuracy with accents or technical terms</li>
+    <li>Set language explicitly in the dropdown (auto-detect sometimes fails for short clips)</li>
+    <li>System audio loopback recordings are almost always better quality than microphone recordings</li>
+  </ul>
+
+  <h3>Port 8501 Already in Use</h3>
+  <pre><code class="language-powershell"># Find which process owns port 8501, then kill it by PID:
+Get-NetTCPConnection -LocalPort 8501 | Select-Object OwningProcess
+
+# Or just run on a different port:
+streamlit run app.py --server.port 8502</code></pre>
+
+  <hr>
+
+  <!-- ─────────────────────────────────── FOLDER MAP -->
+  <span id="folder-map" class="anchor-target"></span>
+  <h2>📁 Folder Map</h2>
+  <pre><code>transcript-notes-generator/
+│
+├── app.py                        ← Main Streamlit app (entry point)
+├── requirements.txt              ← Python package list
+├── reference.html                ← This document
+│
+├── src/                          ← Python source modules
+│   ├── __init__.py
+│   ├── llm.py                    ← GitHub Copilot API client
+│   ├── transcript_processor.py   ← Core processing pipeline
+│   ├── audio_transcriber.py      ← faster-whisper transcription
+│   └── system_audio_recorder.py  ← WASAPI loopback capture
+│
+├── output/                       ← All generated files (git-ignored)
+│   ├── md-files/                 ← Final Markdown guides
+│   │   └── my-topic-guide-2025-05-01.md
+│   └── cache/                    ← Chunk extraction cache
+│       └── a3f8b2c1...hash.json
+│
+├── input/                        ← Drop .txt transcripts here (optional)
+│
+└── .github/                      ← GitHub-specific files
+    ├── agents/                   ← Copilot agent definitions
+    ├── instructions/             ← Formatting standards
+    ├── materials/                ← Input transcripts for agent use
+    ├── prompts/                  ← Reusable prompt templates
+    └── tools/                    ← PowerShell automation scripts</code></pre>
+
+  <h3>Output Files</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Folder</th><th>Filename Pattern</th><th>Contents</th></tr></thead>
+      <tbody>
+        <tr><td><code>output/md-files/</code></td><td><code>{slug}-guide-{YYYY-MM-DD}.md</code></td><td>Generated Markdown guides — your final output</td></tr>
+        <tr><td><code>output/cache/</code></td><td><code>{sha256hash}.json</code></td><td>Cached chunk notes — safe to delete any time</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr>
+
+  <!-- ─────────────────────────────────── CHANGELOG -->
+  <span id="changelog" class="anchor-target"></span>
+  <h2>📋 Changelog</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Version</th><th>Changes</th></tr></thead>
+      <tbody>
+        <tr><td><strong>v1.1.0</strong> <span class="badge">Current</span></td><td>Comprehensive beginner-friendly Reference Guide rebuild — full explanations for every file, ASCII flow diagrams, annotated code snippets, troubleshooting guide, model comparison table, audio source comparison, and configuration reference.</td></tr>
+        <tr><td><strong>v1.3.0</strong> <em>(current)</em></td><td><strong>Local compression + timeout fix + model guide</strong> — <code>_local_compress_notes()</code> replaces LLM compression (zero API calls for compression in most cases); <code>_CHUNK_SIZE</code> 8k→15k (halves API calls); <code>_MAX_SYNTHESIS_CHARS</code> 16k→80k; <code>_PIPELINE_VERSION</code> bumped to 2; PowerShell subprocess timeout 120s→300s with retry on timeout; tighter <code>_NOTES_SYSTEM</code> prompt (concise bullets); model speed comparison table; "Bigger ≠ Faster" callout added.</td></tr>
+        <tr><td><strong>v1.2.0</strong></td><td>Run snapshots &amp; resume + 403 visibility — atomic per-chunk savepoints; 3-stage resume (extracting/compressing/synthesising); 403 countdown shown in UI; clear snapshot-saved guidance; <code>on_wait</code> callback threaded through all LLM call sites; adaptive delay jumps to 65s after 403-recovered call.</td></tr>
+        <tr><td><strong>v1.1.0</strong></td><td>Comprehensive beginner-friendly Reference Guide rebuild — explanations for every file, ASCII flow diagrams, annotated code snippets, troubleshooting guide, model comparison, audio source comparison, configuration reference.</td></tr>
+        <tr><td><strong>v1.0.4</strong></td><td>Disk cache + dedup + synthesis override — SHA-256 chunk cache; Python bullet deduplication (15–30% reduction); synthesis model override; sidebar cache controls (stats + clear button); fixed duplicate <code>_compress_notes_batched</code> call bug.</td></tr>
+        <tr><td><strong>v1.0.3</strong></td><td>3× speed optimization — <code>_CHUNK_SIZE</code> 3k→8k (99→37 chunks for 1-hr transcript); adaptive delay 5s→2s base; <code>_COMPRESS_BATCH</code> 3→5; <code>_MAX_SYNTHESIS_CHARS</code> 12k→16k.</td></tr>
+        <tr><td><strong>v1.0.2</strong></td><td>Model persistence fix + <code>gpt-5-mini</code> default — Fixed selectbox resetting via <code>session_state</code>; changed <code>DEFAULT_MODEL</code> to <code>gpt-5-mini</code> for faster processing.</td></tr>
+        <tr><td><strong>v1.0.1</strong></td><td>System audio capture — Replaced broken <code>soundcard</code> with <code>pyaudiowpatch</code> WASAPI loopback; 3 audio input sources (system/mic/upload); full audio processing pipeline (stereo→mono, 44.1kHz→16kHz, WAV header).</td></tr>
+        <tr><td><strong>v1.0.0</strong></td><td>Initial build — Streamlit 2-tab app; GitHub Copilot LLM client (free via <code>gh auth token</code>); chunked pipeline; hierarchical compression; 403 adaptive retry delay; faster-whisper integration; dynamic model fetching.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</main>
+
+<script>
+(function () {
+  var navLinks = document.querySelectorAll('.nav-link, .nav-sub');
+  var anchors  = Array.from(document.querySelectorAll('.anchor-target'));
+
+  var idToLink = {};
+  navLinks.forEach(function(link) {
+    var id = link.getAttribute('href').replace('#', '');
+    idToLink[id] = link;
+  });
+
+  var activeId = null;
+
+  function setActive(id) {
+    if (id === activeId) return;
+    activeId = id;
+    navLinks.forEach(function(l) { l.classList.remove('active'); });
+    if (idToLink[id]) {
+      idToLink[id].classList.add('active');
+      var sidebar = document.getElementById('sidebar');
+      var link    = idToLink[id];
+      var lTop    = link.offsetTop;
+      var lBot    = lTop + link.offsetHeight;
+      var sTop    = sidebar.scrollTop;
+      var sBot    = sTop + sidebar.clientHeight;
+      if (lTop < sTop + 40 || lBot > sBot - 40) {
+        sidebar.scrollTo({ top: lTop - sidebar.clientHeight / 2, behavior: 'smooth' });
+      }
+    }
+  }
+
+  if (typeof IntersectionObserver !== 'undefined') {
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) { setActive(entry.target.id); }
+      });
+    }, { rootMargin: '-10% 0px -80% 0px', threshold: 0 });
+    anchors.forEach(function(a) { observer.observe(a); });
+  }
+
+  window.addEventListener('scroll', function() {
+    var mid = window.scrollY + window.innerHeight * 0.3;
+    var best = null;
+    var bestDist = Infinity;
+    anchors.forEach(function(a) {
+      var top = a.getBoundingClientRect().top + window.scrollY;
+      if (top <= mid) {
+        var dist = mid - top;
+        if (dist < bestDist) { bestDist = dist; best = a; }
+      }
+    });
+    if (best) setActive(best.id);
+  }, { passive: true });
+})();
+</script>
+</body>
+</html>

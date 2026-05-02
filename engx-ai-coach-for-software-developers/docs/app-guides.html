@@ -1,0 +1,1646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>App Guides — Interview Prep | Raviteja Thota</title>
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #fafaf8;
+      --surface:   #ffffff;
+      --border:    #e2e2dd;
+      --text:      #1a1a18;
+      --muted:     #6b6b63;
+      --accent:    #c45e00;
+      --accent-bg: #fff7f0;
+      --blue:      #1a5fa8;
+      --code-bg:   #f3f3ef;
+      --qa-bg:     #f0f7ff;
+      --qa-border: #3a82c4;
+      --nav-w:     280px;
+      --font-body: Georgia, "Times New Roman", serif;
+      --font-ui:   system-ui, -apple-system, sans-serif;
+      --font-mono: "Cascadia Code", "Fira Code", Consolas, monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      font-size: 18px;
+      line-height: 1.85;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    /* ── Layout ── */
+    .layout { display: flex; min-height: 100vh; }
+
+    nav.sidebar {
+      width: var(--nav-w);
+      min-width: var(--nav-w);
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      padding: 1.5rem 1rem;
+    }
+
+    nav.sidebar .nav-title {
+      font-family: var(--font-ui);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+
+    nav.sidebar ul { list-style: none; }
+    nav.sidebar li { margin: 0.1rem 0; }
+    nav.sidebar a {
+      font-family: var(--font-ui);
+      font-size: 0.82rem;
+      color: var(--blue);
+      text-decoration: none;
+      display: block;
+      padding: 0.22rem 0.4rem;
+      border-radius: 4px;
+      line-height: 1.4;
+      transition: background 0.15s;
+    }
+    nav.sidebar a:hover { background: var(--accent-bg); color: var(--accent); }
+    nav.sidebar .nav-h2 a { padding-left: 1.2rem; font-size: 0.78rem; color: var(--muted); }
+    nav.sidebar .nav-h2 a:hover { color: var(--accent); }
+
+    /* ── Main content ── */
+    main {
+      flex: 1;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 3rem 2.5rem 6rem;
+    }
+
+    /* ── Headings ── */
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1.25;
+      color: var(--text);
+      margin: 3rem 0 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 3px solid var(--accent);
+    }
+    h1:first-child { margin-top: 0; }
+
+    h2 {
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--text);
+      margin: 2.5rem 0 0.75rem;
+      padding-left: 0.75rem;
+      border-left: 4px solid var(--accent);
+    }
+
+    h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text);
+      margin: 1.8rem 0 0.5rem;
+    }
+
+    h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--muted);
+      margin: 1.4rem 0 0.4rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    /* ── Paragraphs & Lists ── */
+    p { margin: 0.8rem 0; }
+
+    ul, ol {
+      margin: 0.7rem 0 0.7rem 1.8rem;
+    }
+    li { margin: 0.3rem 0; }
+
+    strong { color: var(--text); font-weight: 700; }
+    em { font-style: italic; }
+
+    a { color: var(--blue); text-decoration: underline; }
+    a:hover { color: var(--accent); }
+
+    /* ── Blockquotes ── */
+    blockquote {
+      margin: 1rem 0;
+      padding: 0.9rem 1.2rem;
+      background: var(--accent-bg);
+      border-left: 4px solid var(--accent);
+      border-radius: 0 6px 6px 0;
+      font-style: italic;
+      color: #3a2a1a;
+    }
+    blockquote p { margin: 0.3rem 0; }
+
+    /* ── Horizontal rules ── */
+    hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 2.5rem 0;
+    }
+
+    /* ── Tables ── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.2rem 0;
+      font-family: var(--font-ui);
+      font-size: 0.88rem;
+    }
+    th {
+      background: var(--text);
+      color: #fff;
+      padding: 0.6rem 0.9rem;
+      text-align: left;
+      font-weight: 600;
+    }
+    td {
+      padding: 0.55rem 0.9rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    tr:nth-child(even) td { background: var(--code-bg); }
+    tr:hover td { background: var(--accent-bg); }
+
+    /* ── Code blocks (aria-hidden — not read aloud) ── */
+    pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.1rem 1.3rem;
+      overflow-x: auto;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      line-height: 1.6;
+      margin: 0.8rem 0;
+      color: #2a2a28;
+    }
+    code {
+      font-family: var(--font-mono);
+      font-size: 0.88em;
+      background: var(--code-bg);
+      padding: 0.12em 0.35em;
+      border-radius: 3px;
+      border: 1px solid var(--border);
+    }
+    pre code {
+      background: none;
+      padding: 0;
+      border: none;
+      font-size: 1em;
+    }
+
+    /* ── Code skip note (spoken by Read Aloud) ── */
+    .code-note {
+      font-family: var(--font-ui);
+      font-size: 0.8rem;
+      color: var(--muted);
+      background: var(--code-bg);
+      border: 1px dashed var(--border);
+      border-radius: 4px 4px 0 0;
+      padding: 0.3rem 0.8rem;
+      margin-bottom: -1px;
+    }
+
+    /* ── Q&A details/summary ── */
+    details.qa-block {
+      margin: 1rem 0;
+      background: var(--qa-bg);
+      border: 1px solid #cde0f5;
+      border-left: 4px solid var(--qa-border);
+      border-radius: 0 8px 8px 0;
+      overflow: hidden;
+    }
+
+    summary.qa-q {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--blue);
+      padding: 0.8rem 1.2rem;
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      line-height: 1.5;
+    }
+    summary.qa-q::before {
+      content: "▶";
+      font-size: 0.7em;
+      flex-shrink: 0;
+      margin-top: 0.3em;
+      transition: transform 0.2s;
+    }
+    details[open] summary.qa-q::before { transform: rotate(90deg); }
+    summary.qa-q:hover { background: #deeeff; }
+
+    .qa-a {
+      padding: 0.8rem 1.5rem 1rem;
+      border-top: 1px solid #cde0f5;
+      font-size: 0.97rem;
+      line-height: 1.8;
+      color: #1a2a3a;
+    }
+    .qa-a p { margin: 0.5rem 0; }
+
+    /* ── Read Aloud tip banner ── */
+    .read-aloud-tip {
+      background: #e8f5e9;
+      border: 1px solid #81c784;
+      border-radius: 8px;
+      padding: 1rem 1.5rem;
+      font-family: var(--font-ui);
+      font-size: 0.9rem;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+    .read-aloud-tip strong { color: #2e7d32; }
+
+    /* ── App section dividers ── */
+    h1[id^="app-"] {
+      background: linear-gradient(135deg, #1a1a18 0%, #3a3a30 100%);
+      color: #fff !important;
+      padding: 1.2rem 1.5rem;
+      border-radius: 8px;
+      border-bottom: none;
+      margin-top: 4rem;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      nav.sidebar { display: none; }
+      main { padding: 1.5rem 1.2rem; }
+    }
+
+    /* ── Print ── */
+    @media print {
+      nav.sidebar { display: none; }
+      main { max-width: 100%; padding: 1rem; }
+      details.qa-block { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- Sidebar Navigation -->
+  <nav class="sidebar" aria-label="Page navigation">
+    <div class="nav-title">Navigation</div>
+    <ul><li class="nav-h1"><a href="#comprehensive-app-guides-interview-preparation-deep-dive-reference">Comprehensive App Guides — Interview Preparation &amp; Deep-Dive Reference</a></li>
+<li class="nav-h2"><a href="#table-of-contents">Table of Contents</a></li>
+<li class="nav-h1"><a href="#app-1-agentic-ai-toggle-management">App 1 — agentic-ai-toggle-management</a></li>
+<li class="nav-h2"><a href="#overview">Overview</a></li>
+<li class="nav-h2"><a href="#architecture">Architecture</a></li>
+<li class="nav-h2"><a href="#key-design-principles">Key Design Principles</a></li>
+<li class="nav-h2"><a href="#file-structure">File Structure</a></li>
+<li class="nav-h2"><a href="#9-supported-workflows">9 Supported Workflows</a></li>
+<li class="nav-h2"><a href="#alternative-solutions-considered">Alternative Solutions Considered</a></li>
+<li class="nav-h2"><a href="#interview-qa">Interview Q&amp;A</a></li>
+<li class="nav-h1"><a href="#app-2-vector-rag-app-v1">App 2 — vector-rag-app-v1</a></li>
+<li class="nav-h2"><a href="#overview_1">Overview</a></li>
+<li class="nav-h2"><a href="#architecture_1">Architecture</a></li>
+<li class="nav-h2"><a href="#key-components">Key Components</a></li>
+<li class="nav-h2"><a href="#design-decisions">Design Decisions</a></li>
+<li class="nav-h2"><a href="#alternative-solutions">Alternative Solutions</a></li>
+<li class="nav-h2"><a href="#interview-qa_1">Interview Q&amp;A</a></li>
+<li class="nav-h1"><a href="#app-3-vector-less-rag-app-v2">App 3 — vector-less-rag-app-v2</a></li>
+<li class="nav-h2"><a href="#overview_2">Overview</a></li>
+<li class="nav-h2"><a href="#architecture_2">Architecture</a></li>
+<li class="nav-h2"><a href="#key-components_1">Key Components</a></li>
+<li class="nav-h2"><a href="#v1-v2-key-changes">V1 → V2 Key Changes</a></li>
+<li class="nav-h2"><a href="#alternative-solutions_1">Alternative Solutions</a></li>
+<li class="nav-h2"><a href="#interview-qa_2">Interview Q&amp;A</a></li>
+<li class="nav-h1"><a href="#app-4-vector-less-rag-app">App 4 — vector-less-rag-app</a></li>
+<li class="nav-h2"><a href="#overview_3">Overview</a></li>
+<li class="nav-h2"><a href="#architecture_3">Architecture</a></li>
+<li class="nav-h2"><a href="#multi-query-retrieval-the-key-innovation">Multi-Query Retrieval — The Key Innovation</a></li>
+<li class="nav-h2"><a href="#chunkerpy-sub-page-chunking">chunker.py — Sub-Page Chunking</a></li>
+<li class="nav-h2"><a href="#streamlit-ui-features">Streamlit UI Features</a></li>
+<li class="nav-h2"><a href="#alternative-solutions_2">Alternative Solutions</a></li>
+<li class="nav-h2"><a href="#interview-qa_3">Interview Q&amp;A</a></li>
+<li class="nav-h1"><a href="#app-5-vector-less-rag-agentic">App 5 — vector-less-rag-agentic</a></li>
+<li class="nav-h2"><a href="#overview_4">Overview</a></li>
+<li class="nav-h2"><a href="#architecture_4">Architecture</a></li>
+<li class="nav-h2"><a href="#key-components_2">Key Components</a></li>
+<li class="nav-h2"><a href="#comparison-with-other-apps">Comparison with Other Apps</a></li>
+<li class="nav-h2"><a href="#alternative-solutions_3">Alternative Solutions</a></li>
+<li class="nav-h2"><a href="#interview-qa_4">Interview Q&amp;A</a></li>
+<li class="nav-h1"><a href="#app-6-transcript-notes-generator">App 6 — transcript-notes-generator</a></li>
+<li class="nav-h2"><a href="#overview_5">Overview</a></li>
+<li class="nav-h2"><a href="#architecture_5">Architecture</a></li>
+<li class="nav-h2"><a href="#key-components_3">Key Components</a></li>
+<li class="nav-h2"><a href="#synthesis-prompt-structure">Synthesis Prompt Structure</a></li>
+<li class="nav-h2"><a href="#alternative-solutions_4">Alternative Solutions</a></li>
+<li class="nav-h2"><a href="#interview-qa_5">Interview Q&amp;A</a></li>
+<li class="nav-h1"><a href="#cross-app-interview-questions">Cross-App Interview Questions</a></li></ul>
+  </nav>
+
+  <!-- Main Content -->
+  <main>
+
+    <div class="read-aloud-tip" role="note">
+      <strong>&#128266; Edge Read Aloud ready.</strong>
+      Press <strong>Ctrl + Shift + U</strong> (or click the speaker icon in the address bar) to start.
+      Code blocks and diagrams are automatically skipped &mdash; only explanations and Q&amp;A are read.
+      Click any <strong>Q question</strong> to expand the answer before reading.
+    </div>
+
+    <h1 id="comprehensive-app-guides-interview-preparation-deep-dive-reference">Comprehensive App Guides — Interview Preparation &amp; Deep-Dive Reference</h1>
+<blockquote>
+<p><strong>Author:</strong> Raviteja Thota | EngX AI Coach Final Exam Prep<br />
+<strong>Covers:</strong> All 6 AI/ML apps built during the EngX AI Coach program<br />
+<strong>Purpose:</strong> Deep technical understanding, alternative solutions, and interview-ready Q&amp;A</p>
+</blockquote>
+<hr />
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol>
+<li><a href="#app-1--agentic-ai-toggle-management">App 1 — <code>agentic-ai-toggle-management</code></a></li>
+<li><a href="#app-2--vector-rag-app-v1">App 2 — <code>vector-rag-app-v1</code></a></li>
+<li><a href="#app-3--vector-less-rag-app-v2">App 3 — <code>vector-less-rag-app-v2</code></a></li>
+<li><a href="#app-4--vector-less-rag-app">App 4 — <code>vector-less-rag-app</code></a></li>
+<li><a href="#app-5--vector-less-rag-agentic">App 5 — <code>vector-less-rag-agentic</code></a></li>
+<li><a href="#app-6--transcript-notes-generator">App 6 — <code>transcript-notes-generator</code></a></li>
+<li><a href="#cross-app-interview-questions">Cross-App Interview Questions</a></li>
+</ol>
+<hr />
+<h1 id="app-1-agentic-ai-toggle-management">App 1 — <code>agentic-ai-toggle-management</code></h1>
+<h2 id="overview">Overview</h2>
+<p>An <strong>enterprise-grade multi-agent AI system</strong> that automates the complete lifecycle of feature toggle management across 7 Java microservice repositories (CardPaymentEngine, Orchestrator, BusinessService, Console, MSOUI, DirectAPI, BatchSettlementService) in the Mastercard Payment Gateway Services (MPGS) platform.</p>
+<h3 id="business-problem-solved">Business Problem Solved</h3>
+<p>Manual toggle analysis required engineers to:<br />
+- Manually grep 14,000+ Java files across 7 repos<br />
+- Cross-reference Confluence documentation manually<br />
+- Write impact reports per toggle by hand<br />
+- Repeat this for 73 registered toggles (334 in extended list)<br />
+- Cost: days per toggle, high error rate, hard to keep current after releases</p>
+<p><strong>After:</strong> ~15 minutes per toggle, reproducible, auditable, extensible.</p>
+<hr />
+<h2 id="architecture">Architecture</h2>
+<p class="code-note" aria-hidden="true">&#128196; <em>Code / diagram block below</em></p><pre><code>User (Natural Language Command)
+         │
+         ▼
+  toggle-orchestrator (Coordinator)
+         │
+    ┌────┴────┬──────────┬───────────┬───────────┐
+    ▼         ▼          ▼           ▼           ▼
+  SA-1      SA-2       SA-3        SA-4        SA-5
+Analysis  Report    Confluence  Advisor    Workspace
+ Engine   Writer    Enquiry    (on-req)    Manager
+    │         │          │
+  Scans     Writes    Fetches
+  Java      6 report   Confluence
+  repos     types      metadata
+    │
+  CSV/Registry
+</code></pre>
+<h3 id="agent-responsibilities">Agent Responsibilities</h3>
+<table>
+<thead>
+<tr>
+<th>Agent</th>
+<th>Role</th>
+<th>Key Tools Used</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>toggle-orchestrator</strong></td>
+<td>Central coordinator — routes commands, enforces guardrails, manages batch state</td>
+<td>None (pure routing)</td>
+</tr>
+<tr>
+<td><strong>SA-1 toggle-analysis-engine</strong></td>
+<td>Registry build, Java source scan, ON/OFF impact analysis, S2A CSV enrichment</td>
+<td><code>toggle-search-utility.ps1</code>, <code>build-toggle-registry-lookup.ps1</code>, <code>lsp-java-impact-analyzer.py</code></td>
+</tr>
+<tr>
+<td><strong>SA-2 toggle-report-writer</strong></td>
+<td>Generates 6 structured report types + polished Markdown</td>
+<td>File write utilities, <code>toggle-publish-utility.ps1</code></td>
+</tr>
+<tr>
+<td><strong>SA-3 toggle-confluence-enquiry</strong></td>
+<td>4-tier Confluence search, metadata CSV output</td>
+<td>Confluence MCP (Atlassian REST API)</td>
+</tr>
+<tr>
+<td><strong>SA-4 toggle-advisor</strong></td>
+<td>Decomposition planning, dry-run refactoring, stuck recovery</td>
+<td><code>lsp-call-graph-grep-fallback.ps1</code>, <code>lsp-java-impact-analyzer.py</code></td>
+</tr>
+<tr>
+<td><strong>SA-5 toggle-workspace-manager</strong></td>
+<td>Session state, knowledge index, repo onboarding, workspace cleanup</td>
+<td>File system ops, <code>archive-repo-data.ps1</code>, <code>repo-memory-mapper.ps1</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="key-design-principles">Key Design Principles</h2>
+<h3 id="1-single-responsibility-per-agent">1. Single Responsibility Per Agent</h3>
+<p>Each agent owns one domain. SA-1 never writes reports. SA-2 never scans Java. The orchestrator never does leaf work.</p>
+<h3 id="2-registry-as-single-source-of-truth">2. Registry as Single Source of Truth</h3>
+<p>All analysis flows through <code>data/registry/toggle-registry-lookup.csv</code>. Every agent reads the same registry file. No agent builds its own private list of toggles.</p>
+<h3 id="3-two-scan-strategies">3. Two Scan Strategies</h3>
+<ul>
+<li><strong>Full scan</strong>: Used for repos with &lt;3000 Java files (CPE, Orchestrator, BusinessService, Console, MSOUI, BatchSettlementService). Scans all <code>.java</code> files.</li>
+<li><strong>Targeted scan</strong>: Used for DirectAPI (~10,367 Java files). Uses a pre-computed list <code>direct-api-toggle-bearing-files.txt</code> — only scans files known to contain toggle references.</li>
+</ul>
+<h3 id="4-confluence-4-tier-search">4. Confluence 4-Tier Search</h3>
+<p class="code-note" aria-hidden="true">&#128196; <em>Code / diagram block below</em></p><pre><code>Tier 1: exact_title_in_priority_spaces (MPGSIOG, MPGSIOGWIP)
+   ↓ if no result
+Tier 2: exact_title_all_spaces
+   ↓ if no result
+Tier 3: fuzzy_title_in_priority_spaces
+   ↓ if no result
+Tier 4: full_text_all_spaces
+</code></pre>
+<p>Starts with the most specific, most relevant search to avoid noise.</p>
+<h3 id="5-dry-run-before-destructive-operations">5. Dry-Run Before Destructive Operations</h3>
+<p>Toggle decomposition (removing toggle code from Java source) always runs in dry-run mode first. Actual source edits require explicit user confirmation.</p>
+<h3 id="6-slash-commands-as-first-class-citizens">6. Slash Commands as First-Class Citizens</h3>
+<p>Every workflow has both plain-English and <code>/slash-command</code> form:<br />
+- <code>analyze toggle "X"</code> ≡ <code>/analyse-toggle X</code><br />
+- <code>rebuild registry</code> ≡ <code>/rebuild-registry</code></p>
+<h3 id="7-extensibility-without-agent-changes">7. Extensibility Without Agent Changes</h3>
+<p>New repositories: <code>onboard repo &lt;name&gt;</code> → no agent definitions change.<br />
+New toggles: append to input CSV → no agent definitions change.</p>
+<hr />
+<h2 id="file-structure">File Structure</h2>
+<p class="code-note" aria-hidden="true">&#128196; <em>Code / diagram block below</em></p><pre><code>agentic-ai-toggle-management/
+├── .github/agents/           ← Agent definition files (.md)
+├── .github/instructions/     ← Shared rules (changelog, guardrails)
+├── knowledge/
+│   ├── config.yml            ← All path/parameter configuration
+│   ├── index.md              ← Quick reference: agents, data files, repos
+│   └── tool-command-registry.yml
+├── data/
+│   ├── enquiry/              ← Input: 73/334 toggle CSV lists
+│   ├── registry/             ← Toggle-to-Java-class mappings (per repo + combined)
+│   ├── analysis/             ← ON/OFF impact CSVs (per repo + combined)
+│   ├── temp/                 ← Intermediate scan results
+│   └── archive/              ← Archived old data
+├── tools/active/             ← PowerShell + Python utility scripts
+├── reports/                  ← Generated reports (MD, HTML, CSV)
+└── logs/                     ← Audit changelog
+</code></pre>
+<hr />
+<h2 id="9-supported-workflows">9 Supported Workflows</h2>
+<table>
+<thead>
+<tr>
+<th>Workflow</th>
+<th>Command</th>
+<th>What It Does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td><code>analyze toggle &lt;name&gt;</code></td>
+<td>Locate Java usages + ON/OFF business &amp; field impact</td>
+</tr>
+<tr>
+<td>A-all</td>
+<td><code>analyze all remaining toggles</code></td>
+<td>Batch-process all unprocessed toggles</td>
+</tr>
+<tr>
+<td>B</td>
+<td><code>rebuild registry</code></td>
+<td>Re-scan all repos, rebuild lookup CSV</td>
+</tr>
+<tr>
+<td>C</td>
+<td><code>fetch confluence data for &lt;name&gt;</code></td>
+<td>Retrieve Confluence page metadata</td>
+</tr>
+<tr>
+<td>D</td>
+<td><code>generate report</code></td>
+<td>Generate 6 structured report types</td>
+</tr>
+<tr>
+<td>D-P</td>
+<td><code>generate polished report</code></td>
+<td>Final human-readable Markdown summary</td>
+</tr>
+<tr>
+<td>E</td>
+<td><code>check for missing toggles</code></td>
+<td>Find gaps in analysis coverage</td>
+</tr>
+<tr>
+<td>F</td>
+<td><code>onboard repo &lt;name&gt;</code></td>
+<td>Register a new Java repository</td>
+</tr>
+<tr>
+<td>G</td>
+<td><code>check for toggle changes</code></td>
+<td>Detect additions/removals since last run</td>
+</tr>
+<tr>
+<td>H</td>
+<td><code>clean up files</code></td>
+<td>Deduplicate, fix encoding, clean workspace</td>
+</tr>
+<tr>
+<td>I</td>
+<td><code>backfill missing analysis</code></td>
+<td>Fill analysis gaps for unprocessed toggles</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="alternative-solutions-considered">Alternative Solutions Considered</h2>
+<h3 id="alternative-1-langchain-langgraph-multi-agent">Alternative 1: LangChain + LangGraph Multi-Agent</h3>
+<p><strong>Pros:</strong> Mature ecosystem, built-in memory, LCEL chains<br />
+<strong>Cons:</strong> Overkill for a file-system workflow; LangGraph adds complexity for linear workflows; requires Python runtime integration with Java codebases<br />
+<strong>Why not used:</strong> The <code>.github/agents</code> framework (GitHub Copilot Agents) is already embedded in JetBrains IDE where Java repos are open — zero extra infra needed.</p>
+<h3 id="alternative-2-single-large-context-llm-just-feed-everything-to-gpt-4">Alternative 2: Single Large-Context LLM (Just Feed Everything to GPT-4)</h3>
+<p><strong>Pros:</strong> Simplest approach<br />
+<strong>Cons:</strong> 14,000+ Java files far exceed any context window; no structured output; no audit trail; cannot be run incrementally<br />
+<strong>Why not used:</strong> Physical impossibility at scale.</p>
+<h3 id="alternative-3-crewai">Alternative 3: CrewAI</h3>
+<p><strong>Pros:</strong> Agent orchestration with role-playing, good for autonomous teams<br />
+<strong>Cons:</strong> Requires Python scaffolding, agent-to-agent messaging overhead; doesn't integrate with IDE tools natively<br />
+<strong>Why not used:</strong> Same as LangChain — unnecessary infra when IDE-native agents are available.</p>
+<h3 id="alternative-4-simple-shell-script">Alternative 4: Simple Shell Script</h3>
+<p><strong>Pros:</strong> Fastest to write<br />
+<strong>Cons:</strong> No intelligence; would need manual Confluence lookup; no ON/OFF impact analysis; no natural language interface; no session state management<br />
+<strong>Why not used:</strong> No AI = no value for the use case.</p>
+<h3 id="alternative-5-vector-based-code-search-rag-over-java-files">Alternative 5: Vector-Based Code Search (RAG over Java files)</h3>
+<p><strong>Pros:</strong> Semantic matching beyond exact grep<br />
+<strong>Cons:</strong> Toggle names are exact strings — grep is 100% reliable and faster; building a code embedding index for 14,000+ files adds significant overhead with no benefit for this task<br />
+<strong>Why not used:</strong> Problem is exact-match, not semantic search.</p>
+<hr />
+<h2 id="interview-qa">Interview Q&amp;A</h2>
+<details class="qa-block" open>
+<summary class="qa-q">Q1: What is a multi-agent system and how does this app qualify?</summary>
+<div class="qa-a">
+<blockquote>
+<p>A multi-agent system has multiple autonomous AI agents, each with a defined role, that collaborate to solve a task no single agent can handle alone. This app has 6 agents (1 orchestrator + 5 sub-agents), each with its own skills, owned data files, and decision domain. The orchestrator routes commands; sub-agents execute specialised tasks. Communication is through natural language prompts + shared file system state.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q2: Why did you use GitHub Copilot Agents instead of LangChain or LangGraph?</summary>
+<div class="qa-a">
+<blockquote>
+<p>The Java repositories are open in JetBrains IDE, and the GitHub Copilot <code>.github/agents</code> framework is IDE-native — no separate runtime, no extra infrastructure. LangChain/LangGraph would require a separate Python process to interact with the IDE tools, adding latency and complexity. The agent definitions in <code>.md</code> files are also version-controlled alongside the codebase, which is a natural fit.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q3: How do you prevent agents from doing each other's work (scope creep)?</summary>
+<div class="qa-a">
+<blockquote>
+<p>The orchestrator enforces guardrails through a strict routing table. Each sub-agent's definition explicitly states what it owns and what it must NOT do. For example, SA-1 is explicitly prohibited from writing reports; SA-2 is explicitly prohibited from scanning Java files. This is enforced in the agent <code>.md</code> instruction files, not at runtime.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q4: What is the toggle registry and why is it important?</summary>
+<div class="qa-a">
+<blockquote>
+<p>The registry (<code>toggle-registry-lookup.csv</code>) maps each toggle name to its constant name, Java class, file path, line number, usage type, and repository. It's the pre-computed index that makes analysis instant — instead of scanning 14,000+ files at query time, the registry is built once (Workflow B) and reused for all analyses. It also enables cross-repo analysis: one lookup finds all usages of a toggle across all repos.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q5: How does ON/OFF impact analysis work?</summary>
+<div class="qa-a">
+<blockquote>
+<p>SA-1 finds each Java class that references the toggle. It then reads ~60 lines of context (20 before + 40 after the toggle reference). From this context, the LLM infers: what business logic executes when the toggle is ON vs OFF, what database fields/API fields are affected, and what downstream services are impacted. The result is a structured CSV row per (toggle, class) pair.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q6: What is the "targeted scan strategy" for DirectAPI?</summary>
+<div class="qa-a">
+<blockquote>
+<p>DirectAPI has 10,367 Java files — scanning all of them for every toggle query would be too slow. Instead, a one-time scan builds <code>direct-api-toggle-bearing-files.txt</code>: a list of only the files that contain at least one toggle reference. Future toggle analyses only scan this subset. This is a pre-filtering optimisation, equivalent to an index in a database.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q7: How would you scale this to 500 repositories?</summary>
+<div class="qa-a">
+<blockquote>
+<p>Three changes needed: (1) Make the registry distributed — shard it by repository into separate files (already done); (2) Add parallel batch processing — the PowerShell tools already support batch runs, so add <code>ForEach-Object -Parallel</code> for multi-repo scans; (3) Cache Confluence results — avoid re-fetching unchanged documentation. The agent architecture doesn't change.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q8: What are the limitations of this system?</summary>
+<div class="qa-a">
+<blockquote>
+<p>(1) Requires all Java repos to be cloned locally — not suitable for purely remote codebases. (2) Java-only — parser and registry builder are Java-specific. (3) Confluence access requires Atlassian MCP integration, which is not portable to all environments. (4) Context window limits mean very large Java classes (&gt;500 lines) may get truncated impact analysis. (5) Agent definitions in <code>.md</code> files require human maintenance when tool paths change.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q9: What is "toggle decomposition" and why does it need a dry-run?</summary>
+<div class="qa-a">
+<blockquote>
+<p>Decomposition means permanently removing a feature toggle from Java source code — changing <code>if (toggle.isEnabled(Feature.X)) { ... } else { ... }</code> to just the ON-state code path, deleting the else branch. This is irreversible source code modification affecting multiple files. A dry-run shows exactly which files/lines would change, letting the engineer review before committing. The actual run requires explicit <code>confirm actual run</code> command to prevent accidental changes.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q10: How do you handle rate limits from Confluence and LLMs?</summary>
+<div class="qa-a">
+<blockquote>
+<p>SA-3 uses batch-size-5 for Confluence API calls with delays between batches. The orchestrator tracks failed calls and can retry individual toggles. For LLM calls, the system uses adaptive delays and session checkpointing — if a batch fails mid-way, the session state persists so work can resume from the last successful batch.</p>
+</blockquote>
+</div></details>
+<hr />
+<h1 id="app-2-vector-rag-app-v1">App 2 — <code>vector-rag-app-v1</code></h1>
+<h2 id="overview_1">Overview</h2>
+<p>A <strong>vector-based Retrieval-Augmented Generation (RAG) application</strong> built with FastAPI that answers questions about uploaded documents using TF-IDF + Latent Semantic Analysis (LSA) for semantic vector search, with GitHub Copilot as the LLM backend.</p>
+<p><strong>Key distinction:</strong> Uses semantic vector search (TF-IDF + LSA, no HuggingFace/internet), multi-format document parsing (PDF, DOCX, XLSX, CSV, TXT, Markdown), and session-based context to maintain per-document state.</p>
+<hr />
+<h2 id="architecture_1">Architecture</h2>
+<p class="code-note" aria-hidden="true">&#128196; <em>Code / diagram block below</em></p><pre><code>Browser (HTML/JS)
+      │
+      ▼ HTTP (FastAPI)
+  server.py
+      │
+      ├─── POST /upload  ──────► parser.py ──► Page[]
+      │                               │
+      │                          vector_index.py
+      │                         (TF-IDF + LSA → embeddings)
+      │
+      └─── POST /ask ─────────► rag.py
+                                    │
+                           vector_index.search()
+                           (cosine similarity top-K)
+                                    │
+                               llm.py (GitHub Copilot)
+                                    │
+                               RAGResult (answer + sources)
+</code></pre>
+<hr />
+<h2 id="key-components">Key Components</h2>
+<h3 id="parserpy-document-parser"><code>parser.py</code> — Document Parser</h3>
+<p>Converts any document to <code>List[Page]</code>. Each <code>Page</code> is a natural document unit (PDF page, DOCX section, XLSX sheet, CSV batch, text/markdown section). No fixed-size chunking — boundaries follow the document's own structure.</p>
+<p>Supported formats:<br />
+- <strong>PDF</strong>: <code>pdfplumber</code> (primary) → <code>PyPDF2</code> (fallback). Extracts text + tables as pipe-separated rows.<br />
+- <strong>DOCX</strong>: Uses Word Heading styles for section boundaries. Falls back to paragraph batching.<br />
+- <strong>XLSX</strong>: Each sheet becomes one page. Tables rendered as Markdown.<br />
+- <strong>CSV</strong>: 50 rows per page, Markdown table format.<br />
+- <strong>TXT/MD</strong>: Splits on Markdown headings first; falls back to 800-word paragraph batches.</p>
+<h3 id="vector_indexpy-semantic-vector-index-no-huggingface"><code>vector_index.py</code> — Semantic Vector Index (No HuggingFace)</h3>
+<p class="code-note" aria-hidden="true">&#128196; <em>Code / diagram block below</em></p><pre><code>Page texts
+    │
+    ▼
+TfidfVectorizer (max_features=15000, ngram_range=(1,2), sublinear_tf)
+    │
+    ▼
+TruncatedSVD / LSA (n_components=128, reduces to dense semantic vectors)
+    │
+    ▼
+L2-normalize → embeddings matrix (n_pages × 128)
+    │
+Query time: TF-IDF → SVD → normalize → dot product = cosine similarity
+    │
+top-K pages returned
+</code></pre>
+<p><strong>Why TF-IDF + LSA instead of sentence-transformers?</strong><br />
+- No model downloads (offline friendly)<br />
+- No GPU dependency<br />
+- LSA captures semantic similarity via co-occurrence patterns (e.g., "car" and "automobile" share similar LSA vectors)<br />
+- Fast to build and query even on CPU</p>
+<h3 id="ragpy-rag-pipeline"><code>rag.py</code> — RAG Pipeline</h3>
+<p class="code-note" aria-hidden="true">&#128196; <em>Code / diagram block below</em></p><pre><code class="language-python">class VectorRAGPipeline:
+    # On init: parse file → build VectorIndex
+    # On ask:  search top-K pages → build context string → call LLM → update chat_history
+    # Supports: multi-turn conversation via chat_history list
+</code></pre>
+<h3 id="llmpy-llm-client-github-copilot"><code>llm.py</code> — LLM Client (GitHub Copilot)</h3>
+<p>Uses <code>openai</code> SDK with <code>base_url="https://models.inference.ai.azure.com"</code> and token from <code>gh auth token</code>. Supports model selection (claude-haiku-4.5, gpt-4o-mini, etc.)</p>
+<hr />
+<h2 id="design-decisions">Design Decisions</h2>
+<table>
+<thead>
+<tr>
+<th>Decision</th>
+<th>Choice</th>
+<th>Rationale</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Vector library</td>
+<td>sklearn TF-IDF + TruncatedSVD</td>
+<td>No downloads, no GPU, works offline</td>
+</tr>
+<tr>
+<td>Context window</td>
+<td>24,000 chars max</td>
+<td>Balance between context richness and LLM token limits</td>
+</tr>
+<tr>
+<td>Session management</td>
+<td><code>session_id</code> → in-memory <code>VectorIndex</code></td>
+<td>Avoids re-building index per question for same doc</td>
+</tr>
+<tr>
+<td>Chat history</td>
+<td>Appended to each LLM call</td>
+<td>Enables follow-up questions referencing previous answers</td>
+</tr>
+<tr>
+<td>Page granularity</td>
+<td>Natural doc units (not fixed-size chunks)</td>
+<td>Avoids breaking semantic units at arbitrary boundaries</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="alternative-solutions">Alternative Solutions</h2>
+<h3 id="alternative-1-sentence-transformers-huggingface">Alternative 1: sentence-transformers (HuggingFace)</h3>
+<p><strong>Pros:</strong> Much better semantic understanding (e.g., SBERT models); handles paraphrase matching better<br />
+<strong>Cons:</strong> 100+ MB model download; GPU for performance; latency on cold start<br />
+<strong>When to prefer:</strong> When high semantic accuracy is needed and internet/GPU is available</p>
+<h3 id="alternative-2-chromadb-sentence-transformers">Alternative 2: ChromaDB + sentence-transformers</h3>
+<p><strong>Pros:</strong> Persistent vector store; scales to millions of documents; production-grade<br />
+<strong>Cons:</strong> Additional service to run; storage overhead; complex session management<br />
+<strong>When to prefer:</strong> When you need to persist indexed documents across sessions</p>
+<h3 id="alternative-3-openai-text-embedding-ada-002">Alternative 3: OpenAI text-embedding-ada-002</h3>
+<p><strong>Pros:</strong> High-quality embeddings; 8K token context per chunk<br />
+<strong>Cons:</strong> Cost per token; requires internet; privacy concerns for sensitive documents<br />
+<strong>When to prefer:</strong> Production SaaS apps with quality requirements and internet access</p>
+<h3 id="alternative-4-bm25-no-vectors">Alternative 4: BM25 (no vectors)</h3>
+<p><strong>Pros:</strong> Simpler, no math overhead, zero dependencies beyond rank-bm25<br />
+<strong>Cons:</strong> Purely keyword-based; misses synonyms; no semantic similarity<br />
+<strong>When to prefer:</strong> When documents use very specific technical terminology (see App 3/4)</p>
+<h3 id="alternative-5-faiss">Alternative 5: FAISS</h3>
+<p><strong>Pros:</strong> Highly optimised vector search; scales to billions of vectors; Meta open-source<br />
+<strong>Cons:</strong> Binary library, harder cross-platform; over-engineered for small docs<br />
+<strong>When to prefer:</strong> When searching across millions of documents at production scale</p>
+<hr />
+<h2 id="interview-qa_1">Interview Q&amp;A</h2>
+<details class="qa-block" open>
+<summary class="qa-q">Q1: What is RAG and why is it needed?</summary>
+<div class="qa-a">
+<blockquote>
+<p>RAG (Retrieval-Augmented Generation) grounds an LLM's answer in specific documents rather than its training data. Without RAG, an LLM either doesn't know your private document or hallucinates. RAG: (1) retrieves relevant sections from the document, (2) puts them in the LLM's context window, (3) the LLM synthesises an answer only from that context. This prevents hallucination for private/domain documents.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q2: What is LSA and how does it provide semantic search?</summary>
+<div class="qa-a">
+<blockquote>
+<p>LSA (Latent Semantic Analysis) uses SVD (Singular Value Decomposition) on a TF-IDF matrix to find latent semantic dimensions that capture word co-occurrence patterns. Words that appear in similar contexts get similar vector representations. So "car" and "automobile" end up close in LSA space even if they never appear together. It's a classical NLP technique that predates neural embeddings but is computationally cheap.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q3: What is cosine similarity and why use it for vector search?</summary>
+<div class="qa-a">
+<blockquote>
+<p>Cosine similarity measures the angle between two vectors rather than their magnitude. After L2-normalisation, <code>dot(v1, v2) = cos(angle)</code>. Two documents with similar topic proportions will have a small angle (high cosine similarity) even if one is longer than the other. It's direction-invariant, which makes it robust to document length differences.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q4: What are the limitations of TF-IDF + LSA vs neural embeddings?</summary>
+<div class="qa-a">
+<blockquote>
+<p>TF-IDF+LSA: (1) Cannot understand word order or grammar (bag-of-words). (2) LSA dimensions are linear — cannot capture non-linear semantic relationships. (3) Out-of-vocabulary words are ignored. (4) Requires rebuilding when adding new documents. Neural embeddings (SBERT, OpenAI): contextual, capture syntax + semantics, handle OOV via subword tokenization. Trade-off: TF-IDF+LSA is fast and offline; neural embeddings are more accurate but need models.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q5: How does the context builder handle very long documents?</summary>
+<div class="qa-a">
+<blockquote>
+<p>It iterates retrieved pages in descending relevance order. For each page, it checks if adding the full page would exceed <code>max_chars=24000</code>. If it would overflow but &gt;300 chars remain, it appends a truncated version. Otherwise it stops. This ensures the most relevant content always fits while respecting LLM token limits.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q6: What is `session_id` and why does it exist?</summary>
+<div class="qa-a">
+<blockquote>
+<p>When a user uploads a document, a <code>session_id</code> is generated (UUID). The <code>VectorIndex</code> for that document is stored in a server-side dictionary keyed by <code>session_id</code>. Subsequent questions reuse the same index without re-parsing/re-vectorising. This is a simple in-memory session cache — in production, it would need TTL eviction or a persistent store (Redis, etc.).</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q7: Why use `sublinear_tf=True` in TfidfVectorizer?</summary>
+<div class="qa-a">
+<blockquote>
+<p>Without sublinear_tf, TF grows linearly — a word appearing 100 times gets 100x the weight of one appearing once. With <code>sublinear_tf=True</code>, TF = 1 + log(term_frequency). This dampens the effect of very frequent terms and prevents any single high-frequency word from dominating the vector. It generally improves retrieval quality for documents with repeated terminology.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q8: What is `n_components=128` in TruncatedSVD and how to choose it?</summary>
+<div class="qa-a">
+<blockquote>
+<p><code>n_components</code> is the number of latent semantic dimensions. 128 is a good default: enough to capture meaningful topic clusters, few enough for fast computation. Too few (e.g., 10): overly coarse representation, topics blur together. Too many: slower, can overfit to noise. For production, it can be tuned using reconstruction error or retrieval accuracy on a test set.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q9: Why support 6 document formats instead of just PDF?</summary>
+<div class="qa-a">
+<blockquote>
+<p>Real enterprise documents live in many formats: technical specs in PDF, contracts in DOCX, data in XLSX, logs in CSV, notes in TXT/Markdown. A format-agnostic parser makes the app universally useful. Each format has a different structure — PDF has pages, DOCX has heading styles, XLSX has sheets — so each needs a tailored parser that respects these natural boundaries.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q10: How would you make this production-ready?</summary>
+<div class="qa-a">
+<blockquote>
+<p>(1) Replace in-memory session dict with Redis (TTL-based eviction). (2) Persist ChromaDB index to disk so it survives server restarts. (3) Add authentication (OAuth2 or API key). (4) Add rate limiting per user. (5) Replace TF-IDF+LSA with sentence-transformers for better quality. (6) Add structured logging and monitoring. (7) Dockerise the service. (8) Add streaming responses for long LLM outputs.</p>
+</blockquote>
+</div></details>
+<hr />
+<h1 id="app-3-vector-less-rag-app-v2">App 3 — <code>vector-less-rag-app-v2</code></h1>
+<h2 id="overview_2">Overview</h2>
+<p>A <strong>vector-free RAG application</strong> (FastAPI) that eliminates all vector DB and embedding overhead by using <strong>BM25 keyword search</strong> directly over document pages. It's a direct simplification of App 2, removing ChromaDB, sentence-transformers, and the sklearn dependency.</p>
+<p><strong>The core insight:</strong> For technical documents with precise terminology (ISO specifications, API docs, legal contracts), BM25 keyword matching is often equal or superior to semantic vector search because the query terms appear verbatim in the document.</p>
+<hr />
+<h2 id="architecture_2">Architecture</h2>
+<p class="code-note" aria-hidden="true">&#128196; <em>Code / diagram block below</em></p><pre><code>Browser (HTML/JS)
+      │
+      ▼ HTTP (FastAPI)
+  server.py
+      │
+      ├─── POST /upload  ──────► parser.py ──► Page[]
+      │                               │
+      │                          page_index.py (BM25Okapi)
+      │
+      └─── POST /ask ─────────► rag.py
+                                    │
+                           page_index.search() → BM25 top-K
+                                    │
+                               llm.py (GitHub Copilot)
+                                    │
+                               RAGResult (answer + sources)
+</code></pre>
+<hr />
+<h2 id="key-components_1">Key Components</h2>
+<h3 id="page_indexpy-bm25-index"><code>page_index.py</code> — BM25 Index</h3>
+<p class="code-note" aria-hidden="true">&#128196; <em>Code / diagram block below</em></p><pre><code class="language-python">class PageIndex:
+    # Tokenizes all page texts (lowercase alphanumeric)
+    # Builds BM25Okapi index over page-level tokens
+    # search(query, top_k) → [(Page, score), ...]
+    # Fallback: if all BM25 scores are 0 (query terms not in corpus), returns top_k pages
+    # build_context() → formats pages as context string with page headers
+    # build_toc() → generates a document table of contents
+    # score_chart_data() → returns Altair-compatible data for visualising retrieval scores
+</code></pre>
+<h3 id="bm25okapi-algorithm">BM25Okapi Algorithm</h3>
+<p class="code-note" aria-hidden="true">&#128196; <em>Code / diagram block below</em></p><pre><code>BM25(q, d) = Σ IDF(qi) × (tf(qi,d) × (k1+1)) / (tf(qi,d) + k1 × (1-b + b×|d|/avgdl))
+</code></pre>
+<ul>
+<li><code>IDF</code>: Inverse Document Frequency — rare terms across pages score higher</li>
+<li><code>tf</code>: Term frequency within the page</li>
+<li><code>k1=1.5</code>: Controls TF saturation (diminishing returns for repeated terms)</li>
+<li><code>b=0.75</code>: Controls length normalisation (longer pages get slight penalty)</li>
+</ul>
+<h3 id="ragpy-rag-pipeline_1"><code>rag.py</code> — RAG Pipeline</h3>
+<p>Same structure as App 2, but <code>VectorIndex</code> replaced by <code>PageIndex</code>. Notable: no session_id needed in v2 (simpler API).</p>
+<hr />
+<h2 id="v1-v2-key-changes">V1 → V2 Key Changes</h2>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>V1 (vector-rag-app-v1)</th>
+<th>V2 (vector-less-rag-app-v2)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Search</td>
+<td>TF-IDF + LSA (semantic)</td>
+<td>BM25 (keyword)</td>
+</tr>
+<tr>
+<td>Dependencies</td>
+<td>sklearn, numpy</td>
+<td>rank-bm25 only</td>
+</tr>
+<tr>
+<td>Setup time</td>
+<td>Slower (matrix operations)</td>
+<td>Instant</td>
+</tr>
+<tr>
+<td>Semantic matching</td>
+<td>Yes (synonyms, topics)</td>
+<td>No (exact terms only)</td>
+</tr>
+<tr>
+<td>Best for</td>
+<td>Conceptual/conversational docs</td>
+<td>Technical specs, exact terminology</td>
+</tr>
+<tr>
+<td>Memory</td>
+<td>Higher (embedding matrix)</td>
+<td>Lower (token lists only)</td>
+</tr>
+<tr>
+<td>Install size</td>
+<td>Large (sklearn, scipy)</td>
+<td>Tiny</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="alternative-solutions_1">Alternative Solutions</h2>
+<h3 id="alternative-1-hybrid-bm25-vector-rrf-fusion">Alternative 1: Hybrid BM25 + Vector (RRF Fusion)</h3>
+<p><strong>Approach:</strong> Run both BM25 and vector search independently; combine rankings using Reciprocal Rank Fusion (RRF): <code>score = Σ 1/(k + rank_i)</code><br />
+<strong>Pros:</strong> Best of both worlds — catches both exact-match and semantic relevance<br />
+<strong>Cons:</strong> Needs both a vector model and BM25; 2× the retrieval overhead; result de-duplication needed<br />
+<strong>When to prefer:</strong> Production RAG systems where recall is critical (e.g., enterprise search)</p>
+<h3 id="alternative-2-tf-idf-without-svd-no-lsa">Alternative 2: TF-IDF Without SVD (No LSA)</h3>
+<p><strong>Approach:</strong> Skip the dimensionality reduction step; use raw TF-IDF cosine similarity<br />
+<strong>Pros:</strong> Even simpler than App 1; no LSA overhead<br />
+<strong>Cons:</strong> Very high-dimensional sparse vectors; exact-match like BM25 but less principled<br />
+<strong>When to prefer:</strong> This is essentially BM25 — prefer BM25's principled probabilistic model instead</p>
+<h3 id="alternative-3-elasticsearch-bm25">Alternative 3: Elasticsearch BM25</h3>
+<p><strong>Pros:</strong> Production-grade; handles sharding, replication, multi-tenancy; REST API<br />
+<strong>Cons:</strong> Requires separate Elasticsearch cluster; far more infrastructure for a single-user app<br />
+<strong>When to prefer:</strong> Enterprise document search with multiple users and large corpora</p>
+<h3 id="alternative-4-sqlite-fts5-full-text-search">Alternative 4: SQLite FTS5 (Full-Text Search)</h3>
+<p><strong>Pros:</strong> Zero extra dependencies; SQLite is embedded; supports BM25 natively via <code>rank</code> function<br />
+<strong>Cons:</strong> Not as flexible; harder to integrate with Python doc structures; limited to text<br />
+<strong>When to prefer:</strong> Embedded applications where an extra Python package is unacceptable</p>
+<hr />
+<h2 id="interview-qa_2">Interview Q&amp;A</h2>
+<details class="qa-block" open>
+<summary class="qa-q">Q1: What is BM25 and why is it called "Okapi"?</summary>
+<div class="qa-a">
+<blockquote>
+<p>BM25 (Best Match 25) is a probabilistic ranking function from information retrieval. "Okapi" refers to the Okapi IR system at City University London where it was developed. It's the algorithm behind many production search engines (Elasticsearch, Solr, Lucene). BM25 ranks documents by query term frequency (TF) and inverse document frequency (IDF), with normalisation for document length. "25" is just the version number in the BM research series.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q2: What is the difference between BM25 and TF-IDF?</summary>
+<div class="qa-a">
+<blockquote>
+<p>Both use TF×IDF but differ in TF saturation and length normalisation. TF-IDF: raw term frequency, no saturation. BM25: uses <code>tf×(k1+1)/(tf+k1×(1-b+b×|d|/avgdl))</code> which saturates (adding the same term many times has diminishing returns) and normalises for document length. BM25 is empirically stronger for retrieval tasks and is the default in Elasticsearch.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q3: Why would keyword search outperform semantic search for ISO specifications?</summary>
+<div class="qa-a">
+<blockquote>
+<p>Technical standards use precise terminology — "TVR" (Terminal Verification Result), "EMV", "ISO 8583 field 55". A user asking about "field 55" means exactly "field 55" — there's no semantic paraphrase. LSA might map "field 55" close to "transaction data element" which could dilute the result. BM25's exact term matching returns the pages that literally contain "field 55" with high confidence.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q4: What happens when the user asks a question whose terms aren't in the document?</summary>
+<div class="qa-a">
+<blockquote>
+<p><code>PageIndex.search()</code> returns <code>[(p, 0.0) for p in self.pages[:top_k]]</code> — the first N pages with score 0. This is the fallback that always returns <em>something</em> even for out-of-vocabulary queries. Ideally, the LLM is then instructed to say "this information is not in the document" when no relevant context is found. A better fallback would be to return the table of contents or summary sections.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q5: How do you tokenise text for BM25?</summary>
+<div class="qa-a">
+<blockquote>
+<p>Simple lowercase alphanumeric tokenisation: <code>re.findall(r"[a-zA-Z0-9]+", text.lower())</code>. This strips punctuation and splits on non-alphanumeric characters. Advantages: simple, robust, handles mixed content. Limitations: loses hyphenated terms (<code>ISO-8583</code> becomes <code>["iso", "8583"]</code>); no stemming (so "runs" and "running" are different tokens). Stemming (Porter, Snowball) could improve recall.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q6: What is IDF and why does it matter for retrieval?</summary>
+<div class="qa-a">
+<blockquote>
+<p>IDF (Inverse Document Frequency) = log(N / df(t)) where N = total documents and df(t) = documents containing term t. A term appearing in every page has IDF ≈ 0 — it's useless for distinguishing pages. A term appearing in only 1 page has high IDF — it strongly discriminates. This is why "the", "is", "of" get low scores even if they appear many times: they're in every page.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q7: What is the `score_chart_data` method used for?</summary>
+<div class="qa-a">
+<blockquote>
+<p>It returns per-page BM25 scores normalised to percentage of the maximum score. This data feeds an Altair bar chart in the UI that shows which pages were retrieved and how confident the retrieval was. It's a transparency/explainability feature — the user can see exactly which pages the answer came from and how relevant each was.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q8: Why keep a TOC builder (`build_toc`)?</summary>
+<div class="qa-a">
+<blockquote>
+<p>Before asking a question, the user may want to browse the document structure. The TOC lists all pages with their titles and word counts, giving an overview of what's in the document. It's particularly useful for large XLSX files where sheet names summarise major data categories, or for technical PDFs where chapter headings reveal content scope.</p>
+</blockquote>
+</div></details>
+<hr />
+<h1 id="app-4-vector-less-rag-app">App 4 — <code>vector-less-rag-app</code></h1>
+<h2 id="overview_3">Overview</h2>
+<p>A <strong>Streamlit-based vector-less RAG application</strong> with a ChatGPT-style dark-themed UI. Builds on App 3 but adds:<br />
+- <strong>Multi-query retrieval</strong> — searches with the full question AND each significant token independently, then merges results (crucial for short acronyms like "TVR", "EMV")<br />
+- <strong>Chunker module</strong> — for apps that need sub-page chunks instead of whole pages<br />
+- <strong>Altair visualisation</strong> — interactive retrieval score bar chart<br />
+- <strong>ChatGPT-style UI</strong> — dark theme, scrollable chat history, real-time streaming feel</p>
+<hr />
+<h2 id="architecture_3">Architecture</h2>
+<p class="code-note" aria-hidden="true">&#128196; <em>Code / diagram block below</em></p><pre><code>Streamlit Browser UI (dark theme)
+          │
+          ▼
+       app.py
+          │
+     ┌────┴────┐
+     │         │
+  Upload     Ask question
+     │         │
+  parser.py  rag.py
+     │         │
+   Page[]    ├── _multi_query_search()
+             │    ├── BM25(full question)    → {page: score}
+             │    ├── BM25(&quot;token1&quot;)         → {page: score}
+             │    ├── BM25(&quot;token2&quot;)         → {page: score}
+             │    └── merge (max score wins) → top-K pages
+             │
+          llm.py → GitHub Copilot
+             │
+          Answer + source citations
+             │
+          Altair score chart (optional)
+</code></pre>
+<hr />
+<h2 id="multi-query-retrieval-the-key-innovation">Multi-Query Retrieval — The Key Innovation</h2>
+<p class="code-note" aria-hidden="true">&#128196; <em>Code / diagram block below</em></p><pre><code class="language-python">def _multi_query_search(self, question: str) -&gt; List[Tuple[Page, float]]:
+    # Step 1: search with full question
+    combined = {page.page_num: (page, score)
+                for page, score in self.index.search(question, top_k=self.top_k * 2)}
+
+    # Step 2: search with individual meaningful tokens
+    STOP = {&quot;the&quot;, &quot;and&quot;, &quot;for&quot;, ...}  # 22 common stop words
+    tokens = [t for t in re.findall(r&quot;[A-Za-z0-9]+&quot;, question)
+              if len(t) &gt;= 2 and t.lower() not in STOP]
+
+    for token in tokens:
+        for page, score in self.index.search(token, top_k=self.top_k):
+            if score &gt; combined.get(page.page_num, (None, -1))[1]:
+                combined[page.page_num] = (page, score)  # keep max
+
+    # Step 3: rank by max score, return top_k
+    return sorted(combined.values(), key=lambda x: x[1], reverse=True)[:self.top_k]
+</code></pre>
+<p><strong>Why this matters:</strong> For a question like "What does TVR mean?", BM25 on the full question may score "TVR" poorly because the full question includes stop words diluting the signal. Searching "TVR" alone as a separate query finds the exact pages that define it.</p>
+<hr />
+<h2 id="chunkerpy-sub-page-chunking"><code>chunker.py</code> — Sub-Page Chunking</h2>
+<p>When full pages are too large for context, the chunker splits them:<br />
+- Splits on double newlines (paragraph boundaries) first<br />
+- Falls back to sentence splitting (<code>.</code>, <code>!</code>, <code>?</code>) for large paragraphs<br />
+- Overlap: last <code>overlap=50</code> chars carried to next chunk for continuity<br />
+- Default: <code>chunk_size=500</code>, <code>overlap=50</code></p>
+<p>This module enables a hybrid retrieval pipeline: page-level BM25 for coarse retrieval + chunk-level context for fine-grained LLM input.</p>
+<hr />
+<h2 id="streamlit-ui-features">Streamlit UI Features</h2>
+<ul>
+<li><strong>Dark ChatGPT-style theme</strong>: Custom CSS, <code>#212121</code> background, <code>#ececec</code> text</li>
+<li><strong>Hidden Streamlit chrome</strong>: <code>#MainMenu, footer, header</code> hidden</li>
+<li><strong>Real-time streaming feel</strong>: Progress spinners during model inference</li>
+<li><strong>Source citations</strong>: Each answer shows which pages were used with BM25 scores</li>
+<li><strong>Retrieval score chart</strong>: Altair bar chart showing relevance per page</li>
+<li><strong>Model selector</strong>: Dropdown with all available GitHub Copilot models + speed hints</li>
+<li><strong>Multi-provider support</strong>: GitHub Copilot + Azure OpenAI endpoint support</li>
+</ul>
+<hr />
+<h2 id="alternative-solutions_2">Alternative Solutions</h2>
+<h3 id="alternative-1-gradio-ui-instead-of-streamlit">Alternative 1: Gradio UI instead of Streamlit</h3>
+<p><strong>Pros:</strong> Simpler API for ML demos; auto-generates file upload widgets; Hugging Face native<br />
+<strong>Cons:</strong> Less control over CSS/theming; limited layout flexibility; worse for multi-step workflows<br />
+<strong>When to prefer:</strong> Quick prototypes for ML model demos</p>
+<h3 id="alternative-2-llamaindex-query-engine">Alternative 2: LlamaIndex Query Engine</h3>
+<p><strong>Pros:</strong> Full RAG framework with multiple retrieval strategies; pluggable LLMs; persistence<br />
+<strong>Cons:</strong> Heavy dependency (&gt;50 sub-packages); abstraction hides what's happening; steep learning curve<br />
+<strong>When to prefer:</strong> Production RAG systems where you need query routing, sub-question generation, etc.</p>
+<h3 id="alternative-3-haystack-pipeline">Alternative 3: Haystack Pipeline</h3>
+<p><strong>Pros:</strong> Production-grade; modular pipeline; supports hybrid retrieval (BM25 + embedding); REST API<br />
+<strong>Cons:</strong> Requires Docker for full stack; complex configuration; slower to prototype<br />
+<strong>When to prefer:</strong> Enterprise document QA with multiple retrieval strategies and LLM backends</p>
+<h3 id="alternative-4-query-expansion-hyde-hypothetical-document-embeddings">Alternative 4: Query Expansion (HyDE — Hypothetical Document Embeddings)</h3>
+<p><strong>Approach:</strong> First ask the LLM to generate a hypothetical answer to the question; then embed that hypothetical answer and search for similar document sections<br />
+<strong>Pros:</strong> Better semantic matching; the hypothetical answer uses terminology similar to the document<br />
+<strong>Cons:</strong> Requires one additional LLM call per question; needs embeddings; more latency<br />
+<strong>When to prefer:</strong> Semantic search scenarios where exact keyword matching is insufficient</p>
+<hr />
+<h2 id="interview-qa_3">Interview Q&amp;A</h2>
+<details class="qa-block" open>
+<summary class="qa-q">Q1: What problem does multi-query retrieval solve that single-query BM25 does not?</summary>
+<div class="qa-a">
+<blockquote>
+<p>Single-query BM25 tokenises the full question. For "What does TVR mean?", the tokens are <code>["what", "does", "tvr", "mean"]</code>. Stop words (<code>what</code>, <code>does</code>, <code>mean</code>) dilute the signal for <code>tvr</code>. The pages that define TVR may not score highly because BM25 distributes weight across all tokens. Multi-query re-runs BM25 with just <code>tvr</code> as the sole query, which gives 100% of the score weight to that term. The union of both searches is more robust.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q2: What is the "max score wins" merge strategy?</summary>
+<div class="qa-a">
+<blockquote>
+<p>When a page appears in multiple sub-query results (e.g., from the full question AND from the individual token "TVR"), we keep the highest BM25 score it received across all queries. This is conservative: we don't sum scores (which could inflate scores for pages that match many individual tokens but are not genuinely relevant) — we take the most optimistic single-query assessment of each page's relevance.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q3: What is chunking and when is it needed vs page-level retrieval?</summary>
+<div class="qa-a">
+<blockquote>
+<p>Chunking splits large pages into smaller overlapping segments. It's needed when: (1) individual pages are very long (e.g., a 50-page PDF has pages with 3000 words each), (2) the LLM context window is small, (3) the answer is likely in a specific paragraph rather than the whole page. Page-level retrieval is sufficient when pages are natural, self-contained units and fit comfortably in context. App 3/4 prefer page-level because ISO specification pages are well-scoped.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q4: Why use Streamlit instead of FastAPI for this version?</summary>
+<div class="qa-a">
+<blockquote>
+<p>App 3 (FastAPI) serves a JavaScript frontend — suitable when you want a decoupled SPA frontend. Streamlit embeds UI state management in Python, eliminating the need for JavaScript. For a single-user local app, Streamlit's auto-refresh and widget state management is much faster to develop. The trade-off is that Streamlit is not suitable for high-concurrency production APIs — FastAPI is better for that.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q5: What is Altair and why use it for the score chart?</summary>
+<div class="qa-a">
+<blockquote>
+<p>Altair is a declarative statistical visualisation library based on Vega-Lite. It's used because: (1) it's JSON-spec based, meaning charts are declarative and easy to compose, (2) it integrates natively with Streamlit via <code>st.altair_chart()</code>, (3) it supports interactive tooltips with minimal code. The retrieval score bar chart shows page-by-page BM25 relevance, helping users understand why certain pages were used as context.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q6: How does the overlap in chunking prevent information loss at boundaries?</summary>
+<div class="qa-a">
+<blockquote>
+<p>When a paragraph is split at character 500, the sentence at the boundary may be split in the middle. If the next chunk starts fresh, the first sentence of the new chunk loses its preceding context. The overlap carries the last <code>n</code> characters from the previous chunk into the start of the next chunk. This ensures boundary sentences have enough context for BM25 to score them correctly.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q7: What is the STOP word list used for in multi-query retrieval?</summary>
+<div class="qa-a">
+<blockquote>
+<p>Stop words are filtered out before running individual-token sub-queries. Searching for "the" or "what" individually would match every page equally (universal terms = IDF ≈ 0). The filter keeps only meaningful tokens — technical terms, proper nouns, numbers. The custom list (<code>{"the", "and", "for", ...}</code>) includes 22 common English words. Note: domain-specific stop words (e.g., "feature" in a toggle management context) are NOT filtered, preserving technical specificity.</p>
+</blockquote>
+</div></details>
+<hr />
+<h1 id="app-5-vector-less-rag-agentic">App 5 — <code>vector-less-rag-agentic</code></h1>
+<h2 id="overview_4">Overview</h2>
+<p>The most radical approach: <strong>no retriever class, no BM25, no embeddings, no chunking</strong>. Instead, documents are converted to a <strong>structured JSON tree</strong> and the <strong>GitHub Copilot LLM itself acts as the retrieval agent</strong> — it reads the full document structure and locates relevant information using its own reasoning.</p>
+<p><strong>Key insight:</strong> If the document fits in the LLM's context window (128K tokens for GPT-4o), you don't need retrieval at all. The LLM can read the whole document and find what's relevant — it's a retrieval agent by nature.</p>
+<hr />
+<h2 id="architecture_4">Architecture</h2>
+<p class="code-note" aria-hidden="true">&#128196; <em>Code / diagram block below</em></p><pre><code>Document (PDF / DOCX / XLSX)
+         │
+         ▼
+   convert.py                ← Step 1: Structure extraction
+   (PyPDF2 / python-docx / openpyxl)
+         │
+         ▼
+   JSON Tree File             ← { filename, file_type, has_toc, sections[], tables[] }
+         │
+         ▼
+   ask.py                     ← Step 2: Question → Answer
+   build_context(doc)         ← Formats JSON tree as readable Markdown prompt
+         │
+         ▼
+   GitHub Copilot LLM         ← Reads FULL document, answers question
+   (gpt-4o-mini, gpt-4o, etc.)
+         │
+         ▼
+       Answer
+</code></pre>
+<hr />
+<h2 id="key-components_2">Key Components</h2>
+<h3 id="convertpy-document-to-json-tree-converter"><code>convert.py</code> — Document to JSON Tree Converter</h3>
+<p><strong>Two modes for each format:</strong></p>
+<p>For <strong>PDF</strong>:<br />
+- <strong>With TOC (bookmarks)</strong>: Uses PDF outline entries as section boundaries → accurate, structure-preserving<br />
+- <strong>Without TOC</strong>: Scans line-by-line for heading patterns → numbered headings (<code>1.</code>, <code>1.2</code>), ALL-CAPS short lines, Title Case short lines → auto-generates heading from first sentence if nothing detected</p>
+<p>For <strong>DOCX</strong>:<br />
+- <strong>With Heading styles</strong>: Uses Word Heading 1/2/3 as section boundaries<br />
+- <strong>Without Heading styles</strong>: Same line-level heuristic as PDF; falls back to grouping every 10 paragraphs with auto-generated heading</p>
+<p>For <strong>XLSX</strong>: Sheet names are always the headings.</p>
+<p><strong>JSON Schema:</strong></p>
+<p class="code-note" aria-hidden="true">&#128196; <em>Code / diagram block below</em></p><pre><code class="language-json">{
+  &quot;filename&quot;: &quot;report.pdf&quot;,
+  &quot;file_type&quot;: &quot;pdf&quot;,
+  &quot;has_toc&quot;: true,
+  &quot;sections&quot;: [
+    {&quot;id&quot;: 0, &quot;heading&quot;: &quot;Executive Summary&quot;, &quot;level&quot;: 1, &quot;content&quot;: &quot;...&quot;, &quot;page&quot;: 1}
+  ],
+  &quot;tables&quot;: [
+    {&quot;id&quot;: 0, &quot;section_id&quot;: 0, &quot;headers&quot;: [&quot;Col1&quot;, &quot;Col2&quot;], &quot;rows&quot;: [[&quot;a&quot;, &quot;b&quot;]]}
+  ]
+}
+</code></pre>
+<h3 id="askpy-llm-as-retriever"><code>ask.py</code> — LLM-as-Retriever</h3>
+<p class="code-note" aria-hidden="true">&#128196; <em>Code / diagram block below</em></p><pre><code class="language-python">def ask(json_path, question, model=&quot;gpt-4o-mini&quot;):
+    doc = json.loads(Path(json_path).read_text())
+    context = build_context(doc)         # Full JSON → readable Markdown
+    # context includes: all sections with headings + all tables in Markdown format
+
+    response = client.chat.completions.create(
+        model=model,
+        messages=[
+            {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: SYSTEM_PROMPT},  # instructs LLM to use only doc content
+            {&quot;role&quot;: &quot;user&quot;,   &quot;content&quot;: f&quot;Here is the document:\n\n{context}\n\n---\n\nQuestion: {question}&quot;}
+        ],
+        temperature=0.2, max_tokens=1024
+    )
+</code></pre>
+<p>The <code>SYSTEM_PROMPT</code> explicitly instructs: "Answer using only information from the document JSON. Do NOT use outside knowledge."</p>
+<hr />
+<h2 id="comparison-with-other-apps">Comparison with Other Apps</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>vector-rag-v1</th>
+<th>vector-less-v2/v3</th>
+<th><strong>vector-less-agentic</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Retrieval</td>
+<td>LSA vectors</td>
+<td>BM25</td>
+<td>None (LLM reads all)</td>
+</tr>
+<tr>
+<td>Context</td>
+<td>Top-K pages</td>
+<td>Top-K pages</td>
+<td><strong>Full document</strong></td>
+</tr>
+<tr>
+<td>Setup code</td>
+<td>VectorIndex class</td>
+<td>PageIndex class</td>
+<td><strong>2 scripts, 0 classes</strong></td>
+</tr>
+<tr>
+<td>Works for</td>
+<td>Any size</td>
+<td>Any size</td>
+<td><strong>Small-medium docs (&lt;300p)</strong></td>
+</tr>
+<tr>
+<td>Structure-aware</td>
+<td>No</td>
+<td>No</td>
+<td><strong>Yes (sections + tables)</strong></td>
+</tr>
+<tr>
+<td>Code complexity</td>
+<td>High</td>
+<td>Medium</td>
+<td><strong>Minimal</strong></td>
+</tr>
+<tr>
+<td>Token cost</td>
+<td>Low</td>
+<td>Low</td>
+<td><strong>Higher (full doc)</strong></td>
+</tr>
+<tr>
+<td>Multi-turn</td>
+<td>Via RAGPipeline</td>
+<td>Via RAGPipeline</td>
+<td><strong>One-shot (CLI)</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="alternative-solutions_3">Alternative Solutions</h2>
+<h3 id="alternative-1-keep-bm25-with-json-tree-structure">Alternative 1: Keep BM25 with JSON Tree structure</h3>
+<p><strong>Approach:</strong> Build BM25 index over the JSON sections instead of raw pages<br />
+<strong>Pros:</strong> Handles large documents; still benefits from structural headings as metadata<br />
+<strong>Cons:</strong> Loses the "LLM reads full context" advantage; sections may be too granular for BM25<br />
+<strong>When to prefer:</strong> When documents exceed LLM context window but you still want structure-awareness</p>
+<h3 id="alternative-2-llm-with-tool-call-for-section-lookup">Alternative 2: LLM with Tool Call for Section Lookup</h3>
+<p><strong>Approach:</strong> Define a <code>get_section(heading)</code> tool; the LLM calls the tool to fetch specific sections on-demand<br />
+<strong>Pros:</strong> True agentic retrieval; LLM decides which sections to read; handles very large documents<br />
+<strong>Cons:</strong> Multiple round-trips; more complex prompting; needs function calling support<br />
+<strong>When to prefer:</strong> Documents that exceed even 128K context; true long-document understanding tasks</p>
+<h3 id="alternative-3-graphrag-microsoft">Alternative 3: GraphRAG (Microsoft)</h3>
+<p><strong>Approach:</strong> Build a knowledge graph from the document; traverse graph for multi-hop questions<br />
+<strong>Pros:</strong> Handles relational questions across sections; better for entity-rich documents<br />
+<strong>Cons:</strong> Complex pipeline; requires LLM for graph construction; not suitable for simple QA<br />
+<strong>When to prefer:</strong> Documents with many inter-related entities (corporate knowledge bases, medical records)</p>
+<h3 id="alternative-4-colbert-late-interaction">Alternative 4: ColBERT Late Interaction</h3>
+<p><strong>Approach:</strong> Store per-token embeddings instead of per-page; compute query-document similarity at token level<br />
+<strong>Pros:</strong> Better precision; handles complex multi-part questions; supports MaxSim retrieval<br />
+<strong>Cons:</strong> High storage (per-token embeddings); complex to implement; needs GPU for inference speed<br />
+<strong>When to prefer:</strong> Production retrieval where precision is critical and storage is not a concern</p>
+<hr />
+<h2 id="interview-qa_4">Interview Q&amp;A</h2>
+<details class="qa-block" open>
+<summary class="qa-q">Q1: What is "LLM as retriever" and why is it different from RAG?</summary>
+<div class="qa-a">
+<blockquote>
+<p>Traditional RAG retrieves document chunks → feeds them to LLM. LLM-as-retriever removes the separate retrieval step: the entire document goes into the LLM's context, and the LLM uses its own attention mechanism to "retrieve" (locate and attend to) relevant information. It's only possible because modern LLMs have 128K+ token context windows. The trade-off: higher token cost per query but simpler architecture and better context coherence.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q2: Why convert to JSON tree instead of sending raw PDF text?</summary>
+<div class="qa-a">
+<blockquote>
+<p>Raw PDF text is flat — just a stream of characters with no semantic structure. The JSON tree preserves the document's hierarchy (sections, headings, levels, tables) as structured data. This gives the LLM explicit section boundaries to navigate, table data in parseable form, and heading labels that aid retrieval reasoning. Sending "Section: Executive Summary → [content]" is more LLM-friendly than raw page text.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q3: What is the `has_toc` flag and how does it affect conversion?</summary>
+<div class="qa-a">
+<blockquote>
+<p><code>has_toc=true</code> means the document has its own structural outline (PDF bookmarks or DOCX Heading styles). In this case, the converter uses the document's own structure as section boundaries — it trusts the author's organisation. <code>has_toc=false</code> triggers heuristic heading detection (numbered lines, ALL-CAPS, Title Case patterns) + auto-heading generation from the first sentence of each section. TOC-present docs produce more accurate sections.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q4: What are the limitations of the agentic approach?</summary>
+<div class="qa-a">
+<blockquote>
+<p>(1) Document size: documents &gt;100K tokens (~300 pages) will exceed even GPT-4o's 128K context. (2) Cost: sending the full document every query is expensive at scale. (3) Latency: larger context = slower inference. (4) No multi-turn memory: each <code>ask()</code> call is a fresh conversation (CLI script). (5) Not suitable for streaming updates — if the document changes, no incremental index update, must re-convert. (6) Tables &gt;100 rows are truncated to avoid token overflow.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q5: How does the authentication work without exposing a token?</summary>
+<div class="qa-a">
+<blockquote>
+<p><code>_resolve_github_token()</code> tries two strategies: (1) <code>subprocess.run(["gh", "auth", "token"])</code> — calls the GitHub CLI to get the currently authenticated user's token; (2) <code>os.environ.get("GITHUB_TOKEN")</code>. Neither approach stores the token in code or config files. This is a security best practice: tokens are never hardcoded, never in <code>.env</code> files that might be committed, and are resolved at runtime from the OS-level authentication state.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q6: What auto-heading logic does `convert.py` use for un-structured documents?</summary>
+<div class="qa-a">
+<blockquote>
+<p>Four patterns checked in order: (1) Lines starting with "Chapter/Section/Part/Appendix" (case-insensitive). (2) Numbered headings: <code>1.</code>, <code>1.2</code>, <code>Chapter 3</code>. (3) ALL-CAPS short lines (3-80 chars). (4) Title Case lines ≤ 12 words without sentence-ending punctuation. If none match, <code>_auto_heading()</code> extracts the first sentence of the paragraph as the heading (truncated to 80 chars). This ensures every section has a human-readable heading for LLM navigation.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q7: Why limit table rows to 100 in `build_context()`?</summary>
+<div class="qa-a">
+<blockquote>
+<p>A table with 10,000 rows would overflow the LLM context window. The limit of 100 rows is a pragmatic safety bound that keeps tables LLM-processable while preserving the most important data (typically headers and leading rows contain the most representative information). An improvement would be to filter rows that contain terms matching the question.</p>
+</blockquote>
+</div></details>
+<hr />
+<h1 id="app-6-transcript-notes-generator">App 6 — <code>transcript-notes-generator</code></h1>
+<h2 id="overview_5">Overview</h2>
+<p>A <strong>Streamlit app</strong> that converts spoken content (audio recordings or text transcripts) into structured, professional Markdown guides. It uses:<br />
+- <strong>faster-whisper</strong> for free, local, offline audio transcription (no OpenAI Whisper API cost)<br />
+- <strong>GitHub Copilot LLM</strong> for intelligent transcript → structured notes conversion<br />
+- A <strong>multi-stage pipeline</strong> with SHA-256 caching and run-state checkpointing for cost efficiency<br />
+- <strong>System audio capture</strong> (WASAPI loopback on Windows) for recording live audio</p>
+<hr />
+<h2 id="architecture_5">Architecture</h2>
+<p class="code-note" aria-hidden="true">&#128196; <em>Code / diagram block below</em></p><pre><code>                    ┌──────────────┐
+Audio Input ──────► │ audio_        │
+(mic / upload /    │ transcriber.py│──► raw text transcript
+ system capture)   │ faster-whisper│
+                    └──────────────┘
+                          │
+                    ┌──────────────────────────────────────┐
+Text Transcript ──► │         transcript_processor.py       │
+                    │                                       │
+                    │  Short (&lt;8000c):  Single-pass LLM    │
+                    │                                       │
+                    │  Long (&gt;8000c):                       │
+                    │  chunk(15000c) → extract notes        │
+                    │        ↓ (SHA-256 cache)              │
+                    │  dedup → local compress               │
+                    │        ↓ (if &gt;70K chars)              │
+                    │  LLM compress (batches of 5)          │
+                    │        ↓                              │
+                    │  Final synthesis → Markdown guide     │
+                    └──────────────────────────────────────┘
+                          │
+                    Streamlit UI → Preview + Download (.md)
+</code></pre>
+<hr />
+<h2 id="key-components_3">Key Components</h2>
+<h3 id="audio_transcriberpy-local-audio-transcription"><code>audio_transcriber.py</code> — Local Audio Transcription</h3>
+<p class="code-note" aria-hidden="true">&#128196; <em>Code / diagram block below</em></p><pre><code class="language-python">WhisperModel(model_size, device=&quot;cpu&quot;, compute_type=&quot;int8&quot;)
+# int8 quantisation: 2-4× faster than float32, minimal accuracy loss
+# VAD filter: skip silent gaps automatically
+# beam_size=5: balance speed vs accuracy
+# Language detection: automatic (or specify ISO code)
+</code></pre>
+<p>Available models:<br />
+| Model | Size | Use Case |<br />
+|-------|------|----------|<br />
+| tiny | ~75 MB | Fast prototype, lower accuracy |<br />
+| base | ~145 MB | Default — good balance (for technical content) |<br />
+| small | ~465 MB | Better accuracy for accented speech |<br />
+| medium | ~1.5 GB | High accuracy, slower |</p>
+<h3 id="transcript_processorpy-multi-stage-processing-pipeline"><code>transcript_processor.py</code> — Multi-Stage Processing Pipeline</h3>
+<p><strong>Stage 1 — Normalise:</strong><br />
+Strip timestamps (<code>[00:01:23]</code>, <code>(00:45)</code>), collapse multiple whitespace, clean punctuation artifacts.</p>
+<p><strong>Stage 2 — Route by length:</strong><br />
+- <code>&lt; 8,000 chars</code>: Single LLM call with synthesis prompt → direct Markdown output<br />
+- <code>≥ 8,000 chars</code>: Multi-stage pipeline</p>
+<p><strong>Stage 3 — Chunk extraction (for long transcripts):</strong></p>
+<p class="code-note" aria-hidden="true">&#128196; <em>Code / diagram block below</em></p><pre><code>Chunk 1 (15,000 chars) → LLM extract bullet notes → cache to disk
+Chunk 2 (15,000 chars) → LLM extract bullet notes → cache to disk
+... (adaptive delay: 2s normal, 65s after 403 rate limit)
+</code></pre>
+<p>Cache key: <code>SHA-256(chunk_text + model + temperature + PIPELINE_VERSION)</code></p>
+<p><strong>Stage 4 — Deduplication &amp; Compression:</strong><br />
+- Python-level dedup: remove duplicate bullet lines within the combined notes<br />
+- If combined notes &gt; 70,000 chars: LLM compression in batches of 5 chunk-notes<br />
+- Goal: fit synthesis input within 80,000 chars</p>
+<p><strong>Stage 5 — Final Synthesis:</strong><br />
+Single LLM call with synthesis prompt → structured Markdown guide with:<br />
+- H1 title ("# Topic — A Complete Guide")<br />
+- H2 sections, H3 sub-sections, H4 details<br />
+- Tables only if explicitly needed<br />
+- ASCII diagrams only for flows/architectures<br />
+- Code blocks with language tags<br />
+- Key Takeaways section</p>
+<p><strong>Caching &amp; Checkpointing:</strong><br />
+- Each chunk result is disk-cached → re-running with same transcript = zero LLM calls<br />
+- Run-state checkpointing: saves progress after each stage to <code>output/cache/runs/</code><br />
+- If the app crashes mid-processing, resuming picks up from last completed stage<br />
+- Three resume points: extraction stage, compression stage, synthesis stage</p>
+<h3 id="system_audio_recorderpy-wasapi-loopback-capture"><code>system_audio_recorder.py</code> — WASAPI Loopback Capture</h3>
+<p>Captures system audio (what's playing through speakers) using WASAPI loopback API — enables recording Zoom/Teams/YouTube audio without a virtual audio cable. Windows-only.</p>
+<hr />
+<h2 id="synthesis-prompt-structure">Synthesis Prompt Structure</h2>
+<p>The synthesis LLM call uses a structured system prompt with strict rules:</p>
+<p class="code-note" aria-hidden="true">&#128196; <em>Code / diagram block below</em></p><pre><code>STRUCTURE RULES:
+- Exactly ONE H1: &quot;# Topic — A Complete Guide&quot;
+- H2 for major sections, H3 for sub-sections, H4 sparingly
+- Never skip heading levels
+- &quot;---&quot; between every H2 section
+- End with &quot;## Key Takeaways&quot; (bullet list)
+
+CONDITIONAL FORMATTING (only if source supports it):
+- Tables: ONLY when 2+ items compared side-by-side, minimum 3 data rows
+- ASCII diagrams: ONLY when a flow/pipeline/architecture is described
+- Code blocks: ONLY when actual code/commands present; always tag with language
+- Blockquotes: For direct narrator quotes
+
+QUALITY RULES:
+- Preserve narrator's own phrasing and analogies
+- Every concept touched must appear, even briefly mentioned
+- No placeholder text, no invented examples
+</code></pre>
+<hr />
+<h2 id="alternative-solutions_4">Alternative Solutions</h2>
+<h3 id="alternative-1-openai-whisper-api">Alternative 1: OpenAI Whisper API</h3>
+<p><strong>Pros:</strong> No local model download; handles longer audio; potentially higher accuracy; simpler code<br />
+<strong>Cons:</strong> Costs $0.006/minute; requires internet; privacy concern for sensitive recordings; cannot capture system audio<br />
+<strong>When to prefer:</strong> Production apps, mobile apps, when local compute is unavailable</p>
+<h3 id="alternative-2-assemblyai-revai">Alternative 2: AssemblyAI / Rev.ai</h3>
+<p><strong>Pros:</strong> Speaker diarisation (identifies who said what); timestamps per word; punctuation/capitalisation auto-correction; higher accuracy for diverse accents<br />
+<strong>Cons:</strong> Paid service; requires internet; privacy concerns<br />
+<strong>When to prefer:</strong> Meeting transcription apps where speaker identification matters</p>
+<h3 id="alternative-3-langchain-document-summariser">Alternative 3: LangChain Document Summariser</h3>
+<p><strong>Pros:</strong> Built-in map-reduce summarisation chain; handles arbitrary document length<br />
+<strong>Cons:</strong> Uses a generic summarise prompt; lacks the structured guide output format; no caching mechanism; no run-state recovery<br />
+<strong>When to prefer:</strong> Simple summarisation without structured output requirements</p>
+<h3 id="alternative-4-deepgram">Alternative 4: DeepGram</h3>
+<p><strong>Pros:</strong> Real-time streaming transcription; speaker diarisation; 100+ languages; high accuracy<br />
+<strong>Cons:</strong> Paid API; network dependent; no local processing<br />
+<strong>When to prefer:</strong> Production real-time transcription (live meeting captions, voice assistants)</p>
+<h3 id="alternative-5-whispercpp-c-port">Alternative 5: Whisper.cpp (C++ port)</h3>
+<p><strong>Pros:</strong> Faster than Python faster-whisper on some systems; direct binary execution<br />
+<strong>Cons:</strong> Requires compilation; no Python integration without bindings; harder to maintain<br />
+<strong>When to prefer:</strong> Embedded systems, edge deployment without Python runtime</p>
+<h3 id="alternative-6-notebooklm-google">Alternative 6: NotebookLM (Google)</h3>
+<p><strong>Pros:</strong> Excellent structure extraction; supports multiple source documents; AI-generated podcast audio<br />
+<strong>Cons:</strong> Cloud-only; privacy concerns; no API for automation; cannot batch-process multiple files<br />
+<strong>When to prefer:</strong> Manual, one-off note-taking from public documents</p>
+<hr />
+<h2 id="interview-qa_5">Interview Q&amp;A</h2>
+<details class="qa-block" open>
+<summary class="qa-q">Q1: What is faster-whisper and how is it different from OpenAI Whisper?</summary>
+<div class="qa-a">
+<blockquote>
+<p>faster-whisper is a Python wrapper around CTranslate2 — a highly optimised inference engine for Whisper models. It runs the same OpenAI Whisper models (tiny/base/small/medium/large) but 2-4× faster on CPU using int8 quantisation. It doesn't use PyTorch — it uses CTranslate2's C++ engine with INT8-quantised weights. Whisper is the underlying model (OpenAI's speech recognition), faster-whisper is the optimised runtime.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q2: What is VAD (Voice Activity Detection) and why enable it?</summary>
+<div class="qa-a">
+<blockquote>
+<p>VAD automatically detects segments of audio that contain human speech vs silence/noise. With <code>vad_filter=True</code>, faster-whisper skips silent gaps (meetings have many pauses) and only transcribes speech segments. This: (1) reduces transcription time (skipping silence), (2) improves accuracy (silence doesn't produce hallucinated text), (3) reduces token count in the output. The <code>min_silence_duration_ms=500</code> setting means pauses &gt;500ms are treated as silence.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q3: What is INT8 quantisation and why does it speed up inference?</summary>
+<div class="qa-a">
+<blockquote>
+<p>INT8 quantisation represents model weights as 8-bit integers instead of 32-bit floats. This reduces model size by ~4× and speeds up CPU matrix multiplication (modern CPUs have optimised INT8 SIMD instructions). The accuracy trade-off is minimal for ASR tasks — the model's speech recognition ability is preserved because the quantisation error is small relative to the variance in human speech. Result: 2-4× faster inference with &lt;1% WER (Word Error Rate) increase.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q4: How does the SHA-256 caching work and why is it important?</summary>
+<div class="qa-a">
+<blockquote>
+<p>Cache key = <code>SHA-256(chunk_text + model_name + temperature + PIPELINE_VERSION)</code>. If any of these inputs change, the cache key changes and the cached result is invalidated. Why important: A 1-hour transcript produces ~29 chunks (at 8k chars), each requiring an LLM call. Re-processing the same transcript costs ~29 API calls. With caching, the second run costs 0 API calls — instant replay. This is critical for iterative development (adjusting the synthesis prompt without re-processing all chunks).</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q5: What is run-state checkpointing and when does it activate?</summary>
+<div class="qa-a">
+<blockquote>
+<p>Checkpointing saves the pipeline's progress to <code>output/cache/runs/&lt;hash&gt;.json</code> after completing each stage. If the app crashes or hits a rate limit mid-processing, the next run loads the checkpoint and continues from where it stopped — either the extraction stage (resuming from last completed chunk), compression stage (skipping extraction), or synthesis stage (skipping everything). Without checkpoints, a crash at chunk 28 of 30 would force re-processing all 28 chunks.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q6: Why set `PIPELINE_VERSION = "2"` and when should you bump it?</summary>
+<div class="qa-a">
+<blockquote>
+<p>The pipeline version is included in every cache key. Bumping it (to "3") automatically invalidates all existing chunk caches — forcing a full re-run. This is needed when: the extraction prompt changes (old cached bullets are structured differently), the normalisation logic changes (old cache captured timestamps that should now be stripped), or a bug fix changes the chunking boundaries. It prevents stale cache entries from silently producing wrong output.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q7: Why use 15,000-char chunks instead of 8,000?</summary>
+<div class="qa-a">
+<blockquote>
+<p>Larger chunks (15K vs 8K) reduce the number of LLM API calls (~15 calls vs ~29 calls for a 1-hour transcript). Since each call has inherent latency (~5-10s) and rate limiting risk, fewer calls = faster processing and fewer 403 errors. 15K chars is ~3,750 words — still well within a 128K-token model's context. The downside: each LLM extraction call gets slightly more information to process, but modern models handle this easily.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q8: What is WASAPI loopback and how is it different from microphone capture?</summary>
+<div class="qa-a">
+<blockquote>
+<p>WASAPI (Windows Audio Session API) is the Windows audio API. "Loopback mode" captures the audio that's being played through the speakers/headphones — the system's audio output stream. This lets you record: Zoom calls, YouTube videos, Teams meetings, etc. without a virtual audio cable. Normal microphone capture records the physical microphone input only. WASAPI loopback is Windows-only (macOS has different audio APIs like CoreAudio with BlackHole for similar functionality).</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q9: What LLM prompt engineering techniques are used in the synthesis step?</summary>
+<div class="qa-a">
+<blockquote>
+<p>(1) <strong>Role assignment</strong>: "You are an expert technical writer" — sets the expected expertise level. (2) <strong>Explicit structure rules</strong>: prescribes exact heading levels (H1/H2/H3/H4), separator usage, section order — eliminates guessing. (3) <strong>Conditional formatting rules</strong>: "ONLY add tables when..." — prevents hallucinated tables for non-comparative content. (4) <strong>Negative constraints</strong>: "No placeholder text", "No invented examples" — prevents padding. (5) <strong>Output-only instruction</strong>: "Output ONLY the Markdown — no preamble" — avoids wrapper text.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q10: How would you improve this app for real-time live transcription?</summary>
+<div class="qa-a">
+<blockquote>
+<p>(1) Replace file-based processing with a streaming audio buffer — chunk incoming audio every 5-10 seconds. (2) Use faster-whisper's streaming transcription API. (3) Use an append-only notes buffer — process each audio chunk as it arrives and append bullets to a live notes panel. (4) Add incremental synthesis — regenerate the summary section after each N new bullet points. (5) WebRTC browser microphone capture for web deployment. (6) Switch from SHA-256 file caching to in-memory LRU cache for faster real-time access.</p>
+</blockquote>
+</div></details>
+<hr />
+<h1 id="cross-app-interview-questions">Cross-App Interview Questions</h1>
+<p>These questions span multiple apps and test your understanding of the overall AI development journey.</p>
+<details class="qa-block" open>
+<summary class="qa-q">Q1: Describe the RAG evolution across your 4 RAG apps.</summary>
+<div class="qa-a">
+<blockquote>
+<p><strong>V1 (vector-rag-app-v1):</strong> TF-IDF + LSA semantic vectors → cosine similarity retrieval over pages. Best for conceptual documents. <strong>V2 (vector-less-rag-app-v2):</strong> BM25 keyword search, no vectors. Simpler, faster, better for precise technical terminology. <strong>V3 (vector-less-rag-app):</strong> BM25 + multi-query retrieval. Handles acronyms and short tokens that confuse single-query BM25. <strong>V4 (vector-less-rag-agentic):</strong> No retrieval at all — full document as JSON tree context. LLM is the retriever. Zero code complexity, structure-aware, but limited to documents that fit in context window. Each step removed complexity while solving a specific retrieval failure mode.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q2: What common patterns appear across all your apps?</summary>
+<div class="qa-a">
+<blockquote>
+<p>(1) <strong>GitHub Copilot as LLM backend</strong> — all apps use <code>gh auth token</code> for zero-config authentication; (2) <strong>Document parsing as a first-class concern</strong> — all RAG apps share a similar parser (PDF/DOCX/XLSX/CSV/TXT); (3) <strong>Multi-turn conversation history</strong> — all RAG apps maintain <code>chat_history</code> for follow-up questions; (4) <strong>Natural document units over fixed-size chunks</strong> — pages, sections, sheets as retrieval units; (5) <strong>Agent-based workflow</strong> — agentic apps use <code>.github/agents</code> definitions; (6) <strong>No cloud infrastructure</strong> — all apps run locally with free GitHub Copilot access.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q3: What is the difference between agents, RAG, and LLMs?</summary>
+<div class="qa-a">
+<blockquote>
+<p><strong>LLM</strong>: A large neural network that generates text based on a prompt. It has no memory between calls, no ability to execute code, and only knows its training data. <strong>RAG</strong>: A pattern that augments an LLM's context with relevant retrieved documents — enables answering questions about documents the LLM wasn't trained on. <strong>Agent</strong>: An LLM that can take actions — call tools, read/write files, make decisions, delegate subtasks. RAG is a pattern; agents are systems. An agent can use RAG as one of its retrieval tools.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q4: How do you handle LLM hallucination across your apps?</summary>
+<div class="qa-a">
+<blockquote>
+<p>Several strategies used: (1) <strong>Explicit system prompt constraint</strong>: "Answer using ONLY information from the document. Do NOT use outside knowledge." (2) <strong>Source attribution</strong>: Every RAG answer includes which pages were used as sources — users can verify. (3) <strong>Low temperature</strong> (0.2): Reduces creative/hallucinated output; keeps answers grounded in retrieved context. (4) <strong>BM25 fallback to first N pages</strong>: Rather than returning empty context, returns some document content — ensures the LLM always has document grounding even for unmatched queries.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q5: What would you change if you had to deploy these apps to 1,000 concurrent users?</summary>
+<div class="qa-a">
+<blockquote>
+<p><strong>RAG apps</strong>: (a) Move from in-memory session dict to Redis for session management; (b) Pre-compute and persist vector/BM25 indexes to disk (eliminate per-upload rebuild); (c) Add rate limiting + API key auth; (d) Dockerise + Kubernetes deployment; (e) Add async FastAPI endpoints with connection pooling; (f) Add observability (Prometheus + Grafana). <strong>Multi-agent system</strong>: (a) Distributed task queue (Celery + Redis) for batch toggle analysis; (b) Read-only replica of Java repos for parallel scanning; (c) Elasticsearch instead of PowerShell grep for faster registry building.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q6: What is prompt engineering and give examples from your apps?</summary>
+<div class="qa-a">
+<blockquote>
+<p>Prompt engineering is the practice of crafting LLM inputs to reliably elicit desired outputs. Examples: (1) <strong>Role assignment</strong> — "You are an expert technical writer" (transcript app); (2) <strong>Constraint injection</strong> — "Answer using ONLY the document" (agentic RAG); (3) <strong>Output format specification</strong> — "Output ONLY compact bullet points — maximum 12 words per bullet" (transcript chunk extraction); (4) <strong>Conditional rules</strong> — "Add tables ONLY when 2+ items are compared" (prevents hallucinated tables); (5) <strong>Negative examples</strong> — "No placeholder text like [To be filled]"; (6) <strong>Explicit structure</strong> — prescribing H1/H2/H3/H4 heading nesting rules.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q7: Compare the tradeoffs between the multi-agent approach (App 1) vs a single-agent approach.</summary>
+<div class="qa-a">
+<blockquote>
+<p><strong>Single agent</strong>: Simpler to develop, easier to debug, no routing overhead, suitable for linear tasks. Limitations: context window fills quickly (one agent cannot hold 14,000 Java files in memory), hard to maintain as responsibilities grow, single point of failure. <strong>Multi-agent</strong>: Separation of concerns, each agent has focused context, parallel execution possible, independent testing, easier to extend (add new agent without changing others). Limitations: inter-agent communication complexity, harder to trace failures, orchestrator becomes a bottleneck if poorly designed. For the toggle management domain with 7 repos, 73 toggles, and 6 distinct workflow types, multi-agent is justified.</p>
+</blockquote>
+</div></details>
+<details class="qa-block" open>
+<summary class="qa-q">Q8: How does GitHub Copilot's authentication work across all your apps?</summary>
+<div class="qa-a">
+<blockquote>
+<p>All apps use the same 2-step resolution: (1) <code>subprocess.run(["gh", "auth", "token"])</code> — calls the GitHub CLI binary to get the currently logged-in user's OAuth token. This works silently after a one-time <code>gh auth login</code>. (2) If step 1 fails, reads <code>GITHUB_TOKEN</code> environment variable. The resolved token is then used as <code>api_key</code> with <code>openai.OpenAI(base_url="https://models.inference.ai.azure.com", api_key=token)</code>. This approach means no token is ever stored in code or config files — security best practice for local developer tools.</p>
+</blockquote>
+</div></details>
+<hr />
+<p><em>Generated for EngX AI Coach Final Exam preparation — Raviteja Thota, May 2026</em></p>
+
+  </main>
+</div>
+</body>
+</html>

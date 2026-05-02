@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DSPy – AI Libraries Guide</title>
+<style>
+:root{--bg:#fff;--text:#1a1a2e;--accent:#0070f3;--code:#f4f6f8;--border:#e1e4e8;--nav:#f6f8fa;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:Georgia,'Times New Roman',serif;font-size:17px;line-height:1.8;
+     color:var(--text);background:var(--bg);display:flex;min-height:100vh;}
+/* ---- NAV ---- */
+nav{width:260px;min-width:220px;background:var(--nav);border-right:1px solid var(--border);
+    position:sticky;top:0;height:100vh;overflow-y:auto;padding:20px 14px;flex-shrink:0;}
+nav .back-link{display:block;font-family:sans-serif;font-size:12px;color:var(--accent);
+               margin-bottom:14px;text-decoration:none;}
+nav .back-link:hover{text-decoration:underline;}
+nav h3{font-family:sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:.08em;
+       color:#888;margin-bottom:8px;}
+nav ul{list-style:none;}
+nav li{margin:3px 0;}
+nav a{font-family:sans-serif;font-size:13px;color:#444;text-decoration:none;
+      display:block;padding:4px 8px;border-radius:4px;line-height:1.4;}
+nav a:hover{background:#e0e8ff;color:var(--accent);}
+nav a.h3{padding-left:20px;font-size:12px;color:#666;}
+nav a.h4{padding-left:34px;font-size:11px;color:#888;}
+/* ---- MAIN ---- */
+main{flex:1;padding:48px 60px;max-width:960px;}
+.doc-header{margin-bottom:40px;padding-bottom:20px;border-bottom:3px solid var(--accent);}
+.doc-header h1{font-size:2.1em;color:#0a192f;}
+.doc-header .subtitle{font-family:sans-serif;color:#555;margin-top:6px;font-size:.95em;}
+.doc-header .badges span{display:inline-block;font-family:sans-serif;font-size:12px;
+  padding:3px 10px;border-radius:12px;margin:8px 4px 0 0;font-weight:600;}
+.badge-free{background:#d4edda;color:#155724;}
+.badge-paid{background:#fff3cd;color:#856404;}
+.badge-local{background:#cce5ff;color:#004085;}
+/* ---- CONTENT ---- */
+section{margin-bottom:56px;}
+h2{font-size:1.6em;color:#0a192f;margin:2em 0 .6em;padding-bottom:.3em;border-bottom:2px solid var(--border);}
+h3{font-size:1.25em;color:#0a192f;margin:1.6em 0 .4em;}
+h4{font-size:1.05em;color:#0a192f;margin:1.3em 0 .3em;}
+p{margin:.6em 0;}
+ul,ol{margin:.5em 0 .5em 1.5em;}li{margin:.25em 0;}
+strong{color:#0a192f;}
+code{font-family:'Fira Code',Consolas,monospace;background:var(--code);
+     padding:2px 6px;border-radius:3px;font-size:.87em;}
+pre{background:var(--code);border:1px solid var(--border);border-left:4px solid var(--accent);
+    border-radius:6px;padding:18px;overflow-x:auto;margin:1em 0;}
+pre code{background:none;padding:0;font-size:.84em;line-height:1.5;}
+table{border-collapse:collapse;width:100%;margin:1em 0;font-family:sans-serif;font-size:.9em;}
+th,td{border:1px solid var(--border);padding:9px 13px;text-align:left;vertical-align:top;}
+th{background:#e8f0fe;font-weight:700;color:#0a192f;}
+tr:nth-child(even) td{background:#f9f9f9;}
+blockquote{border-left:4px solid var(--accent);padding:10px 18px;background:#f0f4ff;
+           border-radius:0 6px 6px 0;color:#333;margin:1em 0;}
+/* ---- Q&A ---- */
+details{border:1px solid var(--border);border-radius:8px;margin:.8em 0;background:#fafafa;}
+details[open]{background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+summary.qa-q{cursor:pointer;padding:13px 16px;font-weight:700;color:#0a192f;
+             list-style:none;display:flex;align-items:flex-start;gap:10px;line-height:1.5;}
+summary.qa-q::before{content:"Q";background:var(--accent);color:#fff;padding:2px 8px;
+                     border-radius:50%;font-size:.78em;font-family:sans-serif;flex-shrink:0;margin-top:2px;}
+.qa-a{padding:14px 18px;border-top:1px solid #eee;}
+/* ---- callout boxes ---- */
+.tip{background:#e6f9f0;border-left:4px solid #28a745;padding:12px 16px;
+     border-radius:0 6px 6px 0;margin:1em 0;}
+.warn{background:#fff8e1;border-left:4px solid #ffc107;padding:12px 16px;
+      border-radius:0 6px 6px 0;margin:1em 0;}
+a{color:var(--accent);}
+hr{border:none;border-top:1px solid var(--border);margin:2em 0;}
+</style>
+</head>
+<body>
+<nav>
+  <a class="back-link" href="index.html">⬅ All Guides</a>
+  <a class="back-link" href="07-semantic-kernel.html">← Semantic Kernel</a><a class="back-link" href="09-mcp-acp.html">MCP & ACP →</a>
+  <h3>Contents</h3>
+  <ul><li><a href="#table-of-contents" class="">Table of Contents</a></li>
+<li><a href="#1-what-is-dspy" class="">1. What is DSPy?</a></li>
+<li><a href="#the-core-philosophy-compile-prompts-dont-write-them" class="h3">The Core Philosophy: "Compile Prompts, Don't Write Them"</a></li>
+<li><a href="#dspy-vs-langchain" class="h3">DSPy vs LangChain</a></li>
+<li><a href="#when-to-use-dspy" class="h3">When to Use DSPy</a></li>
+<li><a href="#2-installation-setup" class="">2. Installation &amp; Setup</a></li>
+<li><a href="#github-copilot-free-auth-azure-inference-endpoint" class="h3">GitHub Copilot Free Auth (Azure inference endpoint)</a></li>
+<li><a href="#openai-direct" class="h3">OpenAI Direct</a></li>
+<li><a href="#local-model-with-ollama" class="h3">Local Model with Ollama</a></li>
+<li><a href="#using-multiple-models" class="h3">Using Multiple Models</a></li>
+<li><a href="#3-core-concepts" class="">3. Core Concepts</a></li>
+<li><a href="#signature" class="h3">Signature</a></li>
+<li><a href="#module" class="h3">Module</a></li>
+<li><a href="#program" class="h3">Program</a></li>
+<li><a href="#optimizer-teleprompter" class="h3">Optimizer (Teleprompter)</a></li>
+<li><a href="#metric" class="h3">Metric</a></li>
+<li><a href="#4-signatures" class="">4. Signatures</a></li>
+<li><a href="#41-inline-string-signatures" class="h3">4.1 Inline String Signatures</a></li>
+<li><a href="#42-class-based-signatures" class="h3">4.2 Class-Based Signatures</a></li>
+<li><a href="#43-typed-outputs-with-annotations" class="h3">4.3 Typed Outputs with Annotations</a></li>
+<li><a href="#5-built-in-modules" class="">5. Built-in Modules</a></li>
+<li><a href="#51-dspypredict-basic-lm-call" class="h3">5.1 dspy.Predict — Basic LM Call</a></li>
+<li><a href="#52-dspychainofthought-adds-reasoning-steps" class="h3">5.2 dspy.ChainOfThought — Adds Reasoning Steps</a></li>
+<li><a href="#53-dspychainofthoughtwithhint-guided-reasoning" class="h3">5.3 dspy.ChainOfThoughtWithHint — Guided Reasoning</a></li>
+<li><a href="#54-dspyreact-tool-calling-agent" class="h3">5.4 dspy.ReAct — Tool-Calling Agent</a></li>
+<li><a href="#55-dspymultichaincomparison-ensemble-reasoning" class="h3">5.5 dspy.MultiChainComparison — Ensemble Reasoning</a></li>
+<li><a href="#56-dspyprogramofthought-generates-and-executes-code" class="h3">5.6 dspy.ProgramOfThought — Generates and Executes Code</a></li>
+<li><a href="#6-building-programs-pipelines" class="">6. Building Programs (Pipelines)</a></li>
+<li><a href="#61-composing-modules" class="h3">6.1 Composing Modules</a></li>
+<li><a href="#62-branching-and-conditional-logic" class="h3">6.2 Branching and Conditional Logic</a></li>
+<li><a href="#63-full-example-rag-program-retrieve-synthesize-verify" class="h3">6.3 Full Example — RAG Program (Retrieve → Synthesize → Verify)</a></li>
+<li><a href="#7-retrieval-rag" class="">7. Retrieval &amp; RAG</a></li>
+<li><a href="#71-colbertv2-retriever" class="h3">7.1 ColBERTv2 Retriever</a></li>
+<li><a href="#72-custom-retriever" class="h3">7.2 Custom Retriever</a></li>
+<li><a href="#73-full-dspy-rag-program-with-evaluation" class="h3">7.3 Full DSPy RAG Program with Evaluation</a></li>
+<li><a href="#8-optimizers-teleprompters" class="">8. Optimizers (Teleprompters)</a></li>
+<li><a href="#81-bootstrapfewshot" class="h3">8.1 BootstrapFewShot</a></li>
+<li><a href="#82-bootstrapfewshotwithrandomsearch" class="h3">8.2 BootstrapFewShotWithRandomSearch</a></li>
+<li><a href="#83-mipro-most-powerful-optimizer" class="h3">8.3 MIPRO — Most Powerful Optimizer</a></li>
+<li><a href="#84-labeledfewshot" class="h3">8.4 LabeledFewShot</a></li>
+<li><a href="#85-how-optimization-works-conceptual" class="h3">8.5 How Optimization Works (Conceptual)</a></li>
+<li><a href="#9-evaluation-metrics" class="">9. Evaluation &amp; Metrics</a></li>
+<li><a href="#91-built-in-metrics" class="h3">9.1 Built-in Metrics</a></li>
+<li><a href="#92-custom-metric-function" class="h3">9.2 Custom Metric Function</a></li>
+<li><a href="#93-dspyevaluate-pipeline" class="h3">9.3 dspy.Evaluate Pipeline</a></li>
+<li><a href="#10-assertions-constraints" class="">10. Assertions &amp; Constraints</a></li>
+<li><a href="#101-dspyassert-hard-constraint" class="h3">10.1 dspy.Assert — Hard Constraint</a></li>
+<li><a href="#102-dspysuggest-soft-constraint" class="h3">10.2 dspy.Suggest — Soft Constraint</a></li>
+<li><a href="#103-full-constrained-validation-example" class="h3">10.3 Full Constrained Validation Example</a></li>
+<li><a href="#11-saving-loading" class="">11. Saving &amp; Loading</a></li>
+<li><a href="#111-save" class="h3">11.1 Save</a></li>
+<li><a href="#112-load" class="h3">11.2 Load</a></li>
+<li><a href="#113-what-gets-saved" class="h3">11.3 What Gets Saved</a></li>
+<li><a href="#114-save-load-pattern-for-production" class="h3">11.4 Save / Load Pattern for Production</a></li>
+<li><a href="#12-real-world-use-cases" class="">12. Real-World Use Cases</a></li>
+<li><a href="#121-automated-email-classification-and-response" class="h3">12.1 Automated Email Classification and Response</a></li>
+<li><a href="#122-code-generation-with-correctness-verification" class="h3">12.2 Code Generation with Correctness Verification</a></li>
+<li><a href="#123-full-classifier-example-with-optimization" class="h3">12.3 Full Classifier Example with Optimization</a></li>
+<li><a href="#13-dspy-vs-traditional-prompting" class="">13. DSPy vs Traditional Prompting</a></li>
+<li><a href="#side-by-side-comparison" class="h3">Side-by-Side Comparison</a></li>
+<li><a href="#when-hand-written-prompts-win" class="h3">When Hand-Written Prompts Win</a></li>
+<li><a href="#when-dspy-optimization-wins" class="h3">When DSPy Optimization Wins</a></li>
+<li><a href="#cost-and-time-tradeoffs" class="h3">Cost and Time Tradeoffs</a></li>
+<li><a href="#14-interview-qa" class="">14. Interview Q&amp;A</a></li>
+</ul>
+</nav>
+<main>
+  <div class="doc-header">
+    <h1>DSPy</h1>
+    <p class="subtitle">Declarative Self-improving Language Programs — compile, not prompt</p>
+    <div class="badges"><span class="badge-free">Free (MIT)</span><span class="badge-local">Local Models</span></div>
+  </div>
+  <h1 id="dspy-complete-developer-guide">DSPy — Complete Developer Guide</h1>
+<blockquote>
+<p><strong>Declarative Self-improving Language Programs</strong>
+<em>Compile prompts instead of writing them.</em></p>
+</blockquote>
+<hr />
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol>
+<li><a href="#1-what-is-dspy">What is DSPy?</a></li>
+<li><a href="#2-installation--setup">Installation &amp; Setup</a></li>
+<li><a href="#3-core-concepts">Core Concepts</a></li>
+<li><a href="#4-signatures">Signatures</a></li>
+<li><a href="#5-built-in-modules">Built-in Modules</a></li>
+<li><a href="#6-building-programs-pipelines">Building Programs (Pipelines)</a></li>
+<li><a href="#7-retrieval--rag">Retrieval &amp; RAG</a></li>
+<li><a href="#8-optimizers-teleprompters">Optimizers (Teleprompters)</a></li>
+<li><a href="#9-evaluation--metrics">Evaluation &amp; Metrics</a></li>
+<li><a href="#10-assertions--constraints">Assertions &amp; Constraints</a></li>
+<li><a href="#11-saving--loading">Saving &amp; Loading</a></li>
+<li><a href="#12-real-world-use-cases">Real-World Use Cases</a></li>
+<li><a href="#13-dspy-vs-traditional-prompting">DSPy vs Traditional Prompting</a></li>
+<li><a href="#14-interview-qa">Interview Q&amp;A</a></li>
+<li><a href="#15-complete-end-to-end-example">Complete End-to-End Example</a></li>
+</ol>
+<hr />
+<h2 id="1-what-is-dspy">1. What is DSPy?</h2>
+<p><strong>DSPy</strong> (Declarative Self-improving Python) is a framework from Stanford that treats language model pipelines as <em>programs</em> rather than <em>prompt templates</em>. Instead of hand-crafting prompts, you declare what your program should do and let DSPy's <strong>optimizers</strong> automatically discover the best prompts and few-shot examples.</p>
+<h3 id="the-core-philosophy-compile-prompts-dont-write-them">The Core Philosophy: "Compile Prompts, Don't Write Them"</h3>
+<p>In traditional LLM development you spend hours tweaking prompt strings:</p>
+<pre><code>&quot;You are a helpful assistant. Given a question, answer it concisely.
+Question: {question}
+Answer:&quot;
+</code></pre>
+<p>In DSPy you declare the <em>contract</em> — inputs, outputs, and reasoning style — and the optimizer finds the prompt text automatically.</p>
+<h3 id="dspy-vs-langchain">DSPy vs LangChain</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>DSPy</th>
+<th>LangChain</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Mental model</strong></td>
+<td>Programming (like PyTorch)</td>
+<td>Prompting (like LEGO chains)</td>
+</tr>
+<tr>
+<td><strong>Prompt authorship</strong></td>
+<td>Optimizer writes prompts</td>
+<td>Developer writes prompts</td>
+</tr>
+<tr>
+<td><strong>Iteration loop</strong></td>
+<td>Compile → evaluate → recompile</td>
+<td>Edit prompt → test → repeat</td>
+</tr>
+<tr>
+<td><strong>Reproducibility</strong></td>
+<td>Systematic via metrics</td>
+<td>Manual and fragile</td>
+</tr>
+<tr>
+<td><strong>Best for</strong></td>
+<td>NLP tasks with measurable quality</td>
+<td>Rapid prototyping, tool chains</td>
+</tr>
+<tr>
+<td><strong>Learning curve</strong></td>
+<td>Higher (new abstractions)</td>
+<td>Lower (familiar chains)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="when-to-use-dspy">When to Use DSPy</h3>
+<ul>
+<li>✅ You have a <strong>measurable quality metric</strong> (accuracy, F1, BLEU)</li>
+<li>✅ You need <strong>consistent, reliable outputs</strong> across many inputs</li>
+<li>✅ You are building multi-step reasoning pipelines</li>
+<li>✅ You want <strong>automatic few-shot</strong> example selection</li>
+<li>✅ You need structured / typed outputs</li>
+<li>❌ One-off scripts or demos where prompt quality is not critical</li>
+<li>❌ When you have no labeled examples to evaluate against</li>
+</ul>
+<hr />
+<h2 id="2-installation-setup">2. Installation &amp; Setup</h2>
+<pre><code class="language-bash">pip install dspy-ai
+# Optional: retrieval backends
+pip install faiss-cpu chromadb
+</code></pre>
+<h3 id="github-copilot-free-auth-azure-inference-endpoint">GitHub Copilot Free Auth (Azure inference endpoint)</h3>
+<p>GitHub Copilot subscribers get free access to <code>gpt-4o-mini</code> via the GitHub Models endpoint.</p>
+<pre><code class="language-python">import subprocess
+import dspy
+
+# Grab the token that `gh auth login` already stored
+token = subprocess.run(
+    [&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;],
+    capture_output=True,
+    text=True
+).stdout.strip()
+
+lm = dspy.LM(
+    &quot;openai/gpt-4o-mini&quot;,
+    api_key=token,
+    api_base=&quot;https://models.inference.ai.azure.com&quot;,
+)
+dspy.configure(lm=lm)
+
+# Quick smoke-test
+response = dspy.Predict(&quot;question -&gt; answer&quot;)(question=&quot;What is 2+2?&quot;)
+print(response.answer)  # &quot;4&quot;
+</code></pre>
+<h3 id="openai-direct">OpenAI Direct</h3>
+<pre><code class="language-python">import dspy
+
+lm = dspy.LM(&quot;openai/gpt-4o-mini&quot;, api_key=&quot;sk-...&quot;)
+dspy.configure(lm=lm)
+</code></pre>
+<h3 id="local-model-with-ollama">Local Model with Ollama</h3>
+<pre><code class="language-python">import dspy
+
+# Make sure Ollama is running: `ollama serve`
+# Pull a model first:  `ollama pull llama3`
+lm = dspy.LM(
+    &quot;ollama/llama3&quot;,
+    api_base=&quot;http://localhost:11434&quot;,
+    api_key=&quot;ollama&quot;,   # any non-empty string
+)
+dspy.configure(lm=lm)
+
+result = dspy.Predict(&quot;question -&gt; answer&quot;)(question=&quot;Name a planet.&quot;)
+print(result.answer)
+</code></pre>
+<h3 id="using-multiple-models">Using Multiple Models</h3>
+<pre><code class="language-python">import dspy
+
+fast_lm  = dspy.LM(&quot;openai/gpt-4o-mini&quot;, api_key=&quot;sk-...&quot;)
+smart_lm = dspy.LM(&quot;openai/gpt-4o&quot;,      api_key=&quot;sk-...&quot;)
+
+dspy.configure(lm=fast_lm)  # default
+
+# Override per-module
+class SmartModule(dspy.Module):
+    def __init__(self):
+        self.reason = dspy.ChainOfThought(&quot;question -&gt; answer&quot;)
+
+    def forward(self, question):
+        with dspy.context(lm=smart_lm):       # use the bigger model here
+            return self.reason(question=question)
+</code></pre>
+<hr />
+<h2 id="3-core-concepts">3. Core Concepts</h2>
+<p>DSPy has five building blocks. Learn these and everything else falls into place.</p>
+<pre><code>┌─────────────────────────────────────────────────────────────┐
+│                        DSPy Program                         │
+│                                                             │
+│  Signature  →  Module  →  Module  →  Module                 │
+│  (contract)    (unit)     (unit)     (unit)                 │
+│                    ↑                                        │
+│              Optimizer auto-fills prompts &amp; examples        │
+│                    ↑                                        │
+│              Metric  (tells optimizer what &quot;good&quot; means)    │
+└─────────────────────────────────────────────────────────────┘
+</code></pre>
+<h3 id="signature">Signature</h3>
+<p>A <strong>Signature</strong> is a declarative input/output specification — it says <em>what</em> to do, not <em>how</em>. DSPy uses it to construct the actual LLM prompt.</p>
+<pre><code class="language-python">&quot;question -&gt; answer&quot;                        # inline string signature
+&quot;context, question -&gt; answer&quot;               # multiple inputs
+&quot;document -&gt; summary, keywords&quot;             # multiple outputs
+</code></pre>
+<h3 id="module">Module</h3>
+<p>A <strong>Module</strong> wraps an LLM call (or a chain of them) and is composable — just like <code>nn.Module</code> in PyTorch. Every module has a <code>forward()</code> method.</p>
+<pre><code class="language-python">class MyModule(dspy.Module):
+    def __init__(self):
+        self.predict = dspy.Predict(&quot;question -&gt; answer&quot;)
+
+    def forward(self, question):
+        return self.predict(question=question)
+</code></pre>
+<h3 id="program">Program</h3>
+<p>A <strong>Program</strong> is a module whose <code>forward()</code> chains other modules together. There is no special <code>Program</code> class — any <code>dspy.Module</code> subclass with multiple child modules is a program.</p>
+<h3 id="optimizer-teleprompter">Optimizer (Teleprompter)</h3>
+<p>An <strong>Optimizer</strong> (historically called a <em>teleprompter</em>) takes your program + training data + metric and automatically:</p>
+<ol>
+<li>Generates candidate demonstrations (few-shot examples)</li>
+<li>Evaluates each candidate with your metric</li>
+<li>Selects the best prompt configuration</li>
+</ol>
+<pre><code class="language-python">from dspy.teleprompt import BootstrapFewShot
+
+optimizer = BootstrapFewShot(metric=my_metric)
+compiled_program = optimizer.compile(my_program, trainset=train_data)
+</code></pre>
+<h3 id="metric">Metric</h3>
+<p>A <strong>Metric</strong> is a Python function <code>(example, prediction, trace=None) -&gt; float | bool</code>. It is the optimizer's objective.</p>
+<pre><code class="language-python">def my_metric(example, pred, trace=None):
+    return pred.answer.lower() == example.answer.lower()
+</code></pre>
+<hr />
+<h2 id="4-signatures">4. Signatures</h2>
+<h3 id="41-inline-string-signatures">4.1 Inline String Signatures</h3>
+<p>The fastest way to define a signature. Fields separated by commas on each side of <code>-&gt;</code>.</p>
+<pre><code class="language-python">import dspy
+
+dspy.configure(lm=dspy.LM(&quot;openai/gpt-4o-mini&quot;, api_key=&quot;sk-...&quot;))
+
+# Single input, single output
+qa = dspy.Predict(&quot;question -&gt; answer&quot;)
+result = qa(question=&quot;What is the boiling point of water?&quot;)
+print(result.answer)
+
+# Multiple inputs
+summarize = dspy.Predict(&quot;title, body -&gt; summary&quot;)
+result = summarize(title=&quot;AI News&quot;, body=&quot;OpenAI released GPT-5...&quot;)
+print(result.summary)
+
+# Multiple outputs
+extract = dspy.Predict(&quot;article -&gt; headline, sentiment, keywords&quot;)
+result = extract(article=&quot;DSPy wins best framework award...&quot;)
+print(result.headline, result.sentiment, result.keywords)
+</code></pre>
+<h3 id="42-class-based-signatures">4.2 Class-Based Signatures</h3>
+<p>Use class-based signatures when you need <strong>docstrings</strong> (task instructions) and <strong>field descriptions</strong>.</p>
+<pre><code class="language-python">import dspy
+
+class SentimentClassifier(dspy.Signature):
+    &quot;&quot;&quot;Classify the sentiment of a product review.&quot;&quot;&quot;
+
+    review: str = dspy.InputField(desc=&quot;The raw customer review text&quot;)
+    sentiment: str = dspy.OutputField(
+        desc=&quot;One of: positive, negative, neutral&quot;
+    )
+    confidence: float = dspy.OutputField(
+        desc=&quot;Confidence score between 0.0 and 1.0&quot;
+    )
+
+classify = dspy.Predict(SentimentClassifier)
+result = classify(review=&quot;This product is absolutely amazing!&quot;)
+print(result.sentiment)    # &quot;positive&quot;
+print(result.confidence)   # 0.95
+</code></pre>
+<h3 id="43-typed-outputs-with-annotations">4.3 Typed Outputs with Annotations</h3>
+<p>DSPy respects Python type hints and will coerce / validate outputs.</p>
+<pre><code class="language-python">import dspy
+from typing import Literal, List
+
+class EmailRouter(dspy.Signature):
+    &quot;&quot;&quot;Route a support email to the correct department.&quot;&quot;&quot;
+
+    email_subject: str = dspy.InputField()
+    email_body:    str = dspy.InputField()
+
+    department: Literal[&quot;billing&quot;, &quot;technical&quot;, &quot;general&quot;] = dspy.OutputField(
+        desc=&quot;The department that should handle this email&quot;
+    )
+    priority: Literal[&quot;low&quot;, &quot;medium&quot;, &quot;high&quot;] = dspy.OutputField(
+        desc=&quot;Urgency level of the email&quot;
+    )
+    action_items: List[str] = dspy.OutputField(
+        desc=&quot;List of specific actions the department should take&quot;
+    )
+
+router = dspy.Predict(EmailRouter)
+result = router(
+    email_subject=&quot;Server is down!&quot;,
+    email_body=&quot;Our production API has been unreachable for 30 minutes.&quot;
+)
+print(result.department)    # &quot;technical&quot;
+print(result.priority)      # &quot;high&quot;
+print(result.action_items)  # [&quot;Check server logs&quot;, &quot;Restart service&quot;, ...]
+</code></pre>
+<hr />
+<h2 id="5-built-in-modules">5. Built-in Modules</h2>
+<h3 id="51-dspypredict-basic-lm-call">5.1 <code>dspy.Predict</code> — Basic LM Call</h3>
+<p>The foundation module. One LLM call, no added reasoning.</p>
+<pre><code class="language-python">import dspy
+
+predict = dspy.Predict(&quot;question -&gt; answer&quot;)
+result = predict(question=&quot;Who wrote Hamlet?&quot;)
+print(result.answer)  # &quot;William Shakespeare&quot;
+</code></pre>
+<h3 id="52-dspychainofthought-adds-reasoning-steps">5.2 <code>dspy.ChainOfThought</code> — Adds Reasoning Steps</h3>
+<p>Automatically prepends a <code>reasoning</code> field, prompting the LLM to think step-by-step before answering. Dramatically improves accuracy on complex tasks.</p>
+<pre><code class="language-python">import dspy
+
+cot = dspy.ChainOfThought(&quot;question -&gt; answer&quot;)
+result = cot(question=&quot;If a train travels 60 mph for 2.5 hours, how far does it go?&quot;)
+print(result.reasoning)  # &quot;Speed × time = 60 × 2.5 = 150 miles&quot;
+print(result.answer)     # &quot;150 miles&quot;
+</code></pre>
+<h3 id="53-dspychainofthoughtwithhint-guided-reasoning">5.3 <code>dspy.ChainOfThoughtWithHint</code> — Guided Reasoning</h3>
+<p>Like CoT but you can supply a hint to steer the reasoning.</p>
+<pre><code class="language-python">import dspy
+
+cot_hint = dspy.ChainOfThoughtWithHint(&quot;question -&gt; answer&quot;)
+result = cot_hint(
+    question=&quot;What is the capital of the largest country by area?&quot;,
+    hint=&quot;Think about which country occupies the most land mass.&quot;
+)
+print(result.reasoning)
+print(result.answer)  # &quot;Moscow&quot;
+</code></pre>
+<h3 id="54-dspyreact-tool-calling-agent">5.4 <code>dspy.ReAct</code> — Tool-Calling Agent</h3>
+<p>Implements the ReAct (Reason + Act) loop. Define tools as Python functions and ReAct will decide when to call them.</p>
+<pre><code class="language-python">import dspy
+import math
+
+def calculator(expression: str) -&gt; str:
+    &quot;&quot;&quot;Evaluate a mathematical expression safely.&quot;&quot;&quot;
+    try:
+        return str(eval(expression, {&quot;__builtins__&quot;: {}}, vars(math)))
+    except Exception as e:
+        return f&quot;Error: {e}&quot;
+
+def web_search(query: str) -&gt; str:
+    &quot;&quot;&quot;Simulate a web search (replace with real search in production).&quot;&quot;&quot;
+    results = {
+        &quot;DSPy author&quot;: &quot;DSPy was created by Omar Khattab at Stanford.&quot;,
+        &quot;Python version&quot;: &quot;The latest Python version is 3.12.&quot;,
+    }
+    return results.get(query, &quot;No results found.&quot;)
+
+react = dspy.ReAct(
+    &quot;question -&gt; answer&quot;,
+    tools=[calculator, web_search]
+)
+
+result = react(question=&quot;What is sqrt(144) + 10?&quot;)
+print(result.answer)  # &quot;22&quot;
+</code></pre>
+<h3 id="55-dspymultichaincomparison-ensemble-reasoning">5.5 <code>dspy.MultiChainComparison</code> — Ensemble Reasoning</h3>
+<p>Runs multiple chain-of-thought attempts and synthesizes the best answer.</p>
+<pre><code class="language-python">import dspy
+
+# MultiChainComparison requires a class-based signature
+class MathSolver(dspy.Signature):
+    &quot;&quot;&quot;Solve the math problem step by step.&quot;&quot;&quot;
+    problem: str = dspy.InputField()
+    answer:  str = dspy.OutputField()
+
+# Runs N independent CoT chains and picks the most consistent answer
+multi = dspy.MultiChainComparison(MathSolver, M=3)
+result = multi(problem=&quot;What is 17 × 23?&quot;)
+print(result.answer)  # &quot;391&quot;
+</code></pre>
+<h3 id="56-dspyprogramofthought-generates-and-executes-code">5.6 <code>dspy.ProgramOfThought</code> — Generates and Executes Code</h3>
+<p>The LLM writes Python code to solve the problem, which is then executed and the result is returned.</p>
+<pre><code class="language-python">import dspy
+
+class DataQuestion(dspy.Signature):
+    &quot;&quot;&quot;Answer numerical questions by writing and executing Python code.&quot;&quot;&quot;
+    question: str = dspy.InputField()
+    answer:   str = dspy.OutputField()
+
+pot = dspy.ProgramOfThought(DataQuestion)
+result = pot(
+    question=&quot;What is the sum of all even numbers from 1 to 100?&quot;
+)
+print(result.answer)  # &quot;2550&quot;
+</code></pre>
+<hr />
+<h2 id="6-building-programs-pipelines">6. Building Programs (Pipelines)</h2>
+<h3 id="61-composing-modules">6.1 Composing Modules</h3>
+<pre><code class="language-python">import dspy
+
+class ResearchAssistant(dspy.Module):
+    def __init__(self):
+        # Declare all sub-modules in __init__
+        self.decompose  = dspy.ChainOfThought(&quot;complex_question -&gt; sub_questions&quot;)
+        self.answer_sub = dspy.ChainOfThought(&quot;sub_question -&gt; sub_answer&quot;)
+        self.synthesize = dspy.ChainOfThought(
+            &quot;complex_question, sub_answers -&gt; final_answer&quot;
+        )
+
+    def forward(self, complex_question: str):
+        # Step 1: break the question into parts
+        decomposed = self.decompose(complex_question=complex_question)
+        # sub_questions is a string; split on newlines
+        sub_qs = [q.strip() for q in decomposed.sub_questions.split(&quot;\n&quot;) if q.strip()]
+
+        # Step 2: answer each sub-question
+        sub_answers = []
+        for sq in sub_qs[:3]:   # limit to 3 to avoid excessive API calls
+            ans = self.answer_sub(sub_question=sq)
+            sub_answers.append(f&quot;Q: {sq}\nA: {ans.sub_answer}&quot;)
+
+        # Step 3: synthesize into a final answer
+        combined = &quot;\n\n&quot;.join(sub_answers)
+        result = self.synthesize(
+            complex_question=complex_question,
+            sub_answers=combined
+        )
+        return result
+
+assistant = ResearchAssistant()
+out = assistant(
+    complex_question=&quot;How did the invention of the printing press affect the Renaissance?&quot;
+)
+print(out.final_answer)
+</code></pre>
+<h3 id="62-branching-and-conditional-logic">6.2 Branching and Conditional Logic</h3>
+<pre><code class="language-python">import dspy
+
+class SmartQA(dspy.Module):
+    &quot;&quot;&quot;Uses CoT for hard questions, Predict for easy ones.&quot;&quot;&quot;
+
+    def __init__(self):
+        self.classify = dspy.Predict(&quot;question -&gt; difficulty&quot;)   # easy / hard
+        self.simple   = dspy.Predict(&quot;question -&gt; answer&quot;)
+        self.deep     = dspy.ChainOfThought(&quot;question -&gt; answer&quot;)
+
+    def forward(self, question: str):
+        diff = self.classify(question=question)
+
+        if &quot;hard&quot; in diff.difficulty.lower():
+            return self.deep(question=question)
+        else:
+            return self.simple(question=question)
+
+smart = SmartQA()
+print(smart(question=&quot;What is 2+2?&quot;).answer)
+print(smart(question=&quot;Explain the implications of Gödel's incompleteness theorems.&quot;).answer)
+</code></pre>
+<h3 id="63-full-example-rag-program-retrieve-synthesize-verify">6.3 Full Example — RAG Program (Retrieve → Synthesize → Verify)</h3>
+<pre><code class="language-python">import dspy
+
+class RAGSignature(dspy.Signature):
+    &quot;&quot;&quot;Answer a question using retrieved context passages.&quot;&quot;&quot;
+    context:  str = dspy.InputField(desc=&quot;Retrieved passages from a knowledge base&quot;)
+    question: str = dspy.InputField()
+    answer:   str = dspy.OutputField(desc=&quot;Concise factual answer grounded in context&quot;)
+
+class VerifySignature(dspy.Signature):
+    &quot;&quot;&quot;Verify whether an answer is fully supported by the context.&quot;&quot;&quot;
+    context:  str  = dspy.InputField()
+    question: str  = dspy.InputField()
+    answer:   str  = dspy.InputField()
+    supported: str = dspy.OutputField(desc=&quot;yes or no&quot;)
+    correction: str = dspy.OutputField(desc=&quot;Corrected answer if not supported, else empty&quot;)
+
+class RAGPipeline(dspy.Module):
+    def __init__(self, num_passages: int = 3):
+        self.retrieve  = dspy.Retrieve(k=num_passages)
+        self.synthesize = dspy.ChainOfThought(RAGSignature)
+        self.verify    = dspy.Predict(VerifySignature)
+
+    def forward(self, question: str):
+        passages  = self.retrieve(question).passages
+        context   = &quot;\n\n&quot;.join(passages)
+        synthesis = self.synthesize(context=context, question=question)
+
+        verification = self.verify(
+            context=context,
+            question=question,
+            answer=synthesis.answer
+        )
+
+        final_answer = synthesis.answer
+        if verification.supported.lower() == &quot;no&quot; and verification.correction:
+            final_answer = verification.correction
+
+        return dspy.Prediction(answer=final_answer, context=context)
+</code></pre>
+<hr />
+<h2 id="7-retrieval-rag">7. Retrieval &amp; RAG</h2>
+<h3 id="71-colbertv2-retriever">7.1 ColBERTv2 Retriever</h3>
+<pre><code class="language-python">import dspy
+from dspy.retrieve.colbertv2 import ColBERTv2
+
+# Point to a hosted ColBERT index
+colbert = ColBERTv2(url=&quot;http://20.102.90.50:2017/wiki17_abstracts&quot;)
+dspy.configure(rm=colbert)
+
+retrieve = dspy.Retrieve(k=3)
+results = retrieve(&quot;What is photosynthesis?&quot;)
+for p in results.passages:
+    print(p[:120])
+</code></pre>
+<h3 id="72-custom-retriever">7.2 Custom Retriever</h3>
+<p>Implement any retrieval backend by subclassing <code>dspy.Retrieve</code>.</p>
+<pre><code class="language-python">import dspy
+from typing import List
+
+class MyVectorRetriever(dspy.Retrieve):
+    &quot;&quot;&quot;Example custom retriever backed by a list of documents.&quot;&quot;&quot;
+
+    def __init__(self, corpus: List[str], k: int = 3):
+        super().__init__(k=k)
+        self.corpus = corpus
+
+    def forward(self, query: str, k: int = None) -&gt; dspy.Prediction:
+        k = k or self.k
+        # Naive keyword match — replace with real vector search
+        scored = [
+            (doc, sum(w in doc.lower() for w in query.lower().split()))
+            for doc in self.corpus
+        ]
+        scored.sort(key=lambda x: x[1], reverse=True)
+        passages = [doc for doc, _ in scored[:k]]
+        return dspy.Prediction(passages=passages)
+
+corpus = [
+    &quot;Paris is the capital of France.&quot;,
+    &quot;The Eiffel Tower is in Paris.&quot;,
+    &quot;London is the capital of the United Kingdom.&quot;,
+    &quot;Berlin is the capital of Germany.&quot;,
+]
+
+retriever = MyVectorRetriever(corpus=corpus, k=2)
+dspy.configure(rm=retriever)
+
+rag = RAGPipeline()  # from section 6.3
+# result = rag(question=&quot;What is the capital of France?&quot;)
+</code></pre>
+<h3 id="73-full-dspy-rag-program-with-evaluation">7.3 Full DSPy RAG Program with Evaluation</h3>
+<pre><code class="language-python">import dspy
+from dspy.evaluate import Evaluate
+
+# ----- Data -----
+qa_pairs = [
+    dspy.Example(
+        question=&quot;What is photosynthesis?&quot;,
+        answer=&quot;The process by which plants convert sunlight into food.&quot;
+    ).with_inputs(&quot;question&quot;),
+    dspy.Example(
+        question=&quot;What is the powerhouse of the cell?&quot;,
+        answer=&quot;The mitochondria.&quot;
+    ).with_inputs(&quot;question&quot;),
+]
+
+trainset = qa_pairs[:1]
+devset   = qa_pairs[1:]
+
+# ----- Metric -----
+def answer_match(example, pred, trace=None):
+    gold  = example.answer.lower().strip()
+    given = pred.answer.lower().strip()
+    return gold in given or given in gold
+
+# ----- Evaluate -----
+evaluate = Evaluate(devset=devset, metric=answer_match, num_threads=1)
+
+class SimpleRAG(dspy.Module):
+    def __init__(self):
+        self.generate = dspy.ChainOfThought(&quot;question -&gt; answer&quot;)
+
+    def forward(self, question):
+        return self.generate(question=question)
+
+rag = SimpleRAG()
+score = evaluate(rag, devset=devset)
+print(f&quot;Baseline score: {score:.1%}&quot;)
+</code></pre>
+<hr />
+<h2 id="8-optimizers-teleprompters">8. Optimizers (Teleprompters)</h2>
+<p>Optimizers search for the best prompt configuration automatically. They all share the same API: <code>optimizer.compile(program, trainset=..., valset=...)</code>.</p>
+<h3 id="81-bootstrapfewshot">8.1 BootstrapFewShot</h3>
+<p>The simplest optimizer. Generates few-shot demonstrations from the training set by running the program and keeping examples where the metric passes.</p>
+<pre><code class="language-python">import dspy
+from dspy.teleprompt import BootstrapFewShot
+
+class QAProgram(dspy.Module):
+    def __init__(self):
+        self.predict = dspy.ChainOfThought(&quot;question -&gt; answer&quot;)
+
+    def forward(self, question):
+        return self.predict(question=question)
+
+# Training data
+trainset = [
+    dspy.Example(question=&quot;What is DNA?&quot;,
+                 answer=&quot;Deoxyribonucleic acid, the molecule carrying genetic information&quot;).with_inputs(&quot;question&quot;),
+    dspy.Example(question=&quot;What is the speed of light?&quot;,
+                 answer=&quot;Approximately 299,792,458 meters per second&quot;).with_inputs(&quot;question&quot;),
+    dspy.Example(question=&quot;Who invented the telephone?&quot;,
+                 answer=&quot;Alexander Graham Bell&quot;).with_inputs(&quot;question&quot;),
+]
+
+def exact_match(example, pred, trace=None):
+    return example.answer.lower() in pred.answer.lower()
+
+optimizer = BootstrapFewShot(
+    metric=exact_match,
+    max_bootstrapped_demos=3,
+    max_labeled_demos=2,
+)
+
+compiled_qa = optimizer.compile(QAProgram(), trainset=trainset)
+result = compiled_qa(question=&quot;What is the formula for water?&quot;)
+print(result.answer)
+</code></pre>
+<h3 id="82-bootstrapfewshotwithrandomsearch">8.2 BootstrapFewShotWithRandomSearch</h3>
+<p>Runs multiple random configurations and picks the one with the best dev-set score.</p>
+<pre><code class="language-python">from dspy.teleprompt import BootstrapFewShotWithRandomSearch
+
+optimizer = BootstrapFewShotWithRandomSearch(
+    metric=exact_match,
+    max_bootstrapped_demos=4,
+    max_labeled_demos=4,
+    num_candidate_programs=8,  # try 8 configurations
+    num_threads=4,
+)
+
+compiled_qa = optimizer.compile(
+    QAProgram(),
+    trainset=trainset,
+    valset=trainset[-1:],  # use a validation subset
+)
+</code></pre>
+<h3 id="83-mipro-most-powerful-optimizer">8.3 MIPRO — Most Powerful Optimizer</h3>
+<p>MIPRO (Multi-prompt Instruction PRoposal Optimizer) uses a meta-LLM to <em>propose and refine prompt instructions</em> in addition to selecting demonstrations.</p>
+<pre><code class="language-python">from dspy.teleprompt import MIPROv2
+
+optimizer = MIPROv2(
+    metric=exact_match,
+    auto=&quot;medium&quot;,          # &quot;light&quot;, &quot;medium&quot;, or &quot;heavy&quot; budget
+    num_threads=4,
+)
+
+compiled_qa = optimizer.compile(
+    QAProgram(),
+    trainset=trainset,
+    num_batches=10,         # optimization iterations
+    max_bootstrapped_demos=3,
+    max_labeled_demos=4,
+    requires_permission_to_run=False,
+)
+</code></pre>
+<h3 id="84-labeledfewshot">8.4 LabeledFewShot</h3>
+<p>Uses your manually curated examples directly — no bootstrapping.</p>
+<pre><code class="language-python">from dspy.teleprompt import LabeledFewShot
+
+optimizer = LabeledFewShot(k=3)   # use 3 labeled examples
+compiled_qa = optimizer.compile(QAProgram(), trainset=trainset)
+</code></pre>
+<h3 id="85-how-optimization-works-conceptual">8.5 How Optimization Works (Conceptual)</h3>
+<pre><code>trainset  ──►  Run program forward()  ──►  Check metric()
+                                              │
+                                    Pass?  ──► Keep as demonstration
+                                    Fail?  ──► Discard
+                                              │
+                             Select best N demonstrations
+                                              │
+                             Inject into each module's prompt
+                                              │
+                             (MIPRO also proposes new instructions)
+                                              │
+                             Evaluate on valset  ──►  Store best config
+</code></pre>
+<hr />
+<h2 id="9-evaluation-metrics">9. Evaluation &amp; Metrics</h2>
+<h3 id="91-built-in-metrics">9.1 Built-in Metrics</h3>
+<pre><code class="language-python">from dspy.evaluate.metrics import answer_exact_match, answer_passage_match
+
+# answer_exact_match: checks if pred.answer == example.answer (normalized)
+# answer_passage_match: checks if any passage contains the answer
+</code></pre>
+<h3 id="92-custom-metric-function">9.2 Custom Metric Function</h3>
+<pre><code class="language-python">import dspy
+
+def f1_metric(example, pred, trace=None) -&gt; float:
+    &quot;&quot;&quot;Token-level F1 score between gold and predicted answer.&quot;&quot;&quot;
+    gold_tokens  = set(example.answer.lower().split())
+    pred_tokens  = set(pred.answer.lower().split())
+
+    if not gold_tokens or not pred_tokens:
+        return 0.0
+
+    common    = gold_tokens &amp; pred_tokens
+    precision = len(common) / len(pred_tokens)
+    recall    = len(common) / len(gold_tokens)
+
+    if precision + recall == 0:
+        return 0.0
+    return 2 * precision * recall / (precision + recall)
+
+
+def strict_and_relevant(example, pred, trace=None) -&gt; bool:
+    &quot;&quot;&quot;Answer must be correct AND not too long.&quot;&quot;&quot;
+    correct    = example.answer.lower() in pred.answer.lower()
+    not_too_long = len(pred.answer.split()) &lt;= 50
+    return correct and not_too_long
+</code></pre>
+<h3 id="93-dspyevaluate-pipeline">9.3 <code>dspy.Evaluate</code> Pipeline</h3>
+<pre><code class="language-python">import dspy
+from dspy.evaluate import Evaluate
+
+devset = [
+    dspy.Example(question=&quot;What is the boiling point of water?&quot;,
+                 answer=&quot;100 degrees Celsius&quot;).with_inputs(&quot;question&quot;),
+    dspy.Example(question=&quot;Who invented the printing press?&quot;,
+                 answer=&quot;Johannes Gutenberg&quot;).with_inputs(&quot;question&quot;),
+    dspy.Example(question=&quot;What is the largest planet?&quot;,
+                 answer=&quot;Jupiter&quot;).with_inputs(&quot;question&quot;),
+]
+
+def answer_contains(example, pred, trace=None):
+    return example.answer.lower() in pred.answer.lower()
+
+evaluator = Evaluate(
+    devset=devset,
+    metric=answer_contains,
+    num_threads=2,         # parallel evaluation
+    display_progress=True,
+    display_table=5,       # print first 5 rows
+)
+
+qa_program = QAProgram()
+score = evaluator(qa_program)
+print(f&quot;Score: {score:.1%}&quot;)
+
+# Compare before vs after optimization
+compiled = BootstrapFewShot(metric=answer_contains).compile(
+    QAProgram(), trainset=devset[:2]
+)
+compiled_score = evaluator(compiled)
+print(f&quot;Optimized score: {compiled_score:.1%}&quot;)
+</code></pre>
+<hr />
+<h2 id="10-assertions-constraints">10. Assertions &amp; Constraints</h2>
+<p>DSPy lets you declare constraints on outputs. Violations trigger automatic retries.</p>
+<h3 id="101-dspyassert-hard-constraint">10.1 <code>dspy.Assert</code> — Hard Constraint</h3>
+<p>If violated, the module retries with the constraint added to the context. Raises <code>AssertionError</code> after <code>max_backtracks</code> attempts.</p>
+<pre><code class="language-python">import dspy
+
+class ConstrainedSentiment(dspy.Module):
+    def __init__(self):
+        self.classify = dspy.Predict(&quot;review -&gt; sentiment&quot;)
+
+    def forward(self, review: str):
+        result = self.classify(review=review)
+
+        # Hard constraint: must be one of three valid labels
+        dspy.Assert(
+            result.sentiment.lower() in {&quot;positive&quot;, &quot;negative&quot;, &quot;neutral&quot;},
+            f&quot;Sentiment must be positive/negative/neutral, got: {result.sentiment}&quot;
+        )
+        return result
+
+module = ConstrainedSentiment()
+out = module(review=&quot;This was an average experience, nothing special.&quot;)
+print(out.sentiment)  # &quot;neutral&quot;
+</code></pre>
+<h3 id="102-dspysuggest-soft-constraint">10.2 <code>dspy.Suggest</code> — Soft Constraint</h3>
+<p>A soft nudge: violation is logged and added to context but does NOT raise an error.</p>
+<pre><code class="language-python">import dspy
+
+class BriefSummary(dspy.Module):
+    def __init__(self):
+        self.summarize = dspy.ChainOfThought(&quot;document -&gt; summary&quot;)
+
+    def forward(self, document: str):
+        result = self.summarize(document=document)
+
+        # Soft constraint: prefer short summaries
+        dspy.Suggest(
+            len(result.summary.split()) &lt;= 30,
+            &quot;Keep the summary under 30 words.&quot;
+        )
+        return result
+</code></pre>
+<h3 id="103-full-constrained-validation-example">10.3 Full Constrained Validation Example</h3>
+<pre><code class="language-python">import dspy
+import re
+
+class StructuredEmailReply(dspy.Module):
+    &quot;&quot;&quot;Generate a customer service reply that meets format requirements.&quot;&quot;&quot;
+
+    def __init__(self):
+        self.reply = dspy.ChainOfThought(
+            &quot;customer_email, tone -&gt; reply&quot;
+        )
+
+    def forward(self, customer_email: str, tone: str = &quot;professional&quot;):
+        result = self.reply(customer_email=customer_email, tone=tone)
+        reply  = result.reply
+
+        # Hard: must start with a greeting
+        dspy.Assert(
+            reply.lower().startswith((&quot;dear&quot;, &quot;hello&quot;, &quot;hi&quot;, &quot;greetings&quot;)),
+            &quot;Email reply must start with a greeting (Dear/Hello/Hi/Greetings).&quot;
+        )
+
+        # Hard: must contain an apology or acknowledgement for complaints
+        if &quot;problem&quot; in customer_email.lower() or &quot;issue&quot; in customer_email.lower():
+            dspy.Assert(
+                any(w in reply.lower() for w in [&quot;sorry&quot;, &quot;apologize&quot;, &quot;understand&quot;, &quot;acknowledge&quot;]),
+                &quot;Reply to a complaint must include an acknowledgement or apology.&quot;
+            )
+
+        # Soft: encourage a call-to-action
+        dspy.Suggest(
+            any(w in reply.lower() for w in [&quot;contact&quot;, &quot;reach out&quot;, &quot;let us know&quot;, &quot;please&quot;]),
+            &quot;Include a call-to-action encouraging the customer to follow up.&quot;
+        )
+
+        return result
+
+email_module = StructuredEmailReply()
+out = email_module(
+    customer_email=&quot;I have a problem with my order, it arrived damaged.&quot;,
+    tone=&quot;empathetic&quot;
+)
+print(out.reply)
+</code></pre>
+<hr />
+<h2 id="11-saving-loading">11. Saving &amp; Loading</h2>
+<p>After optimization, save the compiled program so you don't re-run expensive optimization later.</p>
+<h3 id="111-save">11.1 Save</h3>
+<pre><code class="language-python">import dspy
+from dspy.teleprompt import BootstrapFewShot
+
+# Assume compiled_qa is an optimized program from section 8
+compiled_qa.save(&quot;optimized_qa.json&quot;)
+print(&quot;Program saved to optimized_qa.json&quot;)
+</code></pre>
+<h3 id="112-load">11.2 Load</h3>
+<pre><code class="language-python">import dspy
+
+# Recreate the program skeleton (same architecture as when saved)
+loaded_qa = QAProgram()
+loaded_qa.load(&quot;optimized_qa.json&quot;)
+
+result = loaded_qa(question=&quot;What is the capital of Japan?&quot;)
+print(result.answer)  # &quot;Tokyo&quot;
+</code></pre>
+<h3 id="113-what-gets-saved">11.3 What Gets Saved</h3>
+<p>The JSON file stores all optimized prompt configurations including:</p>
+<ul>
+<li>Instructions added to each module</li>
+<li>Few-shot demonstrations selected by the optimizer</li>
+<li>Any metadata about the optimization run</li>
+</ul>
+<pre><code class="language-json">{
+  &quot;predict&quot;: {
+    &quot;signature&quot;: &quot;...&quot;,
+    &quot;demos&quot;: [
+      {&quot;question&quot;: &quot;...&quot;, &quot;reasoning&quot;: &quot;...&quot;, &quot;answer&quot;: &quot;...&quot;},
+      {&quot;question&quot;: &quot;...&quot;, &quot;reasoning&quot;: &quot;...&quot;, &quot;answer&quot;: &quot;...&quot;}
+    ],
+    &quot;instructions&quot;: &quot;...&quot;
+  }
+}
+</code></pre>
+<h3 id="114-save-load-pattern-for-production">11.4 Save / Load Pattern for Production</h3>
+<pre><code class="language-python">import dspy
+import os
+
+MODEL_PATH = &quot;models/qa_v1.json&quot;
+
+def get_qa_program():
+    program = QAProgram()
+    if os.path.exists(MODEL_PATH):
+        program.load(MODEL_PATH)
+        print(&quot;Loaded pre-optimized program.&quot;)
+    else:
+        print(&quot;No saved program found — running optimization...&quot;)
+        optimizer = BootstrapFewShot(metric=exact_match)
+        program = optimizer.compile(program, trainset=trainset)
+        os.makedirs(&quot;models&quot;, exist_ok=True)
+        program.save(MODEL_PATH)
+        print(f&quot;Optimized program saved to {MODEL_PATH}&quot;)
+    return program
+
+qa = get_qa_program()
+</code></pre>
+<hr />
+<h2 id="12-real-world-use-cases">12. Real-World Use Cases</h2>
+<h3 id="121-automated-email-classification-and-response">12.1 Automated Email Classification and Response</h3>
+<pre><code class="language-python">import dspy
+from typing import Literal
+
+class EmailClassification(dspy.Signature):
+    &quot;&quot;&quot;Classify and prioritize incoming support emails.&quot;&quot;&quot;
+    subject: str  = dspy.InputField()
+    body:    str  = dspy.InputField()
+    category: Literal[&quot;billing&quot;, &quot;technical&quot;, &quot;account&quot;, &quot;general&quot;] = dspy.OutputField()
+    priority: Literal[&quot;urgent&quot;, &quot;normal&quot;, &quot;low&quot;]                    = dspy.OutputField()
+    summary:  str = dspy.OutputField(desc=&quot;One sentence summary&quot;)
+
+class EmailResponse(dspy.Signature):
+    &quot;&quot;&quot;Draft a professional support response.&quot;&quot;&quot;
+    category: str = dspy.InputField()
+    summary:  str = dspy.InputField()
+    response: str = dspy.OutputField(desc=&quot;Complete email response text&quot;)
+
+class EmailPipeline(dspy.Module):
+    def __init__(self):
+        self.classify = dspy.Predict(EmailClassification)
+        self.respond  = dspy.ChainOfThought(EmailResponse)
+
+    def forward(self, subject: str, body: str):
+        classification = self.classify(subject=subject, body=body)
+        response = self.respond(
+            category=classification.category,
+            summary=classification.summary,
+        )
+        return dspy.Prediction(
+            category=classification.category,
+            priority=classification.priority,
+            response=response.response
+        )
+
+pipeline = EmailPipeline()
+result = pipeline(
+    subject=&quot;Cannot login to my account&quot;,
+    body=&quot;I've been trying to login for 2 hours and keep getting 'invalid credentials'.&quot;
+)
+print(f&quot;Category: {result.category}&quot;)
+print(f&quot;Priority: {result.priority}&quot;)
+print(f&quot;Response:\n{result.response}&quot;)
+</code></pre>
+<h3 id="122-code-generation-with-correctness-verification">12.2 Code Generation with Correctness Verification</h3>
+<pre><code class="language-python">import dspy
+import subprocess
+import sys
+
+class CodeGenerationSignature(dspy.Signature):
+    &quot;&quot;&quot;Generate Python code to solve the described problem.&quot;&quot;&quot;
+    problem:     str = dspy.InputField(desc=&quot;Description of what the code should do&quot;)
+    test_input:  str = dspy.InputField(desc=&quot;Sample input to test the code&quot;)
+    expected:    str = dspy.InputField(desc=&quot;Expected output for the test input&quot;)
+    code:        str = dspy.OutputField(desc=&quot;Complete, runnable Python code&quot;)
+    explanation: str = dspy.OutputField(desc=&quot;Brief explanation of the approach&quot;)
+
+class VerifiedCodeGen(dspy.Module):
+    def __init__(self):
+        self.generate = dspy.ChainOfThought(CodeGenerationSignature)
+
+    def _run_code(self, code: str, test_input: str) -&gt; tuple[bool, str]:
+        &quot;&quot;&quot;Execute generated code and return (success, output).&quot;&quot;&quot;
+        full_code = f&quot;{code}\nprint(solution({test_input}))&quot;
+        try:
+            result = subprocess.run(
+                [sys.executable, &quot;-c&quot;, full_code],
+                capture_output=True, text=True, timeout=5
+            )
+            return result.returncode == 0, result.stdout.strip()
+        except subprocess.TimeoutExpired:
+            return False, &quot;Timeout&quot;
+
+    def forward(self, problem: str, test_input: str, expected: str):
+        result = self.generate(
+            problem=problem, test_input=test_input, expected=expected
+        )
+        success, output = self._run_code(result.code, test_input)
+        correct = success and output == expected.strip()
+
+        dspy.Assert(correct, f&quot;Code produced {output!r} but expected {expected!r}&quot;)
+        return result
+
+gen = VerifiedCodeGen()
+out = gen(
+    problem=&quot;Write a function called `solution` that returns the sum of a list of numbers&quot;,
+    test_input=&quot;[1, 2, 3, 4, 5]&quot;,
+    expected=&quot;15&quot;
+)
+print(out.code)
+</code></pre>
+<h3 id="123-full-classifier-example-with-optimization">12.3 Full Classifier Example with Optimization</h3>
+<pre><code class="language-python">import dspy
+from dspy.teleprompt import BootstrapFewShot
+from dspy.evaluate import Evaluate
+
+# --- Data ---
+train_data = [
+    dspy.Example(text=&quot;My order never arrived!&quot;, label=&quot;complaint&quot;).with_inputs(&quot;text&quot;),
+    dspy.Example(text=&quot;Great service, very happy!&quot;, label=&quot;praise&quot;).with_inputs(&quot;text&quot;),
+    dspy.Example(text=&quot;How do I reset my password?&quot;, label=&quot;inquiry&quot;).with_inputs(&quot;text&quot;),
+    dspy.Example(text=&quot;I was charged twice for one item&quot;, label=&quot;complaint&quot;).with_inputs(&quot;text&quot;),
+    dspy.Example(text=&quot;Your team was incredibly helpful&quot;, label=&quot;praise&quot;).with_inputs(&quot;text&quot;),
+    dspy.Example(text=&quot;What are your business hours?&quot;, label=&quot;inquiry&quot;).with_inputs(&quot;text&quot;),
+]
+
+dev_data = [
+    dspy.Example(text=&quot;The product broke after one day&quot;, label=&quot;complaint&quot;).with_inputs(&quot;text&quot;),
+    dspy.Example(text=&quot;Five stars, would recommend!&quot;, label=&quot;praise&quot;).with_inputs(&quot;text&quot;),
+    dspy.Example(text=&quot;Do you ship internationally?&quot;, label=&quot;inquiry&quot;).with_inputs(&quot;text&quot;),
+]
+
+# --- Program ---
+class TextClassifier(dspy.Module):
+    def __init__(self):
+        self.classify = dspy.ChainOfThought(
+            &quot;text -&gt; label&quot;
+        )
+
+    def forward(self, text: str):
+        result = self.classify(text=text)
+        dspy.Assert(
+            result.label.lower() in {&quot;complaint&quot;, &quot;praise&quot;, &quot;inquiry&quot;},
+            &quot;Label must be: complaint, praise, or inquiry&quot;
+        )
+        return result
+
+# --- Metric ---
+def label_match(example, pred, trace=None):
+    return example.label.lower() == pred.label.lower()
+
+# --- Optimize ---
+optimizer = BootstrapFewShot(metric=label_match, max_bootstrapped_demos=3)
+compiled_classifier = optimizer.compile(TextClassifier(), trainset=train_data)
+
+# --- Evaluate ---
+evaluator = Evaluate(devset=dev_data, metric=label_match, num_threads=1)
+score = evaluator(compiled_classifier)
+print(f&quot;Classification accuracy: {score:.1%}&quot;)
+
+# --- Inference ---
+result = compiled_classifier(text=&quot;This is the worst experience I've ever had.&quot;)
+print(f&quot;Label: {result.label}&quot;)
+</code></pre>
+<hr />
+<h2 id="13-dspy-vs-traditional-prompting">13. DSPy vs Traditional Prompting</h2>
+<h3 id="side-by-side-comparison">Side-by-Side Comparison</h3>
+<p><strong>Traditional Prompting</strong></p>
+<pre><code class="language-python"># You write and maintain this manually
+PROMPT_TEMPLATE = &quot;&quot;&quot;You are a helpful customer support agent.
+Classify the following customer message into exactly one of these categories:
+- complaint: customer has a problem or is unhappy
+- praise: customer is happy and complimenting
+- inquiry: customer is asking a question
+
+Rules:
+- Only output one word: complaint, praise, or inquiry
+- Do not add punctuation
+- Think carefully about the intent
+
+Customer message: {text}
+
+Category:&quot;&quot;&quot;
+
+def classify_traditional(text: str) -&gt; str:
+    response = openai.chat.completions.create(
+        model=&quot;gpt-4o-mini&quot;,
+        messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: PROMPT_TEMPLATE.format(text=text)}]
+    )
+    label = response.choices[0].message.content.strip().lower()
+    if label not in {&quot;complaint&quot;, &quot;praise&quot;, &quot;inquiry&quot;}:
+        return &quot;inquiry&quot;  # fallback
+    return label
+</code></pre>
+<p><strong>DSPy Approach</strong></p>
+<pre><code class="language-python"># DSPy writes and optimizes the prompt for you
+classifier = BootstrapFewShot(metric=label_match).compile(
+    TextClassifier(), trainset=train_data
+)
+result = classifier(text=text)
+</code></pre>
+<h3 id="when-hand-written-prompts-win">When Hand-Written Prompts Win</h3>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Single, stable, well-understood task</td>
+<td>Prompt iteration is fast and cheap</td>
+</tr>
+<tr>
+<td>No labeled evaluation data available</td>
+<td>DSPy needs examples to optimize</td>
+</tr>
+<tr>
+<td>Rapid prototype / demo</td>
+<td>Setup overhead not worth it</td>
+</tr>
+<tr>
+<td>Cost-sensitive with tiny dataset</td>
+<td>Optimization calls add up</td>
+</tr>
+<tr>
+<td>Creative tasks (poetry, stories)</td>
+<td>No clear metric to optimize for</td>
+</tr>
+</tbody>
+</table>
+<h3 id="when-dspy-optimization-wins">When DSPy Optimization Wins</h3>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Large production pipeline with SLA</td>
+<td>Systematic quality improvement</td>
+</tr>
+<tr>
+<td>Multi-step reasoning tasks</td>
+<td>Coordinates prompts across modules</td>
+</tr>
+<tr>
+<td>Structured / typed outputs needed</td>
+<td>Enforces contracts automatically</td>
+</tr>
+<tr>
+<td>Dataset of labeled examples exists</td>
+<td>Optimizer has signal to work with</td>
+</tr>
+<tr>
+<td>Switching LLM providers or models</td>
+<td>Re-compile adapts to new model</td>
+</tr>
+</tbody>
+</table>
+<h3 id="cost-and-time-tradeoffs">Cost and Time Tradeoffs</h3>
+<pre><code>Traditional Prompting
+  Initial setup:    2–8 hrs  (writing/testing prompt)
+  Per improvement:  1–3 hrs  (manual iteration)
+  API cost:         $0       (for prompt development)
+
+DSPy Optimization
+  Initial setup:    1–2 hrs  (defining signatures &amp; metrics)
+  Per optimization: automatic (but uses API calls)
+  API cost (train): $1–$20   (BootstrapFewShot on small dataset)
+  API cost (MIPRO): $10–$100 (on larger datasets)
+  Ongoing benefit:  compounding — re-compile when model changes
+</code></pre>
+<hr />
+<h2 id="14-interview-qa">14. Interview Q&amp;A</h2>
+<details open><summary class="qa-q">What is a DSPy Signature and how does it differ from a prompt template?  A **Signature** declares the input/output *contract* of an LLM call — it says *what* to do. A prompt template is hand-written text describing *how* to do it. DSPy's optimizer fills in the "how" automatically based on the signature and your metric. Signatures are composable, typed, and model-agnostic; prompt templates are brittle string literals.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What is a DSPy Module and how is it similar to a neural network module?  A `dspy.Module` is the composable unit of a DSPy program — it has a `forward()` method and can contain child modules (just like `nn.Module` in PyTorch). Parameters (demonstrations, instructions) are stored inside modules and can be updated by an optimizer, analogous to how gradient descent updates neural network weights.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What is BootstrapFewShot and how does it work?  `BootstrapFewShot` is DSPy's simplest optimizer. It: 1. Runs the compiled program on training examples 2. Checks each output against the metric 3. Keeps examples that *pass* as demonstrations 4. Injects those demonstrations into each module's prompt  It's called "bootstrap" because the program generates its own training signal.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What is the difference between `dspy.Predict` and `dspy.ChainOfThought`?  `dspy.Predict` makes a direct LLM call with the signature's input/output fields. `dspy.ChainOfThought` automatically adds a `reasoning` output field before the answer field, prompting the model to think step by step. CoT significantly improves accuracy on complex tasks at the cost of more tokens.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How does MIPRO optimizer work?  MIPRO (Multi-prompt Instruction PRoposal Optimizer) goes beyond few-shot selection. It uses a meta-LLM to: 1. **Analyze** the task and current program behavior 2. **Propose** new instruction candidates for each module 3. **Search** over combinations of instructions × demonstrations 4. **Select** the configuration with the best validation score using Bayesian optimization  It is the most powerful but also most expensive DSPy optimizer.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How do you evaluate a DSPy program?  Use `dspy.Evaluate`: ```python from dspy.evaluate import Evaluate evaluator = Evaluate(devset=devset, metric=my_metric, num_threads=4) score = evaluator(my_program) ``` The metric is a function `(example, prediction, trace=None) -> float | bool`. Built-in metrics include `answer_exact_match` and `answer_passage_match`.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What is `dspy.Assert` and when should you use it?  `dspy.Assert` is a hard constraint on a module's output. If violated, the framework retries the LLM call with the violated constraint added to context. Use it when outputs must satisfy a strict rule (valid enum value, minimum length, JSON parseable, etc.). Use `dspy.Suggest` for softer preferences that shouldn't cause retries.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How do you implement RAG in DSPy?  ```python class RAG(dspy.Module):     def __init__(self):         self.retrieve  = dspy.Retrieve(k=3)       # configured via dspy.configure(rm=...)         self.generate  = dspy.ChainOfThought("context, question -> answer")      def forward(self, question):         context = "\n".join(self.retrieve(question).passages)         return self.generate(context=context, question=question) ``` Configure the retriever with `dspy.configure(rm=ColBERTv2(...))`.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How do you save and reload an optimized DSPy program?  ```python # Save compiled_program.save("program_v1.json")  # Load (must recreate the same class structure first) program = MyProgram() program.load("program_v1.json") ``` The JSON stores instructions and demonstrations but NOT model weights.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">When would you choose DSPy over LangChain?  Choose DSPy when you have **measurable quality requirements** (a metric function) and **labeled examples**. DSPy systematically improves prompt quality through optimization. Choose LangChain for rapid prototyping, tool-chain assembly, or when you need its broad ecosystem of integrations without a formal quality loop.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How do you write a custom metric for DSPy evaluation?  ```python def my_metric(example, pred, trace=None) -> float:     # example: a dspy.Example with gold labels     # pred:    the program's dspy.Prediction     # trace:   optional trace for advanced metrics     score = some_score_function(example.answer, pred.answer)     return score   # float in [0,1] or bool ``` The metric doubles as the optimizer's objective, so it must be fast and deterministic.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What is ProgramOfThought?  `dspy.ProgramOfThought` is a module that instructs the LLM to write Python code to solve a problem, then *executes that code* and returns the runtime result as the answer. It's powerful for math, data processing, and algorithmic tasks where code execution is more reliable than token generation.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How do you use DSPy with local models?  ```python lm = dspy.LM(     "ollama/llama3",     api_base="http://localhost:11434",     api_key="ollama", ) dspy.configure(lm=lm) ``` DSPy uses LiteLLM under the hood, so any LiteLLM-compatible model string works (HuggingFace, vLLM, LM Studio, etc.).  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What is the train/dev split in DSPy optimization?  - **trainset**: Examples used by the optimizer to *generate* demonstrations. The optimizer runs the program on these and keeps successful traces. - **devset (valset)**: Examples used to *evaluate* candidate configurations. The optimizer scores each configuration on devset and picks the best one.  Rule of thumb: 70% train, 30% dev. Even 20–50 examples can produce meaningful optimization.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How does DSPy handle multi-hop reasoning?  By chaining modules in `forward()`, each building on prior results: ```python class MultiHopQA(dspy.Module):     def __init__(self, hops=3):         self.retrieve  = dspy.Retrieve(k=2)         self.generate  = [dspy.ChainOfThought("context, question -> next_query, answer")                           for _ in range(hops)]      def forward(self, question):         context, query = "", question         for module in self.generate:             passages = self.retrieve(query).passages             context += "\n".join(passages)             pred   = module(context=context, question=query)             query  = pred.next_query         return pred ``` Each hop refines the query based on previous retrieved evidence.  ---  ## 15. Complete End-to-End Example  A fully working, optimized RAG pipeline: load data → define program → optimize with BootstrapFewShot → evaluate → save.  ```python """ DSPy End-to-End RAG Pipeline ============================================================ Steps:   1. Configure LM (GitHub Copilot free endpoint or OpenAI)   2. Build a small QA dataset   3. Define a RAG program (retrieve → chain-of-thought → verify)   4. Evaluate the baseline (no optimization)   5. Optimize with BootstrapFewShot   6. Evaluate the optimized program   7. Save the optimized program   8. Reload and run inference  Run: python e2e_rag_pipeline.py """  import subprocess import os import dspy from dspy.teleprompt import BootstrapFewShot from dspy.evaluate import Evaluate  # ── 1. Configure the LM ────────────────────────────────────── def configure_lm():     """Use GitHub Copilot free auth if available, else fall back to env var."""     try:         token = subprocess.run(             ["gh", "auth", "token"], capture_output=True, text=True         ).stdout.strip()         if token:             lm = dspy.LM(                 "openai/gpt-4o-mini",                 api_key=token,                 api_base="https://models.inference.ai.azure.com",             )             print("Using GitHub Copilot endpoint.")             return lm     except FileNotFoundError:         pass      api_key = os.getenv("OPENAI_API_KEY", "")     if not api_key:         raise ValueError("Set OPENAI_API_KEY or run `gh auth login`.")     print("Using OpenAI endpoint.")     return dspy.LM("openai/gpt-4o-mini", api_key=api_key)  lm = configure_lm() dspy.configure(lm=lm)  # ── 2. Dataset ──────────────────────────────────────────────── ALL_DATA = [     dspy.Example(         question="What gas do plants absorb during photosynthesis?",         answer="Carbon dioxide"     ).with_inputs("question"),     dspy.Example(         question="What is the powerhouse of the cell?",         answer="The mitochondria"     ).with_inputs("question"),     dspy.Example(         question="What planet is closest to the Sun?",         answer="Mercury"     ).with_inputs("question"),     dspy.Example(         question="What is the chemical symbol for gold?",         answer="Au"     ).with_inputs("question"),     dspy.Example(         question="How many bones are in the adult human body?",         answer="206"     ).with_inputs("question"),     dspy.Example(         question="What is the speed of light in a vacuum?",         answer="Approximately 299,792,458 meters per second"     ).with_inputs("question"), ]  trainset = ALL_DATA[:4] devset   = ALL_DATA[4:]  # ── 3. Define the RAG Program ───────────────────────────────── class RAGAnswerSignature(dspy.Signature):     """Answer the question accurately and concisely."""     question: str = dspy.InputField()     answer:   str = dspy.OutputField(desc="Short factual answer, 1–2 sentences max")  class SimpleQARAG(dspy.Module):     """     Lightweight RAG: no external retriever needed for this demo.     In production, swap self.generate for a retrieve → generate chain.     """     def __init__(self):         self.generate = dspy.ChainOfThought(RAGAnswerSignature)      def forward(self, question: str):         result = self.generate(question=question)         dspy.Suggest(             len(result.answer.split()) <= 30,             "Keep the answer concise — under 30 words."         )         return result  # ── 4. Baseline Evaluation ──────────────────────────────────── def answer_contains(example, pred, trace=None) -> bool:     gold  = example.answer.lower().strip()     given = pred.answer.lower().strip()     return gold in given or any(w in given for w in gold.split() if len(w) > 3)  print("\n── Baseline Evaluation ──") baseline = SimpleQARAG() evaluator = Evaluate(devset=devset, metric=answer_contains, num_threads=1, display_progress=True) baseline_score = evaluator(baseline) print(f"Baseline accuracy: {baseline_score:.1%}")  # ── 5. Optimization ─────────────────────────────────────────── print("\n── Optimizing with BootstrapFewShot ──") optimizer = BootstrapFewShot(     metric=answer_contains,     max_bootstrapped_demos=3,     max_labeled_demos=2, ) compiled_rag = optimizer.compile(SimpleQARAG(), trainset=trainset)  # ── 6. Optimized Evaluation ─────────────────────────────────── print("\n── Optimized Evaluation ──") optimized_score = evaluator(compiled_rag) print(f"Optimized accuracy: {optimized_score:.1%}") print(f"Improvement:        +{optimized_score - baseline_score:.1%}")  # ── 7. Save ─────────────────────────────────────────────────── SAVE_PATH = "optimized_rag.json" compiled_rag.save(SAVE_PATH) print(f"\nProgram saved to {SAVE_PATH}")  # ── 8. Reload and Inference ─────────────────────────────────── print("\n── Loading saved program ──") loaded_rag = SimpleQARAG() loaded_rag.load(SAVE_PATH)  test_questions = [     "What is the largest planet in our solar system?",     "What element has the atomic number 1?",     "Who wrote Romeo and Juliet?", ]  print("\n── Inference with loaded program ──") for q in test_questions:     result = loaded_rag(question=q)     print(f"Q: {q}")     print(f"A: {result.answer}")     print(f"   (reasoning: {result.reasoning[:80]}...)\n") ```  ---  ## Quick Reference Card  ``` dspy.configure(lm=..., rm=...)          # Global LM + retriever config  # Signatures dspy.Predict("q -> a")                  # Inline class Sig(dspy.Signature): ...          # Class-based  # Modules dspy.Predict(sig)                       # Direct call dspy.ChainOfThought(sig)                # + reasoning field dspy.ReAct(sig, tools=[...])            # Tool-calling agent dspy.Retrieve(k=3)                      # Vector retrieval dspy.ProgramOfThought(sig)              # Code generation + execution  # Optimizers BootstrapFewShot(metric=f)              # Simple demo selection BootstrapFewShotWithRandomSearch(...)   # + random search MIPROv2(metric=f, auto="medium")        # Instruction + demo opt LabeledFewShot(k=N)                     # Manual examples  # Constraints dspy.Assert(condition, message)         # Hard — retries on fail dspy.Suggest(condition, message)        # Soft — logs and continues  # Evaluate Evaluate(devset=..., metric=f)(program) # Returns score in [0,1]  # Persist program.save("path.json") program.load("path.json") ```  ---  *Guide covers DSPy 2.x · Last updated 2025</summary><div class="qa-a"></div></details>
+</main>
+</body>
+</html>

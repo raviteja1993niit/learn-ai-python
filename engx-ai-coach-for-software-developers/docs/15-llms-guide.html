@@ -1,0 +1,4195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Free & Paid LLMs – AI Libraries Guide</title>
+<style>
+:root{--bg:#fff;--text:#1a1a2e;--accent:#0070f3;--code:#f4f6f8;--border:#e1e4e8;--nav:#f6f8fa;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:Georgia,'Times New Roman',serif;font-size:17px;line-height:1.8;
+     color:var(--text);background:var(--bg);display:flex;min-height:100vh;}
+/* ---- NAV ---- */
+nav{width:260px;min-width:220px;background:var(--nav);border-right:1px solid var(--border);
+    position:sticky;top:0;height:100vh;overflow-y:auto;padding:20px 14px;flex-shrink:0;}
+nav .back-link{display:block;font-family:sans-serif;font-size:12px;color:var(--accent);
+               margin-bottom:14px;text-decoration:none;}
+nav .back-link:hover{text-decoration:underline;}
+nav h3{font-family:sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:.08em;
+       color:#888;margin-bottom:8px;}
+nav ul{list-style:none;}
+nav li{margin:3px 0;}
+nav a{font-family:sans-serif;font-size:13px;color:#444;text-decoration:none;
+      display:block;padding:4px 8px;border-radius:4px;line-height:1.4;}
+nav a:hover{background:#e0e8ff;color:var(--accent);}
+nav a.h3{padding-left:20px;font-size:12px;color:#666;}
+nav a.h4{padding-left:34px;font-size:11px;color:#888;}
+/* ---- MAIN ---- */
+main{flex:1;padding:48px 60px;max-width:960px;}
+.doc-header{margin-bottom:40px;padding-bottom:20px;border-bottom:3px solid var(--accent);}
+.doc-header h1{font-size:2.1em;color:#0a192f;}
+.doc-header .subtitle{font-family:sans-serif;color:#555;margin-top:6px;font-size:.95em;}
+.doc-header .badges span{display:inline-block;font-family:sans-serif;font-size:12px;
+  padding:3px 10px;border-radius:12px;margin:8px 4px 0 0;font-weight:600;}
+.badge-free{background:#d4edda;color:#155724;}
+.badge-paid{background:#fff3cd;color:#856404;}
+.badge-local{background:#cce5ff;color:#004085;}
+/* ---- CONTENT ---- */
+section{margin-bottom:56px;}
+h2{font-size:1.6em;color:#0a192f;margin:2em 0 .6em;padding-bottom:.3em;border-bottom:2px solid var(--border);}
+h3{font-size:1.25em;color:#0a192f;margin:1.6em 0 .4em;}
+h4{font-size:1.05em;color:#0a192f;margin:1.3em 0 .3em;}
+p{margin:.6em 0;}
+ul,ol{margin:.5em 0 .5em 1.5em;}li{margin:.25em 0;}
+strong{color:#0a192f;}
+code{font-family:'Fira Code',Consolas,monospace;background:var(--code);
+     padding:2px 6px;border-radius:3px;font-size:.87em;}
+pre{background:var(--code);border:1px solid var(--border);border-left:4px solid var(--accent);
+    border-radius:6px;padding:18px;overflow-x:auto;margin:1em 0;}
+pre code{background:none;padding:0;font-size:.84em;line-height:1.5;}
+table{border-collapse:collapse;width:100%;margin:1em 0;font-family:sans-serif;font-size:.9em;}
+th,td{border:1px solid var(--border);padding:9px 13px;text-align:left;vertical-align:top;}
+th{background:#e8f0fe;font-weight:700;color:#0a192f;}
+tr:nth-child(even) td{background:#f9f9f9;}
+blockquote{border-left:4px solid var(--accent);padding:10px 18px;background:#f0f4ff;
+           border-radius:0 6px 6px 0;color:#333;margin:1em 0;}
+/* ---- Q&A ---- */
+details{border:1px solid var(--border);border-radius:8px;margin:.8em 0;background:#fafafa;}
+details[open]{background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+summary.qa-q{cursor:pointer;padding:13px 16px;font-weight:700;color:#0a192f;
+             list-style:none;display:flex;align-items:flex-start;gap:10px;line-height:1.5;}
+summary.qa-q::before{content:"Q";background:var(--accent);color:#fff;padding:2px 8px;
+                     border-radius:50%;font-size:.78em;font-family:sans-serif;flex-shrink:0;margin-top:2px;}
+.qa-a{padding:14px 18px;border-top:1px solid #eee;}
+/* ---- callout boxes ---- */
+.tip{background:#e6f9f0;border-left:4px solid #28a745;padding:12px 16px;
+     border-radius:0 6px 6px 0;margin:1em 0;}
+.warn{background:#fff8e1;border-left:4px solid #ffc107;padding:12px 16px;
+      border-radius:0 6px 6px 0;margin:1em 0;}
+a{color:var(--accent);}
+hr{border:none;border-top:1px solid var(--border);margin:2em 0;}
+</style>
+</head>
+<body>
+<nav>
+  <a class="back-link" href="index.html">⬅ All Guides</a>
+  <a class="back-link" href="14-code-recipes.html">← Code Recipes</a>
+  <h3>Contents</h3>
+  <ul><li><a href="#1-why-llm-choice-matters" class="">1. Why LLM Choice Matters</a></li>
+<li><a href="#11-the-core-tradeoff-triangle" class="h3">1.1 The Core Tradeoff Triangle</a></li>
+<li><a href="#12-key-dimensions-to-evaluate" class="h3">1.2 Key Dimensions to Evaluate</a></li>
+<li><a href="#13-latency-breakdown" class="h3">1.3 Latency Breakdown</a></li>
+<li><a href="#14-cost-anatomy" class="h3">1.4 Cost Anatomy</a></li>
+<li><a href="#15-use-case-fit-matrix" class="h3">1.5 Use-Case Fit Matrix</a></li>
+<li><a href="#2-free-llms-complete-catalog" class="">2. Free LLMs — Complete Catalog</a></li>
+<li><a href="#21-github-copilot-free-azure-ai-inference" class="h3">2.1 GitHub Copilot Free (Azure AI Inference)</a></li>
+<li><a href="#22-groq-ultra-fast-free-inference" class="h3">2.2 Groq — Ultra-Fast Free Inference</a></li>
+<li><a href="#23-together-ai-free-5-credit" class="h3">2.3 Together AI (Free $5 Credit)</a></li>
+<li><a href="#24-hugging-face-inference-api-free-serverless" class="h3">2.4 Hugging Face Inference API (Free Serverless)</a></li>
+<li><a href="#25-google-ai-studio-gemini-api-free-tier" class="h3">2.5 Google AI Studio / Gemini API (Free Tier)</a></li>
+<li><a href="#26-ollama-local-models-completely-free" class="h3">2.6 Ollama — Local Models (Completely Free)</a></li>
+<li><a href="#27-lm-studio-local-gui" class="h3">2.7 LM Studio — Local GUI</a></li>
+<li><a href="#28-janai-local-alternative" class="h3">2.8 Jan.ai — Local Alternative</a></li>
+<li><a href="#29-openrouter-free-model-aggregator" class="h3">2.9 OpenRouter — Free Model Aggregator</a></li>
+<li><a href="#210-cerebras-fast-free-inference" class="h3">2.10 Cerebras — Fast Free Inference</a></li>
+<li><a href="#211-fireworks-ai-free-tier" class="h3">2.11 Fireworks AI (Free Tier)</a></li>
+<li><a href="#212-cloudflare-workers-ai-free-tier" class="h3">2.12 Cloudflare Workers AI (Free Tier)</a></li>
+<li><a href="#3-paid-llms-complete-catalog" class="">3. Paid LLMs — Complete Catalog</a></li>
+<li><a href="#31-openai" class="h3">3.1 OpenAI</a></li>
+<li><a href="#32-anthropic-claude" class="h3">3.2 Anthropic Claude</a></li>
+<li><a href="#33-google-gemini-paid-tier" class="h3">3.3 Google Gemini (Paid Tier)</a></li>
+<li><a href="#34-cohere" class="h3">3.4 Cohere</a></li>
+<li><a href="#35-mistral-ai" class="h3">3.5 Mistral AI</a></li>
+<li><a href="#36-amazon-bedrock" class="h3">3.6 Amazon Bedrock</a></li>
+<li><a href="#37-azure-openai" class="h3">3.7 Azure OpenAI</a></li>
+<li><a href="#38-ibm-watsonx" class="h3">3.8 IBM watsonx</a></li>
+<li><a href="#4-when-to-use-which-llm" class="">4. When To Use Which LLM</a></li>
+<li><a href="#41-decision-matrix" class="h3">4.1 Decision Matrix</a></li>
+<li><a href="#42-cost-optimization-strategy" class="h3">4.2 Cost-Optimization Strategy</a></li>
+<li><a href="#5-setup-guides" class="">5. Setup Guides</a></li>
+<li><a href="#51-github-copilot-free" class="h3">5.1 GitHub Copilot Free</a></li>
+<li><a href="#52-groq-setup" class="h3">5.2 Groq Setup</a></li>
+<li><a href="#53-google-gemini-free-tier" class="h3">5.3 Google Gemini Free Tier</a></li>
+<li><a href="#54-ollama-local-setup" class="h3">5.4 Ollama Local Setup</a></li>
+<li><a href="#55-openrouter-free-models" class="h3">5.5 OpenRouter Free Models</a></li>
+<li><a href="#56-hugging-face-inferenceclient" class="h3">5.6 Hugging Face InferenceClient</a></li>
+<li><a href="#57-openai-standard-setup" class="h3">5.7 OpenAI Standard Setup</a></li>
+<li><a href="#58-anthropic-claude-setup" class="h3">5.8 Anthropic Claude Setup</a></li>
+<li><a href="#6-llm-comparison-tables" class="">6. LLM Comparison Tables</a></li>
+<li><a href="#61-speed-comparison-tokenssecond-approximate" class="h3">6.1 Speed Comparison (Tokens/Second — Approximate)</a></li>
+<li><a href="#62-context-window-comparison" class="h3">6.2 Context Window Comparison</a></li>
+<li><a href="#63-pricing-comparison-per-1m-tokens-2025" class="h3">6.3 Pricing Comparison (per 1M tokens, 2025)</a></li>
+<li><a href="#64-capability-radar" class="h3">6.4 Capability Radar</a></li>
+<li><a href="#7-fine-tuning-free-llms" class="">7. Fine-Tuning Free LLMs</a></li>
+<li><a href="#71-fine-tuning-vs-rag-vs-prompt-engineering" class="h3">7.1 Fine-Tuning vs RAG vs Prompt Engineering</a></li>
+<li><a href="#when-to-use-each-approach" class="h4">When to Use Each Approach</a></li>
+<li><a href="#decision-flowchart-ascii" class="h4">Decision Flowchart (ASCII)</a></li>
+<li><a href="#72-fine-tuning-with-hugging-face" class="h3">7.2 Fine-Tuning with Hugging Face</a></li>
+<li><a href="#installing-dependencies" class="h4">Installing Dependencies</a></li>
+<li><a href="#sft-supervised-fine-tuning-with-qlora-full-working-example" class="h4">SFT (Supervised Fine-Tuning) with QLoRA — Full Working Example</a></li>
+<li><a href="#hardware-requirements" class="h4">Hardware Requirements</a></li>
+<li><a href="#73-fine-tuning-tools" class="h3">7.3 Fine-Tuning Tools</a></li>
+<li><a href="#axolotl-yaml-config-based" class="h4">Axolotl (YAML Config-Based)</a></li>
+<li><a href="#unsloth-2-faster-fine-tuning" class="h4">Unsloth (2× Faster Fine-Tuning)</a></li>
+<li><a href="#openai-fine-tuning-api" class="h4">OpenAI Fine-Tuning API</a></li>
+<li><a href="#74-free-training-compute" class="h3">7.4 Free Training Compute</a></li>
+<li><a href="#75-datasets-for-fine-tuning" class="h3">7.5 Datasets for Fine-Tuning</a></li>
+<li><a href="#popular-open-datasets" class="h4">Popular Open Datasets</a></li>
+<li><a href="#creating-custom-jsonl-dataset" class="h4">Creating Custom JSONL Dataset</a></li>
+<li><a href="#data-quality-tips" class="h4">Data Quality Tips</a></li>
+<li><a href="#8-rag-vs-fine-tuning-vs-prompt-engineering" class="">8. RAG vs Fine-Tuning vs Prompt Engineering</a></li>
+<li><a href="#81-full-comparison-table" class="h3">8.1 Full Comparison Table</a></li>
+<li><a href="#82-decision-tree" class="h3">8.2 Decision Tree</a></li>
+<li><a href="#83-when-rag-beats-fine-tuning" class="h3">8.3 When RAG Beats Fine-Tuning</a></li>
+<li><a href="#84-hybrid-approach-fine-tune-rag" class="h3">8.4 Hybrid Approach: Fine-Tune + RAG</a></li>
+<li><a href="#9-custom-llm-deployment" class="">9. Custom LLM Deployment</a></li>
+<li><a href="#91-serving-local-models" class="h3">9.1 Serving Local Models</a></li>
+<li><a href="#ollama-simplest-option" class="h4">Ollama — Simplest Option</a></li>
+<li><a href="#vllm-production-grade-openai-compatible" class="h4">vLLM — Production Grade, OpenAI-Compatible</a></li>
+<li><a href="#llamacpp-server" class="h4">llama.cpp Server</a></li>
+<li><a href="#text-generation-inference-tgi-by-huggingface" class="h4">Text Generation Inference (TGI) by HuggingFace</a></li>
+<li><a href="#92-cloud-deployment-options" class="h3">9.2 Cloud Deployment Options</a></li>
+<li><a href="#hugging-face-inference-endpoints" class="h4">Hugging Face Inference Endpoints</a></li>
+<li><a href="#modalcom-serverless-gpu" class="h4">Modal.com — Serverless GPU</a></li>
+<li><a href="#10-llm-evaluation-benchmarks" class="">10. LLM Evaluation &amp; Benchmarks</a></li>
+<li><a href="#101-standard-benchmarks" class="h3">10.1 Standard Benchmarks</a></li>
+<li><a href="#102-task-specific-evaluation" class="h3">10.2 Task-Specific Evaluation</a></li>
+<li><a href="#103-rag-evaluation-with-ragas" class="h3">10.3 RAG Evaluation with RAGAS</a></li>
+<li><a href="#11-embeddings-free-paid" class="">11. Embeddings — Free &amp; Paid</a></li>
+<li><a href="#111-embedding-models-comparison" class="h3">11.1 Embedding Models Comparison</a></li>
+<li><a href="#112-local-embeddings-with-sentence-transformers" class="h3">11.2 Local Embeddings with sentence-transformers</a></li>
+<li><a href="#113-openai-embeddings" class="h3">11.3 OpenAI Embeddings</a></li>
+<li><a href="#12-practical-use-cases-with-code" class="">12. Practical Use Cases with Code</a></li>
+<li><a href="#uc1-local-rag-with-ollama-chromadb-fully-free-no-api-key" class="h3">UC1: Local RAG with Ollama + ChromaDB (Fully Free, No API Key)</a></li>
+<li><a href="#uc2-production-rag-with-github-copilot-free-faiss" class="h3">UC2: Production RAG with GitHub Copilot Free + FAISS</a></li>
+<li><a href="#uc3-structured-output-extraction-with-groq-pydantic" class="h3">UC3: Structured Output Extraction with Groq + Pydantic</a></li>
+<li><a href="#uc4-multi-model-comparison" class="h3">UC4: Multi-Model Comparison</a></li>
+<li><a href="#uc5-streaming-chat-with-groq-ultra-fast" class="h3">UC5: Streaming Chat with Groq (Ultra-Fast)</a></li>
+<li><a href="#uc6-fine-tuned-model-inference-with-hugging-face" class="h3">UC6: Fine-Tuned Model Inference with Hugging Face</a></li>
+<li><a href="#uc7-embeddings-comparison-local-vs-api" class="h3">UC7: Embeddings Comparison (Local vs API)</a></li>
+<li><a href="#13-interview-qa-llms" class="">13. Interview Q&amp;A — LLMs</a></li>
+<li><a href="#14-references-further-reading" class="">14. References &amp; Further Reading</a></li>
+<li><a href="#141-official-documentation" class="h3">14.1 Official Documentation</a></li>
+<li><a href="#142-free-courses" class="h3">14.2 Free Courses</a></li>
+<li><a href="#143-essential-papers" class="h3">14.3 Essential Papers</a></li>
+<li><a href="#144-youtube-channels" class="h3">14.4 YouTube Channels</a></li>
+<li><a href="#145-communities" class="h3">14.5 Communities</a></li>
+<li><a href="#146-tools-libraries-quick-reference" class="h3">14.6 Tools &amp; Libraries Quick Reference</a></li>
+</ul>
+</nav>
+<main>
+  <div class="doc-header">
+    <h1>Free & Paid LLMs</h1>
+    <p class="subtitle">Complete LLM catalog · setup guides · fine-tuning · RAG vs fine-tune · 20 Q&As</p>
+    <div class="badges"><span class="badge-free">Free Tier</span><span class="badge-paid">Paid</span><span class="badge-local">Local Models</span><span class="badge-local">Fine-Tuning</span></div>
+  </div>
+  <h1 id="llms-comprehensive-study-guide-for-senior-software-engineers">LLMs — Comprehensive Study Guide for Senior Software Engineers</h1>
+<blockquote>
+<p>A standalone reference covering free &amp; paid LLMs, fine-tuning, RAG, deployment, evaluation, and interview prep.
+Last updated: 2025</p>
+</blockquote>
+<hr />
+<h2 id="1-why-llm-choice-matters">1. Why LLM Choice Matters</h2>
+<p>Choosing the right LLM is an <strong>engineering decision</strong>, not a marketing one. The wrong model can cost 10× more, respond 5× slower, or simply fail at your task.</p>
+<h3 id="11-the-core-tradeoff-triangle">1.1 The Core Tradeoff Triangle</h3>
+<pre><code>         Capability
+            /\
+           /  \
+          /    \
+    Cost ------  Speed
+</code></pre>
+<p>Every LLM sits somewhere in this triangle. Moving toward one corner pulls you away from the others.</p>
+<h3 id="12-key-dimensions-to-evaluate">1.2 Key Dimensions to Evaluate</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>What It Means</th>
+<th>Why It Matters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Latency</strong></td>
+<td>Time-to-first-token (TTFT) + generation speed (tok/s)</td>
+<td>Real-time chat UX, agentic loops</td>
+</tr>
+<tr>
+<td><strong>Cost</strong></td>
+<td>$/1M input tokens + $/1M output tokens</td>
+<td>Batch jobs, high-volume APIs</td>
+</tr>
+<tr>
+<td><strong>Context window</strong></td>
+<td>Max tokens in prompt + response</td>
+<td>Long documents, multi-turn memory</td>
+</tr>
+<tr>
+<td><strong>Capability</strong></td>
+<td>Reasoning, coding, vision, multilingual</td>
+<td>Task-specific accuracy</td>
+</tr>
+<tr>
+<td><strong>Reliability</strong></td>
+<td>Uptime, rate limits, SLA</td>
+<td>Production systems</td>
+</tr>
+<tr>
+<td><strong>Privacy</strong></td>
+<td>Data residency, retention policies</td>
+<td>Enterprise, healthcare, legal</td>
+</tr>
+<tr>
+<td><strong>Quantization</strong></td>
+<td>Full vs int8 vs int4</td>
+<td>Local hardware constraints</td>
+</tr>
+</tbody>
+</table>
+<h3 id="13-latency-breakdown">1.3 Latency Breakdown</h3>
+<pre><code>Total Latency = Network Round Trip
+              + Queue Wait (cloud inference)
+              + Prefill Time (processing your prompt tokens)
+              + Decode Time (generating output tokens)
+</code></pre>
+<p><strong>Prefill</strong> scales with prompt length. <strong>Decode</strong> scales with output length. For long-context RAG, prefill dominates.</p>
+<h3 id="14-cost-anatomy">1.4 Cost Anatomy</h3>
+<pre><code>Total Cost = (Input Tokens × Input Price)
+           + (Output Tokens × Output Price)
+           + (Embedding Calls × Embedding Price)  # if applicable
+           + (Fine-tune Training × Training Price) # if applicable
+</code></pre>
+<p>Output tokens are typically <strong>2–4× more expensive</strong> than input tokens across providers.</p>
+<h3 id="15-use-case-fit-matrix">1.5 Use-Case Fit Matrix</h3>
+<table>
+<thead>
+<tr>
+<th>Use Case</th>
+<th>Priority</th>
+<th>Best Fit Category</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Real-time chat</td>
+<td>Low latency, moderate quality</td>
+<td>Fast inference (Groq, Cerebras)</td>
+</tr>
+<tr>
+<td>Code generation</td>
+<td>High quality, moderate latency</td>
+<td>Strong coders (GPT-4o, Claude Sonnet)</td>
+</tr>
+<tr>
+<td>Document summarization</td>
+<td>Cost efficiency, high throughput</td>
+<td>Cheap &amp; fast (Gemini Flash, GPT-4o-mini)</td>
+</tr>
+<tr>
+<td>RAG Q&amp;A</td>
+<td>Instruction following, JSON output</td>
+<td>Balanced (GPT-4o-mini, Llama-3-70B)</td>
+</tr>
+<tr>
+<td>Agentic tasks</td>
+<td>Tool use, multi-step reasoning</td>
+<td>Frontier (GPT-4o, Claude 3.5 Sonnet, o3)</td>
+</tr>
+<tr>
+<td>Batch processing</td>
+<td>Lowest cost, async OK</td>
+<td>Cheapest available (Batch API, Haiku)</td>
+</tr>
+<tr>
+<td>Long documents (&gt;100K tok)</td>
+<td>Context length</td>
+<td>Gemini 1.5 Pro, Claude 3 series</td>
+</tr>
+<tr>
+<td>Vision/multimodal</td>
+<td>Image understanding</td>
+<td>GPT-4o, Gemini 1.5 Pro, LLaVA (local)</td>
+</tr>
+<tr>
+<td>Edge/offline</td>
+<td>No internet, privacy</td>
+<td>Ollama local (phi3, qwen2)</td>
+</tr>
+<tr>
+<td>Fine-tuning</td>
+<td>Customization</td>
+<td>HuggingFace + LoRA, Together AI</td>
+</tr>
+<tr>
+<td>Structured output</td>
+<td>JSON reliability</td>
+<td>GPT-4o, Instructor library</td>
+</tr>
+<tr>
+<td>Embeddings</td>
+<td>Semantic search</td>
+<td>text-embedding-3-small, all-MiniLM</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="2-free-llms-complete-catalog">2. Free LLMs — Complete Catalog</h2>
+<h3 id="21-github-copilot-free-azure-ai-inference">2.1 GitHub Copilot Free (Azure AI Inference)</h3>
+<p><strong>Provider:</strong> Microsoft / GitHub<br />
+<strong>Access:</strong> GitHub account (free tier — 50 GPT-4o requests/day + 10 Claude requests/day)<br />
+<strong>Base URL:</strong> <code>https://models.inference.ai.azure.com</code><br />
+<strong>Auth:</strong> <code>gh auth token</code></p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Context Window</th>
+<th>Strengths</th>
+<th>Weaknesses</th>
+<th>Best For</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>gpt-4o</code></td>
+<td>128K tokens</td>
+<td>Reasoning, vision, tool use</td>
+<td>Rate limited on free</td>
+<td>Agentic tasks, code review</td>
+</tr>
+<tr>
+<td><code>gpt-4o-mini</code></td>
+<td>128K tokens</td>
+<td>Fast, cheap (paid), instruction following</td>
+<td>Less capable than 4o</td>
+<td>RAG, summarization</td>
+</tr>
+<tr>
+<td><code>o3-mini</code></td>
+<td>200K tokens</td>
+<td>Deep reasoning, math, code</td>
+<td>Very slow (thinking)</td>
+<td>Complex reasoning, algorithms</td>
+</tr>
+<tr>
+<td><code>claude-3-5-sonnet</code></td>
+<td>200K tokens</td>
+<td>Code quality, long context, nuance</td>
+<td>Slower than GPT-4o</td>
+<td>Code gen, document analysis</td>
+</tr>
+<tr>
+<td><code>Llama-3.3-70B-Instruct</code></td>
+<td>128K tokens</td>
+<td>Open-weight quality</td>
+<td>Rate limited</td>
+<td>General tasks, local parity</td>
+</tr>
+<tr>
+<td><code>Phi-4</code></td>
+<td>16K tokens</td>
+<td>Tiny but smart, local parity</td>
+<td>Short context</td>
+<td>Quick tasks, education</td>
+</tr>
+</tbody>
+</table>
+<p><strong>API Access:</strong></p>
+<pre><code class="language-python">import subprocess
+from openai import OpenAI
+
+# Get GitHub token automatically
+token = subprocess.run(
+    [&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;],
+    capture_output=True, text=True
+).stdout.strip()
+
+client = OpenAI(
+    base_url=&quot;https://models.inference.ai.azure.com&quot;,
+    api_key=token
+)
+
+response = client.chat.completions.create(
+    model=&quot;gpt-4o&quot;,
+    messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Explain transformer attention in 3 sentences.&quot;}],
+    max_tokens=300
+)
+print(response.choices[0].message.content)
+</code></pre>
+<hr />
+<h3 id="22-groq-ultra-fast-free-inference">2.2 Groq — Ultra-Fast Free Inference</h3>
+<p><strong>Provider:</strong> Groq<br />
+<strong>URL:</strong> https://console.groq.com<br />
+<strong>Free Tier:</strong> Generous rate limits (up to 14,400 requests/day on some models)<br />
+<strong>Killer Feature:</strong> Custom LPU (Language Processing Unit) — fastest public inference (~500–800 tok/s)</p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Context Window</th>
+<th>Strengths</th>
+<th>Weaknesses</th>
+<th>Best For</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>llama-3.3-70b-versatile</code></td>
+<td>128K</td>
+<td>High quality open-weight</td>
+<td>Larger → slightly slower</td>
+<td>Complex tasks</td>
+</tr>
+<tr>
+<td><code>llama-3.1-8b-instant</code></td>
+<td>128K</td>
+<td>Fastest, near-instant</td>
+<td>Less capable</td>
+<td>Real-time chat, streaming</td>
+</tr>
+<tr>
+<td><code>llama3-70b-8192</code></td>
+<td>8K</td>
+<td>Mature, stable</td>
+<td>Short context</td>
+<td>General tasks</td>
+</tr>
+<tr>
+<td><code>mixtral-8x7b-32768</code></td>
+<td>32K</td>
+<td>MoE architecture, efficient</td>
+<td>Older model</td>
+<td>Long context free tasks</td>
+</tr>
+<tr>
+<td><code>gemma2-9b-it</code></td>
+<td>8K</td>
+<td>Google-trained, concise</td>
+<td>Smaller model</td>
+<td>Short Q&amp;A</td>
+</tr>
+<tr>
+<td><code>deepseek-r1-distill-llama-70b</code></td>
+<td>128K</td>
+<td>Reasoning traces</td>
+<td>Very verbose</td>
+<td>Math, code reasoning</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-bash">pip install groq
+</code></pre>
+<pre><code class="language-python">from groq import Groq
+
+client = Groq(api_key=&quot;your_groq_api_key&quot;)  # or set GROQ_API_KEY env var
+
+chat = client.chat.completions.create(
+    model=&quot;llama-3.3-70b-versatile&quot;,
+    messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Write a Python binary search implementation.&quot;}],
+    temperature=0.1,
+    max_tokens=500
+)
+print(chat.choices[0].message.content)
+</code></pre>
+<hr />
+<h3 id="23-together-ai-free-5-credit">2.3 Together AI (Free $5 Credit)</h3>
+<p><strong>Provider:</strong> Together AI<br />
+<strong>URL:</strong> https://api.together.xyz<br />
+<strong>Free Tier:</strong> $5 credit on signup (no expiry claimed), then pay-per-use<br />
+<strong>Strength:</strong> Hundreds of open models, fine-tuning support</p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Context Window</th>
+<th>Strengths</th>
+<th>Best For</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>meta-llama/Llama-3.3-70B-Instruct-Turbo</code></td>
+<td>128K</td>
+<td>Best open-weight</td>
+<td>General purpose</td>
+</tr>
+<tr>
+<td><code>mistralai/Mixtral-8x22B-Instruct-v0.1</code></td>
+<td>65K</td>
+<td>Large MoE model</td>
+<td>Complex reasoning</td>
+</tr>
+<tr>
+<td><code>Qwen/Qwen2.5-72B-Instruct-Turbo</code></td>
+<td>32K</td>
+<td>Multilingual, code</td>
+<td>Non-English tasks</td>
+</tr>
+<tr>
+<td><code>deepseek-ai/DeepSeek-R1</code></td>
+<td>64K</td>
+<td>Reasoning chain</td>
+<td>Math, science</td>
+</tr>
+<tr>
+<td><code>NousResearch/Hermes-3-Llama-3.1-70B</code></td>
+<td>128K</td>
+<td>Tool use, structured</td>
+<td>Agentic tasks</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-python">from openai import OpenAI
+
+client = OpenAI(
+    base_url=&quot;https://api.together.xyz/v1&quot;,
+    api_key=&quot;your_together_api_key&quot;
+)
+
+response = client.chat.completions.create(
+    model=&quot;meta-llama/Llama-3.3-70B-Instruct-Turbo&quot;,
+    messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Summarize the transformer paper key ideas.&quot;}]
+)
+print(response.choices[0].message.content)
+</code></pre>
+<hr />
+<h3 id="24-hugging-face-inference-api-free-serverless">2.4 Hugging Face Inference API (Free Serverless)</h3>
+<p><strong>Provider:</strong> Hugging Face<br />
+<strong>URL:</strong> https://huggingface.co/inference-api<br />
+<strong>Free Tier:</strong> Rate-limited serverless inference on thousands of models<br />
+<strong>Strength:</strong> Access to every public model, embeddings, image generation</p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Context</th>
+<th>Strengths</th>
+<th>Best For</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>meta-llama/Meta-Llama-3.1-70B-Instruct</code></td>
+<td>128K</td>
+<td>High quality</td>
+<td>General</td>
+</tr>
+<tr>
+<td><code>mistralai/Mistral-7B-Instruct-v0.3</code></td>
+<td>32K</td>
+<td>Efficient</td>
+<td>Quick inference</td>
+</tr>
+<tr>
+<td><code>google/gemma-2-9b-it</code></td>
+<td>8K</td>
+<td>Google quality small</td>
+<td>Chat</td>
+</tr>
+<tr>
+<td><code>HuggingFaceH4/zephyr-7b-beta</code></td>
+<td>4K</td>
+<td>Instruction-tuned</td>
+<td>Q&amp;A</td>
+</tr>
+<tr>
+<td><code>Qwen/Qwen2.5-Coder-32B-Instruct</code></td>
+<td>32K</td>
+<td>Coding specialist</td>
+<td>Code gen</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-python">from huggingface_hub import InferenceClient
+
+client = InferenceClient(
+    model=&quot;meta-llama/Meta-Llama-3.1-70B-Instruct&quot;,
+    token=&quot;your_hf_token&quot;  # or HF_TOKEN env var
+)
+
+response = client.chat_completion(
+    messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;What is attention mechanism?&quot;}],
+    max_tokens=500
+)
+print(response.choices[0].message.content)
+</code></pre>
+<hr />
+<h3 id="25-google-ai-studio-gemini-api-free-tier">2.5 Google AI Studio / Gemini API (Free Tier)</h3>
+<p><strong>Provider:</strong> Google DeepMind<br />
+<strong>URL:</strong> https://aistudio.google.com<br />
+<strong>Free Tier:</strong> 15 RPM (requests per minute), 1M tokens/day for Gemini Flash<br />
+<strong>Killer Feature:</strong> 2M context window, best-in-class vision + audio</p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Context Window</th>
+<th>Strengths</th>
+<th>Weaknesses</th>
+<th>Best For</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>gemini-1.5-flash</code></td>
+<td>1M tokens</td>
+<td>Fast, multimodal, very generous free</td>
+<td>Less accurate than Pro</td>
+<td>Summarization, vision, large docs</td>
+</tr>
+<tr>
+<td><code>gemini-1.5-flash-8b</code></td>
+<td>1M tokens</td>
+<td>Smallest, fastest</td>
+<td>Limited reasoning</td>
+<td>Light tasks, high volume</td>
+</tr>
+<tr>
+<td><code>gemini-1.5-pro</code></td>
+<td>2M tokens</td>
+<td>Best accuracy, huge context</td>
+<td>2 RPM on free</td>
+<td>Complex long-context tasks</td>
+</tr>
+<tr>
+<td><code>gemini-2.0-flash</code></td>
+<td>1M tokens</td>
+<td>Latest, multimodal live</td>
+<td>Newer, less tested</td>
+<td>Cutting edge tasks</td>
+</tr>
+<tr>
+<td><code>gemini-2.0-flash-thinking</code></td>
+<td>32K</td>
+<td>Reasoning model</td>
+<td>Slow</td>
+<td>Math, logic</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-bash">pip install google-generativeai
+</code></pre>
+<pre><code class="language-python">import google.generativeai as genai
+
+genai.configure(api_key=&quot;your_gemini_api_key&quot;)
+
+model = genai.GenerativeModel(&quot;gemini-1.5-flash&quot;)
+response = model.generate_content(
+    &quot;Explain the difference between GPT and BERT architectures.&quot;
+)
+print(response.text)
+</code></pre>
+<hr />
+<h3 id="26-ollama-local-models-completely-free">2.6 Ollama — Local Models (Completely Free)</h3>
+<p><strong>Provider:</strong> Ollama.ai (open-source)<br />
+<strong>URL:</strong> https://ollama.ai<br />
+<strong>Free Tier:</strong> Unlimited — runs on your machine<br />
+<strong>Killer Feature:</strong> One-command model download and serve, OpenAI-compatible API</p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Size</th>
+<th>Context</th>
+<th>Strengths</th>
+<th>Best For</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>llama3.2</code></td>
+<td>3B/1B</td>
+<td>128K</td>
+<td>Small, fast, Apple Silicon optimized</td>
+<td>Light tasks</td>
+</tr>
+<tr>
+<td><code>llama3.1:8b</code></td>
+<td>8B</td>
+<td>128K</td>
+<td>Best quality/size ratio</td>
+<td>General tasks</td>
+</tr>
+<tr>
+<td><code>llama3.1:70b</code></td>
+<td>70B</td>
+<td>128K</td>
+<td>Near-frontier quality</td>
+<td>Complex tasks (needs 48GB RAM)</td>
+</tr>
+<tr>
+<td><code>qwen2.5:7b</code></td>
+<td>7B</td>
+<td>128K</td>
+<td>Multilingual, coding</td>
+<td>Code + non-English</td>
+</tr>
+<tr>
+<td><code>qwen2.5-coder:7b</code></td>
+<td>7B</td>
+<td>32K</td>
+<td>Coding specialist</td>
+<td>Code generation</td>
+</tr>
+<tr>
+<td><code>phi4</code></td>
+<td>14B</td>
+<td>16K</td>
+<td>Tiny, smart (Microsoft)</td>
+<td>Efficient tasks</td>
+</tr>
+<tr>
+<td><code>mistral:7b</code></td>
+<td>7B</td>
+<td>32K</td>
+<td>Solid baseline</td>
+<td>General chat</td>
+</tr>
+<tr>
+<td><code>gemma2:9b</code></td>
+<td>9B</td>
+<td>8K</td>
+<td>Google quality</td>
+<td>Chat</td>
+</tr>
+<tr>
+<td><code>deepseek-r1:8b</code></td>
+<td>8B</td>
+<td>64K</td>
+<td>Reasoning traces</td>
+<td>Math, logic</td>
+</tr>
+<tr>
+<td><code>nomic-embed-text</code></td>
+<td>137M</td>
+<td>8K</td>
+<td>Embeddings</td>
+<td>Vector search</td>
+</tr>
+<tr>
+<td><code>llava:7b</code></td>
+<td>7B</td>
+<td>4K</td>
+<td>Vision + language</td>
+<td>Image understanding</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-bash"># Install Ollama
+curl -fsSL https://ollama.ai/install.sh | sh  # Linux/Mac
+# Windows: download from https://ollama.ai/download
+
+# Pull and run a model
+ollama pull llama3.1:8b
+ollama run llama3.1:8b &quot;Write a merge sort in Python&quot;
+
+# Start API server (runs on localhost:11434)
+ollama serve
+</code></pre>
+<pre><code class="language-python"># Using the OpenAI-compatible Ollama API
+from openai import OpenAI
+
+client = OpenAI(
+    base_url=&quot;http://localhost:11434/v1&quot;,
+    api_key=&quot;ollama&quot;  # required but ignored
+)
+
+response = client.chat.completions.create(
+    model=&quot;llama3.1:8b&quot;,
+    messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Explain vector embeddings.&quot;}]
+)
+print(response.choices[0].message.content)
+</code></pre>
+<pre><code class="language-python"># Using the native ollama Python library
+import ollama
+
+response = ollama.chat(
+    model='llama3.1:8b',
+    messages=[{'role': 'user', 'content': 'What is RAG?'}]
+)
+print(response['message']['content'])
+</code></pre>
+<hr />
+<h3 id="27-lm-studio-local-gui">2.7 LM Studio — Local GUI</h3>
+<p><strong>Provider:</strong> LM Studio (open-source)<br />
+<strong>URL:</strong> https://lmstudio.ai<br />
+<strong>Platform:</strong> Windows, macOS, Linux<br />
+<strong>Free Tier:</strong> Unlimited local inference<br />
+<strong>Strength:</strong> GUI model browser, downloads GGUF models from HuggingFace, OpenAI-compatible server</p>
+<p>Key features:
+- Browse and download models from HuggingFace Hub directly in UI
+- <strong>GGUF format</strong> — quantized models (Q4_K_M for best quality/size)
+- Start local OpenAI-compatible server with one click (<code>http://localhost:1234/v1</code>)
+- Supports GPU offloading (partial VRAM usage)</p>
+<pre><code class="language-python"># LM Studio exposes OpenAI-compatible API
+from openai import OpenAI
+
+client = OpenAI(
+    base_url=&quot;http://localhost:1234/v1&quot;,
+    api_key=&quot;lm-studio&quot;
+)
+
+response = client.chat.completions.create(
+    model=&quot;lmstudio-community/Meta-Llama-3.1-8B-Instruct-GGUF&quot;,
+    messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Hello!&quot;}]
+)
+print(response.choices[0].message.content)
+</code></pre>
+<hr />
+<h3 id="28-janai-local-alternative">2.8 Jan.ai — Local Alternative</h3>
+<p><strong>Provider:</strong> Jan.ai (open-source)<br />
+<strong>URL:</strong> https://jan.ai<br />
+<strong>Strength:</strong> Fully offline, privacy-first, extensions ecosystem<br />
+<strong>Models:</strong> GGUF from HuggingFace, models hub built-in<br />
+<strong>API:</strong> OpenAI-compatible at <code>http://localhost:1337/v1</code></p>
+<hr />
+<h3 id="29-openrouter-free-model-aggregator">2.9 OpenRouter — Free Model Aggregator</h3>
+<p><strong>Provider:</strong> OpenRouter<br />
+<strong>URL:</strong> https://openrouter.ai<br />
+<strong>Free Tier:</strong> Models marked <code>:free</code> are completely free (rate limited)<br />
+<strong>Strength:</strong> Single API key for 100+ models, OpenAI-compatible</p>
+<table>
+<thead>
+<tr>
+<th>Free Model</th>
+<th>Context</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>meta-llama/llama-3.1-8b-instruct:free</code></td>
+<td>128K</td>
+<td>Good baseline</td>
+</tr>
+<tr>
+<td><code>mistralai/mistral-7b-instruct:free</code></td>
+<td>32K</td>
+<td>Fast</td>
+</tr>
+<tr>
+<td><code>google/gemma-2-9b-it:free</code></td>
+<td>8K</td>
+<td>Quality</td>
+</tr>
+<tr>
+<td><code>microsoft/phi-3-mini-128k-instruct:free</code></td>
+<td>128K</td>
+<td>Tiny but capable</td>
+</tr>
+<tr>
+<td><code>qwen/qwen-2-7b-instruct:free</code></td>
+<td>32K</td>
+<td>Multilingual</td>
+</tr>
+<tr>
+<td><code>openchat/openchat-7b:free</code></td>
+<td>8K</td>
+<td>Chat optimized</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-python">from openai import OpenAI
+
+client = OpenAI(
+    base_url=&quot;https://openrouter.ai/api/v1&quot;,
+    api_key=&quot;your_openrouter_api_key&quot;,
+    default_headers={
+        &quot;HTTP-Referer&quot;: &quot;https://your-app.com&quot;,
+        &quot;X-Title&quot;: &quot;My App&quot;
+    }
+)
+
+response = client.chat.completions.create(
+    model=&quot;meta-llama/llama-3.1-8b-instruct:free&quot;,
+    messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Explain LoRA fine-tuning.&quot;}]
+)
+print(response.choices[0].message.content)
+</code></pre>
+<hr />
+<h3 id="210-cerebras-fast-free-inference">2.10 Cerebras — Fast Free Inference</h3>
+<p><strong>Provider:</strong> Cerebras<br />
+<strong>URL:</strong> https://cloud.cerebras.ai<br />
+<strong>Free Tier:</strong> 1M tokens/day free<br />
+<strong>Killer Feature:</strong> Wafer-scale chip — reportedly 70B model at ~2000 tok/s  </p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Context</th>
+<th>Speed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>llama3.1-8b</code></td>
+<td>128K</td>
+<td>~3000 tok/s</td>
+</tr>
+<tr>
+<td><code>llama3.1-70b</code></td>
+<td>128K</td>
+<td>~2000 tok/s</td>
+</tr>
+<tr>
+<td><code>llama3.3-70b</code></td>
+<td>128K</td>
+<td>~1800 tok/s</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-python">from openai import OpenAI
+
+client = OpenAI(
+    base_url=&quot;https://api.cerebras.ai/v1&quot;,
+    api_key=&quot;your_cerebras_api_key&quot;
+)
+
+response = client.chat.completions.create(
+    model=&quot;llama3.1-70b&quot;,
+    messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Generate a REST API in FastAPI.&quot;}]
+)
+print(response.choices[0].message.content)
+</code></pre>
+<hr />
+<h3 id="211-fireworks-ai-free-tier">2.11 Fireworks AI (Free Tier)</h3>
+<p><strong>Provider:</strong> Fireworks AI<br />
+<strong>URL:</strong> https://fireworks.ai<br />
+<strong>Free Tier:</strong> $1 free credit, then pay-per-use (very cheap)<br />
+<strong>Strength:</strong> FireFunction models for tool use, fast inference</p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Context</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>accounts/fireworks/models/llama-v3p1-70b-instruct</code></td>
+<td>128K</td>
+<td>General</td>
+</tr>
+<tr>
+<td><code>accounts/fireworks/models/firefunction-v2</code></td>
+<td>128K</td>
+<td>Best tool use</td>
+</tr>
+<tr>
+<td><code>accounts/fireworks/models/deepseek-r1</code></td>
+<td>64K</td>
+<td>Reasoning</td>
+</tr>
+<tr>
+<td><code>accounts/fireworks/models/qwen2p5-72b-instruct</code></td>
+<td>128K</td>
+<td>Multilingual</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="212-cloudflare-workers-ai-free-tier">2.12 Cloudflare Workers AI (Free Tier)</h3>
+<p><strong>Provider:</strong> Cloudflare<br />
+<strong>URL:</strong> https://developers.cloudflare.com/workers-ai/<br />
+<strong>Free Tier:</strong> 10,000 neurons/day free (≈ 10,000 tokens)<br />
+<strong>Strength:</strong> Edge inference, no cold starts, global CDN<br />
+<strong>Best For:</strong> Lightweight edge applications</p>
+<pre><code class="language-python">import requests
+
+CLOUDFLARE_ACCOUNT_ID = &quot;your_account_id&quot;
+CLOUDFLARE_API_TOKEN = &quot;your_api_token&quot;
+
+response = requests.post(
+    f&quot;https://api.cloudflare.com/client/v4/accounts/{CLOUDFLARE_ACCOUNT_ID}/ai/run/@cf/meta/llama-3.1-8b-instruct&quot;,
+    headers={&quot;Authorization&quot;: f&quot;Bearer {CLOUDFLARE_API_TOKEN}&quot;},
+    json={&quot;messages&quot;: [{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Hello!&quot;}]}
+)
+print(response.json()[&quot;result&quot;][&quot;response&quot;])
+</code></pre>
+<hr />
+<h2 id="3-paid-llms-complete-catalog">3. Paid LLMs — Complete Catalog</h2>
+<h3 id="31-openai">3.1 OpenAI</h3>
+<p><strong>URL:</strong> https://platform.openai.com<br />
+<strong>Billing:</strong> Pay-per-token, no minimum  </p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Context</th>
+<th>Input $/1M</th>
+<th>Output $/1M</th>
+<th>Strengths</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>gpt-4o</code></td>
+<td>128K</td>
+<td>$2.50</td>
+<td>$10.00</td>
+<td>Best all-rounder, vision, tool use</td>
+</tr>
+<tr>
+<td><code>gpt-4o-mini</code></td>
+<td>128K</td>
+<td>$0.15</td>
+<td>$0.60</td>
+<td>Best value, fast, smart</td>
+</tr>
+<tr>
+<td><code>gpt-4o-audio-preview</code></td>
+<td>128K</td>
+<td>$2.50</td>
+<td>$10.00</td>
+<td>Audio I/O</td>
+</tr>
+<tr>
+<td><code>o1</code></td>
+<td>200K</td>
+<td>$15.00</td>
+<td>$60.00</td>
+<td>Deep reasoning (slower)</td>
+</tr>
+<tr>
+<td><code>o1-mini</code></td>
+<td>128K</td>
+<td>$1.10</td>
+<td>$4.40</td>
+<td>Reasoning, cheaper</td>
+</tr>
+<tr>
+<td><code>o3-mini</code></td>
+<td>200K</td>
+<td>$1.10</td>
+<td>$4.40</td>
+<td>Latest reasoning model</td>
+</tr>
+<tr>
+<td><code>gpt-4-turbo</code></td>
+<td>128K</td>
+<td>$10.00</td>
+<td>$30.00</td>
+<td>(Legacy, use 4o instead)</td>
+</tr>
+<tr>
+<td><code>gpt-3.5-turbo</code></td>
+<td>16K</td>
+<td>$0.50</td>
+<td>$1.50</td>
+<td>(Legacy, use 4o-mini)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Batch API:</strong> 50% discount for async batch jobs (24hr window)</p>
+<pre><code class="language-python">from openai import OpenAI
+
+client = OpenAI(api_key=&quot;your_openai_api_key&quot;)
+
+response = client.chat.completions.create(
+    model=&quot;gpt-4o-mini&quot;,
+    messages=[
+        {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;You are a senior software engineer.&quot;},
+        {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Review this Python code for bugs: def div(a,b): return a/b&quot;}
+    ],
+    temperature=0.1,
+    max_tokens=500
+)
+print(response.choices[0].message.content)
+print(f&quot;Tokens used: {response.usage.total_tokens}&quot;)
+</code></pre>
+<hr />
+<h3 id="32-anthropic-claude">3.2 Anthropic Claude</h3>
+<p><strong>URL:</strong> https://console.anthropic.com<br />
+<strong>Strength:</strong> Long context understanding, nuanced writing, safety-focused, excellent at code</p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Context</th>
+<th>Input $/1M</th>
+<th>Output $/1M</th>
+<th>Strengths</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>claude-3-5-sonnet-20241022</code></td>
+<td>200K</td>
+<td>$3.00</td>
+<td>$15.00</td>
+<td>Best code quality, reasoning</td>
+</tr>
+<tr>
+<td><code>claude-3-5-haiku-20241022</code></td>
+<td>200K</td>
+<td>$0.80</td>
+<td>$4.00</td>
+<td>Fastest Claude, great value</td>
+</tr>
+<tr>
+<td><code>claude-3-opus-20240229</code></td>
+<td>200K</td>
+<td>$15.00</td>
+<td>$75.00</td>
+<td>Most capable (expensive)</td>
+</tr>
+<tr>
+<td><code>claude-3-sonnet-20240229</code></td>
+<td>200K</td>
+<td>$3.00</td>
+<td>$15.00</td>
+<td>(Superseded by 3.5)</td>
+</tr>
+<tr>
+<td><code>claude-3-haiku-20240307</code></td>
+<td>200K</td>
+<td>$0.25</td>
+<td>$1.25</td>
+<td>Cheapest Claude</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-python">import anthropic
+
+client = anthropic.Anthropic(api_key=&quot;your_anthropic_api_key&quot;)
+
+message = client.messages.create(
+    model=&quot;claude-3-5-sonnet-20241022&quot;,
+    max_tokens=1024,
+    messages=[
+        {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Explain the RLHF training process for LLMs.&quot;}
+    ]
+)
+print(message.content[0].text)
+</code></pre>
+<hr />
+<h3 id="33-google-gemini-paid-tier">3.3 Google Gemini (Paid Tier)</h3>
+<p><strong>URL:</strong> https://ai.google.dev  </p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Context</th>
+<th>Input $/1M</th>
+<th>Output $/1M</th>
+<th>Strengths</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>gemini-1.5-pro</code></td>
+<td>2M</td>
+<td>$1.25 (≤128K)</td>
+<td>$5.00</td>
+<td>Huge context, multimodal</td>
+</tr>
+<tr>
+<td><code>gemini-1.5-flash</code></td>
+<td>1M</td>
+<td>$0.075 (≤128K)</td>
+<td>$0.30</td>
+<td>Cheapest capable model</td>
+</tr>
+<tr>
+<td><code>gemini-1.5-flash-8b</code></td>
+<td>1M</td>
+<td>$0.0375</td>
+<td>$0.15</td>
+<td>Ultra cheap</td>
+</tr>
+<tr>
+<td><code>gemini-2.0-flash</code></td>
+<td>1M</td>
+<td>$0.10</td>
+<td>$0.40</td>
+<td>Latest, fast</td>
+</tr>
+<tr>
+<td><code>gemini-2.0-pro</code></td>
+<td>2M</td>
+<td>TBD</td>
+<td>TBD</td>
+<td>Frontier (preview)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="34-cohere">3.4 Cohere</h3>
+<p><strong>URL:</strong> https://cohere.com<br />
+<strong>Strength:</strong> Enterprise RAG, excellent embeddings, structured output</p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Context</th>
+<th>Input $/1M</th>
+<th>Output $/1M</th>
+<th>Strengths</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>command-r-plus-08-2024</code></td>
+<td>128K</td>
+<td>$2.50</td>
+<td>$10.00</td>
+<td>Best Cohere model, RAG-native</td>
+</tr>
+<tr>
+<td><code>command-r-08-2024</code></td>
+<td>128K</td>
+<td>$0.15</td>
+<td>$0.60</td>
+<td>Great for RAG at low cost</td>
+</tr>
+<tr>
+<td><code>command-light</code></td>
+<td>4K</td>
+<td>$0.30</td>
+<td>$0.60</td>
+<td>Legacy</td>
+</tr>
+<tr>
+<td><code>embed-english-v3.0</code></td>
+<td>512 tokens</td>
+<td>$0.10/1M</td>
+<td>—</td>
+<td>Best English embeddings</td>
+</tr>
+<tr>
+<td><code>embed-multilingual-v3.0</code></td>
+<td>512 tokens</td>
+<td>$0.10/1M</td>
+<td>—</td>
+<td>100+ languages</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="35-mistral-ai">3.5 Mistral AI</h3>
+<p><strong>URL:</strong> https://mistral.ai<br />
+<strong>Strength:</strong> European provider, strong open-weight models, function calling, JSON mode</p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Context</th>
+<th>Input $/1M</th>
+<th>Output $/1M</th>
+<th>Strengths</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mistral-large-2411</code></td>
+<td>128K</td>
+<td>$2.00</td>
+<td>$6.00</td>
+<td>Best Mistral, frontier</td>
+</tr>
+<tr>
+<td><code>mistral-small-2409</code></td>
+<td>128K</td>
+<td>$0.20</td>
+<td>$0.60</td>
+<td>Great value</td>
+</tr>
+<tr>
+<td><code>codestral-2405</code></td>
+<td>32K</td>
+<td>$0.20</td>
+<td>$0.60</td>
+<td>Code specialist, fill-in-middle</td>
+</tr>
+<tr>
+<td><code>open-mistral-nemo</code></td>
+<td>128K</td>
+<td>$0.15</td>
+<td>$0.15</td>
+<td>Open-weight, Apache 2.0</td>
+</tr>
+<tr>
+<td><code>open-mixtral-8x22b</code></td>
+<td>64K</td>
+<td>$2.00</td>
+<td>$6.00</td>
+<td>Large MoE</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="36-amazon-bedrock">3.6 Amazon Bedrock</h3>
+<p><strong>URL:</strong> https://aws.amazon.com/bedrock/<br />
+<strong>Strength:</strong> AWS integration, enterprise compliance, many model providers<br />
+<strong>Models via Bedrock:</strong> Anthropic Claude, Meta Llama, Cohere, Mistral, Amazon Titan, AI21</p>
+<pre><code class="language-python">import boto3
+import json
+
+client = boto3.client(&quot;bedrock-runtime&quot;, region_name=&quot;us-east-1&quot;)
+
+response = client.invoke_model(
+    modelId=&quot;anthropic.claude-3-5-sonnet-20241022-v2:0&quot;,
+    body=json.dumps({
+        &quot;anthropic_version&quot;: &quot;bedrock-2023-05-31&quot;,
+        &quot;max_tokens&quot;: 1024,
+        &quot;messages&quot;: [{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;What is transformer attention?&quot;}]
+    })
+)
+result = json.loads(response[&quot;body&quot;].read())
+print(result[&quot;content&quot;][0][&quot;text&quot;])
+</code></pre>
+<hr />
+<h3 id="37-azure-openai">3.7 Azure OpenAI</h3>
+<p><strong>URL:</strong> https://azure.microsoft.com/en-us/products/ai-services/openai-service<br />
+<strong>Strength:</strong> Enterprise SLA, data residency, private deployments, SOC2/HIPAA<br />
+<strong>Models:</strong> GPT-4o, GPT-4o-mini, o1, o3-mini (same as OpenAI but deployed to your Azure resource)</p>
+<pre><code class="language-python">from openai import AzureOpenAI
+
+client = AzureOpenAI(
+    azure_endpoint=&quot;https://your-resource.openai.azure.com&quot;,
+    api_key=&quot;your_azure_openai_key&quot;,
+    api_version=&quot;2024-08-01-preview&quot;
+)
+
+response = client.chat.completions.create(
+    model=&quot;gpt-4o&quot;,  # your deployment name
+    messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Hello!&quot;}]
+)
+print(response.choices[0].message.content)
+</code></pre>
+<hr />
+<h3 id="38-ibm-watsonx">3.8 IBM watsonx</h3>
+<p><strong>URL:</strong> https://www.ibm.com/watsonx<br />
+<strong>Strength:</strong> Enterprise, IBM Granite models, governance/explainability<br />
+<strong>Models:</strong> <code>ibm/granite-13b-instruct-v2</code>, <code>ibm/granite-34b-code-instruct</code>, Llama, Mistral via watsonx</p>
+<hr />
+<h2 id="4-when-to-use-which-llm">4. When To Use Which LLM</h2>
+<h3 id="41-decision-matrix">4.1 Decision Matrix</h3>
+<table>
+<thead>
+<tr>
+<th>Use Case</th>
+<th>Recommended Free</th>
+<th>Recommended Paid</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>RAG Q&amp;A</strong></td>
+<td>Groq Llama-3.3-70B</td>
+<td>GPT-4o-mini, Claude Haiku</td>
+<td>Instruction following, JSON</td>
+</tr>
+<tr>
+<td><strong>Code generation</strong></td>
+<td>GitHub Copilot (gpt-4o)</td>
+<td>Claude 3.5 Sonnet, GPT-4o</td>
+<td>Best code quality</td>
+</tr>
+<tr>
+<td><strong>Code completion</strong></td>
+<td>Ollama qwen2.5-coder</td>
+<td>Codestral, GPT-4o</td>
+<td>Specialized code models</td>
+</tr>
+<tr>
+<td><strong>Summarization</strong></td>
+<td>Gemini Flash (free)</td>
+<td>Gemini 1.5 Flash</td>
+<td>Long context, cheap</td>
+</tr>
+<tr>
+<td><strong>Agentic tasks</strong></td>
+<td>GitHub Copilot (gpt-4o)</td>
+<td>GPT-4o, Claude 3.5 Sonnet</td>
+<td>Tool use reliability</td>
+</tr>
+<tr>
+<td><strong>Structured JSON</strong></td>
+<td>Groq + Instructor</td>
+<td>GPT-4o + json_mode</td>
+<td>JSON schema adherence</td>
+</tr>
+<tr>
+<td><strong>Long documents (&gt;100K)</strong></td>
+<td>Gemini Flash (1M ctx)</td>
+<td>Gemini 1.5 Pro</td>
+<td>Huge context window</td>
+</tr>
+<tr>
+<td><strong>Vision/images</strong></td>
+<td>LLaVA (Ollama, local)</td>
+<td>GPT-4o, Gemini 1.5 Pro</td>
+<td>Multimodal capability</td>
+</tr>
+<tr>
+<td><strong>Embeddings</strong></td>
+<td>all-MiniLM (HF, local)</td>
+<td>text-embedding-3-small</td>
+<td>MTEB score + speed</td>
+</tr>
+<tr>
+<td><strong>Real-time chat</strong></td>
+<td>Groq / Cerebras</td>
+<td>GPT-4o-mini</td>
+<td>Ultra-fast inference</td>
+</tr>
+<tr>
+<td><strong>Batch processing</strong></td>
+<td>Together AI</td>
+<td>OpenAI Batch API</td>
+<td>Cost at scale</td>
+</tr>
+<tr>
+<td><strong>Fine-tuning</strong></td>
+<td>HuggingFace + LoRA</td>
+<td>OpenAI (GPT-4o-mini)</td>
+<td>Customization</td>
+</tr>
+<tr>
+<td><strong>Edge/offline</strong></td>
+<td>Ollama phi3/qwen2</td>
+<td>(N/A — must be local)</td>
+<td>Privacy, no internet</td>
+</tr>
+<tr>
+<td><strong>Multilingual</strong></td>
+<td>Qwen2.5 (Ollama/Together)</td>
+<td>Gemini 1.5 Pro, Mistral</td>
+<td>Language coverage</td>
+</tr>
+<tr>
+<td><strong>Math/reasoning</strong></td>
+<td>DeepSeek-R1 (Groq)</td>
+<td>o3-mini, o1</td>
+<td>Chain-of-thought</td>
+</tr>
+<tr>
+<td><strong>Complex reasoning</strong></td>
+<td>GitHub Copilot (o3-mini)</td>
+<td>o1, o3, Claude Opus</td>
+<td>Deep thinking</td>
+</tr>
+</tbody>
+</table>
+<h3 id="42-cost-optimization-strategy">4.2 Cost-Optimization Strategy</h3>
+<pre><code>If volume &gt; 1M tokens/day:
+    → Use Batch API (50% discount on OpenAI)
+    → Consider Gemini Flash (cheapest capable)
+    → Route simple queries to mini models
+
+If latency &lt; 200ms required:
+    → Groq or Cerebras (fastest public)
+    → Ollama local (no network latency)
+
+If privacy required:
+    → Ollama or LM Studio (fully local)
+    → Azure OpenAI with private endpoint
+
+If budget = $0:
+    → Ollama local (unlimited)
+    → GitHub Copilot free (50 req/day)
+    → Groq free tier (14,400 req/day)
+    → Gemini Flash free (1M tok/day)
+</code></pre>
+<hr />
+<h2 id="5-setup-guides">5. Setup Guides</h2>
+<h3 id="51-github-copilot-free">5.1 GitHub Copilot Free</h3>
+<pre><code class="language-bash"># Prerequisites
+gh auth login  # authenticate GitHub CLI
+pip install openai
+</code></pre>
+<pre><code class="language-python">import subprocess
+from openai import OpenAI
+
+def get_github_client():
+    token = subprocess.run(
+        [&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;],
+        capture_output=True, text=True
+    ).stdout.strip()
+
+    return OpenAI(
+        base_url=&quot;https://models.inference.ai.azure.com&quot;,
+        api_key=token
+    )
+
+client = get_github_client()
+
+# List available models
+# curl -H &quot;Authorization: Bearer $(gh auth token)&quot; \
+#   https://models.inference.ai.azure.com/models
+
+def chat(model: str, prompt: str, system: str = &quot;You are a helpful assistant.&quot;) -&gt; str:
+    response = client.chat.completions.create(
+        model=model,
+        messages=[
+            {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: system},
+            {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: prompt}
+        ],
+        temperature=0.7,
+        max_tokens=1000
+    )
+    return response.choices[0].message.content
+
+# Test different models
+print(chat(&quot;gpt-4o&quot;, &quot;What is the CAP theorem?&quot;))
+print(chat(&quot;o3-mini&quot;, &quot;Prove that sqrt(2) is irrational.&quot;))
+print(chat(&quot;claude-3-5-sonnet&quot;, &quot;Write a Python async web scraper.&quot;))
+</code></pre>
+<hr />
+<h3 id="52-groq-setup">5.2 Groq Setup</h3>
+<pre><code class="language-bash">pip install groq
+export GROQ_API_KEY=&quot;your_groq_api_key&quot;
+</code></pre>
+<pre><code class="language-python">import os
+from groq import Groq
+
+client = Groq(api_key=os.environ.get(&quot;GROQ_API_KEY&quot;))
+
+def stream_response(model: str, prompt: str):
+    &quot;&quot;&quot;Stream tokens as they arrive — great for real-time UX.&quot;&quot;&quot;
+    stream = client.chat.completions.create(
+        model=model,
+        messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: prompt}],
+        stream=True,
+        temperature=0.7,
+        max_tokens=1000
+    )
+    for chunk in stream:
+        if chunk.choices[0].delta.content is not None:
+            print(chunk.choices[0].delta.content, end=&quot;&quot;, flush=True)
+    print()  # newline at end
+
+# Ultra-fast streaming
+stream_response(&quot;llama-3.1-8b-instant&quot;, &quot;Explain async/await in Python with examples.&quot;)
+
+# Higher quality
+stream_response(&quot;llama-3.3-70b-versatile&quot;, &quot;Design a microservices architecture for an e-commerce app.&quot;)
+</code></pre>
+<hr />
+<h3 id="53-google-gemini-free-tier">5.3 Google Gemini Free Tier</h3>
+<pre><code class="language-bash">pip install google-generativeai
+export GOOGLE_API_KEY=&quot;your_gemini_api_key&quot;
+</code></pre>
+<pre><code class="language-python">import google.generativeai as genai
+import os
+
+genai.configure(api_key=os.environ.get(&quot;GOOGLE_API_KEY&quot;))
+
+# Text generation
+model = genai.GenerativeModel(&quot;gemini-1.5-flash&quot;)
+response = model.generate_content(&quot;Explain RLHF in simple terms.&quot;)
+print(response.text)
+
+# Vision — analyze an image
+import PIL.Image
+
+def analyze_image(image_path: str, question: str) -&gt; str:
+    vision_model = genai.GenerativeModel(&quot;gemini-1.5-flash&quot;)
+    image = PIL.Image.open(image_path)
+    response = vision_model.generate_content([question, image])
+    return response.text
+
+# Multi-turn chat
+chat = model.start_chat(history=[])
+response1 = chat.send_message(&quot;My name is Alice. Remember that.&quot;)
+response2 = chat.send_message(&quot;What's my name?&quot;)
+print(response2.text)  # Should recall &quot;Alice&quot;
+
+# Count tokens before sending
+tokens = model.count_tokens(&quot;This is my very long document...&quot;)
+print(f&quot;Estimated cost: {tokens.total_tokens} tokens&quot;)
+</code></pre>
+<hr />
+<h3 id="54-ollama-local-setup">5.4 Ollama Local Setup</h3>
+<pre><code class="language-bash"># Install Ollama
+# macOS: brew install ollama
+# Linux: curl -fsSL https://ollama.ai/install.sh | sh
+# Windows: download from https://ollama.ai/download
+
+# Pull models
+ollama pull llama3.1:8b
+ollama pull nomic-embed-text  # for embeddings
+
+# Start server (auto-starts on macOS/Linux after install)
+ollama serve &amp;
+</code></pre>
+<pre><code class="language-python">import ollama
+import subprocess
+
+def list_local_models():
+    result = subprocess.run([&quot;ollama&quot;, &quot;list&quot;], capture_output=True, text=True)
+    print(result.stdout)
+
+def chat_local(model: str, messages: list) -&gt; str:
+    response = ollama.chat(model=model, messages=messages)
+    return response['message']['content']
+
+def embed_local(text: str, model: str = &quot;nomic-embed-text&quot;) -&gt; list:
+    response = ollama.embeddings(model=model, prompt=text)
+    return response['embedding']
+
+# Generate
+reply = chat_local(&quot;llama3.1:8b&quot;, [
+    {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;You are a Python expert.&quot;},
+    {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Write a decorator that caches function results.&quot;}
+])
+print(reply)
+
+# Embed
+vector = embed_local(&quot;The transformer architecture uses self-attention.&quot;)
+print(f&quot;Embedding dimension: {len(vector)}&quot;)  # 768 for nomic-embed-text
+</code></pre>
+<hr />
+<h3 id="55-openrouter-free-models">5.5 OpenRouter Free Models</h3>
+<pre><code class="language-bash">pip install openai
+export OPENROUTER_API_KEY=&quot;your_openrouter_api_key&quot;
+</code></pre>
+<pre><code class="language-python">from openai import OpenAI
+import os
+
+client = OpenAI(
+    base_url=&quot;https://openrouter.ai/api/v1&quot;,
+    api_key=os.environ.get(&quot;OPENROUTER_API_KEY&quot;),
+    default_headers={
+        &quot;HTTP-Referer&quot;: &quot;https://localhost:3000&quot;,
+        &quot;X-Title&quot;: &quot;LLM Study App&quot;
+    }
+)
+
+FREE_MODELS = [
+    &quot;meta-llama/llama-3.1-8b-instruct:free&quot;,
+    &quot;mistralai/mistral-7b-instruct:free&quot;,
+    &quot;google/gemma-2-9b-it:free&quot;,
+    &quot;qwen/qwen-2-7b-instruct:free&quot;
+]
+
+def compare_free_models(prompt: str):
+    for model in FREE_MODELS:
+        try:
+            resp = client.chat.completions.create(
+                model=model,
+                messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: prompt}],
+                max_tokens=200
+            )
+            print(f&quot;\n--- {model} ---&quot;)
+            print(resp.choices[0].message.content)
+        except Exception as e:
+            print(f&quot;\n--- {model} FAILED: {e} ---&quot;)
+
+compare_free_models(&quot;What is the difference between supervised and unsupervised learning?&quot;)
+</code></pre>
+<hr />
+<h3 id="56-hugging-face-inferenceclient">5.6 Hugging Face InferenceClient</h3>
+<pre><code class="language-bash">pip install huggingface_hub
+export HF_TOKEN=&quot;your_hf_token&quot;  # from huggingface.co/settings/tokens
+</code></pre>
+<pre><code class="language-python">from huggingface_hub import InferenceClient
+import os
+
+client = InferenceClient(token=os.environ.get(&quot;HF_TOKEN&quot;))
+
+# Text generation
+response = client.text_generation(
+    &quot;def fibonacci(n):&quot;,
+    model=&quot;bigcode/starcoder2-15b&quot;,
+    max_new_tokens=200,
+    temperature=0.1
+)
+print(response)
+
+# Chat completion (for instruction-tuned models)
+chat_client = InferenceClient(
+    model=&quot;meta-llama/Meta-Llama-3.1-70B-Instruct&quot;,
+    token=os.environ.get(&quot;HF_TOKEN&quot;)
+)
+
+response = chat_client.chat_completion(
+    messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;What is gradient descent?&quot;}],
+    max_tokens=300
+)
+print(response.choices[0].message.content)
+
+# Embeddings
+embedding = client.feature_extraction(
+    &quot;The cat sat on the mat&quot;,
+    model=&quot;sentence-transformers/all-MiniLM-L6-v2&quot;
+)
+print(f&quot;Embedding shape: {len(embedding)}&quot;)
+</code></pre>
+<hr />
+<h3 id="57-openai-standard-setup">5.7 OpenAI Standard Setup</h3>
+<pre><code class="language-bash">pip install openai
+export OPENAI_API_KEY=&quot;your_openai_api_key&quot;
+</code></pre>
+<pre><code class="language-python">from openai import OpenAI
+import json
+
+client = OpenAI()  # uses OPENAI_API_KEY env var
+
+# Structured JSON output
+response = client.chat.completions.create(
+    model=&quot;gpt-4o-mini&quot;,
+    response_format={&quot;type&quot;: &quot;json_object&quot;},
+    messages=[
+        {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;Output valid JSON only.&quot;},
+        {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Extract: name, age, skills from 'Alice, 30, Python/Go developer'&quot;}
+    ]
+)
+data = json.loads(response.choices[0].message.content)
+print(data)  # {&quot;name&quot;: &quot;Alice&quot;, &quot;age&quot;: 30, &quot;skills&quot;: [&quot;Python&quot;, &quot;Go&quot;]}
+
+# Function/Tool calling
+tools = [{
+    &quot;type&quot;: &quot;function&quot;,
+    &quot;function&quot;: {
+        &quot;name&quot;: &quot;get_weather&quot;,
+        &quot;description&quot;: &quot;Get current weather for a city&quot;,
+        &quot;parameters&quot;: {
+            &quot;type&quot;: &quot;object&quot;,
+            &quot;properties&quot;: {
+                &quot;city&quot;: {&quot;type&quot;: &quot;string&quot;, &quot;description&quot;: &quot;City name&quot;}
+            },
+            &quot;required&quot;: [&quot;city&quot;]
+        }
+    }
+}]
+
+response = client.chat.completions.create(
+    model=&quot;gpt-4o-mini&quot;,
+    tools=tools,
+    tool_choice=&quot;auto&quot;,
+    messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;What's the weather in Paris?&quot;}]
+)
+
+if response.choices[0].message.tool_calls:
+    tool_call = response.choices[0].message.tool_calls[0]
+    args = json.loads(tool_call.function.arguments)
+    print(f&quot;Tool called: {tool_call.function.name}, args: {args}&quot;)
+</code></pre>
+<hr />
+<h3 id="58-anthropic-claude-setup">5.8 Anthropic Claude Setup</h3>
+<pre><code class="language-bash">pip install anthropic
+export ANTHROPIC_API_KEY=&quot;your_anthropic_api_key&quot;
+</code></pre>
+<pre><code class="language-python">import anthropic
+import os
+
+client = anthropic.Anthropic(api_key=os.environ.get(&quot;ANTHROPIC_API_KEY&quot;))
+
+# Basic chat
+message = client.messages.create(
+    model=&quot;claude-3-5-haiku-20241022&quot;,
+    max_tokens=1024,
+    system=&quot;You are an expert software architect.&quot;,
+    messages=[
+        {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;What are the SOLID principles? Give Python examples.&quot;}
+    ]
+)
+print(message.content[0].text)
+
+# Vision — analyze image from URL
+message_with_image = client.messages.create(
+    model=&quot;claude-3-5-sonnet-20241022&quot;,
+    max_tokens=1024,
+    messages=[{
+        &quot;role&quot;: &quot;user&quot;,
+        &quot;content&quot;: [
+            {
+                &quot;type&quot;: &quot;image&quot;,
+                &quot;source&quot;: {
+                    &quot;type&quot;: &quot;url&quot;,
+                    &quot;url&quot;: &quot;https://example.com/architecture-diagram.png&quot;
+                }
+            },
+            {&quot;type&quot;: &quot;text&quot;, &quot;text&quot;: &quot;Describe this architecture diagram.&quot;}
+        ]
+    }]
+)
+print(message_with_image.content[0].text)
+
+# Streaming
+with client.messages.stream(
+    model=&quot;claude-3-5-haiku-20241022&quot;,
+    max_tokens=500,
+    messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Write a quick sort algorithm.&quot;}]
+) as stream:
+    for text in stream.text_stream:
+        print(text, end=&quot;&quot;, flush=True)
+</code></pre>
+<hr />
+<h2 id="6-llm-comparison-tables">6. LLM Comparison Tables</h2>
+<h3 id="61-speed-comparison-tokenssecond-approximate">6.1 Speed Comparison (Tokens/Second — Approximate)</h3>
+<table>
+<thead>
+<tr>
+<th>Provider/Model</th>
+<th>Tokens/Sec (approx)</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cerebras (llama3.1-70b)</td>
+<td>~2000</td>
+<td>Wafer-scale chip</td>
+</tr>
+<tr>
+<td>Groq (llama3.1-8b)</td>
+<td>~700–900</td>
+<td>LPU hardware</td>
+</tr>
+<tr>
+<td>Groq (llama3.1-70b)</td>
+<td>~280–350</td>
+<td>LPU hardware</td>
+</tr>
+<tr>
+<td>Ollama (phi3, Apple M3)</td>
+<td>~60–120</td>
+<td>Local Metal GPU</td>
+</tr>
+<tr>
+<td>Ollama (llama3.1:8b, Apple M3)</td>
+<td>~40–80</td>
+<td>Local Metal GPU</td>
+</tr>
+<tr>
+<td>OpenAI (gpt-4o-mini)</td>
+<td>~80–120</td>
+<td>Cloud</td>
+</tr>
+<tr>
+<td>OpenAI (gpt-4o)</td>
+<td>~40–60</td>
+<td>Cloud</td>
+</tr>
+<tr>
+<td>Anthropic (claude-haiku)</td>
+<td>~80–100</td>
+<td>Cloud</td>
+</tr>
+<tr>
+<td>Anthropic (claude-sonnet)</td>
+<td>~60–80</td>
+<td>Cloud</td>
+</tr>
+<tr>
+<td>Google (gemini-flash)</td>
+<td>~100–150</td>
+<td>Cloud</td>
+</tr>
+</tbody>
+</table>
+<h3 id="62-context-window-comparison">6.2 Context Window Comparison</h3>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Context Window</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Gemini 1.5 Pro</td>
+<td>2,000,000 tokens</td>
+</tr>
+<tr>
+<td>Gemini 1.5 Flash</td>
+<td>1,000,000 tokens</td>
+</tr>
+<tr>
+<td>Claude 3.5 Sonnet</td>
+<td>200,000 tokens</td>
+</tr>
+<tr>
+<td>o3-mini</td>
+<td>200,000 tokens</td>
+</tr>
+<tr>
+<td>GPT-4o</td>
+<td>128,000 tokens</td>
+</tr>
+<tr>
+<td>Llama 3.1 (all sizes)</td>
+<td>128,000 tokens</td>
+</tr>
+<tr>
+<td>Mistral Large</td>
+<td>128,000 tokens</td>
+</tr>
+<tr>
+<td>Qwen 2.5-72B</td>
+<td>128,000 tokens</td>
+</tr>
+<tr>
+<td>Mixtral 8x7B</td>
+<td>32,768 tokens</td>
+</tr>
+<tr>
+<td>Phi-4 (Microsoft)</td>
+<td>16,384 tokens</td>
+</tr>
+<tr>
+<td>Gemma 2 (Google)</td>
+<td>8,192 tokens</td>
+</tr>
+</tbody>
+</table>
+<h3 id="63-pricing-comparison-per-1m-tokens-2025">6.3 Pricing Comparison (per 1M tokens, 2025)</h3>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Input $/1M</th>
+<th>Output $/1M</th>
+<th>Free Tier</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Gemini 1.5 Flash-8B</td>
+<td>$0.037</td>
+<td>$0.15</td>
+<td>1M tok/day</td>
+</tr>
+<tr>
+<td>Gemini 1.5 Flash</td>
+<td>$0.075</td>
+<td>$0.30</td>
+<td>1M tok/day</td>
+</tr>
+<tr>
+<td>GPT-4o-mini</td>
+<td>$0.15</td>
+<td>$0.60</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Claude 3 Haiku</td>
+<td>$0.25</td>
+<td>$1.25</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Claude 3.5 Haiku</td>
+<td>$0.80</td>
+<td>$4.00</td>
+<td>None</td>
+</tr>
+<tr>
+<td>GPT-4o</td>
+<td>$2.50</td>
+<td>$10.00</td>
+<td>GitHub Copilot</td>
+</tr>
+<tr>
+<td>Claude 3.5 Sonnet</td>
+<td>$3.00</td>
+<td>$15.00</td>
+<td>GitHub Copilot</td>
+</tr>
+<tr>
+<td>Mistral Large</td>
+<td>$2.00</td>
+<td>$6.00</td>
+<td>None</td>
+</tr>
+<tr>
+<td>o3-mini</td>
+<td>$1.10</td>
+<td>$4.40</td>
+<td>GitHub Copilot</td>
+</tr>
+<tr>
+<td>o1</td>
+<td>$15.00</td>
+<td>$60.00</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Groq (all)</td>
+<td>~$0.05–0.90</td>
+<td>~$0.08–0.90</td>
+<td>14.4K req/day</td>
+</tr>
+<tr>
+<td>Ollama (all)</td>
+<td>$0</td>
+<td>$0</td>
+<td>Unlimited local</td>
+</tr>
+</tbody>
+</table>
+<h3 id="64-capability-radar">6.4 Capability Radar</h3>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Reasoning</th>
+<th>Coding</th>
+<th>Vision</th>
+<th>Tool Use</th>
+<th>Multilingual</th>
+<th>Speed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GPT-4o</td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>⭐⭐⭐⭐</td>
+<td>⭐⭐⭐</td>
+</tr>
+<tr>
+<td>Claude 3.5 Sonnet</td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>⭐⭐⭐⭐</td>
+<td>⭐⭐⭐⭐</td>
+<td>⭐⭐⭐⭐</td>
+<td>⭐⭐⭐</td>
+</tr>
+<tr>
+<td>o3-mini</td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>❌</td>
+<td>⭐⭐⭐</td>
+<td>⭐⭐⭐</td>
+<td>⭐</td>
+</tr>
+<tr>
+<td>Gemini 1.5 Pro</td>
+<td>⭐⭐⭐⭐</td>
+<td>⭐⭐⭐⭐</td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>⭐⭐⭐⭐</td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>⭐⭐⭐</td>
+</tr>
+<tr>
+<td>Llama 3.3-70B</td>
+<td>⭐⭐⭐⭐</td>
+<td>⭐⭐⭐⭐</td>
+<td>❌</td>
+<td>⭐⭐⭐</td>
+<td>⭐⭐⭐</td>
+<td>⭐⭐⭐⭐</td>
+</tr>
+<tr>
+<td>Mistral Large</td>
+<td>⭐⭐⭐⭐</td>
+<td>⭐⭐⭐⭐</td>
+<td>❌</td>
+<td>⭐⭐⭐⭐</td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>⭐⭐⭐⭐</td>
+</tr>
+<tr>
+<td>Gemma 2-9B</td>
+<td>⭐⭐⭐</td>
+<td>⭐⭐⭐</td>
+<td>❌</td>
+<td>⭐⭐</td>
+<td>⭐⭐⭐</td>
+<td>⭐⭐⭐⭐⭐</td>
+</tr>
+<tr>
+<td>phi-4</td>
+<td>⭐⭐⭐⭐</td>
+<td>⭐⭐⭐⭐</td>
+<td>❌</td>
+<td>⭐⭐⭐</td>
+<td>⭐⭐⭐</td>
+<td>⭐⭐⭐⭐⭐</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="7-fine-tuning-free-llms">7. Fine-Tuning Free LLMs</h2>
+<h3 id="71-fine-tuning-vs-rag-vs-prompt-engineering">7.1 Fine-Tuning vs RAG vs Prompt Engineering</h3>
+<h4 id="when-to-use-each-approach">When to Use Each Approach</h4>
+<table>
+<thead>
+<tr>
+<th>Approach</th>
+<th>Best When</th>
+<th>Cost</th>
+<th>Freshness</th>
+<th>Expertise</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Prompt Engineering</strong></td>
+<td>Quick wins, existing model good enough</td>
+<td>$0</td>
+<td>Realtime</td>
+<td>Low</td>
+</tr>
+<tr>
+<td><strong>RAG</strong></td>
+<td>Factual Q&amp;A, proprietary data, freshness needed</td>
+<td>Low ($)</td>
+<td>Realtime</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td><strong>Fine-Tuning</strong></td>
+<td>Style/tone transfer, new domain vocabulary, consistent behavior</td>
+<td>High ($$$)</td>
+<td>Frozen at train time</td>
+<td>High</td>
+</tr>
+<tr>
+<td><strong>Fine-Tune + RAG</strong></td>
+<td>Domain-specific tone AND factual accuracy</td>
+<td>High ($$$)</td>
+<td>Realtime</td>
+<td>High</td>
+</tr>
+</tbody>
+</table>
+<h4 id="decision-flowchart-ascii">Decision Flowchart (ASCII)</h4>
+<pre><code>START: Do you need custom behavior?
+        |
+        v
+Is the base model already 80% there with good prompts?
+        |YES                    |NO
+        v                       v
+Use prompt engineering     Do you need realtime data?
+(system prompt + few-shot)       |YES            |NO
+                                 v               v
+                               Use RAG      Is it about style/tone/format?
+                                                |YES            |NO
+                                                v               v
+                                          Fine-tune        Is it a new domain
+                                                          with unique vocabulary?
+                                                               |YES
+                                                               v
+                                                         Fine-tune + RAG
+</code></pre>
+<hr />
+<h3 id="72-fine-tuning-with-hugging-face">7.2 Fine-Tuning with Hugging Face</h3>
+<h4 id="installing-dependencies">Installing Dependencies</h4>
+<pre><code class="language-bash">pip install transformers datasets trl peft accelerate bitsandbytes
+</code></pre>
+<h4 id="sft-supervised-fine-tuning-with-qlora-full-working-example">SFT (Supervised Fine-Tuning) with QLoRA — Full Working Example</h4>
+<pre><code class="language-python"># Fine-tune Llama-3.1-8B on a custom instruction dataset
+# GPU required: T4 (Google Colab free), A100 (best), or Apple M2 Pro (slow)
+
+import torch
+from datasets import Dataset
+from transformers import (
+    AutoModelForCausalLM,
+    AutoTokenizer,
+    BitsAndBytesConfig,
+    TrainingArguments
+)
+from peft import LoraConfig, get_peft_model
+from trl import SFTTrainer
+
+# ─── 1. Configuration ─────────────────────────────────────────────────────────
+MODEL_NAME = &quot;meta-llama/Meta-Llama-3.1-8B-Instruct&quot;
+OUTPUT_DIR = &quot;./llama3-finetuned&quot;
+HF_TOKEN = &quot;your_hf_token&quot;  # needs access to llama3
+
+# ─── 2. QLoRA Config (4-bit quantization = fits in 16GB VRAM) ─────────────────
+bnb_config = BitsAndBytesConfig(
+    load_in_4bit=True,
+    bnb_4bit_quant_type=&quot;nf4&quot;,
+    bnb_4bit_compute_dtype=torch.bfloat16,
+    bnb_4bit_use_double_quant=True
+)
+
+# ─── 3. Load Model &amp; Tokenizer ────────────────────────────────────────────────
+tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME, token=HF_TOKEN)
+tokenizer.pad_token = tokenizer.eos_token
+tokenizer.padding_side = &quot;right&quot;
+
+model = AutoModelForCausalLM.from_pretrained(
+    MODEL_NAME,
+    quantization_config=bnb_config,
+    device_map=&quot;auto&quot;,
+    token=HF_TOKEN
+)
+model.config.use_cache = False
+model.config.pretraining_tp = 1
+
+# ─── 4. LoRA Config ───────────────────────────────────────────────────────────
+lora_config = LoraConfig(
+    r=16,                    # rank — higher = more params, better quality
+    lora_alpha=32,           # scaling factor
+    target_modules=[         # which attention layers to adapt
+        &quot;q_proj&quot;, &quot;k_proj&quot;, &quot;v_proj&quot;, &quot;o_proj&quot;,
+        &quot;gate_proj&quot;, &quot;up_proj&quot;, &quot;down_proj&quot;
+    ],
+    lora_dropout=0.05,
+    bias=&quot;none&quot;,
+    task_type=&quot;CAUSAL_LM&quot;
+)
+
+model = get_peft_model(model, lora_config)
+model.print_trainable_parameters()
+# Output: trainable params: ~20M out of 8B (0.25%) — huge savings!
+
+# ─── 5. Prepare Dataset ───────────────────────────────────────────────────────
+# Format: Alpaca-style instruction dataset
+raw_data = [
+    {
+        &quot;instruction&quot;: &quot;Write a Python function to reverse a string.&quot;,
+        &quot;output&quot;: &quot;def reverse_string(s: str) -&gt; str:\n    return s[::-1]&quot;
+    },
+    {
+        &quot;instruction&quot;: &quot;What is a Python decorator?&quot;,
+        &quot;output&quot;: &quot;A decorator is a function that wraps another function to add behavior...&quot;
+    },
+    # Add 1000+ examples for real fine-tuning
+]
+
+def format_example(example):
+    return {
+        &quot;text&quot;: f&quot;&quot;&quot;&lt;|begin_of_text|&gt;&lt;|start_header_id|&gt;system&lt;|end_header_id|&gt;
+You are a Python expert.&lt;|eot_id|&gt;&lt;|start_header_id|&gt;user&lt;|end_header_id|&gt;
+{example['instruction']}&lt;|eot_id|&gt;&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;
+{example['output']}&lt;|eot_id|&gt;&quot;&quot;&quot;
+    }
+
+dataset = Dataset.from_list([format_example(d) for d in raw_data])
+
+# ─── 6. Training Arguments ────────────────────────────────────────────────────
+training_args = TrainingArguments(
+    output_dir=OUTPUT_DIR,
+    num_train_epochs=3,
+    per_device_train_batch_size=2,
+    gradient_accumulation_steps=4,    # effective batch = 8
+    learning_rate=2e-4,
+    lr_scheduler_type=&quot;cosine&quot;,
+    warmup_ratio=0.03,
+    weight_decay=0.001,
+    fp16=False,
+    bf16=True,                         # use on Ampere+ GPUs (A100, A10G)
+    logging_steps=10,
+    save_steps=100,
+    evaluation_strategy=&quot;no&quot;,
+    report_to=&quot;none&quot;
+)
+
+# ─── 7. Train ─────────────────────────────────────────────────────────────────
+trainer = SFTTrainer(
+    model=model,
+    train_dataset=dataset,
+    args=training_args,
+    dataset_text_field=&quot;text&quot;,
+    max_seq_length=2048,
+    packing=False
+)
+
+trainer.train()
+trainer.save_model(OUTPUT_DIR)
+print(f&quot;Model saved to {OUTPUT_DIR}&quot;)
+</code></pre>
+<h4 id="hardware-requirements">Hardware Requirements</h4>
+<table>
+<thead>
+<tr>
+<th>Approach</th>
+<th>VRAM Needed</th>
+<th>Example Hardware</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Full fine-tune 7B</td>
+<td>80GB+</td>
+<td>2× A100 80GB</td>
+</tr>
+<tr>
+<td>QLoRA 7B (4-bit)</td>
+<td>8–10GB</td>
+<td>T4 (Colab free), RTX 3080</td>
+</tr>
+<tr>
+<td>QLoRA 13B (4-bit)</td>
+<td>12–14GB</td>
+<td>T4 16GB, RTX 3090</td>
+</tr>
+<tr>
+<td>QLoRA 70B (4-bit)</td>
+<td>40–48GB</td>
+<td>A100 40GB</td>
+</tr>
+<tr>
+<td>Inference 7B (4-bit)</td>
+<td>4–6GB</td>
+<td>M1 MacBook, RTX 3060</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="73-fine-tuning-tools">7.3 Fine-Tuning Tools</h3>
+<h4 id="axolotl-yaml-config-based">Axolotl (YAML Config-Based)</h4>
+<pre><code class="language-bash">pip install axolotl
+# or: docker pull winglian/axolotl
+</code></pre>
+<pre><code class="language-yaml"># axolotl_config.yaml
+base_model: meta-llama/Meta-Llama-3.1-8B-Instruct
+model_type: LlamaForCausalLM
+tokenizer_type: AutoTokenizer
+
+load_in_4bit: true
+strict: false
+
+datasets:
+  - path: my_dataset.jsonl
+    type: alpaca
+
+dataset_prepared_path: last_run_prepared
+val_set_size: 0.05
+
+adapter: qlora
+lora_r: 16
+lora_alpha: 32
+lora_dropout: 0.05
+lora_target_modules:
+  - q_proj
+  - k_proj
+  - v_proj
+  - o_proj
+
+sequence_len: 2048
+sample_packing: false
+
+gradient_accumulation_steps: 4
+micro_batch_size: 2
+num_epochs: 3
+optimizer: paged_adamw_32bit
+lr_scheduler: cosine
+learning_rate: 2e-4
+
+output_dir: ./outputs/qlora-llama3
+</code></pre>
+<pre><code class="language-bash">axolotl train axolotl_config.yaml
+</code></pre>
+<h4 id="unsloth-2-faster-fine-tuning">Unsloth (2× Faster Fine-Tuning)</h4>
+<pre><code class="language-bash">pip install &quot;unsloth[colab-new] @ git+https://github.com/unslothai/unsloth.git&quot;
+</code></pre>
+<pre><code class="language-python">from unsloth import FastLanguageModel
+import torch
+
+model, tokenizer = FastLanguageModel.from_pretrained(
+    model_name=&quot;unsloth/Meta-Llama-3.1-8B-Instruct&quot;,
+    max_seq_length=2048,
+    load_in_4bit=True,
+)
+
+model = FastLanguageModel.get_peft_model(
+    model,
+    r=16,
+    target_modules=[&quot;q_proj&quot;, &quot;k_proj&quot;, &quot;v_proj&quot;, &quot;o_proj&quot;, &quot;gate_proj&quot;, &quot;up_proj&quot;, &quot;down_proj&quot;],
+    lora_alpha=16,
+    lora_dropout=0,
+    bias=&quot;none&quot;,
+    use_gradient_checkpointing=&quot;unsloth&quot;,
+    use_rslora=False,
+)
+
+# Unsloth claims 2x speed with 80% less VRAM via custom CUDA kernels
+</code></pre>
+<h4 id="openai-fine-tuning-api">OpenAI Fine-Tuning API</h4>
+<pre><code class="language-python">from openai import OpenAI
+import json
+
+client = OpenAI()
+
+# 1. Upload training file (JSONL format)
+# Each line: {&quot;messages&quot;: [{&quot;role&quot;: &quot;user&quot;, ...}, {&quot;role&quot;: &quot;assistant&quot;, ...}]}
+with open(&quot;training_data.jsonl&quot;, &quot;rb&quot;) as f:
+    file_response = client.files.create(file=f, purpose=&quot;fine-tune&quot;)
+file_id = file_response.id
+
+# 2. Start fine-tuning job
+job = client.fine_tuning.jobs.create(
+    training_file=file_id,
+    model=&quot;gpt-4o-mini-2024-07-18&quot;,  # cheapest to fine-tune
+    hyperparameters={&quot;n_epochs&quot;: 3}
+)
+print(f&quot;Job ID: {job.id}&quot;)
+
+# 3. Check status
+status = client.fine_tuning.jobs.retrieve(job.id)
+print(f&quot;Status: {status.status}&quot;)
+
+# 4. Use fine-tuned model
+if status.fine_tuned_model:
+    resp = client.chat.completions.create(
+        model=status.fine_tuned_model,
+        messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Your custom query&quot;}]
+    )
+    print(resp.choices[0].message.content)
+</code></pre>
+<hr />
+<h3 id="74-free-training-compute">7.4 Free Training Compute</h3>
+<table>
+<thead>
+<tr>
+<th>Platform</th>
+<th>GPU</th>
+<th>Free Quota</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Google Colab (free)</td>
+<td>T4 (16GB)</td>
+<td>~12 hrs/session</td>
+<td>Disconnects on idle</td>
+</tr>
+<tr>
+<td>Google Colab Pro</td>
+<td>A100 (40GB)</td>
+<td>$10/month</td>
+<td>Best value paid</td>
+</tr>
+<tr>
+<td>Kaggle Notebooks</td>
+<td>P100 (16GB)</td>
+<td>30 hrs/week</td>
+<td>Stable, no disconnects</td>
+</tr>
+<tr>
+<td>Lightning AI</td>
+<td>A10G (24GB)</td>
+<td>22 hrs free/month</td>
+<td>Studio IDE</td>
+</tr>
+<tr>
+<td>Hugging Face Spaces</td>
+<td>CPU only</td>
+<td>Free</td>
+<td>ZeroGPU experimental</td>
+</tr>
+<tr>
+<td>Vast.ai</td>
+<td>A100 80GB</td>
+<td>~$1–2/hr</td>
+<td>Cheapest A100 rental</td>
+</tr>
+<tr>
+<td>RunPod</td>
+<td>RTX 4090, A100</td>
+<td>Pay-per-use</td>
+<td>Good UI</td>
+</tr>
+<tr>
+<td>Lambda Labs</td>
+<td>A100 40GB</td>
+<td>~$1.10/hr</td>
+<td>Reserved instances</td>
+</tr>
+<tr>
+<td>Google Cloud</td>
+<td>T4</td>
+<td>$300 free credit (new)</td>
+<td>Use TPU v4 too</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="75-datasets-for-fine-tuning">7.5 Datasets for Fine-Tuning</h3>
+<h4 id="popular-open-datasets">Popular Open Datasets</h4>
+<table>
+<thead>
+<tr>
+<th>Dataset</th>
+<th>Size</th>
+<th>Domain</th>
+<th>Format</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Alpaca</strong> (Stanford)</td>
+<td>52K</td>
+<td>General instruction</td>
+<td>JSON</td>
+</tr>
+<tr>
+<td><strong>Dolly</strong> (Databricks)</td>
+<td>15K</td>
+<td>General, commercial-ok</td>
+<td>JSON</td>
+</tr>
+<tr>
+<td><strong>OpenHermes-2.5</strong></td>
+<td>1M</td>
+<td>Diverse instruction</td>
+<td>JSON</td>
+</tr>
+<tr>
+<td><strong>ShareGPT</strong></td>
+<td>70K</td>
+<td>Real ChatGPT convos</td>
+<td>JSON</td>
+</tr>
+<tr>
+<td><strong>LIMA</strong></td>
+<td>1K</td>
+<td>High quality curation</td>
+<td>JSON</td>
+</tr>
+<tr>
+<td><strong>CodeAlpaca</strong></td>
+<td>20K</td>
+<td>Code generation</td>
+<td>JSON</td>
+</tr>
+<tr>
+<td><strong>Evol-Instruct</strong></td>
+<td>70K</td>
+<td>Code, evolved complexity</td>
+<td>JSON</td>
+</tr>
+<tr>
+<td><strong>WizardCoder</strong></td>
+<td>78K</td>
+<td>Code instruction</td>
+<td>JSON</td>
+</tr>
+<tr>
+<td><strong>MetaMathQA</strong></td>
+<td>395K</td>
+<td>Math reasoning</td>
+<td>JSON</td>
+</tr>
+</tbody>
+</table>
+<h4 id="creating-custom-jsonl-dataset">Creating Custom JSONL Dataset</h4>
+<pre><code class="language-python">import json
+
+def create_training_example(instruction: str, output: str, system: str = &quot;&quot;) -&gt; dict:
+    messages = []
+    if system:
+        messages.append({&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: system})
+    messages.append({&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: instruction})
+    messages.append({&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: output})
+    return {&quot;messages&quot;: messages}
+
+examples = [
+    create_training_example(
+        instruction=&quot;What is the time complexity of quicksort?&quot;,
+        output=&quot;Quicksort has average O(n log n) and worst-case O(n²) time complexity...&quot;,
+        system=&quot;You are a computer science tutor.&quot;
+    ),
+    # ... add more examples
+]
+
+# Write JSONL file (one JSON object per line)
+with open(&quot;training_data.jsonl&quot;, &quot;w&quot;) as f:
+    for example in examples:
+        f.write(json.dumps(example) + &quot;\n&quot;)
+
+print(f&quot;Created {len(examples)} training examples&quot;)
+</code></pre>
+<h4 id="data-quality-tips">Data Quality Tips</h4>
+<ol>
+<li><strong>Quality over quantity</strong> — 1K high-quality examples &gt; 100K noisy ones (LIMA paper)</li>
+<li><strong>Diversity</strong> — cover all your use cases proportionally</li>
+<li><strong>Response length</strong> — train on responses similar in length to what you want</li>
+<li><strong>Format consistency</strong> — if you want JSON output, train on JSON responses</li>
+<li><strong>Validation split</strong> — hold out 5–10% to monitor overfitting</li>
+<li><strong>Deduplication</strong> — remove near-duplicate examples</li>
+<li><strong>Toxic/wrong content removal</strong> — clean your dataset before training</li>
+</ol>
+<hr />
+<h2 id="8-rag-vs-fine-tuning-vs-prompt-engineering">8. RAG vs Fine-Tuning vs Prompt Engineering</h2>
+<h3 id="81-full-comparison-table">8.1 Full Comparison Table</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>Prompt Engineering</th>
+<th>RAG</th>
+<th>Fine-Tuning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Implementation Cost</strong></td>
+<td>$0 (time only)</td>
+<td>Low–Medium</td>
+<td>High (compute)</td>
+</tr>
+<tr>
+<td><strong>Data Freshness</strong></td>
+<td>Static (prompt)</td>
+<td>Real-time</td>
+<td>Frozen at training</td>
+</tr>
+<tr>
+<td><strong>Knowledge Type</strong></td>
+<td>General</td>
+<td>Factual/Retrieval</td>
+<td>Behavioral/Style</td>
+</tr>
+<tr>
+<td><strong>Hallucination Risk</strong></td>
+<td>High</td>
+<td>Low (with good retrieval)</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td><strong>Latency</strong></td>
+<td>Baseline</td>
+<td>+100–500ms retrieval</td>
+<td>Baseline</td>
+</tr>
+<tr>
+<td><strong>Expertise Required</strong></td>
+<td>Low</td>
+<td>Medium</td>
+<td>High</td>
+</tr>
+<tr>
+<td><strong>Scalability</strong></td>
+<td>Context window limit</td>
+<td>Scales with vector DB</td>
+<td>Model size limit</td>
+</tr>
+<tr>
+<td><strong>Customization</strong></td>
+<td>Low</td>
+<td>Medium</td>
+<td>High</td>
+</tr>
+<tr>
+<td><strong>Token Cost</strong></td>
+<td>Low</td>
+<td>Medium (long prompts)</td>
+<td>Training cost</td>
+</tr>
+<tr>
+<td><strong>Maintenance</strong></td>
+<td>Low</td>
+<td>Medium (keep docs updated)</td>
+<td>High (retrain for updates)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="82-decision-tree">8.2 Decision Tree</h3>
+<pre><code>┌─────────────────────────────────────────────────────────┐
+│                    YOUR LLM PROBLEM                     │
+└─────────────────────┬───────────────────────────────────┘
+                      │
+          ┌───────────▼──────────────┐
+          │  Base model with good    │
+          │  prompting ≥ 80% good?   │
+          └───────┬──────────┬───────┘
+                YES│          │NO
+                  ▼           ▼
+        ┌──────────────┐  ┌──────────────────────┐
+        │    DONE!     │  │ Need factual accuracy │
+        │ Use prompt   │  │ or custom knowledge?  │
+        │ engineering  │  └──────┬────────────────┘
+        └──────────────┘       YES│
+                                  ▼
+                     ┌────────────────────────┐
+                     │ Data changes frequently?│
+                     └──────┬────────┬─────────┘
+                           YES│       │NO
+                              ▼       ▼
+                          ┌──────┐  ┌──────────────┐
+                          │ RAG  │  │ Fine-tune OR  │
+                          └──────┘  │ RAG (both ok) │
+                                    └──────────────┘
+</code></pre>
+<h3 id="83-when-rag-beats-fine-tuning">8.3 When RAG Beats Fine-Tuning</h3>
+<ul>
+<li><strong>Your data changes frequently</strong> (news, docs, product catalog)</li>
+<li><strong>You need to cite sources</strong> (legal, medical, support)</li>
+<li><strong>Budget is limited</strong> (RAG needs no GPU)</li>
+<li><strong>Interpretability matters</strong> (can show retrieved chunks)</li>
+<li><strong>Multiple knowledge bases</strong> (switch without retraining)</li>
+</ul>
+<h3 id="84-hybrid-approach-fine-tune-rag">8.4 Hybrid Approach: Fine-Tune + RAG</h3>
+<pre><code class="language-python"># Pattern: Fine-tuned model for domain expertise + RAG for factual grounding
+# Use case: Customer support bot that knows your domain language AND your product docs
+
+# 1. Fine-tune for: tone, terminology, response format, behavior
+# 2. Add RAG for: product-specific facts, current pricing, policies
+
+# Fine-tuned model: knows HOW to respond (style, format)
+# RAG context: knows WHAT to respond with (facts, specifics)
+
+system_prompt = &quot;&quot;&quot;You are a technical support engineer for AcmeCorp software.
+Use the provided context to answer questions accurately.
+Always cite relevant documentation sections.&quot;&quot;&quot;
+
+def hybrid_response(user_query: str, retrieved_context: str) -&gt; str:
+    # Fine-tuned model handles style; RAG context handles facts
+    full_prompt = f&quot;&quot;&quot;Context from documentation:
+{retrieved_context}
+
+User question: {user_query}&quot;&quot;&quot;
+
+    # Use your fine-tuned model here
+    return call_finetuned_model(system_prompt, full_prompt)
+</code></pre>
+<hr />
+<h2 id="9-custom-llm-deployment">9. Custom LLM Deployment</h2>
+<h3 id="91-serving-local-models">9.1 Serving Local Models</h3>
+<h4 id="ollama-simplest-option">Ollama — Simplest Option</h4>
+<pre><code class="language-bash"># Start server
+ollama serve
+
+# Test REST API directly
+curl http://localhost:11434/api/generate \
+  -d '{&quot;model&quot;: &quot;llama3.1:8b&quot;, &quot;prompt&quot;: &quot;Hello world&quot;, &quot;stream&quot;: false}'
+
+# OpenAI-compatible endpoint
+curl http://localhost:11434/v1/chat/completions \
+  -H &quot;Content-Type: application/json&quot; \
+  -d '{
+    &quot;model&quot;: &quot;llama3.1:8b&quot;,
+    &quot;messages&quot;: [{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Hello!&quot;}]
+  }'
+</code></pre>
+<h4 id="vllm-production-grade-openai-compatible">vLLM — Production Grade, OpenAI-Compatible</h4>
+<pre><code class="language-bash">pip install vllm
+
+# Start server (requires CUDA GPU)
+python -m vllm.entrypoints.openai.api_server \
+  --model meta-llama/Meta-Llama-3.1-8B-Instruct \
+  --host 0.0.0.0 \
+  --port 8000 \
+  --gpu-memory-utilization 0.9 \
+  --max-model-len 8192 \
+  --quantization awq  # optional: use quantized model
+</code></pre>
+<pre><code class="language-python"># Use vLLM server with OpenAI client
+from openai import OpenAI
+
+client = OpenAI(base_url=&quot;http://localhost:8000/v1&quot;, api_key=&quot;ignore&quot;)
+response = client.chat.completions.create(
+    model=&quot;meta-llama/Meta-Llama-3.1-8B-Instruct&quot;,
+    messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Hello!&quot;}]
+)
+</code></pre>
+<p><strong>vLLM advantages over Ollama:</strong>
+- <strong>PagedAttention</strong> — 3–5× higher throughput via KV cache optimization
+- <strong>Continuous batching</strong> — handles multiple concurrent requests efficiently
+- <strong>Quantization support</strong> — AWQ, GPTQ, FP8
+- Best for production with concurrent users</p>
+<h4 id="llamacpp-server">llama.cpp Server</h4>
+<pre><code class="language-bash"># Build llama.cpp
+git clone https://github.com/ggerganov/llama.cpp &amp;&amp; cd llama.cpp
+cmake -B build -DLLAMA_METAL=ON  # macOS GPU
+cmake --build build --config Release
+
+# Download GGUF model
+huggingface-cli download bartowski/Meta-Llama-3.1-8B-Instruct-GGUF \
+  Meta-Llama-3.1-8B-Instruct-Q4_K_M.gguf --local-dir ./models
+
+# Start server
+./build/bin/llama-server \
+  -m ./models/Meta-Llama-3.1-8B-Instruct-Q4_K_M.gguf \
+  --host 0.0.0.0 --port 8080 \
+  -ngl 35  # GPU layers (higher = more VRAM used)
+</code></pre>
+<h4 id="text-generation-inference-tgi-by-huggingface">Text Generation Inference (TGI) by HuggingFace</h4>
+<pre><code class="language-bash"># Docker — easiest way
+docker run --gpus all --shm-size 1g \
+  -p 8080:80 \
+  -v $PWD/models:/data \
+  ghcr.io/huggingface/text-generation-inference:latest \
+  --model-id meta-llama/Meta-Llama-3.1-8B-Instruct \
+  --quantize bitsandbytes-nf4
+</code></pre>
+<hr />
+<h3 id="92-cloud-deployment-options">9.2 Cloud Deployment Options</h3>
+<h4 id="hugging-face-inference-endpoints">Hugging Face Inference Endpoints</h4>
+<pre><code class="language-python">from huggingface_hub import InferenceEndpoint
+
+# Deploy via UI at huggingface.co/inference-endpoints
+# Then use:
+endpoint = InferenceEndpoint.from_inference_endpoint(
+    endpoint_url=&quot;https://xyz.endpoints.huggingface.cloud&quot;,
+    token=&quot;your_hf_token&quot;
+)
+
+response = endpoint.client.chat_completion(
+    messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Hello!&quot;}]
+)
+</code></pre>
+<h4 id="modalcom-serverless-gpu">Modal.com — Serverless GPU</h4>
+<pre><code class="language-python">import modal
+
+app = modal.App(&quot;llm-inference&quot;)
+image = modal.Image.debian_slim().pip_install(&quot;vllm&quot;)
+
+@app.cls(
+    gpu=&quot;A10G&quot;,
+    image=image,
+    container_idle_timeout=300
+)
+class Model:
+    @modal.enter()
+    def load(self):
+        from vllm import LLM
+        self.llm = LLM(model=&quot;meta-llama/Meta-Llama-3.1-8B-Instruct&quot;)
+
+    @modal.method()
+    def generate(self, prompt: str) -&gt; str:
+        from vllm import SamplingParams
+        outputs = self.llm.generate([prompt], SamplingParams(max_tokens=500))
+        return outputs[0].outputs[0].text
+
+@app.local_entrypoint()
+def main():
+    model = Model()
+    print(model.generate.remote(&quot;What is deep learning?&quot;))
+</code></pre>
+<hr />
+<h2 id="10-llm-evaluation-benchmarks">10. LLM Evaluation &amp; Benchmarks</h2>
+<h3 id="101-standard-benchmarks">10.1 Standard Benchmarks</h3>
+<table>
+<thead>
+<tr>
+<th>Benchmark</th>
+<th>What It Measures</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>MMLU</strong></td>
+<td>Knowledge across 57 subjects</td>
+<td>General knowledge breadth</td>
+</tr>
+<tr>
+<td><strong>HumanEval</strong></td>
+<td>Python code generation pass@1</td>
+<td>Coding ability</td>
+</tr>
+<tr>
+<td><strong>MBPP</strong></td>
+<td>More Python programming problems</td>
+<td>Coding (broader)</td>
+</tr>
+<tr>
+<td><strong>MT-Bench</strong></td>
+<td>Multi-turn chat quality (GPT-4 judge)</td>
+<td>Conversational AI</td>
+</tr>
+<tr>
+<td><strong>LMSYS Arena</strong></td>
+<td>Human preference (ELO rating)</td>
+<td>Most representative of real use</td>
+</tr>
+<tr>
+<td><strong>GSM8K</strong></td>
+<td>Grade school math word problems</td>
+<td>Basic reasoning</td>
+</tr>
+<tr>
+<td><strong>MATH</strong></td>
+<td>Competition math</td>
+<td>Advanced reasoning</td>
+</tr>
+<tr>
+<td><strong>HellaSwag</strong></td>
+<td>Common sense completion</td>
+<td>Language understanding</td>
+</tr>
+<tr>
+<td><strong>TruthfulQA</strong></td>
+<td>Truthfulness / hallucination</td>
+<td>Factual accuracy</td>
+</tr>
+<tr>
+<td><strong>GPQA</strong></td>
+<td>PhD-level science questions</td>
+<td>Deep expertise</td>
+</tr>
+</tbody>
+</table>
+<h3 id="102-task-specific-evaluation">10.2 Task-Specific Evaluation</h3>
+<pre><code class="language-python"># Evaluate a model on YOUR specific use case
+import subprocess
+from openai import OpenAI
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+client = OpenAI(base_url=&quot;https://models.inference.ai.azure.com&quot;, api_key=token)
+
+def evaluate_model(model: str, test_cases: list) -&gt; dict:
+    &quot;&quot;&quot;
+    test_cases: [{&quot;input&quot;: str, &quot;expected&quot;: str, &quot;type&quot;: &quot;exact&quot;|&quot;semantic&quot;}]
+    &quot;&quot;&quot;
+    results = {&quot;correct&quot;: 0, &quot;total&quot;: len(test_cases), &quot;failures&quot;: []}
+
+    for case in test_cases:
+        response = client.chat.completions.create(
+            model=model,
+            messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: case[&quot;input&quot;]}],
+            temperature=0,
+            max_tokens=200
+        )
+        actual = response.choices[0].message.content.strip()
+
+        if case[&quot;type&quot;] == &quot;exact&quot;:
+            is_correct = actual.lower() == case[&quot;expected&quot;].lower()
+        elif case[&quot;type&quot;] == &quot;contains&quot;:
+            is_correct = case[&quot;expected&quot;].lower() in actual.lower()
+        else:
+            is_correct = case[&quot;expected&quot;].lower() in actual.lower()
+
+        if is_correct:
+            results[&quot;correct&quot;] += 1
+        else:
+            results[&quot;failures&quot;].append({
+                &quot;input&quot;: case[&quot;input&quot;],
+                &quot;expected&quot;: case[&quot;expected&quot;],
+                &quot;actual&quot;: actual
+            })
+
+    results[&quot;accuracy&quot;] = results[&quot;correct&quot;] / results[&quot;total&quot;]
+    return results
+
+# Example test suite
+test_suite = [
+    {&quot;input&quot;: &quot;What is 2+2?&quot;, &quot;expected&quot;: &quot;4&quot;, &quot;type&quot;: &quot;contains&quot;},
+    {&quot;input&quot;: &quot;Capital of France?&quot;, &quot;expected&quot;: &quot;Paris&quot;, &quot;type&quot;: &quot;contains&quot;},
+]
+
+for model in [&quot;gpt-4o-mini&quot;, &quot;gpt-4o&quot;]:
+    results = evaluate_model(model, test_suite)
+    print(f&quot;{model}: {results['accuracy']:.0%} accuracy ({results['correct']}/{results['total']})&quot;)
+</code></pre>
+<h3 id="103-rag-evaluation-with-ragas">10.3 RAG Evaluation with RAGAS</h3>
+<pre><code class="language-bash">pip install ragas
+</code></pre>
+<pre><code class="language-python">from ragas import evaluate
+from ragas.metrics import faithfulness, answer_relevancy, context_recall, context_precision
+from datasets import Dataset
+
+# RAGAS evaluates 4 dimensions:
+# - Faithfulness: Is the answer grounded in the context?
+# - Answer Relevancy: Is the answer relevant to the question?
+# - Context Recall: Does context contain the ground truth?
+# - Context Precision: Is retrieved context relevant?
+
+eval_data = {
+    &quot;question&quot;: [&quot;What is the refund policy?&quot;],
+    &quot;answer&quot;: [&quot;You can get a full refund within 30 days.&quot;],
+    &quot;contexts&quot;: [[&quot;Our refund policy allows full refunds within 30 days of purchase.&quot;]],
+    &quot;ground_truth&quot;: [&quot;30-day full refund policy&quot;]
+}
+
+dataset = Dataset.from_dict(eval_data)
+results = evaluate(
+    dataset,
+    metrics=[faithfulness, answer_relevancy, context_recall, context_precision]
+)
+print(results)
+</code></pre>
+<hr />
+<h2 id="11-embeddings-free-paid">11. Embeddings — Free &amp; Paid</h2>
+<h3 id="111-embedding-models-comparison">11.1 Embedding Models Comparison</h3>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Provider</th>
+<th>Dimensions</th>
+<th>MTEB Score</th>
+<th>Cost</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>text-embedding-3-large</code></td>
+<td>OpenAI</td>
+<td>3072</td>
+<td>64.6</td>
+<td>$0.13/1M</td>
+<td>Best accuracy</td>
+</tr>
+<tr>
+<td><code>text-embedding-3-small</code></td>
+<td>OpenAI</td>
+<td>1536</td>
+<td>62.3</td>
+<td>$0.02/1M</td>
+<td>Best value paid</td>
+</tr>
+<tr>
+<td><code>text-embedding-ada-002</code></td>
+<td>OpenAI</td>
+<td>1536</td>
+<td>61.0</td>
+<td>$0.10/1M</td>
+<td>Legacy</td>
+</tr>
+<tr>
+<td><code>embed-english-v3.0</code></td>
+<td>Cohere</td>
+<td>1024</td>
+<td>64.5</td>
+<td>$0.10/1M</td>
+<td>Best for RAG</td>
+</tr>
+<tr>
+<td><code>embed-multilingual-v3.0</code></td>
+<td>Cohere</td>
+<td>1024</td>
+<td>62.4</td>
+<td>$0.10/1M</td>
+<td>100+ languages</td>
+</tr>
+<tr>
+<td><code>nomic-embed-text</code></td>
+<td>Nomic (Ollama)</td>
+<td>768</td>
+<td>62.4</td>
+<td>Free (local)</td>
+<td>Best free local</td>
+</tr>
+<tr>
+<td><code>all-MiniLM-L6-v2</code></td>
+<td>SBERT (HF)</td>
+<td>384</td>
+<td>56.3</td>
+<td>Free (local)</td>
+<td>Ultra fast, tiny</td>
+</tr>
+<tr>
+<td><code>all-mpnet-base-v2</code></td>
+<td>SBERT (HF)</td>
+<td>768</td>
+<td>57.8</td>
+<td>Free (local)</td>
+<td>Better than MiniLM</td>
+</tr>
+<tr>
+<td><code>mxbai-embed-large</code></td>
+<td>MixedBread (Ollama)</td>
+<td>1024</td>
+<td>64.7</td>
+<td>Free (local)</td>
+<td>Best free overall</td>
+</tr>
+<tr>
+<td><code>bge-large-en-v1.5</code></td>
+<td>BAAI (HF)</td>
+<td>1024</td>
+<td>64.2</td>
+<td>Free (local)</td>
+<td>Strong English</td>
+</tr>
+<tr>
+<td><code>gte-large</code></td>
+<td>Alibaba (HF)</td>
+<td>1024</td>
+<td>63.1</td>
+<td>Free (local)</td>
+<td>Good multilingual</td>
+</tr>
+</tbody>
+</table>
+<h3 id="112-local-embeddings-with-sentence-transformers">11.2 Local Embeddings with sentence-transformers</h3>
+<pre><code class="language-bash">pip install sentence-transformers
+</code></pre>
+<pre><code class="language-python">from sentence_transformers import SentenceTransformer
+import numpy as np
+
+# Load model (downloads automatically, cached locally)
+model = SentenceTransformer(&quot;all-MiniLM-L6-v2&quot;)  # 80MB, fast
+# model = SentenceTransformer(&quot;BAAI/bge-large-en-v1.5&quot;)  # 1.3GB, better
+
+sentences = [
+    &quot;The transformer architecture uses self-attention mechanisms.&quot;,
+    &quot;BERT is a bidirectional encoder representation from transformers.&quot;,
+    &quot;Python is a programming language.&quot;,
+    &quot;Neural networks learn representations from data.&quot;
+]
+
+# Encode (batched, uses GPU if available)
+embeddings = model.encode(sentences, normalize_embeddings=True)
+print(f&quot;Shape: {embeddings.shape}&quot;)  # (4, 384)
+
+# Cosine similarity (normalized embeddings → dot product = cosine sim)
+similarities = np.dot(embeddings, embeddings.T)
+print(&quot;Similarity matrix:&quot;)
+for i, s1 in enumerate(sentences):
+    for j, s2 in enumerate(sentences):
+        if i &lt; j:
+            print(f&quot;  [{i}]↔[{j}]: {similarities[i][j]:.3f}  |  '{s1[:30]}...' vs '{s2[:30]}...'&quot;)
+</code></pre>
+<h3 id="113-openai-embeddings">11.3 OpenAI Embeddings</h3>
+<pre><code class="language-python">from openai import OpenAI
+import numpy as np
+
+client = OpenAI()
+
+def get_embedding(text: str, model: str = &quot;text-embedding-3-small&quot;) -&gt; list:
+    text = text.replace(&quot;\n&quot;, &quot; &quot;)  # clean newlines
+    return client.embeddings.create(input=[text], model=model).data[0].embedding
+
+def cosine_similarity(a: list, b: list) -&gt; float:
+    a, b = np.array(a), np.array(b)
+    return float(np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b)))
+
+# Batch embedding (more efficient)
+texts = [&quot;Hello world&quot;, &quot;Bonjour monde&quot;, &quot;Hola mundo&quot;]
+response = client.embeddings.create(input=texts, model=&quot;text-embedding-3-small&quot;)
+embeddings = [item.embedding for item in response.data]
+
+# Compare
+print(cosine_similarity(embeddings[0], embeddings[1]))  # ~0.95 (same meaning)
+print(cosine_similarity(embeddings[0], embeddings[2]))  # ~0.94
+</code></pre>
+<hr />
+<h2 id="12-practical-use-cases-with-code">12. Practical Use Cases with Code</h2>
+<h3 id="uc1-local-rag-with-ollama-chromadb-fully-free-no-api-key">UC1: Local RAG with Ollama + ChromaDB (Fully Free, No API Key)</h3>
+<pre><code class="language-python"># pip install chromadb ollama
+import ollama
+import chromadb
+from chromadb.utils import embedding_functions
+
+# ─── Setup ────────────────────────────────────────────────────────────────────
+EMBED_MODEL = &quot;nomic-embed-text&quot;   # pull with: ollama pull nomic-embed-text
+CHAT_MODEL = &quot;llama3.1:8b&quot;         # pull with: ollama pull llama3.1:8b
+
+# Ollama embedding function for ChromaDB
+class OllamaEmbeddingFunction(chromadb.EmbeddingFunction):
+    def __call__(self, texts):
+        embeddings = []
+        for text in texts:
+            response = ollama.embeddings(model=EMBED_MODEL, prompt=text)
+            embeddings.append(response[&quot;embedding&quot;])
+        return embeddings
+
+# ─── Initialize ChromaDB ──────────────────────────────────────────────────────
+client = chromadb.Client()
+collection = client.create_collection(
+    name=&quot;knowledge_base&quot;,
+    embedding_function=OllamaEmbeddingFunction()
+)
+
+# ─── Index Documents ──────────────────────────────────────────────────────────
+documents = [
+    &quot;Python decorators are functions that modify other functions using the @syntax.&quot;,
+    &quot;RAG stands for Retrieval Augmented Generation. It combines search with LLMs.&quot;,
+    &quot;LoRA is Low-Rank Adaptation for fine-tuning large models efficiently.&quot;,
+    &quot;FAISS is Facebook's library for efficient similarity search in dense vectors.&quot;,
+    &quot;The transformer attention mechanism computes query-key-value weighted sums.&quot;
+]
+
+collection.add(
+    documents=documents,
+    ids=[f&quot;doc_{i}&quot; for i in range(len(documents))]
+)
+
+# ─── RAG Query ────────────────────────────────────────────────────────────────
+def rag_query(question: str, n_results: int = 3) -&gt; str:
+    # Retrieve relevant chunks
+    results = collection.query(query_texts=[question], n_results=n_results)
+    context = &quot;\n&quot;.join(results[&quot;documents&quot;][0])
+
+    # Generate answer with local LLM
+    response = ollama.chat(
+        model=CHAT_MODEL,
+        messages=[{
+            &quot;role&quot;: &quot;user&quot;,
+            &quot;content&quot;: f&quot;&quot;&quot;Answer the question based on the context below.
+Context:
+{context}
+
+Question: {question}
+Answer:&quot;&quot;&quot;
+        }]
+    )
+    return response[&quot;message&quot;][&quot;content&quot;]
+
+print(rag_query(&quot;What is LoRA?&quot;))
+print(rag_query(&quot;How does RAG work?&quot;))
+</code></pre>
+<hr />
+<h3 id="uc2-production-rag-with-github-copilot-free-faiss">UC2: Production RAG with GitHub Copilot Free + FAISS</h3>
+<pre><code class="language-python"># pip install faiss-cpu openai numpy
+import subprocess
+import numpy as np
+import faiss
+from openai import OpenAI
+
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+client = OpenAI(base_url=&quot;https://models.inference.ai.azure.com&quot;, api_key=token)
+
+# ─── Embed with GitHub Copilot Free ───────────────────────────────────────────
+def embed(texts: list) -&gt; np.ndarray:
+    response = client.embeddings.create(
+        model=&quot;text-embedding-3-small&quot;,
+        input=texts
+    )
+    return np.array([item.embedding for item in response.data], dtype=&quot;float32&quot;)
+
+# ─── Build FAISS Index ────────────────────────────────────────────────────────
+documents = [
+    {&quot;id&quot;: 0, &quot;text&quot;: &quot;Python's GIL prevents true parallelism in CPU-bound tasks.&quot;},
+    {&quot;id&quot;: 1, &quot;text&quot;: &quot;asyncio uses an event loop to handle concurrent I/O operations.&quot;},
+    {&quot;id&quot;: 2, &quot;text&quot;: &quot;multiprocessing bypasses the GIL for CPU-bound work.&quot;},
+    {&quot;id&quot;: 3, &quot;text&quot;: &quot;threading is useful for I/O-bound tasks despite the GIL.&quot;},
+    {&quot;id&quot;: 4, &quot;text&quot;: &quot;concurrent.futures provides a high-level API for parallelism.&quot;}
+]
+
+doc_texts = [d[&quot;text&quot;] for d in documents]
+doc_embeddings = embed(doc_texts)
+
+dimension = doc_embeddings.shape[1]  # 1536 for text-embedding-3-small
+index = faiss.IndexFlatIP(dimension)   # Inner product = cosine sim (normalized)
+
+# Normalize for cosine similarity
+faiss.normalize_L2(doc_embeddings)
+index.add(doc_embeddings)
+
+# ─── Retrieval ────────────────────────────────────────────────────────────────
+def retrieve(query: str, top_k: int = 3) -&gt; list:
+    q_embed = embed([query])
+    faiss.normalize_L2(q_embed)
+    scores, indices = index.search(q_embed, top_k)
+    return [(documents[i][&quot;text&quot;], scores[0][j]) for j, i in enumerate(indices[0])]
+
+def answer(question: str) -&gt; str:
+    chunks = retrieve(question)
+    context = &quot;\n&quot;.join([f&quot;- {text}&quot; for text, _ in chunks])
+
+    response = client.chat.completions.create(
+        model=&quot;gpt-4o-mini&quot;,
+        messages=[
+            {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;Answer only from the provided context.&quot;},
+            {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: f&quot;Context:\n{context}\n\nQuestion: {question}&quot;}
+        ],
+        temperature=0
+    )
+    return response.choices[0].message.content
+
+print(answer(&quot;How do I do concurrent I/O in Python?&quot;))
+</code></pre>
+<hr />
+<h3 id="uc3-structured-output-extraction-with-groq-pydantic">UC3: Structured Output Extraction with Groq + Pydantic</h3>
+<pre><code class="language-python"># pip install groq pydantic instructor
+import instructor
+from groq import Groq
+from pydantic import BaseModel, Field
+from typing import List, Optional
+
+client = instructor.from_groq(Groq(), mode=instructor.Mode.JSON)
+
+class Skill(BaseModel):
+    name: str
+    level: str = Field(description=&quot;beginner|intermediate|expert&quot;)
+    years_experience: Optional[int] = None
+
+class ResumeExtract(BaseModel):
+    full_name: str
+    years_total_experience: int
+    current_role: str
+    skills: List[Skill]
+    education_level: str = Field(description=&quot;high school|bachelor|master|phd&quot;)
+    summary: str = Field(description=&quot;2-sentence professional summary&quot;, max_length=300)
+
+resume_text = &quot;&quot;&quot;
+John Smith is a Senior Software Engineer with 8 years of experience.
+He currently works at TechCorp as a Principal Engineer. John has expert-level 
+Python skills (7 years), intermediate Rust experience (2 years), and beginner 
+knowledge of Zig. He holds a Master's degree in Computer Science from MIT.
+&quot;&quot;&quot;
+
+result = client.chat.completions.create(
+    model=&quot;llama-3.3-70b-versatile&quot;,
+    response_model=ResumeExtract,
+    messages=[
+        {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: f&quot;Extract structured info from this resume:\n\n{resume_text}&quot;}
+    ]
+)
+
+print(f&quot;Name: {result.full_name}&quot;)
+print(f&quot;Role: {result.current_role}&quot;)
+print(f&quot;Skills: {[(s.name, s.level) for s in result.skills]}&quot;)
+print(f&quot;Education: {result.education_level}&quot;)
+print(f&quot;Summary: {result.summary}&quot;)
+</code></pre>
+<hr />
+<h3 id="uc4-multi-model-comparison">UC4: Multi-Model Comparison</h3>
+<pre><code class="language-python"># Compare the same prompt across multiple models
+import subprocess
+import time
+from openai import OpenAI
+from groq import Groq
+
+gh_token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+
+clients = {
+    &quot;gpt-4o-mini (GitHub)&quot;: OpenAI(
+        base_url=&quot;https://models.inference.ai.azure.com&quot;,
+        api_key=gh_token
+    ),
+    &quot;gpt-4o (GitHub)&quot;: OpenAI(
+        base_url=&quot;https://models.inference.ai.azure.com&quot;,
+        api_key=gh_token
+    ),
+}
+
+groq_client = Groq()  # uses GROQ_API_KEY env var
+
+PROMPT = &quot;Explain the CAP theorem with a practical example in 3 bullet points.&quot;
+
+results = {}
+
+# GitHub Copilot Free models
+for label, c in clients.items():
+    model = label.split(&quot; &quot;)[0].replace(&quot;mini&quot;, &quot;mini&quot;)
+    if &quot;4o-mini&quot; in label:
+        model = &quot;gpt-4o-mini&quot;
+    elif &quot;4o&quot; in label:
+        model = &quot;gpt-4o&quot;
+
+    start = time.time()
+    resp = c.chat.completions.create(
+        model=model,
+        messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: PROMPT}],
+        max_tokens=300
+    )
+    elapsed = time.time() - start
+    results[label] = {
+        &quot;response&quot;: resp.choices[0].message.content,
+        &quot;latency&quot;: elapsed,
+        &quot;tokens&quot;: resp.usage.total_tokens if resp.usage else &quot;N/A&quot;
+    }
+
+# Groq models
+for groq_model in [&quot;llama-3.1-8b-instant&quot;, &quot;llama-3.3-70b-versatile&quot;]:
+    start = time.time()
+    resp = groq_client.chat.completions.create(
+        model=groq_model,
+        messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: PROMPT}],
+        max_tokens=300
+    )
+    elapsed = time.time() - start
+    results[f&quot;groq/{groq_model}&quot;] = {
+        &quot;response&quot;: resp.choices[0].message.content,
+        &quot;latency&quot;: elapsed,
+        &quot;tokens&quot;: resp.usage.total_tokens if resp.usage else &quot;N/A&quot;
+    }
+
+# Print comparison
+for model, data in results.items():
+    print(f&quot;\n{'='*60}&quot;)
+    print(f&quot;Model: {model}&quot;)
+    print(f&quot;Latency: {data['latency']:.2f}s | Tokens: {data['tokens']}&quot;)
+    print(f&quot;Response:\n{data['response']}&quot;)
+</code></pre>
+<hr />
+<h3 id="uc5-streaming-chat-with-groq-ultra-fast">UC5: Streaming Chat with Groq (Ultra-Fast)</h3>
+<pre><code class="language-python">import os
+import time
+from groq import Groq
+
+client = Groq(api_key=os.environ.get(&quot;GROQ_API_KEY&quot;))
+
+def streaming_chat(history: list, user_message: str) -&gt; str:
+    history.append({&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: user_message})
+
+    full_response = &quot;&quot;
+    tokens_generated = 0
+    start_time = time.time()
+
+    print(f&quot;\n🤖 Assistant: &quot;, end=&quot;&quot;, flush=True)
+
+    stream = client.chat.completions.create(
+        model=&quot;llama-3.1-8b-instant&quot;,  # fastest model
+        messages=history,
+        stream=True,
+        temperature=0.7,
+        max_tokens=1000
+    )
+
+    for chunk in stream:
+        content = chunk.choices[0].delta.content
+        if content:
+            print(content, end=&quot;&quot;, flush=True)
+            full_response += content
+            tokens_generated += 1
+
+    elapsed = time.time() - start_time
+    tok_per_sec = tokens_generated / elapsed if elapsed &gt; 0 else 0
+    print(f&quot;\n⚡ {tok_per_sec:.0f} tok/s ({elapsed:.2f}s total)&quot;)
+
+    history.append({&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: full_response})
+    return full_response
+
+# Interactive CLI chat loop
+history = [{&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;You are a helpful AI assistant.&quot;}]
+print(&quot;Chat started (type 'quit' to exit)&quot;)
+
+while True:
+    user_input = input(&quot;\n👤 You: &quot;).strip()
+    if user_input.lower() in (&quot;quit&quot;, &quot;exit&quot;, &quot;q&quot;):
+        break
+    if user_input:
+        streaming_chat(history, user_input)
+</code></pre>
+<hr />
+<h3 id="uc6-fine-tuned-model-inference-with-hugging-face">UC6: Fine-Tuned Model Inference with Hugging Face</h3>
+<pre><code class="language-python"># Run inference on a fine-tuned LoRA model
+# pip install transformers peft torch
+import torch
+from transformers import AutoModelForCausalLM, AutoTokenizer
+from peft import PeftModel
+
+BASE_MODEL = &quot;meta-llama/Meta-Llama-3.1-8B-Instruct&quot;
+LORA_ADAPTER = &quot;./llama3-finetuned&quot;  # path from fine-tuning section
+
+# Load base + adapter
+tokenizer = AutoTokenizer.from_pretrained(BASE_MODEL)
+base_model = AutoModelForCausalLM.from_pretrained(
+    BASE_MODEL,
+    torch_dtype=torch.float16,
+    device_map=&quot;auto&quot;
+)
+model = PeftModel.from_pretrained(base_model, LORA_ADAPTER)
+model.eval()
+
+def generate(prompt: str, max_new_tokens: int = 500) -&gt; str:
+    formatted = f&quot;&quot;&quot;&lt;|begin_of_text|&gt;&lt;|start_header_id|&gt;user&lt;|end_header_id|&gt;
+{prompt}&lt;|eot_id|&gt;&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;
+&quot;&quot;&quot;
+    inputs = tokenizer(formatted, return_tensors=&quot;pt&quot;).to(model.device)
+
+    with torch.no_grad():
+        outputs = model.generate(
+            **inputs,
+            max_new_tokens=max_new_tokens,
+            do_sample=True,
+            temperature=0.7,
+            top_p=0.9,
+            eos_token_id=tokenizer.eos_token_id
+        )
+
+    # Decode only the new tokens (not the prompt)
+    new_tokens = outputs[0][inputs[&quot;input_ids&quot;].shape[1]:]
+    return tokenizer.decode(new_tokens, skip_special_tokens=True)
+
+print(generate(&quot;What is the time complexity of merge sort?&quot;))
+</code></pre>
+<hr />
+<h3 id="uc7-embeddings-comparison-local-vs-api">UC7: Embeddings Comparison (Local vs API)</h3>
+<pre><code class="language-python"># Compare local (sentence-transformers) vs API (OpenAI) embeddings
+# pip install sentence-transformers openai numpy scipy
+import subprocess
+import numpy as np
+import time
+from sentence_transformers import SentenceTransformer
+from openai import OpenAI
+from scipy.spatial.distance import cosine
+
+# ─── Setup ────────────────────────────────────────────────────────────────────
+token = subprocess.run([&quot;gh&quot;, &quot;auth&quot;, &quot;token&quot;], capture_output=True, text=True).stdout.strip()
+openai_client = OpenAI(base_url=&quot;https://models.inference.ai.azure.com&quot;, api_key=token)
+local_model = SentenceTransformer(&quot;all-MiniLM-L6-v2&quot;)
+
+test_pairs = [
+    (&quot;The cat sat on the mat.&quot;, &quot;A feline rested on a rug.&quot;),       # High similarity
+    (&quot;Python is great for data science.&quot;, &quot;I love programming in Go.&quot;),  # Medium
+    (&quot;Quantum physics is complex.&quot;, &quot;My favorite food is pizza.&quot;),       # Low
+]
+
+def cosine_sim(a, b):
+    return 1 - cosine(a, b)
+
+print(f&quot;{'Pair':&lt;60} {'Local':&lt;8} {'API':&lt;8} {'Diff':&lt;8}&quot;)
+print(&quot;-&quot; * 90)
+
+for text1, text2 in test_pairs:
+    # Local embeddings
+    t0 = time.time()
+    local_embs = local_model.encode([text1, text2])
+    local_time = (time.time() - t0) * 1000
+    local_sim = cosine_sim(local_embs[0], local_embs[1])
+
+    # API embeddings
+    t0 = time.time()
+    resp = openai_client.embeddings.create(
+        model=&quot;text-embedding-3-small&quot;,
+        input=[text1, text2]
+    )
+    api_time = (time.time() - t0) * 1000
+    api_embs = [resp.data[0].embedding, resp.data[1].embedding]
+    api_sim = cosine_sim(api_embs[0], api_embs[1])
+
+    pair_label = f&quot;'{text1[:25]}...' vs '{text2[:20]}...'&quot;
+    print(f&quot;{pair_label:&lt;60} {local_sim:.3f}   {api_sim:.3f}   {abs(local_sim-api_sim):.3f}&quot;)
+
+print(f&quot;\nLocal model: ~{local_time:.0f}ms | API: ~{api_time:.0f}ms (includes network)&quot;)
+</code></pre>
+<hr />
+<h2 id="13-interview-qa-llms">13. Interview Q&amp;A — LLMs</h2>
+<details open><summary class="qa-q">What is the transformer attention mechanism and why is it important?</summary><div class="qa-a"><p>Attention computes a weighted sum of <strong>values</strong>, where weights come from the compatibility between <strong>queries</strong> and <strong>keys</strong> via <code>softmax(QKᵀ/√d_k)V</code>. It's important because it allows any token to directly attend to any other token regardless of distance (unlike RNNs), enabling better long-range dependency capture and parallelizable training.</p>
+<hr /></div></details>
+<details open><summary class="qa-q">What is positional encoding in transformers and why is it needed?</summary><div class="qa-a"><p>Transformers process all tokens in parallel and have no inherent sense of order. Positional encodings (sinusoidal functions at different frequencies in the original paper, or learned embeddings in BERT/GPT) are added to token embeddings to inject position information. Without them, "cat bit dog" and "dog bit cat" would produce the same output.</p>
+<hr /></div></details>
+<details open><summary class="qa-q">What's the architectural difference between GPT, BERT, and T5?</summary><div class="qa-a"><ul>
+<li><strong>GPT</strong> (decoder-only): Autoregressive, causal attention (can only attend to past tokens), trained on next-token prediction. Best for generation.</li>
+<li><strong>BERT</strong> (encoder-only): Bidirectional, masked language modeling (attends to all tokens), produces contextual embeddings. Best for classification, embeddings.</li>
+<li><strong>T5</strong> (encoder-decoder): Full seq2seq transformer, trained on text-to-text tasks (everything framed as input→output text). Best for translation, summarization.</li>
+</ul>
+<hr /></div></details>
+<details open><summary class="qa-q">Explain RLHF (Reinforcement Learning from Human Feedback).</summary><div class="qa-a"><p>RLHF is a 3-step process used to align LLMs:
+1. <strong>Supervised Fine-Tuning (SFT):</strong> Fine-tune base model on human-written demonstrations.
+2. <strong>Reward Model (RM) Training:</strong> Train a separate model to predict human preferences by comparing model outputs ranked by humans.
+3. <strong>PPO Optimization:</strong> Use PPO (proximal policy optimization) reinforcement learning to optimize the SFT model to maximize the reward model's score, with a KL penalty to prevent drift from the original model.</p>
+<hr /></div></details>
+<details open><summary class="qa-q">What is DPO and how does it differ from PPO/RLHF?</summary><div class="qa-a"><p>DPO (Direct Preference Optimization)** directly fine-tunes the LLM on preference pairs (chosen vs rejected responses) without needing a separate reward model or RL loop. It reparameterizes the reward in terms of the language model itself, making training simpler and more stable. DPO is faster, uses less memory, and often performs comparably to PPO-RLHF. Most modern fine-tuning pipelines prefer DPO.</p>
+<hr /></div></details>
+<details open><summary class="qa-q">What causes LLM hallucinations and how do you mitigate them?</summary><div class="qa-a"><p>Causes:** Training data noise, model optimization for fluency over accuracy, out-of-distribution queries, overconfident probability distributions.</p>
+<p><strong>Mitigations:</strong>
+- <strong>RAG</strong> — ground responses in retrieved facts
+- <strong>Temperature reduction</strong> — lower temperature → more deterministic, less creative
+- <strong>Citation prompting</strong> — instruct model to cite sources or say "I don't know"
+- <strong>Self-consistency</strong> — sample multiple outputs, pick majority
+- <strong>Output verification</strong> — use a second model to fact-check
+- <strong>Tool use</strong> — give model access to search/calculators instead of relying on memory
+- <strong>Fine-tuning on refusals</strong> — teach model to abstain when uncertain</p>
+<hr /></div></details>
+<details open><summary class="qa-q">What is a context window and what are solutions for its limitations?</summary><div class="qa-a"><p>The <strong>context window</strong> is the maximum number of tokens the model can process at once (prompt + response). Limitations arise when documents exceed this limit.</p>
+<p><strong>Solutions:</strong>
+- <strong>RAG</strong> — embed document chunks, retrieve relevant ones (most practical)
+- <strong>Long-context models</strong> — Gemini 1.5 Pro (2M), Claude (200K)
+- <strong>Sliding window</strong> — process document in overlapping chunks
+- <strong>Summarization chaining</strong> — summarize chunks, then summarize summaries
+- <strong>Vector databases</strong> — store entire corpus, query relevant sections</p>
+<hr /></div></details>
+<details open><summary class="qa-q">Explain temperature, top-p, and top-k sampling.</summary><div class="qa-a"><ul>
+<li><strong>Temperature</strong> (0–2): Scales logits before softmax. Low (0.1) = deterministic/focused. High (1.5) = creative/random. At 0 = greedy (always pick highest prob token).</li>
+<li><strong>Top-k</strong> (integer): At each step, only sample from the k highest-probability tokens. Removes very improbable options.</li>
+<li><strong>Top-p (nucleus sampling)</strong> (0–1): Only sample from tokens whose cumulative probability ≥ p. Dynamic alternative to top-k. p=0.9 means keep fewest tokens that together make up 90% of probability mass.</li>
+</ul>
+<p><strong>Recommended settings:</strong> Creative writing: temp=0.9, top-p=0.95. Code: temp=0.1, top-p=0.95. Factual: temp=0.</p>
+<hr /></div></details>
+<details open><summary class="qa-q">How do you count tokens and optimize costs?</summary><div class="qa-a"><p>Use <code>tiktoken</code> (OpenAI) or model-specific tokenizers. Rule of thumb: 1 token ≈ 4 characters ≈ 0.75 words.</p>
+<p><strong>Cost optimization:</strong>
+- Use smaller models for simple tasks (gpt-4o-mini vs gpt-4o)
+- Use Batch API (50% discount on OpenAI)
+- Cache repeated prompts (OpenAI prompt caching, 50% off for cached input)
+- Compress system prompts
+- Use streaming to detect early completion
+- Log and monitor token usage per endpoint</p>
+<pre><code class="language-python">import tiktoken
+enc = tiktoken.encoding_for_model(&quot;gpt-4o&quot;)
+tokens = enc.encode(&quot;Hello, how are you?&quot;)
+print(f&quot;Token count: {len(tokens)}&quot;)  # 6 tokens
+</code></pre>
+<hr /></div></details>
+<details open><summary class="qa-q">When should you use streaming vs non-streaming API calls?</summary><div class="qa-a"><ul>
+<li><strong>Streaming:</strong> User-facing chat (improves perceived latency), long responses (show progress), interactive tools. Implement with <code>stream=True</code> and process <code>delta.content</code> chunks.</li>
+<li><strong>Non-streaming:</strong> Batch processing, when you need the full response before proceeding (e.g., JSON parsing, function calling), logging, caching responses.</li>
+</ul>
+<p>Streaming doesn't reduce total latency but dramatically improves <strong>perceived</strong> latency — users see output immediately instead of waiting for the full response.</p>
+<hr /></div></details>
+<details open><summary class="qa-q">What is model quantization and what are the tradeoffs?</summary><div class="qa-a"><p>Quantization reduces model weights from 32-bit (fp32) or 16-bit (fp16) floats to lower precision:</p>
+<table>
+<thead>
+<tr>
+<th>Format</th>
+<th>Memory</th>
+<th>Quality Loss</th>
+<th>Speed</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FP32</td>
+<td>4 bytes/param</td>
+<td>Baseline</td>
+<td>Slowest</td>
+<td>Training</td>
+</tr>
+<tr>
+<td>FP16/BF16</td>
+<td>2 bytes/param</td>
+<td>Negligible</td>
+<td>Fast</td>
+<td>Training/inference</td>
+</tr>
+<tr>
+<td>INT8</td>
+<td>1 byte/param</td>
+<td>Slight</td>
+<td>Faster</td>
+<td>Inference</td>
+</tr>
+<tr>
+<td>INT4/NF4</td>
+<td>0.5 bytes/param</td>
+<td>Moderate</td>
+<td>Fastest</td>
+<td>Consumer GPU</td>
+</tr>
+<tr>
+<td>GGUF Q4_K_M</td>
+<td>~0.5 bytes/param</td>
+<td>Low (good quant)</td>
+<td>Fast on CPU</td>
+<td>llama.cpp, Ollama</td>
+</tr>
+</tbody>
+</table>
+<p>A 7B model in fp16 needs ~14GB VRAM; in Q4 it needs ~4GB.</p>
+<hr /></div></details>
+<details open><summary class="qa-q">What is prompt injection and how do you defend against it?</summary><div class="qa-a"><p>Prompt injection** is when malicious user input overrides system instructions (e.g., user says "Ignore previous instructions and...").</p>
+<p><strong>Defenses:</strong>
+- <strong>Input sanitization:</strong> Detect injection patterns with a guard model
+- <strong>Output validation:</strong> Check model output doesn't violate policy
+- <strong>Privilege separation:</strong> Never give the LLM direct access to sensitive systems
+- <strong>Structured prompts:</strong> Use message roles properly (system vs user)
+- <strong>Llama Guard / NeMo Guardrails:</strong> Open-source safety classifiers
+- <strong>Canary tokens:</strong> Insert hidden strings and check if they leak
+- <strong>Minimal permissions:</strong> LLM agents should have least-privilege tool access</p>
+<hr /></div></details>
+<details open><summary class="qa-q">How do you monitor LLMs in production?</summary><div class="qa-a"><p>Key metrics and tools:</p>
+<p><strong>Metrics to track:</strong>
+- Latency (TTFT, total, p50/p95/p99)
+- Token usage (input/output per request)
+- Error rates (timeouts, refusals, errors)
+- Cost per request/user
+- Output quality (thumbs up/down, task completion)</p>
+<p><strong>Tools:</strong>
+- <strong>LangSmith</strong> — LangChain's observability platform, trace every call
+- <strong>Langfuse</strong> — Open-source, self-hostable alternative
+- <strong>Helicone</strong> — Proxy-based, zero-code integration
+- <strong>Weights &amp; Biases</strong> — ML experiment + LLM tracing
+- <strong>OpenTelemetry</strong> — Standard traces, works with any backend</p>
+<hr /></div></details>
+<details open><summary class="qa-q">What techniques reduce LLM inference latency?</summary><div class="qa-a"><ul>
+<li><strong>Smaller models</strong> — 8B vs 70B (10× faster)</li>
+<li><strong>Quantization</strong> — INT4 reduces memory bandwidth</li>
+<li><strong>Speculative decoding</strong> — small draft model + large verifier (2–3× speedup)</li>
+<li><strong>Batching</strong> — process multiple requests simultaneously (vLLM's strength)</li>
+<li><strong>KV cache</strong> — cache attention keys/values for system prompt (prompt caching)</li>
+<li><strong>Flash Attention</strong> — memory-efficient attention implementation</li>
+<li><strong>Faster hardware</strong> — Groq LPU, Cerebras WSE, NVIDIA H100</li>
+<li><strong>Streaming</strong> — perceived latency improvement</li>
+</ul>
+<hr /></div></details>
+<details open><summary class="qa-q">What are multi-modal LLMs and how do they work?</summary><div class="qa-a"><p>Multi-modal LLMs process multiple data types (text, images, audio, video). Architectures:</p>
+<ul>
+<li><strong>Image:</strong> Vision encoder (e.g., CLIP ViT) converts image → token embeddings → fed to LLM alongside text tokens</li>
+<li><strong>Audio:</strong> Whisper-like encoder converts audio → embeddings or transcription</li>
+<li><strong>Video:</strong> Frame sampling + visual encoder</li>
+</ul>
+<p>Examples: GPT-4o (text+image+audio), Gemini 1.5 Pro (text+image+audio+video), LLaVA (open-source vision).</p>
+<p>The LLM learns to jointly reason across modalities through multimodal instruction-following datasets.</p>
+<hr /></div></details>
+<details open><summary class="qa-q">What are reasoning models (o1, o3, DeepSeek-R1) vs standard LLMs?</summary><div class="qa-a"><p>Reasoning models use <strong>chain-of-thought (CoT) reinforcement learning</strong> to generate internal reasoning traces before answering:</p>
+<ul>
+<li><strong>Standard LLM:</strong> prompt → immediate answer</li>
+<li><strong>Reasoning model:</strong> prompt → [internal thinking tokens] → answer</li>
+</ul>
+<p>Trained with <strong>RLHF/GRPO</strong> on problems where correctness is verifiable (math, code). The model learns to break problems down, verify steps, and backtrack.</p>
+<p><strong>Tradeoffs:</strong> Much slower (10–60× more tokens generated), much more expensive, but dramatically better at math, logic, and complex code. Use for complex problems, not for simple chat.</p>
+<hr /></div></details>
+<details open><summary class="qa-q">How does function calling / tool use work in LLMs?</summary><div class="qa-a"><p>The LLM is trained to recognize when a tool should be called and output structured JSON instead of text:</p>
+<pre><code class="language-python"># 1. Define tools (JSON schema)
+# 2. Model decides to call tool → outputs: {&quot;name&quot;: &quot;get_weather&quot;, &quot;args&quot;: {&quot;city&quot;: &quot;Paris&quot;}}
+# 3. You execute the actual function
+# 4. Return result to model
+# 5. Model incorporates result into final response
+
+# This enables: web search, code execution, database queries, API calls, etc.
+# Key: model doesn't execute code — it requests execution via structured output
+</code></pre>
+<p>Modern implementations use <strong>ReAct</strong> (Reason + Act) pattern or <strong>tool_choice</strong> API parameter.</p>
+<hr /></div></details>
+<details open><summary class="qa-q">When does fine-tuning win over RAG? (Detailed)</summary><div class="qa-a"><p><strong>Fine-tuning wins when:</strong>
+- You need a specific response <strong>style or tone</strong> (formal, concise, domain-specific vocabulary)
+- Teaching the model <strong>new behaviors</strong> (always respond in JSON, always cite page numbers)
+- Domain-specific language where base model performs poorly (legal contracts, medical notes)
+- Reducing latency (shorter prompts needed — no context injection)
+- Privacy: can't send documents to cloud API</p>
+<p><strong>RAG wins when:</strong>
+- Data changes frequently
+- You need to cite specific source documents
+- Knowledge base is too large to train on
+- You need explainability (show retrieved chunks)
+- Budget is limited (no GPU training cost)</p>
+<p><strong>Rule of thumb:</strong> Fine-tune for HOW to respond; RAG for WHAT to respond with.</p>
+<hr /></div></details>
+<details open><summary class="qa-q">How do vector databases differ and which should you choose?</summary><div class="qa-a"><table>
+<thead>
+<tr>
+<th>Database</th>
+<th>Type</th>
+<th>Strengths</th>
+<th>Best For</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ChromaDB</strong></td>
+<td>In-process/server</td>
+<td>Simple, Python-native, free</td>
+<td>Prototyping, small scale</td>
+</tr>
+<tr>
+<td><strong>FAISS</strong></td>
+<td>Library</td>
+<td>Fastest, Facebook, no overhead</td>
+<td>High-performance research</td>
+</tr>
+<tr>
+<td><strong>Pinecone</strong></td>
+<td>Managed cloud</td>
+<td>Zero ops, scalable, metadata filtering</td>
+<td>Production, teams</td>
+</tr>
+<tr>
+<td><strong>Weaviate</strong></td>
+<td>Open-source server</td>
+<td>Multi-modal, GraphQL, BM25 hybrid</td>
+<td>Hybrid search</td>
+</tr>
+<tr>
+<td><strong>Qdrant</strong></td>
+<td>Open-source server</td>
+<td>Rust-based, fast, filtering</td>
+<td>Production self-hosted</td>
+</tr>
+<tr>
+<td><strong>Milvus</strong></td>
+<td>Open-source server</td>
+<td>Most scalable, complex queries</td>
+<td>Billion-scale</td>
+</tr>
+<tr>
+<td><strong>pgvector</strong></td>
+<td>PostgreSQL extension</td>
+<td>Existing Postgres users, SQL</td>
+<td>Simple additions to existing DB</td>
+</tr>
+<tr>
+<td><strong>Redis (RediSearch)</strong></td>
+<td>In-memory</td>
+<td>Ultra-fast, cache + vector</td>
+<td>Low-latency applications</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Decision:</strong> Start with ChromaDB (easy). Move to Qdrant/Weaviate for production. Use pgvector if you're already on Postgres.</p>
+<hr /></div></details>
+<details open><summary class="qa-q">What are LLM caching strategies and production architecture patterns?</summary><div class="qa-a"><p><strong>Caching Strategies:</strong>
+- <strong>Exact prompt cache:</strong> Hash prompt → cache response (Redis/Memcached). Works for repeated identical queries.
+- <strong>Semantic cache (GPTCache, LangChain):</strong> Embed query → find similar cached query → return cached response if above similarity threshold.
+- <strong>Provider-level cache:</strong> OpenAI/Anthropic cache long system prompts automatically (prompt caching — 50% cost reduction).
+- <strong>KV cache:</strong> Per-model attention cache for static prefix (in vLLM, prefix caching).</p>
+<p><strong>Production Architecture Patterns:</strong></p>
+<pre><code>User Request
+    │
+    ▼
+[Rate Limiter + Auth]
+    │
+    ▼
+[Semantic Cache] ──hit──→ [Return cached response]
+    │ miss
+    ▼
+[Prompt Router] → route to right model by complexity/cost
+    │
+    ▼
+[LLM API / vLLM] → [Output Validator / Guardrails]
+    │
+    ▼
+[Observability (LangSmith/Langfuse)] → Store traces
+    │
+    ▼
+[Return to User]
+</code></pre>
+<hr />
+<h2 id="14-references-further-reading">14. References &amp; Further Reading</h2>
+<h3 id="141-official-documentation">14.1 Official Documentation</h3>
+<table>
+<thead>
+<tr>
+<th>Provider</th>
+<th>Docs URL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OpenAI</td>
+<td>https://platform.openai.com/docs</td>
+</tr>
+<tr>
+<td>Anthropic</td>
+<td>https://docs.anthropic.com</td>
+</tr>
+<tr>
+<td>Google Gemini</td>
+<td>https://ai.google.dev/docs</td>
+</tr>
+<tr>
+<td>Groq</td>
+<td>https://console.groq.com/docs</td>
+</tr>
+<tr>
+<td>Ollama</td>
+<td>https://github.com/ollama/ollama</td>
+</tr>
+<tr>
+<td>HuggingFace</td>
+<td>https://huggingface.co/docs</td>
+</tr>
+<tr>
+<td>Together AI</td>
+<td>https://docs.together.ai</td>
+</tr>
+<tr>
+<td>OpenRouter</td>
+<td>https://openrouter.ai/docs</td>
+</tr>
+<tr>
+<td>Cohere</td>
+<td>https://docs.cohere.com</td>
+</tr>
+<tr>
+<td>Mistral</td>
+<td>https://docs.mistral.ai</td>
+</tr>
+<tr>
+<td>vLLM</td>
+<td>https://docs.vllm.ai</td>
+</tr>
+<tr>
+<td>LangChain</td>
+<td>https://python.langchain.com/docs</td>
+</tr>
+<tr>
+<td>LlamaIndex</td>
+<td>https://docs.llamaindex.ai</td>
+</tr>
+<tr>
+<td>TRL (HuggingFace)</td>
+<td>https://huggingface.co/docs/trl</td>
+</tr>
+<tr>
+<td>PEFT (LoRA)</td>
+<td>https://huggingface.co/docs/peft</td>
+</tr>
+<tr>
+<td>ChromaDB</td>
+<td>https://docs.trychroma.com</td>
+</tr>
+<tr>
+<td>FAISS</td>
+<td>https://faiss.ai</td>
+</tr>
+</tbody>
+</table>
+<h3 id="142-free-courses">14.2 Free Courses</h3>
+<table>
+<thead>
+<tr>
+<th>Course</th>
+<th>Provider</th>
+<th>Focus</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Practical Deep Learning</strong></td>
+<td>fast.ai</td>
+<td>DL fundamentals, top-down</td>
+</tr>
+<tr>
+<td><strong>NLP Course</strong></td>
+<td>Hugging Face</td>
+<td>Transformers, fine-tuning, RAG</td>
+</tr>
+<tr>
+<td><strong>ChatGPT Prompt Engineering</strong></td>
+<td>DeepLearning.AI + OpenAI</td>
+<td>Prompt engineering</td>
+</tr>
+<tr>
+<td><strong>LangChain for LLM Apps</strong></td>
+<td>DeepLearning.AI + LangChain</td>
+<td>RAG, agents</td>
+</tr>
+<tr>
+<td><strong>Building Systems with ChatGPT</strong></td>
+<td>DeepLearning.AI</td>
+<td>Production patterns</td>
+</tr>
+<tr>
+<td><strong>Finetuning LLMs</strong></td>
+<td>DeepLearning.AI + Lamini</td>
+<td>Fine-tuning</td>
+</tr>
+<tr>
+<td><strong>LLMOps</strong></td>
+<td>DeepLearning.AI + Google</td>
+<td>Deployment, monitoring</td>
+</tr>
+<tr>
+<td><strong>Hugging Face Audio Course</strong></td>
+<td>Hugging Face</td>
+<td>Audio LLMs</td>
+</tr>
+<tr>
+<td><strong>CS324: LLMs</strong></td>
+<td>Stanford</td>
+<td>Academic depth</td>
+</tr>
+<tr>
+<td><strong>fast.ai Part 2</strong></td>
+<td>fast.ai</td>
+<td>Diffusion, from-scratch LLM</td>
+</tr>
+</tbody>
+</table>
+<h3 id="143-essential-papers">14.3 Essential Papers</h3>
+<table>
+<thead>
+<tr>
+<th>Paper</th>
+<th>Year</th>
+<th>Why Important</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Attention Is All You Need</strong> (Vaswani et al.)</td>
+<td>2017</td>
+<td>Original transformer</td>
+</tr>
+<tr>
+<td><strong>BERT</strong> (Devlin et al.)</td>
+<td>2018</td>
+<td>Bidirectional pretraining</td>
+</tr>
+<tr>
+<td><strong>GPT-3</strong> (Brown et al.)</td>
+<td>2020</td>
+<td>Few-shot in-context learning</td>
+</tr>
+<tr>
+<td><strong>InstructGPT</strong> (Ouyang et al.)</td>
+<td>2022</td>
+<td>RLHF alignment</td>
+</tr>
+<tr>
+<td><strong>LoRA</strong> (Hu et al.)</td>
+<td>2021</td>
+<td>Low-rank adaptation</td>
+</tr>
+<tr>
+<td><strong>QLoRA</strong> (Dettmers et al.)</td>
+<td>2023</td>
+<td>4-bit fine-tuning</td>
+</tr>
+<tr>
+<td><strong>RAG</strong> (Lewis et al.)</td>
+<td>2020</td>
+<td>Retrieval-augmented generation</td>
+</tr>
+<tr>
+<td><strong>Chain-of-Thought</strong> (Wei et al.)</td>
+<td>2022</td>
+<td>Reasoning via prompting</td>
+</tr>
+<tr>
+<td><strong>LLaMA</strong> (Touvron et al.)</td>
+<td>2023</td>
+<td>Open-weight model</td>
+</tr>
+<tr>
+<td><strong>Mistral 7B</strong> (Jiang et al.)</td>
+<td>2023</td>
+<td>Efficient small model</td>
+</tr>
+<tr>
+<td><strong>Flash Attention</strong> (Dao et al.)</td>
+<td>2022</td>
+<td>Fast memory-efficient attention</td>
+</tr>
+<tr>
+<td><strong>DPO</strong> (Rafailov et al.)</td>
+<td>2023</td>
+<td>Direct preference optimization</td>
+</tr>
+<tr>
+<td><strong>Scaling Laws</strong> (Kaplan et al.)</td>
+<td>2020</td>
+<td>How model size affects performance</td>
+</tr>
+<tr>
+<td><strong>Chinchilla</strong> (Hoffmann et al.)</td>
+<td>2022</td>
+<td>Optimal compute allocation</td>
+</tr>
+<tr>
+<td><strong>Constitutional AI</strong> (Anthropic)</td>
+<td>2022</td>
+<td>Self-supervised alignment</td>
+</tr>
+</tbody>
+</table>
+<h3 id="144-youtube-channels">14.4 YouTube Channels</h3>
+<table>
+<thead>
+<tr>
+<th>Channel</th>
+<th>Focus</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Andrej Karpathy</strong></td>
+<td>From-scratch LLM builds, deep understanding</td>
+</tr>
+<tr>
+<td><strong>3Blue1Brown</strong></td>
+<td>Visual math intuition (Neural Networks series)</td>
+</tr>
+<tr>
+<td><strong>Yannic Kilcher</strong></td>
+<td>Paper reviews, research frontier</td>
+</tr>
+<tr>
+<td><strong>AI Explained</strong></td>
+<td>Latest model releases, benchmarks</td>
+</tr>
+<tr>
+<td><strong>Two Minute Papers</strong></td>
+<td>Research summaries</td>
+</tr>
+<tr>
+<td><strong>Sentdex</strong></td>
+<td>Practical Python + ML coding</td>
+</tr>
+<tr>
+<td><strong>Matt Wolfe</strong></td>
+<td>AI tools overview</td>
+</tr>
+<tr>
+<td><strong>Fireship</strong></td>
+<td>Quick code demos</td>
+</tr>
+<tr>
+<td><strong>AI Jason</strong></td>
+<td>LangChain, agents tutorials</td>
+</tr>
+<tr>
+<td><strong>Sam Witteveen</strong></td>
+<td>Practical Gemini + LLM tutorials</td>
+</tr>
+</tbody>
+</table>
+<h3 id="145-communities">14.5 Communities</h3>
+<table>
+<thead>
+<tr>
+<th>Community</th>
+<th>Platform</th>
+<th>Focus</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>r/LocalLLaMA</strong></td>
+<td>Reddit</td>
+<td>Local LLM running, models, hardware</td>
+</tr>
+<tr>
+<td><strong>r/MachineLearning</strong></td>
+<td>Reddit</td>
+<td>Research, papers, academic</td>
+</tr>
+<tr>
+<td><strong>HuggingFace Discord</strong></td>
+<td>Discord</td>
+<td>Open-source models, datasets</td>
+</tr>
+<tr>
+<td><strong>LangChain Discord</strong></td>
+<td>Discord</td>
+<td>LangChain, RAG, agents</td>
+</tr>
+<tr>
+<td><strong>Ollama Discord</strong></td>
+<td>Discord</td>
+<td>Ollama, local inference</td>
+</tr>
+<tr>
+<td><strong>AI Alignment Forum</strong></td>
+<td>Web</td>
+<td>Safety, alignment research</td>
+</tr>
+<tr>
+<td><strong>EleutherAI Discord</strong></td>
+<td>Discord</td>
+<td>Open research, GPT-Neo, Pythia</td>
+</tr>
+<tr>
+<td><strong>LAION Discord</strong></td>
+<td>Discord</td>
+<td>Datasets, open training</td>
+</tr>
+</tbody>
+</table>
+<h3 id="146-tools-libraries-quick-reference">14.6 Tools &amp; Libraries Quick Reference</h3>
+<pre><code class="language-bash"># Core LLM SDKs
+pip install openai anthropic google-generativeai groq mistralai cohere
+
+# Local inference
+pip install ollama  # Ollama Python client
+
+# Fine-tuning
+pip install transformers datasets trl peft accelerate bitsandbytes unsloth
+
+# RAG &amp; Vector DBs
+pip install langchain langchain-community llama-index
+pip install chromadb faiss-cpu qdrant-client pinecone-client
+
+# Embeddings
+pip install sentence-transformers
+
+# Structured output
+pip install instructor pydantic
+
+# Evaluation
+pip install ragas langsmith
+
+# Token counting
+pip install tiktoken
+
+# Utilities
+pip install huggingface_hub python-dotenv tenacity
+</code></pre>
+<hr />
+<blockquote>
+<p><strong>Document Stats:</strong> 14 sections, 40+ code examples, 20 interview Q&amp;As, comprehensive tables<br />
+<strong>Difficulty:</strong> Senior Software Engineer level<br />
+<strong>Time to read:</strong> ~3–4 hours<br />
+<strong>Last updated:</strong> 2025</p>
+</blockquote></div></details>
+</main>
+</body>
+</html>

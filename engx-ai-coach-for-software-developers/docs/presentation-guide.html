@@ -1,0 +1,1528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Presentation Guide — How to Develop Your Own Multi-Agentic Solution</title>
+<style>
+:root{
+  --navy:#0d0d35;--orange:#fa6400;--teal:#00838f;--blue:#1565c0;
+  --green:#2e7d32;--red:#c62828;--gray:#555;--lgray:#999;
+  --card:#f4f6fb;--border:#dde1f0;--white:#fff;
+  --code-bg:#1e1e38;--code-fg:#cde;
+  --warn-bg:#fff8e1;--warn-border:#f9a825;
+  --tip-bg:#e8f5e9;--tip-border:#2e7d32;
+  --demo-bg:#e3f0ff;--demo-border:#1565c0;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#f8f9fe;color:var(--navy);line-height:1.65}
+a{color:var(--orange);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* ── NAV ── */
+nav{position:sticky;top:0;z-index:100;background:var(--navy);color:#fff;
+    display:flex;align-items:center;gap:0;overflow-x:auto;padding:0 1rem;
+    box-shadow:0 2px 8px rgba(0,0,0,.3)}
+nav .brand{font-size:.85rem;font-weight:700;color:var(--orange);padding:.7rem 1rem .7rem 0;
+           white-space:nowrap;border-right:1px solid #333;margin-right:.5rem}
+nav a{font-size:.75rem;color:#ccc;padding:.7rem .6rem;white-space:nowrap;border-bottom:2px solid transparent}
+nav a:hover,nav a.active{color:var(--orange);border-bottom-color:var(--orange);text-decoration:none}
+
+/* ── HERO ── */
+.hero{background:linear-gradient(135deg,var(--navy) 60%,#1a1a5e);
+      color:#fff;padding:3rem 2rem 2.5rem;text-align:center}
+.hero h1{font-size:2rem;font-weight:800;margin-bottom:.5rem}
+.hero h1 span{color:var(--orange)}
+.hero p{color:#aab;font-size:1rem;max-width:660px;margin:.5rem auto}
+.meta-pills{display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem;margin-top:1.2rem}
+.pill{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);
+      border-radius:20px;padding:.3rem .9rem;font-size:.78rem;color:#ddd}
+.pill.orange{background:rgba(250,100,0,.2);border-color:var(--orange);color:var(--orange)}
+
+/* ── LAYOUT ── */
+main{max-width:1080px;margin:0 auto;padding:2rem 1.5rem 4rem}
+section{margin-bottom:3.5rem}
+h2.section-title{font-size:1.4rem;font-weight:800;color:var(--navy);
+                 border-left:4px solid var(--orange);padding-left:.8rem;margin-bottom:1.5rem}
+h3{font-size:1.05rem;font-weight:700;color:var(--navy);margin-bottom:.6rem}
+
+/* ── TIMELINE BAR ── */
+.timeline{display:flex;gap:0;margin-bottom:2rem;border-radius:6px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.1)}
+.tl-block{flex:1;padding:.6rem .4rem;text-align:center;font-size:.72rem;font-weight:700;color:#fff}
+.tl-block span{display:block;font-weight:400;font-size:.68rem;opacity:.85}
+
+/* ── SLIDE CARDS ── */
+.slide-grid{display:flex;flex-direction:column;gap:1.2rem}
+.slide-card{background:var(--white);border:1px solid var(--border);border-radius:10px;
+            overflow:hidden;box-shadow:0 2px 6px rgba(0,0,0,.05)}
+.slide-card-header{display:flex;align-items:center;gap:.8rem;
+                   padding:.7rem 1rem;background:var(--card);border-bottom:1px solid var(--border)}
+.slide-num{background:var(--orange);color:#fff;border-radius:6px;
+           padding:.2rem .55rem;font-size:.75rem;font-weight:800;white-space:nowrap}
+.slide-title-text{font-weight:700;font-size:.95rem;flex:1}
+.slide-time{font-size:.72rem;color:var(--lgray);background:#eee;
+            border-radius:10px;padding:.15rem .55rem;white-space:nowrap}
+.slide-card-body{padding:1rem 1.2rem;display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media(max-width:680px){.slide-card-body{grid-template-columns:1fr}}
+.col-label{font-size:.7rem;font-weight:700;text-transform:uppercase;
+           letter-spacing:.06em;color:var(--orange);margin-bottom:.35rem}
+
+/* ── CALLOUT BOXES ── */
+.callout{border-radius:8px;padding:.8rem 1rem;margin:.6rem 0;font-size:.88rem}
+.callout.demo{background:var(--demo-bg);border-left:4px solid var(--demo-border)}
+.callout.demo::before{content:"💻 LIVE DEMO  ";font-weight:700;color:var(--blue)}
+.callout.warn{background:var(--warn-bg);border-left:4px solid var(--warn-border)}
+.callout.warn::before{content:"⚠️ WATCH OUT  ";font-weight:700;color:#b45}
+.callout.tip{background:var(--tip-bg);border-left:4px solid var(--tip-border)}
+.callout.tip::before{content:"💡 TIP  ";font-weight:700;color:var(--green)}
+.callout.code{background:var(--code-bg);color:var(--code-fg);font-family:Consolas,monospace;
+              font-size:.82rem;line-height:1.55;border-radius:8px;padding:1rem 1.1rem;
+              white-space:pre-wrap;overflow-x:auto}
+.callout.code::before{content:""}
+
+/* ── Q&A SECTION ── */
+.qa-grid{display:flex;flex-direction:column;gap:.8rem}
+details.qa{background:var(--white);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+details.qa summary{cursor:pointer;padding:.75rem 1rem;font-weight:700;font-size:.9rem;
+                   background:var(--card);list-style:none;display:flex;gap:.6rem;align-items:flex-start}
+details.qa summary::before{content:"Q";background:var(--orange);color:#fff;
+                            border-radius:4px;padding:.05rem .4rem;font-size:.75rem;
+                            font-weight:800;flex-shrink:0;margin-top:.1rem}
+details.qa summary::-webkit-details-marker{display:none}
+details.qa[open] summary{border-bottom:1px solid var(--border)}
+.qa-answer{padding:.9rem 1.1rem;font-size:.88rem;line-height:1.7;color:#333}
+.qa-answer code{background:#f0f2f8;padding:.1rem .35rem;border-radius:3px;font-size:.82rem}
+.qa-answer ul{padding-left:1.2rem;margin-top:.3rem}
+.qa-answer li{margin-bottom:.25rem}
+
+/* ── AGENT MAP ── */
+.agent-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.8rem}
+.agent-card{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:.9rem}
+.agent-card .agent-label{font-size:.7rem;font-weight:700;text-transform:uppercase;
+                          color:var(--orange);margin-bottom:.25rem}
+.agent-card h4{font-size:.92rem;font-weight:700;margin-bottom:.3rem}
+.agent-card p{font-size:.82rem;color:var(--gray);line-height:1.5}
+.agent-card .tools{font-size:.75rem;color:var(--lgray);margin-top:.4rem}
+
+/* ── CODE COMPARISON ── */
+.code-compare{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media(max-width:680px){.code-compare{grid-template-columns:1fr}}
+.code-panel{background:var(--code-bg);border-radius:8px;overflow:hidden}
+.code-panel-header{padding:.45rem .8rem;font-size:.72rem;font-weight:700;
+                   text-transform:uppercase;letter-spacing:.06em}
+.code-panel-body{padding:.9rem 1rem;color:var(--code-fg);font-family:Consolas,monospace;
+                 font-size:.8rem;line-height:1.6;white-space:pre-wrap}
+
+/* ── TIMING TABLE ── */
+table.timing{width:100%;border-collapse:collapse;font-size:.87rem}
+table.timing th{background:var(--navy);color:#fff;padding:.5rem .7rem;text-align:left}
+table.timing td{padding:.45rem .7rem;border-bottom:1px solid var(--border)}
+table.timing tr:nth-child(even) td{background:var(--card)}
+table.timing .min{color:var(--orange);font-weight:700}
+table.timing .phase{font-weight:700}
+
+/* ── CHECKLIST ── */
+.checklist{list-style:none;padding:0}
+.checklist li{display:flex;gap:.6rem;align-items:flex-start;padding:.4rem 0;
+              font-size:.88rem;border-bottom:1px solid var(--border)}
+.checklist li:last-child{border:none}
+.checklist li::before{content:"☐";font-size:1rem;color:var(--orange);flex-shrink:0}
+
+/* ── FLOW DIAGRAM ── */
+.flow{display:flex;flex-direction:column;align-items:flex-start;gap:.3rem;padding:1rem}
+.flow-row{display:flex;align-items:center;gap:.4rem;flex-wrap:wrap}
+.flow-box{background:var(--card);border:1px solid var(--border);border-radius:6px;
+          padding:.3rem .7rem;font-size:.8rem;font-weight:600}
+.flow-box.orange{background:rgba(250,100,0,.1);border-color:var(--orange);color:var(--orange)}
+.flow-box.blue{background:var(--demo-bg);border-color:var(--blue);color:var(--blue)}
+.flow-box.green{background:var(--tip-bg);border-color:var(--green);color:var(--green)}
+.flow-box.red{background:#fce4e4;border-color:var(--red);color:var(--red)}
+.flow-arrow{color:var(--orange);font-size:1.1rem;font-weight:700}
+
+/* ── BADGE ── */
+.badge{display:inline-block;border-radius:4px;padding:.15rem .5rem;
+       font-size:.72rem;font-weight:700;margin-right:.3rem}
+.badge.uc1{background:var(--demo-bg);color:var(--blue)}
+.badge.uc2{background:#e0f7f8;color:var(--teal)}
+.badge.code{background:#f0f2f8;color:var(--navy)}
+.badge.time{background:rgba(250,100,0,.1);color:var(--orange)}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="brand">🎤 Presenter Guide</div>
+  <a href="#overview">Overview</a>
+  <a href="#timing">Timing</a>
+  <a href="#slide-by-slide">Slide Script</a>
+  <a href="#uc1-deep">UC1 Code Deep-Dive</a>
+  <a href="#uc2-deep">UC2 Code Deep-Dive</a>
+  <a href="#live-demo">Live Demo Plan</a>
+  <a href="#qa-prep">Q&amp;A Prep</a>
+  <a href="#checklist">Final Checklist</a>
+</nav>
+
+<div class="hero">
+  <h1>Presenter Guide — <span>Multi-Agentic Solution</span></h1>
+  <p>How to confidently present your 18-slide deck to developers who have been using GenAI for 3 months.
+     Includes slide-by-slide script, code internals, live demo plan and 20 Q&amp;A answers.</p>
+  <div class="meta-pills">
+    <span class="pill orange">45 min exam</span>
+    <span class="pill">20–25 min presentation</span>
+    <span class="pill">~20 min Q&amp;A</span>
+    <span class="pill">Target: GenAI 3-month developers</span>
+    <span class="pill">Raviteja Thota · EPAM · May 2026</span>
+  </div>
+</div>
+
+<main>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section id="overview">
+  <h2 class="section-title">Big Picture — What You're Teaching</h2>
+  <p style="font-size:.93rem;color:var(--gray);margin-bottom:1.2rem">
+    Your audience knows how to prompt a single LLM. You are teaching them the <strong>next level</strong>:
+    how to decompose a complex, multi-step engineering problem into a network of specialised agents that
+    share tools and state — and ship it using nothing but Markdown files in <code>.github/agents/</code>.
+  </p>
+
+  <div class="flow" style="background:var(--card);border-radius:10px;border:1px solid var(--border);margin-bottom:1.2rem">
+    <div class="flow-row">
+      <div class="flow-box">Audience knows</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box red">Single LLM prompt + context window</div>
+    </div>
+    <div class="flow-row" style="padding-left:2rem">
+      <div class="flow-arrow">↓ you teach ↓</div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-box">By end of talk</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box orange">Orchestrator + N Sub-Agents via .github/agents + MCP</div>
+    </div>
+    <div class="flow-row" style="padding-left:2rem">
+      <div class="flow-arrow">↓ hands-on ↓</div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-box">Leave with</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box green">Working 2-agent code-review system built during session</div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+    <div class="callout tip">
+      Coaches evaluate on <strong>ability to run workshops yourself</strong> — speak like a teacher,
+      not a presenter. Ask the audience questions. Pause for reactions. Invite them to predict the next step.
+    </div>
+    <div class="callout warn">
+      <strong>Two topics in one deck.</strong> Always frame UC2 (RAG Evolution) as
+      <em>"same orchestrator pattern, different domain"</em> — not a separate story.
+      Bridge line: <em>"You just learned the pattern — now watch it solve a document problem."</em>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section id="timing">
+  <h2 class="section-title">Timing Plan (22 min presentation + 3 min buffer)</h2>
+
+  <div class="timeline">
+    <div class="tl-block" style="background:#444;flex:.5">Intro<span>0–2m</span></div>
+    <div class="tl-block" style="background:var(--blue);flex:1">Concept<span>2–6m</span></div>
+    <div class="tl-block" style="background:var(--orange);flex:1.5">UC1 Toggle<span>6–14m</span></div>
+    <div class="tl-block" style="background:var(--teal);flex:1.2">UC2 RAG<span>14–20m</span></div>
+    <div class="tl-block" style="background:var(--green);flex:.8">Practical<span>20–25m</span></div>
+  </div>
+
+  <table class="timing">
+    <tr><th>Slides</th><th>Section</th><th>Time</th><th>Key goal</th></tr>
+    <tr><td>1–3</td><td class="phase">Intro &amp; About Me</td><td class="min">2 min</td>
+        <td>Build rapport. Show apps built. Set expectation: "You will build this today."</td></tr>
+    <tr><td>4–5</td><td class="phase">Concept — Why Multi-Agent?</td><td class="min">4 min</td>
+        <td>Teach the mental model: Single LLM breaks → Orchestrator+Specialists fixes. DO NOT RUSH.</td></tr>
+    <tr><td>6–7</td><td class="phase">UC1 Architecture</td><td class="min">3 min</td>
+        <td>Walk the flow: user → orchestrator → SA-1..SA-5. Point to REAL code.</td></tr>
+    <tr><td>8–9</td><td class="phase">UC1 Code + Results</td><td class="min">3 min</td>
+        <td>Show agent.md file. Show before/after. Slide 9 = pattern proof, not ROI slide.</td></tr>
+    <tr><td>10–13</td><td class="phase">UC2 RAG Evolution</td><td class="min">4 min</td>
+        <td>Bridge: same pattern. Walk V1→V2→V3. Show ask.py is 80 lines.</td></tr>
+    <tr><td>14–15</td><td class="phase">Code Demo + Comparison</td><td class="min">2 min</td>
+        <td>Show ask.py live. Table: when V1 / V2 / V3.</td></tr>
+    <tr><td>16</td><td class="phase">Practical Task</td><td class="min">3 min</td>
+        <td>Set up the task. Start them building. Walk around. Engage.</td></tr>
+    <tr><td>17–18</td><td class="phase">Takeaways + Close</td><td class="min">2 min</td>
+        <td>6 numbered takeaways. End with energy. Invite questions.</td></tr>
+    <tr style="background:#fff8e1"><td colspan="3" class="min">Total</td><td>~23 min</td></tr>
+  </table>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section id="slide-by-slide">
+  <h2 class="section-title">Slide-by-Slide Script &amp; Speaker Notes</h2>
+  <div class="slide-grid">
+
+    <!-- SLIDE 1 -->
+    <div class="slide-card">
+      <div class="slide-card-header">
+        <div class="slide-num">01</div>
+        <div class="slide-title-text">Cover — How to Develop Your Own Multi-Agentic Solution</div>
+        <div class="slide-time">⏱ 30 sec</div>
+      </div>
+      <div class="slide-card-body">
+        <div>
+          <div class="col-label">What to say</div>
+          <p style="font-size:.88rem">"Hi everyone — I'm Raviteja, Senior Software Engineer at EPAM Hyderabad.
+          Today I'm going to show you <strong>how to build something you can take back to your project tomorrow</strong>.
+          Not theory — working agents that run inside VS Code right now. Let's go."</p>
+          <div class="callout tip">Open strong. Eye contact. Smile. Don't read the slide.</div>
+        </div>
+        <div>
+          <div class="col-label">Audience hook</div>
+          <p style="font-size:.88rem">Ask: <em>"How many of you have hit the context window limit with Copilot?"</em>
+          — hands up. <em>"How many had to manually manage a giant prompt?"</em> — that pain is exactly what
+          this talk solves.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2 -->
+    <div class="slide-card">
+      <div class="slide-card-header">
+        <div class="slide-num">02</div>
+        <div class="slide-title-text">Agenda</div>
+        <div class="slide-time">⏱ 30 sec</div>
+      </div>
+      <div class="slide-card-body">
+        <div>
+          <div class="col-label">What to say</div>
+          <p style="font-size:.88rem">"Two use cases. Both use the same underlying pattern — the orchestrator+agents model.
+          In the first half I'll build it up from scratch using a real Java codebase problem.
+          In the second I'll show you the same pattern applied to document Q&amp;A.
+          Then you build your own in 15 minutes. By the end you'll have shipped two agents."</p>
+        </div>
+        <div>
+          <div class="col-label">Note</div>
+          <div class="callout warn">Don't linger here. It's an agenda — 20 seconds max, then move.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3 -->
+    <div class="slide-card">
+      <div class="slide-card-header">
+        <div class="slide-num">03</div>
+        <div class="slide-title-text">About Me</div>
+        <div class="slide-time">⏱ 1 min</div>
+      </div>
+      <div class="slide-card-body">
+        <div>
+          <div class="col-label">What to say</div>
+          <p style="font-size:.88rem">"I'm a Java / Spring Boot / Angular engineer — not an AI researcher.
+          Everything I show today I built as a practitioner solving real sprint problems.
+          The six apps on the right — I built all of them for this exam.
+          The toggle system runs on a real MPGS payment gateway project.
+          The RAG apps are things you can clone and run today."</p>
+          <div class="callout tip">Point at the right column (apps list). This builds credibility. You're not quoting papers — you shipped code.</div>
+        </div>
+        <div>
+          <div class="col-label">Key apps to name</div>
+          <ul style="font-size:.83rem;padding-left:1rem;color:var(--gray)">
+            <li><strong>agentic-ai-toggle-management</strong> — orchestrator + 7 agents, Confluence MCP</li>
+            <li><strong>vector-rag-app-v1</strong> — TF-IDF/LSA + FastAPI (V1 baseline)</li>
+            <li><strong>vector-less-rag-app-v2</strong> — BM25 + score viz (V2)</li>
+            <li><strong>vector-less-rag-agentic</strong> — LLM as retriever, 3 files (V3)</li>
+            <li><strong>transcript-notes-generator</strong> — Whisper + agents (bonus)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4 -->
+    <div class="slide-card">
+      <div class="slide-card-header">
+        <div class="slide-num">04</div>
+        <div class="slide-title-text">Use Case 1 Section Intro — Real-World Problem</div>
+        <div class="slide-time">⏱ 45 sec</div>
+      </div>
+      <div class="slide-card-body">
+        <div>
+          <div class="col-label">What to say</div>
+          <p style="font-size:.88rem">"Here's the real problem I was given on a project.
+          100+ feature toggles. 16,000 Java files. 7 repositories.
+          Every time a developer was asked 'can we remove toggle X?'
+          — they spent 2 or 3 days manually grepping through code and checking Confluence.
+          No standard format. No automation. Error-prone.
+          That is what I built an agentic system to solve."</p>
+        </div>
+        <div>
+          <div class="col-label">Audience engagement</div>
+          <p style="font-size:.88rem">Ask: <em>"Who here has feature toggles in their codebase?"</em>
+          — most will. <em>"Who has ever had to hunt through code to figure out what a toggle actually does?"</em>
+          — this creates instant empathy.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 5 — CRITICAL -->
+    <div class="slide-card" style="border-color:var(--orange)">
+      <div class="slide-card-header" style="background:#fff3e0">
+        <div class="slide-num">05</div>
+        <div class="slide-title-text">⭐ What Is a Multi-Agent System? (CORE THEORY SLIDE)</div>
+        <div class="slide-time">⏱ 3 min</div>
+      </div>
+      <div class="slide-card-body">
+        <div>
+          <div class="col-label">What to say — LEFT PANEL (Single LLM)</div>
+          <p style="font-size:.88rem">
+            "Let's start with the problem. You're a developer. Your tool is a single LLM — GitHub Copilot, Claude, whatever.
+            You have 16,000 Java files. <strong>They don't fit in one prompt.</strong> Context overflow.
+            <br><br>
+            Even if they did — a single generalist model doing file search, business analysis, Confluence lookup,
+            and report writing all at once? It gets confused. It hallucminates.
+            One bad response breaks the entire output.
+            <br><br>
+            This is not a prompt engineering problem. This is an <em>architecture</em> problem."
+          </p>
+        </div>
+        <div>
+          <div class="col-label">What to say — RIGHT PANEL (Multi-Agent)</div>
+          <p style="font-size:.88rem">
+            "The solution is the <strong>orchestrator pattern</strong>.
+            One orchestrator that <em>only routes</em> — it never does leaf work.
+            N specialist sub-agents — each owns exactly one domain.
+            Shared tools — grep, file read, MCP, terminal.
+            <br><br>
+            Draw this on the whiteboard if you can:
+            <code>User → Orchestrator → [SA1 · SA2 · SA3 · SA4 · SA5]</code>
+            <br><br>
+            Ask the audience: <em>'What do you think SA1 should do?'</em>
+            Let them guess. Then reveal: it only does Java scanning."
+          </p>
+          <div class="callout tip">This is the most important slide. Slow down. Make sure every person understands: orchestrator = router only, sub-agent = one domain specialist.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 6 -->
+    <div class="slide-card">
+      <div class="slide-card-header">
+        <div class="slide-num">06</div>
+        <div class="slide-title-text">Architecture Flow — Orchestrator + 5 Sub-Agents</div>
+        <div class="slide-time">⏱ 2 min</div>
+      </div>
+      <div class="slide-card-body">
+        <div>
+          <div class="col-label">What to say</div>
+          <p style="font-size:.88rem">
+            "Here's the actual system I built. The orchestrator receives a plain English command like
+            <code>'analyze toggle MPGS_3DS_V2'</code>.
+            It classifies the intent and delegates.
+            SA-1 does the Java scan. SA-3 fetches Confluence. SA-2 writes the report.
+            SA-4 plans the decomposition. SA-5 manages workspace state.
+            <br><br>
+            Each agent only sees what it needs. <strong>Context isolation</strong> — that's why the system scales.
+            The orchestrator sends a sealed context packet, gets back a compact status report."
+          </p>
+        </div>
+        <div>
+          <div class="col-label">Key architecture points</div>
+          <ul style="font-size:.83rem;padding-left:1rem;color:var(--gray)">
+            <li>User command → Orchestrator (router, never leaf work)</li>
+            <li>Orchestrator uses <code>run_subagent</code> to delegate</li>
+            <li>Agents run with context isolation — get only what they need</li>
+            <li>Auto-triggers: every 5th batch → workspace cleanup (SA-5)</li>
+            <li>Stuck detection → advisor recovery (SA-4)</li>
+            <li>Shared tools: <code>read_file, grep_search, insert_edit, mcp-confluence</code></li>
+          </ul>
+          <div class="callout tip">Point at the actual nodes on screen as you talk through each one. Make it visual, not verbal.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 7 -->
+    <div class="slide-card">
+      <div class="slide-card-header">
+        <div class="slide-num">07</div>
+        <div class="slide-title-text">Agent Roles &amp; Responsibilities</div>
+        <div class="slide-time">⏱ 1 min</div>
+      </div>
+      <div class="slide-card-body">
+        <div>
+          <div class="col-label">What to say</div>
+          <p style="font-size:.88rem">
+            "This table shows separation of concerns in action.
+            Each row is one domain. The orchestrator owns routing.
+            SA-1 owns Java analysis. SA-3 owns Confluence. SA-4 only activates on-request.
+            You can add a new agent — say, SA-6 for Jira ticket creation —
+            <strong>without touching any existing agent</strong>.
+            That's composability."
+          </p>
+        </div>
+        <div>
+          <div class="col-label">Don't read the table</div>
+          <p style="font-size:.88rem">Scan the rows visually. Pick 2 rows to highlight verbally.
+          The audience can read the rest. Move on in under 60 seconds.</p>
+          <div class="callout warn">This table can become a wall-of-text trap. Say the pattern once, let the table speak visually.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 8 — CODE -->
+    <div class="slide-card" style="border-color:var(--blue)">
+      <div class="slide-card-header" style="background:var(--demo-bg)">
+        <div class="slide-num">08</div>
+        <div class="slide-title-text">💻 Code: Defining an Agent — .github/agents/toggle-orchestrator.agent.md</div>
+        <div class="slide-time">⏱ 2 min</div>
+      </div>
+      <div class="slide-card-body">
+        <div>
+          <div class="col-label">What to say</div>
+          <p style="font-size:.88rem">
+            "This is the magic. An agent is just a Markdown file.
+            There is no Python framework. No LangChain. No deployment.
+            <code>.github/agents/toggle-orchestrator.agent.md</code> — that's it.
+            <br><br>
+            You define: <code>name</code>, <code>description</code>, <code>tools</code>,
+            and the system prompt as Markdown.
+            GitHub Copilot reads it. Now you have a persistent, specialised agent."
+          </p>
+          <div class="callout demo">
+            Open VS Code. Navigate to
+            <code>C:\Users\e135408\Downloads\agentic-ai-toggle-management\.github\agents\toggle-orchestrator.agent.md</code>
+            — show the actual file live.
+          </div>
+        </div>
+        <div>
+          <div class="col-label">Key code points to highlight</div>
+          <div class="callout code">---
+name: toggle-orchestrator
+description: Session entry point and router.
+             NEVER does leaf work.
+tools:
+  - read_file
+  - run_subagent      # ← delegates to sub-agents
+  - grep_search
+  - mcp-confluence/getPage
+
+# System prompt follows as Markdown...
+## Role
+You are the ONLY entry point.
+Route to the correct sub-agent.
+NEVER analyse files yourself.</div>
+          <p style="font-size:.83rem;color:var(--gray);margin-top:.5rem">
+            Point out: <strong>tools array</strong> limits what this agent CAN do.
+            <strong>run_subagent</strong> is how it delegates.
+            The system prompt's "NEVER" enforces the separation of concerns.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 9 -->
+    <div class="slide-card">
+      <div class="slide-card-header">
+        <div class="slide-num">09</div>
+        <div class="slide-title-text">Pattern in Action — What the Multi-Agent System Delivers</div>
+        <div class="slide-time">⏱ 1 min</div>
+      </div>
+      <div class="slide-card-body">
+        <div>
+          <div class="col-label">What to say</div>
+          <p style="font-size:.88rem">
+            "The numbers aren't the point — the <em>pattern</em> is.
+            100+ toggles, 7 repos, 16K files, 5 agents.
+            What this tells you is: the orchestrator pattern <strong>scales</strong>.
+            The same architecture that handles one toggle handles a thousand.
+            Before: 2-3 days per toggle, manually, error-prone.
+            After: minutes, reproducible, consistent.
+            <br><br>
+            If you replicate this pattern on your project with your own domain —
+            whatever that is — you get the same result."
+          </p>
+        </div>
+        <div>
+          <div class="col-label">Framing (lecture, not presales)</div>
+          <div class="callout tip">
+            Say "pattern" not "our system". Frame it as teachable: 
+            <em>"The lesson here is: if your task has parallel sub-tasks with different 
+            tool requirements, decompose it into agents."</em>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 10 -->
+    <div class="slide-card">
+      <div class="slide-card-header">
+        <div class="slide-num">10</div>
+        <div class="slide-title-text">Use Case 2 — RAG Evolution (BRIDGE SLIDE)</div>
+        <div class="slide-time">⏱ 45 sec</div>
+      </div>
+      <div class="slide-card-body">
+        <div>
+          <div class="col-label">CRITICAL bridge line</div>
+          <p style="font-size:.88rem">
+            "<strong>Same pattern. Different domain.</strong>
+            You just saw orchestrator+agents solving code analysis.
+            Now I'll show you the same architecture solving document intelligence.
+            V3 Agentic RAG = convert-agent + qa-agent + summarizer-agent, orchestrated.
+            <br><br>
+            The domain is: Business Analysts drowning in 200-page acquirer spec PDFs —
+            Visa, Mastercard, bank APIs — updated every quarter.
+            No way to ask 'what changed in the auth flow between v2.3 and v2.4?'
+            in under 3 hours of manual reading."
+          </p>
+        </div>
+        <div>
+          <div class="col-label">Don't lose the thread</div>
+          <div class="callout warn">
+            If you don't say the bridge line, evaluators will think UC2 is a separate talk.
+            Literally say: <em>"Same orchestrator pattern — different domain."</em>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 11 -->
+    <div class="slide-card">
+      <div class="slide-card-header">
+        <div class="slide-num">11</div>
+        <div class="slide-title-text">Real-World Problem — Acquirer Spec Intelligence (Pain Cards)</div>
+        <div class="slide-time">⏱ 1 min</div>
+      </div>
+      <div class="slide-card-body">
+        <div>
+          <div class="col-label">What to say</div>
+          <p style="font-size:.88rem">
+            "Three pains. Pain 1: version diff is manual — open two 200-page PDFs, no diff tool.
+            Pain 2: multi-acquirer fragmentation — five different document formats, no search layer.
+            Pain 3: no natural language Q&amp;A — BAs CTRL+F for keywords and read paragraphs.
+            <br><br>
+            RAG was supposed to fix this. But the first version (V1) required ChromaDB, a GPU, an embedding model.
+            Too much infra. Then V2 dropped all that — keyword BM25 search.
+            Then V3 eliminated even the retrieval code. Let me show you how."
+          </p>
+        </div>
+        <div>
+          <div class="col-label">Read the solution row</div>
+          <p style="font-size:.83rem;color:var(--gray)">
+            Point at the solution row at the bottom of the slide:
+            V1→V2 removed the vector DB; V2→V3 removed BM25; V3+Agents added orchestration.
+            Each generation solved the previous generation's pain.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 12 -->
+    <div class="slide-card">
+      <div class="slide-card-header">
+        <div class="slide-num">12</div>
+        <div class="slide-title-text">RAG Evolution Flow — V1 › V2 › V3</div>
+        <div class="slide-time">⏱ 1.5 min</div>
+      </div>
+      <div class="slide-card-body">
+        <div>
+          <div class="col-label">What to say</div>
+          <p style="font-size:.88rem">
+            "Look at the three columns. Same output — answers to questions about a document.
+            <br><br>
+            V1: Upload → Chunk into 512-token pieces → Embed with sentence-transformers
+            → Store in ChromaDB → Cosine similarity search → LLM answers. <em>Heavy.</em>
+            <br><br>
+            V2: Upload → BM25 index over raw pages → Keyword search → LLM answers.
+            <em>Same output. Zero vectors. Zero GPU. Setup in 5 minutes.</em>
+            <br><br>
+            V3: Upload → <code>convert.py</code> turns it into a JSON tree
+            → LLM reads the entire JSON → Answers. <em>Zero retrieval code.</em>"
+          </p>
+        </div>
+        <div>
+          <div class="col-label">Point at REMOVED labels</div>
+          <p style="font-size:.83rem;color:var(--gray)">
+            The "REMOVED" labels in V2 and V3 are teaching moments.
+            Each generation is simpler. Point at them explicitly.
+            Ask: <em>"Why would simpler be better?"</em>
+            Answer: less code = less to break, maintain, explain to new team members.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 13 -->
+    <div class="slide-card">
+      <div class="slide-card-header">
+        <div class="slide-num">13</div>
+        <div class="slide-title-text">Agentic RAG: Full Architecture Flow</div>
+        <div class="slide-time">⏱ 1 min</div>
+      </div>
+      <div class="slide-card-body">
+        <div>
+          <div class="col-label">What to say</div>
+          <p style="font-size:.88rem">
+            "Here's the V3 Agentic RAG pipeline — the same .github/agents framework from UC1.
+            User uploads a document → <code>convert.py</code> extracts a structured JSON tree.
+            The qa-agent calls <code>ask.py</code> with the full JSON + question.
+            The LLM reads the whole thing and returns a section-aware answer.
+            The summarizer-agent processes each section independently, in parallel batches of 5.
+            <br><br>
+            copilot-instructions.md is the shared context — model selection, auth setup.
+            That's the equivalent of the orchestrator's system prompt in UC1."
+          </p>
+        </div>
+        <div>
+          <div class="col-label">Agent map</div>
+          <ul style="font-size:.83rem;padding-left:1rem;color:var(--gray)">
+            <li><code>doc-processor.md</code> + <code>pdf-processor.md</code> → run convert.py</li>
+            <li><code>qa-agent.md</code> → multi-turn Q&amp;A via ask.py</li>
+            <li><code>summarizer.md</code> → section summaries via summarize.py</li>
+            <li><code>copilot-instructions.md</code> → shared context, model config</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 14 — CODE -->
+    <div class="slide-card" style="border-color:var(--blue)">
+      <div class="slide-card-header" style="background:var(--demo-bg)">
+        <div class="slide-num">14</div>
+        <div class="slide-title-text">💻 Code Demo — ask.py: The LLM IS the Retriever</div>
+        <div class="slide-time">⏱ 2 min</div>
+      </div>
+      <div class="slide-card-body">
+        <div>
+          <div class="col-label">What to say</div>
+          <p style="font-size:.88rem">
+            "This is the most important code in the whole talk. 80 lines. No BM25. No vectors.
+            <code>ask.py</code> does three things:
+            reads the JSON tree, formats it into a context string, sends it all to the LLM.
+            <br><br>
+            The LLM doesn't retrieve — it <em>reads</em>.
+            The intelligence is in the model, not in the retrieval system."
+          </p>
+          <div class="callout demo">
+            Open terminal. Run live:
+            <code>python ask.py myreport.json "What are the key findings?"</code>
+            Show the section-aware answer.
+          </div>
+        </div>
+        <div>
+          <div class="col-label">Key code internals to explain</div>
+          <div class="callout code">def build_context(data):
+    parts = []
+    for section in data.get("sections", []):
+        parts.append(f"## {section['title']}")
+        parts.append(section.get("content",""))
+        for table in section.get("tables",[]):
+            parts.append(format_table(table))
+    return "\n\n".join(parts)
+
+# No BM25. No ChromaDB. No embeddings.
+# LLM reads the whole document context.</div>
+          <p style="font-size:.82rem;color:var(--gray);margin-top:.5rem">
+            Token resolution: tries <code>GITHUB_TOKEN</code> env var first,
+            then <code>gh auth token</code> CLI call — zero manual config for GitHub Copilot users.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 15 -->
+    <div class="slide-card">
+      <div class="slide-card-header">
+        <div class="slide-num">15</div>
+        <div class="slide-title-text">Comparison Table — V1 vs V2 vs V3 — When to Use Which?</div>
+        <div class="slide-time">⏱ 1 min</div>
+      </div>
+      <div class="slide-card-body">
+        <div>
+          <div class="col-label">What to say</div>
+          <p style="font-size:.88rem">
+            "Don't memorise this. Use the decision rule at the bottom:
+            <em>'Can you fit the full doc in context? → V3 Agentic.
+            Large corpus (&gt;100 pages, many docs)? → V1.
+            Quick prototype? → V2.'</em>
+            <br><br>
+            For acquirer specs — structured, 100–200 pages, one doc at a time — V3 is the answer.
+            For a 10,000-document search engine — V1.
+            For a demo you need running in 20 minutes — V2."
+          </p>
+        </div>
+        <div>
+          <div class="col-label">Audience question</div>
+          <p style="font-size:.88rem">Ask: <em>"What would you use for your project right now?"</em>
+          Wait for 2-3 answers. Validate each one. This is the workshop part — don't skip it.</p>
+          <div class="callout tip">If someone says "V1 because semantic search" — that's correct for large corpora. Validate it. Don't say V3 is always better.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 16 — PRACTICAL -->
+    <div class="slide-card" style="border-color:var(--green)">
+      <div class="slide-card-header" style="background:var(--tip-bg)">
+        <div class="slide-num">16</div>
+        <div class="slide-title-text">🔨 Practical Task — Build Your Own (15 minutes)</div>
+        <div class="slide-time">⏱ 3 min setup + 12 min building</div>
+      </div>
+      <div class="slide-card-body">
+        <div>
+          <div class="col-label">How to run the practical</div>
+          <p style="font-size:.88rem">
+            "Okay — everyone open VS Code. You have two choices:
+            <br><br>
+            <strong>Task A</strong> — Multi-agent code review. You'll build an orchestrator agent and an analyser agent.
+            By Step 3 you'll type <code>@code-review-orchestrator analyse src/app.py</code> and get a Markdown table of issues.
+            <br><br>
+            <strong>Task B</strong> — Agentic RAG. Pick any PDF from your machine.
+            Run <code>python convert.py myreport.pdf</code> then
+            <code>python ask.py myreport.json "What are the key findings?"</code>.
+            Then add a qa-agent.md.
+            <br><br>
+            You have 12 minutes. Let's go."
+          </p>
+        </div>
+        <div>
+          <div class="col-label">While they're building</div>
+          <div class="callout tip">Walk around. Look at screens. Ask "What step are you on?"
+          If someone's stuck, debug with them — that's the workshop moment evaluators love.</div>
+          <div class="callout demo">
+            Pre-run both tasks yourself before the exam to confirm they work.
+            Have a working <code>code-analyser.agent.md</code> to show as a reference if needed.
+          </div>
+          <div class="callout warn">If fewer than 10 minutes remain when you hit this slide, skip to Task A only. Don't rush both.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 17 -->
+    <div class="slide-card">
+      <div class="slide-card-header">
+        <div class="slide-num">17</div>
+        <div class="slide-title-text">Key Takeaways</div>
+        <div class="slide-time">⏱ 1.5 min</div>
+      </div>
+      <div class="slide-card-body">
+        <div>
+          <div class="col-label">What to say — read each one with commentary</div>
+          <ol style="font-size:.85rem;padding-left:1.1rem;color:var(--gray)">
+            <li style="margin-bottom:.4rem"><strong>Multi-Agent = Orchestrator + Specialists.</strong> You now know the pattern.</li>
+            <li style="margin-bottom:.4rem"><strong>GitHub Copilot Agents is a real framework.</strong> Zero infra. It runs today.</li>
+            <li style="margin-bottom:.4rem"><strong>Choose multi-agent when tasks decompose.</strong> Context limit? Parallel sub-tasks? Go multi-agent.</li>
+            <li style="margin-bottom:.4rem"><strong>RAG evolved to remove complexity.</strong> You don't always need vectors.</li>
+            <li style="margin-bottom:.4rem"><strong>Agentic RAG best for structured docs.</strong> JSON tree + LLM reasoning = accurate.</li>
+            <li><strong>Both use cases, same principle.</strong> Orchestrator + specialists + clear contracts = composable AI.</li>
+          </ol>
+        </div>
+        <div>
+          <div class="col-label">Close strong</div>
+          <p style="font-size:.88rem">End with: <em>"You now have the mental model, the code, and a working system.
+          If you want to use this on your project, the .github/agents file is two minutes to write.
+          Let's take questions."</em></p>
+          <div class="callout tip">Do NOT rush through takeaways. Read each one slowly. Let them land. Pause after the last one.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 18 -->
+    <div class="slide-card">
+      <div class="slide-card-header">
+        <div class="slide-num">18</div>
+        <div class="slide-title-text">Thank You — Q&amp;A</div>
+        <div class="slide-time">⏱ 30 sec</div>
+      </div>
+      <div class="slide-card-body">
+        <div>
+          <div class="col-label">What to say</div>
+          <p style="font-size:.88rem">
+            "That's the talk. Two use cases. One pattern.
+            If you want the code — all six repos are on my machine and I'll share links.
+            Email on screen — <code>OrgEngXSoftwareDevelopersCoach@epam.com</code> — ask anything after.
+            Questions?"
+          </p>
+        </div>
+        <div>
+          <div class="col-label">Entering Q&amp;A</div>
+          <div class="callout tip">Stay on this slide during Q&amp;A — it's calm, shows contact info.
+          Don't navigate back through slides for Q&amp;A unless specifically asked.</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end slide-grid -->
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section id="uc1-deep">
+  <h2 class="section-title">UC1 Code Deep-Dive — Toggle Management System Internals</h2>
+  <p style="font-size:.88rem;color:var(--gray);margin-bottom:1.2rem">
+    Know this thoroughly. Evaluators will ask you to explain the code, not just the architecture.
+  </p>
+
+  <h3 style="margin-bottom:.8rem">7 Agent Architecture (actual files in <code>.github/agents/</code>)</h3>
+  <div class="agent-grid">
+    <div class="agent-card">
+      <div class="agent-label">Orchestrator</div>
+      <h4>toggle-orchestrator</h4>
+      <p>Session entry point. Classifies workflow A-K from user command. Delegates via <code>run_subagent</code>. NEVER analyses files directly. Enforces batch gate (&gt;5 toggles must split). Auto-triggers SA-5 every 5th batch.</p>
+      <div class="tools">Tools: run_subagent, read_file, grep_search</div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-label">SA-1</div>
+      <h4>toggle-analysis-engine</h4>
+      <p>Java source scanner. 3-tier smart toggle lookup. Builds ON/OFF business impact + S2A field-level enrichment. Scans across 7 repos. Updates analysis CSV per toggle. POST-hook: changelog + copyright footer.</p>
+      <div class="tools">Tools: grep_search, read_file, run_in_terminal</div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-label">SA-2</div>
+      <h4>toggle-report-writer</h4>
+      <p>Generates 6 report types: structured CSV, polished Markdown, HTML, coverage report, executive summary, diff report. Writes only to <code>reports/</code>. Appends AI disclaimer + copyright + changelog entry.</p>
+      <div class="tools">Tools: read_file, insert_edit_into_file</div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-label">SA-3</div>
+      <h4>toggle-confluence-enquiry</h4>
+      <p>4-tier Confluence search via MCP. Extracts page URL, 2-sentence summary, is_s2a flag, team, apps, status. Writes to <code>data/enquiry/</code> CSV. Uses mcp-confluence/getPage + searchContent + getPageBatch.</p>
+      <div class="tools">Tools: mcp-confluence/getPage, searchContent, getPageBatch</div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-label">SA-4</div>
+      <h4>toggle-advisor ★</h4>
+      <p>On-request only. Two skills: (1) decomposition planner — creates a safe removal plan; (2) decomposition implementer — actually refactors Java. Also handles stuck recovery. Calls SA-7 before writing any plan.</p>
+      <div class="tools">Tools: read_file, apply_patch, grep_search</div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-label">SA-5</div>
+      <h4>toggle-workspace-manager</h4>
+      <p>Manages session lifecycle. Post-batch knowledge update, codebase onboarding, workspace cleanup, repo un-boarding. Owns registry, docs, index, archive maintenance. Auto-triggered every 5th batch.</p>
+      <div class="tools">Tools: read_file, create_file, insert_edit</div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-label">SA-6</div>
+      <h4>toggle-manual-lookup</h4>
+      <p>Triggered ONLY after tiers 1-3 automated lookup exhaustion. Deep filesystem search. Read-only in skill A. Skill B writes registry after user confirmation. Prevents hallucinated toggle locations.</p>
+      <div class="tools">Tools: grep_search, read_file, create_file</div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-label">SA-7</div>
+      <h4>toggle-impact-analyst</h4>
+      <p>360° dependency analyst. Called by SA-4 before any decommission plan. LSP call graph analysis via Eclipse JDT LS (Python), fallback to grep-based PS1. Produces Mermaid dependency diagrams. Read-only always.</p>
+      <div class="tools">Tools: Eclipse JDT LS via Python, grep fallback</div>
+    </div>
+  </div>
+
+  <h3 style="margin-top:1.8rem;margin-bottom:.8rem">Workflow Routing Map (what to say if asked)</h3>
+  <div class="callout code">User: "analyze toggle MPGS_3DS_V2"
+  ↓
+Orchestrator → classifies as Workflow A
+  ↓
+SA-1 (analysis-engine):
+  1. 3-tier smart lookup (registry → codebase → SA-6 manual)
+  2. grep_search across 7 repos for toggle usages
+  3. Identify ON/OFF branches, affected classes, S2A fields
+  4. Write analysis CSV to data/
+  5. POST-hook: changelog entry
+  ↓
+SA-3 (confluence-enquiry) [parallel]:
+  1. 4-tier MCP search: exact match → fuzzy → team search → batch
+  2. Extract page URL, summary, is_s2a, team, apps
+  3. Write enquiry CSV
+  ↓
+SA-2 (report-writer):
+  1. Read analysis CSV + enquiry CSV
+  2. Generate 6 report types in reports/
+  3. Append AI disclaimer + copyright
+  ↓
+Orchestrator returns summary to user</div>
+
+  <h3 style="margin-top:1.8rem;margin-bottom:.8rem">Key config files (know these for Q&amp;A)</h3>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:.8rem">
+    <div class="callout tip">
+      <strong>knowledge/config.yml</strong> — defines 7 repo paths, data/report output dirs,
+      Confluence search priorities, S2A field notation rules, toggle search patterns.
+      This is how you tell the agents WHERE to look.
+    </div>
+    <div class="callout tip">
+      <strong>.github/agent-registry.yml</strong> — canonical routing table.
+      Maps workflow type → agent name → tools → context isolation budget.
+      400+ lines. The orchestrator reads this to decide who to delegate to.
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section id="uc2-deep">
+  <h2 class="section-title">UC2 Code Deep-Dive — RAG Apps Internals</h2>
+
+  <div class="code-compare" style="margin-bottom:1.5rem">
+    <div class="code-panel">
+      <div class="code-panel-header" style="background:var(--red);color:#fff">V1 — vector-rag-app-v1</div>
+      <div class="code-panel-body">server.py — FastAPI, 8 endpoints
+src/parser.py — PDF/DOCX/XLSX/CSV
+src/vector_index.py:
+  TF-IDF + LSA (TruncatedSVD)
+  Cosine sim search → (Page, score)
+src/rag.py — top-k retrieval + LLM
+src/llm.py — GitHub Models client
+
+Run: uvicorn server:app --port 8000
+
+Note: requirements.txt says
+sentence-transformers + chromadb
+but CODE uses TF-IDF/LSA.
+Point this out — it shows real
+iterative development.</div>
+    </div>
+    <div class="code-panel">
+      <div class="code-panel-header" style="background:var(--teal);color:#fff">V3 — vector-less-rag-agentic</div>
+      <div class="code-panel-body">convert.py (370 lines):
+  PDF: TOC/bookmarks → heuristic
+       headings → 5-page batches
+  DOCX: heading styles → tables
+  XLSX: each sheet = section
+  Output: structured JSON tree
+
+ask.py (115 lines):
+  build_context() → all sections
+  + tables → one big string
+  → GitHub Models OpenAI client
+  → section-aware answer
+
+summarize.py (107 lines):
+  Concurrent batch of 5 sections
+  Truncate >6000 chars
+  Output: doc.summary.json
+
+Run:
+  python convert.py file.pdf
+  python ask.py file.json "Q?"
+  streamlit run app.py</div>
+    </div>
+  </div>
+
+  <h3 style="margin-bottom:.8rem">V2 — vector-less-rag-app-v2 (middle ground)</h3>
+  <div class="callout code">src/page_index.py — PageIndex over natural page units
+  BM25 search with fallback to first pages if no keyword hits
+  build_context() — char-budget bounded
+  score_chart_data() → Altair chart via /api/scores endpoint
+
+Difference from V1:
+  No TF-IDF. No LSA. No embeddings.
+  BM25 tokenizes pages, scores by keyword frequency.
+  Adds /api/scores endpoint to VISUALIZE which pages were matched.
+  This is the teaching moment: "you can see exactly why the retriever picked these pages"
+
+Run: uvicorn server:app --port 8000 (same as V1 — drop-in replacement)</div>
+
+  <h3 style="margin-top:1.5rem;margin-bottom:.8rem">transcript-notes-generator (bonus app)</h3>
+  <div class="callout code">src/audio_transcriber.py:
+  faster-whisper local model (cached in _get_model())
+  VAD filter (voice activity detection)
+  transcribe_bytes() + transcribe_file()
+
+src/system_audio_recorder.py:
+  Windows WASAPI loopback via pyaudiowpatch
+  background thread _record_loop()
+  downmix to mono + resample to 16kHz → WAV
+
+.github/agents/transcript-guide.agent.md:
+  Huge workflow: analyse narrator style → chunk transcript
+  in 5-line loops → build + validate white-paper guide
+
+Use case: Record a meeting → auto-transcribe → LLM generates
+structured technical guide. Entirely local transcription.</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section id="live-demo">
+  <h2 class="section-title">Live Demo Plan — What to Show &amp; When</h2>
+
+  <div style="display:flex;flex-direction:column;gap:1rem">
+
+    <div class="callout demo" style="padding:1rem 1.2rem">
+      <strong>Demo 1 — Slide 8 (~8 min mark)</strong><br>
+      <strong>What:</strong> Open VS Code. Show <code>.github/agents/toggle-orchestrator.agent.md</code>.<br>
+      <strong>Say:</strong> "This is the entire orchestrator definition. No Python. No config.yml for the agent.
+      Just a name, tools array, and a system prompt in Markdown."<br>
+      <strong>Then show:</strong> <code>toggle-analysis-engine.agent.md</code> — point out tools list is different
+      (grep_search, run_in_terminal — no run_subagent since it's a leaf agent).<br>
+      <strong>Path:</strong> <code>C:\Users\e135408\Downloads\agentic-ai-toggle-management\.github\agents\</code>
+    </div>
+
+    <div class="callout demo" style="padding:1rem 1.2rem">
+      <strong>Demo 2 — Slide 14 (~15 min mark)</strong><br>
+      <strong>What:</strong> Open terminal. Run ask.py on a sample JSON.<br>
+      <strong>Command:</strong> <code>cd C:\Users\e135408\Downloads\personal-work\learn-ai\projects\vector-less-rag-agentic</code><br>
+      <code>python convert.py pdf/[any-pdf-you-have].pdf</code><br>
+      <code>python ask.py [output].json "What are the main sections?"</code><br>
+      <strong>Show:</strong> The JSON tree output first. Then the section-aware LLM answer.<br>
+      <strong>Say:</strong> "80 lines. No vectors. No database. The LLM is the retriever."
+    </div>
+
+    <div class="callout demo" style="padding:1rem 1.2rem">
+      <strong>Demo 3 — Slide 16 (Practical Task)</strong><br>
+      <strong>Task A (faster):</strong> Create <code>.github/agents/code-analyser.agent.md</code> live —
+      type it from scratch in 2 minutes to show it really is just Markdown.<br>
+      <strong>Task B (terminal):</strong> Already have a pre-converted JSON file ready.
+      Let audience pick questions and run them live.<br>
+      <strong>Backup:</strong> If terminal fails, show pre-recorded GIF or screenshot sequence.
+    </div>
+
+    <div class="callout warn" style="padding:1rem 1.2rem">
+      <strong>Pre-demo checklist (do the night before):</strong><br>
+      ☐ <code>gh auth login</code> working → <code>gh auth token</code> returns a token<br>
+      ☐ <code>python ask.py test.json "test?"</code> returns a response<br>
+      ☐ <code>python convert.py sample.pdf</code> creates valid JSON<br>
+      ☐ VS Code shows agent files in .github/agents/ panel<br>
+      ☐ Fallback: pre-run outputs saved as text files if API is down
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section id="qa-prep">
+  <h2 class="section-title">Q&amp;A Preparation — 20 Expected Questions with Answers</h2>
+  <p style="font-size:.88rem;color:var(--gray);margin-bottom:1.2rem">
+    Evaluators will probe technical depth, practical applicability, and your ability to explain concepts
+    at a developer level. Know these cold.
+  </p>
+
+  <div class="qa-grid">
+
+    <details class="qa" open>
+      <summary>What exactly is the difference between the orchestrator and a sub-agent?</summary>
+      <div class="qa-answer">
+        The orchestrator has exactly one job: <strong>routing</strong>.
+        It receives the user command, classifies the workflow type (A–K in the toggle system),
+        and delegates to the correct sub-agent via <code>run_subagent</code>.
+        It NEVER reads files, never analyses code, never writes reports.
+        <br><br>
+        A sub-agent owns one domain completely. SA-1 only does Java scanning.
+        SA-3 only does Confluence lookups. They have different tool sets — SA-3 has
+        <code>mcp-confluence/getPage</code>, SA-1 has <code>grep_search + run_in_terminal</code>.
+        <br><br>
+        This separation means: if Confluence's API changes, you only touch SA-3.
+        If you add a new database, you add SA-8 without touching any existing agent.
+      </div>
+    </details>
+
+    <details class="qa">
+      <summary>Why .github/agents instead of LangChain or LangGraph?</summary>
+      <div class="qa-answer">
+        Zero infrastructure. No pip install of a 50-dependency framework.
+        No deployment. No runtime server.
+        <br><br>
+        <code>.github/agents/</code> is just Markdown files that GitHub Copilot reads.
+        It runs inside VS Code today, on any developer's machine, with their existing Copilot license.
+        <br><br>
+        LangChain/LangGraph are excellent for production pipelines where you need state machines,
+        checkpointing, custom tool definitions in Python, or multi-model routing.
+        But for a developer who wants to ship agentic capabilities in a sprint, <code>.github/agents</code>
+        is the fastest path from idea to running system.
+        <br><br>
+        Both are valid. The exam topic says "LangChain, LangGraph, ADK etc." — that "etc." covers Copilot Agents.
+      </div>
+    </details>
+
+    <details class="qa">
+      <summary>How does context isolation work? Does each sub-agent see the full conversation?</summary>
+      <div class="qa-answer">
+        No — that's a key design principle.
+        The orchestrator passes a <strong>sealed context packet</strong> to each sub-agent.
+        This packet contains only what that agent needs: the toggle name, the relevant CSV paths,
+        the Confluence base URL, etc.
+        <br><br>
+        Sub-agents do NOT see the user's full conversation history.
+        They do NOT see each other's outputs directly.
+        They return a <strong>compact status report</strong> to the orchestrator,
+        which aggregates and presents the final answer.
+        <br><br>
+        This is why the system can scale to analysing 100+ toggles — each invocation
+        has a bounded, predictable context size regardless of conversation length.
+      </div>
+    </details>
+
+    <details class="qa">
+      <summary>What is the run_subagent tool? Is it a standard tool?</summary>
+      <div class="qa-answer">
+        <code>run_subagent</code> is a GitHub Copilot built-in tool available in agent mode.
+        It spawns a sub-agent by name, passes it a context string, and returns the sub-agent's response.
+        <br><br>
+        In the agent Markdown file you declare it in the <code>tools:</code> array.
+        The orchestrator calls it like: <code>run_subagent("toggle-analysis-engine", context_packet)</code>.
+        <br><br>
+        Only the orchestrator has this tool. Sub-agents (SA-1 to SA-7) do NOT have
+        <code>run_subagent</code> in their tools array — this enforces the hierarchy and prevents
+        sub-agents from spawning uncontrolled agent chains.
+      </div>
+    </details>
+
+    <details class="qa">
+      <summary>What is MCP? How does the Confluence integration actually work?</summary>
+      <div class="qa-answer">
+        MCP (Model Context Protocol) is an open protocol by Anthropic that lets LLMs call external tools
+        in a standardised way. You define a server that exposes tools, and the agent calls them
+        as if they were local functions.
+        <br><br>
+        For Confluence: the MCP server wraps the Confluence REST API.
+        SA-3 calls <code>mcp-confluence/getPage</code>, <code>searchContent</code>,
+        and <code>getPageBatch</code>.
+        The MCP server authenticates, fetches, and returns the page content as structured JSON.
+        SA-3 then extracts the fields it needs (URL, summary, is_s2a, team, apps).
+        <br><br>
+        4-tier search strategy: exact toggle name → fuzzy name → team-scoped search → batch fetch.
+        Each tier runs only if the previous one returns no results.
+      </div>
+    </details>
+
+    <details class="qa">
+      <summary>Why does vector-rag-app-v1's requirements.txt mention sentence-transformers and chromadb but the code uses TF-IDF?</summary>
+      <div class="qa-answer">
+        Great catch — that's a real artifact of iterative development.
+        The requirements.txt was written at the start of the project when the plan was to use
+        sentence-transformers + ChromaDB for semantic embedding.
+        <br><br>
+        During implementation, I discovered that TF-IDF + LSA (TruncatedSVD) from scikit-learn
+        gave similar retrieval quality for structured documents at zero GPU cost and with
+        2-second indexing time vs 30+ seconds for embedding models.
+        <br><br>
+        The code evolved; the requirements file didn't get updated.
+        This is actually a teaching moment for the RAG evolution story —
+        even the first version moved away from the "full vector DB" approach
+        once the practical trade-offs became clear.
+      </div>
+    </details>
+
+    <details class="qa">
+      <summary>How does ask.py handle large documents that exceed the LLM's context window?</summary>
+      <div class="qa-answer">
+        <code>convert.py</code> + <code>ask.py</code> are optimised for structured documents
+        up to ~100 pages, which fits within modern model context windows (128k tokens for Claude Sonnet,
+        ~100k for GPT-4o).
+        <br><br>
+        For larger documents, <code>summarize.py</code> pre-processes each section independently
+        in concurrent batches of 5, truncating sections over 6000 characters before summarising.
+        This produces a <code>.summary.json</code> which is much smaller and can be fed to <code>ask.py</code>.
+        <br><br>
+        For truly massive corpora (thousands of documents), V1's chunking + vector search is the right choice.
+        The decision rule is: "Can you fit the full doc in context? → V3. Large corpus → V1."
+      </div>
+    </details>
+
+    <details class="qa">
+      <summary>How does the transcript notes generator work? Is it real-time?</summary>
+      <div class="qa-answer">
+        It uses two modes:
+        <br><br>
+        1. <strong>File transcription</strong>: Upload a pre-recorded audio/video file.
+        <code>audio_transcriber.py</code> runs <code>faster-whisper</code> locally
+        (cached WhisperModel), applies VAD (voice activity detection) to skip silence,
+        and returns joined transcript text.
+        <br><br>
+        2. <strong>Live recording</strong>: <code>system_audio_recorder.py</code> captures
+        Windows system audio via WASAPI loopback using <code>pyaudiowpatch</code>.
+        A background thread records PCM frames, downmixes to mono, resamples to 16kHz,
+        and writes a WAV header. This is then passed to faster-whisper.
+        <br><br>
+        The agent (<code>transcript-guide.agent.md</code>) then analyses the narrator's style,
+        chunks the transcript in 5-line loops, and builds a white-paper style guide.
+        Entirely local — no audio sent to cloud services.
+      </div>
+    </details>
+
+    <details class="qa">
+      <summary>How would you add a new agent to the toggle system without breaking existing ones?</summary>
+      <div class="qa-answer">
+        Three steps:
+        <ol style="padding-left:1.2rem">
+          <li>Create <code>.github/agents/toggle-newagent.agent.md</code> with its name, tools, and system prompt.</li>
+          <li>Register it in <code>.github/agent-registry.yml</code> — add the agent name, workflow trigger, tools, and context isolation budget.</li>
+          <li>Add a routing rule to the orchestrator's system prompt: "If workflow type X, delegate to toggle-newagent."</li>
+        </ol>
+        Existing agents are untouched. The orchestrator is the only file that references agent names —
+        and even then only via workflow type classification, not hard-coded logic.
+        This is the composability principle in action.
+      </div>
+    </details>
+
+    <details class="qa">
+      <summary>What is S2A field notation? Why does it matter?</summary>
+      <div class="qa-answer">
+        S2A (Service-to-API) is a specific field annotation pattern used in the MPGS codebase
+        to trace which API fields in the payment gateway specification map to which Java service fields.
+        <br><br>
+        When SA-1 analyses a toggle, it doesn't just find ON/OFF branches —
+        it also identifies which S2A-annotated fields are inside each branch.
+        This tells the team: "If we flip this toggle OFF, we lose visibility into
+        payment field X in API spec section Y."
+        <br><br>
+        This is domain-specific knowledge baked into the agent's system prompt.
+        It's an example of how agents are more powerful than generic LLM prompts:
+        you can embed expert domain knowledge that stays consistent across all analyses.
+      </div>
+    </details>
+
+    <details class="qa">
+      <summary>How is this different from just using GitHub Copilot normally?</summary>
+      <div class="qa-answer">
+        Normal GitHub Copilot = one model, one context, one response.
+        You write a prompt, it answers, conversation ends or continues in one thread.
+        <br><br>
+        Multi-agent Copilot with <code>.github/agents</code> = persistent specialised agents
+        that remember their role, have scoped tool access, and can be invoked by name.
+        The orchestrator can delegate to SA-1 without SA-1 knowing about SA-3's conversation.
+        <br><br>
+        Practically: you can type <code>@toggle-orchestrator analyze toggle MPGS_3DS_V2</code>
+        and the orchestrator will spawn SA-1, SA-3, and SA-2 in sequence,
+        using shared state from the workspace, without you writing a single multi-step prompt.
+        It's a persistent workflow, not a one-shot response.
+      </div>
+    </details>
+
+    <details class="qa">
+      <summary>Why BM25 instead of semantic embeddings in V2? Isn't semantic search better?</summary>
+      <div class="qa-answer">
+        Semantic search (embeddings) is better for <em>meaning-based</em> retrieval when
+        the query and document use different words.
+        For example: query "payment failure" matching document text "transaction declined".
+        <br><br>
+        But for technical specification documents (acquirer specs, API docs, legal text),
+        <strong>exact terminology matters</strong>. The spec says "ISO 8583 field 39" —
+        you want to match that exactly, not semantically approximate it.
+        BM25 excels at this.
+        <br><br>
+        Additionally: zero GPU, zero model download, 5-second setup,
+        deterministic results (same query = same pages every time),
+        and you can visualise which pages were matched via the score chart.
+        For structured business documents, BM25 is often the pragmatic right answer.
+      </div>
+    </details>
+
+    <details class="qa">
+      <summary>What happens if the LLM hallucinates a toggle location in SA-1?</summary>
+      <div class="qa-answer">
+        The system has three safeguards:
+        <br><br>
+        1. <strong>3-tier smart lookup</strong>: SA-1 first checks the toggle registry (a CSV of known locations),
+        then does a live <code>grep_search</code> in the actual codebase, then escalates to SA-6
+        (manual lookup agent) if tiers 1 and 2 fail. SA-6 does a deep filesystem search and
+        only writes to registry after user confirmation.
+        <br><br>
+        2. <strong>POST-hook validation</strong>: After every analysis, SA-1 runs a stuck check.
+        If confidence is low, it flags the orchestrator rather than writing a bad result.
+        <br><br>
+        3. <strong>NOT_FOUND protocol</strong>: If no location is found after all tiers,
+        the orchestrator returns a structured NOT_FOUND response to the user rather than guessing.
+        Explicit uncertainty is better than silent hallucination.
+      </div>
+    </details>
+
+    <details class="qa">
+      <summary>Could this work with Claude Code or other coding agents?</summary>
+      <div class="qa-answer">
+        Yes — and the architecture is similar. Claude Code uses a tool-calling loop where
+        the agent can use bash, read/write files, and spawn sub-processes.
+        You could replicate the orchestrator + sub-agent pattern by giving each "agent"
+        a separate system prompt and having the main agent call them via subprocess or API.
+        <br><br>
+        The difference with <code>.github/agents</code> is it's native to VS Code and GitHub Copilot —
+        zero extra tooling for developers already using Copilot.
+        Claude Code is more powerful for long-running autonomous tasks but requires separate access.
+        <br><br>
+        The orchestrator pattern itself (one router, N specialists, shared state) is framework-agnostic.
+        LangGraph would express this as a directed graph of nodes. ADK as an agent graph.
+        <code>.github/agents</code> as Markdown files. Same mental model, different syntax.
+      </div>
+    </details>
+
+    <details class="qa">
+      <summary>How would you scale this to 10 developers on the same team?</summary>
+      <div class="qa-answer">
+        The <code>.github/agents/</code> folder lives in the repository.
+        When a developer clones the repo, they get all agent definitions immediately.
+        <br><br>
+        Shared state (registry CSV, analysis CSVs, Confluence results) live in the repo's
+        <code>data/</code> folder — committed and versioned. SA-5 (workspace-manager)
+        handles onboarding new developers: <code>/toggle-onboard-repo</code> adds a new repo to config.
+        <br><br>
+        For team-wide deployment: commit the <code>.github/agents/</code>, <code>knowledge/</code>,
+        and <code>data/</code> folders. Each developer runs their own Copilot instance
+        but shares the same agent definitions and accumulated knowledge (registry, reports).
+        <br><br>
+        Recommendation: keep <code>data/</code> gitignored for sensitive analysis results,
+        but keep <code>knowledge/config.yml</code> and agent definitions versioned.
+      </div>
+    </details>
+
+    <details class="qa">
+      <summary>What is the convert.py JSON tree format? Why a tree?</summary>
+      <div class="qa-answer">
+        <code>convert.py</code> produces a nested JSON structure:
+        <code>{ "title": "...", "sections": [ { "title": "...", "content": "...", "tables": [...] } ] }</code>
+        <br><br>
+        The tree preserves the document's <em>logical structure</em> — headings, subsections, tables —
+        rather than flattening it into page numbers or character offsets.
+        <br><br>
+        For PDF: uses TOC/bookmarks if present, falls back to heuristic heading detection
+        (large bold text at start of paragraphs), falls back to 5-page batches.
+        For DOCX: uses Heading 1/2/3 styles; extracts tables into structured rows.
+        For XLSX: each sheet becomes a section.
+        <br><br>
+        Why tree? Because <code>ask.py</code>'s <code>build_context()</code> rebuilds
+        the document with section headers preserved, so the LLM can say
+        "In Section 4.2 (Authentication Flow), the retry limit is 3" —
+        not just "on page 47" which has no meaning after chunking.
+      </div>
+    </details>
+
+    <details class="qa">
+      <summary>How does the token authentication work for the LLM calls?</summary>
+      <div class="qa-answer">
+        All apps use GitHub Models / GitHub Copilot's OpenAI-compatible API.
+        Token resolution order (from <code>src/llm.py</code>):
+        <br><br>
+        1. Command-line argument <code>--token</code><br>
+        2. Environment variable <code>GITHUB_TOKEN</code><br>
+        3. <code>gh auth token</code> — runs the GitHub CLI to get the logged-in user's token<br>
+        <br>
+        On Windows, the LLM client tries WinHTTP via PowerShell first (for enterprise proxy compatibility),
+        then falls back to <code>httpx</code>.
+        <br><br>
+        The base URL is <code>https://models.inference.ai.azure.com</code> — GitHub's model inference endpoint.
+        Model used: <code>gpt-4o</code> or <code>claude-sonnet-4-5</code> depending on the app config.
+        Live model discovery via <code>/models</code> endpoint is implemented in the transcript app.
+      </div>
+    </details>
+
+    <details class="qa">
+      <summary>Can this pattern be used outside of VS Code? E.g., in a CI/CD pipeline?</summary>
+      <div class="qa-answer">
+        The <code>.github/agents</code> format is VS Code / GitHub Copilot specific.
+        For CI/CD you'd need a different approach:
+        <br><br>
+        Option 1: Port the agent logic to Python scripts with an LLM API.
+        The orchestrator becomes a function that dispatches to specialist functions.
+        SA-1 becomes <code>java_analyzer.py</code>. Same pattern, different runtime.
+        <br><br>
+        Option 2: Use GitHub's Copilot Extensions API (currently in beta) to expose agents
+        as API endpoints that can be called from Actions.
+        <br><br>
+        Option 3: LangGraph for production pipelines — define the same graph topology
+        (orchestrator node → specialist nodes) with checkpoint support for long-running CI jobs.
+        <br><br>
+        The principle is CI/CD compatible — the Python scripts in <code>tools/</code>
+        (build-toggle-registry-lookup.ps1, toggle-search-utility.ps1) already run standalone.
+      </div>
+    </details>
+
+    <details class="qa">
+      <summary>Why did you build 6 apps instead of one comprehensive system?</summary>
+      <div class="qa-answer">
+        Intentional — each app isolates one architectural decision so the evolution is teachable:
+        <br><br>
+        • <strong>vector-rag-app-v1</strong>: baseline — "what most tutorials show you"<br>
+        • <strong>vector-less-rag-app</strong>: first simplification — chunk-based BM25<br>
+        • <strong>vector-less-rag-app-v2</strong>: refined BM25 — page-based, FastAPI, score viz<br>
+        • <strong>vector-less-rag-agentic</strong>: the insight — LLM doesn't need a retriever<br>
+        • <strong>agentic-ai-toggle-management</strong>: full multi-agent system in a real domain<br>
+        • <strong>transcript-notes-generator</strong>: shows the pattern applied to audio/transcription<br>
+        <br>
+        If I had built one monolith, the teaching story would be invisible.
+        The six separate repos make the evolution of thinking explicit and demonstrable.
+      </div>
+    </details>
+
+    <details class="qa">
+      <summary>What would you do differently if you rebuilt the toggle system today?</summary>
+      <div class="qa-answer">
+        Three things:
+        <br><br>
+        1. <strong>Add structured output validation</strong>: Each sub-agent should return
+        a typed JSON schema response, not free-form text. The orchestrator would validate
+        the response shape before proceeding. This prevents silent failures.
+        <br><br>
+        2. <strong>Event-driven triggers</strong>: Instead of slash commands, hook into
+        git push events. When a developer commits a change to a Java file containing a toggle,
+        SA-1 auto-triggers analysis and posts a PR comment with the impact report.
+        <br><br>
+        3. <strong>Agent telemetry</strong>: Track token usage and latency per agent per invocation.
+        The knowledge/config.yml context isolation budgets are static — they should adapt
+        based on observed p95 token usage over time.
+      </div>
+    </details>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════ -->
+<section id="checklist">
+  <h2 class="section-title">Final Preparation Checklist</h2>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem">
+    <div>
+      <h3 style="margin-bottom:.6rem">Night Before</h3>
+      <ul class="checklist">
+        <li>Run <code>python ask.py sample.json "test?"</code> — confirm API works</li>
+        <li>Run <code>python convert.py sample.pdf</code> — confirm JSON output</li>
+        <li>Run <code>gh auth token</code> — confirm token is valid</li>
+        <li>Open VS Code → verify .github/agents/ panel shows agents</li>
+        <li>Have a pre-converted JSON file ready as fallback</li>
+        <li>Save pre-run terminal output as text files (API offline backup)</li>
+        <li>Read through all 20 Q&amp;A answers out loud</li>
+        <li>Time yourself through slides 4–9 (target: &lt;9 min)</li>
+      </ul>
+    </div>
+    <div>
+      <h3 style="margin-bottom:.6rem">Day Of / During Exam</h3>
+      <ul class="checklist">
+        <li>Open PPT + VS Code side-by-side before starting</li>
+        <li>Ask audience hook question on Slide 1 (context window pain)</li>
+        <li>SLOW DOWN on Slide 5 — it's the core concept</li>
+        <li>Say the bridge line on Slide 10: "Same pattern, different domain"</li>
+        <li>Show actual agent.md file on Slide 8 — don't just describe it</li>
+        <li>Run ask.py live on Slide 14</li>
+        <li>Start practical task with 12+ min remaining</li>
+        <li>Walk around during practical — engage, debug, teach</li>
+        <li>End on time — say "let's take questions" at 22–23 min mark</li>
+        <li>During Q&amp;A: pause 2 seconds before answering — think first</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="margin-top:1.5rem;padding:1rem 1.2rem;background:var(--navy);color:#fff;border-radius:10px">
+    <strong style="color:var(--orange);font-size:1rem">The single most important thing to remember</strong>
+    <p style="margin-top:.5rem;font-size:.9rem;color:#ccc;line-height:1.7">
+      Evaluators are checking <em>"can this person run AI adoption workshops with client teams?"</em>
+      Every interaction should feel like a workshop, not a presentation.
+      Ask questions. Pause for responses. Debug with someone who's stuck.
+      Teach the mental model, not the product.
+      The code is proof — use it to anchor the concept, not to impress.
+    </p>
+  </div>
+</section>
+
+</main>
+
+<footer style="background:var(--navy);color:#888;text-align:center;padding:1.2rem;font-size:.78rem">
+  Presentation Guide — Raviteja Thota · EngX AI Coach Final Exam · May 2026 · EPAM
+</footer>
+
+<script>
+// Highlight active nav link on scroll
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('nav a[href^="#"]');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(a => a.classList.remove('active'));
+      const link = document.querySelector(`nav a[href="#${e.target.id}"]`);
+      if (link) link.classList.add('active');
+    }
+  });
+}, {rootMargin: '-30% 0px -60% 0px'});
+sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>

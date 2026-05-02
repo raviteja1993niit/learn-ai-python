@@ -1,0 +1,182 @@
+## EngX AI Coach for Software Developers
+
+## Module 1. Introduction
+Welcome to the Introductory Module, where we lay the foundation for your journey through this course. Additionally, detailed information regarding the rules and workflow of the program is provided within this module.
+ogram Rules: Read carefully
+Done
+5 minutes
+Please read the program rules carefully and click 'Mark block as done' to confirm your readiness to participate in the course with the listed conditions.
+General Rules
+Program goal: Becoming a certified EngX AI Productivity Expert. At this role you will be consulting and guiding EPAM’s and clients’ teams in GenAI Adoption for SDLC. Pay attention that the program is not aimed at gaining basic GenAI knowledge for personal development and productivity. Upon the program completion you become eligible for a project assignment in a role of AI SDLC Consultant or AI Productivity Lead. Please be prepared to receive such proposal which could be on top of your primary workload.
+Timeline: No fixed timeline, as the course is in a self-paced format. Exam session will be scheduled individually once you complete the course. 
+Estimated efforts: 18hrs of mandatory materials. 
+Delivery format: pre-recorded videos, practical tasks, and a final exam with experienced AI SDLC Mentor or/and peer AI Productivity Lead.
+Submit your practical assignments after modules according to given instructions. Although the tasks will not be reviewed by the experts during the duration of the program, they will serve as an essential foundation for your final exam. It is crucial that you complete each assignment diligently to ensure your success.
+A final exam will be conducted at the end of the program to review your ability to act as AI SDLC Consultant or AI Productivity Lead. The information on it will be shared at the end on the course.
+GitHub Copilot License
+You will need a GitHub Copilot License to complete the practical tasks successfully. To learn more about how to request the license, please visit the GitHub Copilot KB page.﻿
+Completion Rules
+In order to qualify for the final examination, it is mandatory for you to complete all the course modules and submit all practical tasks.
+During the final exam an experienced AI SDLC Mentor or/and peer AI Productivity Lead will evaluate your ability to act as EngX AI Productivity Expert. Based on expert's feedback a decision will be made whether your have successfully passed the exam and can be certified as EngX AI Productivity Expert.
+There's an option to complete the program without taking the final exam. You will only be assigned with L&D Program Completion Badge and will not be considered as a Certified EngX AI Productivity Expert.
+
+## Module 2. GenAI Essentials
+The GenAI Essentials module is designed to provide an in-depth exploration of Generative AI applications within software development life cycles (SDLC). Throughout this module, you will gain a comprehensive understanding of the fundamental courses necessary to harness the power of GenAI for improving productivity and fostering innovation.
+AI Literacy
+Please refer to the AI Literacy Learning collection to study Generative AI and Prompt Engineering basics.
+﻿
+Validate your Generative AI expertise. Confirm your proficiency level, get official recognition in your skills profile, and help shape the future of skill evaluation at EPAM. 
+➡️Start evaluation﻿
+﻿
+Validate your Prompt Engineering expertise. Confirm your proficiency, receive official recognition, and contribute to enhancing skill evaluation at EPAM. 
+➡️ Start evaluation﻿
+AI-Assisted Engineering
+Passed
+2 hr 30 min
+As the software development industry continues to innovate, leveraging Language Learning Models (LLMs) has become crucial for developers to optimize their workflow and enhance their skill set. These powerful tools enable developers to generate coding solutions efficiently and facilitate creative problem-solving by providing contextual and intelligent suggestions. Mastering the art of communication with these LLMs is paramount in harnessing their full potential and staying ahead of the ever-evolving technological curve. 
+This course is specially designed to help learners acquire the proficiency needed to effectively engage with LLMs and seamlessly integrate them into their development practices. The goal of this course is to equip engineers with the knowledge and techniques required to elevate your software development process and ultimately accelerate your project's delivery performance. 
+
+## Module 3. Coaching Essentials
+The Coaching Essentials module is tailored to develop coaches in mastering vital skills necessary for leading and guiding teams effectively in technology-focused environments. This module will emphasize constructing a consultative mindset, which is fundamental for coaches to engage effectively with teams and clients, facilitating open communication and driving positive outcomes.
+
+## Change Management for Projects
+Passed
+1 hr 16 min
+This block has been accepted. You need to complete it. If you wish to skip this block, please contact your coordinator.
+See how a project manager can help changes stick by supporting the people affected. Learn techniques that can help you confidently approach the people side of project management.
+Before accepting the course, feel free to preview the content.
+
+## Cultivating a Growth Mindset
+Passed
+42 minutes
+This block has been accepted. You need to complete it. If you wish to skip this block, please contact your coordinator.
+Mindset is a choice. Learn how to cultivate a growth mindset in order to achieve your true potential.
+Before accepting the course, feel free to preview the content.
+
+## Consultative Mindset
+Passed
+30 minutes
+This block has been accepted. You need to complete it. If you wish to skip this block, please contact your coordinator.
+The "Consultative Mindset" e-learning course is designed to cultivate a сlient-focused approach to problem-solving and decision-making. Participants will learn about effective techniques, active listening skills, and the art of asking powerful questions, enabling them to build strong client relationships and deliver tailored solutions.
+Before accepting the course, feel free to preview the content.
+
+## Create and Deliver Standout Technical Presentations
+Passed
+1 hr 21 min
+This block has been accepted. You need to complete it. If you wish to skip this block, please contact your coordinator.
+Create high-impact technical presentations with techniques used by professionals at NASA, Pfizer, and other leading organizations.
+Before accepting the course, feel free to preview the content.
+
+## The 10 Essentials of Influence and Persuasion
+In Progress
+41 minutes
+This block has been accepted. You need to complete it. If you wish to skip this block, please contact your coordinator.
+Learn proven ways to ethically and practically improve your ability to influence and persuade others at work, at home, and online.
+Before accepting the course, feel free to preview the content.
+
+## Module 4. Consulting Approach
+The Consulting Approach module is designed to provide you with an in-depth understanding of the EngX AI Productivity Experts Program. During this module, you will learn how to teach developers in the way consultants do, with all necessary actions and artifacts, tone of voice, and language.
+
+## What is AI Adoption
+Done
+30 minutes
+In this video, Grigori explains what the AI Adoption Program is all about — including its key objectives, structure, and the impact it brings to engineering teams. You will gain a clear understanding of the main roles involved in the program, such as AI Coaches, Champions, and Productivity Experts, along with their core responsibilities and expected contributions. The session also outlines the typical outcomes of a successful adoption journey — from improved developer productivity to enhanced integration of generative AI tools in daily workflows. This introduction sets the foundation for understanding how the AI Adoption Program operates as a structured change initiative within tech organizations.
+
+
+## Module 5. Setting Expectations
+Passed
+1 hour
+This module introduces the core roles and responsibilities within the EngX AI Adoption Program: the AI Coach and the AI Champion. It outlines the program structure, expectations, workflows, and the tools used to drive GenAI integration in the Software Development Life Cycle (SDLC). 
+Participants will explore:
+The purpose and scope of the AI Adoption and AI Run Programs.
+How AI Coaches onboard teams, assess AI maturity, and co-create use case roadmaps.
+How AI Champions act as team-level enablers for experimentation and local adoption.
+Techniques for running workshops, one-on-one sessions, and collecting qualitative and quantitative feedback.
+Best practices for Copilot use, prompt engineering, and coaching engagement.
+Success metrics tracking via surveys, tooling, and delivery KPIs.
+How to scale learnings through showcases, internal platforms (like leap.epam.com), and peer collaboration.
+The certification pathway for becoming an AI Coach or Champion, including shadowing, interviews, and ongoing community engagement.
+The module emphasizes collaborative experimentation, real-world use case building, and fostering sustainable AI adoption within engineering teams.
+
+## Module 6. About Copilot: Installation and Configuration
+In Progress
+2 hr 10 min
+This module provides a comprehensive overview of GitHub Copilot’s capabilities and usage patterns. Throughout six concise lessons, you will learn how to interact with Copilot in various modes, leverage instruction files for more precise output, and apply model context protocols (MCP) to tailor suggestions. You'll also explore how to switch models, adjust context, and use special VS Code commands to enhance your workflow. The course concludes with practical use cases to help you apply Copilot effectively in real-world development scenarios.
+
+## Module 7. Basic of Prompt Engineering for Engineers
+Passed
+1 hr 10 min
+This module introduces the concept and the importance of prompt engineering, which is the art and science of crafting effective prompts for Generative AI tools. It covers the principles, the techniques, and the examples of prompt engineering, as well as the common pitfalls and mistakes to avoid. It also provides coaches with a framework and a checklist for evaluating and improving their prompts. Copilot Basic Communications: Explore the fundamentals of Copilot communication to maximize its effectiveness.
+
+## Module 8. EliteA Overview
+Passed
+4 hr 30 min
+This module introduces the core capabilities of the EliteA platform for QA and BA professionals. You will learn how to integrate EliteA plugins into development environments, streamline your workflows, and apply practical troubleshooting techniques to resolve common issues.
+
+## Module 9. CodeMie in Action: Practical AI for Business and Technology
+Passed
+2 hr 20 min
+This module introduces the capabilities of the EPAM AI/Run CodeMie platform for users of all backgrounds. We will explore how to create and manage AI Assistants, automate routine tasks, and boost personal productivity. You’ll learn how to configure assistants within the platform and apply them in everyday workflows to streamline your work, whether you're technical or not.
+
+## Module 10. Change, Risk, Engagement management
+Passed
+1 hr 15 min
+In this module we learn how to deal with AI adoption resistance. How identify AI heroes and champions and leverage that during coaching sessions. Also you learn about additional sessions to be delivered during the program implementaion for projects.
+
+
+## Final Exam
+Not Started
+45 minutes
+If you wish just to complete the course, simply mark this block as done. The “L&D Trainee” badge will be assigned upon successful completion.
+If you’d like to become an AI Coach and receive the “EngX AI Productivity Expert” badge, follow the steps below to apply for the exam. Once applied, mark this block as done, to complete the course. 
+﻿
+We have come to the final step of the course: Final Exam. Here’re what you need to do to pass the exam:
+Create a slide deck covering one of the topics from the list below, attach the deck to an email, and send it to the course coordinators at OrgEngXSoftwareDevelopersCoach@epam.com.
+Once your deck if approved by the course coordinators via email, you'll be invited to the 45-min exam. 
+Here’re the details on what will happen during the exam and how to prepare: 
+Exam duration is 45 min. You will have 20-25 min to present one of the following topics and rest of the time will be Q&A. While getting ready for presentation, keep in mind the target audience - developers who started using GenAI 3 months ago.
+
+Applying MCP in real (or improvised) use case (Github and Atlassian MCP servers are not allowed)
+Awesome Refactoring and/or Code Review use case (it should really be an awesome one)
+How to develop your own multi-agentic solution (LangChain, LangGraph, ADK etc.)
+Success story of applying Coding Agent (Claude Code etc.) 
+AI Security use cases
+AI Trends applicable for clients
+Your own topic (please contact Oleksandr Pavlovskyi or Vitalii Matviichuk in advance for topic approval)
+
+Consider this as your presentation to client's teams. It should be interesting, engaging, relevant. You will be able to reuse those materials later during real AI Adoption program with the client. 
+
+Presentation self-review checklist:
+story corresponds to the defined audience (developers who are using GenAI tools for 3 months already)
+the audience will learn new topic (not use case, but topic)
+the presentation is not presales or case study style but rather a lecture on a certain with examples 
+it contains problem statement, theory and practical tasks (we would love to see the code!)
+presentation must contain less text and max visual to explain concept
+practical part is more important than presentation (theoretical part)
+proposed storyline for the presentation (this is not mandatory to follow, feel free to deviate): agenda - about you - topic intro - theory (which problems your topic solves, how if helps developers) - comparison of alternative solutions - practice (code)
+The successful completion of the exam will be evaluated in a ‘Done’ – ‘Not Done’ format by the coaches considering your ability to deliver such workshops yourself in the future. You can potentially refer to the following criteria: 
+Understanding of Topic: The participant should have a comprehensive understanding of the topic they're presenting. This can be measured by how well they explain the concepts, their ability to answer questions, and their use of relevant examples.
+Presentation Skills: This includes clarity of speech, confidence, body language, and the ability to engage the audience. The participant should also demonstrate good time management skills by keeping the presentation within the allotted time.
+Use of Visual Aids: The participant should effectively use visual aids such as PowerPoint slides, live demos, charts, or videos to enhance their presentation. These aids should be clear, relevant, and add value to the presentation.
+Application of Knowledge: The participant should demonstrate how the learned concepts can be applied in real-life situations. This can be measured by the use of case studies, examples, or scenarios.
+Structure of the Workshop: The participant should have a clear introduction, body, and conclusion. The content should flow logically and smoothly from one point to the next.
+
+## current apps developed for final exam:
+
+agentic-ai-toggle-management: using agentic-ai github copilot local file system interactions using .github agents using claude sonnet 6 LLM model.
+C:\Users\e135408\Downloads\agentic-ai-toggle-management
+
+vector-rag-app-v1
+C:\Users\e135408\Downloads\personal-work\learn-ai\projects\vector-rag-app-v1
+
+vector-less-rag-app-v2
+C:\Users\e135408\Downloads\personal-work\learn-ai\projects\vector-less-rag-app-v2
+
+vector-less-rag-app
+C:\Users\e135408\Downloads\personal-work\learn-ai\projects\vector-less-rag-app
+
+vector-less-rag-agentic
+C:\Users\e135408\Downloads\personal-work\learn-ai\projects\vector-less-rag-agentic
+
+transcript-notes-generator
+C:\Users\e135408\Downloads\personal-work\learn-ai\projects\transcript-notes-generator

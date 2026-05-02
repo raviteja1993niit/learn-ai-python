@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CrewAI – AI Libraries Guide</title>
+<style>
+:root{--bg:#fff;--text:#1a1a2e;--accent:#0070f3;--code:#f4f6f8;--border:#e1e4e8;--nav:#f6f8fa;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:Georgia,'Times New Roman',serif;font-size:17px;line-height:1.8;
+     color:var(--text);background:var(--bg);display:flex;min-height:100vh;}
+/* ---- NAV ---- */
+nav{width:260px;min-width:220px;background:var(--nav);border-right:1px solid var(--border);
+    position:sticky;top:0;height:100vh;overflow-y:auto;padding:20px 14px;flex-shrink:0;}
+nav .back-link{display:block;font-family:sans-serif;font-size:12px;color:var(--accent);
+               margin-bottom:14px;text-decoration:none;}
+nav .back-link:hover{text-decoration:underline;}
+nav h3{font-family:sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:.08em;
+       color:#888;margin-bottom:8px;}
+nav ul{list-style:none;}
+nav li{margin:3px 0;}
+nav a{font-family:sans-serif;font-size:13px;color:#444;text-decoration:none;
+      display:block;padding:4px 8px;border-radius:4px;line-height:1.4;}
+nav a:hover{background:#e0e8ff;color:var(--accent);}
+nav a.h3{padding-left:20px;font-size:12px;color:#666;}
+nav a.h4{padding-left:34px;font-size:11px;color:#888;}
+/* ---- MAIN ---- */
+main{flex:1;padding:48px 60px;max-width:960px;}
+.doc-header{margin-bottom:40px;padding-bottom:20px;border-bottom:3px solid var(--accent);}
+.doc-header h1{font-size:2.1em;color:#0a192f;}
+.doc-header .subtitle{font-family:sans-serif;color:#555;margin-top:6px;font-size:.95em;}
+.doc-header .badges span{display:inline-block;font-family:sans-serif;font-size:12px;
+  padding:3px 10px;border-radius:12px;margin:8px 4px 0 0;font-weight:600;}
+.badge-free{background:#d4edda;color:#155724;}
+.badge-paid{background:#fff3cd;color:#856404;}
+.badge-local{background:#cce5ff;color:#004085;}
+/* ---- CONTENT ---- */
+section{margin-bottom:56px;}
+h2{font-size:1.6em;color:#0a192f;margin:2em 0 .6em;padding-bottom:.3em;border-bottom:2px solid var(--border);}
+h3{font-size:1.25em;color:#0a192f;margin:1.6em 0 .4em;}
+h4{font-size:1.05em;color:#0a192f;margin:1.3em 0 .3em;}
+p{margin:.6em 0;}
+ul,ol{margin:.5em 0 .5em 1.5em;}li{margin:.25em 0;}
+strong{color:#0a192f;}
+code{font-family:'Fira Code',Consolas,monospace;background:var(--code);
+     padding:2px 6px;border-radius:3px;font-size:.87em;}
+pre{background:var(--code);border:1px solid var(--border);border-left:4px solid var(--accent);
+    border-radius:6px;padding:18px;overflow-x:auto;margin:1em 0;}
+pre code{background:none;padding:0;font-size:.84em;line-height:1.5;}
+table{border-collapse:collapse;width:100%;margin:1em 0;font-family:sans-serif;font-size:.9em;}
+th,td{border:1px solid var(--border);padding:9px 13px;text-align:left;vertical-align:top;}
+th{background:#e8f0fe;font-weight:700;color:#0a192f;}
+tr:nth-child(even) td{background:#f9f9f9;}
+blockquote{border-left:4px solid var(--accent);padding:10px 18px;background:#f0f4ff;
+           border-radius:0 6px 6px 0;color:#333;margin:1em 0;}
+/* ---- Q&A ---- */
+details{border:1px solid var(--border);border-radius:8px;margin:.8em 0;background:#fafafa;}
+details[open]{background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+summary.qa-q{cursor:pointer;padding:13px 16px;font-weight:700;color:#0a192f;
+             list-style:none;display:flex;align-items:flex-start;gap:10px;line-height:1.5;}
+summary.qa-q::before{content:"Q";background:var(--accent);color:#fff;padding:2px 8px;
+                     border-radius:50%;font-size:.78em;font-family:sans-serif;flex-shrink:0;margin-top:2px;}
+.qa-a{padding:14px 18px;border-top:1px solid #eee;}
+/* ---- callout boxes ---- */
+.tip{background:#e6f9f0;border-left:4px solid #28a745;padding:12px 16px;
+     border-radius:0 6px 6px 0;margin:1em 0;}
+.warn{background:#fff8e1;border-left:4px solid #ffc107;padding:12px 16px;
+      border-radius:0 6px 6px 0;margin:1em 0;}
+a{color:var(--accent);}
+hr{border:none;border-top:1px solid var(--border);margin:2em 0;}
+</style>
+</head>
+<body>
+<nav>
+  <a class="back-link" href="index.html">⬅ All Guides</a>
+  <a class="back-link" href="02-langgraph.html">← LangGraph</a><a class="back-link" href="04-autogen.html">AutoGen →</a>
+  <h3>Contents</h3>
+  <ul><li><a href="#table-of-contents" class="">Table of Contents</a></li>
+<li><a href="#1-what-is-crewai" class="">1. What is CrewAI?</a></li>
+<li><a href="#core-architecture" class="h3">Core Architecture</a></li>
+<li><a href="#process-modes" class="h3">Process Modes</a></li>
+<li><a href="#when-to-use-crewai-vs-langgraph-vs-autogen" class="h3">When to Use CrewAI vs LangGraph vs AutoGen</a></li>
+<li><a href="#2-installation-setup" class="">2. Installation &amp; Setup</a></li>
+<li><a href="#llm-configuration" class="h3">LLM Configuration</a></li>
+<li><a href="#option-a-openai" class="h4">Option A — OpenAI</a></li>
+<li><a href="#option-b-local-ollama" class="h4">Option B — Local Ollama</a></li>
+<li><a href="#option-c-github-copilot-free-auth-recommended-for-devlearning" class="h4">Option C — GitHub Copilot Free Auth (recommended for dev/learning)</a></li>
+<li><a href="#3-core-components" class="">3. Core Components</a></li>
+<li><a href="#31-agents" class="h3">3.1 Agents</a></li>
+<li><a href="#32-tasks" class="h3">3.2 Tasks</a></li>
+<li><a href="#33-crew" class="h3">3.3 Crew</a></li>
+<li><a href="#4-process-types" class="">4. Process Types</a></li>
+<li><a href="#41-sequential-process" class="h3">4.1 Sequential Process</a></li>
+<li><a href="#42-hierarchical-process" class="h3">4.2 Hierarchical Process</a></li>
+<li><a href="#43-parallel-async-process" class="h3">4.3 Parallel (Async) Process</a></li>
+<li><a href="#5-tools" class="">5. Tools</a></li>
+<li><a href="#51-built-in-tools" class="h3">5.1 Built-in Tools</a></li>
+<li><a href="#52-custom-tool-tool-decorator" class="h3">5.2 Custom Tool — @tool Decorator</a></li>
+<li><a href="#53-custom-tool-basetool-class" class="h3">5.3 Custom Tool — BaseTool Class</a></li>
+<li><a href="#54-tool-caching" class="h3">5.4 Tool Caching</a></li>
+<li><a href="#55-full-example-research-crew-with-web-search-file-tools" class="h3">5.5 Full Example — Research Crew with Web Search + File Tools</a></li>
+<li><a href="#6-memory-system" class="">6. Memory System</a></li>
+<li><a href="#61-enabling-default-memory" class="h3">6.1 Enabling Default Memory</a></li>
+<li><a href="#62-custom-memory-configuration" class="h3">6.2 Custom Memory Configuration</a></li>
+<li><a href="#63-agent-level-memory" class="h3">6.3 Agent-Level Memory</a></li>
+<li><a href="#7-structured-output" class="">7. Structured Output</a></li>
+<li><a href="#71-pydantic-output" class="h3">7.1 Pydantic Output</a></li>
+<li><a href="#72-json-output" class="h3">7.2 JSON Output</a></li>
+<li><a href="#73-accessing-tasks_output" class="h3">7.3 Accessing tasks_output</a></li>
+<li><a href="#8-flows-crewai-flows" class="">8. Flows (CrewAI Flows)</a></li>
+<li><a href="#81-basic-flow-decorators" class="h3">8.1 Basic Flow Decorators</a></li>
+<li><a href="#82-multi-crew-flow-pipeline-research-write-review" class="h3">8.2 Multi-Crew Flow Pipeline (Research → Write → Review)</a></li>
+<li><a href="#9-crewai-cli" class="">9. CrewAI CLI</a></li>
+<li><a href="#agentsyaml-example" class="h3">agents.yaml Example</a></li>
+<li><a href="#tasksyaml-example" class="h3">tasks.yaml Example</a></li>
+<li><a href="#10-testing-evaluation" class="">10. Testing &amp; Evaluation</a></li>
+<li><a href="#11-real-world-use-cases" class="">11. Real-World Use Cases</a></li>
+<li><a href="#111-content-creation-crew" class="h3">11.1 Content Creation Crew</a></li>
+<li><a href="#112-code-review-crew-sketch" class="h3">11.2 Code Review Crew (Sketch)</a></li>
+<li><a href="#113-customer-support-crew-sketch" class="h3">11.3 Customer Support Crew (Sketch)</a></li>
+<li><a href="#12-performance-cost-optimization" class="">12. Performance &amp; Cost Optimization</a></li>
+<li><a href="#13-deployment" class="">13. Deployment</a></li>
+<li><a href="#131-rest-api-with-fastapi" class="h3">13.1 REST API with FastAPI</a></li>
+<li><a href="#132-dockerfile" class="h3">13.2 Dockerfile</a></li>
+<li><a href="#133-crewai-enterprise" class="h3">13.3 CrewAI Enterprise</a></li>
+<li><a href="#14-interview-qa" class="">14. Interview Q&amp;A</a></li>
+</ul>
+</nav>
+<main>
+  <div class="doc-header">
+    <h1>CrewAI</h1>
+    <p class="subtitle">Role-based multi-agent framework with crews, tasks, and tools</p>
+    <div class="badges"><span class="badge-free">Free</span><span class="badge-paid">Paid Enterprise</span></div>
+  </div>
+  <h1 id="crewai-comprehensive-guide-for-software-developers">CrewAI — Comprehensive Guide for Software Developers</h1>
+<blockquote>
+<p><strong>Version:</strong> CrewAI ≥ 0.70 | <strong>Python:</strong> 3.10+
+Every code block is self-contained and runnable.</p>
+</blockquote>
+<hr />
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol>
+<li><a href="#1-what-is-crewai">What is CrewAI?</a></li>
+<li><a href="#2-installation--setup">Installation &amp; Setup</a></li>
+<li><a href="#3-core-components">Core Components</a></li>
+<li><a href="#4-process-types">Process Types</a></li>
+<li><a href="#5-tools">Tools</a></li>
+<li><a href="#6-memory-system">Memory System</a></li>
+<li><a href="#7-structured-output">Structured Output</a></li>
+<li><a href="#8-flows-crewai-flows">Flows (CrewAI Flows)</a></li>
+<li><a href="#9-crewai-cli">CrewAI CLI</a></li>
+<li><a href="#10-testing--evaluation">Testing &amp; Evaluation</a></li>
+<li><a href="#11-real-world-use-cases">Real-World Use Cases</a></li>
+<li><a href="#12-performance--cost-optimization">Performance &amp; Cost Optimization</a></li>
+<li><a href="#13-deployment">Deployment</a></li>
+<li><a href="#14-interview-qa">Interview Q&amp;A</a></li>
+<li><a href="#15-complete-end-to-end-example">Complete End-to-End Example</a></li>
+</ol>
+<hr />
+<h2 id="1-what-is-crewai">1. What is CrewAI?</h2>
+<p>CrewAI is a <strong>role-based multi-agent orchestration framework</strong> that lets you compose autonomous AI agents into collaborative crews. Each agent has a specialised role, goal, and backstory; agents share context through tasks and can delegate work to one another.</p>
+<h3 id="core-architecture">Core Architecture</h3>
+<pre><code>Crew
+├── Agents      ← specialised AI workers (role + goal + backstory + tools)
+├── Tasks       ← units of work assigned to an agent, with expected output
+├── Tools       ← functions agents can call (search, read files, code, etc.)
+└── Process     ← execution strategy (sequential / hierarchical / parallel)
+</code></pre>
+<h3 id="process-modes">Process Modes</h3>
+<table>
+<thead>
+<tr>
+<th>Mode</th>
+<th>Description</th>
+<th>Use When</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Sequential</strong></td>
+<td>Tasks run one after another; output feeds into next</td>
+<td>Ordered pipelines</td>
+</tr>
+<tr>
+<td><strong>Hierarchical</strong></td>
+<td>A manager LLM breaks down work and delegates to agents</td>
+<td>Open-ended, complex goals</td>
+</tr>
+<tr>
+<td><strong>Parallel (async)</strong></td>
+<td>Independent tasks run concurrently</td>
+<td>Independent sub-tasks</td>
+</tr>
+</tbody>
+</table>
+<h3 id="when-to-use-crewai-vs-langgraph-vs-autogen">When to Use CrewAI vs LangGraph vs AutoGen</h3>
+<table>
+<thead>
+<tr>
+<th>Criterion</th>
+<th>CrewAI</th>
+<th>LangGraph</th>
+<th>AutoGen</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Primary abstraction</td>
+<td>Role-based crews</td>
+<td>Stateful DAG graphs</td>
+<td>Conversational agents</td>
+</tr>
+<tr>
+<td>Best for</td>
+<td>Structured pipelines, content/research</td>
+<td>Fine-grained state machines, loops</td>
+<td>Back-and-forth LLM debates</td>
+</tr>
+<tr>
+<td>Learning curve</td>
+<td>Low — declarative YAML/Python</td>
+<td>Medium — graph nodes/edges</td>
+<td>Medium — agent conversations</td>
+</tr>
+<tr>
+<td>Custom control flow</td>
+<td>Flows + routers</td>
+<td>Full graph control</td>
+<td>Nested chats</td>
+</tr>
+<tr>
+<td>Built-in tools</td>
+<td>Rich tool ecosystem</td>
+<td>LangChain tools</td>
+<td>Plugin system</td>
+</tr>
+<tr>
+<td>Verdict</td>
+<td>Rapid prototyping, clear role separation</td>
+<td>Complex stateful workflows</td>
+<td>Multi-agent debates, research</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="2-installation-setup">2. Installation &amp; Setup</h2>
+<pre><code class="language-bash">pip install crewai crewai-tools
+# Optional extras
+pip install crewai[tools]       # all built-in tools
+pip install 'crewai[tools,agentops]'  # + observability
+</code></pre>
+<h3 id="llm-configuration">LLM Configuration</h3>
+<h4 id="option-a-openai">Option A — OpenAI</h4>
+<pre><code class="language-python">import os
+os.environ[&quot;OPENAI_API_KEY&quot;] = &quot;sk-...&quot;
+
+from crewai import Agent
+agent = Agent(role=&quot;Researcher&quot;, goal=&quot;Find facts&quot;, backstory=&quot;Expert researcher&quot;,
+              llm=&quot;gpt-4o-mini&quot;)  # string shorthand
+</code></pre>
+<h4 id="option-b-local-ollama">Option B — Local Ollama</h4>
+<pre><code class="language-python">from crewai import Agent
+from langchain_ollama import ChatOllama
+
+llm = ChatOllama(model=&quot;llama3.2&quot;, base_url=&quot;http://localhost:11434&quot;)
+
+agent = Agent(
+    role=&quot;Local Researcher&quot;,
+    goal=&quot;Answer questions using local model&quot;,
+    backstory=&quot;Privacy-focused analyst&quot;,
+    llm=llm,
+)
+</code></pre>
+<h4 id="option-c-github-copilot-free-auth-recommended-for-devlearning">Option C — GitHub Copilot Free Auth (recommended for dev/learning)</h4>
+<pre><code class="language-python">&quot;&quot;&quot;
+GitHub Copilot exposes an OpenAI-compatible endpoint.
+Steps:
+  1. gh auth login          (authenticate with GitHub CLI)
+  2. gh auth token          (copy the token)
+  3. Use endpoint: https://models.inference.ai.azure.com
+&quot;&quot;&quot;
+import os
+from langchain_openai import ChatOpenAI
+
+github_token = os.environ.get(&quot;GITHUB_TOKEN&quot;)  # set via: export GITHUB_TOKEN=$(gh auth token)
+
+copilot_llm = ChatOpenAI(
+    api_key=github_token,
+    base_url=&quot;https://models.inference.ai.azure.com&quot;,
+    model=&quot;gpt-4o-mini&quot;,   # or &quot;gpt-4o&quot;, &quot;o1-mini&quot;
+)
+
+from crewai import Agent
+agent = Agent(
+    role=&quot;Researcher&quot;,
+    goal=&quot;Research AI trends&quot;,
+    backstory=&quot;Senior technology analyst&quot;,
+    llm=copilot_llm,
+    verbose=True,
+)
+</code></pre>
+<hr />
+<h2 id="3-core-components">3. Core Components</h2>
+<h3 id="31-agents">3.1 Agents</h3>
+<pre><code class="language-python">from crewai import Agent
+from langchain_openai import ChatOpenAI
+
+cheap_llm  = ChatOpenAI(model=&quot;gpt-4o-mini&quot;, temperature=0.2)
+smart_llm  = ChatOpenAI(model=&quot;gpt-4o&quot;,      temperature=0.1)
+
+researcher = Agent(
+    # Identity
+    role=&quot;Senior Research Analyst&quot;,
+    goal=&quot;Uncover accurate, up-to-date information on {topic}&quot;,
+    backstory=(
+        &quot;You are a meticulous analyst with 10 years of experience. &quot;
+        &quot;You cite sources and avoid speculation.&quot;
+    ),
+    # Model
+    llm=cheap_llm,
+    # Behaviour
+    verbose=True,          # print agent thoughts
+    memory=True,           # enable short-term memory
+    allow_delegation=True, # can hand off sub-tasks to other agents
+    max_iter=5,            # max reasoning iterations before forced answer
+    max_rpm=10,            # max requests per minute (rate limiting)
+    # Tools assigned at agent level
+    tools=[],              # populated in Section 5
+)
+
+writer = Agent(
+    role=&quot;Content Writer&quot;,
+    goal=&quot;Transform research into clear, engaging articles&quot;,
+    backstory=&quot;Award-winning tech journalist with an eye for storytelling.&quot;,
+    llm=smart_llm,
+    verbose=True,
+    allow_delegation=False,
+)
+</code></pre>
+<h3 id="32-tasks">3.2 Tasks</h3>
+<pre><code class="language-python">from crewai import Task
+from pydantic import BaseModel
+
+class ResearchOutput(BaseModel):
+    topic: str
+    key_findings: list[str]
+    sources: list[str]
+    confidence_score: float
+
+research_task = Task(
+    description=(
+        &quot;Research the latest developments in {topic}. &quot;
+        &quot;Find at least 5 key findings and cite your sources.&quot;
+    ),
+    expected_output=&quot;A structured report with findings and sources.&quot;,
+    agent=researcher,
+    output_pydantic=ResearchOutput,   # enforce typed output
+)
+
+write_task = Task(
+    description=(
+        &quot;Using the research report, write a 500-word article for a developer audience. &quot;
+        &quot;Make it engaging and technically accurate.&quot;
+    ),
+    expected_output=&quot;A polished 500-word article in markdown format.&quot;,
+    agent=writer,
+    context=[research_task],          # receives research_task output as context
+    async_execution=False,            # set True to run concurrently with other async tasks
+)
+
+# Task with no specific agent — crew manager will assign in Hierarchical mode
+unassigned_task = Task(
+    description=&quot;Review the article for factual accuracy.&quot;,
+    expected_output=&quot;A list of corrections or 'Approved' if accurate.&quot;,
+)
+</code></pre>
+<h3 id="33-crew">3.3 Crew</h3>
+<pre><code class="language-python">from crewai import Crew, Process
+
+crew = Crew(
+    agents=[researcher, writer],
+    tasks=[research_task, write_task],
+    process=Process.sequential,   # or Process.hierarchical
+    verbose=True,
+    memory=True,
+    # manager_llm required for hierarchical (see Section 4)
+)
+
+# --- Execution modes ---
+
+# 1. Standard kickoff with variable interpolation
+result = crew.kickoff(inputs={&quot;topic&quot;: &quot;AI agents in 2025&quot;})
+
+# 2. Run the same crew over multiple inputs (batch)
+results = crew.kickoff_for_each(inputs=[
+    {&quot;topic&quot;: &quot;AI agents&quot;},
+    {&quot;topic&quot;: &quot;Vector databases&quot;},
+])
+
+# 3. Async kickoff
+import asyncio
+
+async def run():
+    return await crew.kickoff_async(inputs={&quot;topic&quot;: &quot;LLM fine-tuning&quot;})
+
+result = asyncio.run(run())
+
+# --- Accessing output ---
+print(result.raw)                  # plain string output
+print(result.pydantic)             # typed Pydantic object (if output_pydantic set)
+print(result.tasks_output)         # list of TaskOutput objects
+print(result.token_usage)          # {&quot;prompt_tokens&quot;: ..., &quot;completion_tokens&quot;: ...}
+for t in result.tasks_output:
+    print(t.description, &quot;-&gt;&quot;, t.raw[:80])
+</code></pre>
+<hr />
+<h2 id="4-process-types">4. Process Types</h2>
+<h3 id="41-sequential-process">4.1 Sequential Process</h3>
+<p>Tasks run in the order listed. Output of task N becomes available as context to task N+1 via <code>context=</code>.</p>
+<pre><code class="language-python">from crewai import Agent, Task, Crew, Process
+
+analyst = Agent(role=&quot;Data Analyst&quot;,     goal=&quot;Analyse data&quot;,      backstory=&quot;Stats expert&quot;, llm=&quot;gpt-4o-mini&quot;)
+writer  = Agent(role=&quot;Report Writer&quot;,    goal=&quot;Write clear reports&quot;,backstory=&quot;Writer&quot;,       llm=&quot;gpt-4o-mini&quot;)
+editor  = Agent(role=&quot;Senior Editor&quot;,    goal=&quot;Polish prose&quot;,       backstory=&quot;Editor&quot;,       llm=&quot;gpt-4o-mini&quot;)
+
+t1 = Task(description=&quot;Analyse Q1 sales data trends.&quot;, expected_output=&quot;Bullet-point analysis.&quot;, agent=analyst)
+t2 = Task(description=&quot;Turn the analysis into a report.&quot;, expected_output=&quot;2-page report.&quot;, agent=writer, context=[t1])
+t3 = Task(description=&quot;Edit the report for clarity.&quot;, expected_output=&quot;Polished report.&quot;, agent=editor, context=[t2])
+
+sequential_crew = Crew(
+    agents=[analyst, writer, editor],
+    tasks=[t1, t2, t3],
+    process=Process.sequential,
+    verbose=True,
+)
+
+result = sequential_crew.kickoff()
+print(result.raw)
+</code></pre>
+<h3 id="42-hierarchical-process">4.2 Hierarchical Process</h3>
+<p>A <strong>manager LLM</strong> receives the goal and autonomously decides which agent to use and in what order. No need to pre-assign agents to tasks.</p>
+<pre><code class="language-python">from crewai import Agent, Task, Crew, Process
+from langchain_openai import ChatOpenAI
+
+manager_llm = ChatOpenAI(model=&quot;gpt-4o&quot;, temperature=0)
+
+dev   = Agent(role=&quot;Developer&quot;,        goal=&quot;Write code&quot;,          backstory=&quot;Senior Python dev&quot;, llm=&quot;gpt-4o-mini&quot;)
+qa    = Agent(role=&quot;QA Engineer&quot;,      goal=&quot;Test code&quot;,           backstory=&quot;QA specialist&quot;,     llm=&quot;gpt-4o-mini&quot;)
+devop = Agent(role=&quot;DevOps Engineer&quot;,  goal=&quot;Deploy applications&quot;,  backstory=&quot;Cloud expert&quot;,      llm=&quot;gpt-4o-mini&quot;)
+
+build_task  = Task(description=&quot;Build a REST API endpoint for user login.&quot;,  expected_output=&quot;Working FastAPI code.&quot;)
+test_task   = Task(description=&quot;Write pytest tests for the login endpoint.&quot;, expected_output=&quot;pytest test file.&quot;)
+deploy_task = Task(description=&quot;Write a Dockerfile for the API.&quot;,            expected_output=&quot;Dockerfile.&quot;)
+
+hierarchical_crew = Crew(
+    agents=[dev, qa, devop],
+    tasks=[build_task, test_task, deploy_task],
+    process=Process.hierarchical,
+    manager_llm=manager_llm,   # required for hierarchical
+    verbose=True,
+)
+
+result = hierarchical_crew.kickoff()
+print(result.raw)
+</code></pre>
+<h3 id="43-parallel-async-process">4.3 Parallel (Async) Process</h3>
+<p>Mark independent tasks with <code>async_execution=True</code>; they run concurrently. A final sync task collects their outputs via <code>context=</code>.</p>
+<pre><code class="language-python">from crewai import Agent, Task, Crew, Process
+
+agent_a = Agent(role=&quot;Frontend Analyst&quot;, goal=&quot;Analyse UI&quot;,      backstory=&quot;UI expert&quot;, llm=&quot;gpt-4o-mini&quot;)
+agent_b = Agent(role=&quot;Backend Analyst&quot;,  goal=&quot;Analyse API&quot;,     backstory=&quot;API expert&quot;,llm=&quot;gpt-4o-mini&quot;)
+agent_c = Agent(role=&quot;Tech Lead&quot;,        goal=&quot;Summarise findings&quot;, backstory=&quot;Lead&quot;,   llm=&quot;gpt-4o-mini&quot;)
+
+# These two run in parallel
+ui_task  = Task(description=&quot;Audit the React frontend for performance issues.&quot;,
+                expected_output=&quot;List of UI issues.&quot;, agent=agent_a, async_execution=True)
+api_task = Task(description=&quot;Audit the FastAPI backend for bottlenecks.&quot;,
+                expected_output=&quot;List of API issues.&quot;, agent=agent_b, async_execution=True)
+
+# This runs after both complete
+summary_task = Task(description=&quot;Summarise all audit findings into an action plan.&quot;,
+                    expected_output=&quot;Prioritised action plan.&quot;, agent=agent_c,
+                    context=[ui_task, api_task])  # depends on both async tasks
+
+parallel_crew = Crew(
+    agents=[agent_a, agent_b, agent_c],
+    tasks=[ui_task, api_task, summary_task],
+    process=Process.sequential,   # sequential process still supports async tasks
+    verbose=True,
+)
+
+result = parallel_crew.kickoff()
+print(result.raw)
+</code></pre>
+<hr />
+<h2 id="5-tools">5. Tools</h2>
+<h3 id="51-built-in-tools">5.1 Built-in Tools</h3>
+<pre><code class="language-python">from crewai_tools import (
+    SerperDevTool,         # Google search via Serper API
+    ScrapeWebsiteTool,     # Scrape a URL
+    FileReadTool,          # Read local files
+    DirectoryReadTool,     # List directory contents
+    CodeInterpreterTool,   # Execute Python code in sandbox
+)
+import os
+
+os.environ[&quot;SERPER_API_KEY&quot;] = &quot;your-serper-key&quot;
+
+search_tool    = SerperDevTool()
+scrape_tool    = ScrapeWebsiteTool()
+file_tool      = FileReadTool()
+dir_tool       = DirectoryReadTool(directory=&quot;./docs&quot;)
+code_tool      = CodeInterpreterTool()
+
+from crewai import Agent
+agent = Agent(
+    role=&quot;Researcher&quot;,
+    goal=&quot;Gather and analyse information&quot;,
+    backstory=&quot;Data-driven analyst&quot;,
+    llm=&quot;gpt-4o-mini&quot;,
+    tools=[search_tool, scrape_tool, file_tool],
+)
+</code></pre>
+<h3 id="52-custom-tool-tool-decorator">5.2 Custom Tool — @tool Decorator</h3>
+<pre><code class="language-python">from crewai.tools import tool
+
+@tool(&quot;GitHub Repository Stats&quot;)
+def get_repo_stats(repo: str) -&gt; str:
+    &quot;&quot;&quot;
+    Fetch star count and language for a GitHub repository.
+    Input: 'owner/repo' string e.g. 'crewAIInc/crewAI'
+    &quot;&quot;&quot;
+    import requests
+    resp = requests.get(f&quot;https://api.github.com/repos/{repo}&quot;, timeout=10)
+    if resp.status_code != 200:
+        return f&quot;Error: {resp.status_code}&quot;
+    data = resp.json()
+    return f&quot;{repo}: {data['stargazers_count']} stars, language: {data['language']}&quot;
+
+# Attach to an agent
+from crewai import Agent
+dev_agent = Agent(
+    role=&quot;Open Source Scout&quot;,
+    goal=&quot;Evaluate GitHub repositories&quot;,
+    backstory=&quot;OSS enthusiast&quot;,
+    llm=&quot;gpt-4o-mini&quot;,
+    tools=[get_repo_stats],
+)
+</code></pre>
+<h3 id="53-custom-tool-basetool-class">5.3 Custom Tool — BaseTool Class</h3>
+<pre><code class="language-python">from crewai.tools import BaseTool
+from pydantic import Field
+import json, pathlib
+
+class JSONReaderTool(BaseTool):
+    name: str = &quot;JSON File Reader&quot;
+    description: str = &quot;Reads and parses a JSON file. Input: absolute file path.&quot;
+    encoding: str = Field(default=&quot;utf-8&quot;)
+
+    def _run(self, file_path: str) -&gt; str:
+        try:
+            content = pathlib.Path(file_path).read_text(encoding=self.encoding)
+            data = json.loads(content)
+            return json.dumps(data, indent=2)
+        except FileNotFoundError:
+            return f&quot;File not found: {file_path}&quot;
+        except json.JSONDecodeError as e:
+            return f&quot;Invalid JSON: {e}&quot;
+
+json_tool = JSONReaderTool(encoding=&quot;utf-8&quot;)
+</code></pre>
+<h3 id="54-tool-caching">5.4 Tool Caching</h3>
+<pre><code class="language-python">from crewai.tools import tool
+
+@tool(&quot;Expensive API Call&quot;)
+def expensive_lookup(query: str) -&gt; str:
+    &quot;&quot;&quot;Expensive external API — results are cached.&quot;&quot;&quot;
+    import time
+    time.sleep(2)   # simulate latency
+    return f&quot;Result for: {query}&quot;
+
+# Enable caching at the tool level (default: True)
+# Each unique input is cached; subsequent calls return cached result
+expensive_lookup.cache_function = lambda args, result: True  # always cache
+# Or conditionally:
+expensive_lookup.cache_function = lambda args, result: &quot;error&quot; not in result.lower()
+</code></pre>
+<h3 id="55-full-example-research-crew-with-web-search-file-tools">5.5 Full Example — Research Crew with Web Search + File Tools</h3>
+<pre><code class="language-python">import os
+from crewai import Agent, Task, Crew, Process
+from crewai_tools import SerperDevTool, FileReadTool
+from crewai.tools import tool
+
+os.environ[&quot;OPENAI_API_KEY&quot;]  = os.getenv(&quot;OPENAI_API_KEY&quot;, &quot;&quot;)
+os.environ[&quot;SERPER_API_KEY&quot;]  = os.getenv(&quot;SERPER_API_KEY&quot;, &quot;&quot;)
+
+search_tool = SerperDevTool()
+file_tool   = FileReadTool()
+
+@tool(&quot;Summarise Text&quot;)
+def summarise(text: str) -&gt; str:
+    &quot;&quot;&quot;Return first 500 characters of text as a quick summary.&quot;&quot;&quot;
+    return text[:500] + (&quot;...&quot; if len(text) &gt; 500 else &quot;&quot;)
+
+researcher = Agent(
+    role=&quot;Web Researcher&quot;,
+    goal=&quot;Find the latest facts about {topic}&quot;,
+    backstory=&quot;Diligent analyst who verifies every claim.&quot;,
+    llm=&quot;gpt-4o-mini&quot;,
+    tools=[search_tool, summarise],
+    verbose=True,
+)
+
+archivist = Agent(
+    role=&quot;Archivist&quot;,
+    goal=&quot;Read and cross-reference local documentation&quot;,
+    backstory=&quot;Detail-oriented librarian.&quot;,
+    llm=&quot;gpt-4o-mini&quot;,
+    tools=[file_tool],
+    verbose=True,
+)
+
+research_task = Task(
+    description=&quot;Search the web for key facts about {topic}. Summarise top 3 results.&quot;,
+    expected_output=&quot;3-point summary with source URLs.&quot;,
+    agent=researcher,
+)
+
+synthesis_task = Task(
+    description=&quot;Combine the web research into a concise briefing document.&quot;,
+    expected_output=&quot;One-page briefing in markdown.&quot;,
+    agent=archivist,
+    context=[research_task],
+)
+
+crew = Crew(
+    agents=[researcher, archivist],
+    tasks=[research_task, synthesis_task],
+    process=Process.sequential,
+    verbose=True,
+)
+
+if __name__ == &quot;__main__&quot;:
+    result = crew.kickoff(inputs={&quot;topic&quot;: &quot;CrewAI multi-agent framework&quot;})
+    print(result.raw)
+</code></pre>
+<hr />
+<h2 id="6-memory-system">6. Memory System</h2>
+<p>CrewAI offers four memory layers that agents use to retain and recall information.</p>
+<table>
+<thead>
+<tr>
+<th>Memory Type</th>
+<th>Storage</th>
+<th>Scope</th>
+<th>Use Case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Short-term</td>
+<td>In-memory RAG (ChromaDB)</td>
+<td>Current session</td>
+<td>Recent conversation context</td>
+</tr>
+<tr>
+<td>Long-term</td>
+<td>SQLite on disk</td>
+<td>Cross-session</td>
+<td>Remember past interactions</td>
+</tr>
+<tr>
+<td>Entity</td>
+<td>ChromaDB</td>
+<td>Current session</td>
+<td>Track people, companies, systems</td>
+</tr>
+<tr>
+<td>Contextual</td>
+<td>Combination of all three</td>
+<td>Adaptive</td>
+<td>General-purpose recall</td>
+</tr>
+</tbody>
+</table>
+<h3 id="61-enabling-default-memory">6.1 Enabling Default Memory</h3>
+<pre><code class="language-python">from crewai import Crew, Process
+
+crew = Crew(
+    agents=[...],
+    tasks=[...],
+    process=Process.sequential,
+    memory=True,           # enables short-term + long-term + entity memory
+    verbose=True,
+)
+</code></pre>
+<h3 id="62-custom-memory-configuration">6.2 Custom Memory Configuration</h3>
+<pre><code class="language-python">from crewai import Crew
+from crewai.memory import (
+    ShortTermMemory,
+    LongTermMemory,
+    EntityMemory,
+)
+from crewai.memory.storage.rag_storage import RAGStorage
+from crewai.memory.storage.ltm_sqlite_storage import LTMSQLiteStorage
+
+crew = Crew(
+    agents=[...],
+    tasks=[...],
+    memory=True,
+    short_term_memory=ShortTermMemory(
+        storage=RAGStorage(
+            embedder_config={
+                &quot;provider&quot;: &quot;openai&quot;,
+                &quot;config&quot;: {&quot;model&quot;: &quot;text-embedding-3-small&quot;},
+            }
+        )
+    ),
+    long_term_memory=LongTermMemory(
+        storage=LTMSQLiteStorage(db_path=&quot;./my_crew_memory.db&quot;)
+    ),
+    entity_memory=EntityMemory(
+        storage=RAGStorage(
+            type=&quot;short_term&quot;,
+            embedder_config={
+                &quot;provider&quot;: &quot;openai&quot;,
+                &quot;config&quot;: {&quot;model&quot;: &quot;text-embedding-3-small&quot;},
+            },
+        )
+    ),
+    verbose=True,
+)
+</code></pre>
+<h3 id="63-agent-level-memory">6.3 Agent-Level Memory</h3>
+<pre><code class="language-python">from crewai import Agent
+
+agent = Agent(
+    role=&quot;Assistant&quot;,
+    goal=&quot;Help users&quot;,
+    backstory=&quot;Helpful AI&quot;,
+    llm=&quot;gpt-4o-mini&quot;,
+    memory=True,   # agent maintains its own conversation memory
+)
+</code></pre>
+<hr />
+<h2 id="7-structured-output">7. Structured Output</h2>
+<h3 id="71-pydantic-output">7.1 Pydantic Output</h3>
+<pre><code class="language-python">from pydantic import BaseModel, Field
+from typing import Optional
+from crewai import Agent, Task, Crew, Process
+
+class CodeReviewReport(BaseModel):
+    file_reviewed: str
+    issues_found: list[str] = Field(description=&quot;List of code issues&quot;)
+    severity: str            = Field(description=&quot;low | medium | high | critical&quot;)
+    recommendations: list[str]
+    approved: bool
+    confidence: Optional[float] = None
+
+reviewer = Agent(
+    role=&quot;Code Reviewer&quot;,
+    goal=&quot;Review Python code for quality and security&quot;,
+    backstory=&quot;Expert Python engineer with security background.&quot;,
+    llm=&quot;gpt-4o-mini&quot;,
+    verbose=True,
+)
+
+review_task = Task(
+    description=&quot;Review this Python function for issues:\n\n```python\ndef login(user, pwd):\n    query = f'SELECT * FROM users WHERE user={user} AND pwd={pwd}'\n    return db.execute(query)\n```&quot;,
+    expected_output=&quot;A structured code review report.&quot;,
+    agent=reviewer,
+    output_pydantic=CodeReviewReport,   # enforce typed output
+)
+
+crew = Crew(agents=[reviewer], tasks=[review_task], process=Process.sequential)
+result = crew.kickoff()
+
+report: CodeReviewReport = result.pydantic
+print(f&quot;Approved: {report.approved}&quot;)
+print(f&quot;Severity: {report.severity}&quot;)
+for issue in report.issues_found:
+    print(f&quot;  - {issue}&quot;)
+</code></pre>
+<h3 id="72-json-output">7.2 JSON Output</h3>
+<pre><code class="language-python">from crewai import Task
+
+json_task = Task(
+    description=&quot;Extract key metadata from the document.&quot;,
+    expected_output=&quot;JSON with keys: title, author, date, summary.&quot;,
+    agent=reviewer,
+    output_json={
+        &quot;type&quot;: &quot;object&quot;,
+        &quot;properties&quot;: {
+            &quot;title&quot;:   {&quot;type&quot;: &quot;string&quot;},
+            &quot;author&quot;:  {&quot;type&quot;: &quot;string&quot;},
+            &quot;date&quot;:    {&quot;type&quot;: &quot;string&quot;},
+            &quot;summary&quot;: {&quot;type&quot;: &quot;string&quot;},
+        },
+        &quot;required&quot;: [&quot;title&quot;, &quot;author&quot;, &quot;date&quot;, &quot;summary&quot;],
+    },
+)
+
+result = crew.kickoff()
+print(result.json_dict)   # parsed dict
+</code></pre>
+<h3 id="73-accessing-tasks_output">7.3 Accessing tasks_output</h3>
+<pre><code class="language-python">result = crew.kickoff()
+
+for task_output in result.tasks_output:
+    print(&quot;Task:&quot;, task_output.description[:60])
+    print(&quot;Raw:&quot;, task_output.raw[:200])
+    if task_output.pydantic:
+        print(&quot;Typed:&quot;, task_output.pydantic)
+    print(&quot;---&quot;)
+
+print(&quot;Total tokens used:&quot;, result.token_usage)
+</code></pre>
+<hr />
+<h2 id="8-flows-crewai-flows">8. Flows (CrewAI Flows)</h2>
+<p>Flows provide <strong>imperative control</strong> over how crews chain together. Use <code>@start</code>, <code>@listen</code>, and <code>@router</code> decorators to wire events between crews.</p>
+<h3 id="81-basic-flow-decorators">8.1 Basic Flow Decorators</h3>
+<pre><code class="language-python">from crewai.flow.flow import Flow, listen, router, start
+from pydantic import BaseModel
+
+class ResearchState(BaseModel):
+    topic: str = &quot;&quot;
+    research: str = &quot;&quot;
+    article: str = &quot;&quot;
+    review_passed: bool = False
+
+class ContentFlow(Flow[ResearchState]):
+
+    @start()
+    def set_topic(self):
+        self.state.topic = &quot;AI agents in 2025&quot;
+        print(f&quot;Starting flow for topic: {self.state.topic}&quot;)
+
+    @listen(set_topic)
+    def run_research(self):
+        from crewai import Agent, Task, Crew, Process
+        researcher = Agent(role=&quot;Researcher&quot;, goal=&quot;Research {topic}&quot;,
+                           backstory=&quot;Expert researcher&quot;, llm=&quot;gpt-4o-mini&quot;)
+        task = Task(description=f&quot;Research: {self.state.topic}&quot;,
+                    expected_output=&quot;Key findings.&quot;, agent=researcher)
+        crew = Crew(agents=[researcher], tasks=[task], process=Process.sequential)
+        result = crew.kickoff()
+        self.state.research = result.raw
+
+    @listen(run_research)
+    def write_article(self):
+        from crewai import Agent, Task, Crew, Process
+        writer = Agent(role=&quot;Writer&quot;, goal=&quot;Write articles&quot;,
+                       backstory=&quot;Tech journalist&quot;, llm=&quot;gpt-4o-mini&quot;)
+        task = Task(description=f&quot;Write article based on: {self.state.research[:500]}&quot;,
+                    expected_output=&quot;500-word article.&quot;, agent=writer)
+        crew = Crew(agents=[writer], tasks=[task], process=Process.sequential)
+        result = crew.kickoff()
+        self.state.article = result.raw
+
+    @router(write_article)
+    def review_router(self):
+        word_count = len(self.state.article.split())
+        return &quot;approve&quot; if word_count &gt;= 100 else &quot;rewrite&quot;
+
+    @listen(&quot;approve&quot;)
+    def publish(self):
+        self.state.review_passed = True
+        print(&quot;✅ Article approved and published!&quot;)
+        print(self.state.article[:300])
+
+    @listen(&quot;rewrite&quot;)
+    def request_rewrite(self):
+        print(&quot;⚠️  Article too short — requesting rewrite.&quot;)
+        self.state.research += &quot;\n[EXPAND: add more detail]&quot;
+        self.write_article()   # retry
+
+if __name__ == &quot;__main__&quot;:
+    flow = ContentFlow()
+    flow.kickoff()
+    print(&quot;Review passed:&quot;, flow.state.review_passed)
+</code></pre>
+<h3 id="82-multi-crew-flow-pipeline-research-write-review">8.2 Multi-Crew Flow Pipeline (Research → Write → Review)</h3>
+<pre><code class="language-python">from crewai.flow.flow import Flow, listen, start
+from crewai import Agent, Task, Crew, Process
+from pydantic import BaseModel
+
+def make_agent(role, goal, backstory):
+    return Agent(role=role, goal=goal, backstory=backstory, llm=&quot;gpt-4o-mini&quot;)
+
+class PipelineState(BaseModel):
+    topic: str = &quot;Python async programming&quot;
+    raw_research: str = &quot;&quot;
+    draft_article: str = &quot;&quot;
+    final_article: str = &quot;&quot;
+
+class ArticlePipeline(Flow[PipelineState]):
+
+    @start()
+    def research_phase(self):
+        agent = make_agent(&quot;Researcher&quot;, &quot;Research {topic}&quot;, &quot;Analyst&quot;)
+        task  = Task(description=f&quot;Research: {self.state.topic}&quot;,
+                     expected_output=&quot;3 key findings.&quot;, agent=agent)
+        result = Crew(agents=[agent], tasks=[task],
+                      process=Process.sequential).kickoff()
+        self.state.raw_research = result.raw
+
+    @listen(research_phase)
+    def write_phase(self):
+        agent = make_agent(&quot;Writer&quot;, &quot;Write articles&quot;, &quot;Journalist&quot;)
+        task  = Task(description=f&quot;Write article from research:\n{self.state.raw_research}&quot;,
+                     expected_output=&quot;400-word article.&quot;, agent=agent)
+        result = Crew(agents=[agent], tasks=[task],
+                      process=Process.sequential).kickoff()
+        self.state.draft_article = result.raw
+
+    @listen(write_phase)
+    def review_phase(self):
+        agent = make_agent(&quot;Editor&quot;, &quot;Polish articles&quot;, &quot;Senior editor&quot;)
+        task  = Task(description=f&quot;Edit and improve:\n{self.state.draft_article}&quot;,
+                     expected_output=&quot;Polished article.&quot;, agent=agent)
+        result = Crew(agents=[agent], tasks=[task],
+                      process=Process.sequential).kickoff()
+        self.state.final_article = result.raw
+        print(&quot;\n=== FINAL ARTICLE ===&quot;)
+        print(self.state.final_article)
+
+if __name__ == &quot;__main__&quot;:
+    ArticlePipeline().kickoff()
+</code></pre>
+<hr />
+<h2 id="9-crewai-cli">9. CrewAI CLI</h2>
+<pre><code class="language-bash"># Create a new project scaffold
+crewai create crew my_research_project
+
+# Project structure created:
+# my_research_project/
+# ├── src/
+# │   └── my_research_project/
+# │       ├── __init__.py
+# │       ├── main.py          ← entry point
+# │       ├── crew.py          ← Crew definition
+# │       ├── config/
+# │       │   ├── agents.yaml  ← agent definitions
+# │       │   └── tasks.yaml   ← task definitions
+# │       └── tools/
+# │           └── custom_tool.py
+# ├── .env
+# └── pyproject.toml
+
+# Run the crew
+crewai run
+
+# Train the crew (requires human feedback)
+crewai train --n_iterations 5 --filename training_data.pkl
+
+# Test the crew
+crewai test --n_iterations 3 --model gpt-4o-mini
+
+# Replay a specific task
+crewai replay -t &lt;task_id&gt;
+</code></pre>
+<h3 id="agentsyaml-example">agents.yaml Example</h3>
+<pre><code class="language-yaml">researcher:
+  role: &quot;Senior Research Analyst&quot;
+  goal: &quot;Uncover key trends in {topic}&quot;
+  backstory: &gt;
+    You are an experienced analyst who finds reliable, well-sourced information.
+    You always verify claims before reporting them.
+
+writer:
+  role: &quot;Content Writer&quot;
+  goal: &quot;Write engaging articles about {topic}&quot;
+  backstory: &gt;
+    You transform technical research into clear, compelling narratives
+    that developers love to read.
+</code></pre>
+<h3 id="tasksyaml-example">tasks.yaml Example</h3>
+<pre><code class="language-yaml">research_task:
+  description: &gt;
+    Research the latest developments in {topic}.
+    Find at least 5 data points from credible sources.
+  expected_output: &quot;Structured report with findings and sources.&quot;
+  agent: researcher
+
+write_task:
+  description: &gt;
+    Using the research report, write a 500-word article.
+    Target audience: software developers.
+  expected_output: &quot;Polished 500-word article in markdown.&quot;
+  agent: writer
+</code></pre>
+<hr />
+<h2 id="10-testing-evaluation">10. Testing &amp; Evaluation</h2>
+<pre><code class="language-python">from crewai import Crew, Process, Agent, Task
+
+# Build your crew normally...
+agent = Agent(role=&quot;Analyst&quot;, goal=&quot;Analyse data&quot;, backstory=&quot;Expert&quot;, llm=&quot;gpt-4o-mini&quot;)
+task  = Task(description=&quot;Analyse {data}&quot;, expected_output=&quot;Insights.&quot;, agent=agent)
+crew  = Crew(agents=[agent], tasks=[task], process=Process.sequential)
+
+# --- crew.test() ---
+# Runs the crew N times and uses an LLM judge to score output quality
+crew.test(
+    n_iterations=3,
+    openai_model_name=&quot;gpt-4o&quot;,  # judge model
+    inputs={&quot;data&quot;: &quot;Q1 sales: $1.2M, Q2: $1.5M, Q3: $1.1M&quot;},
+)
+
+# --- crew.train() ---
+# Interactively collects human feedback to improve agent behaviour
+crew.train(
+    n_iterations=2,
+    filename=&quot;crew_training.pkl&quot;,
+    inputs={&quot;data&quot;: &quot;Sample dataset&quot;},
+)
+# After training, retrain your LLM with the saved feedback data.
+
+# --- Manual evaluation pattern ---
+import json
+
+def evaluate_output(result, criteria: list[str]) -&gt; dict:
+    scores = {}
+    text = result.raw.lower()
+    for criterion in criteria:
+        scores[criterion] = criterion.lower() in text
+    return scores
+
+result = crew.kickoff(inputs={&quot;data&quot;: &quot;test data&quot;})
+scores = evaluate_output(result, [&quot;analysis&quot;, &quot;trend&quot;, &quot;recommendation&quot;])
+print(json.dumps(scores, indent=2))
+</code></pre>
+<hr />
+<h2 id="11-real-world-use-cases">11. Real-World Use Cases</h2>
+<h3 id="111-content-creation-crew">11.1 Content Creation Crew</h3>
+<pre><code class="language-python">import os
+from crewai import Agent, Task, Crew, Process
+
+os.environ[&quot;OPENAI_API_KEY&quot;] = os.getenv(&quot;OPENAI_API_KEY&quot;, &quot;&quot;)
+
+# Agents
+researcher = Agent(
+    role=&quot;Research Specialist&quot;,
+    goal=&quot;Find accurate and current information about {topic}&quot;,
+    backstory=&quot;Experienced journalist who fact-checks everything.&quot;,
+    llm=&quot;gpt-4o-mini&quot;, verbose=True,
+)
+
+writer = Agent(
+    role=&quot;Senior Technical Writer&quot;,
+    goal=&quot;Create engaging, developer-friendly content&quot;,
+    backstory=&quot;10-year veteran of developer documentation and blogs.&quot;,
+    llm=&quot;gpt-4o-mini&quot;, verbose=True,
+)
+
+editor = Agent(
+    role=&quot;Content Editor&quot;,
+    goal=&quot;Ensure accuracy, clarity, and proper formatting&quot;,
+    backstory=&quot;Perfectionist editor with a style guide in hand.&quot;,
+    llm=&quot;gpt-4o-mini&quot;, verbose=True,
+)
+
+# Tasks
+research = Task(
+    description=&quot;Research {topic}: find 5 key facts, recent news, and use cases.&quot;,
+    expected_output=&quot;Research brief with 5 facts and 3 use cases.&quot;,
+    agent=researcher,
+)
+
+write = Task(
+    description=&quot;Write a 600-word developer blog post about {topic}.&quot;,
+    expected_output=&quot;Blog post in markdown with intro, body (3 sections), and conclusion.&quot;,
+    agent=writer, context=[research],
+)
+
+edit = Task(
+    description=&quot;Edit the blog post: fix grammar, improve clarity, add code examples if missing.&quot;,
+    expected_output=&quot;Final polished blog post ready to publish.&quot;,
+    agent=editor, context=[write],
+)
+
+content_crew = Crew(
+    agents=[researcher, writer, editor],
+    tasks=[research, write, edit],
+    process=Process.sequential,
+    verbose=True,
+)
+
+if __name__ == &quot;__main__&quot;:
+    result = content_crew.kickoff(inputs={&quot;topic&quot;: &quot;CrewAI multi-agent systems&quot;})
+    print(result.raw)
+</code></pre>
+<h3 id="112-code-review-crew-sketch">11.2 Code Review Crew (Sketch)</h3>
+<pre><code class="language-python">from crewai import Agent, Task, Crew, Process
+
+analyzer  = Agent(role=&quot;Code Analyzer&quot;,     goal=&quot;Find bugs and code smells&quot;,      backstory=&quot;Senior dev&quot;, llm=&quot;gpt-4o-mini&quot;)
+security  = Agent(role=&quot;Security Auditor&quot;,  goal=&quot;Identify security vulnerabilities&quot;,backstory=&quot;AppSec expert&quot;,llm=&quot;gpt-4o-mini&quot;)
+perf      = Agent(role=&quot;Performance Expert&quot;,goal=&quot;Find performance bottlenecks&quot;,    backstory=&quot;Perf engineer&quot;,llm=&quot;gpt-4o-mini&quot;)
+doc_agent = Agent(role=&quot;Docs Reviewer&quot;,     goal=&quot;Ensure code is well documented&quot;,  backstory=&quot;Tech writer&quot;, llm=&quot;gpt-4o-mini&quot;)
+
+code_snippet = &quot;&quot;&quot;
+def get_user(user_id):
+    conn = sqlite3.connect('db.sqlite')
+    query = f&quot;SELECT * FROM users WHERE id = {user_id}&quot;
+    return conn.execute(query).fetchone()
+&quot;&quot;&quot;
+
+t_analyze  = Task(description=f&quot;Analyse this code:\n{code_snippet}&quot;, expected_output=&quot;Code issues list.&quot;, agent=analyzer)
+t_security = Task(description=f&quot;Security audit:\n{code_snippet}&quot;,    expected_output=&quot;Security issues.&quot;,  agent=security)
+t_perf     = Task(description=f&quot;Performance review:\n{code_snippet}&quot;,expected_output=&quot;Perf issues.&quot;,      agent=perf)
+t_docs     = Task(description=f&quot;Docs check:\n{code_snippet}&quot;,        expected_output=&quot;Docs issues.&quot;,      agent=doc_agent)
+t_summary  = Task(description=&quot;Combine all reviews into a priority-sorted action plan.&quot;,
+                  expected_output=&quot;Sorted action plan.&quot;, agent=analyzer,
+                  context=[t_analyze, t_security, t_perf, t_docs])
+
+review_crew = Crew(agents=[analyzer, security, perf, doc_agent],
+                   tasks=[t_analyze, t_security, t_perf, t_docs, t_summary],
+                   process=Process.sequential, verbose=True)
+
+result = review_crew.kickoff()
+print(result.raw)
+</code></pre>
+<h3 id="113-customer-support-crew-sketch">11.3 Customer Support Crew (Sketch)</h3>
+<pre><code class="language-python">from crewai import Agent, Task, Crew, Process
+
+classifier = Agent(role=&quot;Ticket Classifier&quot;, goal=&quot;Classify support tickets by type and urgency&quot;,
+                   backstory=&quot;Support triage specialist.&quot;, llm=&quot;gpt-4o-mini&quot;)
+resolver   = Agent(role=&quot;Support Agent&quot;,     goal=&quot;Resolve customer issues&quot;,
+                   backstory=&quot;Experienced support engineer.&quot;, llm=&quot;gpt-4o-mini&quot;)
+escalator  = Agent(role=&quot;Escalation Manager&quot;,goal=&quot;Handle tickets requiring human intervention&quot;,
+                   backstory=&quot;Senior support manager.&quot;, llm=&quot;gpt-4o-mini&quot;)
+
+ticket = &quot;My payment was charged twice for order #1234 and I need a refund immediately!&quot;
+
+classify_task  = Task(description=f&quot;Classify this ticket: {ticket}&quot;,
+                      expected_output=&quot;Category and urgency (low/medium/high/critical).&quot;, agent=classifier)
+resolve_task   = Task(description=&quot;Draft a resolution response for the ticket.&quot;,
+                      expected_output=&quot;Customer response draft.&quot;, agent=resolver, context=[classify_task])
+escalate_task  = Task(description=&quot;If urgency is high/critical, create an escalation memo.&quot;,
+                      expected_output=&quot;Escalation memo or 'No escalation needed'.&quot;, agent=escalator,
+                      context=[classify_task, resolve_task])
+
+support_crew = Crew(agents=[classifier, resolver, escalator],
+                    tasks=[classify_task, resolve_task, escalate_task],
+                    process=Process.sequential, verbose=True)
+
+result = support_crew.kickoff()
+print(result.raw)
+</code></pre>
+<hr />
+<h2 id="12-performance-cost-optimization">12. Performance &amp; Cost Optimization</h2>
+<pre><code class="language-python">from crewai import Agent, Task, Crew, Process
+
+# 1. Use cheaper models for routine agents
+cheap_agent = Agent(role=&quot;Formatter&quot;,   goal=&quot;Format output&quot;,   backstory=&quot;Formatter&quot;, llm=&quot;gpt-4o-mini&quot;)
+smart_agent = Agent(role=&quot;Strategist&quot;,  goal=&quot;Make decisions&quot;,  backstory=&quot;Lead&quot;,      llm=&quot;gpt-4o&quot;)
+
+# 2. Rate limiting — protect against API throttling
+rate_limited_agent = Agent(
+    role=&quot;Researcher&quot;, goal=&quot;Research topics&quot;, backstory=&quot;Analyst&quot;,
+    llm=&quot;gpt-4o-mini&quot;,
+    max_rpm=10,    # max 10 LLM requests per minute
+    max_iter=3,    # max 3 reasoning iterations (reduces cost)
+)
+
+# 3. Cache tool results (see Section 5.4)
+# 4. Run independent tasks in parallel (async_execution=True)
+t1 = Task(description=&quot;Analyse front-end code.&quot;,  expected_output=&quot;Issues.&quot;, agent=cheap_agent, async_execution=True)
+t2 = Task(description=&quot;Analyse back-end code.&quot;,   expected_output=&quot;Issues.&quot;, agent=cheap_agent, async_execution=True)
+t3 = Task(description=&quot;Summarise all findings.&quot;,  expected_output=&quot;Report.&quot;, agent=smart_agent, context=[t1, t2])
+
+# 5. Disable verbose in production
+prod_crew = Crew(agents=[cheap_agent, smart_agent], tasks=[t1, t2, t3],
+                 process=Process.sequential, verbose=False)
+
+# 6. Track and log token usage
+result = prod_crew.kickoff()
+usage = result.token_usage
+print(f&quot;Prompt: {usage.get('prompt_tokens', 0)} | &quot;
+      f&quot;Completion: {usage.get('completion_tokens', 0)} | &quot;
+      f&quot;Total: {usage.get('total_tokens', 0)}&quot;)
+
+# 7. LLM call caching (LangChain-level)
+from langchain.globals import set_llm_cache
+from langchain.cache import InMemoryCache, SQLiteCache
+
+set_llm_cache(InMemoryCache())          # in-process cache
+# set_llm_cache(SQLiteCache(&quot;.llm_cache.db&quot;))  # persistent cache
+</code></pre>
+<hr />
+<h2 id="13-deployment">13. Deployment</h2>
+<h3 id="131-rest-api-with-fastapi">13.1 REST API with FastAPI</h3>
+<pre><code class="language-python"># api.py
+from fastapi import FastAPI, BackgroundTasks
+from pydantic import BaseModel
+import uuid, asyncio
+from crewai import Agent, Task, Crew, Process
+
+app = FastAPI(title=&quot;CrewAI API&quot;)
+
+jobs: dict = {}   # simple in-memory job store
+
+class RunRequest(BaseModel):
+    topic: str
+
+class RunResponse(BaseModel):
+    job_id: str
+    status: str
+
+def build_crew():
+    agent = Agent(role=&quot;Researcher&quot;, goal=&quot;Research {topic}&quot;,
+                  backstory=&quot;Analyst&quot;, llm=&quot;gpt-4o-mini&quot;)
+    task  = Task(description=&quot;Research {topic} thoroughly.&quot;,
+                 expected_output=&quot;Key findings.&quot;, agent=agent)
+    return Crew(agents=[agent], tasks=[task], process=Process.sequential, verbose=False)
+
+async def run_crew_async(job_id: str, topic: str):
+    jobs[job_id] = {&quot;status&quot;: &quot;running&quot;, &quot;result&quot;: None}
+    try:
+        crew = build_crew()
+        result = await crew.kickoff_async(inputs={&quot;topic&quot;: topic})
+        jobs[job_id] = {&quot;status&quot;: &quot;done&quot;, &quot;result&quot;: result.raw}
+    except Exception as e:
+        jobs[job_id] = {&quot;status&quot;: &quot;error&quot;, &quot;result&quot;: str(e)}
+
+@app.post(&quot;/run&quot;, response_model=RunResponse)
+async def run_crew(req: RunRequest, bg: BackgroundTasks):
+    job_id = str(uuid.uuid4())
+    bg.add_task(run_crew_async, job_id, req.topic)
+    return RunResponse(job_id=job_id, status=&quot;queued&quot;)
+
+@app.get(&quot;/result/{job_id}&quot;)
+async def get_result(job_id: str):
+    return jobs.get(job_id, {&quot;status&quot;: &quot;not_found&quot;})
+
+# Run: uvicorn api:app --reload
+</code></pre>
+<h3 id="132-dockerfile">13.2 Dockerfile</h3>
+<pre><code class="language-dockerfile"># Dockerfile
+FROM python:3.11-slim
+
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir crewai crewai-tools fastapi uvicorn
+
+COPY . .
+
+ENV OPENAI_API_KEY=&quot;&quot;
+ENV SERPER_API_KEY=&quot;&quot;
+
+EXPOSE 8000
+CMD [&quot;uvicorn&quot;, &quot;api:app&quot;, &quot;--host&quot;, &quot;0.0.0.0&quot;, &quot;--port&quot;, &quot;8000&quot;]
+</code></pre>
+<pre><code class="language-bash"># Build and run
+docker build -t crewai-app .
+docker run -e OPENAI_API_KEY=sk-... -p 8000:8000 crewai-app
+
+# docker-compose.yml
+# version: &quot;3.9&quot;
+# services:
+#   crewai:
+#     build: .
+#     ports: [&quot;8000:8000&quot;]
+#     environment:
+#       - OPENAI_API_KEY=${OPENAI_API_KEY}
+</code></pre>
+<h3 id="133-crewai-enterprise">13.3 CrewAI Enterprise</h3>
+<p>CrewAI Enterprise provides:
+- <strong>CrewAI Studio</strong> — visual crew builder (no code)
+- <strong>Managed execution</strong> — scalable cloud runner
+- <strong>Observability</strong> — traces, logs, replays
+- <strong>Webhooks &amp; API</strong> — trigger crews from any system
+- <strong>RBAC</strong> — team access controls</p>
+<pre><code class="language-bash"># Connect local project to Enterprise
+crewai login
+crewai deploy
+</code></pre>
+<hr />
+<h2 id="14-interview-qa">14. Interview Q&amp;A</h2>
+<details open><summary class="qa-q">What is a Crew in CrewAI and what are its components? > A `Crew` is the top-level orchestrator. Its components are: **Agents** (specialised AI workers with role/goal/backstory/tools), **Tasks** (units of work with description/expected_output/agent), a **Process** (sequential, hierarchical, or parallel), optional **Memory**, and optional **Tools**. You call `crew.kickoff()` to start execution.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What is the difference between Sequential and Hierarchical process? > **Sequential**: tasks execute in declaration order; each task receives the previous task's output as context. Great for predictable pipelines. > **Hierarchical**: a `manager_llm` dynamically decides which agent handles which task and in what order. No need to pre-assign agents to tasks. Best for open-ended, complex workflows where the decomposition strategy isn't known upfront.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How do you create a custom tool in CrewAI? > Two ways: > 1. `@tool` decorator — fastest for simple functions. The docstring becomes the tool description the LLM reads. > 2. `BaseTool` subclass — for complex tools needing Pydantic fields, validation, or shared state. > Both approaches attach to an agent via its `tools=[...]` list.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How does memory work in CrewAI? > CrewAI has four memory layers: **Short-term** (in-memory RAG for current session), **Long-term** (SQLite persisted across sessions), **Entity** (ChromaDB tracks people, companies, systems), and **Contextual** (automatically blends all three). Enable with `memory=True` on the Crew. Agents query memory before responding and write to it after each task.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What is context in a Task and how does it enable dependencies? > `context=[other_task]` passes the *output* of `other_task` as additional context to the current task's prompt. This is how you chain tasks without manually threading strings. The receiving task sees the previous task's `raw` output injected into its system prompt.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How do you get structured output from a CrewAI crew? > Set `output_pydantic=MyModel` on a `Task`. CrewAI prompts the agent to return valid JSON matching the Pydantic schema, then parses it. Access via `result.pydantic` (returns a `MyModel` instance) or `result.tasks_output[i].pydantic`. For raw JSON dict use `output_json=schema_dict` and access `result.json_dict`.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What is allow_delegation and when should you enable it? > `allow_delegation=True` lets an agent transfer a sub-task to another agent in the crew when it decides another agent is better suited. Enable it for general-purpose agents in hierarchical crews. Disable it for specialist agents in sequential pipelines (prevents unintended handoffs that add latency and cost).  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How do you run tasks in parallel in CrewAI? > Set `async_execution=True` on any tasks that are independent of each other. They will run concurrently. A downstream synchronising task uses `context=[async_task_1, async_task_2]` to wait for both and merge their outputs. The Crew still uses `Process.sequential` — the async flag is per-task, not per-crew.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What are CrewAI Flows and how do they differ from a Crew? > A **Crew** is a single collaborative unit of agents working on related tasks. A **Flow** is a higher-level state machine that orchestrates *multiple* crews (or other logic) with `@start`, `@listen`, and `@router` decorators. Flows have typed shared state (Pydantic model), conditional branching, and event-driven wiring between phases. Use Flows when you need multi-crew pipelines, conditional reruns, or complex branching.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How do you control which LLM each agent uses? > Pass the `llm=` parameter to each `Agent`. Accepts a string shorthand (`"gpt-4o-mini"`), a LangChain chat model instance, or any LiteLLM-compatible string (`"ollama/llama3.2"`). This lets you use cheap models for formatters and routing agents while reserving expensive models for reasoning-heavy agents.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How do you test a CrewAI crew? > Use `crew.test(n_iterations=3, openai_model_name="gpt-4o")`. This runs the crew N times and uses a separate judge LLM to score output quality across criteria (relevance, accuracy, completeness). For training, use `crew.train()` to collect human-labelled feedback. For unit testing, mock the LLM and assert on `result.raw` content.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What is the manager_llm in hierarchical process? > In `Process.hierarchical`, CrewAI automatically creates a *manager agent* that receives the overall goal, breaks it down into sub-tasks, and delegates them to the available agents. `manager_llm` specifies which LLM powers this manager. It should be a capable model (e.g., GPT-4o) since it drives the entire decomposition and delegation logic.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How does CrewAI compare to LangGraph for multi-agent systems? > CrewAI is **declarative** — define agents, tasks, and process type; the framework handles orchestration. LangGraph is **imperative** — you build an explicit state machine with nodes and edges, giving full control over every transition. CrewAI is faster to build for structured pipelines; LangGraph is better for complex loops, conditional retries, and fine-grained state management.  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">How do you handle errors and retries in CrewAI agents? > Set `max_iter=N` on an agent to limit reasoning loops. For task-level retries, wrap `crew.kickoff()` in a try/except and re-kickoff on failure. For tool errors, return an error string from the tool — the agent will see it and try an alternative approach. You can also subclass `BaseTool` and implement custom retry logic with `tenacity`.  ```python from tenacity import retry, stop_after_attempt, wait_exponential from crewai.tools import BaseTool  class ResilientTool(BaseTool):     name: str = "Resilient API"     description: str = "Calls an external API with retries."      @retry(stop=stop_after_attempt(3), wait=wait_exponential(min=1, max=10))     def _run(self, query: str) -> str:         import requests         resp = requests.get(f"https://api.example.com?q={query}", timeout=5)         resp.raise_for_status()         return resp.json().get("result", "No result") ```  ---</summary><div class="qa-a"></div></details>
+<details open><summary class="qa-q">What are the token usage tracking capabilities? > After `crew.kickoff()`, access `result.token_usage` — a dict with `prompt_tokens`, `completion_tokens`, and `total_tokens`. Individual task token usage is available via `result.tasks_output[i].token_usage`. For production cost monitoring, integrate AgentOps (`pip install agentops`) which provides per-run dashboards, traces, and cost breakdowns.  ```python result = crew.kickoff(inputs={"topic": "AI"}) usage  = result.token_usage cost   = (usage.get("prompt_tokens", 0) / 1000 * 0.00015 +           usage.get("completion_tokens", 0) / 1000 * 0.0006) print(f"Estimated cost (gpt-4o-mini): ${cost:.4f}") ```  ---  ## 15. Complete End-to-End Example  **SDLC Documentation Crew** — reads source code, writes API docs, reviews for completeness, and publishes to a markdown file.  ```python """ SDLC Documentation Crew ======================== Agents:   1. code_reader   — reads and understands source code   2. doc_writer    — writes structured API documentation   3. doc_reviewer  — reviews docs for accuracy and completeness   4. publisher     — formats and writes final docs to a file  Usage:   pip install crewai crewai-tools   export OPENAI_API_KEY=sk-...   python sdlc_docs_crew.py """  import os import pathlib from crewai import Agent, Task, Crew, Process from crewai.tools import tool from pydantic import BaseModel  # ---------- Structured output schema ---------- class DocumentationReport(BaseModel):     module_name: str     description: str     functions: list[str]     usage_examples: list[str]     notes: list[str]  # ---------- Custom tools ---------- @tool("Read Source File") def read_source(file_path: str) -> str:     """Read a Python source file and return its contents."""     try:         return pathlib.Path(file_path).read_text(encoding="utf-8")     except FileNotFoundError:         return f"File not found: {file_path}"  @tool("Write Documentation File") def write_docs(content: str) -> str:     """Write documentation content to docs/output.md. Input: markdown string."""     out = pathlib.Path("docs/output.md")     out.parent.mkdir(exist_ok=True)     out.write_text(content, encoding="utf-8")     return f"Documentation written to {out.resolve()}"  # ---------- Source code to document ---------- SAMPLE_CODE = ''' def add(a: int, b: int) -> int:     """Return the sum of a and b."""     return a + b  def divide(a: float, b: float) -> float:     """Divide a by b. Raises ZeroDivisionError if b is zero."""     if b == 0:         raise ZeroDivisionError("Cannot divide by zero")     return a / b  class Calculator:     """Simple arithmetic calculator."""      def __init__(self, precision: int = 2):         self.precision = precision      def compute(self, expr: str) -> float:         """Evaluate a simple arithmetic expression string."""         return round(eval(expr), self.precision) '''  # Write sample code to a temp file for the crew to read pathlib.Path("sample_module.py").write_text(SAMPLE_CODE, encoding="utf-8")  # ---------- Agents ---------- code_reader = Agent(     role="Code Analyst",     goal="Read and thoroughly understand Python source code",     backstory=(         "You are a senior Python developer who can read code and extract "         "intent, parameters, return types, and potential issues."     ),     llm="gpt-4o-mini",     tools=[read_source],     verbose=True, )  doc_writer = Agent(     role="Technical Documentation Writer",     goal="Write clear, complete API documentation from code analysis",     backstory=(         "You produce developer-grade documentation: function signatures, "         "parameter descriptions, return types, and usage examples."     ),     llm="gpt-4o-mini",     verbose=True, )  doc_reviewer = Agent(     role="Documentation Reviewer",     goal="Ensure documentation is accurate, complete, and developer-friendly",     backstory=(         "You have an eye for gaps: missing edge cases, unclear descriptions, "         "or missing examples. You return a pass/fail verdict with notes."     ),     llm="gpt-4o-mini",     verbose=True, )  publisher = Agent(     role="Documentation Publisher",     goal="Format and publish the final documentation to a markdown file",     backstory=(         "You format documentation in clean markdown and persist it to disk "         "using the write tool."     ),     llm="gpt-4o-mini",     tools=[write_docs],     verbose=True, )  # ---------- Tasks ---------- read_task = Task(     description=(         "Read the file 'sample_module.py' using your tool. "         "Identify all functions and classes, their parameters, return types, "         "docstrings, and any edge cases you notice."     ),     expected_output=(         "A structured analysis listing every function/class with signature, "         "purpose, parameters, return type, and edge cases."     ),     agent=code_reader, )  write_task = Task(     description=(         "Using the code analysis, write complete API documentation in markdown. "         "Include: module overview, each function/class with signature, "         "parameter table, return value, and at least one usage example each."     ),     expected_output=(         "Full markdown API documentation with sections for each function and class."     ),     agent=doc_writer,     context=[read_task],     output_pydantic=DocumentationReport, )  review_task = Task(     description=(         "Review the API documentation draft. Check: "         "(1) all functions/classes are documented, "         "(2) examples are correct and runnable, "         "(3) edge cases (like ZeroDivisionError) are mentioned. "         "Return APPROVED with notes, or REVISION NEEDED with specific gaps."     ),     expected_output="Review verdict (APPROVED or REVISION NEEDED) with detailed notes.",     agent=doc_reviewer,     context=[write_task], )  publish_task = Task(     description=(         "Take the reviewed documentation and write it to a markdown file "         "using your write tool. Include a header, the review verdict, "         "and the full documentation."     ),     expected_output="Confirmation message with the file path of the saved documentation.",     agent=publisher,     context=[write_task, review_task], )  # ---------- Crew ---------- docs_crew = Crew(     agents=[code_reader, doc_writer, doc_reviewer, publisher],     tasks=[read_task, write_task, review_task, publish_task],     process=Process.sequential,     memory=False,     verbose=True, )  # ---------- Run ---------- if __name__ == "__main__":     print("🚀 Starting SDLC Documentation Crew...\n")     result = docs_crew.kickoff()      print("\n" + "=" * 60)     print("CREW COMPLETE")     print("=" * 60)      # Typed output from write_task     for t in result.tasks_output:         if t.pydantic:             doc: DocumentationReport = t.pydantic             print(f"\n📄 Module: {doc.module_name}")             print(f"   Description: {doc.description}")             print(f"   Functions documented: {len(doc.functions)}")      # Token usage summary     usage = result.token_usage     print(f"\n🪙 Tokens — Prompt: {usage.get('prompt_tokens', 0)}, "           f"Completion: {usage.get('completion_tokens', 0)}, "           f"Total: {usage.get('total_tokens', 0)}")      print("\n✅ Documentation saved to docs/output.md")      # Cleanup temp file     pathlib.Path("sample_module.py").unlink(missing_ok=True) ```  ---  ## Quick Reference  ```python # Minimal working crew from crewai import Agent, Task, Crew, Process  agent  = Agent(role="Writer", goal="Write content", backstory="Expert", llm="gpt-4o-mini") task   = Task(description="Write a haiku about Python.", expected_output="A haiku.", agent=agent) result = Crew(agents=[agent], tasks=[task], process=Process.sequential).kickoff() print(result.raw) ```  | Concept | Key Parameter | Purpose | |---------|--------------|---------| | `Agent` | `role`, `goal`, `backstory`, `llm`, `tools` | Define AI worker | | `Task` | `description`, `expected_output`, `agent`, `context` | Define unit of work | | `Crew` | `agents`, `tasks`, `process`, `memory` | Orchestrate execution | | `Process.sequential` | — | Ordered pipeline | | `Process.hierarchical` | `manager_llm` | Dynamic delegation | | `async_execution=True` | Task flag | Run task in parallel | | `output_pydantic=Model` | Task flag | Typed structured output | | `memory=True` | Crew flag | Enable all memory layers | | `allow_delegation=True` | Agent flag | Agent can hand off work | | `max_iter`, `max_rpm` | Agent flags | Cost/rate control |  ---  *Guide generated for CrewAI ≥ 0.70. For the latest API, see [docs.crewai.com](https://docs.crewai.com).</summary><div class="qa-a"></div></details>
+</main>
+</body>
+</html>
